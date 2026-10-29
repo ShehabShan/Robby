@@ -1,0 +1,9 @@
+build/
+Packages/
+ServerPackages/
+DevPackages/
+sourcemap.json
+roblox.yml
+.cache/
+*.rbxl.lock
+*.rbxlx.lock
