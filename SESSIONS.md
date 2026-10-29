@@ -8,7 +8,9 @@ does one or two tasks, saves everything to GitHub, and tells you what's next. Yo
    For building sessions, pick a strong coding model.
 2. Paste this message:
 
-> @Enasn Bot Continue the Robby project. Repo: https://github.com/ShehabShan/Robby.
+Use the **same message every time**. The bot works out on its own where the last session stopped.
+
+> @Enasn Bot Continue the Robby project from where the last session left off. Repo: https://github.com/ShehabShan/Robby.
 > Provision a VM, clone the repo through the GitHub integration, then read AGENTS.md and follow it exactly.
 > Hard limit: 50 OLU. Stop new work at 43 and finish saving by 45. Keep your final report short.
 

@@ -6,6 +6,7 @@
 - Verified: a fresh clone bootstraps and `check.sh` passes, and the OLU meter counts a fresh bot from 0. This setup session used ~27 OLU in total.
 - Blender pipeline: `scripts/blender-setup.sh`, `art/blender/smoke_test.py` (FBX/GLB/OBJ export verified), and `assets/source/` for owner models (D-020).
 - Hardening: a short-report rule (D-021), owner requests outrank NEXT, tasks are marked `doing` on their first save, and `save.sh` recovers from a rebase conflict.
+- Session contract (AGENTS §0, D-022): one generic start message, auto-resume, at least one commit per session, tasks of about 30 OLU or less with auto-splitting.
 - Next: R-010 (owner inbox) → R-011.
 
 ## S2 — 2026-10-29

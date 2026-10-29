@@ -7,6 +7,25 @@ the Roblox game *Rell Seas*. It is built **headlessly** (no Roblox Studio) by AI
   `.ai/DECISIONS.md`, and explain results to the owner in plain language.
 - The repo is the **only** memory between sessions. If it isn't in the repo, the next session won't know it.
 
+## 0. Session contract (non-negotiable)
+- **Start without waiting.** The owner sends the same generic message every session (SESSIONS.md). Find where the last session left off and continue on your own.
+- **Finding where we left off:**
+  1. Any task marked `doing` in `.ai/TASKS.md`: resume it from its "Resume from:" note.
+  2. Otherwise, take NEXT in `.ai/STATE.md`.
+  3. If STATE looks stale, `git log --oneline -5` is the truth.
+- **At least one committable piece of work per session.** That means a finished task, or a finished sub-task that meets its own AC, saved with `save.sh`.
+  Close-out edits alone don't count.
+- **Size every task to fit one session.**
+  - An S task is about 30 OLU of work or less (boot ~5 + work ≤30 + close-out ~5 + buffer).
+  - If a task might not fit, split it **before** starting into sub-tasks (`R-011a`, `R-011b`, …), each with its own AC and S-sized. Save the split, then do the first sub-task.
+- **If a task grows mid-way:** at 30 OLU, stop expanding.
+  - Move the rest into a new sub-task with a "Resume from:" note.
+  - Bring what's done up to that sub-task's AC, then commit it.
+- **Blocked on the owner** (choices in P-001/P-006, missing keys):
+  - Put the question in the short report, then do the next unblocked task.
+  - If there is none, do prep work that can be committed, such as drafting the next deliverable.
+  - Never end a session with zero useful commits.
+
 ## 1. OLU budget (hard rule)
 - Every session has a hard cap of **50 OLU**. Reaching it kills the session mid-work.
 - **At 43 OLU, stop new work and do close-out. Close-out must start by 45 OLU at the latest.**
@@ -48,7 +67,7 @@ Use the next session number (`S<n>`) after the newest entry in `.ai/SESSION_LOG.
 1. Take the NEXT task from STATE.md, and read its entry in `.ai/TASKS.md`.
    - On the first save of the task, mark it `doing`, with a one-line "Resume from:" note, in both TASKS.md and STATE.md.
      Then a cut-off session leaves an accurate trail.
-   - If the task is too big for one session, split it in TASKS.md first.
+   - Size check and splitting: see §0.
    - Start a second task only if you are under 25 OLU.
 2. **Research**: run `bash scripts/search.sh "question" [chars]`. It does a web search with a capped answer and sources, typically 3–8 searches per task.
    - Write each task up in RESEARCH.md using this format:

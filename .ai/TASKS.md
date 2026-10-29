@@ -1,7 +1,7 @@
 # TASKS
 
 - **Status:** todo | doing | done | blocked.
-- **Size:** S fits one 50-OLU session; M must be split before starting.
+- **Size:** S is about 30 OLU of work or less and fits one 50-OLU session. M must be split into S sub-tasks (`X-0NNa`, `X-0NNb`, …) before starting (AGENTS.md §0).
 - **AC:** acceptance criteria. A task is done only when every AC is met and saved.
 
 ## Phase 0 — Setup (done)
