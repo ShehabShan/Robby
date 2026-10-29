@@ -1,33 +1,89 @@
 # TASKS
 
-Status: todo | doing | done | blocked. Size: S (fits one session) | M (split before starting).
+- **Status:** todo | doing | done | blocked.
+- **Size:** S fits one 50-OLU session; M must be split before starting.
+- **AC:** acceptance criteria. A task is done only when every AC is met and saved.
 
 ## Phase 0 — Setup (done)
-- **T-001 [done] [S] Scaffold**: toolchain, Rojo project, check/bootstrap/olu scripts, AI memory system, RoundState machine + tests, minimal HUD. Genre-agnostic; kept whatever the final concept is.
+- **T-001 [done] Scaffold:** toolchain, Rojo project, check/bootstrap scripts, `.ai/` memory, sample code.
+- **S-003 [done] Session system hardening:** AGENTS boot for fresh bots, research inbox, `search.sh`/`save.sh`/`olu.sh`, VISION, owner guide `SESSIONS.md`.
 
 ## Phase 1 — Research  ← current
-- **R-001 [done] [S] Development best practice**: see RESEARCH.md.
-- **R-002 [done] [S] Market & content scan (first pass)**: trends, Tower of Hell, discovery signals, monetisation rules.
-- **R-003 [todo] [S] Competitor teardown + hook options**: 4–6 top obby/racing/party games (Tower of Hell, a classic stage obby, a "difficulty chart" obby, a party/elimination game). For each, record the core loop, the first 60 s, social features, progression, monetisation and common player complaints. Output: 3 distinct hook options for Robby, each with pros, cons and build cost. AC: RESEARCH.md section R-003 with sources.
-- **R-004 [todo] [S] Obstacle & mechanic catalog**: ~20 obstacles/mechanics grouped by tier 1–5. Mark each as mobile-safe or not and as buildable from parts in code or not, and note which teach a new skill. AC: table in RESEARCH.md.
-- **R-005 [todo] [S] Retention, progression & monetisation patterns** for ages 9–14: what drives D1/D7 return and 19+ minute sessions, and fair cosmetic models. AC: RESEARCH.md section with → implications.
+Every task follows AGENTS.md §4.2: findings with sources, → implications, unknowns, ≤25 lines in RESEARCH.md, plus notes if needed.
 
-## Phase 2 — Planning (ends with user approval)
-- **P-001 [todo] [S] Concept pick**: present the 3 hook options to the user in plain language with a recommendation; record the choice as a decision.
-- **P-002 [todo] [S] GDD v1**: rewrite GDD.md for the chosen concept: core loop, first 60 s, content list, progression, monetisation, social features, out of scope.
-- **P-003 [todo] [S] Build roadmap**: milestones (vertical slice → content → progression → polish → launch). Re-scope the Phase 3 tasks below into S tasks with acceptance criteria.
-- **P-004 [todo] [S] Approval gate**: the user approves the plan. Building starts only after this.
+- **R-001 [done] Dev best practice** (still valid).
+- **R-002 [done] Platform scan:** discovery signals, monetisation rules. Obby parts archived.
+- **R-010 [todo] [S] Process owner inbox** (repeat whenever there are new files):
+  - For each file in `research/inbox/` not yet listed in VISION.md "Owner ideas", add an entry with the date, file name and the owner's key points in their own words.
+  - Flag conflicts with D-014 (IP) or Roblox policy to the owner. Don't silently drop anything.
+  - AC: every inbox file is listed in VISION.md.
+- **R-011 [todo] [S] Source study: Reverend Insanity.**
+  - Cover the world structure, the Gu system (types, refinement, feeding, combining, ranks 1–9), cultivation (aperture, essence), factions/clans, the early-story setting, tone and themes, and what readers love most.
+  - Split everything into (a) **game-able mechanics**, (b) IP-specific elements we must not copy, and (c) generic or folklore elements (gu lore, xianxia tropes).
+  - AC: `research/notes/R-011-reverend-insanity.md` plus a summary in RESEARCH.md.
+- **R-012 [todo] [S] IP & licensing:**
+  - Find the rights holder(s). Check whether game rights or licensing are available.
+  - Collect Roblox DMCA/IP enforcement cases for fan games.
+  - Define what "inspired by" safely allows (mechanics, themes) and what it doesn't (names, characters, plot, art).
+  - AC: confirm or revise D-014, with reasons.
+- **R-013 [todo] [S] Rell Seas teardown:**
+  - Cover the core loop, combat (moves, hitboxes, feel), progression, world structure and size, quality markers (VFX, animation, UI, map art, audio), monetisation and social features.
+  - Include the developer, team size, development time and update cadence, what players praise and complain about, and visits/CCU if public.
+  - AC: a draft of a measurable "quality bar" list for P-003.
+- **R-014 [todo] [S] Comparable Roblox games:**
+  - Cover cultivation/xianxia/wuxia and anime RPG games on Roblox: names, core loops, player counts, what works and what fails.
+  - Note any existing RI-inspired Roblox games.
+  - AC: a table of 5–8 games, plus gaps Robby can own.
+- **R-015 [todo] [S] Headless asset pipeline feasibility:**
+  - For each asset type (meshes, textures/images, animations, VFX, audio, terrain/maps, UI art), find:
+    - whether Roblox Open Cloud APIs can upload it (the Assets API: types, scopes, limits)
+    - whether Blender headless in the VM can make it
+    - whether Creator Store assets can be used (licensing)
+    - what AI generation can do (e.g. PromptQL's `__higgsfield` for images)
+    - what needs an owner step in Studio or a hired artist
+  - AC: a route table (asset type → route, quality, cost, owner involvement).
+- **R-016 [todo] [S] Tech for a high-quality action RPG on Roblox:**
+  - Cover:
+    - combat netcode (client-predicted hits vs server validation)
+    - animation and VFX systems
+    - StreamingEnabled and large maps
+    - mobile performance budgets
+    - libraries (ProfileStore, networking, Trove/Signal, the state of Knit-like frameworks)
+    - cloud testing (Jest-Lua, the Luau Execution API from R-001)
+  - AC: a recommended stack with reasons, as input to P-004.
+- **R-017 [todo] [S] Content maturity & audience:**
+  - Cover Roblox Maturity & Compliance labels, rules on violence, blood and dark themes, and age-gated features.
+  - Recommend a label and how to adapt RI's tone.
+  - AC: a recommendation logged for P-002.
+- **R-018 [todo] [S] Research synthesis:**
+  - Write 3 distinct concept options. Each needs a one-line pitch, core loop, hook, a vertical-slice idea, risks, and build cost.
+  - Add a recommendation.
+  - AC: an "Options" section in RESEARCH.md that P-001 can present as-is.
 
-## Phase 3 — Building (DRAFT: re-planned in P-003)
-- T-002 CourseGen (pure, seeded chunk sequence + difficulty ramp)
-- T-003 Chunk library v1 (pure data)
-- T-004 Course builder (server) + Layout math (pure)
-- T-005 Checkpoints + finish (RaceProgress, pure)
-- T-006 Race flow wiring
-- T-007 Results + rewards (pure)
-- T-008 Lobby (procedural)
-- T-009 HUD v2
-- T-010 [blocked] Cloud test pipeline: Open Cloud upload + Luau Execution task + Jest-Lua/TestEZ. Needs place ID + API key (custom integration).
-- T-011 Player data with ProfileStore (session locking)
-- T-012 Cosmetic shop
-- T-013 Leaderstats
+## Phase 2 — Planning (ends with owner approval)
+- **P-001 [todo] [S] Concept pick:**
+  - Present the R-018 options to the owner in plain language, with a recommendation. Then end the session and wait.
+  - AC: the owner's choice is logged as a decision.
+- **P-002 [todo] [S→M] GDD v1:**
+  - Fill in every section of the GDD.md template for the chosen concept.
+  - AC: no TODOs left. Split it across sessions if needed.
+- **P-003 [todo] [S] Art direction, asset plan & quality bar:**
+  - Cover the style, palette, references, the asset list for the vertical slice with a route for each (from R-015), and the measurable quality bar (from R-013).
+  - Also list the owner actions needed (accounts, assets, Studio steps).
+  - AC: `.ai/ART.md`.
+- **P-004 [todo] [S] Technical architecture:**
+  - Cover the stack (from R-016), module map, networking, data (ProfileStore), and how the sample code gets replaced.
+  - Include the testing plan: Lune unit tests, cloud tests, and owner playtests.
+  - AC: ARCHITECTURE.md rewritten.
+- **P-005 [todo] [S] Roadmap:**
+  - Milestones: M1 vertical slice → M2 core content → M3 progression and economy → M4 polish → M5 soft launch.
+  - Rewrite Phase 3 below as S-sized T-tasks with AC.
+  - AC: `.ai/ROADMAP.md`, and `.ai/PLAYTEST.md` (a checklist the owner runs in Studio at each milestone).
+- **P-006 [todo] [S] Approval gate:**
+  - Give the owner a short plain-language summary of the plan.
+  - AC: the owner approves, and this is logged as a decision. Building starts only after this.
+
+## Phase 3 — Building (defined in P-005)
+- **T-002 [todo]** Replace the obby sample code (RoundState, HUD) with the P-004 skeleton. Keep `check.sh` green.
+- **T-010 [blocked]** Cloud test pipeline: Open Cloud place upload + Luau Execution task + test runner. Needs a place ID and an API key (owner, via a custom integration).
+- The rest comes from P-005.

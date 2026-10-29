@@ -8,7 +8,17 @@
 - **D-006 Access.** GitHub through the PromptQL integration proxy (no tokens in the VM). Roblox API keys only through a PromptQL custom integration; never committed or pasted in chat.
 - **D-007 Style.** Tabs, StyLua (column 120), Selene `roblox` std.
 - **D-008 Budget discipline.** One S task per session, commit per working step, short script output.
-- **D-009 Game:** round-based obby race named Robby (see GDD.md). Chosen by the AI with user delegation. *Draft until P-001/P-002.*
+- **D-009 Game:** round-based obby race named Robby (see GDD.md). Chosen by the AI with user delegation. **SUPERSEDED by D-013.**
 - **D-010 Gated phases** (user request, 2026-10-29): Research → Planning → user approval → Building. T-001 scaffold is kept as Phase 0 because it is genre-agnostic.
 - **D-011 OLU budget** (user rule, 2026-10-29): 50 OLU hard cap per session. Wrap up at 43, close-out started by 45, so 5–7 OLU stay in reserve for state updates, commit and push. Measured with `scripts/olu.sh` (bot OLU total minus the baseline recorded at boot).
 - **D-012 Research tooling:** web research goes through PromptQL's built-in Exa search, with short capped answers. Findings and sources are recorded in RESEARCH.md so they are never re-searched.
+- **D-013 Direction change** (owner, 2026-10-29): the obby concept is dropped. Robby is a high-quality Roblox action RPG based on the web novel *Reverend Insanity*, with *Rell Seas* as the quality benchmark. The obby GDD is archived in `.ai/archive/`, and "Robby" is now only the repo codename.
+- **D-014 IP default:** the world is original and *inspired by* Reverend Insanity. It uses no names, characters, places, plot or text from the novel, unless the owner gets a license. R-012 will confirm or revise this.
+- **D-015 Session model:** one fresh bot per session, booted exactly as in AGENTS.md §3. Research sessions use a research-strong model; building sessions use a strong coding model.
+- **D-016 Owner input:** goes in `research/inbox/` (never edited) and is listed in VISION.md by R-010. Priority: owner intent > research > AI suggestion.
+- **D-017 Helper scripts:**
+  - `search.sh`: capped web search.
+  - `save.sh`: commit, rebase and push in one step, plus the OLU meter.
+  - `olu.sh`: a fresh bot counts from 0; `start` is only for reused bots.
+- **D-018 Scope:** build a vertical slice first. Rell Seas quality is the bar for the slice's look and feel, not for the amount of content.
+- **D-019 Sample code:** the `src/` code (obby RoundState FSM + HUD) only proves the toolchain; T-002 replaces it. The toolchain and testing decisions above stay, except where they mention the obby.

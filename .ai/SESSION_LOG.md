@@ -1,5 +1,10 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S3 — 2026-10-29 (system hardening, no game work)
+- The owner changed direction: the game is a Reverend Insanity-inspired action RPG with Rell Seas quality (D-013), and the obby GDD is archived.
+- Added: VISION.md, a research inbox, SESSIONS.md (owner guide), search.sh/save.sh, AGENTS boot steps for fresh bots, and R-010…R-018 and P-001…P-006 with AC.
+- Next: R-010 (owner inbox) → R-011.
+
 ## S2 — 2026-10-29
 - Added gated phases (Research → Planning → approval → Building) and the 50 OLU rule (wrap up at 43–45) to AGENTS.md, plus `scripts/olu.sh` to measure OLU use.
 - Did R-001 (dev best practice) and R-002 (market/content first pass) → RESEARCH.md. Key finding: the draft concept overlaps Tower of Hell, so a hook is needed.

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # OLU budget meter (works inside a PromptQL VM; costs no OLU itself).
-#   bash scripts/olu.sh start   -> record this session's baseline (run once at boot)
+#   bash scripts/olu.sh start   -> record a baseline (ONLY when reusing a bot/VM for a new session)
 #   bash scripts/olu.sh         -> print OLU used this session and what to do
+# Fresh bot: no baseline file exists, so the whole bot total counts (from 0).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 CAP=50

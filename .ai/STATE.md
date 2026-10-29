@@ -1,9 +1,11 @@
 # STATE
 
-- **Phase:** 1 — Research (then 2 Planning → user approval → 3 Building)
-- **NEXT:** R-003 — Competitor teardown + 3 hook options (see TASKS.md)
-- **Then:** R-004, R-005 → P-001 (user picks the concept)
-- **Budget:** 50 OLU hard cap per session; wrap up at 43, close-out by 45 (AGENTS.md). Use `scripts/olu.sh`.
-- **Blockers:** none. Cloud tests (T-010) later need a Roblox place ID + Open Cloud API key.
-- **Last check.sh:** CHECK: PASS (2026-10-29, session 2)
-- **Note:** GDD.md is a draft concept. It overlaps with Tower of Hell (RESEARCH.md R-002), so R-003 must find a hook.
+- **Phase:** 1 — Research (then 2 Planning → owner approval P-006 → 3 Building)
+- **NEXT:** R-010 — process `research/inbox/`. If no files are unprocessed, skip to **R-011**.
+- **Then:** R-011 → R-012 → R-013 → R-014 → R-015 → R-016 → R-017 → R-018 → P-001
+- **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
+- **Blockers:** none for research. Cloud tests (T-010) later need a Roblox place ID + Open Cloud API key.
+- **Last check.sh:** CHECK: PASS (2026-10-29, S3)
+- **Notes:**
+  - Direction changed in S3: the obby is dropped, and the game is an RI-inspired action RPG (D-013).
+  - The `src/` code is an obby-era toolchain sample (D-019).

@@ -1,29 +1,17 @@
-# GDD — Robby
+# GDD — Robby (template, filled in P-002)
 
-> **Status: DRAFT concept v0.** Planning (P-002) will rewrite this after research. It overlaps with Tower of Hell (see RESEARCH.md R-002).
+Status: **empty**. The obby draft is in `.ai/archive/GDD-obby-v0.md` (superseded, D-013).
+Inputs: VISION.md (owner direction), RESEARCH.md (R-011…R-018), and the concept chosen in P-001.
 
-## Pitch
-A fast, replayable **obby race**. Every round generates a fresh course from obstacle chunks; everyone races to the finish, and placements earn coins for cosmetics. A familiar genre with a twist: you can't memorise the map.
-
-## Audience & platform
-Ages 9–14. PC + mobile first (jumps tuned for touch, no precision-only obstacles in tiers 1–2). Servers of 8–12 players.
-
-## Core loop
-Lobby → **Intermission** (15 s) → **Racing** (up to 180 s) → **Results** (8 s) → repeat.
-The round ends early when every player has finished.
-
-## Course
-- Built from **chunks**: code-defined obstacle sections with a difficulty tier of 1–5.
-- 10 stages per course. Difficulty ramps: stages 1–3 are tier ≤2, stages 8–10 are tier ≥3.
-- The course is generated from a per-round seed, so it is deterministic and reproducible for bug reports.
-- Each stage ends with a checkpoint pad. A finish pad sits at the end.
-- Falling or touching a kill part respawns you at your last checkpoint.
-
-## Scoring & rewards
-Finishers are ranked by time. Coins: 1st 30, 2nd 20, 3rd 15, other finishers 10, did-not-finish 2. Wins are counted for leaderstats.
-
-## Progression (M2)
-Coins and wins persist. A trail shop sells cosmetics only; nothing pay-to-win.
-
-## Out of scope until later
-Monetization, custom meshes or modelled art, private servers, and a level editor.
+## 1. Pitch: one line plus three pillars
+## 2. World & tone: an original setting inspired by RI (D-014), with the maturity label from R-017
+## 3. Core loop: moment-to-moment / session / long-term
+## 4. Cultivation & power system: the Gu-like system (acquire, refine, feed, combine, rank up)
+## 5. Combat: controls (PC, mobile, console), moves, feel targets, server validation
+## 6. Progression & economy: currencies, sinks, pacing targets
+## 7. World structure: zones, the vertical-slice zone, NPCs, quests
+## 8. First 10 minutes: the hook moment by moment (low bounce, R-002)
+## 9. Social: party/co-play, PvP rules, clans
+## 10. Monetisation: fair, policy-compliant (R-002)
+## 11. Vertical slice definition: exact content plus the quality bar (from ART.md)
+## 12. Out of scope (for now)
