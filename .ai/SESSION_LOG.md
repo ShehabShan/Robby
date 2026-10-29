@@ -3,6 +3,7 @@
 ## S3 — 2026-10-29 (system hardening, no game work)
 - The owner changed direction: the game is a Reverend Insanity-inspired action RPG with Rell Seas quality (D-013), and the obby GDD is archived.
 - Added: VISION.md, a research inbox, SESSIONS.md (owner guide), search.sh/save.sh, AGENTS boot steps for fresh bots, and R-010…R-018 and P-001…P-006 with AC.
+- Verified: a fresh clone bootstraps and `check.sh` passes, and the OLU meter counts a fresh bot from 0. This setup session used ~27 OLU in total.
 - Next: R-010 (owner inbox) → R-011.
 
 ## S2 — 2026-10-29
