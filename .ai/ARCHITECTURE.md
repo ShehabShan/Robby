@@ -14,6 +14,11 @@
 - `server/init.server` — Heartbeat loop driving RoundState; tracks `finished[player]`; publishes `Phase`/`TimeLeft`/`Round` attributes on ReplicatedStorage.
 - `client/init.client` — `RoundHud` ScreenGui reading those attributes.
 
+## Scripts
+- `scripts/bootstrap.sh`: idempotent setup (Rokit tools, type defs, Wally, git proxy in the PromptQL VM).
+- `scripts/check.sh`: the quality gate; prints PASS/FAIL per stage and `CHECK: PASS|FAIL`.
+- `scripts/olu.sh`: `start` records the session baseline; with no argument it prints the OLU used this session and what to do.
+
 ## Conventions
 - Pure modules take dependencies as arguments; no `game:GetService` in `src/shared`.
 - Server modules require shared via `require(ReplicatedStorage.Shared.X)` (resolved by the Rojo sourcemap for type checking).

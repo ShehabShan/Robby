@@ -1,5 +1,7 @@
 # GDD — Robby
 
+> **Status: DRAFT concept v0.** Planning (P-002) will rewrite this after research. It overlaps with Tower of Hell (see RESEARCH.md R-002).
+
 ## Pitch
 A fast, replayable **obby race**. Every round generates a fresh course from obstacle chunks; everyone races to the finish, and placements earn coins for cosmetics. A familiar genre with a twist: you can't memorise the map.
 

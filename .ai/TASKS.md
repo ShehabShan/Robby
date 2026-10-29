@@ -1,20 +1,33 @@
 # TASKS
 
-Status: todo | doing | done | blocked. Size: S (one session) | M (split before starting).
+Status: todo | doing | done | blocked. Size: S (fits one session) | M (split before starting).
 
-## M1 — Playable core loop
-- **T-001 [done] [S] Scaffold** — toolchain, Rojo project, check/bootstrap scripts, AI memory system, RoundState machine + tests, minimal HUD.
-- **T-002 [todo] [S] CourseGen (pure)** — `src/shared/CourseGen.luau`: chunk spec type (`id`, `tier` 1–5, `length`, `parts`), `CourseGen.generate(seed, chunkLibrary, stageCount)` returns an ordered list of chunk ids with a difficulty ramp (early stages tier ≤2, last stages tier ≥3), no chunk repeated back-to-back, deterministic per seed. AC: Lune tests for determinism, ramp, no repeats, stageCount respected.
-- **T-003 [todo] [S] Chunk library v1 (pure data)** — `src/shared/Chunks.luau`: ≥8 chunks as part specs (size, offset, color, kind: platform/kill/moving later). AC: test that every chunk validates (positive sizes, has a start and an end anchor).
-- **T-004 [todo] [S] Course builder (server)** — `src/server/CourseBuilder.luau`: turns a generated chunk list into a Model in Workspace, chaining end anchor → next start anchor; inserts a checkpoint pad per stage and a finish pad. Pure layout math (`Layout.luau` in shared) is unit-tested; builder is thin.
-- **T-005 [todo] [S] Checkpoints + finish** — touching a checkpoint stores stage per player; respawn at last checkpoint; touching finish marks player finished with time. Pure `RaceProgress.luau` with tests.
-- **T-006 [todo] [S] Race flow wiring** — on Racing: build course from round seed, teleport to start; on Results: teleport to lobby, destroy course.
-- **T-007 [todo] [S] Results + rewards (pure)** — rank finishers by time; coins: 1st 30, 2nd 20, 3rd 15, other finishers 10, DNF 2. Tests.
-- **T-008 [todo] [S] Lobby (procedural)** — spawn platform, results board, lobby spawn.
-- **T-009 [todo] [S] HUD v2** — timer, stage x/N, results list.
+## Phase 0 — Setup (done)
+- **T-001 [done] [S] Scaffold**: toolchain, Rojo project, check/bootstrap/olu scripts, AI memory system, RoundState machine + tests, minimal HUD. Genre-agnostic; kept whatever the final concept is.
 
-## M2 — Persistence & progression
-- **T-010 [blocked] [S] Cloud test pipeline** — `scripts/cloud_test.sh`: upload place via Open Cloud, run test suite via Luau Execution API, print PASS/FAIL. Blocked: needs place ID + API key (custom integration).
-- **T-011 [todo] [M] Player data** — DataStore-backed coins/wins with session safety (split before starting).
-- **T-012 [todo] [M] Trail shop** — buy trails with coins (split before starting).
-- **T-013 [todo] [S] Leaderstats** — Coins / Wins on the player list.
+## Phase 1 — Research  ← current
+- **R-001 [done] [S] Development best practice**: see RESEARCH.md.
+- **R-002 [done] [S] Market & content scan (first pass)**: trends, Tower of Hell, discovery signals, monetisation rules.
+- **R-003 [todo] [S] Competitor teardown + hook options**: 4–6 top obby/racing/party games (Tower of Hell, a classic stage obby, a "difficulty chart" obby, a party/elimination game). For each, record the core loop, the first 60 s, social features, progression, monetisation and common player complaints. Output: 3 distinct hook options for Robby, each with pros, cons and build cost. AC: RESEARCH.md section R-003 with sources.
+- **R-004 [todo] [S] Obstacle & mechanic catalog**: ~20 obstacles/mechanics grouped by tier 1–5. Mark each as mobile-safe or not and as buildable from parts in code or not, and note which teach a new skill. AC: table in RESEARCH.md.
+- **R-005 [todo] [S] Retention, progression & monetisation patterns** for ages 9–14: what drives D1/D7 return and 19+ minute sessions, and fair cosmetic models. AC: RESEARCH.md section with → implications.
+
+## Phase 2 — Planning (ends with user approval)
+- **P-001 [todo] [S] Concept pick**: present the 3 hook options to the user in plain language with a recommendation; record the choice as a decision.
+- **P-002 [todo] [S] GDD v1**: rewrite GDD.md for the chosen concept: core loop, first 60 s, content list, progression, monetisation, social features, out of scope.
+- **P-003 [todo] [S] Build roadmap**: milestones (vertical slice → content → progression → polish → launch). Re-scope the Phase 3 tasks below into S tasks with acceptance criteria.
+- **P-004 [todo] [S] Approval gate**: the user approves the plan. Building starts only after this.
+
+## Phase 3 — Building (DRAFT: re-planned in P-003)
+- T-002 CourseGen (pure, seeded chunk sequence + difficulty ramp)
+- T-003 Chunk library v1 (pure data)
+- T-004 Course builder (server) + Layout math (pure)
+- T-005 Checkpoints + finish (RaceProgress, pure)
+- T-006 Race flow wiring
+- T-007 Results + rewards (pure)
+- T-008 Lobby (procedural)
+- T-009 HUD v2
+- T-010 [blocked] Cloud test pipeline: Open Cloud upload + Luau Execution task + Jest-Lua/TestEZ. Needs place ID + API key (custom integration).
+- T-011 Player data with ProfileStore (session locking)
+- T-012 Cosmetic shop
+- T-013 Leaderstats
