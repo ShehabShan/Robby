@@ -10,7 +10,11 @@ if git diff --cached --quiet; then
 else
 	git commit -q -m "$msg"
 fi
-git pull -q --rebase origin main 2>&1 | tail -2
+if ! git pull -q --rebase origin main >/tmp/save_pull.log 2>&1; then
+	git rebase --abort >/dev/null 2>&1 || true
+	echo "SAVE: REBASE CONFLICT, local commit kept, not pushed: $(tail -3 /tmp/save_pull.log)"
+	exit 1
+fi
 if out=$(git push -q origin HEAD:main 2>&1); then
 	echo "SAVE: pushed $(git log --oneline -1)"
 else

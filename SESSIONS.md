@@ -10,7 +10,7 @@ does one or two tasks, saves everything to GitHub, and tells you what's next. Yo
 
 > @Enasn Bot Continue the Robby project. Repo: https://github.com/ShehabShan/Robby.
 > Provision a VM, clone the repo through the GitHub integration, then read AGENTS.md and follow it exactly.
-> Hard limit: 50 OLU. Stop new work at 43 and finish saving by 45.
+> Hard limit: 50 OLU. Stop new work at 43 and finish saving by 45. Keep your final report short.
 
 3. Approve the pop-ups. They are for the VM, GitHub pushes and web searches.
 4. At the end, the bot tells you what it did and what's next. If it asks you a question, answer it in that bot.

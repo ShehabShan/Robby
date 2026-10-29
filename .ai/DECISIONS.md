@@ -27,3 +27,4 @@
   - Generated assets come from Python scripts in `art/blender/` and are built into `build/art/`; outputs are not committed.
   - Owner-provided assets go in `assets/source/` and are indexed in `INDEX.md`.
   - Final routes are decided in R-015 / P-003.
+- **D-021 Short reports** (owner, 2026-10-29): the end-of-session report is 5 lines or fewer, and progress chatter is avoided, because output tokens cost the most OLU. Details live in the repo.

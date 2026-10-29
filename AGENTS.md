@@ -41,9 +41,13 @@ Reused bot: `cd /workspace/Robby && git pull -q --rebase && bash scripts/olu.sh 
 
 Then read **`.ai/STATE.md` only**. If the owner's message contains ideas or material, save it **verbatim** to
 `research/inbox/YYYY-MM-DD-<topic>.md` and run `save.sh` before anything else.
+If the owner asks for something specific, it outranks STATE's NEXT. Add it to TASKS.md first, then do it.
+Use the next session number (`S<n>`) after the newest entry in `.ai/SESSION_LOG.md`.
 
 ## 4. Work loop
 1. Take the NEXT task from STATE.md, and read its entry in `.ai/TASKS.md`.
+   - On the first save of the task, mark it `doing`, with a one-line "Resume from:" note, in both TASKS.md and STATE.md.
+     Then a cut-off session leaves an accurate trail.
    - If the task is too big for one session, split it in TASKS.md first.
    - Start a second task only if you are under 25 OLU.
 2. **Research**: run `bash scripts/search.sh "question" [chars]`. It does a web search with a capped answer and sources, typically 3–8 searches per task.
@@ -64,7 +68,10 @@ Then read **`.ai/STATE.md` only**. If the owner's message contains ideas or mate
 2. `.ai/TASKS.md`: update statuses. A half-done task stays `doing` and gets a "Resume from:" note.
 3. `.ai/SESSION_LOG.md`: add one entry at the top (6 lines or fewer, including the OLU used).
 4. Append new decisions to `.ai/DECISIONS.md`. Don't re-open logged decisions unless the owner asks.
-5. `bash scripts/save.sh "<ID>: close-out"`. Then tell the owner, in plain language: what was done, what's next, and anything they need to do.
+5. `bash scripts/save.sh "<ID>: close-out"`.
+6. Send the owner a **short report** of 5 lines or fewer, in plain language: what was done, what's next, and any owner action.
+   - Details belong in the repo, not in chat. Output tokens are expensive (§6 "Output").
+   - Give more detail only if the owner asks.
 
 ## 6. Rules
 - **IP (D-014):** the world is original, *inspired by* Reverend Insanity. Never use its names, characters, places,
@@ -76,6 +83,11 @@ Then read **`.ai/STATE.md` only**. If the owner's message contains ideas or mate
 - **Secrets:** never commit them. Roblox Open Cloud keys come from a PromptQL custom integration and are never pasted in chat.
 - **Publishing:** don't publish to Roblox unless the owner explicitly asks.
 - **Web search:** use `__exa-web-search` (in `search.sh`). If it is unavailable, try `__gemini-web-search`.
+- **Output (saves OLU):** output tokens are the most expensive part of a session.
+  - Send at most one short acknowledgement at the start and one short final report. No progress chatter.
+  - Never paste file contents, diffs or logs into chat.
+  - Pipe command output through `tail` or `head`.
+  - Write files once, then use small `edit_file` edits instead of rewriting whole files.
 
 ## 7. Map
 - `.ai/VISION.md`: owner direction, owner ideas, known risks
