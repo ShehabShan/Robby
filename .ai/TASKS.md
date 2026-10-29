@@ -41,6 +41,11 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
     - whether Creator Store assets can be used (licensing)
     - what AI generation can do (e.g. PromptQL's `__higgsfield` for images)
     - what needs an owner step in Studio or a hired artist
+  - **Known (S3):** Blender 4.2 LTS runs headless in the VM (`scripts/blender-setup.sh`). `art/blender/smoke_test.py` builds a mesh and exports FBX/GLB/OBJ. Still to research:
+    - Roblox import limits (triangles, size, skinned meshes, PBR/SurfaceAppearance)
+    - Open Cloud Assets API upload of models and images
+    - Blender → Roblox animation export
+    - quality reachable by scripted modelling vs owner-provided models (`assets/source/`)
   - AC: a route table (asset type → route, quality, cost, owner involvement).
 - **R-016 [todo] [S] Tech for a high-quality action RPG on Roblox:**
   - Cover:

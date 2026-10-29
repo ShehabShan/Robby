@@ -25,6 +25,8 @@
 - `scripts/olu.sh`: the OLU meter. A fresh bot counts from 0; `start` sets a baseline for a reused bot.
 - `scripts/search.sh "q" [chars]`: web search through PromptQL's Exa integration, with a capped answer and sources.
 - `scripts/save.sh "ID: msg"`: commit, rebase and push, then show the OLU meter.
+- `scripts/blender-setup.sh`: installs Blender 4.2 LTS headless (idempotent, ~350 MB, art tasks only).
+  - Run: `blender -b --factory-startup -P art/blender/<script>.py -- build/art`
 
 ## Conventions
 - Pure modules take dependencies as arguments; no `game:GetService` in `src/shared`.

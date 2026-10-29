@@ -22,3 +22,8 @@
   - `olu.sh`: a fresh bot counts from 0; `start` is only for reused bots.
 - **D-018 Scope:** build a vertical slice first. Rell Seas quality is the bar for the slice's look and feel, not for the amount of content.
 - **D-019 Sample code:** the `src/` code (obby RoundState FSM + HUD) only proves the toolchain; T-002 replaces it. The toolchain and testing decisions above stay, except where they mention the obby.
+- **D-020 3D pipeline** (owner, 2026-10-29):
+  - Blender 4.2 LTS runs headless in the VM. It is installed on demand by `scripts/blender-setup.sh`, not in bootstrap.
+  - Generated assets come from Python scripts in `art/blender/` and are built into `build/art/`; outputs are not committed.
+  - Owner-provided assets go in `assets/source/` and are indexed in `INDEX.md`.
+  - Final routes are decided in R-015 / P-003.

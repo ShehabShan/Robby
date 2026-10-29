@@ -89,7 +89,9 @@ Then read **`.ai/STATE.md` only**. If the owner's message contains ideas or mate
 - `.ai/archive/`: superseded docs (do not use)
 - `research/inbox/`: owner material
 - `SESSIONS.md`: the owner's guide to running sessions
-- `scripts/`: `bootstrap.sh`, `check.sh`, `olu.sh`, `search.sh`, `save.sh`
+- `scripts/`: `bootstrap.sh`, `check.sh`, `olu.sh`, `search.sh`, `save.sh`, `blender-setup.sh` (on demand, only for art tasks)
+- `art/blender/`: Blender Python scripts that generate assets into `build/art/`
+- `assets/source/`: owner-provided models, textures and audio (never edit; listed in `INDEX.md`)
 
 ## 8. Human testing (Studio, on the owner's machine)
 `rokit install && rojo serve`, then connect the Rojo plugin in Studio and press Play.

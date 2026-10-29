@@ -7,6 +7,7 @@ Owner: ShehabShan. The owner is non-technical and delegates technical and design
 2. The quality bar is **Rell Seas**, a Roblox game.
 3. It is developed headlessly by AI sessions with 50 OLU each (AGENTS.md).
 4. Order of work: Research → Planning → owner approval → Building.
+5. 3D content: the bot uses Blender in the VM. The owner will also supply 3D models later, in `assets/source/`. Art details are settled in R-015 and P-003, so they don't block starting.
 
 ## Owner ideas
 None yet. R-010 adds an entry for each file in `research/inbox/`:

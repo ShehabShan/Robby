@@ -24,6 +24,9 @@ Any of these works:
 Your ideas are the highest authority. The research and design work around them, and the bot tells you
 if an idea conflicts with copyright or Roblox rules.
 
+## Give the bot 3D models, images or sounds
+Upload them to the bot's chat and say "add these to assets/source". You can also add them to `assets/source/` on GitHub. Tell the bot where they came from (made by you, bought, free), because licenses matter on Roblox. The bot can also create 3D models itself with Blender.
+
 ## The phases
 1. **Research:** the bot studies Reverend Insanity, Rell Seas, similar Roblox games, copyright, how to make art and assets, and the technology.
 2. **Planning:** you pick one of 3 game concepts. The bot then writes the design, art plan, technical plan and roadmap.
