@@ -1,24 +1,25 @@
 --!strict
 -- Crescent Cut input (.ai/SPIKE.md §1): PC E / left-click, gamepad ButtonX, and an on-screen mobile button.
--- Plays the cast locally at once, then asks the server, which decides everything that matters.
+-- Plays the Move's cast/travel FX locally at once through the FX registry, then sends CastRequest
+-- (moveId, aim, seq; SCHEMAS §9). The server decides everything that matters.
 
 local ContextActionService = game:GetService("ContextActionService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local Config = require(ReplicatedStorage.Shared.Config)
+local CastRequest = require(ReplicatedStorage.Shared.CastRequest)
+local FxRegistry = require(ReplicatedStorage.Shared.FxRegistry)
 local Projectile = require(ReplicatedStorage.Shared.Deliveries.Projectile)
-local CrescentFx = require(script.Parent.CrescentFx)
 
-local cfg = Config.Abilities.CrescentCut
 local ACTION = "CrescentCut"
 local CHEST = Vector3.new(0, 0.5, 0)
 
 local AbilityInput = {}
 
-function AbilityInput.start(castRequest: RemoteEvent)
+function AbilityInput.start(castRequest: RemoteEvent, fx: FxRegistry.Registry, move: any)
 	local player = Players.LocalPlayer
 	local lastCast: number? = nil
+	local seq = 0
 
 	local function onAction(
 		_actionName: string,
@@ -39,11 +40,11 @@ function AbilityInput.start(castRequest: RemoteEvent)
 			return Enum.ContextActionResult.Pass
 		end
 		local now = os.clock()
-		if lastCast and now - lastCast < cfg.cooldown then
+		if lastCast and now - lastCast < move.cooldown then
 			return Enum.ContextActionResult.Sink
 		end
 		local qi = player:GetAttribute("Qi")
-		if typeof(qi) == "number" and qi < cfg.cost then
+		if typeof(qi) == "number" and qi < (move.costs.qi or 0) then
 			return Enum.ContextActionResult.Sink
 		end
 		local look = camera.CFrame.LookVector
@@ -52,10 +53,17 @@ function AbilityInput.start(castRequest: RemoteEvent)
 			return Enum.ContextActionResult.Sink
 		end
 		lastCast = now
+		seq = CastRequest.nextSeq(seq)
 		local dir = Vector3.new(x, 0, z)
-		CrescentFx.swipe(character)
-		CrescentFx.crescent(root.Position + dir * cfg.spawnOffset + CHEST, dir)
-		castRequest:FireServer(dir)
+		local ctx = {
+			caster = player,
+			character = character,
+			pos = root.Position + dir * move.delivery.params.spawnOffset + CHEST,
+			dir = dir,
+		}
+		FxRegistry.play(fx, move.fx.cast, ctx)
+		FxRegistry.play(fx, move.fx.travel, ctx)
+		castRequest:FireServer(move.id, dir, seq)
 		return Enum.ContextActionResult.Sink
 	end
 

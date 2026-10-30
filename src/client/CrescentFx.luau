@@ -9,6 +9,7 @@ local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 
 local Config = require(ReplicatedStorage.Shared.Config)
+local FxRegistry = require(ReplicatedStorage.Shared.FxRegistry)
 
 local cfg = Config.Abilities.CrescentCut
 local BLUE = Color3.fromRGB(150, 205, 255)
@@ -248,6 +249,21 @@ function CrescentFx.hit(caster: Player, target: Model?, amount: number, position
 			shake(humanoid)
 		end
 	end
+end
+
+-- Registers the Crescent handlers under the fx ids its Content names (T-002c4).
+function CrescentFx.register(reg: FxRegistry.Registry)
+	FxRegistry.register(reg, "fx.crescent.cast", function(ctx: any)
+		if ctx.character then
+			CrescentFx.swipe(ctx.character)
+		end
+	end)
+	FxRegistry.register(reg, "fx.crescent.travel", function(ctx: any)
+		CrescentFx.crescent(ctx.pos, ctx.dir)
+	end)
+	FxRegistry.register(reg, "fx.crescent.hit", function(ctx: any)
+		CrescentFx.hit(ctx.caster, ctx.target, ctx.amount or 0, ctx.pos)
+	end)
 end
 
 return CrescentFx

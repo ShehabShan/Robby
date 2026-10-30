@@ -19,7 +19,7 @@ local Projectile = require(ReplicatedStorage.Shared.Deliveries.Projectile)
 local Crescent = require(ReplicatedStorage.Shared.Content.Crescent)
 
 local CHEST = Vector3.new(0, 0.5, 0)
-local DEFAULT_MOVE = "move.crescent_cut" -- the spike client sends aim only
+local CastRequest = require(ReplicatedStorage.Shared.CastRequest)
 
 local built, errors = Registry.build(Crescent.content(Config))
 if #errors > 0 then
@@ -122,7 +122,7 @@ local function sweep(shot: Shot, from: number, to: number, hitFx: RemoteEvent)
 			table.insert(exclude, model)
 			if Projectile.registerHit(shot.state, model:GetFullName() .. tostring(model:GetDebugId()), p) then
 				local amount = applyOnHit(shot, humanoid)
-				hitFx:FireAllClients(shot.caster, model, amount, result.Position)
+				hitFx:FireAllClients(shot.move.fx.hit, shot.caster, result.Position, shot.dir, model, amount)
 			end
 		else
 			-- walls and scenery do not stop the projectile in the spike; skip them
@@ -155,10 +155,10 @@ function Abilities.start()
 		cooldowns[player] = nil
 	end)
 
-	castRequest.OnServerEvent:Connect(function(player: Player, raw: unknown)
+	castRequest.OnServerEvent:Connect(function(player: Player, rawMoveId: unknown, raw: unknown, rawSeq: unknown)
 		local pool = pools[player]
 		local cds = cooldowns[player]
-		local move = built.moves[DEFAULT_MOVE]
+		local move = CastRequest.decode(rawMoveId, rawSeq, built.moves)
 		if not pool or not cds or not move or typeof(raw) ~= "Vector3" then
 			return
 		end
@@ -195,7 +195,12 @@ function Abilities.start()
 			move = move,
 			state = Projectile.new(),
 		})
-		castFx:FireAllClients(player, origin, dir)
+		for _, slot in { "cast", "travel" } do
+			local fxId = move.fx[slot]
+			if fxId then
+				castFx:FireAllClients(fxId, player, origin, dir)
+			end
+		end
 	end)
 
 	RunService.Heartbeat:Connect(function(dt: number)
