@@ -3,7 +3,7 @@
 ## Now (after S26)
 - S26: T-021b Mistvale hub kit (D-146): `art/blender/hub_kit.py` → 14 low-poly pieces (FBX/GLB + manifest, max 824 tris). Roblox upload waits for `roblox-open-cloud`.
 - Ops (D-134): CLAIMS has a Bot column; owner can say "release <bot link>" to free a stopped bot's claim.
-- S25 (2nd claim): T-022c part 1, beast labels: Rank colour band + red "!" during the wind-up (D-135), plus a red ground ring of strike reach (D-136). T-022c stays doing (Resume from: telegraph VFX/SFX, playtest).
+- S25 (2nd claim): T-022c part 1, beast labels: Rank colour band + red "!" during the wind-up (D-135), plus a red ground ring of strike reach (D-157). T-022c stays doing (Resume from: telegraph VFX/SFX, playtest).
 - S25: T-022a/b beasts (D-124, D-125): pure `BeastBrain` + `BeastService`, Mistfang + Stonehide Boar in zone 1, telegraphs ≥ 0.4 s, Shards on kill. T-022c (feel/playtest) open.
 - S22: T-025a Mist Lotus utility Kith: ×1.5 Refine while equipped (D-112). T-025b (world placement) waits for T-021c.
 - S19: T-021a Mistvale code terrain + StreamingEnabled (D-100). Cloud walk check blocked: `roblox-open-cloud` "not enabled for this project".

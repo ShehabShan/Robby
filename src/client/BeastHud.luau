@@ -52,7 +52,7 @@ local function attach(inst: Instance)
 		name.Text = `{model.Name} · R{tostring(model:GetAttribute("Rank") or 1)}`
 		name.TextColor3 = Color3.fromRGB(band.r, band.g, band.b)
 	end
-	-- Wind-up ground ring (D-136): a red disc of the strike reach under the beast while `Telegraph` is on.
+	-- Wind-up ground ring (D-157): a red disc of the strike reach under the beast while `Telegraph` is on.
 	local kind: any = Config.Beasts.kinds[model:GetAttribute("BeastKind") :: any]
 	local ring: Part? = nil
 	local function clearRing()
