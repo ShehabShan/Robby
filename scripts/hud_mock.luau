@@ -5,6 +5,7 @@ local fs = require("@lune/fs")
 local HudLayout = require("../src/shared/HudLayout")
 local BindingUi = require("../src/shared/BindingUi")
 local ShellUi = require("../src/shared/ShellUi")
+local CrucibleUi = require("../src/shared/CrucibleUi")
 
 local function rgba(c: { number }, a: number?): string
 	return `rgba({c[1]},{c[2]},{c[3]},{a or 1})`
@@ -23,6 +24,11 @@ local function html(state: any): string
 	end
 	for _, e in ShellUi.build(state.shell) do -- Core Shell (T-018d, D-076)
 		table.insert(elements, e)
+	end
+	if state.crucible then -- Crucible panel (T-019e, D-085)
+		for _, e in CrucibleUi.build(state.crucible) do
+			table.insert(elements, e)
+		end
 	end
 	for _, e in elements do
 		local s = `position:absolute;left:{e.x}px;top:{e.y}px;width:{e.w}px;height:{e.h}px;box-sizing:border-box;`
@@ -69,6 +75,9 @@ local cases = {
 	{ name = "phone_bind_360x640", platform = "touch", width = 360, height = 640, bind = "running" },
 	{ name = "pc_trial_1280x720", platform = "pc", width = 1280, height = 720, trial = true },
 	{ name = "phone_trial_360x640", platform = "touch", width = 360, height = 640, trial = true },
+	{ name = "phone_crucible_confirm_360x640", platform = "touch", width = 360, height = 640, crucible = "confirm" },
+	{ name = "pc_crucible_focus_1280x720", platform = "pc", width = 1280, height = 720, crucible = "focus" },
+	{ name = "phone_crucible_focus_360x640", platform = "touch", width = 360, height = 640, crucible = "focus" },
 	{ name = "pc_bind_1280x720", platform = "pc", width = 1280, height = 720, bind = "running" },
 }
 
@@ -98,6 +107,24 @@ for _, c in cases do
 			trial = if c.trial then { wave = 2, waves = 3, crack = 0.55, timeLeft = 14 } else nil,
 			shards = 120,
 		},
+		crucible = if c.crucible
+			then {
+				width = c.width,
+				height = c.height,
+				platform = c.platform,
+				phase = c.crucible,
+				recipe = "Crescent + Crescent → Twin Crescent",
+				odds = 0.55,
+				known = false,
+				catalyst = 200,
+				woundHours = 24,
+				round = 2,
+				rounds = 3,
+				needle = 0.3,
+				zone = 0.7,
+				zoneWidth = 0.18,
+			}
+			else nil,
 		bind = if c.bind
 			then {
 				width = c.width,
