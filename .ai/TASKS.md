@@ -177,5 +177,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - **T-021a [done S19, D-100] [S] Mistvale terrain (code):** code-generated terrain for the hub valley + 1 hunting zone (GDD §6 layout), spawn point, walkable paths, StreamingEnabled. No buildings. AC: walkable in a Studio/cloud run; terrain budget (ARCHITECTURE §8); check PASS.
   - **T-021b [todo] [S] Mistvale hub kit (Blender):** headless Blender scripts (`scripts/blender-setup.sh`, `art/blender/`) for the hub building/prop kit (houses, rest spot, Crucible shrine, fences). AC: meshes export to `build/art` within ART §5 budgets; check PASS. Touches no terrain files.
   - **T-021a-v [todo] [S] Cloud walk check:** run `python3 scripts/cloud_test.py` (smoke now raycasts terrain at spawn/path/zone1). Blocked S19: integration `roblox-open-cloud` "not enabled for this project" (owner must reconnect it).
+  - **T-025a [done S22, D-112] [S] Mist Lotus core:** utility Kith content + `Shared.Refining` + Refine wiring. Lune; check PASS.
+  - **T-025b [todo] [S] Lotus in the world:** a wild Mist Lotus to Bind in Mistvale (Binding grove) + loadout/HUD hint showing the Refine bonus. After T-021c.
   - **T-021c [todo] [S] Hub assembly:** place the T-021b kit on the T-021a terrain (village, rest spot, Crucible, Binding grove marker). After T-021a + T-021b. AC: hub + 1 zone walkable; budgets met; check PASS.
 - **M1 tasks T-011 … T-024 [todo]:** see `.ai/ROADMAP.md` (IDs, scope and AC). Order: T-002 → T-010 → T-011 …
