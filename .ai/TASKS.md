@@ -218,7 +218,7 @@ Pick one when the next real task won't fit before the 43 OLU wrap-up line. Log f
 
 ### T-027 Rimeshard Kith (from R-028; design in `research/notes/R-028-first-ability-gu.md`)
 - **T-027a [done S40] [S] Chill status + Shatter math (pure):** `Shared.Frost` + `tests/Frost.spec.luau` (4 specs). `Effects` ops `Status` (stacks, max, duration, MoveSpeed modifier), `DmgPerStack`, `Stagger`; spec. AC: check.sh PASS.
-- **T-027b [todo] [S] Volley + Zone + Burst deliveries (pure):** `src/shared/Deliveries/{Volley,Zone,Burst}.luau`, aim-point validation, per-target hit cap; specs. AC: check.sh PASS.
+- **T-027b [done S40] [S] Volley + Zone + Burst deliveries (pure):** `Deliveries/{Volley,Zone,Burst}.luau` + `tests/Deliveries.spec.luau`. `src/shared/Deliveries/{Volley,Zone,Burst}.luau`, aim-point validation, per-target hit cap; specs. AC: check.sh PASS.
 - **T-027c [todo] [S] Rimeshard content:** `Config.Abilities.Rimeshard` (note §2 numbers) + `Content/Rimeshard.luau` + Registry spec; Loom Piercing applies to Needle/Fan. AC: check.sh PASS.
 - **T-027d [todo] [S] Input + stance:** Kith-stance toggle swaps the left-click chain table; Z/X/C = Kith specials; Crucible → B (D-176); Blink aim-point field. AC: check.sh PASS.
 - **T-027e [todo] [S] Rime FX (client):** `RimeFx.register` for fx.rime.* (pooled shards, frost decal, crust, hit-pause/shake) + SFX. AC: check.sh PASS, cloud smoke.

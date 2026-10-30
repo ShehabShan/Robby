@@ -3,7 +3,7 @@
 ## S40 (2026-10-30) — R-028 Gu research done
 - Compared 4 source Gu families; chose a frost Kith, "Rimeshard" (D-175): R1 Needle chain, Z Shard Fan, X Rime Fall, C Shatter, Chill stacks.
 - Note `research/notes/R-028-first-ability-gu.md`, RESEARCH entry, T-027a–h build tasks. Crucible key → B (D-176), slow-not-freeze (D-177).
-- check.sh PASS. OLU: see close-out line below.
+- Built T-027a `Shared.Frost` (Chill + Shatter math, D-178) and T-027b Volley/Zone/Burst deliveries (D-179). check.sh PASS (248 tests). ≈36 OLU.
 
 ## S39 (2026-10-30) — publish v16
 - Owner asked to publish (no Studio; playing with Sober on Ubuntu). check.sh PASS, Published v16.
