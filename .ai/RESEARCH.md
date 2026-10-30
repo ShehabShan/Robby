@@ -107,6 +107,6 @@ Full notes + draft quality bar (14 items): `research/notes/R-013-rell-seas.md`.
   - Draft quality bar: client-instant animation + server hits, 5-hit chains, parry/dash/breaker, hit-stop + VFX + SFX on every hit, telegraphed bosses, ≥3 build layers.
   - Art/animation throughput is the biggest gap for a headless pipeline — plan for it in P-003/P-004.
 - **Unknowns:** exact combat numbers, team size, post-release retention.
-- **Sources:** see the notes file (28 sources).
+- **Sources:** see the notes file (32 sources).
 ## R-014 … R-018
 Not started. See TASKS.md.
