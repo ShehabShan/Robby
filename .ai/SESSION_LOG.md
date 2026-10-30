@@ -1,5 +1,10 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S9 — 2026-10-30 (retention + systems spec)
+- R-026 retention: benchmarks, discovery signals, onboarding practice → GDD §8 becomes a 20-minute first session with funnel events (D-051).
+- P-008 systems spec: ARCHITECTURE v2 module map + `.ai/SCHEMAS.md` (Effect/Move/Kith/Weave/Path/Profile/remotes/analytics; D-052).
+- check.sh PASS. OLU used: ~24. Next: T-002 build the v2 skeleton (strong coding model).
+
 ## S8 — 2026-10-30 (directive triage + systems foundations)
 - R-027 owner directive list: 44 points → 86 parts judged; 10 slice mechanics + M2 items into GDD, no permanent player loss (D-042).
 - R-021p ability catalogue (52 rows, 15-point checklist, D-043) → R-021 framework: pure-Luau "Kith GAS-lite" (D-044).
