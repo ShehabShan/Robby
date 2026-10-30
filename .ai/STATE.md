@@ -1,7 +1,7 @@
 # STATE
 
 ## Now (after S12)
-- S12: cloud re-run PASS (v8), T-016a loadout core (D-063), T-016b server loadout (D-064, cloud v9 PASS), **published v9** for the owner's playtest (D-065); Cut hit error fixed and **published v11** (D-066).
+- S12: cloud re-run PASS (v8), T-016a loadout core (D-063), T-016b server loadout (D-064, cloud v9 PASS), **published v9** for the owner's playtest (D-065); Cut hit error fixed and **published v11** (D-066); mouse aim **published v13** (D-067).
 - S11 done: T-010 cloud pipeline (CLOUD ALL: PASS on Saved v5, D-060), T-014 HitFeel (D-061), T-015 Stone Ward + Wind Step (D-062). Done through T-015.
 - Next task: **T-016** core slots, loadout, role tags and Qi/Strain/Satiety HUD (ROADMAP). Keys E/Q/R are provisional until T-016 slots.
 - Cloud re-run of the S11 build is pending: uploading a new Saved version timed out twice in S11 (`scripts/cloud_test.py`, urlopen timeout 120). Retry first next session; `python3 scripts/cloud_test.py 5` reuses v5.
@@ -12,7 +12,7 @@
 - **NEXT:** T-016c HUD mock (reads player attributes from LoadoutService, D-064), then T-016d. T-016a/b done (D-063, D-064).
 - **Then:** T-017 … T-024 (ROADMAP.md order).
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
-- **Blockers:** T-006: owner playtest of published v11 (feedback → inbox). Open Cloud key works (read, Saved upload, Luau execution; S6).
+- **Blockers:** T-006: owner playtest of published v13 — check PC mouse aim (feedback → inbox). Open Cloud key works (read, Saved upload, Luau execution; S6).
 - **Last check.sh:** CHECK: PASS (2026-10-30, S12; 79 Lune tests; cloud v9 PASS)
 - **Notes:**
   - Direction changed in S3: the obby is dropped, and the game is an RI-inspired action RPG (D-013).
