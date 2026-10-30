@@ -19,12 +19,11 @@ run() {
 	fi
 }
 
-mkdir -p build/net
 run net blink net/remotes.blink
 run format stylua --check src tests
 run lint selene src
 run sourcemap rojo sourcemap default.project.json -o sourcemap.json
-run types luau-lsp analyze --definitions=.cache/globalTypes.d.luau --sourcemap=sourcemap.json src
+run types luau-lsp analyze --definitions=.cache/globalTypes.d.luau --sourcemap=sourcemap.json --ignore="**/Net.luau" src
 run tests lune run tests/run.luau
 mkdir -p build
 run build rojo build default.project.json -o build/Robby.rbxl

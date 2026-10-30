@@ -1,6 +1,6 @@
 --!strict
 -- Client entry point: thin wiring for the Crescent Cut spike (.ai/SPIKE.md): input, effects, Qi readout.
--- FX are played by id through the FX registry (T-002c4); CastFx/HitFx carry the fx id first.
+-- FX are played by id through the FX registry (T-002c4); remotes are Blink-generated (T-011).
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -11,13 +11,9 @@ local FxRegistry = require(ReplicatedStorage.Shared.FxRegistry)
 local Registry = require(ReplicatedStorage.Shared.Registry)
 local AbilityInput = require(script.AbilityInput)
 local CrescentFx = require(script.CrescentFx)
+local Net = require(script.Net) -- Blink-generated (net/remotes.blink)
 
 local player = Players.LocalPlayer
-local remotes = ReplicatedStorage:WaitForChild("Remotes")
-local castRequest = remotes:WaitForChild("CastRequest") :: RemoteEvent
-local castFx = remotes:WaitForChild("CastFx") :: RemoteEvent
-local hitFx = remotes:WaitForChild("HitFx") :: RemoteEvent
-
 local built: any = Registry.build(Crescent.content(Config))
 local fx = FxRegistry.new()
 CrescentFx.register(fx)
@@ -25,20 +21,20 @@ for _, id in FxRegistry.missingFor(fx, built) do
 	warn("No FX handler for " .. id)
 end
 
-AbilityInput.start(castRequest, fx, built.moves["move.crescent_cut"])
+AbilityInput.start(function(moveId: string, aim: Vector3, seq: number)
+	Net.CastRequest.Fire({ moveId = moveId, aim = aim, seq = seq })
+end, fx, built.moves["move.crescent_cut"])
 
-castFx.OnClientEvent:Connect(function(fxId: unknown, caster: Player, pos: Vector3, dir: Vector3)
-	if caster == player then
+Net.CastFx.On(function(v)
+	if v.caster == player then
 		return -- the caster already played it locally
 	end
-	FxRegistry.play(fx, fxId, { caster = caster, character = caster.Character, pos = pos, dir = dir })
+	FxRegistry.play(fx, v.fxId, { caster = v.caster, character = v.caster.Character, pos = v.pos, dir = v.dir })
 end)
 
-hitFx.OnClientEvent:Connect(
-	function(fxId: unknown, caster: Player, pos: Vector3, dir: Vector3, target: Model?, amount: number)
-		FxRegistry.play(fx, fxId, { caster = caster, pos = pos, dir = dir, target = target, amount = amount })
-	end
-)
+Net.HitFx.On(function(v)
+	FxRegistry.play(fx, v.fxId, { caster = v.caster, pos = v.pos, dir = v.dir, target = v.target, amount = v.amount })
+end)
 
 local gui = Instance.new("ScreenGui")
 gui.Name = "QiHud"

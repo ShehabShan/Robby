@@ -20,6 +20,7 @@ local Crescent = require(ReplicatedStorage.Shared.Content.Crescent)
 
 local CHEST = Vector3.new(0, 0.5, 0)
 local CastRequest = require(ReplicatedStorage.Shared.CastRequest)
+local Net = require(script.Parent.Net) -- Blink-generated (net/remotes.blink)
 
 local built, errors = Registry.build(Crescent.content(Config))
 if #errors > 0 then
@@ -43,13 +44,6 @@ local shots: { Shot } = {}
 
 local function lookupEffect(id: string): Effects.Effect?
 	return built.effects[id]
-end
-
-local function remote(folder: Folder, name: string): RemoteEvent
-	local r = Instance.new("RemoteEvent")
-	r.Name = name
-	r.Parent = folder
-	return r
 end
 
 local function publishQi(player: Player, pool: Qi.Pool)
@@ -97,7 +91,7 @@ local function applyOnHit(shot: Shot, humanoid: Humanoid): number
 end
 
 -- Sweeps the projectile from `from` to `to` studs along its path; may hit several targets in one step.
-local function sweep(shot: Shot, from: number, to: number, hitFx: RemoteEvent)
+local function sweep(shot: Shot, from: number, to: number)
 	if to <= from then
 		return
 	end
@@ -122,7 +116,14 @@ local function sweep(shot: Shot, from: number, to: number, hitFx: RemoteEvent)
 			table.insert(exclude, model)
 			if Projectile.registerHit(shot.state, model:GetFullName() .. tostring(model:GetDebugId()), p) then
 				local amount = applyOnHit(shot, humanoid)
-				hitFx:FireAllClients(shot.move.fx.hit, shot.caster, result.Position, shot.dir, model, amount)
+				Net.HitFx.FireAll({
+					fxId = shot.move.fx.hit,
+					caster = shot.caster,
+					pos = result.Position,
+					dir = shot.dir,
+					target = model,
+					amount = amount,
+				})
 			end
 		else
 			-- walls and scenery do not stop the projectile in the spike; skip them
@@ -132,13 +133,6 @@ local function sweep(shot: Shot, from: number, to: number, hitFx: RemoteEvent)
 end
 
 function Abilities.start()
-	local folder = Instance.new("Folder")
-	folder.Name = "Remotes"
-	local castRequest = remote(folder, "CastRequest")
-	local castFx = remote(folder, "CastFx")
-	local hitFx = remote(folder, "HitFx")
-	folder.Parent = ReplicatedStorage
-
 	local function join(player: Player)
 		local pool = Qi.new(Config.Qi.max, Config.Qi.regen)
 		pools[player] = pool
@@ -155,7 +149,8 @@ function Abilities.start()
 		cooldowns[player] = nil
 	end)
 
-	castRequest.OnServerEvent:Connect(function(player: Player, rawMoveId: unknown, raw: unknown, rawSeq: unknown)
+	Net.CastRequest.On(function(player: Player, value)
+		local rawMoveId, raw, rawSeq = value.moveId, value.aim, value.seq
 		local pool = pools[player]
 		local cds = cooldowns[player]
 		local move = CastRequest.decode(rawMoveId, rawSeq, built.moves)
@@ -198,7 +193,7 @@ function Abilities.start()
 		for _, slot in { "cast", "travel" } do
 			local fxId = move.fx[slot]
 			if fxId then
-				castFx:FireAllClients(fxId, player, origin, dir)
+				Net.CastFx.FireAll({ fxId = fxId, caster = player, pos = origin, dir = dir })
 			end
 		end
 	end)
@@ -211,7 +206,7 @@ function Abilities.start()
 		for i = #shots, 1, -1 do
 			local shot = shots[i]
 			local from, to = Projectile.step(shot.state, dt, shot.move.delivery.params)
-			sweep(shot, from, to, hitFx)
+			sweep(shot, from, to)
 			if shot.state.done then
 				table.remove(shots, i)
 			end

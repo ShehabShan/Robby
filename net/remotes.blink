@@ -1,9 +1,8 @@
 -- Network contract (SCHEMAS §9, D-050). Blink compiles this into typed remotes.
--- check.sh compiles it into build/net/ to prove it is valid; runtime wiring replaces the
--- spike's plain RemoteEvents in a later task. The client is never trusted (server authority).
+-- check.sh regenerates src/client/Net.luau and src/server/Net.luau (committed, never hand-edited). The client is never trusted (server authority).
 
-option ClientOutput = "../build/net/Client.luau"
-option ServerOutput = "../build/net/Server.luau"
+option ClientOutput = "../src/client/Net.luau"
+option ServerOutput = "../src/server/Net.luau"
 option ManualReplication = false
 
 enum ActionKind = { Attack, Dash, Parry, Guard }
@@ -62,6 +61,8 @@ event HitFx {
 		caster: Instance(Player),
 		pos: vector,
 		dir: vector,
+		target: Instance(Model)?,
+		amount: f32,
 	},
 }
 

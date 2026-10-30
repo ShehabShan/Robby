@@ -45,9 +45,10 @@ local humanoid = dummy and dummy:FindFirstChildOfClass("Humanoid")
 check("dummy humanoid", humanoid ~= nil)
 
 local remotes = waitFor(function()
-	return ReplicatedStorage:FindFirstChild("Remotes", true)
+	return ReplicatedStorage:FindFirstChild("BLINK_RELIABLE_REMOTE")
+		and ReplicatedStorage:FindFirstChild("BLINK_UNRELIABLE_REMOTE")
 end, 10)
-check("remotes folder", remotes ~= nil, remotes and #remotes:GetChildren() or 0)
+check("blink remotes", remotes ~= nil)
 
 local ok, DamageMath = pcall(function()
 	return require(ReplicatedStorage.Shared.DamageMath)

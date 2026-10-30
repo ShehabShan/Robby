@@ -16,7 +16,7 @@ local CHEST = Vector3.new(0, 0.5, 0)
 
 local AbilityInput = {}
 
-function AbilityInput.start(castRequest: RemoteEvent, fx: FxRegistry.Registry, move: any)
+function AbilityInput.start(send: (moveId: string, aim: Vector3, seq: number) -> (), fx: FxRegistry.Registry, move: any)
 	local player = Players.LocalPlayer
 	local lastCast: number? = nil
 	local seq = 0
@@ -63,7 +63,7 @@ function AbilityInput.start(castRequest: RemoteEvent, fx: FxRegistry.Registry, m
 		}
 		FxRegistry.play(fx, move.fx.cast, ctx)
 		FxRegistry.play(fx, move.fx.travel, ctx)
-		castRequest:FireServer(move.id, dir, seq)
+		send(move.id, dir, seq)
 		return Enum.ContextActionResult.Sink
 	end
 
