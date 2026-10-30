@@ -2,6 +2,9 @@
 -- Training ground (.ai/SPIKE.md §4): ground, a spawn, and a 200 HP training dummy built from parts in code.
 -- The dummy respawns 5 s after it reaches 0 HP and shows its HP above its head.
 
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Config = require(ReplicatedStorage.Shared.Config)
+
 local Dummy = {}
 
 local MAX_HP = 200
@@ -86,6 +89,8 @@ end
 
 local function spawnDummy()
 	local model, humanoid = build()
+	model:SetAttribute("WildKith", Config.Binding.dummyKith) -- bindable when weakened (T-017b)
+	model:SetAttribute("Will", Config.Binding.wildWill)
 	model.Parent = workspace
 	humanoid.Died:Connect(function()
 		task.delay(RESPAWN, function()

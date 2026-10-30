@@ -2,6 +2,7 @@
 -- Server entry point: thin wiring for the Crescent Cut spike (.ai/SPIKE.md).
 
 local Abilities = require(script.Abilities)
+local BindingService = require(script.BindingService)
 local CombatService = require(script.CombatService)
 local DataService = require(script.DataService)
 local Dummy = require(script.Dummy)
@@ -11,4 +12,5 @@ LoadoutService.start()
 DataService.start()
 Dummy.start()
 Abilities.start()
+BindingService.start()
 CombatService.start()

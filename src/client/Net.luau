@@ -342,6 +342,21 @@ function SerdesFunctions.ReadEVENT_ProfileDelta(): ({ { path: string, value: any
 	return Value
 end
 
+function SerdesFunctions.WriteEVENT_BindStart(Value: { target: Model }): ()
+	-- Allocate BLOCK: 1 bytes
+	local BLOCK_START = Allocate(1)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 5)
+	table.insert(SendInstances, Value.target or Null)
+end
+
+function SerdesFunctions.WriteEVENT_BindInput(Value: { channel: boolean, shard: boolean }): ()
+	-- Allocate BLOCK: 3 bytes
+	local BLOCK_START = Allocate(3)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 6)
+	buffer.writeu8(SendBuffer, BLOCK_START + 1, Value.channel and 1 or 0)
+	buffer.writeu8(SendBuffer, BLOCK_START + 2, Value.shard and 1 or 0)
+end
+
 if not RunService:IsRunning() then
 	local NOOP = function() end
 	local Returns = table.freeze({
@@ -368,6 +383,12 @@ if not RunService:IsRunning() then
 	},
 	ProfileDelta = {
 		On = NOOP
+	},
+	BindStart = {
+		Fire = NOOP
+	},
+	BindInput = {
+		Fire = NOOP
 	},
 	})
 	return Returns :: BLINK_EVENTS_SYMBOL
@@ -543,6 +564,16 @@ local Returns = table.freeze({
 					Events.Reliable[4] = nil
 				end
 			end
+		end
+	},
+	BindStart = {
+		Fire = function(Value: { target: Model }): ()
+			SerdesFunctions.WriteEVENT_BindStart(Value)
+		end
+	},
+	BindInput = {
+		Fire = function(Value: { channel: boolean, shard: boolean }): ()
+			SerdesFunctions.WriteEVENT_BindInput(Value)
 		end
 	},
 })

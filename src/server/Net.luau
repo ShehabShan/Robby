@@ -165,6 +165,8 @@ Queue.Reliable[0] = table.create(256)
 Queue.Reliable[1] = table.create(256)
 Queue.Reliable[2] = table.create(256)
 Queue.Unreliable[0] = table.create(256)
+Queue.Reliable[5] = table.create(256)
+Queue.Reliable[6] = table.create(256)
 export type ActionKind = ("Attack" | "Dash" | "Parry" | "Guard")
 function SerdesFunctions.ReadEVENT_CastRequest(): ({ moveId: string, aim: Vector3, seq: number })
 	-- Read BLOCK: 15 bytes
@@ -323,6 +325,24 @@ function SerdesFunctions.WriteEVENT_ProfileDelta(Value: { { path: string, value:
 	-- END ARRAY
 end
 
+function SerdesFunctions.ReadEVENT_BindStart(): ({ target: Model })
+	local Value = {} :: any
+	RecieveInstanceCursor += 1
+	Value.target = RecieveInstances[RecieveInstanceCursor]
+	if typeof(Value.target) ~= "Instance" then error(`Expected an Instance, got {typeof(Value.target)} instead.`) end
+	if not Value.target:IsA("Model") then error(`Expected an Instance of type "Model", got "{Value.target.ClassName}" instead.`) end
+	return Value
+end
+
+function SerdesFunctions.ReadEVENT_BindInput(): ({ channel: boolean, shard: boolean })
+	-- Read BLOCK: 2 bytes
+	local BLOCK_START = Read(2)
+	local Value = {} :: any
+	Value.channel = (buffer.readu8(RecieveBuffer, BLOCK_START + 0) == 1)
+	Value.shard = (buffer.readu8(RecieveBuffer, BLOCK_START + 1) == 1)
+	return Value
+end
+
 if not RunService:IsRunning() then
 	local NOOP = function() end
 	local Returns = table.freeze({
@@ -361,6 +381,12 @@ if not RunService:IsRunning() then
 		FireAll = NOOP,
 		FireList = NOOP,
 		FireExcept = NOOP
+	},
+	BindStart = {
+		On = NOOP
+	},
+	BindInput = {
+		On = NOOP
 	},
 	})
 	return Returns :: BLINK_EVENTS_SYMBOL
@@ -456,6 +482,28 @@ Reliable.OnServerEvent:Connect(function(Player: Player, Buffer: buffer, Instance
 					warn("[Blink]: Event queue of \"Equip\" exceeded 256, did you forget to implement a listener?")
 				end
 				table.insert(Queue.Reliable[2], {Player, Value} :: {any})
+			end
+		elseif Index == 5 then
+			local Value: { target: Model } = SerdesFunctions.ReadEVENT_BindStart()
+			if Events.Reliable[5] ~= nil then
+				SerdesEvent = "BindStart"
+				Events.Reliable[5](Player, Value)
+			else
+				if #Queue.Reliable[5] > 256 then
+					warn("[Blink]: Event queue of \"BindStart\" exceeded 256, did you forget to implement a listener?")
+				end
+				table.insert(Queue.Reliable[5], {Player, Value} :: {any})
+			end
+		elseif Index == 6 then
+			local Value: { channel: boolean, shard: boolean } = SerdesFunctions.ReadEVENT_BindInput()
+			if Events.Reliable[6] ~= nil then
+				SerdesEvent = "BindInput"
+				Events.Reliable[6](Player, Value)
+			else
+				if #Queue.Reliable[6] > 256 then
+					warn("[Blink]: Event queue of \"BindInput\" exceeded 256, did you forget to implement a listener?")
+				end
+				table.insert(Queue.Reliable[6], {Player, Value} :: {any})
 			end
 		end
 	end
@@ -706,6 +754,34 @@ local Returns = table.freeze({
 				PlayersMap[Player] = Save()
 			end
 		end,
+	},
+	BindStart = {
+		On = function(Listener: (Player: Player, Value: { target: Model }) -> ()): () -> ()
+			Events.Reliable[5] = Listener
+			for Index, Arguments in Queue.Reliable[5] do
+				Listener(table.unpack(Arguments))
+			end
+			Queue.Reliable[5] = {}
+			return function (): ()
+				if Events.Reliable[5] == Listener then
+					Events.Reliable[5] = nil
+				end
+			end
+		end
+	},
+	BindInput = {
+		On = function(Listener: (Player: Player, Value: { channel: boolean, shard: boolean }) -> ()): () -> ()
+			Events.Reliable[6] = Listener
+			for Index, Arguments in Queue.Reliable[6] do
+				Listener(table.unpack(Arguments))
+			end
+			Queue.Reliable[6] = {}
+			return function (): ()
+				if Events.Reliable[6] == Listener then
+					Events.Reliable[6] = nil
+				end
+			end
+		end
 	},
 })
 type BLINK_EVENTS_SYMBOL = typeof(Returns)

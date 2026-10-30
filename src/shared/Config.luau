@@ -53,7 +53,11 @@ local Config = {
 		timeLimit = 45,
 		shardQi = 40,
 		shardCooldown = 3,
-		guidedFloor = 0.1, -- guided first bind: the bar never drops below this
+		guidedFloor = 0.1,
+		weakenAt = 0.3, -- a wild Kith can be bound at or below this share of its max health (T-017b)
+		range = 24, -- studs from the player to the wild Kith
+		wildWill = 1, -- Will when the wild Kith has no `Will` attribute
+		dummyKith = "kith.stone", -- the training dummy doubles as a wild Kith until the world spawns them -- guided first bind: the bar never drops below this
 	},
 	Loadout = {
 		baseSlots = 3, -- Core slots at Rank 1 (GDD)

@@ -101,3 +101,23 @@ event ProfileDelta {
 		value: unknown,
 	}[..64],
 }
+-- C→S: start Binding the weakened wild Kith `target` (T-017b). The server checks Kith, health and range.
+event BindStart {
+	From: Client,
+	Type: Reliable,
+	Call: SingleSync,
+	Data: struct {
+		target: Instance(Model),
+	},
+}
+
+-- C→S: Binding input: `channel` = channel held; `shard` = spend one Shard for Qi this press.
+event BindInput {
+	From: Client,
+	Type: Reliable,
+	Call: SingleSync,
+	Data: struct {
+		channel: boolean,
+		shard: boolean,
+	},
+}

@@ -170,6 +170,11 @@ local function sweep(shot: Shot, from: number, to: number)
 	end
 end
 
+-- The server Qi pool for `player` (BindingService spends from it, T-017b).
+function Abilities.pool(player: Player): Qi.Pool?
+	return pools[player]
+end
+
 function Abilities.start()
 	local function join(player: Player)
 		local pool = Qi.new(Config.Qi.max, Config.Qi.regen)
