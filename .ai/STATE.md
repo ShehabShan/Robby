@@ -1,6 +1,9 @@
 # STATE
 
-## Now (after S24)
+## Now (after S25)
+- S25: T-022a/b beasts (D-124, D-125): pure `BeastBrain` + `BeastService`, Mistfang + Stonehide Boar in zone 1, telegraphs ≥ 0.4 s, Shards on kill. T-022c (feel/playtest) open.
+- S22: T-025a Mist Lotus utility Kith: ×1.5 Refine while equipped (D-112). T-025b (world placement) waits for T-021c.
+- S19: T-021a Mistvale code terrain + StreamingEnabled (D-100). Cloud walk check blocked: `roblox-open-cloud` "not enabled for this project".
 - S24: T-020g Unweave now says "Weave removed." (D-123).
 - S23: T-020f Path Marks to client (D-122): Loom panel shows real Friction + Marks boost.
 - S21: T-020e Loom client `LoomHud` (D-111) → **T-020 done**.
@@ -16,13 +19,13 @@
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-021b Mistvale hub kit (Blender) · —
-  - T-022 Enemies: 2 beasts · —
+  - T-022c Beast feel + playtest · — (T-022a/b done)
   - T-021c Hub assembly · T-021b (T-021a done)
-  - T-023 Boss + arena · T-022
+  - T-023 Boss + arena · — (T-022a/b done)
   - T-025b Lotus in the world · T-021c (T-025a done)
   - T-021a-v Cloud walk check · owner reconnects `roblox-open-cloud`
   - T-024 First 10 minutes · all above
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
-- **Blockers:** T-006: owner playtest of the published build (feedback → inbox).
-- **Last check.sh:** CHECK: PASS (2026-10-30, S24)
+- **Blockers:** T-006: owner playtest of the published build (feedback → inbox). Owner: reconnect the `roblox-open-cloud` integration (cloud tests + publish fail: "not enabled for this project", S19).
+- **Last check.sh:** CHECK: PASS (2026-10-30, S25)
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC C (F is Parry), gamepad D-pad Right.

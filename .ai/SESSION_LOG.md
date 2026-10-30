@@ -1,5 +1,10 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S19 / S22 / S25 (2026-10-30, one bot, three claims)
+- Done: T-021a Mistvale code terrain + streaming (D-100); T-025a Mist Lotus Refine Kith (D-112); T-022a/b two beasts with telegraphs (D-124, D-125). All merged, check PASS.
+- Blocked: cloud smoke (now raycasts terrain) — `roblox-open-cloud` "not enabled for this project"; owner must reconnect.
+- Next: T-022c beast feel, T-023 boss, T-021b Blender kit. OLU ≈32 / 50.
+
 ## S24b (2026-10-30, ops on main)
 - Same bot as S18–S24. Added `scripts/release.sh` + AGENTS §9 stale-claim rule (D-134); tidied STATE lanes. S25 holds T-022.
 - OLU ≈41 / 50 (S18–S24 together).
