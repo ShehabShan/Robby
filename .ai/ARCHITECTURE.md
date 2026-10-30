@@ -1,4 +1,4 @@
-# ARCHITECTURE (P-004, S6, 2026-10-30)
+# ARCHITECTURE v2 (P-008, S9, 2026-10-30; v1 P-004, S6)
 
 Inputs: R-016 (stack), GDD v1, SPIKE.md / T-004 (proven pattern), ART.md (budgets). Supersedes the obby-era doc (D-019).
 
@@ -19,21 +19,24 @@ Inputs: R-016 (stack), GDD v1, SPIKE.md / T-004 (proven pattern), ART.md (budget
 - `ServerScriptService.Server` ← `src/server`: authority and wiring.
 - `StarterPlayer.StarterPlayerScripts.Client` ← `src/client`: input, VFX, UI.
 
-## 3. Module map (target for the vertical slice)
+## 3. Module map v2 (Kith GAS-lite, D-044, D-052; schemas in `.ai/SCHEMAS.md`)
 | Area | Shared (pure, tested) | Server | Client |
 |---|---|---|---|
-| Config | `Config` (all tunables) | — | — |
-| Qi / Core | `Qi`, `Core` (slots per Rank, Talent) | `QiService` | Qi bar |
-| Kith & moves | `Kith/<Name>` (one per move, like `CrescentCut`), `KithRegistry` | `Abilities` (validate, simulate, damage) | `AbilityInput`, `Fx/<Name>` |
-| Combat core | `Combo` (5-hit chain), `Parry`, `Dash`, `Damage` | `CombatService` (rewind hit checks) | `CombatInput`, `HitFeel` (hit-stop, shake) |
-| Cultivation | `Stages`, `Crucible` (recipes, fail odds), `Weaves`, `Upkeep`, `Binding` | `ProgressionService` | Journal, Crucible UI |
-| Economy | `Shards`, `Shop` | `EconomyService` (only writer of currency) | Shop UI |
-| Enemies | `AI/Brain` (state machine), `Telegraph` | `EnemyService`, `BossService` | Telegraph VFX |
-| Data | `ProfileSchema` (+ migrations) | `DataService` (ProfileStore) | — |
-| World | `Zones` | `WorldService` (terrain, spawns, dummy) | — |
-- Rule: logic lives in `src/shared` and takes dependencies as arguments; services are thin wiring.
+| Config | `Config` (tunables), `Flags` | `ConfigService` (bounded remote overlay) | — |
+| Types & content | `Types`, `Content/*` (Kith, Moves, Effects, Weaves, Paths as data), `Registry` | — | — |
+| Stats | `Stats` (one aggregation), `DamageMath` (R-022), `Tags` | — | — |
+| Abilities | `Effects` (apply/stack/tick), `Moves` (validate, costs, cooldowns), `Deliveries/*` (Projectile, Melee, Self, System, Zone, Channel first) | `AbilityService` (CastRequest → simulate → Effects) | `AbilityInput`, `FxRegistry` |
+| Combat core | `Combo`, `Parry`, `Dash` (as Moves + Effects) | `CombatService` (rewind buffer, sanity checks, rate limits) | `CombatInput`, `HitFeel` |
+| Cultivation | `Stages`, `Crucible`, `Loom` (Weave validation, Friction), `Upkeep`, `Binding`, `Loadout` (Rank lock, Qi Reserve) | `ProgressionService` | Journal, Loom, Crucible UI |
+| Economy | `Wallet` (tier ledger), `Shop`, `Stipend` | `EconomyService` (only currency writer, analytics) | Shop UI |
+| Enemies | `AI/Brain`, `Telegraph` | `EnemyService`, `BossService` | Telegraph VFX |
+| Data | `ProfileSchema`, `Migrations`, `Retired` | `DataService` (ProfileStore) | — |
+| World & onboarding | `Zones`, `Onboarding` (beats, funnel steps) | `WorldService`, `OnboardingService` | Hints, prompts |
+| Viewer | — | sends tags in `EntityState` | `Viewer` (renders by own Seek/Path Sense) |
+- Rule: logic lives in `src/shared` and takes dependencies as arguments; services are thin wiring. Content is data; a new Kith adds files under `Content/` only.
 
 ## 4. Networking & authority
+- **v2 contract:** the Blink remotes in `.ai/SCHEMAS.md` §9 replace the list below (D-050).
 - Client sends **intent only**: cast(moveId, aimDir), attack(chainStep), dash(dir), parry().
 - The server validates: unit-vector aim, cooldown, Qi, alive state, rate limit. It then simulates projectiles and blockcasts itself (T-004 pattern).
 - Melee uses **rewind**: the server keeps ~1 s of target positions and checks range and line of sight at `now − ping`, capped at 250 ms.
@@ -41,7 +44,8 @@ Inputs: R-016 (stack), GDD v1, SPIKE.md / T-004 (proven pattern), ART.md (budget
 - The server is the only writer of Qi, cooldowns, HP, progression and currency.
 
 ## 5. Data (ProfileStore)
-- One profile per player: `{ version, talent, rank, stage, marks{path}, shards, jade, kith[{id, rank, fed}], loadout, journal{recipes, weaves}, settings }`.
+- **v2:** the Profile type in `.ai/SCHEMAS.md` §7 supersedes this line.
+- One profile per player (v1): `{ version, talent, rank, stage, marks{path}, shards, jade, kith[{id, rank, fed}], loadout, journal{recipes, weaves}, settings }`.
 - `version` plus ordered migrations in `ProfileSchema`. Autosave and release on leave; never trust client data.
 - Robux purchases go through `ProcessReceipt` with an idempotent receipt log in the profile.
 
@@ -72,7 +76,7 @@ Inputs: R-016 (stack), GDD v1, SPIKE.md / T-004 (proven pattern), ART.md (budget
 - Server modules require shared via `require(ReplicatedStorage.Shared.X)` (resolved by the Rojo sourcemap for type checking).
 - Entry scripts require their own modules via `script.X`.
 
-## 9. Notes for P-008 (R-027, S8)
+## 9. Notes for P-008 (R-027, S8) — folded into `.ai/SCHEMAS.md` (S9)
 - **Kith = species data + owned instance.** Species: id, rank, Path, role, tags, moves, food id. Instance: uid, speciesId, satiety, strain, wounded/dormant flags, bond, obtainedAt. Never store derived stats.
 - **Character:** `cores` is a list (default 1) so a Twin Core needs no migration; stats include Will; Imprints are a list of {path, slot}.
 - **Rules as checks:** Rank lock at equip time; Friction cap (−20%) and Qi Reserve in the stat calc (R-022).
@@ -82,3 +86,6 @@ Inputs: R-016 (stack), GDD v1, SPIKE.md / T-004 (proven pattern), ART.md (budget
 - **Per-viewer info** (Seek layer, Path Sense): the server sends tags; the client decides what to render.
 - **Saves (R-024, D-047):** `schemaVersion` + ordered pure migrations (Lune-tested from every past version) → Reconcile → validate; add fields freely, never reuse keys; stable string content ids with a Retired map; new systems behind ConfigService flags with coded fallbacks and bounded tuning (`research/notes/R-024-save-liveops.md`).
 - **Combat netcode (R-025, D-050):** intent-only `CastRequest(moveId, aim, seq)`; client predicts cosmetics only; server hit check rewinds a 20 Hz/1 s position buffer by min(ping estimate, 250 ms), ignoring client timestamps; per-hit sanity checks (alive, i-frames, range +4 studs, line of sight, cooldown/Qi/Strain); token-bucket rate limits; UnreliableRemoteEvent only for aim/FX (`research/notes/R-025-combat-netcode.md`).
+
+## 10. Analytics (R-026, R-023)
+- One onboarding funnel step per GDD §8 beat; economy events for every faucet and sink; Rank/Stage ups as custom events (`.ai/SCHEMAS.md` §10).

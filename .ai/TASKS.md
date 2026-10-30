@@ -121,11 +121,11 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - **R-025 [done S8] [S] Combat netcode & anti-exploit:** how top Roblox action games (Rell Seas, Deepwoken, Blox Fruits) handle hits, lag and exploits. AC: confirm/adjust D-030.
   - **R-026 [done S9] [S] Retention & first session:** Roblox RPG D1/D7 benchmarks, onboarding, what keeps players. AC: adjust GDD §8. Done: `research/notes/R-026-retention.md`, GDD §8 first 20 minutes (D-051).
   - **F-001 [done S7] [S] Fidelity audit:** `research/notes/F-001-fidelity-audit.md` — design vs source, gaps fixed in GDD (Clan Academy, Sanctum, Trials of Heaven, rare Second Chance Kith, iconic Kith role list; D-038). *Verify* items go to R-021+ sessions only if needed.
-  - **P-008 [doing S9] [S] Systems spec:** turn R-021…R-026 into ARCHITECTURE v2 + data schemas (Kith/Weave/Path/Effect). Before T-002. Resume from: ARCHITECTURE v2 §3 module map, then `.ai/SCHEMAS.md`.
+  - **P-008 [done S9] [S] Systems spec:** turn R-021…R-026 into ARCHITECTURE v2 + data schemas (Kith/Weave/Path/Effect). Done: ARCHITECTURE v2 §3, `.ai/SCHEMAS.md` (D-052).
 - **T-006 [blocked] [S] Owner playtest:** publish to a private test place only with the owner's explicit OK; owner plays in the normal Roblox app; feedback saved to the inbox. Needs place ID + Open Cloud key.
 - After the spike: P-002 … P-006 continue.
 
 ## Phase 3 — Building (defined in P-005)
-- **T-002 [todo]** Replace the obby sample code (RoundState, HUD) with the P-004 skeleton. Keep `check.sh` green.
+- **T-002 [todo]** Build the ARCHITECTURE v2 skeleton: `Types`, `Stats`, `Effects`, `Moves`, Projectile delivery; migrate the spike (Crescent Cut → Move data, R-021 §5), with Lune tests. Keep `check.sh` green. Keep `check.sh` green.
 - **T-010 [blocked]** Cloud test pipeline: Open Cloud place upload + Luau Execution task + test runner. Needs a place ID and an API key (owner, via a custom integration).
 - **M1 tasks T-011 … T-024 [todo]:** see `.ai/ROADMAP.md` (IDs, scope and AC). Order: T-002 → T-010 → T-011 …
