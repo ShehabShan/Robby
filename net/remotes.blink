@@ -121,3 +121,14 @@ event BindInput {
 		shard: boolean,
 	},
 }
+
+-- C→S: feed owned Kith `uid` one meal of its species food from the profile items; `rare` wakes a Dormant Kith (T-018b).
+event Feed {
+	From: Client,
+	Type: Reliable,
+	Call: SingleSync,
+	Data: struct {
+		uid: string(..64),
+		rare: boolean,
+	},
+}

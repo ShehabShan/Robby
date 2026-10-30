@@ -357,6 +357,17 @@ function SerdesFunctions.WriteEVENT_BindInput(Value: { channel: boolean, shard: 
 	buffer.writeu8(SendBuffer, BLOCK_START + 2, Value.shard and 1 or 0)
 end
 
+function SerdesFunctions.WriteEVENT_Feed(Value: { uid: string, rare: boolean }): ()
+	-- Allocate BLOCK: 3 bytes
+	local BLOCK_START = Allocate(3)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 7)
+	local Length = #Value.uid
+	buffer.writeu8(SendBuffer, BLOCK_START + 1, Length)
+	Allocate(Length)
+	buffer.writestring(SendBuffer, SendOffset, Value.uid, Length)
+	buffer.writeu8(SendBuffer, BLOCK_START + 2, Value.rare and 1 or 0)
+end
+
 if not RunService:IsRunning() then
 	local NOOP = function() end
 	local Returns = table.freeze({
@@ -388,6 +399,9 @@ if not RunService:IsRunning() then
 		Fire = NOOP
 	},
 	BindInput = {
+		Fire = NOOP
+	},
+	Feed = {
 		Fire = NOOP
 	},
 	})
@@ -574,6 +588,11 @@ local Returns = table.freeze({
 	BindInput = {
 		Fire = function(Value: { channel: boolean, shard: boolean }): ()
 			SerdesFunctions.WriteEVENT_BindInput(Value)
+		end
+	},
+	Feed = {
+		Fire = function(Value: { uid: string, rare: boolean }): ()
+			SerdesFunctions.WriteEVENT_Feed(Value)
 		end
 	},
 })

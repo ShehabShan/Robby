@@ -21,6 +21,8 @@ local Status = require(ReplicatedStorage.Shared.Status)
 local statuses = require(script.Parent.StatusStore)
 local Loadout = require(ReplicatedStorage.Shared.Loadout)
 local DataService = require(script.Parent.DataService)
+local KithCare = require(ReplicatedStorage.Shared.KithCare)
+local UpkeepService = require(script.Parent.UpkeepService)
 
 local CHEST = Vector3.new(0, 0.5, 0)
 
@@ -205,6 +207,14 @@ function Abilities.start()
 		if not data or not Loadout.canCast(data.loadout, data.kith, built, move.id) then
 			return -- only moves of equipped Kith (T-016b, D-064)
 		end
+		local _, kithInst = KithCare.casterOf(data, move)
+		local now = os.time()
+		if kithInst then
+			KithCare.ensure(kithInst, Config)
+			if not KithCare.usable(kithInst, Config, now) then
+				return -- Dormant or Exhausted Kith cannot cast (T-018b, D-074)
+			end
+		end
 		local v = raw :: Vector3
 		if not Projectile.isValidDirection(v.X, v.Y, v.Z) then
 			return
@@ -219,7 +229,7 @@ function Abilities.start()
 		local caster: Moves.Caster = {
 			qi = pool.current,
 			strain = 0,
-			strainMax = math.huge, -- Strain arrives with Upkeep (later task)
+			strainMax = math.huge, -- per-Kith Strain is charged below via KithCare (T-018b, D-074)
 			hp = if humanoid then humanoid.Health else 0,
 			cooldowns = cds,
 		}
@@ -227,6 +237,10 @@ function Abilities.start()
 			return
 		end
 		pool.current = caster.qi
+		if kithInst then
+			KithCare.addStrain(kithInst, Config, KithCare.moveStrain(Config, move), now)
+		end
+		UpkeepService.fought(player)
 		publishQi(player, pool)
 		local dir = Vector3.new(x, 0, z)
 		if move.delivery.kind == "Self" then

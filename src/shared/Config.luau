@@ -52,6 +52,8 @@ local Config = {
 		strainMax = 100,
 		strainDecayPerSecond = 4,
 		exhaustSeconds = 20,
+		defaultStrain = 15, -- Strain per cast when a move has no `costs.strain` (T-018b)
+		fightWindow = 8, -- seconds after a cast that count as fighting for Satiety drain
 	},
 	Binding = { -- tug-of-war (T-017a, D-070); tune in playtests
 		start = 0.25, -- bar position at the start (0..1)

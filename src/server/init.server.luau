@@ -3,6 +3,7 @@
 
 local Abilities = require(script.Abilities)
 local BindingService = require(script.BindingService)
+local UpkeepService = require(script.UpkeepService)
 local CombatService = require(script.CombatService)
 local DataService = require(script.DataService)
 local Dummy = require(script.Dummy)
@@ -13,4 +14,5 @@ DataService.start()
 Dummy.start()
 Abilities.start()
 BindingService.start()
+UpkeepService.start()
 CombatService.start()

@@ -167,6 +167,7 @@ Queue.Reliable[2] = table.create(256)
 Queue.Unreliable[0] = table.create(256)
 Queue.Reliable[5] = table.create(256)
 Queue.Reliable[6] = table.create(256)
+Queue.Reliable[7] = table.create(256)
 export type ActionKind = ("Attack" | "Dash" | "Parry" | "Guard")
 function SerdesFunctions.ReadEVENT_CastRequest(): ({ moveId: string, aim: Vector3, seq: number })
 	-- Read BLOCK: 15 bytes
@@ -343,6 +344,18 @@ function SerdesFunctions.ReadEVENT_BindInput(): ({ channel: boolean, shard: bool
 	return Value
 end
 
+function SerdesFunctions.ReadEVENT_Feed(): ({ uid: string, rare: boolean })
+	-- Read BLOCK: 2 bytes
+	local BLOCK_START = Read(2)
+	local Value = {} :: any
+	local Length = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+	Value.uid = buffer.readstring(RecieveBuffer, Read(Length), Length)
+	if #Value.uid < 0 then error(`Expected length of "Value.uid" to be larger than or equal to 0, got {#Value.uid} instead.`) end
+	if #Value.uid > 64 then error(`Expected length of "Value.uid" to be smaller than or equal to  64, got {#Value.uid} instead.`) end
+	Value.rare = (buffer.readu8(RecieveBuffer, BLOCK_START + 1) == 1)
+	return Value
+end
+
 if not RunService:IsRunning() then
 	local NOOP = function() end
 	local Returns = table.freeze({
@@ -386,6 +399,9 @@ if not RunService:IsRunning() then
 		On = NOOP
 	},
 	BindInput = {
+		On = NOOP
+	},
+	Feed = {
 		On = NOOP
 	},
 	})
@@ -504,6 +520,17 @@ Reliable.OnServerEvent:Connect(function(Player: Player, Buffer: buffer, Instance
 					warn("[Blink]: Event queue of \"BindInput\" exceeded 256, did you forget to implement a listener?")
 				end
 				table.insert(Queue.Reliable[6], {Player, Value} :: {any})
+			end
+		elseif Index == 7 then
+			local Value: { uid: string, rare: boolean } = SerdesFunctions.ReadEVENT_Feed()
+			if Events.Reliable[7] ~= nil then
+				SerdesEvent = "Feed"
+				Events.Reliable[7](Player, Value)
+			else
+				if #Queue.Reliable[7] > 256 then
+					warn("[Blink]: Event queue of \"Feed\" exceeded 256, did you forget to implement a listener?")
+				end
+				table.insert(Queue.Reliable[7], {Player, Value} :: {any})
 			end
 		end
 	end
@@ -779,6 +806,20 @@ local Returns = table.freeze({
 			return function (): ()
 				if Events.Reliable[6] == Listener then
 					Events.Reliable[6] = nil
+				end
+			end
+		end
+	},
+	Feed = {
+		On = function(Listener: (Player: Player, Value: { uid: string, rare: boolean }) -> ()): () -> ()
+			Events.Reliable[7] = Listener
+			for Index, Arguments in Queue.Reliable[7] do
+				Listener(table.unpack(Arguments))
+			end
+			Queue.Reliable[7] = {}
+			return function (): ()
+				if Events.Reliable[7] == Listener then
+					Events.Reliable[7] = nil
 				end
 			end
 		end

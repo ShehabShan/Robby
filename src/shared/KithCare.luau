@@ -105,4 +105,52 @@ function KithCare.feed(inst: any, cfg: any, meal: string): boolean
 	return true
 end
 
+-- Strain one cast of `move` adds to its Kith.
+function KithCare.moveStrain(cfg: any, move: any): number
+	local s = if type(move.costs) == "table" then move.costs.strain else nil
+	return if typeof(s) == "number" and s >= 0 then s else cfg.Upkeep.defaultStrain
+end
+
+-- The equipped Kith (uid, instance) whose species owns `move`, or nil.
+function KithCare.casterOf(data: any, move: any): (string?, any)
+	local slots = if type(data.loadout) == "table" then data.loadout.slots else nil
+	if type(slots) ~= "table" or type(data.kith) ~= "table" then
+		return nil, nil
+	end
+	for _, uid in slots do
+		local inst = if type(uid) == "string" then data.kith[uid] else nil
+		if inst and inst.speciesId == move.kith then
+			return uid, inst
+		end
+	end
+	return nil, nil
+end
+
+-- Feeds `inst` one meal of its species `food` from `data.items` (`<food>` common, `<food>.rare` rare) and
+-- consumes it. Returns ok; nothing is consumed on failure.
+function KithCare.feedFrom(data: any, inst: any, cfg: any, food: any, rare: boolean): boolean
+	if type(food) ~= "string" then
+		return false
+	end
+	local items = data.items
+	local id = if rare then food .. ".rare" else food
+	local have = if type(items) == "table" and typeof(items[id]) == "number" then items[id] else 0
+	if have < 1 then
+		return false
+	end
+	KithCare.ensure(inst, cfg)
+	if not KithCare.feed(inst, cfg, if rare then "rare" else "common") then
+		return false
+	end
+	items[id] = have - 1
+	return true
+end
+
+-- HUD view: (strain 0..1, satiety 0..1, state).
+function KithCare.view(inst: any, cfg: any, now: number): (number, number, string)
+	KithCare.ensure(inst, cfg)
+	local c = cfg.Upkeep
+	return inst.strain / c.strainMax, inst.satiety / c.satietyMax, KithCare.state(inst, cfg, now)
+end
+
 return KithCare

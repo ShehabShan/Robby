@@ -66,7 +66,13 @@ local function readState(player: Player, built: any): HudLayout.State
 	for i = 1, tonumber(player:GetAttribute("SlotCount")) or 0 do
 		local species = player:GetAttribute(`Slot{i}`)
 		local k = if type(species) == "string" then built.kith[species] else nil
-		table.insert(slots, { role = if k then k.role else nil, name = if k then species :: string else nil })
+		local st, sa = player:GetAttribute(`Slot{i}Strain`), player:GetAttribute(`Slot{i}Satiety`) -- T-018b
+		table.insert(slots, {
+			role = if k then k.role else nil,
+			name = if k then species :: string else nil,
+			strain = if typeof(st) == "number" then st else nil,
+			satiety = if typeof(sa) == "number" then sa else nil,
+		})
 	end
 	local gaps = {}
 	local raw = player:GetAttribute("LoadoutGaps")
