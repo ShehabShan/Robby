@@ -34,6 +34,7 @@ function ProfileSchema.template(): any
 		journal = { recipes = {}, weaves = {}, codex = {} },
 		wallet = { shards = 0 },
 		trials = {}, -- Rank tests passed (T-023c, D-168): id → { at, count }
+		gifts = {}, -- one-time Kith gifts already granted (D-195): speciesId → true
 		timers = {},
 		onboarding = { step = 0, done = false },
 		stats = { earned = {}, spent = {} },

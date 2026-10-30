@@ -277,7 +277,9 @@ local Config = {
 		slotsPerRank = 1,
 		maxSlots = 7, -- Mortal cap
 		warnRoles = { "Strike", "Guard" }, -- loadout screen warns when none is equipped (D-063)
-		starter = { "kith.crescent", "kith.stone", "kith.wind" }, -- granted to a profile with no Kith (D-064)
+		-- granted to a profile with no Kith (D-064); slots fill in this order, so Rimeshard is the active stance (D-194)
+		starter = { "kith.rimeshard", "kith.stone", "kith.crescent", "kith.wind" },
+		gifts = { "kith.rimeshard" }, -- granted once to existing profiles that lack the species (D-195)
 	},
 }
 

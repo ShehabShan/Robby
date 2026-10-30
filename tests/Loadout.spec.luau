@@ -107,12 +107,26 @@ return {
 	["loadout: prepare grants starter Kith and fills the slots"] = function()
 		local data: any = { rank = 1, kith = {}, loadout = { slots = {}, weaves = {} } }
 		eq(#Loadout.prepare(data, Config, built), 0, "no issues")
-		eq(data.loadout.slots[1], "starter.crescent", "slot 1")
+		eq(data.loadout.slots[1], "starter.rimeshard", "slot 1")
 		eq(data.loadout.slots[2], "starter.stone", "slot 2")
-		eq(data.loadout.slots[3], "starter.wind", "slot 3")
-		for _, id in { "move.crescent_cut", "move.stone_ward", "move.wind_step" } do
+		eq(data.loadout.slots[3], "starter.crescent", "slot 3")
+		eq(data.kith["starter.wind"] ~= nil, true, "wind owned")
+		eq(data.kith["gift.rimeshard"], nil, "no duplicate gift")
+		eq(Loadout.activeKith(data.loadout, data.kith, built), "kith.rimeshard", "Rimeshard stance reachable")
+		for _, id in { "move.crescent_cut", "move.stone_ward" } do
 			eq(Loadout.canCast(data.loadout, data.kith, built, id), true, id)
 		end
+	end,
+	["loadout: existing profile gets the Rimeshard gift once (D-195)"] = function()
+		local data: any = { rank = 1, kith = owned(), loadout = { slots = { "u1", "u2", "u3" }, weaves = {} } }
+		Loadout.prepare(data, Config, built)
+		eq(data.kith["gift.rimeshard"].speciesId, "kith.rimeshard", "gift granted")
+		eq(data.gifts["kith.rimeshard"], true, "gift recorded")
+		eq(Loadout.equip(data.loadout, Config, 1, data.kith, built, 1, "gift.rimeshard"), true, "equippable")
+		eq(Loadout.activeKith(data.loadout, data.kith, built), "kith.rimeshard", "stance after equip")
+		data.kith["gift.rimeshard"] = nil
+		Loadout.prepare(data, Config, built)
+		eq(data.kith["gift.rimeshard"], nil, "not granted twice")
 	end,
 	["loadout: prepare keeps a valid loadout and refuses unequipped moves"] = function()
 		local data: any = { rank = 1, kith = owned(), loadout = { slots = { "", "u2", "" }, weaves = {} } }
@@ -123,8 +137,8 @@ return {
 		eq(Loadout.canCast(data.loadout, data.kith, built, "move.crescent_cut"), false, "unequipped refused")
 		local bare: any = { rank = 1, kith = owned() }
 		Loadout.prepare(bare, Config, built)
-		eq(bare.loadout.slots[1], "u1", "filled from owned")
-		eq(bare.loadout.slots[3], "u3", "uid order")
+		eq(bare.loadout.slots[1], "gift.rimeshard", "filled from owned (gift sorts first)")
+		eq(bare.loadout.slots[2], "u1", "uid order")
 	end,
 	["registry: unknown Kith role is an error"] = function()
 		local _, errors =

@@ -154,10 +154,34 @@ function Loadout.prepare(data: any, cfg: any, built: any): { string }
 	if type(data.kith) ~= "table" then
 		data.kith = {}
 	end
+	local starterUids: { string }? = nil
 	if next(data.kith) == nil then
+		local list: { string } = {}
 		for _, speciesId in cfg.Loadout.starter do
 			if built.kith[speciesId] then
 				local uid = "starter." .. (string.gsub(speciesId, "^kith%.", ""))
+				data.kith[uid] = { uid = uid, speciesId = speciesId }
+				table.insert(list, uid)
+			end
+		end
+		starterUids = list
+	end
+	-- One-time gifts (D-195): an existing profile gets each gift species once if it owns none of it.
+	if type(data.gifts) ~= "table" then
+		data.gifts = {}
+	end
+	for _, speciesId in cfg.Loadout.gifts or {} do
+		if built.kith[speciesId] and not data.gifts[speciesId] then
+			data.gifts[speciesId] = true
+			local has = false
+			for _, k in data.kith do
+				if type(k) == "table" and k.speciesId == speciesId then
+					has = true
+					break
+				end
+			end
+			if not has then
+				local uid = "gift." .. (string.gsub(speciesId, "^kith%.", ""))
 				data.kith[uid] = { uid = uid, speciesId = speciesId }
 			end
 		end
@@ -168,13 +192,15 @@ function Loadout.prepare(data: any, cfg: any, built: any): { string }
 	local lo = data.loadout
 	local issues = Loadout.sanitize(lo, cfg, data.rank or 1, data.kith, built)
 	if #Loadout.equipped(lo, data.kith, built) == 0 then
-		local uids: { string } = {}
-		for uid in data.kith do
-			if speciesOf(data.kith, built, uid) then
-				table.insert(uids, uid)
+		local uids: { string } = starterUids or {}
+		if not starterUids then
+			for uid in data.kith do
+				if speciesOf(data.kith, built, uid) then
+					table.insert(uids, uid)
+				end
 			end
+			table.sort(uids)
 		end
-		table.sort(uids)
 		for i, uid in uids do
 			if i > #lo.slots then
 				break
