@@ -6,7 +6,8 @@
 - P-006 summary ready (.ai/P-006-summary.md). AGENTS §6: Open Cloud confirmed working, no re-probe; owner can switch models (D-033).
 - Owner asked for solid, flexible systems: R-021…R-026 + P-008 planned (D-037). R-022 stat/damage maths done (notes + sim).
 - Owner: follow the source as closely as Rell Seas follows One Piece. F-001 fidelity audit + GDD fixes (D-038).
-- OLU used: ~39. Next: R-021 in a fresh session.
+- Owner suggested prep before R-021: added R-021p ability needs catalogue (D-039).
+- OLU used: ~40. Next: R-021p in a fresh session, then R-021.
 
 ## S6 — 2026-10-30 (spike wiring + planning)
 - T-004 done: Crescent Cut server/client wiring, code VFX, dummy; obby sample removed. T-005 done: place inspect PASS (in check.sh).
