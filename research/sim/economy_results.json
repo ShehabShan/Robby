@@ -1,0 +1,106 @@
+{
+ "rank_costs": [
+  1000.0,
+  3700.0,
+  13200.0,
+  32300.0
+ ],
+ "cost_growth": [
+  3.7,
+  3.57,
+  2.45
+ ],
+ "profiles": {
+  "casual": {
+   "cum_h_to_rank2_5": [
+    1.2,
+    4.8,
+    12.2,
+    25.2
+   ],
+   "blocked_runs": 110,
+   "sink_share": {
+    "refine": 0.79,
+    "fixed": 0.09,
+    "crucible": 0.08,
+    "other": 0.03
+   },
+   "capped_growth_per_h": 3672,
+   "capped_growth_per_h_with_postcap_sinks": 1962
+  },
+  "regular": {
+   "cum_h_to_rank2_5": [
+    2.0,
+    6.8,
+    18.8,
+    40.0
+   ],
+   "blocked_runs": 200,
+   "sink_share": {
+    "refine": 0.7,
+    "fixed": 0.17,
+    "crucible": 0.09,
+    "other": 0.04
+   },
+   "capped_growth_per_h": 2075,
+   "capped_growth_per_h_with_postcap_sinks": 365
+  },
+  "grinder": {
+   "cum_h_to_rank2_5": [
+    2.0,
+    7.5,
+    21.0,
+    45.5
+   ],
+   "blocked_runs": 200,
+   "sink_share": {
+    "refine": 0.67,
+    "fixed": 0.18,
+    "crucible": 0.09,
+    "other": 0.05
+   },
+   "capped_growth_per_h": 1744,
+   "capped_growth_per_h_with_postcap_sinks": 34
+  },
+  "fighter": {
+   "cum_h_to_rank2_5": [
+    2.2,
+    8.2,
+    23.0,
+    50.0
+   ],
+   "blocked_runs": 200,
+   "sink_share": {
+    "refine": 0.55,
+    "fixed": 0.31,
+    "crucible": 0.1,
+    "other": 0.04
+   },
+   "capped_growth_per_h": 1544,
+   "capped_growth_per_h_with_postcap_sinks": -166
+  },
+  "trader": {
+   "cum_h_to_rank2_5": [
+    2.0,
+    7.0,
+    19.2,
+    40.2
+   ],
+   "blocked_runs": 200,
+   "sink_share": {
+    "refine": 0.7,
+    "fixed": 0.16,
+    "crucible": 0.09,
+    "other": 0.05
+   },
+   "capped_growth_per_h": 2051,
+   "capped_growth_per_h_with_postcap_sinks": 341
+  }
+ },
+ "regular_dev_pct": [
+  0,
+  -3,
+  -1,
+  0
+ ]
+}
