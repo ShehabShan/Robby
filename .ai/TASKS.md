@@ -190,9 +190,11 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
     - **T-023b [done S25, D-138] [S] Boss server + arena:** `Server.BossService` + boss telegraph attrs read by `BeastFx`. Arena area + anchor added to `MistvaleLayout` (D-140); dressing in T-021c.
     - **T-023c [doing] [S] Boss HUD + tuning:** Done S25 (D-139): client `BossHud` HP bar + "Enraged" phase cue, pure `Shared.BossBar`. Resume from: Rank-test credit on kill (or in T-024); tune for Rank 1–2 (playtest needs `roblox-open-cloud`). After T-023b.
 - **T-026 [todo] [M] R15 movement system (owner):** integrate the owner's `assets/source/R15 Movement System.rbxm` (inbox 2026-10-30-r15-movement). Split S28 into S-sized sub-tasks:
-  - **T-026a [todo] [S] Inspect:** lune script `scripts/inspect_rbxm.luau` prints the instance tree (class, name, script line counts). AC: contents + plan in `research/notes/T-026a-r15-movement.md`, logged as a D-entry; source extracted to `build/` only (not committed).
-  - **T-026b [todo] [S] Adapt:** scripts ported to the Rojo layout (`--!strict`, logic in pure `src/shared` modules with specs, stylua/selene). AC: check.sh PASS. After T-026a.
-  - **T-026c [todo] [S] Wire:** hook into the character without breaking combat, stagger, Binding or the HUD. AC: check.sh PASS, conflicts listed. After T-026b.
+  - **T-026a [done S28] [S] Inspect:** Done (D-160): `research/notes/T-026a-r15-movement.md`. lune script `scripts/inspect_rbxm.luau` prints the instance tree (class, name, script line counts). AC: contents + plan in `research/notes/T-026a-r15-movement.md`, logged as a D-entry; source extracted to `build/` only (not committed).
+  - **T-026b1 [todo] [S] Feel:** Turning, Lean, Bobbing Camera, LandAnim → pure `Shared.MoveFeel` + spec, thin client `MoveFeelClient`. AC: check.sh PASS. After T-026a.
+  - **T-026b2 [todo] [S] Footsteps:** Default + Water sounds only → pure `Shared.Footsteps` + spec, client player. AC: check.sh PASS.
+  - **T-026b3 [todo] [S] Sprint:** hold LeftControl / ButtonL3, speed in `Config`, server caps WalkSpeed; no clash with Dash (LeftShift) or Crucible (C). AC: check.sh PASS.
+  - **T-026c [blocked] [S] Animations:** Animate2-style set from the kit's KeyframeSequences, uploaded under the owner (needs `roblox-open-cloud`); must not break combat, stagger, Binding or the HUD. After T-026b1.
   - **T-026d [blocked] [S] Cloud walk check:** needs `roblox-open-cloud`. After T-026c.
 - **M1 tasks T-011 … T-024 [todo]:** see `.ai/ROADMAP.md` (IDs, scope and AC). Order: T-002 → T-010 → T-011 …
 
@@ -200,7 +202,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
 Pick one when the next real task won't fit before the 43 OLU wrap-up line. Log findings as new tasks; fix only if tiny.
 - **F-01 [todo] Attribute contract:** every server `SetAttribute` is read by a client, and every client `GetAttribute` is set somewhere. Scan S27 (regex, unverified): set but never read by name: BossKind, Stage, StageProgress, TrialCrack, TrialLeft, TrialResult, TrialWaves (could be read via GetAttributes/AttributeChanged).
 - **F-02 [todo] Remote security:** every `OnServerEvent` handler type-checks its args and checks rate, range and cooldown. Scan S27: no typeof check near `OnServerEvent` at src/server/Net.luau:528 and :667 (could be validated in a helper). Verify first.
-- **F-03 [todo] Data safety:** save on `PlayerRemoving` + `BindToClose`, defaults for new fields, old-save migration spec. Scan S27: no `BindToClose`, `UpdateAsync` or `SetAsync` found in src/ (PlayerRemoving ×9). Confirm how DataService saves; possible data loss on shutdown. Highest priority.
+- **F-03 [todo] Data safety:** save on `PlayerRemoving` + `BindToClose`, defaults for new fields, old-save migration spec. Scan S27: no `BindToClose`, `UpdateAsync` or `SetAsync` found in src/ (PlayerRemoving ×9). Confirm how DataService saves; possible data loss on shutdown. Highest priority. S28: DataService uses ProfileStore (which saves on leave/shutdown itself), so the regex scan likely missed it; verify only.
 - **F-04 [todo] Leak check:** connections and tagged instances cleaned up on player leave and on Kith or beast death. Scan S27: CrucibleHud/BindingHud (5), LoomHud/Net (4) Connect with no Disconnect. Heuristic only.
 - **F-05 [scanned S27] Spec gaps:** one spec for each pure `Shared` module without one. Scan S27: every Shared module has a spec.
 - **F-06 [scanned S27] TODO/FIXME sweep:** turn each into a task or fix it. Scan S27: 0 TODO/FIXME.
