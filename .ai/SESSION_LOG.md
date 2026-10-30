@@ -4,7 +4,8 @@
 - R-020 done via R-020a–d: Gu system, Paths/killer moves, world/factions/pacing, fan values → 25-item GDD change list (research/notes/R-020*).
 - P-002c GDD v2 (D-034), ROADMAP M1 re-scoped + T-025 (D-035), phone HUD mock (D-036) + Weave Loom mock (art/mocks/).
 - P-006 summary ready (.ai/P-006-summary.md). AGENTS §6: Open Cloud confirmed working, no re-probe; owner can switch models (D-033).
-- OLU used: ~23. Next: owner approves P-006 → T-002.
+- Owner asked for solid, flexible systems: R-021…R-026 + P-008 planned (D-037). R-022 stat/damage maths done (notes + sim).
+- OLU used: ~33. Next: R-021 in a fresh session.
 
 ## S6 — 2026-10-30 (spike wiring + planning)
 - T-004 done: Crescent Cut server/client wiring, code VFX, dummy; obby sample removed. T-005 done: place inspect PASS (in check.sh).

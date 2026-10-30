@@ -254,3 +254,15 @@ Findings table, 25-item GDD change list for P-006 and 20 sources: `research/note
 - **→ Implications for Robby:** systems are the star; grim world but rewarding play; Rogue agency; Signature Weave; utility Kith in M1; depth + combat feel are the edge. See the notes for the full GDD change list.
 - **Unknowns:** phone HUD load; conflicting CCU data.
 - **Sources:** see the notes file.
+
+### R-022 Stats, modifiers & damage maths (done 2026-10-30)
+Draft model, curve table and 10 sources: `research/notes/R-022-stat-damage-math.md`; sim `research/sims/r022_curves.py`.
+- **Findings:**
+  - Additive "increased" vs multiplicative "more" buckets; more compounds (poewiki.net; poe2.dev).
+  - A fixed damage pipeline keeps maths predictable (poedb.tw).
+  - Hyperbolic armour K/(K+A) gives diminishing returns, no immunity (blog.lokkij.com; warcraft.wiki.gg).
+  - Soft caps stop single-stat stacking (gamemechanicshoard.com).
+  - MMOs add level-gap factors (TrinityCore; PSO2 NGS wiki).
+- **→ Implications for Robby:** two buckets (Boost additive, Surge multiplicative, Surge cap ×3); pipeline Base × Potency × (1+ΣBoost) × ΠSurge → Guard → Friction in one tested `DamageMath` module; Guard K scales with attacker Rank; Marks hyperbolic (+30% at 60); no extra gap penalty. Sim: best/fresh DPS ≈ 2.95, TTK 10 s / 16 s / 26 s at +0/+1/+2 Rank.
+- **Unknowns:** enemy tier numbers, Qi/Strain curves (P-007b); PvP fairness.
+- **Sources:** see the notes file.
