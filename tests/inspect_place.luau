@@ -34,6 +34,7 @@ expect({ "StarterPlayer", "StarterPlayerScripts", "Client", "CrescentFx" }, "Mod
 
 expect({ "ReplicatedStorage", "Shared", "MistvaleLayout" }, "ModuleScript")
 expect({ "ServerScriptService", "Server", "MistvaleTerrain" }, "ModuleScript")
+expect({ "ServerScriptService", "Server", "BeastService" }, "ModuleScript")
 if game:GetService("Workspace").StreamingEnabled == true then
 	print("PASS Workspace.StreamingEnabled")
 else

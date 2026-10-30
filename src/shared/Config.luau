@@ -137,6 +137,9 @@ local Config = {
 		dummyKith = "kith.stone", -- the training dummy doubles as a wild Kith until the world spawns them -- guided first bind: the bar never drops below this
 	},
 	Beasts = { -- wild beasts (T-022, D-124); server AI in Shared.BeastBrain; tune in playtests
+		respawn = 20, -- seconds after a beast dies or is bound
+		spread = 35, -- studs from the zone centre
+		spawns = { { kind = "beast.mistfang", count = 3 }, { kind = "beast.stonehide", count = 2 } }, -- hunting zone 1
 		minTelegraph = 0.4, -- seconds; every beast attack winds up at least this long (ROADMAP T-022)
 		kinds = {
 			["beast.mistfang"] = { -- quick wolf: short lunge bite in front

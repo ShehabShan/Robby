@@ -5,6 +5,7 @@
 -- range + 4 studs, facing arc, line of sight); the Action remote is rate limited by a token bucket.
 -- F: press → Parry (opens the parry window and raises the guard); release → Guard (lowers it).
 
+local CollectionService = game:GetService("CollectionService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
@@ -95,6 +96,11 @@ local function targets(): { Model }
 	if dummy and dummy:IsA("Model") then
 		table.insert(list, dummy)
 	end
+	for _, beast in CollectionService:GetTagged("Beast") do -- wild beasts (T-022b)
+		if beast:IsA("Model") then
+			table.insert(list, beast)
+		end
+	end
 	return list
 end
 
@@ -174,9 +180,34 @@ local function attack(player: Player, s: State, rawDir: any, now: number)
 			end
 		end
 		humanoid:TakeDamage(amount)
+		if not victim then
+			model:SetAttribute("LastHitBy", player.UserId) -- kill credit (BeastService)
+		end
 		BreakthroughService.onDamage(player, amount) -- trial cracks (T-018f)
 		Net.HitFx.FireAll({ fxId = HIT_FX, caster = player, pos = pos, dir = dir, target = model, amount = amount })
 	end
+end
+
+-- A beast strike on a player (T-022b): "evaded" (i-frames / Stone Ward), "parried", "blocked" or "hit".
+-- A guard break staggers the player and still counts as a hit.
+function CombatService.incoming(victim: Player, amount: number, now: number): string
+	if Status.blocksHit(statuses, victim, now) then
+		return "evaded"
+	end
+	local vs = stateFor(victim)
+	if Combat.invulnerable(vs.dash, now) then
+		return "evaded"
+	end
+	if Combat.parries(vs.parry, now) then
+		return "parried"
+	end
+	local outcome = Combat.hitGuard(vs.guard, amount, false)
+	if outcome == "blocked" then
+		return "blocked"
+	elseif outcome == "broken" then
+		stagger(vs, now, C.guard.breakStagger)
+	end
+	return "hit"
 end
 
 function CombatService.start()
