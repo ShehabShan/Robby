@@ -1,6 +1,7 @@
 # STATE
 
-## Now (after S44)
+## Now (after S45)
+- S45: T-030b done: Rimeshard is the first starter Kith (slot 1 = active stance, D-194); existing saves get a one-time `gift.rimeshard` to equip in the loadout menu (D-195). T-031 done: Shatter's `State.Staggered` freezes beasts and the boss (D-196). T-027e done: `client/RimeFx` + pure `Shared.RimeFxPlan` (D-197); cloud smoke pending (owner away). Not published.
 - S44: T-029 done: own game version `Shared.Version` 0.0.17 (Roblox's v16/v17 = its upload counter, not ours; D-192), HUD top-right `v0.0.17 (Roblox <n>)`, `publish.py` prints both. Bump PATCH before every publish. T-030 done: `Loadout.activeKith` → `ActiveKith` attribute → `KithInput` follows the loadout (D-193). **T-030b open:** Rimeshard is not obtainable yet (starter = Crescent/Stone/Wind), so the stance is unreachable in a live playtest. Owner (18:52): no publish now.
 - S43: T-028 done: dash removed, Shift = sprint only, Roblox Shift lock off (Ctrl shift lock kept), Q freed (D-189). T-027d3 done: `client/KithInput` — Q/B stance toggle, left-click Needle chain + finisher, Z/X/C specials with shot-2 cancel, Rime Fall ground point (D-190) → **T-027d done**. KithInput hard-codes `kith.rimeshard` until the loadout publishes the active Kith.
 - S42: T-027d split d1–d3 (D-184). d1 + d2 done: pure `Shared.Stance` (Needle chain/finisher/pause, Z/X/C, shot-2 cancel, server `verify`), Blink `CastRequest.point` + `ActionKind.Stance`, Crucible key C → B; server Volley/Zone/Burst casts, DmgPerStack/Stagger ops on per-model Chill holders (D-185–D-188). T-027d3 client input (`KithInput`) is left.
@@ -38,12 +39,9 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** —
-- **NEXT:** T-030b Rimeshard acquisition (starter or wild bind); then T-027e Rime FX (client); Stagger readers (D-188); T-021 … T-024 continue.
+- **NEXT:** T-027h Rimeshard playtest (owner: publish via `roblox-open-cloud`, then cloud smoke for T-027e); then T-022c beast feel, T-026c R15 animations, T-024 First 10 minutes.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-030b Rimeshard acquisition (starter swap or wild bind in zone 1) · —
-  - Stagger readers: CombatService/BeastBrain honour `State.Staggered` (D-188) · —
-  - T-027e Rime FX (client) · —
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
   - T-026c R15 animations (kit KeyframeSequences, re-upload) · —
   - T-026d R15 cloud walk check · T-026c
@@ -51,5 +49,5 @@
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox).
 - **Last cloud test:** CLOUD ALL: PASS on Saved v17 (2026-10-30, S43); live = v16
-- **Last check.sh:** CHECK: PASS (2026-10-30, S44, 259 tests)
+- **Last check.sh:** CHECK: PASS (2026-10-31, S45)
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); Q = Kith stance, Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
