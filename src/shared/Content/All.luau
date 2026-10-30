@@ -4,6 +4,7 @@
 
 local Crescent = require("./Crescent")
 local Lotus = require("./Lotus")
+local Rimeshard = require("./Rimeshard")
 local Stone = require("./Stone")
 local Wind = require("./Wind")
 
@@ -11,7 +12,13 @@ local All = {}
 
 function All.content(cfg: any): any
 	local out: { [string]: { any } } = { effects = {}, moves = {}, kith = {}, supports = {} }
-	local parts: { any } = { Crescent.content(cfg), Stone.content(cfg), Wind.content(cfg), Lotus.content(cfg) }
+	local parts: { any } = {
+		Crescent.content(cfg),
+		Stone.content(cfg),
+		Wind.content(cfg),
+		Lotus.content(cfg),
+		Rimeshard.content(cfg), -- T-027c
+	}
 	for _, part in parts do
 		for _, key in { "effects", "moves", "kith", "supports" } do
 			local list = out[key]

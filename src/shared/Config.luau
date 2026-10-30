@@ -32,6 +32,52 @@ local Config = {
 		-- M1 Kith moves (T-015a). Initial tuning; tune in playtest.
 		StoneWard = { cost = 15, cooldown = 6, seconds = 1.5 },
 		WindStep = { cost = 8, cooldown = 3, distance = 14, iframes = 0.3 },
+		-- Rimeshard Kith (T-027c, R-028 §2, D-180): Chill sets up (R1/Z/X), Shatter pays off (C). Tune in playtest.
+		Rimeshard = {
+			chill = { maxStacks = 3, seconds = 3, slowPerStack = 0.15 }, -- -15 % move speed per stack; 3 stacks = Rimed
+			needle = { -- R1 left-click chain while Rimeshard is the active Kith; light-chain timing
+				chain = { steps = 3, window = 0.8, recovery = 0.25 },
+				damage = 5,
+				speed = 120,
+				range = 45,
+				maxHits = 1,
+				hitboxSize = { x = 1, y = 1, z = 3 },
+				spawnOffset = 2,
+				finisher = { shards = 2, spreadDeg = 6, cost = 3 }, -- shot 3: two shards side by side, resets the chain
+			},
+			shardFan = { -- Z (Volley): close-range crowd clear; a target takes at most 2 of 5 shards
+				cost = 10,
+				cooldown = 1.8,
+				damage = 8,
+				count = 5,
+				spreadDeg = 30,
+				perTargetCap = 2,
+				speed = 100,
+				range = 35,
+				maxHits = 1,
+				telegraph = 0.2,
+			},
+			rimeFall = { -- X (Zone): aimed ground circle, 0.6 s red telegraph then 4 ticks over 1 s
+				cost = 18,
+				cooldown = 8,
+				radius = 7,
+				range = 40,
+				delay = 0.6,
+				ticks = 4,
+				duration = 1.0,
+				damagePerTick = 6,
+			},
+			shatter = { -- C (Burst): 12 + 8 per Chill stack, consumes stacks, staggers Rimed targets
+				cost = 15,
+				cooldown = 10,
+				radius = 25,
+				maxTargets = 12,
+				base = 12,
+				perStack = 8,
+				staggerSeconds = 0.4,
+				telegraph = 0.3,
+			},
+		},
 	},
 	-- Movement (T-026b3a, D-163): studs/s; accel in studs/s per second.
 	Movement = { walk = 16, sprint = 24, accel = 40 },
@@ -87,7 +133,8 @@ local Config = {
 		},
 		paths = { -- opposed Paths (negative = Friction); allied bonuses later
 			["path.moon"] = { frictionWith = { ["path.flame"] = -0.2 } },
-			["path.flame"] = { frictionWith = { ["path.moon"] = -0.2, ["path.tide"] = -0.2 } },
+			["path.flame"] = { frictionWith = { ["path.moon"] = -0.2, ["path.tide"] = -0.2, ["path.frost"] = -0.2 } },
+			["path.frost"] = { frictionWith = { ["path.flame"] = -0.2 } }, -- Rimeshard (T-027c, D-181)
 			["path.tide"] = { frictionWith = { ["path.flame"] = -0.2 } },
 			["path.wind"] = { frictionWith = { ["path.stone"] = -0.2 } },
 			["path.stone"] = { frictionWith = { ["path.wind"] = -0.2 } },
