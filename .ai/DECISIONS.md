@@ -32,3 +32,4 @@
   - Every session commits at least one complete piece of work.
   - Tasks are sized to about 30 OLU of work or less and split into sub-tasks when they don't fit (AGENTS.md §0).
 - **D-021 Short reports** (owner, 2026-10-29): the end-of-session report is 5 lines or fewer, and progress chatter is avoided, because output tokens cost the most OLU. Details live in the repo.
+- **D-023 IP confirmed (R-012, S4):** D-014 stands; a license is unrealistic (title banned in China 2019, rights with China Literature/author, no game ever licensed). Tightened: never use the novel's title anywhere (name, thumbnails, tags, description), its names, plot, coined terms, text or art. Use our own word for the creatures instead of "Gu". Systems, themes and folklore/xianxia conventions are free to use.

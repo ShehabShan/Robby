@@ -79,5 +79,19 @@ Full notes: `research/notes/R-011-reverend-insanity.md`.
   - Don't tie gu users to any real ethnic group (folklore stereotype).
 - **Unknowns:** whether feeding upkeep is fun or a chore; details of dao marks; sources are wikis/reviews, not the novel.
 - **Sources:** see the notes file (30 sources).
-## R-012 … R-018
+### R-012 IP & licensing (done 2026-10-30)
+Full notes: `research/notes/R-012-ip-licensing.md`. Not legal advice.
+- **Findings:**
+  - RI by Gu Zhen Ren, Qidian/China Literature 2012–2019, English licensed to Webnovel; game-rights terms not public (en.wikipedia.org/wiki/Reverend_Insanity).
+  - Removed from Qidian in 2019 by a Chinese regulatory campaign; no official game or anime, only a licensed manhua (novelbrief.com, novelupdates.com).
+  - Roblox removes games on DMCA notice, often without warning: Shinobi Life 2 (VIZ), anime simulators over MHA assets (devforum.roblox.com, polygon.com).
+  - Roblox rules forbid unlicensed names, characters, branding (about.roblox.com/community-standards).
+  - Mechanics are not copyrightable; expression is — Tetris v. Xio, Spry Fox v. LolApps (17 U.S.C. §102(b); loeb.com; pillarlegalpc.com).
+- **→ Implications for Robby:**
+  - A license is unrealistic; D-014 confirmed and tightened (D-023).
+  - Keep systems and tone; never use the title, names, plot, coined terms, text or art.
+  - Use our own word for the creatures (not "Gu"); no "inspired by RI" in the store page.
+- **Unknowns:** exact game-rights owner; non-US law (Roblox enforcement is the practical gate).
+- **Sources:** see the notes file (15 sources).
+## R-013 … R-018
 Not started. See TASKS.md.

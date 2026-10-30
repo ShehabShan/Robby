@@ -21,7 +21,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - Cover the world structure, the Gu system (types, refinement, feeding, combining, ranks 1–9), cultivation (aperture, essence), factions/clans, the early-story setting, tone and themes, and what readers love most.
   - Split everything into (a) **game-able mechanics**, (b) IP-specific elements we must not copy, and (c) generic or folklore elements (gu lore, xianxia tropes).
   - AC: `research/notes/R-011-reverend-insanity.md` plus a summary in RESEARCH.md.
-- **R-012 [doing] [S] IP & licensing:** Resume from: searches; write research/notes/R-012-ip-licensing.md.
+- **R-012 [done] [S] IP & licensing:** (S4, D-023)
   - Find the rights holder(s). Check whether game rights or licensing are available.
   - Collect Roblox DMCA/IP enforcement cases for fan games.
   - Define what "inspired by" safely allows (mechanics, themes) and what it doesn't (names, characters, plot, art).
