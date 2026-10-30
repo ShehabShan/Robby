@@ -67,14 +67,7 @@ function AbilityInput.start(send: (moveId: string, aim: Vector3, seq: number) ->
 		return Enum.ContextActionResult.Sink
 	end
 
-	ContextActionService:BindAction(
-		ACTION,
-		onAction,
-		true,
-		Enum.KeyCode.E,
-		Enum.UserInputType.MouseButton1,
-		Enum.KeyCode.ButtonX
-	)
+	ContextActionService:BindAction(ACTION, onAction, true, Enum.KeyCode.E, Enum.KeyCode.ButtonX)
 	ContextActionService:SetTitle(ACTION, "Cut")
 end
 

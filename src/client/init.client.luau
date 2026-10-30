@@ -11,6 +11,7 @@ local FxRegistry = require(ReplicatedStorage.Shared.FxRegistry)
 local Registry = require(ReplicatedStorage.Shared.Registry)
 local AbilityInput = require(script.AbilityInput)
 local CrescentFx = require(script.CrescentFx)
+local CombatInput = require(script.CombatInput)
 local Net = require(script.Net) -- Blink-generated (net/remotes.blink)
 
 local player = Players.LocalPlayer
@@ -24,6 +25,10 @@ end
 AbilityInput.start(function(moveId: string, aim: Vector3, seq: number)
 	Net.CastRequest.Fire({ moveId = moveId, aim = aim, seq = seq })
 end, fx, built.moves["move.crescent_cut"])
+
+CombatInput.start(function(kind: string, dir: Vector3?, seq: number)
+	Net.Action.Fire({ kind = kind :: any, dir = dir, seq = seq })
+end)
 
 Net.CastFx.On(function(v)
 	if v.caster == player then

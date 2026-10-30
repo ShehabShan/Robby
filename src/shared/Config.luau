@@ -22,10 +22,11 @@ local Config = {
 	},
 	-- Combat core (T-013a, GDD §5): initial tuning, seconds unless noted.
 	Combat = {
-		chain = { steps = 5, window = 0.8, recovery = 0.3 },
-		dash = { cooldown = 1.2, iframes = 0.25 },
+		chain = { steps = 5, window = 0.8, recovery = 0.3, damage = 6, range = 6, arcDot = 0.3 },
+		dash = { cooldown = 1.2, iframes = 0.25, speed = 60 },
 		parry = { window = 0.2, cooldown = 1.0, stagger = 1.0 },
 		guard = { max = 100, regenPerSecond = 25, breakStagger = 1.5 },
+		rate = { perSecond = 12, burst = 6 }, -- Action remote token bucket
 	},
 }
 
