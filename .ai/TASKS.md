@@ -217,16 +217,16 @@ Pick one when the next real task won't fit before the 43 OLU wrap-up line. Log f
 
 
 ### T-028 Movement: Shift = sprint only, no dash (owner inbox 2026-10-30)
-- **T-028 [todo] [S] Sprint on Shift, remove dash:** Roblox's built-in shift lock (Shift) off, our Control shift lock stays (D-164); Dash removed from client input, Blink `ActionKind`, `Combat`, `CombatService`, `Config`, speed guard burst (Wind Step keeps its burst); GDD controls table updated; Q freed (reserved for the Kith stance toggle, T-027d3). AC: check.sh PASS; Shift only sprints.
+- **T-028 [done S43] [S] Sprint on Shift, remove dash:** Roblox's built-in shift lock (Shift) off, our Control shift lock stays (D-164); Dash removed from client input, Blink `ActionKind`, `Combat`, `CombatService`, `Config`, speed guard burst (Wind Step keeps its burst); GDD controls table updated; Q freed (reserved for the Kith stance toggle, T-027d3). AC: check.sh PASS; Shift only sprints.
 
 ### T-027 Rimeshard Kith (from R-028; design in `research/notes/R-028-first-ability-gu.md`)
 - **T-027a [done S40] [S] Chill status + Shatter math (pure):** `Shared.Frost` + `tests/Frost.spec.luau` (4 specs). `Effects` ops `Status` (stacks, max, duration, MoveSpeed modifier), `DmgPerStack`, `Stagger`; spec. AC: check.sh PASS.
 - **T-027b [done S40] [S] Volley + Zone + Burst deliveries (pure):** `Deliveries/{Volley,Zone,Burst}.luau` + `tests/Deliveries.spec.luau`. `src/shared/Deliveries/{Volley,Zone,Burst}.luau`, aim-point validation, per-target hit cap; specs. AC: check.sh PASS.
 - **T-027c [done S41] [S] Rimeshard content:** `Config.Abilities.Rimeshard` (note §2 numbers) + `Content/Rimeshard.luau` + Registry spec; Loom Piercing applies to Needle/Fan. AC: check.sh PASS.
-- **T-027d [doing S42] [S] Input + stance** — split (S42, D-184). Resume from: T-027d3 (d1, d2 done on main).
+- **T-027d [done S43] [S] Input + stance** — split (S42, D-184); d1–d3 done.
   - **T-027d1 [done S42] [S] Stance core (pure) + wire prep:** `Shared.Stance` (toggle, chain/finisher press, Z/X/C specials, shot-2 cancel, server `verify`) + `tests/Stance.spec.luau` (6 specs); Blink `CastRequest.point: vector?`; Crucible key C → B (D-176). AC: check.sh PASS.
   - **T-027d2 [done S42] [S] Server casts:** `Abilities` ops `DmgPerStack` (Frost.consume on a per-model Effects holder) / `Stagger` (`State.Staggered` status tag); Volley/Zone/Burst cast paths (Zone.isValidPoint on `point`, ground-snapped centre, Burst over Chilled holders after the clap wind-up); `Stance.verify` per CastRequest; Blink `ActionKind.Stance` → `Abilities.toggleStance` (publishes `Stance` attribute). AC: check.sh PASS (256 tests).
-  - **T-027d3 [todo] [S] Client input:** `KithInput` (stance toggle key, Z/X/C via Stance + AbilityInput FX, Rime Fall aim-point raycast, Needle shot-2 cancel), replace single-move AbilityInput wiring in `init.client.luau`. AC: check.sh PASS. · after T-027d2
+  - **T-027d3 [done S43] [S] Client input:** `KithInput` (stance toggle key, Z/X/C via Stance + AbilityInput FX, Rime Fall aim-point raycast, Needle shot-2 cancel), replace single-move AbilityInput wiring in `init.client.luau`. AC: check.sh PASS. · after T-027d2 Left: KithInput takes the active Kith from the loadout (hard-coded `kith.rimeshard` for now, D-190).
 - **T-027e [todo] [S] Rime FX (client):** AC adds: ≤12 pooled shards per cast (note §6). `RimeFx.register` for fx.rime.* (pooled shards, frost decal, crust, hit-pause/shake) + SFX. AC: check.sh PASS, cloud smoke.
 - **T-027f [todo] [S] R15 animations:** needle flicks, fan sweep, fall raise/close, shatter clap · after T-026c.
 - **T-027g [done S41] [S] Balance pass:** Qi regen vs costs, Mistfang/Boar/Mistmaw TTK sim vs Crescent (note §3). AC: numbers logged in RESEARCH.

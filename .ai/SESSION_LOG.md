@@ -1,5 +1,10 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S43 (2026-10-30) — T-028 Shift = sprint, no dash + T-027d3 KithInput (adopted stopped S43)
+- T-028: dash removed everywhere (client, Blink ActionKind, Combat, CombatService, Config, speed guard); Roblox Shift lock off, Ctrl shift lock kept; GDD controls (D-189).
+- T-027d3: `client/KithInput` — Q/B stance toggle, left-click Needle chain + finisher, Z/X/C specials with shot-2 cancel, Rime Fall ground point; wired in init.client (D-190). T-027d done.
+- check.sh PASS (255 tests). Next: T-027e Rime FX; Stagger readers (D-188); loadout → active Kith for KithInput. ≈34 OLU.
+
 ## S42 (2026-10-30) — T-027d1 + T-027d2 Kith stance core and server casts
 - T-027d split d1–d3 (D-184). d1: pure `Shared.Stance` (toggle, Needle chain/finisher, Z/X/C specials, shot-2 cancel, server `verify`), 6 specs; Blink `CastRequest.point`; Crucible key C → B (D-176).
 - d2: `Abilities` ops DmgPerStack/Stagger on a per-model Effects holder (D-187, D-188), Volley/Zone/Burst server casts, `Stance.verify` per cast, `ActionKind.Stance` toggle (D-186).
