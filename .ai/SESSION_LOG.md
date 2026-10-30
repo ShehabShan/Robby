@@ -1,5 +1,10 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S41 (2026-10-30) — T-027c + T-027g Rimeshard content and balance
+- T-027c: `Config.Abilities.Rimeshard` + `Content/Rimeshard.luau` (5 moves, Chill + Shatter effects), Registry Volley/Burst, Frost Path in Loom, 7 specs (D-180, D-181).
+- T-027g: pure `RimeshardSim` + `scripts/rime_balance.luau`; sweep → Needle 4, Fan cd 3, finisher pause 1.2 (D-182, D-183); RESEARCH entry; 2 specs.
+- check.sh PASS (257 tests). Next: T-027d input/stance (needs server handling of DmgPerStack/Stagger ops). ≈38 OLU.
+
 ## S40 (2026-10-30) — R-028 Gu research done
 - Compared 4 source Gu families; chose a frost Kith, "Rimeshard" (D-175): R1 Needle chain, Z Shard Fan, X Rime Fall, C Shatter, Chill stacks.
 - Note `research/notes/R-028-first-ability-gu.md`, RESEARCH entry, T-027a–h build tasks. Crucible key → B (D-176), slow-not-freeze (D-177).
