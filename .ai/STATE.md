@@ -1,6 +1,7 @@
 # STATE
 
 ## Now (after S10)
+- S10 end: owner says `roblox-open-cloud` is now set up (Universe 10773761715, Place 95587500384127); first step next session: check these match `scripts/cloud_test.py`, then run it (T-010).
 - Done through T-013 (except T-010). Next task: **T-014 HitFeel** — extract hit-stop/shake/flash/numbers from `src/client/CrescentFx.luau` into a shared client `HitFeel` used by Crescent and CombatService hits (ART §5 items 2, 5).
 - Blocked: T-010 + cloud part of T-012 — `roblox-open-cloud` not enabled in this project; resume with `python3 scripts/cloud_test.py`.
 - Owner: Studio playtest of spike + combat (needs `wally install`). Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`).
