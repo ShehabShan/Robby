@@ -1,6 +1,6 @@
 # GDD — Robby v1
 
-Status: **§1–6 written (P-002a, S6); §7–12 in P-002b.** The obby draft is in `.ai/archive/GDD-obby-v0.md` (superseded, D-013).
+Status: **v1 complete (P-002a/b, S6)** — awaiting owner review in P-006. The obby draft is in `.ai/archive/GDD-obby-v0.md` (superseded, D-013).
 Inputs: VISION.md, RESEARCH.md (R-011…R-019), D-025 (concept A, RI-like structure), SPIKE.md. All names are working names; nothing from RI is used (D-014).
 Numbers are first targets to tune in playtests.
 
@@ -82,14 +82,41 @@ Numbers are first targets to tune in playtests.
 - **Scarcity rule:** Kith and catalysts are earned in the world, never sold. Shard income per hour is capped by zone tier so that higher Reaches matter.
 
 ## 7. World structure
-TODO (P-002b)
+- **Five Reaches** (working names): **Mistvale** (start, temperate valleys, Moon/Wind Paths), Ember Steppe (Flame), Stonecrown (Stone), Tidefall coast, and the Hollow (endgame). Barriers between Reaches open by Rank (Reach 2 at Rank 2, and so on).
+- **Mistvale layout:** a safe hub village (shops, Crucible, rest, journal), 3 hunting zones of rising tier, 1 Binding grove, 1 rival camp, and 1 boss arena.
+- **NPCs:** a sly mentor (Opening Rite, tutorial quests), a Crucible keeper, a Shard trader, Clan and Rogue recruiters, and rival cultivators (bounty targets).
+- **Quests:** a short main chain per Reach, daily bounties, Binding hunts for named Kith, and Weave discoveries (hint scrolls).
+- **Tech:** StreamingEnabled from day one; mobile-first budgets (R-016).
+
 ## 8. First 10 minutes
-TODO (P-002b)
+| Time | Beat |
+|---|---|
+| 0:00–0:30 | Spawn in the Mistvale village at dawn; the mentor calls you to the Opening Rite. No menus. |
+| 0:30–1:30 | Opening Rite: the Core opens (VFX burst) and the Talent grade is revealed. The Crescent Kith is given to you. |
+| 1:30–3:00 | Fire Crescent Cut at training dummies (the spike). Prompts teach the move, dash and Qi. |
+| 3:00–5:00 | First zone: weak beasts, Shards drop. A wild Kith appears; first Binding mini-fight (guided, cannot fail). |
+| 5:00–7:00 | Back in the village: feed both Kith, equip the second, see the Stage bar move. |
+| 7:00–9:00 | A rival cultivator ambushes you — the first parry prompt; win, and they drop a Weave hint. |
+| 9:00–10:00 | The Crucible keeper shows a locked recipe and the barrier to Reach 2: clear long-term goals. |
+- Rule: something new every ≤ 60 s; no text wall over 2 lines (low bounce).
+
 ## 9. Social
-TODO (P-002b)
+- **Co-op:** parties of up to 4; shared kills and Shards; Binding credit goes to whoever lands the bind.
+- **PvP:** opt-in only — duels by invite and marked PvP zones. No ganking of PvP-off players. Rank-banded matchmaking for arenas later.
+- **Clans:** a player-made Clan joins either the Clans or the Rogues faction at Rank 2. Faction perks are cosmetic or quest access, not raw power.
+- **Trading:** Shards and materials only; Kith are untradable (scarcity rule, §6).
+
 ## 10. Monetisation
-TODO (P-002b)
+- **Principle:** no pay-to-win; Roblox policy-compliant; no random paid loot boxes.
+- **Sells:** cosmetics (robes, Core-hue trails, VFX skins), hub housing décor, a battle-pass with cosmetic rewards and small Shard boosts, extra journal/loadout slots, private servers.
+- **Never sells:** Kith, catalysts, Ranks, Stages, or damage.
+- Premium currency (working name **Jade**) is bought with Robux only and spends only on the list above.
+
 ## 11. Vertical slice definition
-TODO (P-002b)
+- **Content:** Mistvale hub + 1 hunting zone + Binding grove + 1 boss; 3 Kith (Crescent, a Stone guard Kith, a Wind dash Kith); 1 Crucible recipe; 1 Weave; Ranks 1→2 playable; the first 10 minutes from §8.
+- **Systems:** Qi, Binding, Upkeep, Crucible, Stages, save data (ProfileStore), PC + mobile + gamepad controls.
+- **Quality bar:** the measurable bar in `.ai/ART.md` (P-003), built on R-013: instant client feedback, hit-stop/VFX/SFX on every hit, telegraphed boss attacks, stable 60 fps on mid-range mobile.
+
 ## 12. Out of scope (for now)
-TODO (P-002b)
+- Ascendant Ranks 6–9, Reaches 2–5, Arrays, ranked PvP, trading UI polish, housing, voice chat, localisation, and the battle-pass.
+- Revisit after the vertical slice playtest (P-005 roadmap).

@@ -76,8 +76,8 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - Present the R-018 options to the owner in plain language, with a recommendation. Then end the session and wait.
   - AC: the owner's choice is logged as a decision.
 - **P-002a [done S6] [S] GDD v1 part 1 (§1–6):** AC: §1–6 filled, no TODOs.
-- **P-002b [todo] [S] GDD v1 part 2 (§7–12):** world structure, first 10 min, social, monetisation, vertical slice, out of scope. AC: no TODOs left in GDD.md.
-- **P-002 [split → P-002a/b] GDD v1:**
+- **P-002b [done S6] [S] GDD v1 part 2 (§7–12):** world structure, first 10 min, social, monetisation, vertical slice, out of scope. AC: no TODOs left in GDD.md.
+- **P-002 [done S6, via P-002a/b] GDD v1:**
   - Fill in every section of the GDD.md template for the chosen concept.
   - AC: no TODOs left. Split it across sessions if needed.
 - **P-003 [todo] [S] Art direction, asset plan & quality bar:**
