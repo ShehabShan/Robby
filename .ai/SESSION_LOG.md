@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S5 — 2026-10-30 (owner reorder; spike started; stopped early, owner low on OLU)
+- Owner: concept A, structured like RI (D-025). R-019 systems map + first ability Crescent Cut; P-007 spike plan `.ai/SPIKE.md` (D-026).
+- T-003 done: Qi + Crescent Cut pure modules, Lune tests; CHECK: PASS.
+- OLU used: ~11.4.
+- Next: T-004 wiring + VFX + dummy. Owner setup for T-005/T-006: private Roblox experience IDs + Open Cloud key.
+
 ## S4 — 2026-10-30 (research phase complete)
 - Inbox empty (R-010). Done R-011 source study, R-012 IP (D-023), R-013 Rell Seas + quality bar, R-014 comparables, R-015 asset routes, R-016 tech stack, R-017 maturity (D-024).
 - R-018: 3 concept options + recommendation (A: creature-fusion open-world action RPG) in RESEARCH.md.
