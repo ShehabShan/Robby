@@ -1,5 +1,8 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S30 (2026-10-30) — T-026b3b server speed guard
+- Pure `Shared.SpeedGuard` + spec, server `SpeedGuardService`: too-fast movement is flagged, then corrected; Dash/Wind Step allowed (D-166). check.sh PASS.
+
 ## S29 (2026-10-30) — T-026e shift lock (owner request)
 - Shift lock on LeftControl (camera over shoulder, character faces camera, attacks/abilities aim where the character faces), D-164.
 - Owner key swap: Sprint = LeftShift, Dash = V. check.sh PASS. OLU ≈ 39 / 50.
