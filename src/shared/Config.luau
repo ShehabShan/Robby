@@ -19,6 +19,16 @@ local Config = {
 			hitboxSize = { x = 6, y = 1.5, z = 2 }, -- studs
 			spawnOffset = 3, -- studs in front of the caster
 		},
+		TwinCrescent = { -- rank 2 Crucible result (T-019d, D-084): two blades' worth in one wider cut
+			cost = 14,
+			cooldown = 1.4,
+			baseDamage = 34,
+			speed = 95,
+			range = 65,
+			maxHits = 3,
+			hitboxSize = { x = 9, y = 1.5, z = 2 },
+			spawnOffset = 3,
+		},
 		-- M1 Kith moves (T-015a). Initial tuning; tune in playtest.
 		StoneWard = { cost = 15, cooldown = 6, seconds = 1.5 },
 		WindStep = { cost = 8, cooldown = 3, distance = 14, iframes = 0.3 },

@@ -35,4 +35,17 @@ return {
 		local ok = Moves.pay(caster, move, 0.1)
 		eq(ok, false, "cooldown")
 	end,
+	["content: every Crucible recipe outputs a known higher-rank Kith (T-019d)"] = function()
+		local All = require("../src/shared/Content/All")
+		local built, errors = Registry.build(All.content(Config))
+		eq(#errors, 0, `errors: {table.concat(errors, "; ")}`)
+		for id, r in Config.Crucible.recipes do
+			local out = built.kith[r.output]
+			eq(out ~= nil, true, `{id} output exists`)
+			for _, input in r.inputs do
+				eq(out.rank > built.kith[input].rank, true, `{id} output outranks {input}`)
+			end
+		end
+		eq(built.moves["move.twin_crescent"].kith, "kith.twin_crescent", "twin move")
+	end,
 }

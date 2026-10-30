@@ -6,12 +6,19 @@ local Crescent = {}
 
 function Crescent.content(cfg: any): any
 	local c = cfg.Abilities.CrescentCut
+	local t = cfg.Abilities.TwinCrescent
 	return {
 		effects = {
 			{
 				id = "effect.crescent.hit",
 				duration = "Inst",
 				ops = { { kind = "Dmg", params = { base = c.baseDamage } } },
+				fx = "fx.crescent.hit",
+			},
+			{
+				id = "effect.twin_crescent.hit",
+				duration = "Inst",
+				ops = { { kind = "Dmg", params = { base = t.baseDamage } } },
 				fx = "fx.crescent.hit",
 			},
 		},
@@ -37,6 +44,27 @@ function Crescent.content(cfg: any): any
 				tags = { "Path.Moon", "Role.Strike", "Delivery.Proj" },
 				fx = { cast = "fx.crescent.cast", travel = "fx.crescent.travel", hit = "fx.crescent.hit" },
 			},
+			{
+				id = "move.twin_crescent",
+				kith = "kith.twin_crescent",
+				trigger = "Press",
+				target = "Aim",
+				delivery = {
+					kind = "Projectile",
+					params = {
+						speed = t.speed,
+						range = t.range,
+						maxHits = t.maxHits,
+						hitbox = t.hitboxSize,
+						spawnOffset = t.spawnOffset,
+					},
+				},
+				costs = { qi = t.cost },
+				cooldown = t.cooldown,
+				effects = { onHit = { "effect.twin_crescent.hit" } },
+				tags = { "Path.Moon", "Role.Strike", "Delivery.Proj" },
+				fx = { cast = "fx.crescent.cast", travel = "fx.crescent.travel", hit = "fx.crescent.hit" },
+			},
 		},
 		kith = {
 			{
@@ -48,6 +76,16 @@ function Crescent.content(cfg: any): any
 				moves = { "move.crescent_cut" },
 				food = "food.moonleaf",
 				rarity = "Common",
+			},
+			{
+				id = "kith.twin_crescent", -- Crucible only (recipe.twin_crescent, T-019d)
+				rank = 2,
+				path = "path.moon",
+				role = "Strike",
+				tags = { "Path.Moon" },
+				moves = { "move.twin_crescent" },
+				food = "food.moonleaf",
+				rarity = "Uncommon",
 			},
 		},
 	}
