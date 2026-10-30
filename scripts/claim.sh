@@ -27,6 +27,7 @@ for try in 1 2 3; do
 		lo=$(($(printf '%s\n' "${a:-0}" "${b:-0}" | sort -n | tail -1) + 1))
 		d=$(printf 'D-%03d..D-%03d' "$lo" $((lo + 9)))
 	fi
+	[ -z "$(tail -c1 "$f")" ] || echo >>"$f"
 	echo "| $s | $task | session/$s | $d | $(date -u '+%Y-%m-%d %H:%M') | $note |" >>"$f"
 	git add "$f" && git commit -q -m "$s: claim $task"
 	git push -q origin HEAD:main 2>/dev/null && break

@@ -59,6 +59,17 @@ local Config = {
 		maxRank = 9,
 		crackPerDamage = 1, -- crack points per damage dealt during a trial (T-018f, D-080)
 	},
+	Loom = { -- Weave Loom (T-020a, D-088); tune in playtests
+		maxSupports = 1, -- M1: core + 1 support (2–3 later, unlocked by Mastery)
+		frictionFullMarks = 60, -- opposed-Path Marks at which full Friction applies
+		paths = { -- opposed Paths (negative = Friction); allied bonuses later
+			["path.moon"] = { frictionWith = { ["path.flame"] = -0.2 } },
+			["path.flame"] = { frictionWith = { ["path.moon"] = -0.2, ["path.tide"] = -0.2 } },
+			["path.tide"] = { frictionWith = { ["path.flame"] = -0.2 } },
+			["path.wind"] = { frictionWith = { ["path.stone"] = -0.2 } },
+			["path.stone"] = { frictionWith = { ["path.wind"] = -0.2 } },
+		},
+	},
 	Crucible = { -- Kith fusion (T-019a, D-081); tune in playtests
 		recipes = {
 			["recipe.twin_crescent"] = {
