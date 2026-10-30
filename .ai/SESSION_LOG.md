@@ -1,5 +1,10 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S26 (2026-10-30)
+- Done: T-021b Mistvale hub kit (D-146): `art/blender/hub_kit.py` builds 14 low-poly pieces (houses, gate, rest spot, Crucible shrine, fences, lantern, pines, rocks) → FBX/GLB + manifest, max 824 tris. check PASS.
+- Blocked: mesh upload to Roblox needs `roblox-open-cloud` (owner reconnect).
+- Next: T-021c hub assembly (now unblocked), T-023 boss.
+
 ## S19 / S22 / S25 (2026-10-30, one bot, three claims)
 - Done: T-021a Mistvale code terrain + streaming (D-100); T-025a Mist Lotus Refine Kith (D-112); T-022a/b two beasts with telegraphs (D-124, D-125). All merged, check PASS.
 - Blocked: cloud smoke (now raycasts terrain) — `roblox-open-cloud` "not enabled for this project"; owner must reconnect.
