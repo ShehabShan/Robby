@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S14 (2026-10-30)
+- Done: T-017b server Binding (BindingRules, BindingService, D-071); T-017c Binding UI (D-072) → T-017 complete.
+- T-018 split a–f; done T-018a Upkeep/Strain core (D-073), T-018b server Upkeep/Strain + Feed (D-074), T-018c Stages core (D-075), T-018d Core Shell HUD + Refine (D-076), T-018e breakthrough core (D-077).
+- Check PASS (126 passed tests). Cloud smoke skipped (roblox-open-cloud not connected; owner: build first). Food items have no source yet.
+- Next: T-018f breakthrough wiring. OLU ≈36.1 / 50 (+close-out).
+
 ## S13 (2026-10-30)
 - Done: T-016c HUD (pure HudLayout, client Hud replaces QiHud, headless-Chrome mock render 360×640, D-068); T-016d loadout screen (pure model+layout, OwnedKith attr, client UI for mouse/touch/gamepad, D-069). T-016 complete.
 - T-017 split a–c; T-017a pure Binding duel (D-070). 100 Lune tests, check.sh PASS.

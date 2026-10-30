@@ -9,12 +9,12 @@
 - Owner: Studio playtest of Crescent, combat, Stone Ward (Q/Y) and Wind Step (R/L2) (needs `wally install`). Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`).
 
 - **Phase:** 3 — Building (P-006 approved, D-049). Foundations done: R-021…R-026 + P-008 systems spec (S9, D-052).
-- **Doing:** T-018 (Resume from: T-018e Rank 1→2 breakthrough trial).
-- **NEXT:** T-017b server Binding, then T-017c UI; first a cloud smoke of the S13 build (`scripts/cloud_test.py`) — S13 got 404: `roblox-open-cloud` integration not enabled in this bot; owner must connect it.
+- **Doing:** T-018 (Resume from: T-018f breakthrough wiring).
+- **NEXT:** T-018f breakthrough wiring (server trial + shell-crack UI), then T-019 Crucible. Cloud smoke of S13–S14 builds still pending: `roblox-open-cloud` not connected in this bot; owner said build first, test later.
 - **Then:** T-017 … T-024 (ROADMAP.md order).
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of published v13 — check PC mouse aim (feedback → inbox). Open Cloud key works (read, Saved upload, Luau execution; S6).
-- **Last check.sh:** CHECK: PASS (2026-10-30, S13; 100 Lune tests)
+- **Last check.sh:** CHECK: PASS (2026-10-30, S14; 126 passed Lune tests)
 - **Notes:**
   - Direction changed in S3: the obby is dropped, and the game is an RI-inspired action RPG (D-013).
   - The `src/` code is an obby-era toolchain sample (D-019).
