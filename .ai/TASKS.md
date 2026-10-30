@@ -192,7 +192,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
 - **T-026 [todo] [M] R15 movement system (owner):** integrate the owner's `assets/source/R15 Movement System.rbxm` (inbox 2026-10-30-r15-movement). Split S28 into S-sized sub-tasks:
   - **T-026a [done S28] [S] Inspect:** Done (D-160): `research/notes/T-026a-r15-movement.md`. lune script `scripts/inspect_rbxm.luau` prints the instance tree (class, name, script line counts). AC: contents + plan in `research/notes/T-026a-r15-movement.md`, logged as a D-entry; source extracted to `build/` only (not committed).
   - **T-026b1 [done S28] [S] Feel:** Done (D-161): `Shared.MoveFeel` + spec, client `MoveFeelClient`. Turning, Lean, Bobbing Camera, LandAnim → pure `Shared.MoveFeel` + spec, thin client `MoveFeelClient`. AC: check.sh PASS. After T-026a.
-  - **T-026b2 [todo] [S] Footsteps:** Default + Water sounds only → pure `Shared.Footsteps` + spec, client player. AC: check.sh PASS.
+  - **T-026b2 [done S28] [S] Footsteps:** Done (D-162): `Shared.Footsteps` + `Shared.FootstepSounds` + spec, client `FootstepClient` (local player only). Default + Water sounds only → pure `Shared.Footsteps` + spec, client player. AC: check.sh PASS.
   - **T-026b3 [todo] [S] Sprint:** hold LeftControl / ButtonL3, speed in `Config`, server caps WalkSpeed; no clash with Dash (LeftShift) or Crucible (C). AC: check.sh PASS.
   - **T-026c [blocked] [S] Animations:** Animate2-style set from the kit's KeyframeSequences, uploaded under the owner (needs `roblox-open-cloud`); must not break combat, stagger, Binding or the HUD. After T-026b1.
   - **T-026d [blocked] [S] Cloud walk check:** needs `roblox-open-cloud`. After T-026c.
