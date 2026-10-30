@@ -62,6 +62,13 @@ local Config = {
 		maxChance = 0.9, -- experimental fusions never reach 100 %
 		woundedSeconds = 86400, -- fail Wounds one component for a day
 		woundedPower = 0.7,
+		focus = { -- focus mini-game (T-019b, D-082)
+			rounds = 3,
+			sweepSeconds = 1.2, -- one needle pass across the bar
+			zoneWidth = 0.18, -- share of the bar that counts as a hit
+			nearMiss = 0.12, -- partial credit beyond the zone edge
+			roundSeconds = 4, -- no press in time = 0 for the round
+		},
 	},
 	Stages = { -- 4 Stages per Rank as a Core Shell (T-018c, D-075); tune in playtests
 		baseCost = 50, -- points (1 Shard = 1 point) for Rank 1 First Stage
