@@ -1,6 +1,7 @@
 # STATE
 
-## Now (after S29)
+## Now (after S30)
+- S30: T-026b3b server speed guard (D-166): pure `Shared.SpeedGuard` + `SpeedGuardService` (flag, then move back; Dash/Wind Step allowed).
 - S29: shift lock on LeftControl (aim follows character facing), Sprint = LeftShift, Dash = Q, Stone Ward = V (D-164, D-165, owner request).
 - S28: T-026 R15 kit inspected and ported selectively (D-160): movement feel lean/bob/landing dip (D-161), surface footsteps (D-162), client sprint on LeftControl/L3 (D-163). Server speed guard T-026b3b next.
 - S27: T-021c hub assembly (D-147): pure `Shared.MistvaleHub` plan + `validate`, server `MistvaleHubBuilder` builds code proxies (houses, RestSpot, Crucible shrine, gate, lanterns, pines, Binding grove marker). T-025b done: 2 wild Mist Lotus in the grove, bindable (D-158) + loadout "Refine ×1.5" hint (D-159). Mesh swap waits for `roblox-open-cloud`.
@@ -28,11 +29,10 @@
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
   - T-023c Boss Rank-test credit + tuning · playtest needs `roblox-open-cloud` (T-023a/b done)
   - T-021a-v Cloud walk check · owner reconnects `roblox-open-cloud`
-  - T-026b3b Sprint speed guard (server) · — (T-026a, b1, b2, b3a done S28)
   - T-026c R15 animations (kit KeyframeSequences, re-upload) · `roblox-open-cloud`
   - T-026d R15 cloud walk check · T-026c + `roblox-open-cloud`
   - T-024 First 10 minutes · all above
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox). Owner: reconnect the `roblox-open-cloud` integration (cloud tests + publish fail: "not enabled for this project", S19).
-- **Last check.sh:** CHECK: PASS (2026-10-30, S29)
+- **Last check.sh:** CHECK: PASS (2026-10-30, S30)
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC C (F is Parry), gamepad D-pad Right.
