@@ -33,6 +33,8 @@ local Config = {
 		StoneWard = { cost = 15, cooldown = 6, seconds = 1.5 },
 		WindStep = { cost = 8, cooldown = 3, distance = 14, iframes = 0.3 },
 	},
+	-- Movement (T-026b3a, D-163): studs/s; accel in studs/s per second.
+	Movement = { walk = 16, sprint = 24, accel = 40 },
 	-- Combat core (T-013a, GDD §5): initial tuning, seconds unless noted.
 	Combat = {
 		chain = { steps = 5, window = 0.8, recovery = 0.3, damage = 6, range = 6, arcDot = 0.3 },

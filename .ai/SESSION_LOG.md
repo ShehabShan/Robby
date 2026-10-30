@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S28 (2026-10-30) — T-026 R15 movement kit
+- Split T-026 into a–d; inspected the owner's .rbxm (`scripts/inspect_rbxm.luau`, D-160): third-party kit, ported selectively.
+- T-026b1 movement feel (lean, camera bob, landing dip, D-161); T-026b2 surface footsteps (D-162); T-026b3a client sprint on LeftControl/L3 (D-163).
+- Next: T-026b3b server speed guard. T-026c/d need `roblox-open-cloud` (kit anims/sounds may need re-upload).
+- check.sh PASS. OLU ≈ 32 / 50.
+
 ## S26 / S27 (2026-10-30, one bot, two claims)
 - Done: T-021b Mistvale hub kit (D-146): `art/blender/hub_kit.py` builds 14 low-poly pieces (houses, gate, rest spot, Crucible shrine, fences, lantern, pines, rocks) → FBX/GLB + manifest, max 824 tris. check PASS.
 - Blocked: mesh upload to Roblox needs `roblox-open-cloud` (owner reconnect).
