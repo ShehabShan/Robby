@@ -150,5 +150,16 @@ Full notes + recommended stack table: `research/notes/R-016-tech-stack.md`.
   - Mobile-first budgets and streaming from day one; Lune locally + Jest Roblox in cloud (T-010).
 - **Unknowns:** Blink vs ByteNet (spike); rewind tolerances; T-010 still needs place ID + key.
 - **Sources:** see the notes file (23 sources).
-## R-017 … R-018
+### R-017 Content maturity & audience (done 2026-10-30)
+Full notes + tone table: `research/notes/R-017-maturity-audience.md`.
+- **Findings:**
+  - Labels: Minimal (occasional mild violence), Mild (repeated mild violence, unrealistic blood), Moderate (non-graphic realistic injury), Restricted (graphic violence) (create.roblox.com/docs/en-us/production/promotion/content-maturity).
+  - Restricted = 18+ ID-verified only, hidden from under-18s (en.help.roblox.com Restricted-Content-Policy).
+  - Always banned: torture, extreme gore, serious abuse (about.roblox.com/community-standards).
+- **→ Implications for Robby:**
+  - Target label **Mild** (D-024); Moderate only as fallback; never Restricted.
+  - Keep RI's cunning and scarcity as strategy and rivalry; no gore, corpses or cruelty; stylised hit effects; creatures merge, not devour.
+- **Unknowns:** exact age per label; discovery effect of Mild vs Moderate.
+- **Sources:** see the notes file (9 sources).
+## R-018
 Not started. See TASKS.md.
