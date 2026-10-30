@@ -109,6 +109,14 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - **R-020b [done S7] [S] Paths & killer moves:** Path list, attainment, killer-move composition, combat roles. Same AC shape (`R-020b-paths-killer-moves.md`).
   - **R-020c [done S7] [S] World structure, factions & progression pacing:** regions, clan/sect politics, rank pacing over the story, power gaps. Same AC shape (`R-020c-world-factions-pacing.md`).
   - **R-020d [done S7] [S] What fans value + GDD change list:** fan-favourite moments/mechanics (reviews, forums), then a consolidated GDD change list for P-006. AC: notes + RESEARCH.md entry + list.
+- **R-021…R-026 Foundations research (owner, 2026-10-30: "solid and flexible from the start"):** R-020 covered the source (*what*); these cover *how* to build systems that won't need rewrites. Each [S], one per session, same RESEARCH.md format + `research/notes/R-02x-*.md`.
+  - **R-021 [todo] [S] Ability/effect frameworks:** Unreal GAS (attributes, effects, tags), Path of Exile support gems (closest to Weave core + supports), Warframe mods, Roblox ability modules. AC: a recommended data-driven model where Kith, Weaves and Paths are data and new Kith need no new code.
+  - **R-022 [todo] [S] Stats, modifiers & damage math:** additive vs multiplicative stacking, caps, Rank-gap curves, avoiding power creep. AC: draft formulas + a small Python check of curves.
+  - **R-023 [todo] [S] Economy & progression simulation:** faucets/sinks, inflation and trade exploits in Roblox RPGs. AC: a Python sim plan + first results for Shards and Stage pacing.
+  - **R-024 [todo] [S] Save data & live-ops flexibility:** ProfileStore schema migration, feature flags, content versioning, remote config. AC: rules for adding systems without breaking saves.
+  - **R-025 [todo] [S] Combat netcode & anti-exploit:** how top Roblox action games (Rell Seas, Deepwoken, Blox Fruits) handle hits, lag and exploits. AC: confirm/adjust D-030.
+  - **R-026 [todo] [S] Retention & first session:** Roblox RPG D1/D7 benchmarks, onboarding, what keeps players. AC: adjust GDD §8.
+  - **P-008 [todo] [S] Systems spec:** turn R-021…R-026 into ARCHITECTURE v2 + data schemas (Kith/Weave/Path/Effect). Before T-002.
 - **T-006 [blocked] [S] Owner playtest:** publish to a private test place only with the owner's explicit OK; owner plays in the normal Roblox app; feedback saved to the inbox. Needs place ID + Open Cloud key.
 - After the spike: P-002 … P-006 continue.
 
