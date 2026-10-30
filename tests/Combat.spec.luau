@@ -36,14 +36,7 @@ return {
 		Combat.press(chain, C.chain.recovery, C.chain)
 		eq(Combat.press(chain, C.chain.recovery + C.chain.window + 0.01, C.chain), 1)
 	end,
-	["dash: i-frames then cooldown"] = function()
-		local d = Combat.newDash()
-		eq(Combat.dash(d, 10, C.dash), true)
-		eq(Combat.invulnerable(d, 10 + C.dash.iframes / 2), true, "in i-frames")
-		eq(Combat.invulnerable(d, 10 + C.dash.iframes + 0.01), false, "after")
-		eq(Combat.dash(d, 10 + C.dash.cooldown / 2, C.dash), false, "cooldown")
-		eq(Combat.dash(d, 10 + C.dash.cooldown + 0.001, C.dash), true, "ready")
-	end,
+
 	["parry: only inside the window, with cooldown"] = function()
 		local p = Combat.newParry()
 		eq(Combat.parries(p, 0), false, "never opened")

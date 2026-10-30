@@ -1,15 +1,13 @@
 --!strict
 -- Combat core state machines (T-013a, GDD §5 "Moves", ARCHITECTURE §3 Combat core). Pure: the server's
 -- CombatService owns one state per player and passes `now` (server clock) and Config.Combat in.
--- Light chain (5 hits), Dash (i-frames), Parry (tight window → stagger), Guard (meter; guard-break).
+-- Light chain (5 hits), Parry (tight window → stagger), Guard (meter; guard-break).
 
 export type ChainCfg = { steps: number, window: number, recovery: number }
-export type DashCfg = { cooldown: number, iframes: number }
 export type ParryCfg = { window: number, cooldown: number }
 export type GuardCfg = { max: number }
 
 export type Chain = { step: number, lastAt: number }
-export type Dash = { lastAt: number, iframeUntil: number }
 export type Parry = { openedAt: number, lastAt: number, window: number }
 export type Guard = { up: boolean, meter: number }
 
@@ -35,24 +33,6 @@ function Combat.press(chain: Chain, now: number, cfg: ChainCfg): number?
 	end
 	chain.lastAt = now
 	return chain.step
-end
-
--- Dash ---------------------------------------------------------------------------------------------
-function Combat.newDash(): Dash
-	return { lastAt = NEVER, iframeUntil = NEVER }
-end
-
-function Combat.dash(dash: Dash, now: number, cfg: DashCfg): boolean
-	if now - dash.lastAt < cfg.cooldown then
-		return false
-	end
-	dash.lastAt = now
-	dash.iframeUntil = now + cfg.iframes
-	return true
-end
-
-function Combat.invulnerable(dash: Dash, now: number): boolean
-	return now < dash.iframeUntil
 end
 
 -- Parry --------------------------------------------------------------------------------------------

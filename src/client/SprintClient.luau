@@ -1,5 +1,5 @@
 --!strict
--- Client sprint (T-026b3a, D-163): hold LeftShift / gamepad L3 to run (D-164). Q is Dash, LeftControl is shift lock, C is Crucible.
+-- Client sprint (T-026b3a, D-163): hold LeftShift / gamepad L3 to run (D-164). LeftControl is shift lock, B is Crucible; no dash (T-028, D-189).
 -- Ramps the local Humanoid.WalkSpeed via pure `Shared.Sprint`. Server speed guard is T-026b3b.
 
 local ContextActionService = game:GetService("ContextActionService")

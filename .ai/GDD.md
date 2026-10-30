@@ -74,9 +74,10 @@ Numbers are first targets to tune in playtests.
   |---|---|---|---|
   | Moves | E / left-click (Crescent Cut), Q, R | on-screen buttons | X / Y / B |
   | Light chain | left-click | tap | RT |
-  | Dash | Shift | dash button | B |
+  | Sprint (hold) | Shift | run button | L3 |
+  | Shift lock (toggle) | Ctrl | — | — |
   | Parry/guard | F | guard button | LB |
-- **Moves:** a 5-hit light chain. Each Kith move is a ranged or melee ability. Dash has i-frames. A parry in a tight window staggers the attacker. A guard-break counters turtling. Weaves are high-cost finishers.
+- **Moves:** a 5-hit light chain. Each Kith move is a ranged or melee ability. There is no free dash (D-189): dodging with i-frames is a Kith move (Wind Step). A parry in a tight window staggers the attacker. A guard-break counters turtling. Weaves are high-cost finishers.
 - **Feel targets (R-013):** the client animates instantly; hit-stop of about 3 frames; spark, flash and number on every hit; small non-drifting camera shake; bosses telegraph every big attack.
 - **Server validation (AGENTS §6):**
   - The server owns Qi, cooldowns, hit detection (it simulates projectiles and blockcasts itself) and damage.

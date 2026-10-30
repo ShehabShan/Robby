@@ -40,11 +40,11 @@ return {
 		eq(SpeedGuard.check(C, s, 18, 0, 0.5), "ok", "back to normal")
 		eq(SpeedGuard.check(C, s, 30, 0, 0.75), "flag", "strikes reset")
 	end,
-	["dash burst allows burst speed, then expires"] = function()
+	["Wind Step burst allows burst speed, then expires"] = function()
 		local s = SpeedGuard.new()
 		SpeedGuard.check(C, s, 0, 0, 0)
 		SpeedGuard.burst(C, s, 0)
-		eq(SpeedGuard.check(C, s, 15, 0, 0.25), "ok", "dash 60 studs/s")
+		eq(SpeedGuard.check(C, s, 15, 0, 0.25), "ok", "burst 60 studs/s")
 		eq(SpeedGuard.check(C, s, 30, 0, 0.5), "ok", "still in burst")
 		eq(SpeedGuard.check(C, s, 45, 0, 0.75), "flag", "burst over")
 	end,

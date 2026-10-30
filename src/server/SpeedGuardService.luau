@@ -1,6 +1,6 @@
 --!strict
 -- Server sprint speed guard (T-026b3b, D-166): samples each character's root position at 4 Hz and runs
--- the pure `Shared.SpeedGuard`. Accepted Dash and Wind Step open a burst window (`burst`). Repeated
+-- the pure `Shared.SpeedGuard`. An accepted Wind Step opens a burst window (`burst`). Repeated
 -- violations move the character back to its last good position (height kept) and log a warning.
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -14,7 +14,7 @@ local WIND_STEP_BURST = 0.25 -- mirrors BURST_SECONDS in client AbilityInput
 local G = Config.SpeedGuard
 local CFG: SpeedGuard.Cfg = {
 	sprint = Config.Movement.sprint,
-	burstSpeed = math.max(Config.Combat.dash.speed, Config.Abilities.WindStep.distance / WIND_STEP_BURST),
+	burstSpeed = Config.Abilities.WindStep.distance / WIND_STEP_BURST,
 	burstSeconds = G.burstSeconds,
 	tolerance = G.tolerance,
 	slack = G.slack,
@@ -34,7 +34,7 @@ local function stateFor(player: Player): SpeedGuard.State
 	return s
 end
 
--- Call when the server accepts a dash-like move for `player`.
+-- Call when the server accepts a burst move (Wind Step) for `player`.
 function SpeedGuardService.burst(player: Player)
 	SpeedGuard.burst(CFG, stateFor(player), os.clock())
 end

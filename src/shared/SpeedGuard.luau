@@ -1,6 +1,6 @@
 --!strict
 -- Sprint speed guard (T-026b3b, D-166). Pure server-side check of a player's planar (XZ) speed between
--- position samples. The normal limit is sprint speed; dash and Wind Step open a short burst window with a
+-- position samples. The normal limit is sprint speed; Wind Step opens a short burst window with a
 -- higher limit. `tolerance` (×) and `slack` (studs per sample) absorb replication jitter. `strikes`
 -- violations in a row ask the caller to correct (move back to the last good position); fewer are flagged.
 local SpeedGuard = {}
@@ -35,7 +35,7 @@ function SpeedGuard.reset(state: State)
 	state.x, state.z, state.goodX, state.goodZ, state.strikes = nil, nil, nil, nil, 0
 end
 
--- Dash / Wind Step accepted at `now`: allow burst speed for `burstSeconds`.
+-- Wind Step accepted at `now`: allow burst speed for `burstSeconds`.
 function SpeedGuard.burst(cfg: Cfg, state: State, now: number)
 	state.burstUntil = math.max(state.burstUntil, now + cfg.burstSeconds)
 end

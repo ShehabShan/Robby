@@ -164,7 +164,7 @@ Queue.Unreliable[1] = table.create(256)
 Queue.Unreliable[2] = table.create(256)
 Queue.Reliable[3] = table.create(256)
 Queue.Reliable[4] = table.create(256)
-export type ActionKind = ("Attack" | "Dash" | "Parry" | "Guard" | "Stance")
+export type ActionKind = ("Attack" | "Parry" | "Guard" | "Stance")
 function SerdesFunctions.WriteEVENT_CastRequest(Value: { moveId: string, aim: Vector3, point: Vector3?, seq: number }): ()
 	-- Allocate BLOCK: 17 bytes
 	local BLOCK_START = Allocate(17)
@@ -189,22 +189,20 @@ function SerdesFunctions.WriteEVENT_CastRequest(Value: { moveId: string, aim: Ve
 	buffer.writeu16(SendBuffer, BLOCK_START + 15, Value.seq)
 end
 
-function SerdesFunctions.WriteEVENT_Action(Value: { kind: ("Attack" | "Dash" | "Parry" | "Guard" | "Stance"), dir: Vector3?, seq: number }): ()
+function SerdesFunctions.WriteEVENT_Action(Value: { kind: ("Attack" | "Parry" | "Guard" | "Stance"), dir: Vector3?, seq: number }): ()
 	-- Allocate BLOCK: 5 bytes
 	local BLOCK_START = Allocate(5)
 	buffer.writeu8(SendBuffer, BLOCK_START + 0, 1)
 	if Value.kind == "Attack" then
 		buffer.writeu8(SendBuffer, BLOCK_START + 1, 0)
-	elseif Value.kind == "Dash" then
-		buffer.writeu8(SendBuffer, BLOCK_START + 1, 1)
 	elseif Value.kind == "Parry" then
-		buffer.writeu8(SendBuffer, BLOCK_START + 1, 2)
+		buffer.writeu8(SendBuffer, BLOCK_START + 1, 1)
 	elseif Value.kind == "Guard" then
-		buffer.writeu8(SendBuffer, BLOCK_START + 1, 3)
+		buffer.writeu8(SendBuffer, BLOCK_START + 1, 2)
 	elseif Value.kind == "Stance" then
-		buffer.writeu8(SendBuffer, BLOCK_START + 1, 4)
+		buffer.writeu8(SendBuffer, BLOCK_START + 1, 3)
 	else
-		error(`Unexpected enum: {Value.kind}, expected one of "Attack" or "Dash" or "Parry" or "Guard" or "Stance".`)
+		error(`Unexpected enum: {Value.kind}, expected one of "Attack" or "Parry" or "Guard" or "Stance".`)
 	end
 	buffer.writeu8(SendBuffer, BLOCK_START + 2, Value.dir ~= nil and 1 or 0)
 	if Value.dir ~= nil then
@@ -587,7 +585,7 @@ local Returns = table.freeze({
 		end
 	},
 	Action = {
-		Fire = function(Value: { kind: ("Attack" | "Dash" | "Parry" | "Guard" | "Stance"), dir: Vector3?, seq: number }): ()
+		Fire = function(Value: { kind: ("Attack" | "Parry" | "Guard" | "Stance"), dir: Vector3?, seq: number }): ()
 			SerdesFunctions.WriteEVENT_Action(Value)
 		end
 	},

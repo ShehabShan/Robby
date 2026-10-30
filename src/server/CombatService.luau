@@ -1,6 +1,6 @@
 --!strict
 -- Combat service (T-013b, D-050): thin server wiring for the pure `Combat` + `Rewind` modules.
--- Owns per-player chain/dash/parry/guard state, records every target's position at 20 Hz for 1 s and
+-- Owns per-player chain/parry/guard state, records every target's position at 20 Hz for 1 s and
 -- checks melee hits at now − min(ping, 250 ms). Every hit passes sanity checks (alive, i-frames,
 -- range + 4 studs, facing arc, line of sight); the Action remote is rate limited by a token bucket.
 -- F: press → Parry (opens the parry window and raises the guard); release → Guard (lowers it).
@@ -17,7 +17,6 @@ local DamageMath = require(ReplicatedStorage.Shared.DamageMath)
 local Status = require(ReplicatedStorage.Shared.Status)
 local BreakthroughService = require(script.Parent.BreakthroughService)
 local statuses = require(script.Parent.StatusStore)
-local SpeedGuardService = require(script.Parent.SpeedGuardService)
 local Net = require(script.Parent.Net) -- Blink-generated (net/remotes.blink)
 local RemoteGuard = require(script.Parent.RemoteGuard)
 local Abilities = require(script.Parent.Abilities)
@@ -30,7 +29,7 @@ local HIT_FX = "fx.combat.hit" -- generic HitFeel (T-014, src/client/HitFeel.lua
 
 type State = {
 	chain: Combat.Chain,
-	dash: Combat.Dash,
+
 	parry: Combat.Parry,
 	guard: Combat.Guard,
 	tokens: number,
@@ -48,7 +47,6 @@ local function stateFor(player: Player): State
 	if not s then
 		s = {
 			chain = Combat.newChain(),
-			dash = Combat.newDash(),
 			parry = Combat.newParry(),
 			guard = Combat.newGuard(C.guard),
 			tokens = C.rate.burst,
@@ -173,9 +171,6 @@ local function attack(player: Player, s: State, rawDir: any, now: number)
 			continue -- Stone Ward or Wind Step i-frames
 		end
 		if vs then
-			if Combat.invulnerable(vs.dash, now) then
-				continue
-			end
 			if Combat.parries(vs.parry, now) then
 				stagger(s, now, C.parry.stagger)
 				continue
@@ -203,9 +198,6 @@ function CombatService.incoming(victim: Player, amount: number, now: number): st
 		return "evaded"
 	end
 	local vs = stateFor(victim)
-	if Combat.invulnerable(vs.dash, now) then
-		return "evaded"
-	end
 	if Combat.parries(vs.parry, now) then
 		return "parried"
 	end
@@ -231,12 +223,6 @@ function CombatService.start()
 		local kind = value.kind
 		if kind == "Attack" then
 			attack(player, s, value.dir, now)
-		elseif kind == "Dash" then
-			if now >= s.staggerUntil then
-				if Combat.dash(s.dash, now, C.dash) then
-					SpeedGuardService.burst(player)
-				end
-			end
 		elseif kind == "Parry" then
 			Combat.parry(s.parry, now, C.parry)
 			Combat.setGuard(s.guard, true)
