@@ -141,4 +141,5 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
 - **T-013 [done S10] Combat core** (a+b):
   - **T-013a [done S10] [S] Combat core (pure):** `src/shared/Combat.luau` (5-hit chain, dash i-frames, parry window, guard meter + guard-break) + `src/shared/Rewind.luau` (1 s buffer, lookback clamped to 250 ms, injected lerp); `Config.Combat`; 8 tests in `tests/Combat.spec.luau`.
   - **T-013b [done S10] [S] CombatService + input:** `src/server/CombatService.luau` (Blink `Action`, per-player Combat state, 20 Hz/1 s Rewind, checks alive/i-frames/range+4/arc/LoS, parry staggers attacker, chain step 5 breaks guard, token bucket `Config.Combat.rate`) + `src/client/CombatInput.luau` (LMB/RT chain, Shift/B dash, F/LB press parry + hold guard). Crescent Cut moved off MB1 (E/ButtonX). Studio playtest due (owner).
+- **T-014 [todo] [S] HitFeel:** shared client hit-stop/shake/flash/numbers for all moves. Resume from: `src/client/CrescentFx.luau` (hitStop, shake, flash, burst).
 - **M1 tasks T-011 … T-024 [todo]:** see `.ai/ROADMAP.md` (IDs, scope and AC). Order: T-002 → T-010 → T-011 …

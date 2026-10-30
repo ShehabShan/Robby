@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S10 (2026-10-30)
+- Done: T-002c4 FX registry, T-002d1 ProfileSchema v1, T-002d2 packages + Blink IDL (T-002 done), T-011 Blink remotes, T-012 DataService, T-013a/b combat core + CombatService/CombatInput. 60 Lune tests, CHECK: PASS.
+- T-010 cloud runner written; blocked: `roblox-open-cloud` integration not enabled in this project.
+- Decisions D-055…D-059. Next: T-014 HitFeel (from `src/client/CrescentFx.luau` hit-stop/shake/flash), then T-015.
+- Owner: enable `roblox-open-cloud`; Studio playtest (run `wally install` first).
+
 ## S9 — 2026-10-30 (retention + systems spec)
 - R-026 retention: benchmarks, discovery signals, onboarding practice → GDD §8 becomes a 20-minute first session with funnel events (D-051).
 - P-008 systems spec: ARCHITECTURE v2 module map + `.ai/SCHEMAS.md` (Effect/Move/Kith/Weave/Path/Profile/remotes/analytics; D-052).

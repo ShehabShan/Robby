@@ -1,5 +1,11 @@
 # STATE
 
+## Now (after S10)
+- Done through T-013 (except T-010). Next task: **T-014 HitFeel** — extract hit-stop/shake/flash/numbers from `src/client/CrescentFx.luau` into a shared client `HitFeel` used by Crescent and CombatService hits (ART §5 items 2, 5).
+- Blocked: T-010 + cloud part of T-012 — `roblox-open-cloud` not enabled in this project; resume with `python3 scripts/cloud_test.py`.
+- Owner: Studio playtest of spike + combat (needs `wally install`). Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`).
+
+
 - **Phase:** 3 — Building (P-006 approved, D-049). Foundations done: R-021…R-026 + P-008 systems spec (S9, D-052).
 - **Doing:** none. T-002a, b, c1–c3 done S9.
 - **NEXT:** T-002c4 FX registry (resume from `src/client/CrescentFx.luau`), then T-002d, then T-010. Use a strong coding model.
