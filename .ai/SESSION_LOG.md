@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S16 (2026-10-30)
+- Done: T-018f breakthrough wiring (D-080); T-019a–d Crucible core, focus mini-game, server + Recoil + Wounded, Twin Crescent (D-081–D-084); T-019e Crucible UI (D-085), client wiring still open.
+- Note: S15 left no log entry (it published v14, D-078, and CONTRIBUTING, D-079).
+- Slip: 88d5f0b was pushed with CHECK FAIL (module missing); fixed in 9e29f7b.
+- Next: T-019e client CrucibleHud wiring, then T-020.
+
 ## S14 (2026-10-30)
 - Done: T-017b server Binding (BindingRules, BindingService, D-071); T-017c Binding UI (D-072) → T-017 complete.
 - T-018 split a–f; done T-018a Upkeep/Strain core (D-073), T-018b server Upkeep/Strain + Feed (D-074), T-018c Stages core (D-075), T-018d Core Shell HUD + Refine (D-076), T-018e breakthrough core (D-077).
