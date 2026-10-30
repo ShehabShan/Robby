@@ -62,5 +62,22 @@
   - about.roblox.com/newsroom/2026/06/optimizing-discovery-great-games-reach-millions-players-roblox
   - create.roblox.com/docs/production/monetization
 
-## R-010 … R-018
+### R-011 Source study: Reverend Insanity (done 2026-10-30)
+Full notes: `research/notes/R-011-reverend-insanity.md`.
+- **Findings:**
+  - Abilities are living creatures (Gu), ranked 1–9 (1–5 mortal, 6–9 immortal), each needing a specific food (sagaofgu.com/cultivation/gu-worms).
+  - Gained by subduing wild ones or fusing two + materials via recipes into a higher rank (sagaofgu.com/cultivation/refinement).
+  - Killer moves = fixed combos of several Gu, stronger but costlier; formations = placed, breakable setups (sagaofgu.com/cultivation/killer-moves).
+  - Cultivation: inner aperture stores essence; 9 ranks × 4 stages; aptitude A–D sets pool/regen/ceiling; essence colour changes per rank (sagaofgu.com/cultivation/aperture).
+  - World: mountain clan villages, bloodline clans vs. lone outcasts; talent-based sects in the centre (sagaofgu.com/factions).
+  - Fans love strategic plotting and a cruel, logical world; critics cite length, pacing, bleakness (ficfun.com, goodnovel.com reviews).
+  - Gu is real Chinese folklore (jar of venomous creatures); xianxia realms/sects/tribulations are genre conventions (en.wikipedia.org/wiki/Gu_(poison), /wiki/Xianxia).
+- **→ Implications for Robby:**
+  - Core fantasy candidate: tame, feed, fuse and combo living abilities on a colour-coded rank ladder.
+  - Combos and path affinities give action-RPG build depth; clan vs. outcast = faction choice.
+  - Keep the cunning tone, but neutral wording for minors; all names and plot original (D-014).
+  - Don't tie gu users to any real ethnic group (folklore stereotype).
+- **Unknowns:** whether feeding upkeep is fun or a chore; details of dao marks; sources are wikis/reviews, not the novel.
+- **Sources:** see the notes file (30 sources).
+## R-012 … R-018
 Not started. See TASKS.md.
