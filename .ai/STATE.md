@@ -1,6 +1,7 @@
 # STATE
 
 ## Now (after S25)
+- S25 (2nd claim): T-022c part 1, beast labels: Rank colour band + red "!" during the wind-up (D-135). T-022c stays doing (Resume from: telegraph VFX/SFX, playtest).
 - S25: T-022a/b beasts (D-124, D-125): pure `BeastBrain` + `BeastService`, Mistfang + Stonehide Boar in zone 1, telegraphs ≥ 0.4 s, Shards on kill. T-022c (feel/playtest) open.
 - S22: T-025a Mist Lotus utility Kith: ×1.5 Refine while equipped (D-112). T-025b (world placement) waits for T-021c.
 - S19: T-021a Mistvale code terrain + StreamingEnabled (D-100). Cloud walk check blocked: `roblox-open-cloud` "not enabled for this project".
@@ -19,7 +20,7 @@
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-021b Mistvale hub kit (Blender) · —
-  - T-022c Beast feel + playtest · — (T-022a/b done)
+  - T-022c Beast feel + playtest (doing: VFX/SFX + tuning left) · —
   - T-021c Hub assembly · T-021b (T-021a done)
   - T-023 Boss + arena · — (T-022a/b done)
   - T-025b Lotus in the world · T-021c (T-025a done)
