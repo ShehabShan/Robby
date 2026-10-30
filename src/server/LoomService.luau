@@ -9,6 +9,7 @@ local Config = require(ReplicatedStorage.Shared.Config)
 local All = require(ReplicatedStorage.Shared.Content.All)
 local Loadout = require(ReplicatedStorage.Shared.Loadout)
 local Loom = require(ReplicatedStorage.Shared.Loom)
+local PathMarks = require(ReplicatedStorage.Shared.PathMarks)
 local Registry = require(ReplicatedStorage.Shared.Registry)
 local DataService = require(script.Parent.DataService)
 local RefineService = require(script.Parent.RefineService)
@@ -25,6 +26,7 @@ function LoomService.publish(player: Player, data: any)
 		table.insert(parts, `{w.core}={table.concat(w.supports or {}, "+")}`)
 	end
 	player:SetAttribute("Weaves", table.concat(parts, ","))
+	player:SetAttribute("Marks", PathMarks.encode(data.marks)) -- Path Marks for the Loom panel (T-020f)
 end
 
 function LoomService.start()

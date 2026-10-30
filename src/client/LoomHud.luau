@@ -12,6 +12,7 @@ local Config = require(ReplicatedStorage.Shared.Config)
 local All = require(ReplicatedStorage.Shared.Content.All)
 local HudLayout = require(ReplicatedStorage.Shared.HudLayout)
 local LoomUi = require(ReplicatedStorage.Shared.LoomUi)
+local PathMarks = require(ReplicatedStorage.Shared.PathMarks)
 local Registry = require(ReplicatedStorage.Shared.Registry)
 
 local built = Registry.build(All.content(Config))
@@ -77,7 +78,9 @@ function LoomHud.start(net: any)
 	end
 	local function state(): LoomUi.State?
 		local core, support = pick()
-		local v = if core and support then LoomUi.view(Config, built, core, support, nil) else nil
+		local v = if core and support
+			then LoomUi.view(Config, built, core, support, PathMarks.decode(player:GetAttribute("Marks")))
+			else nil
 		if not core or not v then
 			return nil
 		end
@@ -210,7 +213,7 @@ function LoomHud.start(net: any)
 		resonance = acted and player:GetAttribute("ResonanceHint") ~= nil
 		draw()
 	end)
-	for _, name in { "WeaveResult", "Weaves", "AtRest", "SlotCount", "Slot1", "Slot2", "Slot3" } do
+	for _, name in { "Marks", "WeaveResult", "Weaves", "AtRest", "SlotCount", "Slot1", "Slot2", "Slot3" } do
 		player:GetAttributeChangedSignal(name):Connect(draw)
 	end
 	draw()

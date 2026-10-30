@@ -103,6 +103,7 @@ local function applyOnHit(shot: Shot, humanoid: Humanoid): number
 				local amount = DamageMath.compute({ base = base or 0, rank = 1, boost = boost, friction = friction })
 				if data then
 					PathMarks.award(data, Config, path, 1) -- Path Marks by use (T-020b, D-089)
+					shot.caster:SetAttribute("Marks", PathMarks.encode(data.marks)) -- Loom panel (T-020f, D-122)
 				end
 				humanoid:TakeDamage(amount)
 				BreakthroughService.onDamage(shot.caster, amount) -- trial cracks (T-018f)

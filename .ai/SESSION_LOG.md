@@ -1,5 +1,9 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S23 (2026-10-30)
+- Same bot as S18–S21. Done: T-020f Path Marks to client (D-122): Loom panel shows real Friction + boost.
+- Check PASS. Next: T-021b / T-022 / T-025. OLU ≈36 / 50 (S18–S23 together).
+
 ## S21 (2026-10-30)
 - Same bot as S18/S20. Done: T-020e Loom client wiring (D-111) → **T-020 complete**.
 - Check PASS. Next: free lanes T-021b / T-022 / T-025 (T-021a claimed by S19). OLU ≈29 / 50 (S18+S20+S21 together).

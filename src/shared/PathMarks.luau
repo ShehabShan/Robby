@@ -38,4 +38,26 @@ function PathMarks.hitMods(cfg: any, marks: { [string]: number }?, path: string?
 	return DamageMath.marksBoost(own), Loom.friction(cfg, path, marks)
 end
 
+-- `Marks` attribute for the client (T-020f): "path.flame=3,path.moon=12", whole Marks, sorted.
+function PathMarks.encode(marks: { [string]: number }?): string
+	local m: { [string]: number } = marks or {}
+	local parts = {}
+	for path, v in m do
+		table.insert(parts, `{path}={math.floor(v)}`)
+	end
+	table.sort(parts)
+	return table.concat(parts, ",")
+end
+
+function PathMarks.decode(attr: any): { [string]: number }
+	local out: { [string]: number } = {}
+	if type(attr) ~= "string" then
+		return out
+	end
+	for path, v in string.gmatch(attr, "([^,=]+)=(%d+)") do
+		out[path] = tonumber(v) or 0
+	end
+	return out
+end
+
 return PathMarks
