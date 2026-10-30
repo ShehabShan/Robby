@@ -7,7 +7,8 @@
 - Owner asked for solid, flexible systems: R-021…R-026 + P-008 planned (D-037). R-022 stat/damage maths done (notes + sim).
 - Owner: follow the source as closely as Rell Seas follows One Piece. F-001 fidelity audit + GDD fixes (D-038).
 - Owner suggested prep before R-021: added R-021p ability needs catalogue (D-039).
-- OLU used: ~40. Next: R-021p in a fresh session, then R-021.
+- Owner sent a directive list (another AI's): saved to research/inbox, R-027 triage task added first (D-040).
+- OLU used: ~44. Next: R-027 in a fresh session, then R-021p.
 
 ## S6 — 2026-10-30 (spike wiring + planning)
 - T-004 done: Crescent Cut server/client wiring, code VFX, dummy; obby sample removed. T-005 done: place inspect PASS (in check.sh).
