@@ -15,6 +15,7 @@ local CrescentFx = require(script.CrescentFx)
 local KithFx = require(script.KithFx)
 local CombatInput = require(script.CombatInput)
 local Hud = require(script.Hud)
+local LoadoutUi = require(script.LoadoutScreen)
 local Net = require(script.Net) -- Blink-generated (net/remotes.blink)
 
 local player = Players.LocalPlayer
@@ -63,3 +64,4 @@ Net.HitFx.On(function(v)
 end)
 
 Hud.start(built) -- HP/Qi bars, slot bar, gap warning (T-016c, D-068)
+LoadoutUi.start(built, Net) -- equip/unequip screen (T-016d, D-069)

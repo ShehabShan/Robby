@@ -9,6 +9,7 @@ local Config = require(ReplicatedStorage.Shared.Config)
 local Registry = require(ReplicatedStorage.Shared.Registry)
 local All = require(ReplicatedStorage.Shared.Content.All)
 local Loadout = require(ReplicatedStorage.Shared.Loadout)
+local LoadoutScreen = require(ReplicatedStorage.Shared.LoadoutScreen)
 local DataService = require(script.Parent.DataService)
 local Net = require(script.Parent.Net) -- Blink-generated (net/remotes.blink)
 
@@ -26,6 +27,7 @@ function LoadoutService.publish(player: Player, data: any)
 		player:SetAttribute(`Slot{i}Uid`, if inst then uid else nil)
 	end
 	player:SetAttribute("LoadoutGaps", table.concat(Loadout.gaps(data.loadout, data.kith, built, Config), ","))
+	player:SetAttribute("OwnedKith", LoadoutScreen.encodeOwned(data.kith)) -- loadout screen list (T-016d, D-069)
 end
 
 function LoadoutService.start()

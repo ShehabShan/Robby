@@ -1,5 +1,10 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S13 (2026-10-30)
+- Done: T-016c HUD (pure HudLayout, client Hud replaces QiHud, headless-Chrome mock render 360×640, D-068); T-016d loadout screen (pure model+layout, OwnedKith attr, client UI for mouse/touch/gamepad, D-069). T-016 complete.
+- 94 Lune tests, check.sh PASS. Not cloud-tested or published.
+- Next: cloud smoke, then T-017. OLU used: ~28.
+
 ## S12 (2026-10-30)
 - Checked S11 push: code fine; cloud re-run PASS (v8) after upload timeout fix (600 s).
 - Done: T-016 split a–d; T-016a pure Loadout (D-063); T-016b starter Kith, cast gate, Equip remote (D-064). 79 tests, cloud v9 PASS.
