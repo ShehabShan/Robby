@@ -75,6 +75,16 @@ return {
 		eq((LoomUi.pickCore(built, {})), nil, "nothing equipped")
 		eq((LoomUi.pickCore(built, { "kith.gone" })), nil, "unknown species")
 	end,
+	["loom ui: result text for set, cleared, refused (T-020g)"] = function()
+		local s = st("pc", 1280, 720, true)
+		s.resonance = false
+		s.result = "ok"
+		eq((LoomUi.resultText(s)), "Weave set.", "set")
+		s.result = "cleared"
+		eq((LoomUi.resultText(s)), "Weave removed.", "cleared")
+		s.result = "not at a rest spot"
+		eq((LoomUi.resultText(s)), "Refused: not at a rest spot", "refused")
+	end,
 	["loom ui: parseWeaves"] = function()
 		local m = LoomUi.parseWeaves("move.crescent_cut=support.piercing,move.x=support.a+support.b")
 		eq(m["move.crescent_cut"][1], "support.piercing", "one")

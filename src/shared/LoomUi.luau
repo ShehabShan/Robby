@@ -21,7 +21,7 @@ export type State = {
 	friction: number, -- 0 or negative (Loom.friction)
 	boost: number, -- 0 or positive (DamageMath.marksBoost)
 	woven: boolean, -- this Weave is already set (button clears it)
-	result: string?, -- `WeaveResult`: "ok" or the reason
+	result: string?, -- `WeaveResult`: "ok", "cleared" or the reason
 	resonance: boolean, -- first time this Weave was made
 }
 
@@ -121,6 +121,8 @@ function LoomUi.resultText(s: State): (string?, HudLayout.Rgb)
 		return "Resonance! New Weave recorded in your journal.", GOOD
 	elseif s.result == "ok" then
 		return "Weave set.", GOOD
+	elseif s.result == "cleared" then
+		return "Weave removed.", WHITE -- Unweave (T-020g, D-123)
 	elseif s.result then
 		return `Refused: {s.result}`, WARN
 	end

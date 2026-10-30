@@ -1,5 +1,9 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S24 (2026-10-30)
+- Same bot as S18–S23. Done: T-020g Unweave message fix (D-123).
+- Check PASS. Next: T-021b / T-022. OLU ≈38 / 50 (S18–S24 together).
+
 ## S23 (2026-10-30)
 - Same bot as S18–S21. Done: T-020f Path Marks to client (D-122): Loom panel shows real Friction + boost.
 - Check PASS. Next: T-021b / T-022 / T-025. OLU ≈36 / 50 (S18–S23 together).

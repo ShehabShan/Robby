@@ -46,7 +46,7 @@ function LoomService.start()
 			local allowed = Loadout.allowedMoves(data.loadout, data.kith, built)
 			ok, why, first = Loom.set(data, Config, built, allowed, core, { support }, os.time())
 		end
-		player:SetAttribute("WeaveResult", if ok then "ok" else why)
+		player:SetAttribute("WeaveResult", if ok and support == "" then "cleared" elseif ok then "ok" else why)
 		if first then
 			player:SetAttribute("ResonanceHint", Loom.weaveIdFor(core)) -- first time this Weave is made (journal)
 		end
