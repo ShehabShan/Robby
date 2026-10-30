@@ -20,6 +20,13 @@ local Config = {
 			spawnOffset = 3, -- studs in front of the caster
 		},
 	},
+	-- Combat core (T-013a, GDD §5): initial tuning, seconds unless noted.
+	Combat = {
+		chain = { steps = 5, window = 0.8, recovery = 0.3 },
+		dash = { cooldown = 1.2, iframes = 0.25 },
+		parry = { window = 0.2, cooldown = 1.0, stagger = 1.0 },
+		guard = { max = 100, regenPerSecond = 25, breakStagger = 1.5 },
+	},
 }
 
 return Config
