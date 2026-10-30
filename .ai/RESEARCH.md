@@ -189,3 +189,15 @@ Built from R-011…R-017. All names are working names (D-023); label Mild (D-024
 - Cost: low–medium (procedural rooms, fewer hand-built maps).
 
 **Recommendation:** A as the game, with B (clans) and C (crucible runs) as later modes on the same combat and creature systems. Start small: the A vertical slice.
+
+### R-019 RI systems map + first-ability pick (done 2026-10-30)
+Full map (18 systems) and ability notes: `research/notes/R-019-systems-map.md`.
+- **Findings:**
+  - RI's most iconic early attack is a rank 1 crescent creature that throws pale-blue crescent blades at range for ~10% of a rank-1 pool; it eats moon-flower petals and later fuses into a rank 2 version (sagaofgu.com/gu/moonlight-gu).
+  - Other popular early creatures: permanent-strength boars, an essence-refining worm (sagaofgu.com/gu/white-boar-gu, /gu/liquor-worm).
+  - A crescent projectile can be built in code: Trail/Beam/neon parts + particles + tween, spherecast hitbox (roclicks.gg/resources/vfx/beams-trails-projectiles).
+- **→ Implications for Robby:**
+  - Every RI system gets a Robby mirror with its own working name (Kith, Core/Qi, Binding, Crucible fusion, Weaves, Paths, Arrays, Clans/Rogues).
+  - Spike ability: **Crescent Kith → Crescent Cut** (Moon path, rank 1).
+- **Unknowns:** numbers (P-007); whether code-built VFX look shiny enough (T-004).
+- **Sources:** see the notes file (10 sources).
