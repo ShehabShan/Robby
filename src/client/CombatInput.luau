@@ -4,6 +4,7 @@
 -- The dash moves the local character (it owns its physics); the server only grants the i-frames.
 
 local ContextActionService = game:GetService("ContextActionService")
+local AimDir = require(script.Parent.AimDir)
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -31,7 +32,7 @@ function CombatInput.start(send: Send)
 		if not camera then
 			return nil
 		end
-		local look = camera.CFrame.LookVector
+		local look = AimDir.look(camera)
 		local flat = Vector3.new(look.X, 0, look.Z)
 		return if flat.Magnitude > 0.01 then flat.Unit else nil
 	end

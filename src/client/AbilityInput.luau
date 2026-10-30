@@ -4,6 +4,7 @@
 -- (moveId, aim, seq; SCHEMAS §9). The server decides everything that matters.
 
 local ContextActionService = game:GetService("ContextActionService")
+local AimDir = require(script.Parent.AimDir)
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -55,7 +56,7 @@ function AbilityInput.start(
 		if typeof(qi) == "number" and qi < (move.costs.qi or 0) then
 			return Enum.ContextActionResult.Sink
 		end
-		local look = camera.CFrame.LookVector
+		local look = AimDir.look(camera)
 		local x, z, ok = Projectile.flatten(look.X, look.Z)
 		if not ok then
 			return Enum.ContextActionResult.Sink
