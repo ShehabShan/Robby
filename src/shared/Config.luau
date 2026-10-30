@@ -28,6 +28,16 @@ local Config = {
 		guard = { max = 100, regenPerSecond = 25, breakStagger = 1.5 },
 		rate = { perSecond = 12, burst = 6 }, -- Action remote token bucket
 	},
+	-- Hit feel for every hit (T-014, ART §5 items 2 and 5). Seconds unless noted.
+	HitFeel = {
+		hitStopFrames = 3, -- clamped to 2–4
+		shakeSeconds = 0.15,
+		shakeAmplitude = 0.25, -- studs
+		flashSeconds = 0.1,
+		numberSeconds = 0.6,
+		numberRise = 2, -- studs
+		sparks = 24,
+	},
 }
 
 return Config

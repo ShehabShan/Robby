@@ -19,7 +19,7 @@ local C = Config.Combat
 local RECORD_DT = 1 / 20
 local BUFFER_SECONDS = 1
 local RANGE_SLACK = 4
-local HIT_FX = "fx.crescent.hit" -- shared hit FX until HitFeel (T-014)
+local HIT_FX = "fx.combat.hit" -- generic HitFeel (T-014, src/client/HitFeel.luau)
 
 type State = {
 	chain: Combat.Chain,

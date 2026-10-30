@@ -8,6 +8,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Config = require(ReplicatedStorage.Shared.Config)
 local Crescent = require(ReplicatedStorage.Shared.Content.Crescent)
 local FxRegistry = require(ReplicatedStorage.Shared.FxRegistry)
+local HitFeel = require(script.HitFeel)
 local Registry = require(ReplicatedStorage.Shared.Registry)
 local AbilityInput = require(script.AbilityInput)
 local CrescentFx = require(script.CrescentFx)
@@ -18,6 +19,7 @@ local player = Players.LocalPlayer
 local built: any = Registry.build(Crescent.content(Config))
 local fx = FxRegistry.new()
 CrescentFx.register(fx)
+HitFeel.register(fx)
 for _, id in FxRegistry.missingFor(fx, built) do
 	warn("No FX handler for " .. id)
 end

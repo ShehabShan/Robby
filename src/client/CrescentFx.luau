@@ -3,13 +3,14 @@
 -- Cosmetic only: nothing here decides hits.
 
 local Debris = game:GetService("Debris")
-local Players = game:GetService("Players")
+
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 
 local Config = require(ReplicatedStorage.Shared.Config)
 local FxRegistry = require(ReplicatedStorage.Shared.FxRegistry)
+local HitFeel = require(script.Parent.HitFeel)
 
 local cfg = Config.Abilities.CrescentCut
 local BLUE = Color3.fromRGB(150, 205, 255)
@@ -18,7 +19,6 @@ local RADIUS = 3
 local ARC = math.rad(120)
 local SPARK_TEXTURE = "rbxasset://textures/particles/sparkles_main.dds"
 local CAST_SOUND = "rbxasset://sounds/swordslash.wav" -- placeholder
-local HIT_SOUND = "rbxasset://sounds/swordlunge.wav" -- placeholder
 
 local CrescentFx = {}
 
@@ -157,98 +157,8 @@ function CrescentFx.swipe(character: Model)
 	end
 end
 
-local function burst(position: Vector3, amount: number)
-	local anchor = fxPart(Vector3.new(0.1, 0.1, 0.1))
-	anchor.Transparency = 1
-	anchor.Position = position
-	anchor.Parent = workspace
-	local sparks = emitter(0)
-	sparks.Lifetime = NumberRange.new(0.2, 0.35)
-	sparks.Speed = NumberRange.new(8, 16)
-	sparks.SpreadAngle = Vector2.new(180, 180)
-	sparks.Parent = anchor
-	sparks:Emit(24)
-
-	local gui = Instance.new("BillboardGui")
-	gui.Size = UDim2.fromOffset(80, 40)
-	gui.StudsOffset = Vector3.new(0, 2, 0)
-	gui.AlwaysOnTop = true
-	gui.Parent = anchor
-	local label = Instance.new("TextLabel")
-	label.Size = UDim2.fromScale(1, 1)
-	label.BackgroundTransparency = 1
-	label.Font = Enum.Font.GothamBold
-	label.TextScaled = true
-	label.TextColor3 = Color3.new(1, 1, 1)
-	label.TextStrokeTransparency = 0
-	label.Text = tostring(math.floor(amount + 0.5))
-	label.Parent = gui
-	local info = TweenInfo.new(0.6)
-	TweenService:Create(gui, info, { StudsOffset = Vector3.new(0, 4, 0) }):Play()
-	TweenService:Create(label, info, { TextTransparency = 1, TextStrokeTransparency = 1 }):Play()
-	sound(HIT_SOUND, anchor, 0.7)
-	Debris:AddItem(anchor, 1)
-end
-
-local function flash(target: Model)
-	local h = Instance.new("Highlight")
-	h.FillColor = Color3.new(1, 1, 1)
-	h.FillTransparency = 0.2
-	h.OutlineTransparency = 1
-	h.DepthMode = Enum.HighlightDepthMode.Occluded
-	h.Parent = target
-	Debris:AddItem(h, 0.1)
-end
-
--- 3-frame hit-stop: pause the attacker's playing animations briefly.
-local function hitStop(humanoid: Humanoid)
-	local animator = humanoid:FindFirstChildOfClass("Animator")
-	if not animator then
-		return
-	end
-	local tracks = animator:GetPlayingAnimationTracks()
-	for _, t in tracks do
-		t:AdjustSpeed(0)
-	end
-	task.delay(3 / 60, function()
-		for _, t in tracks do
-			t:AdjustSpeed(1)
-		end
-	end)
-end
-
--- Small camera shake that always returns to zero (no drift).
-local function shake(humanoid: Humanoid)
-	local start = os.clock()
-	local conn: RBXScriptConnection? = nil
-	conn = RunService.RenderStepped:Connect(function()
-		local t = os.clock() - start
-		if t >= 0.15 then
-			humanoid.CameraOffset = Vector3.zero
-			if conn then
-				conn:Disconnect()
-			end
-			return
-		end
-		local k = 0.25 * (1 - t / 0.15)
-		humanoid.CameraOffset = Vector3.new((math.random() - 0.5) * k, (math.random() - 0.5) * k, 0)
-	end)
-end
-
 function CrescentFx.hit(caster: Player, target: Model?, amount: number, position: Vector3)
-	burst(position, amount)
-	if target then
-		flash(target)
-	end
-	local me = Players.LocalPlayer
-	local character = me.Character
-	if caster == me and character then
-		local humanoid = character:FindFirstChildOfClass("Humanoid")
-		if humanoid then
-			hitStop(humanoid)
-			shake(humanoid)
-		end
-	end
+	HitFeel.play(caster, target, amount, position)
 end
 
 -- Registers the Crescent handlers under the fx ids its Content names (T-002c4).
