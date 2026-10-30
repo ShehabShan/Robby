@@ -5,7 +5,8 @@
 - P-002c GDD v2 (D-034), ROADMAP M1 re-scoped + T-025 (D-035), phone HUD mock (D-036) + Weave Loom mock (art/mocks/).
 - P-006 summary ready (.ai/P-006-summary.md). AGENTS §6: Open Cloud confirmed working, no re-probe; owner can switch models (D-033).
 - Owner asked for solid, flexible systems: R-021…R-026 + P-008 planned (D-037). R-022 stat/damage maths done (notes + sim).
-- OLU used: ~33. Next: R-021 in a fresh session.
+- Owner: follow the source as closely as Rell Seas follows One Piece. F-001 fidelity audit + GDD fixes (D-038).
+- OLU used: ~39. Next: R-021 in a fresh session.
 
 ## S6 — 2026-10-30 (spike wiring + planning)
 - T-004 done: Crescent Cut server/client wiring, code VFX, dummy; obby sample removed. T-005 done: place inspect PASS (in check.sh).

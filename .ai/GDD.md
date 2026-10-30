@@ -16,6 +16,7 @@ Numbers are first targets to tune in playtests.
 - **Grim world, rewarding play (R-020d):** the world is cold and survival-of-the-fittest, but the player gets frequent wins, clear goals and very little text. Systems are the star: every rule is consistent and learnable, and smart builds beat raw grind.
 - **Anti-genre-trap rules (R-020d):** no "click to boost a stat" loops; skill-based combat; every progression step offers a build choice.
 - **Maturity:** Roblox **Mild** (D-024). Stylised hits with no blood, corpses or gore. Kith **merge**, never devour. Defeat means a stagger and a respawn.
+- **Fidelity (D-038):** follow the source as closely as Rell Seas follows One Piece — same systems, Rank feel, world structure, politics, iconic ability roles and set-piece events — with our own names and looks (`research/notes/F-001-fidelity-audit.md`).
 - **IP line (D-014):** use only mirror concepts from R-019. No RI names, places, characters, plot or text.
 
 ## 3. Core loop
@@ -93,6 +94,7 @@ Numbers are first targets to tune in playtests.
 ## 7. World structure
 - **Five Reaches** (working names): **Mistvale** (start, temperate valleys, Moon/Wind Paths), Ember Steppe (Flame), Stonecrown (Stone), Tidefall coast, and the Hollow (endgame). **Veils** between Reaches need a Rank gate (Reach 2 at Rank 2, and so on) and a short Veil trial where stats are briefly damped; high-Rank players are damped in starter Reaches (anti-grief).
 - **A society per Reach (R-020c):** Mistvale = bloodline Clans; Ember Steppe = nomad bands; Tidefall = island houses; Stonecrown = merit **Halls** (join by an entrance skill trial; Hall rank unlocks rare Kith and recipes); the Hollow = no rule.
+- **Clan Academy (Mistvale, first arc):** new cultivators train here: a monthly Shard stipend, a Rank-test exam that gates leaving the valley, and rival classmate NPCs who reappear later as rivals or allies.
 - **Clan hub (Mistvale):** an NPC **Elder Council** pays monthly stipends by contribution; the **Mission Hall** board holds daily bounties; two rival elders offer side quests, and their favour unlocks their Weave hints.
 - **Path Ground:** some zones and boss arenas buff one Path and debuff its opposed Paths, so Reach and party mix matter.
 - **Mistvale layout:** a safe hub village (shops, Crucible, rest, journal), 3 hunting zones of rising tier, 1 Binding grove, 1 rival camp, and 1 boss arena.
@@ -130,5 +132,5 @@ Numbers are first targets to tune in playtests.
 - **Quality bar:** the measurable bar in `.ai/ART.md` (P-003), built on R-013: instant client feedback, hit-stop/VFX/SFX on every hit, telegraphed boss attacks, stable 60 fps on mid-range mobile.
 
 ## 12. Out of scope (for now)
-- Ascendant Ranks 6–9 (incl. world-unique **Singular Kith**), Reaches 2–5, Arrays and **Party Arrays**, **Hybrid Weaves**, sub-Paths, the **Wild Surge** server event (M2), **Legacy Vault** dungeons with Warden rules (M2–M3), ranked PvP, trading UI polish, housing, voice chat, localisation, and the battle-pass.
+- Ascendant Ranks 6–9 (incl. world-unique **Singular Kith**, a personal pocket-world **Sanctum**, and **Trials of Heaven** breakthrough calamities), Reaches 2–5, Arrays and **Party Arrays**, **Hybrid Weaves**, sub-Paths, the **Wild Surge** server event (M2), **Legacy Vault** dungeons with Warden rules (M2–M3), ranked PvP, trading UI polish, housing, voice chat, localisation, and the battle-pass.
 - Revisit after the vertical slice playtest (P-005 roadmap).
