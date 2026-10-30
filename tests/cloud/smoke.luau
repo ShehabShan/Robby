@@ -63,6 +63,17 @@ if humanoid and dmg then
 	check("dummy HP -20", before - humanoid.Health == 20, string.format("%d -> %d", before, humanoid.Health))
 end
 
+local okMock, mockVersion = pcall(function()
+	local ProfileStore = require(game:GetService("ServerScriptService").ServerPackages.ProfileStore)
+	local ProfileSchema = require(ReplicatedStorage.Shared.ProfileSchema)
+	local store = ProfileStore.New("SmokeTest", ProfileSchema.template())
+	local profile = store.Mock:StartSessionAsync("smoke")
+	local data = ProfileSchema.load(profile.Data)
+	profile:EndSession()
+	return data and data.schemaVersion
+end)
+check("mock profile v1 (ProfileStore)", okMock and mockVersion == 1, mockVersion)
+
 local allPass = true
 for _, r in results do
 	print(r)

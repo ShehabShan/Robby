@@ -1,7 +1,7 @@
 --!strict
 -- Ability server authority (ARCHITECTURE v2 §3, SCHEMAS §5, T-002c3): one CastRequest path driven by Content data.
 -- Registry (validated Content) → Moves (costs, cooldown per (caster, moveId)) → Deliveries/Projectile (travel, pierce)
--- → Effects (onHit) → DamageMath. Remotes keep the spike's shape so the client and FX stay unchanged.
+-- → Effects (onHit) → DamageMath. Remotes are Blink-generated (Net.luau, T-011); CastFx/HitFx carry Content fx ids.
 -- The server never trusts the client: aim is validated, Qi, cooldown and alive state are server-side.
 
 local Players = game:GetService("Players")
