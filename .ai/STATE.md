@@ -8,7 +8,7 @@
 - Owner: Studio playtest of Crescent, combat, Stone Ward (Q/Y) and Wind Step (R/L2) (needs `wally install`). Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`).
 
 - **Phase:** 3 — Building (P-006 approved, D-049). Foundations done: R-021…R-026 + P-008 systems spec (S9, D-052).
-- **Doing:** T-016d loadout screen (Resume from: start).
+- **Doing:** T-016d loadout screen (Resume from: pure LoadoutScreen done; server OwnedKith attr + client wiring next).
 - **NEXT:** T-016d loadout screen (Equip remote). T-016a/b/c done (D-063, D-064, D-068).
 - **Then:** T-017 … T-024 (ROADMAP.md order).
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
