@@ -49,6 +49,20 @@ local Config = {
 		maxRank = 9,
 		crackPerDamage = 1, -- crack points per damage dealt during a trial (T-018f, D-080)
 	},
+	Crucible = { -- Kith fusion (T-019a, D-081); tune in playtests
+		recipes = {
+			["recipe.twin_crescent"] = {
+				inputs = { "kith.crescent", "kith.crescent" },
+				output = "kith.twin_crescent", -- rank 2 content: T-019d
+				catalystShards = 200,
+				baseChance = 0.55, -- experimental odds before focus
+			},
+		},
+		focusBonus = 0.35, -- perfect focus adds +35 %
+		maxChance = 0.9, -- experimental fusions never reach 100 %
+		woundedSeconds = 86400, -- fail Wounds one component for a day
+		woundedPower = 0.7,
+	},
 	Stages = { -- 4 Stages per Rank as a Core Shell (T-018c, D-075); tune in playtests
 		baseCost = 50, -- points (1 Shard = 1 point) for Rank 1 First Stage
 		stageCostStep = 0.25, -- each later Stage costs +25 % of base
