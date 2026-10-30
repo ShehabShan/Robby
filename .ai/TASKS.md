@@ -197,6 +197,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - **T-026b3b [todo] [S] Sprint speed guard (server):** server checks each player's planar speed against `Config.Movement.sprint` (+ dash/Wind Step allowance) and corrects or flags violations. AC: pure check in `src/shared` + spec, check.sh PASS. After T-026b3a.
   - **T-026c [blocked] [S] Animations:** Animate2-style set from the kit's KeyframeSequences, uploaded under the owner (needs `roblox-open-cloud`); must not break combat, stagger, Binding or the HUD. After T-026b1.
   - **T-026d [blocked] [S] Cloud walk check:** needs `roblox-open-cloud`. After T-026c.
+  - **T-026e [todo] [S] Shift lock (owner request 2026-10-30):** toggle shift lock on a free key (LeftControl is Sprint, LeftShift is Dash); while on, the camera is centred over the shoulder, the character faces the camera, and attacks/abilities aim where the character faces instead of the mouse. AC: pure logic in `src/shared` + spec, check.sh PASS.
 - **M1 tasks T-011 … T-024 [todo]:** see `.ai/ROADMAP.md` (IDs, scope and AC). Order: T-002 → T-010 → T-011 …
 
 ## Filler tasks (≤10 OLU, owner 2026-10-30)
