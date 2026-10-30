@@ -58,12 +58,18 @@ def run(c, p, costs, rng):
             next_cru += c["crucible_every_h"]
         net = inc - fixed - other - cru
         if not capped:
-            if bal + net < 0:
-                blocked = True
-            sink["fixed"] += fixed; sink["crucible"] += cru; sink["other"] += other
-            bal += net
-            if bal > 0:
-                prog += bal; sink["refine"] += bal; bal = 0
+            # blocked = fixed costs (Upkeep + Refill) exceed income this step
+            sink["fixed"] += fixed; sink["other"] += other
+            bal += inc - fixed - other
+            if bal < 0:
+                blocked = True; bal = 0
+            # Crucible paid from savings; skipped if unaffordable
+            if cru and bal >= cru:
+                bal -= cru; sink["crucible"] += cru
+            # keep one catalyst in reserve, Refine the rest
+            reserve = c["catalyst"][r]
+            if bal > reserve:
+                prog += bal - reserve; sink["refine"] += bal - reserve; bal = reserve
             if prog >= costs[r]:
                 prog -= costs[r]; r += 1; rank_t.append(t + dt)
         else:
