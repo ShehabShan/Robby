@@ -215,7 +215,7 @@ Full table (10 findings → mirrors) and 20 sources: `research/notes/R-020a-gu-s
 - **Sources:** see the notes file.
 
 ### R-020b Paths & killer moves (done 2026-10-30)
-Full table (10 findings → mirrors) and 18 sources: `research/notes/R-020b-paths-killer-moves.md`.
+Full table (10 findings → mirrors) and 19 sources: `research/notes/R-020b-paths-killer-moves.md`.
 - **Findings:**
   - Power is split into many thematic paths, each with sub-paths (sagaofgu.com/paths).
   - Path marks multiply that path's moves; enough marks lift a move a rank (sagaofgu.com/cultivation/dao-marks).
