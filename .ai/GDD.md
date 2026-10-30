@@ -54,6 +54,9 @@ Numbers are first targets to tune in playtests.
 | Reserve | **Qi Reserve** | Each equipped passive Kith reserves a % of max Qi, so Talent shapes the loadout (R-027). |
 | Bond | **Bond** | Each owned Kith gains Bond with use (small bonus); Kith never disobey (R-027). |
 | Will | **Will** | A profile stat (not on the HUD): Binding strength, summon cap, control resistance. Grows at Rank-ups (R-027). |
+| Style | **Fighting Styles** | The basic moveset (5-hit light chain, heavy, one Style skill) comes from one equipped Style: Fist, Blade, Spear, Staff, Bow at launch. Learned from Style masters; Style Mastery unlocks moves; swap out of combat (D-048). |
+| Weapon | **Armament Kith** | Kith that form a weapon (blade, spear, staff, bow, gauntlets). One Core slot; weapon Styles need a matching Armament; its Path infuses Style hits. Fist needs none (D-048). |
+| Gear | **Talismans** | 2 slots of crafted, non-living charms: small stat modifiers or one charge effect. No Upkeep; tradable with the trade fee (D-048). |
 - **Qi:** Rank 1 pool of 100, regen 5/s (Config). Pool size scales with Rank and Talent. Each Rank has its own **Core hue** for UI and VFX; moves scale with the wielder's hue, so early Kith stay useful.
 - **Shards:** both the currency and a Qi refill — spend now to heal Qi, or save for the Crucible (R-020a).
 - **First Kith:** Crescent Kith → Crescent Cut (SPIKE.md). Its natural Crucible upgrade is a rank 2 twin-crescent. An early sought-after prize is a **Qi-refining utility Kith** that speeds Stage gain (R-020d).
@@ -85,6 +88,7 @@ Numbers are first targets to tune in playtests.
   - **Qi Wells:** boss-arena spots with fast Qi regen that the boss attacks.
   - **Seek layer:** by default enemies show HP and a Rank colour band; Seek Kith reveal stealth, exact Rank and loadout, and bounty trails. The minimap stays.
   - **Path Sense:** at Master tier, enemy moves of that Path flash an earlier telegraph.
+- **Styles & Resonance (D-048):** the light chain and heavy come from the equipped Style; a Style finisher followed by a Kith move of the same Path within 1 s triggers **Resonance** (bonus effect).
 - **PvE first.** PvP rules are in §9 (P-002b).
 
 ## 6. Progression & economy
@@ -123,6 +127,7 @@ Numbers are first targets to tune in playtests.
 - **NPCs:** a sly mentor (Opening Rite, tutorial quests), a Crucible keeper, a Shard trader, Clan and Rogue recruiters, and rival cultivators (bounty targets).
 - **Quests:** a short main chain per Reach, daily bounties, Binding hunts for named Kith, and Weave discoveries (hint scrolls).
 - **R-027 quests & politics:** escort quests; the **Beast Tide** timed defence event (= Wild Surge, M2); elder **favour seesaw** (helping one rival elder costs favour with the other; Shards buy favour); Clan **Levy** (periodic defence calls — skipping costs contribution — and a stipend tax); a few **contested Springs** in hunting zones as PvE capture points with a Shard trickle; slain world bosses leave a 10-min **Remnant** mini-dungeon for the party (M2); original non-human peoples with favour perks in Reaches 2–5.
+- **Own additions (D-048):** **Kith Codex** (collection log with lore and one-time rewards); weekly **Path Trial** boss weak to one Path; **Expeditions** (unequipped Kith fetch materials on timed trips, capped daily, no Shards); **Mentor bonus** (Rank 4+ partied with Rank 1–2 earn Merit); no-stakes **Duels** in hubs.
 - **Tech:** StreamingEnabled from day one; mobile-first budgets (R-016).
 
 ## 8. First 10 minutes

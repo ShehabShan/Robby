@@ -53,7 +53,8 @@ Goal: a data-driven model where Kith, Weaves and Paths are data and a new Kith n
 - Rows 22, 29, 46: Channel primitive. Rows 12, 25, 30, 32, 47, 52: Zone/Summon deliveries.
 - Rows 27–28: cost forms (reserve, HP substitution) + stacking Core Crack Effect.
 - Rows 31, 35, 41: Reveal op + viewer layer. Row 44: Xform op (granted moves, restore on expiry). Row 48: Effect with `requireTags`/Will check.
-- Result: all 52 rows are data over 8 deliveries and 12 effect ops; no per-Kith code.
+- Rows 53–60 (Styles, Armaments, Talismans): Move records on Melee/Projectile deliveries, Xform for forming the weapon, Inh for infusion/Resonance, persistent modifiers for Talismans — no new delivery.
+- Result: all 60 rows are data over 8 deliveries and 12 effect ops; no per-Kith code.
 
 ## 5. Migration of the spike (input for T-002)
 - `CrescentCut.luau` → a Move record + the generic Projectile delivery (keep `stepProjectile`, `registerHit`, aim validation).

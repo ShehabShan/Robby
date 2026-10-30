@@ -1,6 +1,6 @@
 # R-021p Ability needs catalogue (S8, 2026-10-30)
 
-Purpose: the concrete test set R-021 scores every ability/effect framework against (D-039). Every GDD v2 mechanic plus the R-027 additions (rows 1–37) and 15 iconic source effect *roles* (rows 38–52; mirror roles only, no source names — D-014).
+Purpose: the concrete test set R-021 scores every ability/effect framework against (D-039). Every GDD v2 mechanic plus the R-027 additions (rows 1–37) and 15 iconic source effect *roles* (rows 38–52; mirror roles only, no source names — D-014) and Fighting Styles, Armament Kith and Talismans (rows 53–60, D-048). No row is copied from the novel: rows 1–37 and 53–60 are Robby's own mechanics; rows 38–52 are generic effect types (beam, poison, stealth…).
 
 ## 1. Primitive codes
 - **Trigger:** Pr press · Ho hold/channel · Co combo step · Ps passive (always on) · Eq on equip/loadout change · OH on hit dealt · OD on damage taken · Ev system event (low HP, Strain full, Crucible fail, rest) · Ar enter area · Tm timer.
@@ -66,19 +66,27 @@ Purpose: the concrete test set R-021 scores every ability/effect framework again
 | 50 | Counter on damage (role) | OD | Lock | Mel | Dmg | Inst | CD | counter | hit | Srv |
 | 51 | Regen passive (role) | Ps | Self | Self | Heal | Pers | Rsv | Mend | loop | Srv |
 | 52 | Stone wall (role) | Pr | Gnd | Sum | Spawn | Timed | Qi+CD | wall, blocks movement | cast, end | Srv+Rep |
+| 53 | Style heavy attack (A1) | Ho | Aim | Mel | Dmg+Disp | Inst | Str | Style, charged, guard-break | cast, hit | Srv+Pred |
+| 54 | Spear sweep (A1) | Pr | Rad | Mel | Dmg+Disp | Inst | Str+CD | Style.Spear, knockback | cast, hit | Srv+Pred |
+| 55 | Bow charged shot (A1/A2) | Ho | Aim | Proj | Dmg | Chan | Qi | Style.Bow, charge | loop, travel, hit | Srv+Pred |
+| 56 | Form Armament (A2) | Eq | Self | Self | Xform | Pers | Rsv | Armament, weapon model, unlocks Style moves | cast | Srv+Rep |
+| 57 | Armament Path infusion (A2) | OH | Lock | Inh | Dmg+Sts | Inst | None | Path tag on Style hits | hit | Srv |
+| 58 | Resonance (A4) | OH | Lock | Inh | Stat+Dmg | Timed | None | 1 s window, same Path | hit | Srv |
+| 59 | Talisman passive (A3) | Ps | Self | Self | Stat | Pers | None | Talisman, tradable gear | — | Save |
+| 60 | Talisman ward charge (A3) | OD | Self | Self | Sts+Inv | Timed | Use+CD | Talisman | cast | Srv |
 
 ## 3. Primitive frequency
-Counted by script over 52 rows (a row can use several codes).
+Counted by script over 60 rows (a row can use several codes).
 
 | Primitive | Counts (most used first) |
 |---|---|
-| Trigger | Pr 23, Ps 8, Ho 5, OH 4, Ev 4, Co 2, Eq 2, Ar 2, Tm 1, OD 1 |
-| Target | Self 26, Aim 7, Lock 7, Gnd 6, Rad 4, Allies 2 |
-| Delivery | Self 16, Sys 12, Zone 5, Proj 4, Sum 4, AoE 4, Mel 3, Beam 3, Inh 2 |
-| Effect | Stat 17, Sts 14, Dmg 12, Res 6, Disp 5, Spawn 5, Heal 3, Drain 2, Reveal 2, Inv 1, Intr 1, Rewind 1, Xform 1 |
-| Duration | Timed 18, Pers 15, Inst 13, Chan 6, Stack 4, Refr 1 |
-| Cost | Qi 22, CD 17, None 13, Str 10, Rsv 6, Use 4, Mat 2, Sat 1, HP 1 |
-| Net | Srv 43, Rep 11, Save 9, Pred 8, View 3 |
+| Trigger | Pr 24, Ps 9, Ho 7, OH 6, Ev 4, Eq 3, Co 2, Ar 2, OD 2, Tm 1 |
+| Target | Self 29, Aim 9, Lock 9, Gnd 6, Rad 5, Allies 2 |
+| Delivery | Self 19, Sys 12, Proj 5, Mel 5, Zone 5, Inh 4, Sum 4, AoE 4, Beam 3 |
+| Effect | Stat 19, Dmg 17, Sts 16, Disp 7, Res 6, Spawn 5, Heal 3, Inv 2, Drain 2, Reveal 2, Xform 2, Intr 1, Rewind 1 |
+| Duration | Timed 20, Pers 17, Inst 16, Chan 7, Stack 4, Refr 1 |
+| Cost | Qi 23, CD 19, None 16, Str 12, Rsv 7, Use 5, Mat 2, Sat 1, HP 1 |
+| Net | Srv 50, Rep 12, Pred 11, Save 10, View 3 |
 
 ## 4. Hard edge cases
 - **Rewind (24):** needs a server snapshot of the Kith instances, materials and Shards taken before each Crucible/Binding; one use per day; never client state. Not a combat-time rewind.
