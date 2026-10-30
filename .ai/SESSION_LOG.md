@@ -1,5 +1,8 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S31 (2026-10-30) — T-021a-v cloud walk check
+- `roblox-open-cloud` connected again. Cloud smoke on Saved v15: specs 222/222, all PASS after the terrain check switched to voxel reads (D-167). Not published.
+
 ## S30 (2026-10-30) — T-026b3b server speed guard
 - Pure `Shared.SpeedGuard` + spec, server `SpeedGuardService`: too-fast movement is flagged, then corrected; Dash/Wind Step allowed (D-166). check.sh PASS.
 

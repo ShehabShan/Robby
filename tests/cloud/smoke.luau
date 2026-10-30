@@ -74,13 +74,20 @@ if not workspace:GetAttribute("MistvaleBuilt") then
 	end)
 	check("manual start of MistvaleTerrain", built, err)
 end
-local rp = RaycastParams.new()
-rp.FilterType = Enum.RaycastFilterType.Include
-rp.FilterDescendantsInstances = { workspace.Terrain }
+-- Ground check reads the written voxels (D-167): Luau Execution sessions do not step physics, so terrain
+-- collision is not built and raycasts miss it (S31 probe: voxels present, Raycast nil).
 for _, p in { { "spawn", 0, 0, 0 }, { "path", 40, -140, 4 }, { "zone1", 80, -280, 8 } } do
-	local hit = workspace:Raycast(Vector3.new(p[2], 200, p[3]), Vector3.new(0, -400, 0), rp)
-	local y = hit and hit.Position.Y
-	check("terrain ground at " .. p[1], y ~= nil and math.abs(y - p[4]) < 6 and hit.Material ~= Enum.Material.Water, y)
+	local r = Region3.new(Vector3.new(p[2], -64, p[3]), Vector3.new(p[2] + 4, 200, p[3] + 4)):ExpandToGrid(4)
+	local mats, occ = workspace.Terrain:ReadVoxels(r, 4)
+	local top = nil
+	for y = 1, occ.Size.Y do
+		if occ[1][y][1] > 0.5 then
+			top = y
+		end
+	end
+	local y = top and (r.CFrame.Position.Y - r.Size.Y / 2 + top * 4)
+	local ok = y ~= nil and math.abs(y - p[4]) < 6 and mats[1][top][1] ~= Enum.Material.Water
+	check("terrain ground at " .. p[1], ok, y)
 end
 check("StreamingEnabled", workspace.StreamingEnabled == true)
 
