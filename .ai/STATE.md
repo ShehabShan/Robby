@@ -1,7 +1,7 @@
 # STATE
 
 - **Phase:** 2b — capability spike (D-025): T-003 → T-006, then P-002 … P-006
-- **Doing:** none (S7).
+- **Doing:** P-002c GDD v2 from R-020 (S7). Resume from: TASKS.md P-002c note.
 - **NEXT:** R-020a → R-020b → R-020c → R-020d deep RI research (owner, quality over quantity) → feed into GDD → P-006 owner approval. Studio playtest of Crescent Cut: owner confirmed it works (2026-10-30).
 - **Then:** after P-006: T-002 → T-010 (cloud pipeline; key works, base on scripts/cloud_test.py) → M1 tasks (ROADMAP.md)
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).

@@ -92,6 +92,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - Milestones: M1 vertical slice → M2 core content → M3 progression and economy → M4 polish → M5 soft launch.
   - Rewrite Phase 3 below as S-sized T-tasks with AC.
   - AC: `.ai/ROADMAP.md`, and `.ai/PLAYTEST.md` (a checklist the owner runs in Studio at each milestone).
+- **P-002c [doing] [S] GDD v2 (S7):** apply the R-020 change list (`research/notes/R-020d-fan-values-gdd-changes.md` §2) to `.ai/GDD.md`; mirror names only (D-014). AC: GDD sections updated, parked items listed in §12, D-034 logged. Resume from: edit GDD §3–§4 first.
 - **P-006 [todo] [S] Approval gate:**
   - Give the owner a short plain-language summary of the plan.
   - AC: the owner approves, and this is logged as a decision. Building starts only after this.
