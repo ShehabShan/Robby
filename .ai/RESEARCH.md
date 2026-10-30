@@ -290,3 +290,16 @@ Draft model, curve table and 10 sources: `research/notes/R-022-stat-damage-math.
 **Unknowns**
 - Exact tick rates and entity caps (set in P-008 against the mobile budget).
 **Sources** — GDD v2, R-022, R-027, F-001 §2, `src/` spike code.
+
+### R-021 Ability/effect frameworks (done 2026-10-30)
+**Findings**
+- Unreal GAS: effects are the only state mutators; modifiers Add/Multiply/Override aggregate by one formula; stacking by source/target with caps and refresh; hierarchical tags [epicgames GE docs; gas.spoked.dev].
+- Path of Exile supports modify the resulting skill; compatibility by skill types [PoE wiki; Path of Building].
+- Warframe mods drain capacity that grows with rank; polarity match halves drain [warframe wiki].
+- Roblox Character Controller Library: abilities as Luau tables with lifecycle callbacks, server authority, prediction, rollback — Studio beta [create.roblox.com].
+**→ Implications for Robby**
+- Build a pure-Luau GAS-lite with PoE-style Weave supports and a Warframe-style Qi Reserve budget (D-044). All 52 R-021p rows map to 8 deliveries + effect ops + tags.
+- The spike's projectile sweep and Qi pool become the Projectile delivery and Resource module in T-002.
+**Unknowns**
+- CCL fit for our combat (R-025); tick rates and entity caps (P-008).
+**Sources** — `research/notes/R-021-ability-frameworks.md` §7.
