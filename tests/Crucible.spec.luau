@@ -73,4 +73,12 @@ return {
 		eq(Crucible.regenRate(5, Config, untilT, untilT), 5, "back to normal")
 		eq(Crucible.regenRate(5, Config, nil, 0), 5, "no recoil")
 	end,
+	["crucible: Wounded lowers Kith power until it heals"] = function()
+		local KithCare = require("../src/shared/KithCare")
+		local inst: any = { uid = "a", speciesId = "kith.crescent" }
+		KithCare.ensure(inst, Config)
+		inst.woundedUntil = 100
+		eq(KithCare.power(inst, Config, 50), C.woundedPower, "wounded power")
+		eq(KithCare.power(inst, Config, 100), 1, "healed")
+	end,
 }

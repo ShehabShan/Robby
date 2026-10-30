@@ -58,10 +58,14 @@ end
 -- Power multiplier for the Kith's moves: Hungry = weaker, Dormant/Exhausted = 0.
 function KithCare.power(inst: any, cfg: any, now: number): number
 	local s = KithCare.state(inst, cfg, now)
+	-- Wounded by a failed Crucible fusion (T-019c, D-083): weaker until it heals.
+	local wound = if typeof(inst.woundedUntil) == "number" and now < inst.woundedUntil
+		then cfg.Crucible.woundedPower
+		else 1
 	if s == "Ready" then
-		return 1
+		return wound
 	elseif s == "Hungry" then
-		return cfg.Upkeep.hungryPower
+		return cfg.Upkeep.hungryPower * wound
 	end
 	return 0
 end
