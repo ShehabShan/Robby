@@ -1,0 +1,72 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Robby — phone HUD mock v1</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#111;font-family:system-ui,sans-serif;color:#eee;display:flex;flex-direction:column;align-items:center;gap:14px;padding:16px}
+h1{font-size:16px;font-weight:600;color:#bcd}
+p.note{font-size:12px;color:#99a;max-width:760px;text-align:center}
+.phone{position:relative;width:760px;max-width:100%;aspect-ratio:19.5/9;border-radius:28px;overflow:hidden;border:6px solid #222;
+background:linear-gradient(180deg,#6f8fa8 0%,#a9c1c9 38%,#5d7a5a 39%,#3e5a3c 100%)}
+.mist{position:absolute;inset:0;background:radial-gradient(ellipse at 70% 35%,rgba(255,255,255,.35),transparent 60%)}
+.player{position:absolute;left:46%;top:46%;width:34px;height:70px;border-radius:14px 14px 6px 6px;background:#2b3a4f;box-shadow:0 0 18px #9fd8ff}
+.enemy{position:absolute;left:66%;top:48%;width:54px;height:44px;border-radius:40% 40% 20% 20%;background:#4a3324}
+.enemy .hp{position:absolute;top:-14px;left:-6px;width:66px;height:6px;background:#300;border-radius:3px}
+.enemy .hp i{display:block;width:62%;height:100%;background:#e5533d;border-radius:3px}
+.enemy .tag{position:absolute;top:-30px;left:-10px;font-size:10px;color:#ffcf6a;white-space:nowrap}
+.crescent{position:absolute;left:53%;top:50%;width:60px;height:26px;border-top:5px solid #bfe9ff;border-radius:50%;filter:drop-shadow(0 0 6px #8fd3ff);transform:rotate(-8deg)}
+.core{position:absolute;left:14px;top:12px;display:flex;gap:8px;align-items:center}
+.orb{width:46px;height:46px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#c9ffd9,#3fae6a 60%,#1d5a35);border:3px solid #cfe;box-shadow:0 0 10px #6f6}
+.bars{display:flex;flex-direction:column;gap:4px}
+.bar{width:170px;height:10px;background:rgba(0,0,0,.45);border-radius:5px;overflow:hidden}
+.bar i{display:block;height:100%}
+.hpb i{width:80%;background:#e65b4f}.qib i{width:58%;background:#5fd38a}
+.stage{font-size:10px;color:#dfe}
+.map{position:absolute;right:14px;top:12px;width:78px;height:78px;border-radius:50%;background:rgba(0,0,0,.35);border:2px solid rgba(255,255,255,.4)}
+.map:after{content:"";position:absolute;left:36px;top:36px;width:6px;height:6px;border-radius:50%;background:#fff}
+.stick{position:absolute;left:34px;bottom:30px;width:96px;height:96px;border-radius:50%;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.25)}
+.stick:after{content:"";position:absolute;left:30px;top:30px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.35)}
+.btn{position:absolute;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;text-align:center;
+background:rgba(15,25,35,.55);border:2px solid rgba(255,255,255,.4)}
+.atk{right:34px;bottom:26px;width:74px;height:74px}
+.dash{right:118px;bottom:16px;width:46px;height:46px}
+.guard{right:22px;bottom:110px;width:46px;height:46px}
+.kith{width:54px;height:54px;border-color:#8fd3ff}
+.k1{right:120px;bottom:72px}.k2{right:94px;bottom:130px}.k3{right:170px;bottom:118px;border-color:#c9b48a}
+.ring{position:absolute;inset:-6px;border-radius:50%}
+.strain{border:4px solid transparent;border-top-color:#ffb347;border-right-color:#ffb347}
+.sat{position:absolute;bottom:-3px;right:-3px;width:16px;height:16px;border-radius:50%;background:#2a2;border:2px solid #111;font-size:8px;display:flex;align-items:center;justify-content:center}
+.sat.low{background:#d93}
+.cd{position:absolute;inset:0;border-radius:50%;background:conic-gradient(rgba(0,0,0,.6) 0 35%,transparent 35%)}
+.weave{position:absolute;right:196px;bottom:30px;width:58px;height:58px;border-radius:12px;transform:rotate(45deg);background:rgba(90,60,140,.55);border:2px solid #c9a6ff;box-shadow:0 0 14px #b38cff}
+.weave span{display:block;transform:rotate(-45deg);font-size:9px;text-align:center;margin-top:18px}
+.toast{position:absolute;left:50%;top:14px;transform:translateX(-50%);background:rgba(0,0,0,.5);padding:4px 10px;border-radius:10px;font-size:11px}
+.legend{max-width:760px;font-size:12px;color:#ccd;line-height:1.6}
+.legend b{color:#fff}
+</style></head><body>
+<h1>Robby — phone HUD mock v1 (landscape)</h1>
+<div class="phone">
+  <div class="mist"></div>
+  <div class="player"></div><div class="crescent"></div>
+  <div class="enemy"><div class="tag">Mist Boar · Rank 2 ⚠</div><div class="hp"><i></i></div></div>
+  <div class="core"><div class="orb"></div><div class="bars"><div class="bar hpb"><i></i></div><div class="bar qib"><i></i></div><div class="stage">Rank 1 · Second Stage ▰▰▱▱</div></div></div>
+  <div class="toast">Wild Kith nearby — Bind it!</div>
+  <div class="map"></div>
+  <div class="stick"></div>
+  <div class="btn atk">Attack</div>
+  <div class="btn dash">Dash</div>
+  <div class="btn guard">Guard</div>
+  <div class="btn kith k1">Crescent<div class="ring strain"></div><div class="sat">●</div></div>
+  <div class="btn kith k2">Wind<div class="cd"></div><div class="sat">●</div></div>
+  <div class="btn kith k3">Stone<div class="sat low">!</div></div>
+  <div class="weave"><span>WEAVE</span></div>
+</div>
+<div class="legend">
+<b>Top-left:</b> Core orb (colour = Rank hue), red health, green Qi, Stage pips. &nbsp;
+<b>Right thumb:</b> big Attack, Dash, Guard, and one button per equipped Kith. &nbsp;
+<b>On each Kith button:</b> orange arc = <b>Strain</b> (full = Kith rests ~20 s); small dot = <b>Satiety</b> (green fed, amber "!" hungry); dark sweep = cooldown. &nbsp;
+<b>Purple diamond:</b> Weave, lights up when Qi is enough. &nbsp;
+<b>Enemy tag:</b> amber ⚠ = one Rank above you.
+</div>
+<p class="note">Design goal: Strain and Satiety live on the Kith buttons, not as extra bars, so the phone screen keeps only two bars (health, Qi).</p>
+</body></html>
