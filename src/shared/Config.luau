@@ -41,6 +41,12 @@ local Config = {
 		numberRise = 2, -- studs
 		sparks = 24,
 	},
+	Stages = { -- 4 Stages per Rank as a Core Shell (T-018c, D-075); tune in playtests
+		baseCost = 50, -- points (1 Shard = 1 point) for Rank 1 First Stage
+		stageCostStep = 0.25, -- each later Stage costs +25 % of base
+		rankCostFactor = 2.5, -- each Rank costs 2.5x the one before
+		refinePerSecond = 10, -- Shards per second while holding Refine at a rest spot (wiring T-018d)
+	},
 	Upkeep = { -- Satiety + Strain per Kith (T-018a, D-073); tune in playtests
 		satietyMax = 100,
 		drainPerMinute = 1.5, -- Rank 1 Kith, not fighting (~66 min from full to Dormant)
