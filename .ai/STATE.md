@@ -1,6 +1,7 @@
 # STATE
 
-## Now (after S26)
+## Now (after S25 cont.)
+- S25 (cont.): T-023 boss: pure `BossBrain` + Mistmaw Elder (3 telegraphed attacks, phase 2 at 50 %, D-137), `BossService` (D-138), boss HP bar + "Enraged" cue (D-139), arena area in Mistvale layout (D-140). Beast warning sound + boss rings/cones via `BeastFx` (D-136). T-023c doing (Rank-test credit + tuning).
 - S26: T-021b Mistvale hub kit (D-146): `art/blender/hub_kit.py` → 14 low-poly pieces (FBX/GLB + manifest, max 824 tris). Roblox upload waits for `roblox-open-cloud`.
 - Ops (D-134): CLAIMS has a Bot column; owner can say "release <bot link>" to free a stopped bot's claim.
 - S25 (2nd claim): T-022c part 1, beast labels: Rank colour band + red "!" during the wind-up (D-135), plus a red ground ring of strike reach (D-157). T-022c stays doing (Resume from: telegraph VFX/SFX, playtest).
@@ -22,13 +23,13 @@
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   
-  - T-022c Beast feel + playtest (doing: SFX + tuning left) · —
+  - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
   - T-021c Hub assembly · — (T-021a + T-021b done)
-  - T-023 Boss + arena · — (T-022a/b done)
+  - T-023c Boss Rank-test credit + tuning · playtest needs `roblox-open-cloud` (T-023a/b done)
   - T-025b Lotus in the world · T-021c (T-025a done)
   - T-021a-v Cloud walk check · owner reconnects `roblox-open-cloud`
   - T-024 First 10 minutes · all above
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox). Owner: reconnect the `roblox-open-cloud` integration (cloud tests + publish fail: "not enabled for this project", S19).
-- **Last check.sh:** CHECK: PASS (2026-10-30, S26)
+- **Last check.sh:** CHECK: PASS (2026-10-30, S25 cont.)
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC C (F is Parry), gamepad D-pad Right.
