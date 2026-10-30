@@ -158,6 +158,9 @@ The owner may run several sessions at once with the same start message. Git bran
 - **STATE.md on a branch:** leave it alone. After `merge.sh`, edit STATE.md (Now, NEXT, Parallel lanes) on main and `save.sh`.
   merge.sh keeps main's STATE.md/CLAIMS.md on conflict. **Publish / cloud tests only from main**, after merging.
 - **STATE.md NEXT** = the next unclaimed task. SESSION_LOG/DECISIONS/RESEARCH merge by union (`.gitattributes`).
-- **Cut-off sessions.** At boot, run `git ls-remote --heads origin 'session/*'`. A branch whose claim is over 12 h old
-  was cut off: `git checkout -b session/Sx origin/session/Sx`, `merge.sh` (releases its claim; the half-done task stays
-  `doing` with its Resume note), then claim normally. Emergency (45+ OLU): `save.sh` only; the branch waits for adoption.
+- **Cut-off sessions (D-134).** At boot, on main: `bash scripts/release.sh`. It frees any claim whose branch had no
+  push for 2 h (the branch is kept). Then `git ls-remote --heads origin 'session/*'`: a branch with **no row** in
+  CLAIMS.md is unfinished work. Adopt it before new work: `git checkout -b session/Sx origin/session/Sx`, run `check.sh`
+  (fix if it fails), `merge.sh`, then claim normally. Resume a half-done task from its Resume note.
+  `save.sh` pushes are the heartbeat, so save at least every 30 min. Owner: if a session died, tell any bot
+  "release S<n>"; it runs `bash scripts/release.sh S<n>`. Emergency (45+ OLU): `save.sh` only; the branch waits for adoption.
