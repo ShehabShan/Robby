@@ -2,12 +2,6 @@
 -- Tunable game constants. Pure data: no Roblox services.
 
 local Config = {
-	Round = {
-		minPlayers = 1,
-		intermission = 15, -- seconds
-		race = 180, -- seconds
-		results = 8, -- seconds
-	},
 	Qi = {
 		max = 100, -- rank 1 pool
 		regen = 5, -- per second
