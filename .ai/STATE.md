@@ -1,8 +1,8 @@
 # STATE
 
 - **Phase:** 3 — Building approved (P-006, owner, 2026-10-30, D-049); T-002 starts after P-008. Spike (T-003…T-005b) done; T-006 blocked.
-- **Doing:** R-026 (S9). Resume from: searches, then the note + GDD §8.
-- **NEXT:** R-026 first-session retention → P-008 systems spec. P-006 approved (S8); building (T-002) waits for P-008.
+- **Doing:** P-008 (S9). Resume from: ARCHITECTURE v2 §3 module map, then `.ai/SCHEMAS.md`.
+- **NEXT:** P-008 systems spec (R-026 done S9, D-051). Building (T-002) waits for P-008.
 - **Then:** T-002 → T-010 (cloud pipeline; key works, base on scripts/cloud_test.py) → M1 tasks (ROADMAP.md)
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006 needs the owner OK to publish. Open Cloud key works (read, Saved upload, Luau execution; S6).
