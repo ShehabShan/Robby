@@ -1,6 +1,7 @@
 # STATE
 
-## Now (after S25 cont.)
+## Now (after S27)
+- S27: T-021c hub assembly (D-147): pure `Shared.MistvaleHub` plan + `validate`, server `MistvaleHubBuilder` builds code proxies (houses, RestSpot, Crucible shrine, gate, lanterns, pines, Binding grove marker). Mesh swap waits for `roblox-open-cloud`.
 - S25 (cont.): T-023 boss: pure `BossBrain` + Mistmaw Elder (3 telegraphed attacks, phase 2 at 50 %, D-137), `BossService` (D-138), boss HP bar + "Enraged" cue (D-139), arena area in Mistvale layout (D-140). Beast warning sound + boss rings/cones via `BeastFx` (D-136). T-023c doing (Rank-test credit + tuning).
 - S26: T-021b Mistvale hub kit (D-146): `art/blender/hub_kit.py` → 14 low-poly pieces (FBX/GLB + manifest, max 824 tris). Roblox upload waits for `roblox-open-cloud`.
 - Ops (D-134): CLAIMS has a Bot column; owner can say "release <bot link>" to free a stopped bot's claim.
