@@ -1,7 +1,7 @@
 --!strict
 -- Crucible panel layout (T-019e, D-085): confirm (recipe, odds, consequences shown before fusing), focus (bar,
 -- zone, needle, round) and result. Pure; the client draws it, `scripts/hud_mock.sh` renders it.
--- Keys: PC F, gamepad D-pad Right, touch = button.
+-- Keys: PC C (F is Parry), gamepad D-pad Right, touch = button.
 
 local HudLayout = require("./HudLayout")
 
@@ -25,7 +25,7 @@ export type State = {
 
 local CrucibleUi = {}
 
-CrucibleUi.KEYS = { pc = "F", gamepad = "Right" } :: { [string]: string }
+CrucibleUi.KEYS = { pc = "C", gamepad = "Right" } :: { [string]: string }
 CrucibleUi.BUTTON_H = { touch = 56, pc = 40, gamepad = 44 } :: { [string]: number }
 
 local WHITE: HudLayout.Rgb = { 245, 245, 250 }
@@ -150,6 +150,36 @@ function CrucibleUi.build(s: State): { HudLayout.Element }
 		button("crucibleClose", "Close")
 	end
 	return out
+end
+
+-- First two different owned Kith that match a recipe (client picks the pair; the server re-checks everything).
+function CrucibleUi.pickPair(cfg: any, owned: { { uid: string, species: string } }): (string?, string?, string?)
+	for id, r in cfg.Crucible.recipes do
+		local x, y = r.inputs[1], r.inputs[2]
+		for i, a in owned do
+			if a.species == x then
+				for j, b in owned do
+					if j ~= i and b.species == y then
+						return a.uid, b.uid, id
+					end
+				end
+			end
+		end
+	end
+	return nil, nil, nil
+end
+
+local function nice(id: string): string
+	local words = {}
+	for w in string.gmatch((string.gsub(id, "^kith%.", "")), "[^_]+") do
+		table.insert(words, string.upper(string.sub(w, 1, 1)) .. string.sub(w, 2))
+	end
+	return table.concat(words, " ")
+end
+
+-- "Crescent + Crescent → Twin Crescent"
+function CrucibleUi.recipeLabel(r: any): string
+	return `{nice(r.inputs[1])} + {nice(r.inputs[2])} → {nice(r.output)}`
 end
 
 return CrucibleUi

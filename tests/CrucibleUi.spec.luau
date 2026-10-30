@@ -35,6 +35,27 @@ local function byId(els: { any }): { [string]: any }
 	return m
 end
 
+do -- pickPair + recipeLabel (T-019e client wiring)
+	local cfg = {
+		Crucible = {
+			recipes = {
+				["recipe.x"] = { inputs = { "kith.crescent", "kith.crescent" }, output = "kith.twin_crescent" },
+			},
+		},
+	}
+	local a, b, id =
+		CrucibleUi.pickPair(cfg, { { uid = "u1", species = "kith.crescent" }, { uid = "u2", species = "kith.ember" } })
+	eq(a, nil, "no pair with one Crescent")
+	a, b, id = CrucibleUi.pickPair(
+		cfg,
+		{ { uid = "u1", species = "kith.crescent" }, { uid = "u3", species = "kith.crescent" } }
+	)
+	eq(a, "u1", "pair a")
+	eq(b, "u3", "pair b")
+	eq(id, "recipe.x", "recipe id")
+	eq(CrucibleUi.recipeLabel(cfg.Crucible.recipes["recipe.x"]), "Crescent + Crescent → Twin Crescent", "label")
+end
+
 return {
 	["crucible ui: odds and consequences shown before confirm"] = function()
 		local s = st("pc", 1280, 720, "confirm")
@@ -43,7 +64,7 @@ return {
 		eq(string.find(m.crucibleFail.text, "200 Shards lost", 1, true) ~= nil, true, "catalyst")
 		eq(string.find(m.crucibleFail2.text, "Wounded 24h", 1, true) ~= nil, true, "consequence")
 		eq(string.find(m.crucibleFail2.text, "never destroyed", 1, true) ~= nil, true, "never destroyed")
-		eq(m.crucibleFuse.text, "Fuse ×200 [F]", "pc fuse")
+		eq(m.crucibleFuse.text, "Fuse ×200 [C]", "pc fuse")
 		s.known = true
 		eq(byId(CrucibleUi.build(s)).crucibleOdds.text, "Known recipe · safe (100%)", "known")
 	end,
