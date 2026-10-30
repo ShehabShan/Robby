@@ -5,7 +5,7 @@
 - T-005b done: owner fixed the key; cloud smoke PASS on Saved version 3 (`scripts/cloud_test.py`).
 - P-002 GDD, P-003 ART, P-004 ARCHITECTURE, P-005 ROADMAP done. D-027…D-032.
 - OLU used: ~34.
-- Next: P-006 owner approval → T-002 → T-010.
+- Owner confirmed Crescent Cut works in Studio. Next: R-020 deep RI research → GDD → P-006.
 
 ## S5 — 2026-10-30 (owner reorder; spike started; stopped early, owner low on OLU)
 - Owner: concept A, structured like RI (D-025). R-019 systems map + first ability Crescent Cut; P-007 spike plan `.ai/SPIKE.md` (D-026).
