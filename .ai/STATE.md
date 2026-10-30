@@ -1,6 +1,7 @@
 # STATE
 
-## Now (after S21)
+## Now (after S23)
+- S23: T-020f Path Marks to client (D-122): Loom panel shows real Friction + Marks boost.
 - S21: T-020e Loom client `LoomHud` (D-111) → **T-020 done**.
 - S20: T-020d Loom UI pure `Shared.LoomUi` + spec + mock (D-110). T-020e (client) split out.
 - S18: T-020c Weave content + server Loom (D-090): Piercing Edge support, Blink `WeaveSet` at rest spots, `LoomService`, woven casts.
@@ -22,5 +23,5 @@
   - T-024 First 10 minutes · all above
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox).
-- **Last check.sh:** CHECK: PASS (2026-10-30, S21)
+- **Last check.sh:** CHECK: PASS (2026-10-30, S23)
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC C (F is Parry), gamepad D-pad Right.
