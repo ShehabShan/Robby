@@ -41,6 +41,13 @@ local Config = {
 		numberRise = 2, -- studs
 		sparks = 24,
 	},
+	Breakthrough = { -- Rank breakthrough trial (T-018e, D-077); tune in playtests
+		waves = 3,
+		crackPerWave = 100,
+		waveSeconds = 20,
+		healPerSecond = 1, -- cracks heal after a failed trial
+		maxRank = 9,
+	},
 	Stages = { -- 4 Stages per Rank as a Core Shell (T-018c, D-075); tune in playtests
 		baseCost = 50, -- points (1 Shard = 1 point) for Rank 1 First Stage
 		stageCostStep = 0.25, -- each later Stage costs +25 % of base
