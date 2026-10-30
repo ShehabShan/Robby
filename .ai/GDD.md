@@ -11,8 +11,10 @@ Numbers are first targets to tune in playtests.
 3. **Climb by wits.** Scarce resources, risky fusions and rival cultivators reward planning over grinding.
 
 ## 2. World & tone
-- **Setting:** an original mountain-and-mist world split into **Five Reaches** by impassable barriers. Each Reach has its own climate, Paths and factions. Players start in one Reach (named in P-002b) and later cross the barriers.
+- **Setting:** an original mountain-and-mist world split into **Five Reaches** by **Veils** (see §7). Each Reach has its own climate, Paths and factions. Players start in one Reach (named in P-002b) and later cross the barriers.
 - **Tone:** ambitious, sly, scarce; mentor figures who are not trustworthy; victories bought with planning. The darkness comes through **strategy and rivalry, never cruelty**.
+- **Grim world, rewarding play (R-020d):** the world is cold and survival-of-the-fittest, but the player gets frequent wins, clear goals and very little text. Systems are the star: every rule is consistent and learnable, and smart builds beat raw grind.
+- **Anti-genre-trap rules (R-020d):** no "click to boost a stat" loops; skill-based combat; every progression step offers a build choice.
 - **Maturity:** Roblox **Mild** (D-024). Stylised hits with no blood, corpses or gore. Kith **merge**, never devour. Defeat means a stagger and a respawn.
 - **IP line (D-014):** use only mirror concepts from R-019. No RI names, places, characters, plot or text.
 
@@ -34,15 +36,20 @@ Numbers are first targets to tune in playtests.
 | Step | System (R-019 mirror) | Rule |
 |---|---|---|
 | Start | **Opening Rite** | Tutorial: the Core opens; a **Talent grade** (A–D) sets the Qi pool size. It can be improved later and is never a hard lock. |
-| Acquire | **Binding** | Weaken a wild Kith, then win a short timing mini-fight to bind it. Failure means it flees. Kith drop from the world and are not bought. |
+| Acquire | **Binding** | Weaken a wild Kith, then win a **tug-of-war** against its Will: channel Qi while it pushes back in pulses; stop channelling and the bar slides back; Shards top up Qi mid-duel. Failure means it flees. Kith drop from the world and are never bought (R-020a). |
+| Heart | **Heart Kith** | The first Kith you Bind becomes your Heart Kith: a permanent passive and your identity. It can never be lost and is upgraded by each Rank breakthrough (R-020a/d). |
 | Equip | **Core slots** | 3 active Kith at Rank 1, +1 per Rank (max 7 in Mortal). Each Kith grants 1–2 moves. |
-| Feed | **Upkeep** | Each Kith eats one material per in-game day (light upkeep; it is never lost, but a hungry Kith is weaker until fed). |
-| Combine | **Crucible** | Merge 2–3 Kith plus a catalyst into a higher-rank Kith. Known recipes are safe. Experimental ones carry a visible fail chance (lose the catalyst, keep the Kith). |
-| Combo | **Weaves** | Trigger an ordered sequence of equipped Kith moves to unleash a stronger move at a higher Qi cost. Discovered, then recorded in a journal. |
-| Rank up | **Ranks 1–9 × Stages** | Each Rank has 4 Stages (First, Second, Third, Peak). Shards plus Path Marks fill the bar; a Rank breakthrough is a short trial fight. |
-| Identity | **Paths** | Moon, Flame, Stone, Wind… Same-Path moves gain Marks. Mixing Paths costs +Qi. |
-- **Qi:** Rank 1 pool of 100, regen 5/s (Config). Pool size scales with Rank and Talent. Each Rank has its own **Core hue** for UI and VFX.
-- **First Kith:** Crescent Kith → Crescent Cut (SPIKE.md). Its natural Crucible upgrade is a rank 2 twin-crescent.
+| Feed | **Upkeep (Satiety)** | Each Kith eats its own material. Higher-Rank Kith eat less often; heavy fighting drains Satiety faster. Hungry = weaker; starved = **Dormant** (unusable until fed a rarer meal). Never lost (R-020a). |
+| Rest | **Strain** | Each Kith move adds Strain; full Strain = the Kith is **Exhausted** for ~20 s. Rewards rotating a set over spamming one move. One-shot **consumable Kith** (traps, burst heals) drop as loot. |
+| Roles | **Role tags** | Every Kith has one role: Strike, Guard, Mend, Carry, Stride or Seek. The loadout screen warns about gaps (e.g. no Guard) (R-020b). |
+| Combine | **Crucible** | Merge 2–3 Kith plus a catalyst into a higher-rank Kith through a short **focus mini-game** while Shards are fed in. Known recipes are safe. Experimental ones show a fail chance: on fail the catalyst is lost and one component is **Wounded** (weaker for a day), never destroyed. A rare **Second Chance** Kith allows one rewind of a failed Crucible or Binding per day. |
+| Combo | **Weaves** | A Weave = **1 core Kith + 1–3 supports**, built at rest in the **Weave Loom**. The core sets the effect; each support adds one modifier (range, burst, slow, pierce). Costs more Qi and Strain. Hint scrolls reveal partial Weaves; the Loom glows ("resonance") on a valid pair, so there is no blind guessing. Each player names and colours one **Signature Weave**, shown on their profile and in kill feeds (R-020b/d). |
+| Rank up | **Ranks 1–9 × Stages** | Each Rank has 4 Stages (First, Second, Third, Peak), shown as a **Core Shell** whose material changes per Stage (mist → water → stone → crystal). Shards plus Path Marks fill the bar. A Rank breakthrough is a short trial: crack the shell in waves; on fail the cracks heal slowly, so a quick retry keeps some progress (R-020a). |
+| Identity | **Paths** | 5 at launch: Moon, Wind, Flame, Stone, Tide (one sub-Path each, later). **Path Marks** add % power to that Path's moves, with visible VFX upgrades at thresholds. A **Friction wheel** marks allied and opposed Paths; opposed supports in a Weave cut its power (shown in the Loom), so builds favour a main + secondary Path. |
+| Skill | **Mastery** | Per-Path tiers Initiate → Adept → Master → Sage → Paragon, earned by use and separate from Rank. They unlock Weave slots, cheaper Weave edits and better Crucible odds (R-020b). |
+- **Qi:** Rank 1 pool of 100, regen 5/s (Config). Pool size scales with Rank and Talent. Each Rank has its own **Core hue** for UI and VFX; moves scale with the wielder's hue, so early Kith stay useful.
+- **Shards:** both the currency and a Qi refill — spend now to heal Qi, or save for the Crucible (R-020a).
+- **First Kith:** Crescent Kith → Crescent Cut (SPIKE.md). Its natural Crucible upgrade is a rank 2 twin-crescent. An early sought-after prize is a **Qi-refining utility Kith** that speeds Stage gain (R-020d).
 
 ## 5. Combat
 - **Controls (one binding set via ContextActionService):**
@@ -78,11 +85,16 @@ Numbers are first targets to tune in playtests.
   | Rank 1 → 2 | ~2 h |
   | Rank 2 → 3 | ~5 h |
   | Rank 5 (end of Mortal) | ~40 h |
+- **Rank gap (R-020c):** each Rank is a big jump (≈ ×1.6 Qi potency, tuned in P-007). Enemies 1 Rank above show a warning colour; 2 above are near-unwinnable.
+- **Rank 3 milestone:** "full cultivator" title and a house slot. **Talent** sets a soft cap and Qi regen only; resources and Mastery let anyone climb.
   - Every session must move a bar (Stage, Marks or a new Kith), even a 15-minute one.
 - **Scarcity rule:** Kith and catalysts are earned in the world, never sold. Shard income per hour is capped by zone tier so that higher Reaches matter.
 
 ## 7. World structure
-- **Five Reaches** (working names): **Mistvale** (start, temperate valleys, Moon/Wind Paths), Ember Steppe (Flame), Stonecrown (Stone), Tidefall coast, and the Hollow (endgame). Barriers between Reaches open by Rank (Reach 2 at Rank 2, and so on).
+- **Five Reaches** (working names): **Mistvale** (start, temperate valleys, Moon/Wind Paths), Ember Steppe (Flame), Stonecrown (Stone), Tidefall coast, and the Hollow (endgame). **Veils** between Reaches need a Rank gate (Reach 2 at Rank 2, and so on) and a short Veil trial where stats are briefly damped; high-Rank players are damped in starter Reaches (anti-grief).
+- **A society per Reach (R-020c):** Mistvale = bloodline Clans; Ember Steppe = nomad bands; Tidefall = island houses; Stonecrown = merit **Halls** (join by an entrance skill trial; Hall rank unlocks rare Kith and recipes); the Hollow = no rule.
+- **Clan hub (Mistvale):** an NPC **Elder Council** pays monthly stipends by contribution; the **Mission Hall** board holds daily bounties; two rival elders offer side quests, and their favour unlocks their Weave hints.
+- **Path Ground:** some zones and boss arenas buff one Path and debuff its opposed Paths, so Reach and party mix matter.
 - **Mistvale layout:** a safe hub village (shops, Crucible, rest, journal), 3 hunting zones of rising tier, 1 Binding grove, 1 rival camp, and 1 boss arena.
 - **NPCs:** a sly mentor (Opening Rite, tutorial quests), a Crucible keeper, a Shard trader, Clan and Rogue recruiters, and rival cultivators (bounty targets).
 - **Quests:** a short main chain per Reach, daily bounties, Binding hunts for named Kith, and Weave discoveries (hint scrolls).
@@ -103,7 +115,7 @@ Numbers are first targets to tune in playtests.
 ## 9. Social
 - **Co-op:** parties of up to 4; shared kills and Shards; Binding credit goes to whoever lands the bind.
 - **PvP:** opt-in only — duels by invite and marked PvP zones. No ganking of PvP-off players. Rank-banded matchmaking for arenas later.
-- **Clans:** a player-made Clan joins either the Clans or the Rogues faction at Rank 2. Faction perks are cosmetic or quest access, not raw power.
+- **Clans:** a player-made Clan joins either the Clans or the Rogues faction at Rank 2. Faction perks are cosmetic or quest access, not raw power. The split is **morally grey**, not good vs evil: Clans get stipends, safe storage and guards; Rogues get bounty hunting, black-market Crucible recipes and freedom to play selfishly (within Roblox rules), but no stipend.
 - **Trading:** Shards and materials only; Kith are untradable (scarcity rule, §6).
 
 ## 10. Monetisation
@@ -113,10 +125,10 @@ Numbers are first targets to tune in playtests.
 - Premium currency (working name **Jade**) is bought with Robux only and spends only on the list above.
 
 ## 11. Vertical slice definition
-- **Content:** Mistvale hub + 1 hunting zone + Binding grove + 1 boss; 3 Kith (Crescent, a Stone guard Kith, a Wind dash Kith); 1 Crucible recipe; 1 Weave; Ranks 1→2 playable; the first 10 minutes from §8.
-- **Systems:** Qi, Binding, Upkeep, Crucible, Stages, save data (ProfileStore), PC + mobile + gamepad controls.
+- **Content:** Mistvale hub + 1 hunting zone + Binding grove + 1 boss; 3 Kith (Crescent, a Stone guard Kith, a Wind dash Kith); 1 Crucible recipe; 1 Weave (core + 1 support); 1 Qi-refining utility Kith; Ranks 1→2 playable; the first 10 minutes from §8.
+- **Systems:** Qi, Binding (tug-of-war), Heart Kith, Upkeep (Satiety), Strain, role tags, Crucible, Stages (Core Shell), Path Marks, Weave Loom, save data (ProfileStore), PC + mobile + gamepad controls.
 - **Quality bar:** the measurable bar in `.ai/ART.md` (P-003), built on R-013: instant client feedback, hit-stop/VFX/SFX on every hit, telegraphed boss attacks, stable 60 fps on mid-range mobile.
 
 ## 12. Out of scope (for now)
-- Ascendant Ranks 6–9, Reaches 2–5, Arrays, ranked PvP, trading UI polish, housing, voice chat, localisation, and the battle-pass.
+- Ascendant Ranks 6–9 (incl. world-unique **Singular Kith**), Reaches 2–5, Arrays and **Party Arrays**, **Hybrid Weaves**, sub-Paths, the **Wild Surge** server event (M2), **Legacy Vault** dungeons with Warden rules (M2–M3), ranked PvP, trading UI polish, housing, voice chat, localisation, and the battle-pass.
 - Revisit after the vertical slice playtest (P-005 roadmap).
