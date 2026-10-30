@@ -1,7 +1,7 @@
 # STATE
 
 - **Phase:** 2b — capability spike (D-025): T-003 → T-006, then P-002 … P-006
-- **Doing:** none (if a task is `doing`, resume it before NEXT)
+- **Doing:** T-005b (S6). Resume from: upload Saved version + Luau task.
 - **NEXT:** P-006 — owner approval of GDD + ART + ARCHITECTURE + ROADMAP (waiting on the owner). Meanwhile: T-005b once the key is fixed.
 - **Then:** after P-006: T-002 → T-010 → M1 tasks (ROADMAP.md)
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).

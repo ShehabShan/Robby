@@ -100,7 +100,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
 - **T-003 [done] [S] Ability core:** (S5) `src/shared/Qi.luau` + `src/shared/Kith/CrescentCut.luau`, Lune tests (25 pass). AC: `check.sh` PASS.
 - **T-004 [done S6] [S] Ability wiring + VFX:** server remote, client input (key + mobile button), code-built VFX (Beam/Trail/Particles), placeholder SFX, a training dummy; `rojo build` makes a place file. AC: build succeeds, check PASS.
 - **T-005 [done S6] [S] Headless verification:** report `research/notes/T-005-verification.md`; local inspect PASS, cloud split to T-005b — inspect the built place with Lune; cloud test via Luau Execution if a place ID + Open Cloud key exist. AC: a written pass/fail report.
-- **T-005b [blocked] [S] Cloud test:** upload place + Luau Execution task asserting dummy HP −20. Blocked: `roblox-open-cloud` returns 401 (key must be sent as `x-api-key` header; owner fixes integration). AC: cloud pass/fail in the T-005 report.
+- **T-005b [doing] [S] Cloud test:** upload place + Luau Execution task asserting dummy HP −20. Resume from: upload Saved version, run task. Key fixed (read 200, S6). AC: cloud pass/fail in the T-005 report.
 - **T-006 [blocked] [S] Owner playtest:** publish to a private test place only with the owner's explicit OK; owner plays in the normal Roblox app; feedback saved to the inbox. Needs place ID + Open Cloud key.
 - After the spike: P-002 … P-006 continue.
 
