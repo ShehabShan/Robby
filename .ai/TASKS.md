@@ -84,7 +84,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - Cover the style, palette, references, the asset list for the vertical slice with a route for each (from R-015), and the measurable quality bar (from R-013).
   - Also list the owner actions needed (accounts, assets, Studio steps).
   - AC: `.ai/ART.md`.
-- **P-004 [todo] [S] Technical architecture:**
+- **P-004 [doing] [S] Technical architecture:** Resume from: rewrite ARCHITECTURE.md from R-016 + GDD + SPIKE.
   - Cover the stack (from R-016), module map, networking, data (ProfileStore), and how the sample code gets replaced.
   - Include the testing plan: Lune unit tests, cloud tests, and owner playtests.
   - AC: ARCHITECTURE.md rewritten.

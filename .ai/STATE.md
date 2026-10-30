@@ -1,7 +1,7 @@
 # STATE
 
 - **Phase:** 2b — capability spike (D-025): T-003 → T-006, then P-002 … P-006
-- **Doing:** none (if a task is `doing`, resume it before NEXT)
+- **Doing:** P-004 (S6). Resume from: rewrite ARCHITECTURE.md.
 - **NEXT:** P-004 — technical architecture (ARCHITECTURE.md rewrite). T-005b/T-006 blocked on the owner.
 - **Then:** P-004 → P-005 → P-006 (owner approval); T-005b → T-006 when unblocked
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
