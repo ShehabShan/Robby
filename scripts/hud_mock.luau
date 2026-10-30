@@ -4,6 +4,7 @@
 local fs = require("@lune/fs")
 local HudLayout = require("../src/shared/HudLayout")
 local BindingUi = require("../src/shared/BindingUi")
+local ShellUi = require("../src/shared/ShellUi")
 
 local function rgba(c: { number }, a: number?): string
 	return `rgba({c[1]},{c[2]},{c[3]},{a or 1})`
@@ -19,6 +20,9 @@ local function html(state: any): string
 		for _, e in BindingUi.build(state.bind) do
 			table.insert(elements, e)
 		end
+	end
+	for _, e in ShellUi.build(state.shell) do -- Core Shell (T-018d, D-076)
+		table.insert(elements, e)
 	end
 	for _, e in elements do
 		local s = `position:absolute;left:{e.x}px;top:{e.y}px;width:{e.w}px;height:{e.h}px;box-sizing:border-box;`
@@ -80,6 +84,17 @@ for _, c in cases do
 		qiMax = 100,
 		slots = slots(c.platform),
 		gaps = { "Guard" },
+		shell = {
+			width = c.width,
+			height = c.height,
+			platform = c.platform,
+			rank = 1,
+			stage = 2,
+			progress = 0.45,
+			ready = false,
+			atRest = c.bind == nil,
+			shards = 120,
+		},
 		bind = if c.bind
 			then {
 				width = c.width,

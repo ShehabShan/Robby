@@ -45,6 +45,7 @@ local Config = {
 		baseCost = 50, -- points (1 Shard = 1 point) for Rank 1 First Stage
 		stageCostStep = 0.25, -- each later Stage costs +25 % of base
 		rankCostFactor = 2.5, -- each Rank costs 2.5x the one before
+		restRadius = 12, -- studs from a `RestSpot` part that count as resting (T-018d)
 		refinePerSecond = 10, -- Shards per second while holding Refine at a rest spot (wiring T-018d)
 	},
 	Upkeep = { -- Satiety + Strain per Kith (T-018a, D-073); tune in playtests

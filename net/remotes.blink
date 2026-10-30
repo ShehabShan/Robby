@@ -132,3 +132,13 @@ event Feed {
 		rare: boolean,
 	},
 }
+
+-- C→S: Refine held / released (T-018d). The server checks the rest spot and spends Shards into Stage progress.
+event Refine {
+	From: Client,
+	Type: Reliable,
+	Call: SingleSync,
+	Data: struct {
+		holding: boolean,
+	},
+}
