@@ -23,7 +23,6 @@
 - **NEXT:** T-021 … T-024 (ROADMAP.md order).
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
   - T-023c Boss Rank-test credit + tuning · playtest needs `roblox-open-cloud` (T-023a/b done)
   - T-021a-v Cloud walk check · owner reconnects `roblox-open-cloud`
