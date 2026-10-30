@@ -14,6 +14,7 @@ local AbilityInput = require(script.AbilityInput)
 local CrescentFx = require(script.CrescentFx)
 local KithFx = require(script.KithFx)
 local CombatInput = require(script.CombatInput)
+local Hud = require(script.Hud)
 local Net = require(script.Net) -- Blink-generated (net/remotes.blink)
 
 local player = Players.LocalPlayer
@@ -61,28 +62,4 @@ Net.HitFx.On(function(v)
 	FxRegistry.play(fx, v.fxId, { caster = v.caster, pos = v.pos, dir = v.dir, target = v.target, amount = v.amount })
 end)
 
-local gui = Instance.new("ScreenGui")
-gui.Name = "QiHud"
-gui.ResetOnSpawn = false
-local label = Instance.new("TextLabel")
-label.AnchorPoint = Vector2.new(0.5, 1)
-label.Position = UDim2.new(0.5, 0, 1, -90)
-label.Size = UDim2.fromOffset(180, 28)
-label.BackgroundColor3 = Color3.fromRGB(15, 20, 30)
-label.BackgroundTransparency = 0.4
-label.TextColor3 = Color3.fromRGB(150, 205, 255)
-label.Font = Enum.Font.GothamBold
-label.TextSize = 18
-label.Parent = gui
-
-local function refresh()
-	label.Text = string.format(
-		"Qi %s / %s",
-		tostring(player:GetAttribute("Qi") or "-"),
-		tostring(player:GetAttribute("QiMax") or "-")
-	)
-end
-player:GetAttributeChangedSignal("Qi"):Connect(refresh)
-player:GetAttributeChangedSignal("QiMax"):Connect(refresh)
-refresh()
-gui.Parent = player:WaitForChild("PlayerGui")
+Hud.start(built) -- HP/Qi bars, slot bar, gap warning (T-016c, D-068)

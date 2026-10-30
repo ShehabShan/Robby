@@ -8,8 +8,8 @@
 - Owner: Studio playtest of Crescent, combat, Stone Ward (Q/Y) and Wind Step (R/L2) (needs `wally install`). Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`).
 
 - **Phase:** 3 — Building (P-006 approved, D-049). Foundations done: R-021…R-026 + P-008 systems spec (S9, D-052).
-- **Doing:** none.
-- **NEXT:** T-016c HUD mock (reads player attributes from LoadoutService, D-064), then T-016d. T-016a/b done (D-063, D-064).
+- **Doing:** T-016d loadout screen (Resume from: start).
+- **NEXT:** T-016d loadout screen (Equip remote). T-016a/b/c done (D-063, D-064, D-068).
 - **Then:** T-017 … T-024 (ROADMAP.md order).
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of published v13 — check PC mouse aim (feedback → inbox). Open Cloud key works (read, Saved upload, Luau execution; S6).
