@@ -126,7 +126,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
 - After the spike: P-002 … P-006 continue.
 
 ## Phase 3 — Building (defined in P-005)
-- **T-002 [doing S9] Build the ARCHITECTURE v2 skeleton** (split S9 into S-sized parts; owner asked to use the remaining budget):
+- **T-002 [done S10] Build the ARCHITECTURE v2 skeleton** (split S9 into S-sized parts; owner asked to use the remaining budget):
   - **T-002a [done S9] [S] Math core:** `Tags`, `Stats` (one aggregation), `DamageMath` (R-022) in `src/shared` + `tests/Foundations.spec.luau` (R-022 numbers reproduced). AC: check.sh PASS.
   - **T-002b [done S9] [S] Effects + Moves + Registry:** `Effects` (apply/stack/tick/expire, tags, modifiers), `Moves` (validate costs, cooldown per (caster, moveId)), `Registry` (validates Content records), Lune tests. AC: check.sh PASS. Done: `tests/Abilities.spec.luau`.
   - **T-002c1 [done S9] [S] Crescent as data:** `src/shared/Content/Crescent.luau` (Move + Effect + Kith records built from `Config`), validated by `Registry` in `tests/Content.spec.luau`. AC: check.sh PASS.
@@ -135,5 +135,5 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - **T-002c4 [done S10] [S] FX registry:** `src/shared/FxRegistry.luau` (fx id → handler, unknown ids counted, handler errors contained) + `src/shared/CastRequest.luau` (moveId + u16 seq validation); CastRequest sends (moveId, aim, seq); CastFx/HitFx carry fxId first; `CrescentFx.register`. 8 tests in `tests/Fx.spec.luau`. Owner Studio playtest of the spike still due.
   - **T-002d1 [done S10] [S] Profile data (pure):** `src/shared/ProfileSchema.luau` (template v1, ordered migrations v0→v1, reconcile, validate, `load`; newer saves refused untouched; resolver injected) + `src/shared/Retired.luau` (chains, loops end); 9 tests in `tests/Profile.spec.luau`. No player data dropped (D-042).
   - **T-002d2 [done S10] [S] Packages:** `wally.toml` (Signal 2.0.3, Trove 1.8.0 shared; ProfileStore lm-loleris 1.0.3 server) mounted at ReplicatedStorage.Packages / ServerScriptService.ServerPackages; Blink 0.18.9 in `rokit.toml`; `net/remotes.blink` = SCHEMAS §9, compiled by check.sh (`PASS net`). bootstrap runs wally with a clean HOME (D-056). Runtime switch to Blink remotes is a later task.
-- **T-010 [blocked]** Cloud test pipeline: Open Cloud place upload + Luau Execution task + test runner. Needs a place ID and an API key (owner, via a custom integration).
+- **T-010 [doing S10] [S]** Cloud test pipeline: `cloud_test.py` uploads a Saved version and runs `scripts/cloud_runner.py` output (all Lune specs + packages + smoke) via Luau Execution. AC: `CLOUD ALL: PASS`. Resume from: `scripts/cloud_runner.py`.
 - **M1 tasks T-011 … T-024 [todo]:** see `.ai/ROADMAP.md` (IDs, scope and AC). Order: T-002 → T-010 → T-011 …

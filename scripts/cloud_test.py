@@ -1,6 +1,8 @@
 """T-005b: upload build/Robby.rbxl as a Saved (unpublished) version, then run tests/cloud/smoke.luau
 as an Open Cloud Luau Execution task and print the result. Usage: python3 scripts/cloud_test.py"""
 import json, os, sys, time, urllib.request, urllib.error
+sys.path.insert(0, os.path.dirname(__file__))
+import cloud_runner
 
 U, P = "10773761715", "95587500384127"
 BASE = os.environ["PROMPTQL_PLATFORM_API_URL"] + "/v1/integration/roblox-open-cloud/apis.roblox.com"
@@ -26,7 +28,7 @@ def main():
         if st != 200:
             sys.exit(1)
         v = res["versionNumber"]
-    script = open("tests/cloud/smoke.luau").read()
+    script = cloud_runner.build()  # T-010: all Lune specs + packages + smoke, in the real engine
     st, task = call("POST", f"/cloud/v2/universes/{U}/places/{P}/versions/{v}/luau-execution-session-tasks",
                     json.dumps({"script": script, "timeout": "120s"}).encode(),
                     desc="Run the Robby smoke test script on the uploaded place version")
@@ -45,7 +47,7 @@ def main():
     if isinstance(task, dict) and task.get("error"):
         print("error:", task["error"])
     st, logs = call("GET", path + "/logs", desc="Read the smoke test logs")
-    print("logs:", st, str(logs)[:600])
+    print("logs:", st, str(logs)[:1500])
     print("VERSION:", v)
 
 main()
