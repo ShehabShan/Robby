@@ -13,6 +13,8 @@ local Config = require(ReplicatedStorage.Shared.Config)
 local Combat = require(ReplicatedStorage.Shared.Combat)
 local Rewind = require(ReplicatedStorage.Shared.Rewind)
 local DamageMath = require(ReplicatedStorage.Shared.DamageMath)
+local Status = require(ReplicatedStorage.Shared.Status)
+local statuses = require(script.Parent.StatusStore)
 local Net = require(script.Parent.Net) -- Blink-generated (net/remotes.blink)
 
 local C = Config.Combat
@@ -152,6 +154,9 @@ local function attack(player: Player, s: State, rawDir: any, now: number)
 		local amount = DamageMath.compute({ base = C.chain.damage, rank = 1 })
 		local victim = Players:GetPlayerFromCharacter(model)
 		local vs = if victim then states[victim] else nil
+		if victim and Status.blocksHit(statuses, victim, now) then
+			continue -- Stone Ward or Wind Step i-frames
+		end
 		if vs then
 			if Combat.invulnerable(vs.dash, now) then
 				continue

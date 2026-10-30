@@ -16,13 +16,15 @@ local Moves = require(ReplicatedStorage.Shared.Moves)
 local Registry = require(ReplicatedStorage.Shared.Registry)
 local DamageMath = require(ReplicatedStorage.Shared.DamageMath)
 local Projectile = require(ReplicatedStorage.Shared.Deliveries.Projectile)
-local Crescent = require(ReplicatedStorage.Shared.Content.Crescent)
+local All = require(ReplicatedStorage.Shared.Content.All)
+local Status = require(ReplicatedStorage.Shared.Status)
+local statuses = require(script.Parent.StatusStore)
 
 local CHEST = Vector3.new(0, 0.5, 0)
 local CastRequest = require(ReplicatedStorage.Shared.CastRequest)
 local Net = require(script.Parent.Net) -- Blink-generated (net/remotes.blink)
 
-local built, errors = Registry.build(Crescent.content(Config))
+local built, errors = Registry.build(All.content(Config))
 if #errors > 0 then
 	warn("Content errors: " .. table.concat(errors, "; "))
 end
@@ -90,6 +92,22 @@ local function applyOnHit(shot: Shot, humanoid: Humanoid): number
 	return total
 end
 
+-- Self delivery (T-015b): grant the onSelf effects' tags for their duration, then show the cast FX.
+local function selfCast(player: Player, move: any, root: BasePart, dir: Vector3)
+	local now = os.clock()
+	for _, effectId in move.effects.onSelf or {} do
+		local effect: any = lookupEffect(effectId)
+		if effect then
+			for _, tag in effect.grantTags or {} do
+				Status.grant(statuses, player, tag, now + (effect.seconds or 0))
+			end
+		end
+	end
+	if move.fx.cast then
+		Net.CastFx.FireAll({ fxId = move.fx.cast, caster = player, pos = root.Position, dir = dir })
+	end
+end
+
 -- Sweeps the projectile from `from` to `to` studs along its path; may hit several targets in one step.
 local function sweep(shot: Shot, from: number, to: number)
 	if to <= from then
@@ -114,6 +132,10 @@ local function sweep(shot: Shot, from: number, to: number)
 		local humanoid = if model then model:FindFirstChildOfClass("Humanoid") else nil
 		if model and humanoid and humanoid.Health > 0 then
 			table.insert(exclude, model)
+			local victim = Players:GetPlayerFromCharacter(model)
+			if victim and Status.blocksHit(statuses, victim, os.clock()) then
+				continue -- warded or in i-frames
+			end
 			if Projectile.registerHit(shot.state, model:GetFullName() .. tostring(model:GetDebugId()), p) then
 				local amount = applyOnHit(shot, humanoid)
 				Net.HitFx.FireAll({
@@ -147,6 +169,7 @@ function Abilities.start()
 	Players.PlayerRemoving:Connect(function(player: Player)
 		pools[player] = nil
 		cooldowns[player] = nil
+		Status.clear(statuses, player)
 	end)
 
 	Net.CastRequest.On(function(player: Player, value)
@@ -181,6 +204,10 @@ function Abilities.start()
 		pool.current = caster.qi
 		publishQi(player, pool)
 		local dir = Vector3.new(x, 0, z)
+		if move.delivery.kind == "Self" then
+			selfCast(player, move, root, dir)
+			return
+		end
 		local origin = root.Position + dir * move.delivery.params.spawnOffset + CHEST
 		table.insert(shots, {
 			caster = player,

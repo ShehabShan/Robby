@@ -11,12 +11,20 @@ local CastRequest = require(ReplicatedStorage.Shared.CastRequest)
 local FxRegistry = require(ReplicatedStorage.Shared.FxRegistry)
 local Projectile = require(ReplicatedStorage.Shared.Deliveries.Projectile)
 
-local ACTION = "CrescentCut"
+-- Wind Step covers its distance in this burst (the client owns its character physics).
+local BURST_SECONDS = 0.25
 local CHEST = Vector3.new(0, 0.5, 0)
 
 local AbilityInput = {}
 
-function AbilityInput.start(send: (moveId: string, aim: Vector3, seq: number) -> (), fx: FxRegistry.Registry, move: any)
+export type Binding = { name: string, title: string, keys: { Enum.KeyCode } }
+
+function AbilityInput.start(
+	send: (moveId: string, aim: Vector3, seq: number) -> (),
+	fx: FxRegistry.Registry,
+	move: any,
+	binding: Binding
+)
 	local player = Players.LocalPlayer
 	local lastCast: number? = nil
 	local seq = 0
@@ -58,17 +66,24 @@ function AbilityInput.start(send: (moveId: string, aim: Vector3, seq: number) ->
 		local ctx = {
 			caster = player,
 			character = character,
-			pos = root.Position + dir * move.delivery.params.spawnOffset + CHEST,
+			pos = root.Position + dir * (move.delivery.params.spawnOffset or 0) + CHEST,
 			dir = dir,
 		}
 		FxRegistry.play(fx, move.fx.cast, ctx)
-		FxRegistry.play(fx, move.fx.travel, ctx)
+		if move.fx.travel then
+			FxRegistry.play(fx, move.fx.travel, ctx)
+		end
+		local distance = move.delivery.params.distance
+		if typeof(distance) == "number" then
+			root.AssemblyLinearVelocity = dir * (distance / BURST_SECONDS)
+				+ Vector3.new(0, root.AssemblyLinearVelocity.Y, 0)
+		end
 		send(move.id, dir, seq)
 		return Enum.ContextActionResult.Sink
 	end
 
-	ContextActionService:BindAction(ACTION, onAction, true, Enum.KeyCode.E, Enum.KeyCode.ButtonX)
-	ContextActionService:SetTitle(ACTION, "Cut")
+	ContextActionService:BindAction(binding.name, onAction, true, table.unpack(binding.keys))
+	ContextActionService:SetTitle(binding.name, binding.title)
 end
 
 return AbilityInput
