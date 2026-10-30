@@ -2,6 +2,15 @@
   "name": "Robby",
   "tree": {
     "$className": "DataModel",
+    "Workspace": {
+      "$properties": {
+        "StreamingEnabled": true,
+        "StreamingMinRadius": 64,
+        "StreamingTargetRadius": 256,
+        "StreamOutBehavior": "Opportunistic",
+        "ModelStreamingBehavior": "Improved"
+      }
+    },
     "ReplicatedStorage": {
       "Shared": {
         "$path": "src/shared"

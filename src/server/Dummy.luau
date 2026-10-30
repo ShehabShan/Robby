@@ -13,7 +13,7 @@ local POSITION = Vector3.new(0, 3, -25)
 local WOOD = Color3.fromRGB(196, 170, 120)
 
 local function ensureGround()
-	if not workspace:FindFirstChild("Baseplate") then
+	if not workspace:GetAttribute("MistvaleBuilt") and not workspace:FindFirstChild("Baseplate") then
 		local base = Instance.new("Part")
 		base.Name = "Baseplate"
 		base.Size = Vector3.new(512, 1, 512)

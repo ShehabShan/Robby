@@ -32,6 +32,15 @@ expect({ "StarterPlayer", "StarterPlayerScripts", "Client" }, "LocalScript")
 expect({ "StarterPlayer", "StarterPlayerScripts", "Client", "AbilityInput" }, "ModuleScript")
 expect({ "StarterPlayer", "StarterPlayerScripts", "Client", "CrescentFx" }, "ModuleScript")
 
+expect({ "ReplicatedStorage", "Shared", "MistvaleLayout" }, "ModuleScript")
+expect({ "ServerScriptService", "Server", "MistvaleTerrain" }, "ModuleScript")
+if game:GetService("Workspace").StreamingEnabled == true then
+	print("PASS Workspace.StreamingEnabled")
+else
+	failures += 1
+	print("FAIL Workspace.StreamingEnabled")
+end
+
 local stale = game:GetService("ReplicatedStorage"):FindFirstChild("Shared")
 if stale and stale:FindFirstChild("RoundState") then
 	failures += 1
