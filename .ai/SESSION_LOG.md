@@ -1,5 +1,9 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S24b (2026-10-30, ops on main)
+- Same bot as S18–S24. Added `scripts/release.sh` + AGENTS §9 stale-claim rule (D-134); tidied STATE lanes. S25 holds T-022.
+- OLU ≈41 / 50 (S18–S24 together).
+
 ## S24 (2026-10-30)
 - Same bot as S18–S23. Done: T-020g Unweave message fix (D-123).
 - Check PASS. Next: T-021b / T-022. OLU ≈38 / 50 (S18–S24 together).
