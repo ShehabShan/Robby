@@ -17,6 +17,7 @@ local DamageMath = require(ReplicatedStorage.Shared.DamageMath)
 local Status = require(ReplicatedStorage.Shared.Status)
 local BreakthroughService = require(script.Parent.BreakthroughService)
 local statuses = require(script.Parent.StatusStore)
+local SpeedGuardService = require(script.Parent.SpeedGuardService)
 local Net = require(script.Parent.Net) -- Blink-generated (net/remotes.blink)
 
 local C = Config.Combat
@@ -227,7 +228,9 @@ function CombatService.start()
 			attack(player, s, value.dir, now)
 		elseif kind == "Dash" then
 			if now >= s.staggerUntil then
-				Combat.dash(s.dash, now, C.dash)
+				if Combat.dash(s.dash, now, C.dash) then
+					SpeedGuardService.burst(player)
+				end
 			end
 		elseif kind == "Parry" then
 			Combat.parry(s.parry, now, C.parry)

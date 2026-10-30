@@ -20,6 +20,7 @@ local All = require(ReplicatedStorage.Shared.Content.All)
 local Status = require(ReplicatedStorage.Shared.Status)
 local BreakthroughService = require(script.Parent.BreakthroughService)
 local statuses = require(script.Parent.StatusStore)
+local SpeedGuardService = require(script.Parent.SpeedGuardService)
 local Loadout = require(ReplicatedStorage.Shared.Loadout)
 local DataService = require(script.Parent.DataService)
 local PathMarks = require(ReplicatedStorage.Shared.PathMarks)
@@ -128,6 +129,9 @@ end
 -- Self delivery (T-015b): grant the onSelf effects' tags for their duration, then show the cast FX.
 local function selfCast(player: Player, move: any, root: BasePart, dir: Vector3)
 	local now = os.clock()
+	if move.delivery.params and move.delivery.params.distance then
+		SpeedGuardService.burst(player) -- Wind Step burst (D-166)
+	end
 	for _, effectId in move.effects.onSelf or {} do
 		local effect: any = lookupEffect(effectId)
 		if effect then
