@@ -108,5 +108,18 @@ Full notes + draft quality bar (14 items): `research/notes/R-013-rell-seas.md`.
   - Art/animation throughput is the biggest gap for a headless pipeline — plan for it in P-003/P-004.
 - **Unknowns:** exact combat numbers, team size, post-release retention.
 - **Sources:** see the notes file (32 sources).
-## R-014 … R-018
+### R-014 Comparable Roblox games (done 2026-10-30)
+Full table (9 games) and gaps: `research/notes/R-014-comparable-games.md`.
+- **Findings:**
+  - Anime action RPGs are big: Blox Fruits 120k–158k CCU, Grand Piece Online ~15k, Jujutsu Infinite ~3–4k, Deepwoken ~2.5k (statroblox.com, rovitals.com).
+  - Cultivation games are small: Martial Arts World ~1–1.4k, Mortal to Immortal ~800, Murim ~100, Soul Cultivation ~30 (rblxdb.com, bloxed.gg).
+  - Their loop is meditate → breakthrough → quests → combat; players like breakthroughs and idle farming, dislike slow grinds, bugs and no endgame (boundbyflame.com, bladerpg.com).
+  - An RI fan game already exists ("Reverend Insanity cultivation", incremental sim using the title and terms) (creatorexchange.io).
+  - Permadeath adds tension but causes burnout (earnaldo.com).
+- **→ Implications for Robby:**
+  - Gap: cultivation + Rell Seas-grade action combat; creature taming/fusion/combos; an original, takedown-proof world.
+  - Endgame tension from rivals and risky fusions, not permadeath; short sessions that still progress.
+- **Unknowns:** CCU of the RI fan game; real retention data.
+- **Sources:** see the notes file (18 sources).
+## R-015 … R-018
 Not started. See TASKS.md.

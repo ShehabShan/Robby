@@ -30,7 +30,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - Cover the core loop, combat (moves, hitboxes, feel), progression, world structure and size, quality markers (VFX, animation, UI, map art, audio), monetisation and social features.
   - Include the developer, team size, development time and update cadence, what players praise and complain about, and visits/CCU if public.
   - AC: a draft of a measurable "quality bar" list for P-003.
-- **R-014 [doing] [S] Comparable Roblox games:** Resume from: searches; write research/notes/R-014-comparable-games.md.
+- **R-014 [done] [S] Comparable Roblox games:** (S4)
   - Cover cultivation/xianxia/wuxia and anime RPG games on Roblox: names, core loops, player counts, what works and what fails.
   - Note any existing RI-inspired Roblox games.
   - AC: a table of 5–8 games, plus gaps Robby can own.
