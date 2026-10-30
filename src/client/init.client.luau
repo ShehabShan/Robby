@@ -18,6 +18,7 @@ local FootstepClient = require(script.FootstepClient)
 local SprintClient = require(script.SprintClient)
 local ShiftLockClient = require(script.ShiftLockClient)
 local CombatInput = require(script.CombatInput)
+local KithInput = require(script.KithInput)
 local Hud = require(script.Hud)
 local BindingHud = require(script.BindingHud)
 local ShellHud = require(script.ShellHud)
@@ -57,9 +58,14 @@ AbilityInput.start(cast, fx, built.moves["move.wind_step"], {
 	keys = { Enum.KeyCode.R, Enum.KeyCode.ButtonL2 },
 })
 
-CombatInput.start(function(kind: string, dir: Vector3?, seq: number)
+local function action(kind: string, dir: Vector3?, seq: number)
 	Net.Action.Fire({ kind = kind :: any, dir = dir, seq = seq })
-end)
+end
+CombatInput.start(action)
+-- Kith stance (T-027d3, D-190): Q / B toggles; stance on: left click = Needle chain; Z / X / C = Fan / Fall / Shatter.
+KithInput.start(function(moveId: string, aim: Vector3, point: Vector3?, seq: number)
+	Net.CastRequest.Fire({ moveId = moveId, aim = aim, point = point, seq = seq })
+end, action, fx, built, "kith.rimeshard")
 
 Net.CastFx.On(function(v)
 	if v.caster == player then
