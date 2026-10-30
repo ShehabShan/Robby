@@ -6,4 +6,3 @@ Never start a task that has a row here. A row older than 12 h is a cut-off sessi
 | Session | Task | Branch | Decisions | Claimed (UTC) | Note |
 |---|---|---|---|---|---|
 | S22 | T-025 | session/S22 | D-112..D-121 | 2026-10-30 18:37 |  |
-| S23 | T-020f | session/S23 | D-122..D-131 | 2026-10-30 18:37 |  |
