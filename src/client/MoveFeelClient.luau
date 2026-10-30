@@ -8,6 +8,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 
 local Feel = require(ReplicatedStorage.Shared.MoveFeel)
+local ShiftLock = require(ReplicatedStorage.Shared.ShiftLock)
 
 local P = Feel.DEFAULTS
 local MoveFeelClient = {}
@@ -66,7 +67,8 @@ local function attach(character: Model)
 			phase = Feel.bobPhase(phase, speed, dt)
 			bx, by = Feel.bob(phase, speed)
 		end
-		hum.CameraOffset = Vector3.new(bx, by - dip, 0)
+		local shoulder = if Players.LocalPlayer:GetAttribute("ShiftLock") == true then ShiftLock.SHOULDER_X else 0
+		hum.CameraOffset = Vector3.new(bx + shoulder, by - dip, 0)
 	end)
 end
 

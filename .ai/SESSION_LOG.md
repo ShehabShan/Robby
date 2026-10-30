@@ -1,5 +1,9 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S29 (2026-10-30) — T-026e shift lock (owner request)
+- Shift lock on LeftControl (camera over shoulder, character faces camera, attacks/abilities aim where the character faces), D-164.
+- Owner key swap: Sprint = LeftShift, Dash = V. check.sh PASS. OLU ≈ 39 / 50.
+
 ## S28 (2026-10-30) — T-026 R15 movement kit
 - Split T-026 into a–d; inspected the owner's .rbxm (`scripts/inspect_rbxm.luau`, D-160): third-party kit, ported selectively.
 - T-026b1 movement feel (lean, camera bob, landing dip, D-161); T-026b2 surface footsteps (D-162); T-026b3a client sprint on LeftControl/L3 (D-163).

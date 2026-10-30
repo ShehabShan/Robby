@@ -1,5 +1,5 @@
 --!strict
--- Client sprint (T-026b3a, D-163): hold LeftControl / gamepad L3 to run. LeftShift stays Dash, C stays Crucible.
+-- Client sprint (T-026b3a, D-163): hold LeftShift / gamepad L3 to run (D-164). V is Dash, LeftControl is shift lock, C is Crucible.
 -- Ramps the local Humanoid.WalkSpeed via pure `Shared.Sprint`. Server speed guard is T-026b3b.
 
 local ContextActionService = game:GetService("ContextActionService")
@@ -18,7 +18,7 @@ function SprintClient.start()
 	ContextActionService:BindAction("Sprint", function(_, state: Enum.UserInputState, _)
 		held = state == Enum.UserInputState.Begin
 		return Enum.ContextActionResult.Pass
-	end, true, Enum.KeyCode.LeftControl, Enum.KeyCode.ButtonL3)
+	end, true, Enum.KeyCode.LeftShift, Enum.KeyCode.ButtonL3)
 
 	RunService.Heartbeat:Connect(function(dt: number)
 		local character = Players.LocalPlayer.Character

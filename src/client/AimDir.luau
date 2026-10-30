@@ -1,10 +1,13 @@
 --!strict
--- Aim direction for casts and attacks (D-067). With mouse and keyboard, aim at the mouse pointer: the pointer ray
+-- Aim direction for casts and attacks (D-067). With shift lock on, aim where the character faces (D-164). Otherwise with mouse and keyboard, aim at the mouse pointer: the pointer ray
 -- meets the horizontal plane at the character's root. Touch and gamepad keep the camera look direction.
 -- The server still validates every aim.
 
 local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
+
+local ShiftLock = require(ReplicatedStorage.Shared.ShiftLock)
 
 local MOUSE_INPUTS = {
 	[Enum.UserInputType.MouseMovement] = true,
@@ -19,6 +22,17 @@ local AimDir = {}
 
 function AimDir.look(camera: Camera): Vector3
 	local fallback = camera.CFrame.LookVector
+	-- Shift lock (D-164): aim where the character faces.
+	if Players.LocalPlayer:GetAttribute("ShiftLock") == true then
+		local c = Players.LocalPlayer.Character
+		local r = if c then c:FindFirstChild("HumanoidRootPart") else nil
+		if r and r:IsA("BasePart") then
+			local x, z, ok = ShiftLock.flatAim(r.CFrame.LookVector.X, r.CFrame.LookVector.Z)
+			if ok then
+				return Vector3.new(x, 0, z)
+			end
+		end
+	end
 	if not UserInputService.MouseEnabled or not MOUSE_INPUTS[UserInputService:GetLastInputType()] then
 		return fallback
 	end
