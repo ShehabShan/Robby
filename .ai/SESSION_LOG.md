@@ -1,5 +1,10 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S42 (2026-10-30) — T-027d1 + T-027d2 Kith stance core and server casts
+- T-027d split d1–d3 (D-184). d1: pure `Shared.Stance` (toggle, Needle chain/finisher, Z/X/C specials, shot-2 cancel, server `verify`), 6 specs; Blink `CastRequest.point`; Crucible key C → B (D-176).
+- d2: `Abilities` ops DmgPerStack/Stagger on a per-model Effects holder (D-187, D-188), Volley/Zone/Burst server casts, `Stance.verify` per cast, `ActionKind.Stance` toggle (D-186).
+- check.sh PASS (256 tests). Next: T-027d3 client input (`KithInput`), then T-027e FX. ≈40 OLU.
+
 ## S41 (2026-10-30) — T-027c + T-027g Rimeshard content and balance
 - T-027c: `Config.Abilities.Rimeshard` + `Content/Rimeshard.luau` (5 moves, Chill + Shatter effects), Registry Volley/Burst, Frost Path in Loom, 7 specs (D-180, D-181).
 - T-027g: pure `RimeshardSim` + `scripts/rime_balance.luau`; sweep → Needle 4, Fan cd 3, finisher pause 1.2 (D-182, D-183); RESEARCH entry; 2 specs.
