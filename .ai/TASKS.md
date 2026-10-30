@@ -179,5 +179,8 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - **T-021a-v [todo] [S] Cloud walk check:** run `python3 scripts/cloud_test.py` (smoke now raycasts terrain at spawn/path/zone1). Blocked S19: integration `roblox-open-cloud` "not enabled for this project" (owner must reconnect it).
   - **T-025a [done S22, D-112] [S] Mist Lotus core:** utility Kith content + `Shared.Refining` + Refine wiring. Lune; check PASS.
   - **T-025b [todo] [S] Lotus in the world:** a wild Mist Lotus to Bind in Mistvale (Binding grove) + loadout/HUD hint showing the Refine bonus. After T-021c.
+  - **T-022a [done S25, D-124] [S] Beast brain (pure):** `Shared.BeastBrain` state machine + 2 kinds in `Config.Beasts`. Lune; check PASS.
+  - **T-022b [done S25, D-125] [S] Beast wiring:** `Server.BeastService` spawns 3 Mistfang + 2 Stonehide at zone 1, server AI, red-body telegraph, strikes via `CombatService.incoming`, Shards on kill. check PASS.
+  - **T-022c [todo] [S] Beast feel + playtest:** telegraph VFX/SFX through FxRegistry (client), HP/Rank colour band, playtest tuning (walk check needs `roblox-open-cloud`).
   - **T-021c [todo] [S] Hub assembly:** place the T-021b kit on the T-021a terrain (village, rest spot, Crucible, Binding grove marker). After T-021a + T-021b. AC: hub + 1 zone walkable; budgets met; check PASS.
 - **M1 tasks T-011 … T-024 [todo]:** see `.ai/ROADMAP.md` (IDs, scope and AC). Order: T-002 → T-010 → T-011 …

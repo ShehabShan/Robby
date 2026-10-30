@@ -106,6 +106,10 @@ local function applyOnHit(shot: Shot, humanoid: Humanoid): number
 					shot.caster:SetAttribute("Marks", PathMarks.encode(data.marks)) -- Loom panel (T-020f, D-122)
 				end
 				humanoid:TakeDamage(amount)
+				local victimModel = humanoid.Parent
+				if victimModel and not game:GetService("Players"):GetPlayerFromCharacter(victimModel) then
+					victimModel:SetAttribute("LastHitBy", shot.caster.UserId) -- kill credit (BeastService, T-022b)
+				end
 				BreakthroughService.onDamage(shot.caster, amount) -- trial cracks (T-018f)
 				total += amount
 			end
