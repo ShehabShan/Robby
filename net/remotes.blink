@@ -15,6 +15,7 @@ event CastRequest {
 	Data: struct {
 		moveId: string(..64),
 		aim: vector,
+		point: vector?, -- ground point for `target = "Point"` moves (Rime Fall, T-027d1); validated server-side
 		seq: u16,
 	},
 }

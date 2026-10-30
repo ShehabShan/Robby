@@ -1,5 +1,5 @@
 --!strict
--- Crucible UI wiring (T-019e, D-085): draws Shared.CrucibleUi. At a rest spot with two fusable Kith, C / D-pad Right /
+-- Crucible UI wiring (T-019e, D-085): draws Shared.CrucibleUi. At a rest spot with two fusable Kith, B (D-176) / D-pad Right /
 -- the Crucible button opens the confirm panel; Fuse sends CrucibleStart, then each press sends CruciblePress.
 -- Reads CrucibleRound / Zone / RoundStart / Odds / Result (CrucibleService, D-083). The server decides everything.
 
@@ -218,7 +218,7 @@ function CrucibleHud.start(net: any)
 		end
 		draw()
 		return Enum.ContextActionResult.Pass
-	end, false, Enum.KeyCode.C, Enum.KeyCode.DPadRight)
+	end, false, Enum.KeyCode.B, Enum.KeyCode.DPadRight)
 
 	player:GetAttributeChangedSignal("CrucibleResult"):Connect(function()
 		if player:GetAttribute("CrucibleResult") ~= nil then

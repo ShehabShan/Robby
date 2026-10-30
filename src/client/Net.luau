@@ -165,9 +165,9 @@ Queue.Unreliable[2] = table.create(256)
 Queue.Reliable[3] = table.create(256)
 Queue.Reliable[4] = table.create(256)
 export type ActionKind = ("Attack" | "Dash" | "Parry" | "Guard")
-function SerdesFunctions.WriteEVENT_CastRequest(Value: { moveId: string, aim: Vector3, seq: number }): ()
-	-- Allocate BLOCK: 16 bytes
-	local BLOCK_START = Allocate(16)
+function SerdesFunctions.WriteEVENT_CastRequest(Value: { moveId: string, aim: Vector3, point: Vector3?, seq: number }): ()
+	-- Allocate BLOCK: 17 bytes
+	local BLOCK_START = Allocate(17)
 	buffer.writeu8(SendBuffer, BLOCK_START + 0, 0)
 	local Length = #Value.moveId
 	buffer.writeu8(SendBuffer, BLOCK_START + 1, Length)
@@ -177,7 +177,16 @@ function SerdesFunctions.WriteEVENT_CastRequest(Value: { moveId: string, aim: Ve
 	buffer.writef32(SendBuffer, BLOCK_START + 2, Vector.X)
 	buffer.writef32(SendBuffer, BLOCK_START + 6, Vector.Y)
 	buffer.writef32(SendBuffer, BLOCK_START + 10, Vector.Z)
-	buffer.writeu16(SendBuffer, BLOCK_START + 14, Value.seq)
+	buffer.writeu8(SendBuffer, BLOCK_START + 14, Value.point ~= nil and 1 or 0)
+	if Value.point ~= nil then
+		-- Allocate BLOCK: 12 bytes
+		local BLOCK_START = Allocate(12)
+		local Vector = Value.point
+		buffer.writef32(SendBuffer, BLOCK_START + 0, Vector.X)
+		buffer.writef32(SendBuffer, BLOCK_START + 4, Vector.Y)
+		buffer.writef32(SendBuffer, BLOCK_START + 8, Vector.Z)
+	end
+	buffer.writeu16(SendBuffer, BLOCK_START + 15, Value.seq)
 end
 
 function SerdesFunctions.WriteEVENT_Action(Value: { kind: ("Attack" | "Dash" | "Parry" | "Guard"), dir: Vector3?, seq: number }): ()
@@ -571,7 +580,7 @@ local Returns = table.freeze({
 	StepReplication = StepReplication,
 
 	CastRequest = {
-		Fire = function(Value: { moveId: string, aim: Vector3, seq: number }): ()
+		Fire = function(Value: { moveId: string, aim: Vector3, point: Vector3?, seq: number }): ()
 			SerdesFunctions.WriteEVENT_CastRequest(Value)
 		end
 	},

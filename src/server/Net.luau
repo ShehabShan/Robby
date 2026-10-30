@@ -174,9 +174,9 @@ Queue.Reliable[10] = table.create(256)
 Queue.Reliable[11] = table.create(256)
 Queue.Reliable[12] = table.create(256)
 export type ActionKind = ("Attack" | "Dash" | "Parry" | "Guard")
-function SerdesFunctions.ReadEVENT_CastRequest(): ({ moveId: string, aim: Vector3, seq: number })
-	-- Read BLOCK: 15 bytes
-	local BLOCK_START = Read(15)
+function SerdesFunctions.ReadEVENT_CastRequest(): ({ moveId: string, aim: Vector3, point: Vector3?, seq: number })
+	-- Read BLOCK: 16 bytes
+	local BLOCK_START = Read(16)
 	local Value = {} :: any
 	local Length = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
 	Value.moveId = buffer.readstring(RecieveBuffer, Read(Length), Length)
@@ -186,7 +186,15 @@ function SerdesFunctions.ReadEVENT_CastRequest(): ({ moveId: string, aim: Vector
 	local Y = buffer.readf32(RecieveBuffer, BLOCK_START + 5)
 	local Z = buffer.readf32(RecieveBuffer, BLOCK_START + 9)
 	Value.aim = Vector3.new(X, Y, Z)
-	Value.seq = buffer.readu16(RecieveBuffer, BLOCK_START + 13)
+	if buffer.readu8(RecieveBuffer, BLOCK_START + 13) == 1 then
+		-- Read BLOCK: 12 bytes
+		local BLOCK_START = Read(12)
+		X = buffer.readf32(RecieveBuffer, BLOCK_START + 0)
+		Y = buffer.readf32(RecieveBuffer, BLOCK_START + 4)
+		Z = buffer.readf32(RecieveBuffer, BLOCK_START + 8)
+		Value.point = Vector3.new(X, Y, Z)
+	end
+	Value.seq = buffer.readu16(RecieveBuffer, BLOCK_START + 14)
 	return Value
 end
 
@@ -541,7 +549,7 @@ Reliable.OnServerEvent:Connect(function(Player: Player, Buffer: buffer, Instance
 		local BLOCK_START = Read(1)
 		local Index = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
 		if Index == 0 then
-			local Value: { moveId: string, aim: Vector3, seq: number } = SerdesFunctions.ReadEVENT_CastRequest()
+			local Value: { moveId: string, aim: Vector3, point: Vector3?, seq: number } = SerdesFunctions.ReadEVENT_CastRequest()
 			if Events.Reliable[0] ~= nil then
 				SerdesEvent = "CastRequest"
 				Events.Reliable[0](Player, Value)
@@ -694,7 +702,7 @@ local Returns = table.freeze({
 	StepReplication = StepReplication,
 
 	CastRequest = {
-		On = function(Listener: (Player: Player, Value: { moveId: string, aim: Vector3, seq: number }) -> ()): () -> ()
+		On = function(Listener: (Player: Player, Value: { moveId: string, aim: Vector3, point: Vector3?, seq: number }) -> ()): () -> ()
 			Events.Reliable[0] = Listener
 			for Index, Arguments in Queue.Reliable[0] do
 				Listener(table.unpack(Arguments))

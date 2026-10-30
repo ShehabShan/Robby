@@ -1,5 +1,6 @@
 --!strict
--- CastRequest payload rules (T-002c4, SCHEMAS §9): C→S `moveId: string, aim: vector, seq: u16`.
+-- CastRequest payload rules (T-002c4, SCHEMAS §9): C→S `moveId: string, aim: vector, point: vector?, seq: u16`.
+-- `point` is the aimed ground point for `target = "Point"` moves (T-027d1); the server checks it with Zone.isValidPoint.
 -- Pure: the server checks aim (a Vector3) itself; this validates moveId against built Content and seq as u16.
 
 local MAX_ID = 64
