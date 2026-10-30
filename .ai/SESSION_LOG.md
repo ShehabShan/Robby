@@ -1,5 +1,8 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S37 (2026-10-30) — F-07 docs drift done
+- Stale Resume notes cleaned, T-006 Resume note added, ref scan clean (D-173). check.sh PASS.
+
 ## S36 (2026-10-30) — F-07 docs drift (partial)
 - T-023 marked done; T-026c/d unblocked (D-172). Stopped near the OLU wrap point.
 
