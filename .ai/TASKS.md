@@ -118,7 +118,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
     - **R-023a [done S8] [S] Economy research + sim plan:** faucets/sinks, inflation and trade exploits in Roblox RPGs (3–6 searches). AC: `research/notes/R-023-economy.md` §1–§3 (findings, Robby faucet/sink map from GDD §4/§6, sim plan with inputs/outputs); RESEARCH.md entry. Resume from: the note §1.
     - **R-023b [done S8] [S] Economy sim + first results:** `research/sim/economy_sim.py` per the R-023a plan. AC: Shard balance and Stage pacing curves vs GDD §6 targets (Rank 1→2 ~2 h, Rank 5 ~40 h); findings + tuning proposals in the note §4.
   - **R-024 [done S8] [S] Save data & live-ops flexibility:** ProfileStore schema migration, feature flags, content versioning, remote config. AC: rules for adding systems without breaking saves.
-  - **R-025 [doing S8] [S] Combat netcode & anti-exploit:** how top Roblox action games (Rell Seas, Deepwoken, Blox Fruits) handle hits, lag and exploits. AC: confirm/adjust D-030.
+  - **R-025 [done S8] [S] Combat netcode & anti-exploit:** how top Roblox action games (Rell Seas, Deepwoken, Blox Fruits) handle hits, lag and exploits. AC: confirm/adjust D-030.
   - **R-026 [todo] [S] Retention & first session:** Roblox RPG D1/D7 benchmarks, onboarding, what keeps players. AC: adjust GDD §8.
   - **F-001 [done S7] [S] Fidelity audit:** `research/notes/F-001-fidelity-audit.md` — design vs source, gaps fixed in GDD (Clan Academy, Sanctum, Trials of Heaven, rare Second Chance Kith, iconic Kith role list; D-038). *Verify* items go to R-021+ sessions only if needed.
   - **P-008 [todo] [S] Systems spec:** turn R-021…R-026 into ARCHITECTURE v2 + data schemas (Kith/Weave/Path/Effect). Before T-002.

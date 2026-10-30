@@ -338,3 +338,15 @@ Draft model, curve table and 10 sources: `research/notes/R-022-stat-damage-math.
 **Unknowns**
 - ConfigService limits; Open Cloud DataStore backups (T-010/P-008).
 **Sources** — `research/notes/R-024-save-liveops.md` §4.
+
+### R-025 Combat netcode & anti-exploit (done 2026-10-30)
+**Findings**
+- Server authority plus client prediction and resimulation is Roblox's recommended model [Roblox server-authority docs].
+- Melee: the client predicts FX; the server rewinds a position history and ignores client timestamps [devforum combat-system-with-rollback].
+- UnreliableRemoteEvent drops or reorders; use sequence numbers [Roblox remote docs; devforum UnreliableRemoteEvents].
+- Lag compensation interpolates stored snapshots [Colyseus; SnapNet; Netick].
+**→ Implications for Robby**
+- D-030 confirmed; 9 netcode rules (D-050).
+**Unknowns**
+- Mobile ping spread (M1 playtests); Blink packet sizes (P-008); internals of Rell Seas, Deepwoken and Blox Fruits (closed source).
+**Sources** — `research/notes/R-025-combat-netcode.md` §4.

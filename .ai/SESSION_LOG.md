@@ -4,7 +4,7 @@
 - R-027 owner directive list: 44 points → 86 parts judged; 10 slice mechanics + M2 items into GDD, no permanent player loss (D-042).
 - R-021p ability catalogue (52 rows, 15-point checklist, D-043) → R-021 framework: pure-Luau "Kith GAS-lite" (D-044).
 - R-023 economy: research + Python sim; Rank costs, trade fee, post-cap sinks (D-045, D-046). R-024 save/live-ops rules (D-047).
-- Owner follow-up: removed unsuitable R-027 parts; added Styles, Armament Kith, Talismans + 6 own ideas (D-048). OLU used: ~35. Next: R-025 combat netcode, then R-026, P-008. Owner approved P-006 (D-049).
+- Owner follow-up: removed unsuitable R-027 parts; added Styles, Armament Kith, Talismans + 6 own ideas (D-048). R-025 combat netcode rules (D-050). OLU used: ~40. Next: R-026, P-008. Owner approved P-006 (D-049).
 
 ## S7 — 2026-10-30 (deep RI research + GDD v2)
 - R-020 done via R-020a–d: Gu system, Paths/killer moves, world/factions/pacing, fan values → 25-item GDD change list (research/notes/R-020*).
