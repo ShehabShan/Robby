@@ -71,3 +71,12 @@ Inputs: R-016 (stack), GDD v1, SPIKE.md / T-004 (proven pattern), ART.md (budget
 - Pure modules take dependencies as arguments; no `game:GetService` in `src/shared`.
 - Server modules require shared via `require(ReplicatedStorage.Shared.X)` (resolved by the Rojo sourcemap for type checking).
 - Entry scripts require their own modules via `script.X`.
+
+## 9. Notes for P-008 (R-027, S8)
+- **Kith = species data + owned instance.** Species: id, rank, Path, role, tags, moves, food id. Instance: uid, speciesId, satiety, strain, wounded/dormant flags, bond, obtainedAt. Never store derived stats.
+- **Character:** `cores` is a list (default 1) so a Twin Core needs no migration; stats include Will; Imprints are a list of {path, slot}.
+- **Rules as checks:** Rank lock at equip time; Friction cap (−20%) and Qi Reserve in the stat calc (R-022).
+- **Timestamps, not ticks:** perishables, Sanctum output and cooldown-type timers store an expiry/start time and resolve lazily.
+- **Currency ledger** keyed by tier (Shards now, later tiers); exchange is one-way upward (R-023).
+- **Global uniqueness** (Singular Kith, Ascendant) needs a MemoryStore/DataStore lock; not before Ascendant.
+- **Per-viewer info** (Seek layer, Path Sense): the server sends tags; the client decides what to render.

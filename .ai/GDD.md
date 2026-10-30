@@ -1,6 +1,6 @@
 # GDD — Robby v1
 
-Status: **v1 complete (P-002a/b, S6)** — awaiting owner review in P-006. The obby draft is in `.ai/archive/GDD-obby-v0.md` (superseded, D-013).
+Status: **v1 complete (P-002a/b, S6)**; R-027 directive additions (D-042) — awaiting owner review in P-006. The obby draft is in `.ai/archive/GDD-obby-v0.md` (superseded, D-013).
 Inputs: VISION.md, RESEARCH.md (R-011…R-019), D-025 (concept A, RI-like structure), SPIKE.md. All names are working names; nothing from RI is used (D-014).
 Numbers are first targets to tune in playtests.
 
@@ -15,6 +15,7 @@ Numbers are first targets to tune in playtests.
 - **Tone:** ambitious, sly, scarce; mentor figures who are not trustworthy; victories bought with planning. The darkness comes through **strategy and rivalry, never cruelty**.
 - **Grim world, rewarding play (R-020d):** the world is cold and survival-of-the-fittest, but the player gets frequent wins, clear goals and very little text. Systems are the star: every rule is consistent and learnable, and smart builds beat raw grind.
 - **Anti-genre-trap rules (R-020d):** no "click to boost a stat" loops; skill-based combat; every progression step offers a build choice.
+- **Springs (R-027):** every settlement sits on a Qi Spring (level-design rule). Longevity is lore only: elders chase it; players never age.
 - **Maturity:** Roblox **Mild** (D-024). Stylised hits with no blood, corpses or gore. Kith **merge**, never devour. Defeat means a stagger and a respawn.
 - **Fidelity (D-038):** follow the source as closely as Rell Seas follows One Piece — same systems, Rank feel, world structure, politics, iconic ability roles and set-piece events — with our own names and looks (`research/notes/F-001-fidelity-audit.md`).
 - **IP line (D-014):** use only mirror concepts from R-019. No RI names, places, characters, plot or text.
@@ -28,6 +29,7 @@ Numbers are first targets to tune in playtests.
   - Leave a safe hub and take one or two goals (hunt, gather, Binding attempt, rival bounty).
   - Fight through a zone, collect **Shards** and Upkeep materials, and Bind one wild Kith.
   - Return to rest, feed the Kith, try a **Crucible** fusion or advance a **Stage**.
+  - **Refine** at rest spots: hold to channel Shards into Stage progress (cracking-shell VFX); no AFK gain (R-027).
 - **Long-term (weeks):**
   - Climb Ranks 1→5 (Mortal).
   - Master a **Path** (Marks), build signature **Weaves**, and choose **Clans or Rogues**.
@@ -48,9 +50,20 @@ Numbers are first targets to tune in playtests.
 | Rank up | **Ranks 1–9 × Stages** | Each Rank has 4 Stages (First, Second, Third, Peak), shown as a **Core Shell** whose material changes per Stage (mist → water → stone → crystal). Shards plus Path Marks fill the bar. A Rank breakthrough is a short trial: crack the shell in waves; on fail the cracks heal slowly, so a quick retry keeps some progress (R-020a). |
 | Identity | **Paths** | 5 at launch: Moon, Wind, Flame, Stone, Tide (one sub-Path each, later). **Path Marks** add % power to that Path's moves, with visible VFX upgrades at thresholds. A **Friction wheel** marks allied and opposed Paths; opposed supports in a Weave cut its power (shown in the Loom), so builds favour a main + secondary Path. |
 | Skill | **Mastery** | Per-Path tiers Initiate → Adept → Master → Sage → Paragon, earned by use and separate from Rank. They unlock Weave slots, cheaper Weave edits and better Crucible odds (R-020b). |
+| Lock | **Rank lock** | A Kith above your Rank cannot be equipped (R-027). |
+| Reserve | **Qi Reserve** | Each equipped passive Kith reserves a % of max Qi, so Talent shapes the loadout (R-027). |
+| Bond | **Bond** | Each owned Kith gains Bond with use (small bonus); Kith never disobey (R-027). |
+| Will | **Will** | A profile stat (not on the HUD): Binding strength, summon cap, control resistance. Grows at Rank-ups (R-027). |
 - **Qi:** Rank 1 pool of 100, regen 5/s (Config). Pool size scales with Rank and Talent. Each Rank has its own **Core hue** for UI and VFX; moves scale with the wielder's hue, so early Kith stay useful.
 - **Shards:** both the currency and a Qi refill — spend now to heal Qi, or save for the Crucible (R-020a).
 - **First Kith:** Crescent Kith → Crescent Cut (SPIKE.md). Its natural Crucible upgrade is a rank 2 twin-crescent. An early sought-after prize is a **Qi-refining utility Kith** that speeds Stage gain (R-020d).
+
+- **R-027 rules:**
+  - Heart Kith gives −10% Qi cost to its Path's moves.
+  - Failed experimental Crucible = **Recoil**: current Qi drained, Qi regen halved for 5 min.
+  - Shard Qi refill has a short cooldown.
+  - Friction: opposed-Path Marks cut opposed moves by at most −20%; Mark power has diminishing tiers (R-022).
+  - Later (M2): **Imprints** (permanent zero-Qi passives earned at Rank breakthroughs, count as Path Marks; respec costs Shards), **Relic Kith** (rare world-drop consumable that completes one Stage, never a Rank), **summon Kith** (1–3 active, capped by Will, constant Qi drain), and a rare **Peerless** Talent (max pool; unstable Core needs a questline before Rank 3).
 
 ## 5. Combat
 - **Controls (one binding set via ContextActionService):**
@@ -66,6 +79,12 @@ Numbers are first targets to tune in playtests.
   - The server owns Qi, cooldowns, hit detection (it simulates projectiles and blockcasts itself) and damage.
   - Clients send only intent plus an aim direction. Rewind tolerance is decided in P-004 (R-016).
   - Proven in the spike (T-004).
+- **R-027 mechanics:**
+  - **Scatter:** elite NPCs start a visible 2 s channel at low HP; interrupt it for the bonus drop.
+  - **Overdraw:** cast at 0 Qi by paying HP; adds a Core Crack (−10% max Qi until rest).
+  - **Qi Wells:** boss-arena spots with fast Qi regen that the boss attacks.
+  - **Seek layer:** by default enemies show HP and a Rank colour band; Seek Kith reveal stealth, exact Rank and loadout, and bounty trails. The minimap stays.
+  - **Path Sense:** at Master tier, enemy moves of that Path flash an earlier telegraph.
 - **PvE first.** PvP rules are in §9 (P-002b).
 
 ## 6. Progression & economy
@@ -91,6 +110,8 @@ Numbers are first targets to tune in playtests.
   - Every session must move a bar (Stage, Marks or a new Kith), even a 15-minute one.
 - **Scarcity rule:** Kith and catalysts are earned in the world, never sold. Shard income per hour is capped by zone tier so that higher Reaches matter.
 
+- **R-027:** the **Caravan** hub event (~every 2 real hours) sells rotating recipes, hint scrolls and rare meals (never Kith or catalysts). Rare meals and some materials **perish** after hours unless held in a Carry Kith (M2). The currency ledger supports later tiers with one-way upward exchange and a sink (R-023 sim).
+
 ## 7. World structure
 - **Five Reaches** (working names): **Mistvale** (start, temperate valleys, Moon/Wind Paths), Ember Steppe (Flame), Stonecrown (Stone), Tidefall coast, and the Hollow (endgame). **Veils** between Reaches need a Rank gate (Reach 2 at Rank 2, and so on) and a short Veil trial where stats are briefly damped; high-Rank players are damped in starter Reaches (anti-grief).
 - **A society per Reach (R-020c):** Mistvale = bloodline Clans; Ember Steppe = nomad bands; Tidefall = island houses; Stonecrown = merit **Halls** (join by an entrance skill trial; Hall rank unlocks rare Kith and recipes); the Hollow = no rule.
@@ -100,6 +121,7 @@ Numbers are first targets to tune in playtests.
 - **Mistvale layout:** a safe hub village (shops, Crucible, rest, journal), 3 hunting zones of rising tier, 1 Binding grove, 1 rival camp, and 1 boss arena.
 - **NPCs:** a sly mentor (Opening Rite, tutorial quests), a Crucible keeper, a Shard trader, Clan and Rogue recruiters, and rival cultivators (bounty targets).
 - **Quests:** a short main chain per Reach, daily bounties, Binding hunts for named Kith, and Weave discoveries (hint scrolls).
+- **R-027 quests & politics:** escort quests; the **Beast Tide** timed defence event (= Wild Surge, M2); elder **favour seesaw** (helping one rival elder costs favour with the other; Shards buy favour); Clan **Levy** (periodic defence calls — skipping costs contribution — and a stipend tax); a few **contested Springs** in hunting zones as PvE capture points with a Shard trickle; slain world bosses leave a 10-min **Remnant** mini-dungeon for the party (M2); original non-human peoples with favour perks in Reaches 2–5.
 - **Tech:** StreamingEnabled from day one; mobile-first budgets (R-016).
 
 ## 8. First 10 minutes
@@ -120,6 +142,8 @@ Numbers are first targets to tune in playtests.
 - **Clans:** a player-made Clan joins either the Clans or the Rogues faction at Rank 2. Faction perks are cosmetic or quest access, not raw power. The split is **morally grey**, not good vs evil: Clans get stipends, safe storage and guards; Rogues get bounty hunting, black-market Crucible recipes and freedom to play selfishly (within Roblox rules), but no stipend.
 - **Trading:** Shards and materials only; Kith are untradable (scarcity rule, §6).
 
+- **R-027:** arenas use a fixed entry fee and fixed prizes (no player-to-player betting). Rogue black-market recipes are faster with a higher fail chance. Rogues earn **Notoriety** from PvP-zone kills, which draws NPC hunter patrols; a Cleanse consumable lowers it. Player bounties only in PvP zones.
+
 ## 10. Monetisation
 - **Principle:** no pay-to-win; Roblox policy-compliant; no random paid loot boxes.
 - **Sells:** cosmetics (robes, Core-hue trails, VFX skins), hub housing décor, a battle-pass with cosmetic rewards and small Shard boosts, extra journal/loadout slots, private servers.
@@ -133,4 +157,5 @@ Numbers are first targets to tune in playtests.
 
 ## 12. Out of scope (for now)
 - Ascendant Ranks 6–9 (incl. world-unique **Singular Kith**, a personal pocket-world **Sanctum**, and **Trials of Heaven** breakthrough calamities), Reaches 2–5, Arrays and **Party Arrays**, **Hybrid Weaves**, sub-Paths, the **Wild Surge** server event (M2), **Legacy Vault** dungeons with Warden rules (M2–M3), ranked PvP, trading UI polish, housing, voice chat, localisation, and the battle-pass.
+- **Parked by R-027 (D-042):** Singular Kith global lock (returns to the world after 14 days inactive); Sanctum as a plot in a shared hub with time-multiplied output; Trials of Heaven as Sanctum wave defence; Arrays = placed totem of ≤3 Kith; Kith Vessel (party vessel, pooled Qi); Paragon off-Path support; Twin Core; Clan territory war; Legacy Vault rewards (recipe + guaranteed Kith + Qi Well).
 - Revisit after the vertical slice playtest (P-005 roadmap).

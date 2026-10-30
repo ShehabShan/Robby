@@ -266,3 +266,16 @@ Draft model, curve table and 10 sources: `research/notes/R-022-stat-damage-math.
 - **→ Implications for Robby:** two buckets (Boost additive, Surge multiplicative, Surge cap ×3); pipeline Base × Potency × (1+ΣBoost) × ΠSurge → Guard → Friction in one tested `DamageMath` module; Guard K scales with attacker Rank; Marks hyperbolic (+30% at 60); no extra gap penalty. Sim: best/fresh DPS ≈ 2.95, TTK 10 s / 16 s / 26 s at +0/+1/+2 Rank.
 - **Unknowns:** enemy tier numbers, Qi/Strain curves (P-007b); PvP fairness.
 - **Sources:** see the notes file.
+
+### R-027 Owner directive list triage (done 2026-10-30)
+**Findings**
+- Most of the 44 points already exist in GDD v2 as mirrors (Kith, Binding, Heart Kith, Crucible, Weaves, Marks, Mastery) (R-020a–d).
+- Extreme physiques are a separate grade above A–D with full capacity and an unstable body [sagaofgu aptitude; fandom Ten Extreme Physiques].
+- Lifespan Gu occur naturally and are limited by Heaven's Will [fandom Lifespan Gu]. Relic Gu are natural and advance one small realm [sagaofgu Green Copper Relic Gu].
+- A destroyed vital Gu means heavy injury or death; dying masters can self-detonate [sagaofgu vital Gu; fandom Soul].
+**→ Implications for Robby**
+- 10 new slice/M1 mechanics and ~15 M2+ items, all with no permanent player loss (D-042). Full table: `research/notes/R-027-directive-triage.md`.
+- R-021p must test 11 new primitives (reservation, cost substitution, per-viewer info, summons…).
+**Unknowns**
+- Points 13, 27, 31–35, 37, 39, 41–42 not verified in the source; verdicts rest on playability.
+**Sources** — see the note §4.
