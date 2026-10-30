@@ -1,6 +1,7 @@
 # STATE
 
-## Now (after S37)
+## Now (after S38)
+- S38: F-08 partial: no unused Config keys (D-174); hard-coded number scan next.
 - S37: F-07 done: stale Resume notes cleaned, T-006 Resume note, ref scan clean (D-173).
 - S36: F-07 partial: T-023 done; T-026c/d unblocked (open-cloud works) (D-172).
 - S35: F-02 remote security: per-player rate guard on all client→server events; Blink covers type checks (D-171).
@@ -39,5 +40,5 @@
   - T-024 First 10 minutes · all above
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox).
-- **Last check.sh:** CHECK: PASS (2026-10-30, S37)
+- **Last check.sh:** CHECK: PASS (2026-10-30, S38)
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC C (F is Parry), gamepad D-pad Right.
