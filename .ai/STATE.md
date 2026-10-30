@@ -26,7 +26,10 @@
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
   - T-023c Boss Rank-test credit + tuning · playtest needs `roblox-open-cloud` (T-023a/b done)
   - T-021a-v Cloud walk check · owner reconnects `roblox-open-cloud`
-  - T-026 R15 movement system (owner .rbxm) · —
+  - T-026a R15 movement: inspect .rbxm · —
+  - T-026b R15 movement: adapt to Rojo · T-026a
+  - T-026c R15 movement: wire into character · T-026b
+  - T-026d R15 cloud walk check · T-026c + `roblox-open-cloud`
   - T-024 First 10 minutes · all above
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox). Owner: reconnect the `roblox-open-cloud` integration (cloud tests + publish fail: "not enabled for this project", S19).

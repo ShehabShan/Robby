@@ -189,7 +189,11 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
     - **T-023a [done S25, D-137] [S] Boss brain:** pure `Shared.BossBrain` + `Config.Bosses` (Mistmaw Elder: 3 attacks in a fixed readable pattern, phase 2 at 50 % HP with a faster pattern, every telegraph ≥ minTelegraph), spec. AC: tests cover pattern, phase 2, telegraph floor, validate; check PASS.
     - **T-023b [done S25, D-138] [S] Boss server + arena:** `Server.BossService` + boss telegraph attrs read by `BeastFx`. Arena area + anchor added to `MistvaleLayout` (D-140); dressing in T-021c.
     - **T-023c [doing] [S] Boss HUD + tuning:** Done S25 (D-139): client `BossHud` HP bar + "Enraged" phase cue, pure `Shared.BossBar`. Resume from: Rank-test credit on kill (or in T-024); tune for Rank 1–2 (playtest needs `roblox-open-cloud`). After T-023b.
-- **T-026 [todo] [M] R15 movement system (owner):** integrate the owner's `assets/source/R15 Movement System.rbxm` (inbox 2026-10-30-r15-movement). AC: contents inspected (lune) and listed in a D-entry; scripts adapted to the Rojo layout (strict Luau, stylua/selene, check.sh PASS); wired into the character without breaking combat, stagger, Binding or the HUD; walk check in the cloud (needs `roblox-open-cloud`).
+- **T-026 [todo] [M] R15 movement system (owner):** integrate the owner's `assets/source/R15 Movement System.rbxm` (inbox 2026-10-30-r15-movement). Split S28 into S-sized sub-tasks:
+  - **T-026a [todo] [S] Inspect:** lune script `scripts/inspect_rbxm.luau` prints the instance tree (class, name, script line counts). AC: contents + plan in `research/notes/T-026a-r15-movement.md`, logged as a D-entry; source extracted to `build/` only (not committed).
+  - **T-026b [todo] [S] Adapt:** scripts ported to the Rojo layout (`--!strict`, logic in pure `src/shared` modules with specs, stylua/selene). AC: check.sh PASS. After T-026a.
+  - **T-026c [todo] [S] Wire:** hook into the character without breaking combat, stagger, Binding or the HUD. AC: check.sh PASS, conflicts listed. After T-026b.
+  - **T-026d [blocked] [S] Cloud walk check:** needs `roblox-open-cloud`. After T-026c.
 - **M1 tasks T-011 … T-024 [todo]:** see `.ai/ROADMAP.md` (IDs, scope and AC). Order: T-002 → T-010 → T-011 …
 
 ## Filler tasks (≤10 OLU, owner 2026-10-30)
