@@ -1,5 +1,8 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S36 (2026-10-30) — F-07 docs drift (partial)
+- T-023 marked done; T-026c/d unblocked (D-172). Stopped near the OLU wrap point.
+
 ## S35 (2026-10-30) — F-02 remote security
 - Pure `Shared.RateLimit` + `RemoteGuard` on all 11 client→server handlers; Blink covers type checks (D-171). check.sh PASS.
 
