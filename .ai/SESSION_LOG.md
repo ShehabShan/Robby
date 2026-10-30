@@ -2,8 +2,8 @@
 
 ## S13 (2026-10-30)
 - Done: T-016c HUD (pure HudLayout, client Hud replaces QiHud, headless-Chrome mock render 360×640, D-068); T-016d loadout screen (pure model+layout, OwnedKith attr, client UI for mouse/touch/gamepad, D-069). T-016 complete.
-- 94 Lune tests, check.sh PASS. Not cloud-tested or published.
-- Next: cloud smoke, then T-017. OLU used: ~28.
+- T-017 split a–c; T-017a pure Binding duel (D-070). 100 Lune tests, check.sh PASS.
+- Cloud smoke blocked: `roblox-open-cloud` not connected in this bot. Next: T-017b. OLU used: ~31.
 
 ## S12 (2026-10-30)
 - Checked S11 push: code fine; cloud re-run PASS (v8) after upload timeout fix (600 s).

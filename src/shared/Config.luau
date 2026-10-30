@@ -41,6 +41,20 @@ local Config = {
 		numberRise = 2, -- studs
 		sparks = 24,
 	},
+	Binding = { -- tug-of-war (T-017a, D-070); tune in playtests
+		start = 0.25, -- bar position at the start (0..1)
+		channelRate = 0.18, -- bar per second while channelling (Will 0)
+		qiPerSecond = 8,
+		slideRate = 0.06, -- bar per second lost while not channelling
+		pulseEvery = 2.5, -- seconds between the Kith's push-backs
+		pulseStrength = 0.05, -- bar lost per pulse (Will 0)
+		willWeight = 0.1, -- each Will point slows the channel and strengthens pulses by 10 %
+		grace = 3, -- an empty bar only counts as a flee after this many seconds
+		timeLimit = 45,
+		shardQi = 40,
+		shardCooldown = 3,
+		guidedFloor = 0.1, -- guided first bind: the bar never drops below this
+	},
 	Loadout = {
 		baseSlots = 3, -- Core slots at Rank 1 (GDD)
 		slotsPerRank = 1,
