@@ -41,6 +41,12 @@ local Config = {
 		numberRise = 2, -- studs
 		sparks = 24,
 	},
+	Loadout = {
+		baseSlots = 3, -- Core slots at Rank 1 (GDD)
+		slotsPerRank = 1,
+		maxSlots = 7, -- Mortal cap
+		warnRoles = { "Strike", "Guard" }, -- loadout screen warns when none is equipped (D-063)
+	},
 }
 
 return Config

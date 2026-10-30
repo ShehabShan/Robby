@@ -1,0 +1,101 @@
+local Config = require("../src/shared/Config")
+local Registry = require("../src/shared/Registry")
+local All = require("../src/shared/Content/All")
+local Loadout = require("../src/shared/Loadout")
+
+local function eq(actual: any, expected: any, msg: string?)
+	if actual ~= expected then
+		error(`{msg or "value"}: expected {tostring(expected)}, got {tostring(actual)}`, 2)
+	end
+end
+
+local built = Registry.build(All.content(Config))
+
+local function owned(): any
+	return {
+		u1 = { speciesId = "kith.crescent" },
+		u2 = { speciesId = "kith.stone" },
+		u3 = { speciesId = "kith.wind" },
+		u4 = { speciesId = "kith.gone" },
+	}
+end
+
+local function fresh(): any
+	return { slots = {}, weaves = {} }
+end
+
+return {
+	["loadout: 3 slots at Rank 1, +1 per Rank, max 7"] = function()
+		eq(Loadout.slotCount(Config, 1), 3, "rank 1")
+		eq(Loadout.slotCount(Config, 2), 4, "rank 2")
+		eq(Loadout.slotCount(Config, 5), 7, "rank 5")
+		eq(Loadout.slotCount(Config, 9), 7, "cap")
+		eq(Loadout.slotCount(Config, 0), 3, "floor")
+	end,
+	["loadout: equip checks slot range and ownership"] = function()
+		local lo, own = fresh(), owned()
+		eq(Loadout.equip(lo, Config, 1, own, built, 1, "u1"), true, "ok")
+		eq(Loadout.equip(lo, Config, 1, own, built, 4, "u2"), false, "slot 4 at rank 1")
+		eq(Loadout.equip(lo, Config, 2, own, built, 4, "u2"), true, "slot 4 at rank 2")
+		eq(Loadout.equip(lo, Config, 1, own, built, 0, "u2"), false, "slot 0")
+		eq(Loadout.equip(lo, Config, 1, own, built, 1.5, "u2"), false, "fraction")
+		eq(Loadout.equip(lo, Config, 1, own, built, 0 / 0, "u2"), false, "nan")
+		eq(Loadout.equip(lo, Config, 1, own, built, 2, "u4"), false, "unknown species")
+		eq(Loadout.equip(lo, Config, 1, own, built, 2, "u9"), false, "not owned")
+		eq(lo.slots[2], "", "filled gap")
+		eq(lo.slots[4], "u2", "slot 4")
+	end,
+	["loadout: moving a Kith frees its old slot; unequip clears"] = function()
+		local lo, own = fresh(), owned()
+		Loadout.equip(lo, Config, 1, own, built, 1, "u1")
+		Loadout.equip(lo, Config, 1, own, built, 2, "u1")
+		eq(lo.slots[1], "", "old slot")
+		eq(lo.slots[2], "u1", "new slot")
+		eq(Loadout.unequip(lo, 2), true, "unequip")
+		eq(lo.slots[2], "", "cleared")
+		eq(Loadout.unequip(lo, 6), false, "missing slot")
+	end,
+	["loadout: sanitize trims to rank and drops bad entries"] = function()
+		local lo = { slots = { "u1", "u1", "u9", "u2" }, weaves = {} }
+		local issues = Loadout.sanitize(lo, Config, 1, owned(), built)
+		eq(#issues, 3, `issues: {table.concat(issues, "; ")}`)
+		eq(#lo.slots, 3, "length")
+		eq(lo.slots[1], "u1", "kept")
+		eq(lo.slots[2], "", "duplicate cleared")
+		eq(lo.slots[3], "", "unknown cleared")
+		local empty: any = {}
+		Loadout.sanitize(empty, Config, 2, owned(), built)
+		eq(#empty.slots, 4, "reset to rank size")
+	end,
+	["loadout: role counts and gap warning"] = function()
+		local lo, own = fresh(), owned()
+		eq(#Loadout.gaps(lo, own, built, Config), #Config.Loadout.warnRoles, "empty warns all")
+		Loadout.equip(lo, Config, 1, own, built, 1, "u1")
+		local gaps = Loadout.gaps(lo, own, built, Config)
+		eq(#gaps, 1, "one gap")
+		eq(gaps[1], "Guard", "no Guard")
+		eq(Loadout.roleCounts(lo, own, built).Strike, 1, "strike count")
+		Loadout.equip(lo, Config, 1, own, built, 2, "u2")
+		eq(#Loadout.gaps(lo, own, built, Config), 0, "no gaps")
+	end,
+	["loadout: only equipped Kith moves are allowed"] = function()
+		local lo, own = fresh(), owned()
+		Loadout.equip(lo, Config, 1, own, built, 3, "u2")
+		local allowed = Loadout.allowedMoves(lo, own, built)
+		eq(allowed["move.stone_ward"], true, "equipped move")
+		eq(allowed["move.crescent_cut"], nil, "unequipped move")
+	end,
+	["loadout: six GDD roles; every M1 Kith has one"] = function()
+		eq(#Loadout.ROLES, 6, "roles")
+		eq(Loadout.isRole("Mobility"), false, "old role")
+		for id, k in built.kith do
+			eq(Loadout.isRole(k.role), true, id)
+		end
+	end,
+	["registry: unknown Kith role is an error"] = function()
+		local _, errors =
+			Registry.build({ effects = {}, moves = {}, kith = { { id = "kith.k", role = "Tank", moves = {} } } })
+		eq(#errors, 1, `errors: {table.concat(errors, "; ")}`)
+		eq(string.find(errors[1], "unknown role", 1, true) ~= nil, true, errors[1])
+	end,
+}

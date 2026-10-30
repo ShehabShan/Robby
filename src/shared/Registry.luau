@@ -9,6 +9,8 @@ export type Built = {
 	kith: { [string]: any },
 }
 
+local Loadout = require("./Loadout")
+
 local Registry = {}
 
 Registry.DELIVERIES = {
@@ -91,6 +93,9 @@ function Registry.build(content: Content): (Built, { string })
 		checkMove(m, effects, kith, errors)
 	end
 	for id, k in kith do
+		if k.role ~= nil and not Loadout.isRole(k.role) then
+			table.insert(errors, `{id}: unknown role {tostring(k.role)}`)
+		end
 		for _, moveId in k.moves or {} do
 			if moves[moveId] == nil then
 				table.insert(errors, `{id}: unknown move {moveId}`)
