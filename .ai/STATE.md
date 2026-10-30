@@ -10,7 +10,7 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049). Foundations done: R-021…R-026 + P-008 systems spec (S9, D-052).
 - **Doing:** T-018 (Resume from: T-018f breakthrough wiring).
-- **NEXT:** T-018f breakthrough wiring (server trial + shell-crack UI), then T-019 Crucible. Cloud smoke of S13–S14 builds still pending: `roblox-open-cloud` not connected in this bot; owner said build first, test later.
+- **NEXT:** owner asked (S14 end) to publish S14: first cloud smoke (`scripts/cloud_test.py`), then publish (`scripts/publish.py`). `roblox-open-cloud` is connected again (universe 10773761715, place 95587500384127; visibility PRIVATE, owner users/7738981129). Then T-018f breakthrough wiring, then T-019 Crucible.
 - **Then:** T-017 … T-024 (ROADMAP.md order).
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of published v13 — check PC mouse aim (feedback → inbox). Open Cloud key works (read, Saved upload, Luau execution; S6).
