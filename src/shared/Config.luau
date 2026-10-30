@@ -136,6 +136,43 @@ local Config = {
 		wildWill = 1, -- Will when the wild Kith has no `Will` attribute
 		dummyKith = "kith.stone", -- the training dummy doubles as a wild Kith until the world spawns them -- guided first bind: the bar never drops below this
 	},
+	Beasts = { -- wild beasts (T-022, D-124); server AI in Shared.BeastBrain; tune in playtests
+		minTelegraph = 0.4, -- seconds; every beast attack winds up at least this long (ROADMAP T-022)
+		kinds = {
+			["beast.mistfang"] = { -- quick wolf: short lunge bite in front
+				name = "Mistfang",
+				rank = 1,
+				hp = 60,
+				speed = 18,
+				aggro = 40,
+				leash = 90,
+				range = 7,
+				arcDot = 0.2,
+				telegraph = 0.45,
+				recover = 0.6,
+				cooldown = 1.6,
+				damage = 8,
+				shards = 6,
+				wildKith = "kith.wind",
+			},
+			["beast.stonehide"] = { -- heavy boar: slow, all-round ground slam
+				name = "Stonehide Boar",
+				rank = 1,
+				hp = 140,
+				speed = 12,
+				aggro = 30,
+				leash = 80,
+				range = 9,
+				arcDot = -1,
+				telegraph = 0.8,
+				recover = 1.2,
+				cooldown = 3,
+				damage = 18,
+				shards = 14,
+				wildKith = "kith.stone",
+			},
+		},
+	},
 	Refining = { -- utility Kith that speed Refine (T-025, D-112); tune in playtests
 		lotusYield = 0.5, -- Mist Lotus: +50 % Stage points per Shard while equipped
 		maxYield = 1, -- cap on the bonus (best equipped Kith only, no stacking)
