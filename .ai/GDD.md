@@ -108,6 +108,7 @@ Numbers are first targets to tune in playtests.
 - **Rank gap (R-020c):** each Rank is a big jump (≈ ×1.6 Qi potency, tuned in P-007). Enemies 1 Rank above show a warning colour; 2 above are near-unwinnable.
 - **Rank 3 milestone:** "full cultivator" title and a house slot. **Talent** sets a soft cap and Qi regen only; resources and Mastery let anyone climb.
   - Every session must move a bar (Stage, Marks or a new Kith), even a 15-minute one.
+- **Rank costs (R-023, first targets):** 1,000 / 3,700 / 13,200 / 32,300 Shards for Rank 1→2 … 4→5. Refill cost ×1.4 per Rank. Stipend banks at most 7 days. Rank-5 players need post-cap sinks (Crucible chase, Caravan, cosmetics, respec).
 - **Scarcity rule:** Kith and catalysts are earned in the world, never sold. Shard income per hour is capped by zone tier so that higher Reaches matter.
 
 - **R-027:** the **Caravan** hub event (~every 2 real hours) sells rotating recipes, hint scrolls and rare meals (never Kith or catalysts). Rare meals and some materials **perish** after hours unless held in a Carry Kith (M2). The currency ledger supports later tiers with one-way upward exchange and a sink (R-023 sim).

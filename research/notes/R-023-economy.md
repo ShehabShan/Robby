@@ -44,8 +44,30 @@ R-023a = §1–§3 (research + sim plan). R-023b = §4 (sim results, next sessio
   - capped-player balance growth stays bounded or has sinks shown to absorb it.
 - **Then:** propose tuned numbers for GDD §6 and Config.
 
-## 4. Sim results
-(R-023b.)
+## 4. Sim results (R-023b, S8)
+Script: `research/sim/economy_sim.py` (200 runs per profile, seed 42); raw output `research/sim/economy_results.json`. All numbers are first targets (unverified in play).
+- **Calibrated Rank costs** (Shards to fill all Stages of a Rank, regular profile): [1000.0, 3700.0, 13200.0, 32300.0] for Rank 1→2 … 4→5 (growth ×[3.7, 3.57, 2.45]). Cost grows faster than the ×1.6 Rank gap because income per hour also rises with zone tier.
+- **Hours = play hours** to reach Rank 2 / 3 / 4 / 5 (median); regular vs GDD targets (2 / 7 / 19 / 40 h): [10, 3, 0, -2] %.
+
+| Profile | h to R2 / R3 / R4 / R5 | blocked runs | Refine share | capped +Shards/h | capped +Shards/h with post-cap sinks |
+|---|---|---|---|---|---|
+| casual | 1.5 / 4.8 / 12.8 / 25.2 | 0 | 0.82 | 3672 | 1962 |
+| regular | 2.2 / 7.2 / 19.0 / 39.2 | 0 | 0.74 | 2071 | 361 |
+| grinder | 2.2 / 7.8 / 21.0 / 44.5 | 0 | 0.7 | 1744 | 34 |
+| fighter | 2.2 / 8.2 / 22.5 / 48.2 | 0 | 0.59 | 1542 | -168 |
+| trader | 2.2 / 7.2 / 19.2 / 40.0 | 0 | 0.73 | 2049 | 339 |
+
+- **Pass:** regular pacing within ±20% of every target; no profile is ever blocked by fixed costs (Upkeep + Refill). (v1 counted a Crucible payment as "blocked" — a sim bug, fixed.)
+- **Casual** players are faster per play hour (25 h to Rank 5) because the stipend is paid per real day; in calendar days they are still slowest (~50 days vs ~20 for regular). Acceptable as catch-up.
+- **Refill-heavy fighters** are ~20% slower (48 h); the sim does not credit their extra kills, so the real gap is smaller.
+- **Fail:** after Rank 5 Peak, balances grow ~2,000 Shards/h. With post-cap sinks (an hourly Crucible chase at ×2 catalyst + Caravan goods at 15% of income) growth drops to ~360/h for regular players and ≤0 for grinders/fighters.
+
+### Tuning proposals (D-046)
+1. Use the calibrated Rank costs above as the first Config values (T-002 onward); retune after playtests.
+2. Refill cost grows ×1.4 per Rank instead of ×1.6, so fighters stay within ±20%.
+3. Cap the daily stipend payout at 7 unclaimed days, so long-absent players don't bank large sums.
+4. Post-cap sinks are a launch requirement for Rank 5 players: Crucible chase for rare Kith, Caravan goods, cosmetics, respec. Ascendant Ranks later become the main sink.
+5. Track earned vs spent per player in analytics from day one (§1).
 
 ## 5. Sources
 1. https://create.roblox.com/docs/en-us/production/game-design/balance-virtual-economies.md

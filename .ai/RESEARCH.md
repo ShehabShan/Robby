@@ -315,3 +315,14 @@ Draft model, curve table and 10 sources: `research/notes/R-022-stat-damage-math.
 **Unknowns**
 - Real income rates — set by the R-023b sim, then playtests.
 **Sources** — the note's source list.
+
+### R-023b Economy sim results (done 2026-10-30)
+**Findings**
+- Calibrated Rank costs hit the regular-player pacing targets within ±10%; no profile is blocked by fixed costs (`research/sim/economy_sim.py`).
+- Refill-heavy fighters are ~20% slower; casual players are faster per play hour because of daily stipends.
+- Capped Rank-5 players gain ~2,000 Shards/h; post-cap sinks cut that to ~360/h.
+**→ Implications for Robby**
+- First Config numbers and four tuning rules (D-046); post-cap sinks are a launch requirement.
+**Unknowns**
+- Real income and kill rates (playtests); trade volume.
+**Sources** — R-023 note §4 (sim, not external sources).
