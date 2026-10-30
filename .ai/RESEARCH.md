@@ -93,5 +93,20 @@ Full notes: `research/notes/R-012-ip-licensing.md`. Not legal advice.
   - Use our own word for the creatures (not "Gu"); no "inspired by RI" in the store page.
 - **Unknowns:** exact game-rights owner; non-US law (Roblox enforcement is the practical gate).
 - **Sources:** see the notes file (15 sources).
-## R-013 … R-018
+### R-013 Rell Seas teardown (done 2026-10-30)
+Full notes + draft quality bar (14 items): `research/notes/R-013-rell-seas.md`.
+- **Findings:**
+  - Pre-release open-world pirate RPG by RELL Games (two brothers), years in development, expected 2026; early build ~591k visits, ~6 CCU (bloxinformer.com, rovitals.com).
+  - Combat: 5-hit M1 chain + launcher into air combos, timed parry, side-dash i-frames, combo-breaker evade bar, posture (rellseaswiki.com/fighting-styles/combat-mechanics).
+  - Progression: every activity counts; 5-star bar → rank-up choice; bonded weapon class; 39 weapons, 38 bosses (rellseaswiki.com/systems/progression-system).
+  - World: 4 seas, ~28–30 islands incl. sky/underwater (rellseas.org/guides/game-overview).
+  - No pay-to-win; cosmetics, rerolls, slots; crews, battlegrounds, ranked 1v1 (rellseas.fandom.com/wiki/Monetisation).
+  - Praised for cinematic VFX/animation; criticised for delays (progameguides.com, mobilematters.gg).
+  - Uses One Piece IP → DMCA risk; we copy quality, not that (polygon.com).
+- **→ Implications for Robby:**
+  - Draft quality bar: client-instant animation + server hits, 5-hit chains, parry/dash/breaker, hit-stop + VFX + SFX on every hit, telegraphed bosses, ≥3 build layers.
+  - Art/animation throughput is the biggest gap for a headless pipeline — plan for it in P-003/P-004.
+- **Unknowns:** exact combat numbers, team size, post-release retention.
+- **Sources:** see the notes file (28 sources).
+## R-014 … R-018
 Not started. See TASKS.md.
