@@ -108,6 +108,10 @@ Use the next session number (`S<n>`) after the newest entry in `.ai/SESSION_LOG.
 - **Models (D-033):** the owner can switch this bot to another top-tier model for a task it excels at (e.g. art, code
   review, long research). If you think another model would do a task clearly better, say so in the short report.
 - **Quality first (owner, S7):** cost and speed are not priorities; aim for a real quality game. The 50 OLU/session cap still applies.
+- **Study top games (owner, S14, D-079):** when designing a system, UI or content, first check how high-quality Roblox games
+  (e.g. *Rell Seas*) and top action RPGs solve it (`search.sh`), and note what Robby borrows or does better.
+- **Contributors (D-079):** the owner's friend works via branch + PR (`CONTRIBUTING.md`). At session start, review open PRs:
+  merge if `check.sh` passes and they follow the rules; otherwise comment what to fix.
 - **Publishing:** don't publish to Roblox unless the owner explicitly asks.
 - **Web search:** use `__exa-web-search` (in `search.sh`). If it is unavailable, try `__gemini-web-search`.
 - **Output (saves OLU):** output tokens are the most expensive part of a session.
