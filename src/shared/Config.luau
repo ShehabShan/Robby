@@ -176,6 +176,30 @@ local Config = {
 			},
 		},
 	},
+	Bosses = { -- bosses (T-023, D-137); server AI in Shared.BossBrain; tune in playtests (Rank 1–2 beatable)
+		minTelegraph = 0.4, -- seconds; every boss attack winds up at least this long, both phases
+		kinds = {
+			["boss.mistmaw"] = { -- Mistmaw Elder: old mist wolf, Academy Rank-test boss in the Mistvale arena
+				name = "Mistmaw Elder",
+				rank = 2,
+				hp = 900,
+				speed = 14,
+				aggro = 45,
+				leash = 70,
+				gap = 0.8, -- seconds between attacks
+				phase2At = 0.5, -- HP fraction where phase 2 starts
+				phase2Recover = 0.7, -- recover-time multiplier in phase 2 (telegraphs stay the same)
+				shards = 120,
+				attacks = {
+					bite = { range = 8, arcDot = 0.3, telegraph = 0.6, recover = 0.7, damage = 14 },
+					slam = { range = 12, arcDot = -1, telegraph = 1.0, recover = 1.2, damage = 22 },
+					lunge = { range = 18, arcDot = 0.6, telegraph = 0.8, recover = 1.0, damage = 18 },
+				},
+				pattern = { "bite", "bite", "slam", "lunge" },
+				pattern2 = { "lunge", "bite", "slam", "slam", "lunge" },
+			},
+		},
+	},
 	Refining = { -- utility Kith that speed Refine (T-025, D-112); tune in playtests
 		lotusYield = 0.5, -- Mist Lotus: +50 % Stage points per Shard while equipped
 		maxYield = 1, -- cap on the bonus (best equipped Kith only, no stacking)
