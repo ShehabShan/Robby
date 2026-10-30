@@ -8,7 +8,15 @@
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-020 (a, b done).
 - **NEXT:** T-020c Weave content + server Loom, then T-020d Loom UI, then T-021 … T-024 (ROADMAP.md order).
-- **Parallel sessions:** check `.ai/CLAIMS.md` first. T-021 (Mistvale terrain) touches different files from T-020c/d, so it suits a second session.
+- **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
+- **Parallel lanes** (task · after):
+  - T-020c Weave content + server Loom · —
+  - T-021 Mistvale terrain + hub kit · — (split into terrain / Blender kit for 2 bots)
+  - T-022 Enemies: 2 beasts · —
+  - T-025 Qi-refining utility Kith · — (Mistvale placement waits for T-021)
+  - T-020d Loom UI · T-020c
+  - T-023 Boss + arena · T-022
+  - T-024 First 10 minutes · all above
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox).
 - **Last check.sh:** CHECK: PASS (2026-10-30, S17)

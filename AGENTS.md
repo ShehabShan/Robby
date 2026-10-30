@@ -151,6 +151,12 @@ The owner may run several sessions at once with the same start message. Git bran
 - **Save** with `save.sh` (pushes your branch). **Merge** with `merge.sh` as the last close-out step: it rebases on main,
   needs CHECK: PASS, releases your claims, pushes main and deletes the branch. On a conflict it lists the files:
   keep both sides (main's lines plus yours), `git add`, `git rebase --continue`, run `merge.sh` again.
+- **Many bots at once (owner may start 5–10).** If NEXT is claimed or `claim.sh` says taken, take the first row in
+  STATE.md **Parallel lanes** with no claim whose `after` tasks are done on main. A big free task: split it on main first
+  (save.sh), then claim one sub-task; other bots can claim its other independent sub-tasks. **No free lane:** do not
+  start build work; claim a research/check task if one is listed, otherwise report "no free task" and stop (≈5 OLU).
+- **STATE.md on a branch:** leave it alone. After `merge.sh`, edit STATE.md (Now, NEXT, Parallel lanes) on main and `save.sh`.
+  merge.sh keeps main's STATE.md/CLAIMS.md on conflict. **Publish / cloud tests only from main**, after merging.
 - **STATE.md NEXT** = the next unclaimed task. SESSION_LOG/DECISIONS/RESEARCH merge by union (`.gitattributes`).
 - **Cut-off sessions.** At boot, run `git ls-remote --heads origin 'session/*'`. A branch whose claim is over 12 h old
   was cut off: `git checkout -b session/Sx origin/session/Sx`, `merge.sh` (releases its claim; the half-done task stays

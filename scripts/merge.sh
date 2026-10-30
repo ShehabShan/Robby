@@ -10,9 +10,18 @@ s=${b#session/}
 for try in 1 2 3; do
 	git fetch -q origin main
 	if ! git rebase -q origin/main >/tmp/merge.log 2>&1; then
-		echo "MERGE: CONFLICT in: $(git diff --name-only --diff-filter=U | tr '\n' ' ')"
-		echo "Keep both sides (main's lines + yours), git add, git rebase --continue, then run merge.sh again."
-		exit 1
+		for _ in $(seq 1 60); do # STATE.md / CLAIMS.md: keep main's copy (update STATE on main after merging)
+			[ -d .git/rebase-merge ] || [ -d .git/rebase-apply ] || break
+			u=$(git diff --name-only --diff-filter=U)
+			other=$(echo "$u" | grep -vxE '\.ai/(STATE|CLAIMS)\.md' | grep .)
+			if [ -n "$other" ]; then
+				echo "MERGE: CONFLICT in: $(echo "$other" | tr '\n' ' ')"
+				echo "Keep both sides (main's lines + yours), git add, git rebase --continue, then run merge.sh again."
+				exit 1
+			fi
+			if [ -n "$u" ]; then git checkout -q --ours -- $u && git add $u; fi
+			GIT_EDITOR=true git rebase --continue >/dev/null 2>&1 || git rebase --skip >/dev/null 2>&1 || true
+		done
 	fi
 	bash scripts/check.sh >/tmp/merge_check.log 2>&1
 	tail -n 1 /tmp/merge_check.log | grep -q "CHECK: PASS" || {

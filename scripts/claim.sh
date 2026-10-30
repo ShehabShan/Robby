@@ -11,10 +11,10 @@ f=.ai/CLAIMS.md
 cur=$(git branch --show-current)
 maxnum() { grep -oE "$1" | grep -oE '[0-9]+' | sed 's/^0*//' | sort -n | tail -1; }
 [ -z "$(git status --porcelain)" ] || { echo "CLAIM: tree not clean, run save.sh first"; exit 1; }
-for try in 1 2 3; do
+for try in 1 2 3 4 5 6 7 8; do
 	git checkout -q main && git pull -q --rebase origin main || { echo "CLAIM: cannot update main"; git checkout -q "$cur"; exit 1; }
 	row=$(grep -E "^\| *S[0-9]+ *\| *$task *\|" "$f")
-	[ -z "$row" ] || { echo "CLAIM: $task is taken: $row"; git checkout -q "$cur"; exit 1; }
+	[ -z "$row" ] || { echo "CLAIM: $task is taken: $row (pick a free task from STATE.md Parallel lanes)"; git checkout -q "$cur"; exit 1; }
 	if [[ $cur == session/S* ]]; then
 		s=${cur#session/}
 		d=$(grep -E "^\| *$s *\|" "$f" | head -1 | cut -d'|' -f5 | xargs)
@@ -32,7 +32,8 @@ for try in 1 2 3; do
 	git add "$f" && git commit -q -m "$s: claim $task"
 	git push -q origin HEAD:main 2>/dev/null && break
 	git reset -q --hard HEAD~1
-	[ "$try" = 3 ] && { echo "CLAIM: push to main failed 3 times"; git checkout -q "$cur"; exit 1; }
+	sleep $((RANDOM % 6 + 1)) # another bot pushed first; wait, re-read, retry
+	[ "$try" = 8 ] && { echo "CLAIM: push to main failed 8 times"; git checkout -q "$cur"; exit 1; }
 done
 if [[ $cur == session/S* ]]; then
 	git checkout -q "$cur"
