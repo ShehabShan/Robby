@@ -96,7 +96,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
 
 ## Phase 2b — Capability spike (owner request, allowed before P-006 by D-025)
 - **T-003 [done] [S] Ability core:** (S5) `src/shared/Qi.luau` + `src/shared/Kith/CrescentCut.luau`, Lune tests (25 pass). AC: `check.sh` PASS.
-- **T-004 [todo] [S] Ability wiring + VFX:** server remote, client input (key + mobile button), code-built VFX (Beam/Trail/Particles), placeholder SFX, a training dummy; `rojo build` makes a place file. AC: build succeeds, check PASS.
+- **T-004 [doing] [S] Ability wiring + VFX:** Resume from: write src/server/{Abilities,Dummy}.luau + src/client/{AbilityInput,CrescentFx}.luau per SPIKE §5, remove RoundState, then check.sh. — server remote, client input (key + mobile button), code-built VFX (Beam/Trail/Particles), placeholder SFX, a training dummy; `rojo build` makes a place file. AC: build succeeds, check PASS.
 - **T-005 [todo] [S] Headless verification:** inspect the built place with Lune; cloud test via Luau Execution if a place ID + Open Cloud key exist. AC: a written pass/fail report.
 - **T-006 [todo] [S] Owner playtest:** publish to a private test place only with the owner's explicit OK; owner plays in the normal Roblox app; feedback saved to the inbox. Needs place ID + Open Cloud key.
 - After the spike: P-002 … P-006 continue.

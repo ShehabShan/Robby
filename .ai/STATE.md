@@ -1,7 +1,7 @@
 # STATE
 
 - **Phase:** 2b — capability spike (D-025): T-003 → T-006, then P-002 … P-006
-- **Doing:** none (if a task is `doing`, resume it before NEXT)
+- **Doing:** T-004 (S6). Resume from: wiring files per SPIKE §5, remove RoundState, check.sh.
 - **NEXT:** T-004 — Crescent Cut wiring + VFX + dummy, per `.ai/SPIKE.md`.
 - **Then:** T-004 → T-005 → T-006 → P-002 … P-006
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
