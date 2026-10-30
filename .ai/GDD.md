@@ -130,19 +130,27 @@ Numbers are first targets to tune in playtests.
 - **Own additions (D-048):** **Kith Codex** (collection log with lore and one-time rewards); weekly **Path Trial** boss weak to one Path; **Expeditions** (unequipped Kith fetch materials on timed trips, capped daily, no Shards); **Mentor bonus** (Rank 4+ partied with Rank 1–2 earn Merit); no-stakes **Duels** in hubs.
 - **Tech:** StreamingEnabled from day one; mobile-first budgets (R-016).
 
-## 8. First 10 minutes
+## 8. First session (first 20 minutes)
+Goals (R-026, D-051): first hit by 0:30, a stated goal by 1:00, felt progress by 5:00, and a boss plus reasons to return by about 20:00. Sessions over 19 min go with double-digit D1.
+
 | Time | Beat |
 |---|---|
-| 0:00–0:30 | Spawn in the Mistvale village at dawn; the mentor calls you to the Opening Rite. No menus. |
-| 0:30–1:30 | Opening Rite: the Core opens (VFX burst) and the Talent grade is revealed. The Crescent Kith is given to you. |
-| 1:30–3:00 | Fire Crescent Cut at training dummies (the spike). Prompts teach the move, dash and Qi. |
-| 3:00–5:00 | First zone: weak beasts, Shards drop. A wild Kith appears; first Binding mini-fight (guided, cannot fail). |
-| 5:00–7:00 | Back in the village: feed both Kith, equip the second, see the Stage bar move. |
-| 7:00–9:00 | A rival cultivator ambushes you — the first parry prompt; win, and they drop a Weave hint. |
-| 9:00–10:00 | The Crucible keeper shows a locked recipe and the barrier to Reach 2: clear long-term goals. |
-- Rule: something new every ≤ 60 s; no text wall over 2 lines (low bounce).
+| 0:00–0:20 | Spawn in the Mistvale village at dawn, in the middle of the action: a weak beast breaks into the Rite square. The mentor hands you the Crescent Kith on one big button. First hit by 0:30. No menus. |
+| 0:20–1:00 | Opening Rite (≤ 20 s, skippable on replay): tap to open the Core (VFX burst). The Talent grade is revealed with a one-line note that it can be improved later. The goal appears: "Pass the Academy Rank test." |
+| 1:00–3:00 | Crescent Cut, dash and Qi are taught by doing, on real weak beasts at the village edge. Each is used 3 times. A hint appears only if the player is stuck (~8 s), with icons rather than text. |
+| 3:00–5:00 | First zone: Shards drop and the Stage bar moves on the first kill. A wild Kith appears: the first Binding mini-fight (guided, cannot fail). |
+| 5:00–7:00 | Village: feed both Kith and equip the second. A contextual tutorial runs the first time the Kith menu opens. |
+| 7:00–9:00 | A rival classmate ambushes you: the first parry prompt. Win, and they drop a Weave hint. |
+| 9:00–12:00 | Mission Hall: the first daily bounty (short, completable now) and the first Academy stipend. A one-time invite-a-friend prompt offers a co-op bonus and never blocks play. |
+| 12:00–18:00 | Second hunting zone, then the Academy Rank test: a short timed mini-boss, the first boss. |
+| 18:00–20:00 | The Crucible keeper shows a locked recipe and the Veil to Reach 2. Return hooks are shown: tomorrow's bounty, the Binding grove's rare spawn, and the stipend. |
 
-## 9. Social
+- Something new every ≤ 60 s. No text over 2 lines. Every prompt has an icon.
+- Tutorials are contextual and just in time only: nothing is taught before it is needed. Alts and returning players get a Skip.
+- Mobile first: buttons sit in the thumb zone, and the first zone preloads during the Rite (ContentProvider).
+- Each beat logs an onboarding funnel step (`AnalyticsService:LogOnboardingFunnelStepEvent`). Fix the biggest drop first.
+- Return hooks are rewards, never punishments: no login-streak loss (fits D-042).
+- Targets, to verify in playtests: D1 ≥ 15%, D7 ≥ 5%, average session ≥ 20 min.## 9. Social
 - **Co-op:** parties of up to 4; shared kills and Shards; Binding credit goes to whoever lands the bind.
 - **PvP:** opt-in only — duels by invite and marked PvP zones. No ganking of PvP-off players. Rank-banded matchmaking for arenas later.
 - **Clans:** a player-made Clan joins either the Clans or the Rogues faction at Rank 2. Faction perks are cosmetic or quest access, not raw power. The split is **morally grey**, not good vs evil: Clans get stipends, safe storage and guards; Rogues get bounty hunting, black-market Crucible recipes and freedom to play selfishly (within Roblox rules), but no stipend.

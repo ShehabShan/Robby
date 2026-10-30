@@ -350,3 +350,21 @@ Draft model, curve table and 10 sources: `research/notes/R-022-stat-damage-math.
 **Unknowns**
 - Mobile ping spread (M1 playtests); Blink packet sizes (P-008); internals of Rell Seas, Deepwoken and Blox Fruits (closed source).
 **Sources** — `research/notes/R-025-combat-netcode.md` §4.
+
+### R-026 Retention & first session (done 2026-10-30)
+**Findings**
+- Session length predicts retention. Under 6 min: D1 < 10%, D7 < 2%. Over 19 min: double-digit D1. The 95th percentile is about 8% at D7 and about 2% at D30 (2025 Roblox benchmark report).
+- A good D1 is about 10–15%, and benchmarks vary by genre (Creator Hub retention docs; devforum).
+- The 2025 discovery algorithm uses 7-day per-user signals: qualified play-through rate, playtime (capped at 60 min/day), play days, spend days, Robux and intentional co-play days (devforum 3587441).
+- Sessions with friends are 1.9× longer than solo sessions (Roblox newsroom, Party).
+- Onboarding: core loop fast, contextual tutorials, timed hints, visuals over text, funnel events per step (Creator Hub onboarding docs). One developer reported 41% leaving within 30 s of the tutorial (devforum 3814365).
+- Rell Seas: a small first task, a linear starter quest, then a timed boss (rellseaswiki).
+
+**→ Implications for Robby**
+- GDD §8 is now a 20-minute first session: first hit by 0:30, goal by 1:00, first boss by about 18 min, reward-only return hooks, a non-blocking co-op invite, funnel events per beat (D-051).
+
+**Unknowns**
+- Genre benchmarks and real drop-off points (only after playtests or launch); low-end mobile load times.
+
+**Sources** — `research/notes/R-026-retention.md`.
+
