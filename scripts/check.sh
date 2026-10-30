@@ -26,6 +26,7 @@ run types luau-lsp analyze --definitions=.cache/globalTypes.d.luau --sourcemap=s
 run tests lune run tests/run.luau
 mkdir -p build
 run build rojo build default.project.json -o build/Robby.rbxl
+run inspect lune run tests/inspect_place.luau
 
 if [ $fail -eq 0 ]; then echo "CHECK: PASS"; else echo "CHECK: FAIL"; fi
 exit $fail

@@ -56,6 +56,8 @@ git config --global credential."$PROMPTQL_PLATFORM_API_URL".helper '!f() { test 
 git config --global user.name "Enasn Bot"; git config --global user.email "bot@users.noreply.github.com"
 cd /workspace && git clone -q https://github.com/ShehabShan/Robby.git && cd Robby && bash scripts/bootstrap.sh >/dev/null 2>&1; bash scripts/olu.sh
 ```
+If git gets 401 from the proxy (D-027), prefix git/save commands with
+`export GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=http.extraHeader GIT_CONFIG_VALUE_0="Authorization: Bearer $PROMPTQL_USER_JWT"`.
 Reused bot: `cd /workspace/Robby && git pull -q --rebase && bash scripts/olu.sh start`.
 
 Then read **`.ai/STATE.md` only**. If the owner's message contains ideas or material, save it **verbatim** to
