@@ -28,6 +28,7 @@ local fx = FxRegistry.new()
 CrescentFx.register(fx)
 HitFeel.register(fx)
 KithFx.register(fx)
+require(script.BeastFx).register(fx) -- beast telegraph ring + sound (T-022c)
 for _, id in FxRegistry.missingFor(fx, built) do
 	warn("No FX handler for " .. id)
 end
@@ -74,4 +75,4 @@ ShellHud.start(Net) -- Core Shell + Refine (T-018d, D-076)
 CrucibleHud.start(Net) -- Crucible confirm / focus / result (T-019e, D-085)
 LoomHud.start(Net) -- Weave Loom panel (T-020e, D-111)
 
-require(script.BeastHud).start() -- beast labels + telegraph "!" (T-022c)
+require(script.BeastHud).start(fx) -- beast labels + telegraph "!" and ground warning (T-022c)

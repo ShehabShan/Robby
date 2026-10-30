@@ -8,7 +8,9 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Config = require(ReplicatedStorage.Shared.Config)
+local FxRegistry = require(ReplicatedStorage.Shared.FxRegistry)
 local RankBand = require(ReplicatedStorage.Shared.RankBand)
+local TelegraphFx = require(ReplicatedStorage.Shared.TelegraphFx)
 
 local BeastHud = {}
 
@@ -24,7 +26,7 @@ local function label(parent: Instance, y: number, size: number): TextLabel
 	return t
 end
 
-local function attach(inst: Instance)
+local function attach(inst: Instance, fx: FxRegistry.Registry?)
 	if not inst:IsA("Model") or inst:FindFirstChild("BeastHud", true) then
 		return
 	end
@@ -61,6 +63,7 @@ local function attach(inst: Instance)
 			ring = nil
 		end
 	end
+	local was: unknown = false
 	local function telegraph()
 		local on = model:GetAttribute("Telegraph") == true
 		alert.Visible = on
@@ -88,6 +91,10 @@ local function attach(inst: Instance)
 			r.Parent = workspace
 			ring = r
 		end
+		if fx and TelegraphFx.edge(was, on) == "start" then
+			FxRegistry.play(fx, TelegraphFx.FX_ID, { model = model }) -- warning sound; boss ring/cone (D-136)
+		end
+		was = on
 	end
 	refresh()
 	telegraph()
@@ -100,12 +107,12 @@ local function attach(inst: Instance)
 	gui.Parent = part
 end
 
-function BeastHud.start()
+function BeastHud.start(fx: FxRegistry.Registry?)
 	for _, m in CollectionService:GetTagged("Beast") do
-		task.spawn(attach, m)
+		task.spawn(attach, m, fx)
 	end
 	CollectionService:GetInstanceAddedSignal("Beast"):Connect(function(m: Instance)
-		task.spawn(attach, m)
+		task.spawn(attach, m, fx)
 	end)
 end
 
