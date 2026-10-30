@@ -1,6 +1,7 @@
 # STATE
 
 ## Now (after S39)
+- Owner added R-028: in-depth Gu research for the first proper ability (R1 + Z/X/C). Waits for owner go.
 - S39: published v16 (owner asked, plays via Sober on Linux) for the T-006 playtest.
 - S38: F-08 partial: no unused Config keys (D-174); hard-coded number scan next.
 - S37: F-07 done: stale Resume notes cleaned, T-006 Resume note, ref scan clean (D-173).
