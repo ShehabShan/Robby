@@ -1,6 +1,7 @@
 # STATE
 
-## Now (after S25)
+## Now (after S26)
+- S26: T-021b Mistvale hub kit (D-146): `art/blender/hub_kit.py` → 14 low-poly pieces (FBX/GLB + manifest, max 824 tris). Roblox upload waits for `roblox-open-cloud`.
 - Ops (D-134): CLAIMS has a Bot column; owner can say "release <bot link>" to free a stopped bot's claim.
 - S25 (2nd claim): T-022c part 1, beast labels: Rank colour band + red "!" during the wind-up (D-135). T-022c stays doing (Resume from: telegraph VFX/SFX, playtest).
 - S25: T-022a/b beasts (D-124, D-125): pure `BeastBrain` + `BeastService`, Mistfang + Stonehide Boar in zone 1, telegraphs ≥ 0.4 s, Shards on kill. T-022c (feel/playtest) open.
@@ -20,14 +21,14 @@
 - **NEXT:** T-021 … T-024 (ROADMAP.md order).
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-021b Mistvale hub kit (Blender) · —
+  
   - T-022c Beast feel + playtest (doing: VFX/SFX + tuning left) · —
-  - T-021c Hub assembly · T-021b (T-021a done)
+  - T-021c Hub assembly · — (T-021a + T-021b done)
   - T-023 Boss + arena · — (T-022a/b done)
   - T-025b Lotus in the world · T-021c (T-025a done)
   - T-021a-v Cloud walk check · owner reconnects `roblox-open-cloud`
   - T-024 First 10 minutes · all above
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox). Owner: reconnect the `roblox-open-cloud` integration (cloud tests + publish fail: "not enabled for this project", S19).
-- **Last check.sh:** CHECK: PASS (2026-10-30, S25)
+- **Last check.sh:** CHECK: PASS (2026-10-30, S26)
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC C (F is Parry), gamepad D-pad Right.
