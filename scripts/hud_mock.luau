@@ -3,6 +3,7 @@
 
 local fs = require("@lune/fs")
 local HudLayout = require("../src/shared/HudLayout")
+local BindingUi = require("../src/shared/BindingUi")
 
 local function rgba(c: { number }, a: number?): string
 	return `rgba({c[1]},{c[2]},{c[3]},{a or 1})`
@@ -13,16 +14,29 @@ local function html(state: any): string
 		`<!doctype html><html><body style="margin:0;width:{state.width}px;height:{state.height}px;overflow:hidden;`,
 		`background:linear-gradient(180deg,#6d8fb3 0%,#a9c0d6 45%,#5d7a4c 46%,#3e5534 100%);font-family:Arial,sans-serif">`,
 	}
-	for _, e in HudLayout.build(state) do
+	local elements = HudLayout.build(state)
+	if state.bind then -- Binding UI on top (T-017c, D-072)
+		for _, e in BindingUi.build(state.bind) do
+			table.insert(elements, e)
+		end
+	end
+	for _, e in elements do
 		local s = `position:absolute;left:{e.x}px;top:{e.y}px;width:{e.w}px;height:{e.h}px;box-sizing:border-box;`
 		local inner = ""
 		if e.kind == "text" then
-			local justify = if e.align == "left" then "flex-start" elseif e.align == "right" then "flex-end" else "center"
+			local justify = if e.align == "left"
+				then "flex-start"
+				elseif e.align == "right" then "flex-end"
+				else "center"
 			s ..= `display:flex;align-items:center;justify-content:{justify};color:{rgba(e.color)};font-size:{e.textSize}px;`
 			s ..= "font-weight:bold;text-shadow:0 1px 2px #000;white-space:nowrap;"
 			inner = e.text or ""
 		elseif e.kind == "slot" then
 			s ..= `background:{rgba(e.color, e.alpha)};border:2px solid rgba(255,255,255,0.7);border-radius:10px;`
+		elseif e.kind == "button" then
+			s ..= `background:{rgba(e.color, e.alpha)};border:2px solid rgba(255,255,255,0.8);border-radius:10px;`
+			s ..= `display:flex;align-items:center;justify-content:center;color:#fff;font-size:{e.textSize}px;font-weight:bold;`
+			inner = e.text or ""
 		elseif e.kind == "dot" then
 			s ..= `background:{rgba(e.color, e.alpha)};border-radius:50%;border:1px solid #111;`
 		else
@@ -48,6 +62,8 @@ local cases = {
 	{ name = "phone_360x640", platform = "touch", width = 360, height = 640 },
 	{ name = "pc_1280x720", platform = "pc", width = 1280, height = 720 },
 	{ name = "gamepad_1280x720", platform = "gamepad", width = 1280, height = 720 },
+	{ name = "phone_bind_360x640", platform = "touch", width = 360, height = 640, bind = "running" },
+	{ name = "pc_bind_1280x720", platform = "pc", width = 1280, height = 720, bind = "running" },
 }
 
 if not fs.isDir("build") then
@@ -64,6 +80,18 @@ for _, c in cases do
 		qiMax = 100,
 		slots = slots(c.platform),
 		gaps = { "Guard" },
+		bind = if c.bind
+			then {
+				width = c.width,
+				height = c.height,
+				platform = c.platform,
+				bindState = c.bind,
+				progress = 0.62,
+				shards = 2,
+				heart = false,
+				canBind = false,
+			}
+			else nil,
 	}
 	fs.writeFile(`build/hud_{c.name}.html`, html(state))
 	print(`build/hud_{c.name}.html`)
