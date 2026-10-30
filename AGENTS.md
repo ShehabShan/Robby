@@ -102,6 +102,12 @@ Use the next session number (`S<n>`) after the newest entry in `.ai/SESSION_LOG.
 - **Code:** `--!strict` in every `src` file. Tabs and StyLua formatting. Rojo is the source of truth; nothing exists only in Studio.
 - **Server authority:** the server decides combat hits, progression and currency. Never trust the client.
 - **Secrets:** never commit them. Roblox Open Cloud keys come from a PromptQL custom integration and are never pasted in chat.
+- **Open Cloud = confirmed working (owner + S6, D-033):** the `roblox-open-cloud` integration can make direct changes to the
+  experience (read, Saved place upload, Luau execution). Do **not** re-probe this; build on `scripts/cloud_test.py`.
+  If the integration is not connected in your bot, ask the owner to connect it (they will).
+- **Models (D-033):** the owner can switch this bot to another top-tier model for a task it excels at (e.g. art, code
+  review, long research). If you think another model would do a task clearly better, say so in the short report.
+- **Quality first (owner, S7):** cost and speed are not priorities; aim for a real quality game. The 50 OLU/session cap still applies.
 - **Publishing:** don't publish to Roblox unless the owner explicitly asks.
 - **Web search:** use `__exa-web-search` (in `search.sh`). If it is unavailable, try `__gemini-web-search`.
 - **Output (saves OLU):** output tokens are the most expensive part of a session.
