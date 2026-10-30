@@ -66,6 +66,24 @@ else
 	check("blink remotes (API; instances need a running server)", api == true)
 end
 
+-- T-021a: Mistvale terrain is written and walkable (ground under spawn, zone 1 and the path).
+local srv = game:GetService("ServerScriptService"):FindFirstChild("Server")
+if not workspace:GetAttribute("MistvaleBuilt") then
+	local built, err = pcall(function()
+		require(srv.MistvaleTerrain).start()
+	end)
+	check("manual start of MistvaleTerrain", built, err)
+end
+local rp = RaycastParams.new()
+rp.FilterType = Enum.RaycastFilterType.Include
+rp.FilterDescendantsInstances = { workspace.Terrain }
+for _, p in { { "spawn", 0, 0, 0 }, { "path", 40, -140, 4 }, { "zone1", 80, -280, 8 } } do
+	local hit = workspace:Raycast(Vector3.new(p[2], 200, p[3]), Vector3.new(0, -400, 0), rp)
+	local y = hit and hit.Position.Y
+	check("terrain ground at " .. p[1], y ~= nil and math.abs(y - p[4]) < 6 and hit.Material ~= Enum.Material.Water, y)
+end
+check("StreamingEnabled", workspace.StreamingEnabled == true)
+
 local ok, DamageMath = pcall(function()
 	return require(ReplicatedStorage.Shared.DamageMath)
 end)
