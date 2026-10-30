@@ -24,14 +24,15 @@ Every task is S-sized (≤ 30 OLU of work, AGENTS §0). Split a task before star
 | T-013 | Combat core: 5-hit chain, dash (i-frames), parry, guard-break | Pure modules tested; server rewind ≤ 250 ms |
 | T-014 | HitFeel module (hit-stop, shake, flash, numbers) shared by all moves | ART §5 items 2 and 5 |
 | T-015 | Stone guard Kith + Wind dash Kith moves | Two new moves with VFX, server-validated |
-| T-016 | Core slots, loadout and Qi bar UI | 3 slots at Rank 1; UI on all platforms |
-| T-017 | Binding mini-fight | Guided first bind cannot fail; later binds can |
-| T-018 | Upkeep and Stages (First → Peak) | Stage bar moves; feeding tested |
-| T-019 | Crucible: 1 recipe | Recipe merges two Kith; fail odds shown |
-| T-020 | Weave: 1 ordered combo | Discovered and recorded in the journal |
+| T-016 | Core slots, loadout, role tags and Qi/Strain/Satiety HUD | 3 slots at Rank 1; gap warning; phone HUD readable (mock first); UI on all platforms |
+| T-017 | Binding tug-of-war + Heart Kith | Channel-vs-Will bar, Shards top up Qi; guided first bind cannot fail and becomes the Heart Kith |
+| T-018 | Upkeep (Satiety), Strain, Stages as Core Shell + breakthrough trial | Dormant/Exhausted states tested in Lune; Shell visual per Stage; Rank 1→2 wave trial |
+| T-019 | Crucible: 1 recipe + focus mini-game | Merges two Kith; fail odds shown; fail = catalyst lost + Wounded, never destroyed |
+| T-020 | Weave Loom: 1 Weave (core + 1 support) + Path Marks | Resonance hint; Weave recorded in journal; Marks add % power; Friction shown |
 | T-021 | Mistvale terrain + hub kit (code terrain, Blender kit) | Hub and 1 zone walkable; budgets met |
 | T-022 | Enemies: 2 beasts (brain + telegraphs) | Telegraphs ≥ 0.4 s; server-owned AI |
 | T-023 | Boss + arena | Every attack telegraphed; beatable at Rank 1–2 |
+| T-025 | Qi-refining utility Kith (before T-024) | Speeds Stage gain; obtainable in Mistvale |
 | T-024 | First 10 minutes (GDD §8) + mentor/rival NPCs | Full flow playable end to end; owner playtest (T-006 path) |
 
 ## Risks
