@@ -65,8 +65,14 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - Add a recommendation.
   - AC: an "Options" section in RESEARCH.md that P-001 can present as-is.
 
+- **R-019 [todo] [S] RI systems map + first-ability pick** (owner request 2026-10-30, D-025):
+  - Table: each major RI system (creatures, ranks/stages, aptitude, essence, feeding, refinement, fusion, killer moves, paths, formations, clans/outcasts, regions) → Robby equivalent with our own name, the way Rell Seas mirrors One Piece.
+  - Pick the test ability: a popular RI creature with a flashy move (candidate: the moonlight crescent-blade one), renamed; describe its move, VFX and feel.
+  - AC: `research/notes/R-019-systems-map.md` + RESEARCH.md summary.
+
 ## Phase 2 — Planning (ends with owner approval)
-- **P-001 [todo] [S] Concept pick:**
+- **P-007 [todo] [S] Spike plan** (D-025): ability spec (inputs incl. mobile, cost, cooldown, damage, hitbox, VFX/SFX, numbers), training dummy, file layout, how we verify without Studio. AC: `.ai/SPIKE.md`; owner OKs the test-publish route.
+- **P-001 [done] [S] Concept pick:** owner chose A, structured like RI (D-025).
   - Present the R-018 options to the owner in plain language, with a recommendation. Then end the session and wait.
   - AC: the owner's choice is logged as a decision.
 - **P-002 [todo] [S→M] GDD v1:**
@@ -87,6 +93,13 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
 - **P-006 [todo] [S] Approval gate:**
   - Give the owner a short plain-language summary of the plan.
   - AC: the owner approves, and this is logged as a decision. Building starts only after this.
+
+## Phase 2b — Capability spike (owner request, allowed before P-006 by D-025)
+- **T-003 [todo] [S] Ability core:** pure module for the test ability (energy cost, cooldown, damage, hitbox shape, rank scaling) + server validation; Lune tests. AC: `check.sh` PASS.
+- **T-004 [todo] [S] Ability wiring + VFX:** server remote, client input (key + mobile button), code-built VFX (Beam/Trail/Particles), placeholder SFX, a training dummy; `rojo build` makes a place file. AC: build succeeds, check PASS.
+- **T-005 [todo] [S] Headless verification:** inspect the built place with Lune; cloud test via Luau Execution if a place ID + Open Cloud key exist. AC: a written pass/fail report.
+- **T-006 [todo] [S] Owner playtest:** publish to a private test place only with the owner's explicit OK; owner plays in the normal Roblox app; feedback saved to the inbox. Needs place ID + Open Cloud key.
+- After the spike: P-002 … P-006 continue.
 
 ## Phase 3 — Building (defined in P-005)
 - **T-002 [todo]** Replace the obby sample code (RoundState, HUD) with the P-004 skeleton. Keep `check.sh` green.

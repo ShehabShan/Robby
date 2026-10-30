@@ -12,6 +12,7 @@ Owner: ShehabShan. The owner is non-technical and delegates technical and design
 ## Owner ideas
 None yet. R-010 adds an entry for each file in `research/inbox/`:
 date, file name, and the owner's key points in their own words.
+- **2026-10-30** `research/inbox/2026-10-30-ri-structure-and-first-ability.md`: "The structure should be similar to RI. It will be open-world, but there will also be a good number of systems aligned with RI." Rell Seas mirrors One Piece (Haki, fruit) — "we can also work around it." Order: a very short research (1–2 sessions), a plan (1–2 sessions), then a few build sessions to create the first proper ability — "a popular GU that has some shine move" — to test whether headless development can really build a Roblox game (no Studio access). **IP flag:** Rell Seas uses One Piece names directly (takedown risk, R-012/R-013); we mirror RI systems with our own names (D-023, D-025).
 
 ## Background
 Starting points for R-011 to R-013. Facts marked (search) come from a quick web search on 2026-10-29 and still need deeper verification.
