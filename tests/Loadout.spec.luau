@@ -25,6 +25,18 @@ local function fresh(): any
 end
 
 return {
+	["loadout: activeKith is the first equipped Kith with a chain move"] = function()
+		local own = owned()
+		own.u5 = { speciesId = "kith.rimeshard" }
+		local lo = fresh()
+		eq(Loadout.activeKith(lo, own, built), nil, "nothing equipped")
+		Loadout.equip(lo, Config, 1, own, built, 1, "u1")
+		eq(Loadout.activeKith(lo, own, built), nil, "Crescent has no chain move")
+		Loadout.equip(lo, Config, 1, own, built, 2, "u5")
+		eq(Loadout.activeKith(lo, own, built), "kith.rimeshard", "Rimeshard drives the stance")
+		Loadout.unequip(lo, 2)
+		eq(Loadout.activeKith(lo, own, built), nil, "unequipped again")
+	end,
 	["loadout: 3 slots at Rank 1, +1 per Rank, max 7"] = function()
 		eq(Loadout.slotCount(Config, 1), 3, "rank 1")
 		eq(Loadout.slotCount(Config, 2), 4, "rank 2")

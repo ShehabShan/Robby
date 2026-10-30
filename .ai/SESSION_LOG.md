@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S44 — 2026-10-30 (≈38 OLU)
+- T-029 done (D-192): `Shared.Version` 0.0.17 + spec, HUD top-right `v0.0.17 (Roblox <n>)`, `publish.py` prints both numbers. Not published (owner changed to "no upload now").
+- T-030 done (D-193): `Loadout.activeKith` + spec, `ActiveKith` attribute, `KithInput` follows the loadout (hard-coded Rimeshard removed).
+- Added T-030b: Rimeshard is not obtainable yet, so the stance cannot be reached in a live playtest.
+- check.sh PASS (259 tests). No cloud test this session.
+
 ## S43 (2026-10-30) — T-028 Shift = sprint, no dash + T-027d3 KithInput (adopted stopped S43)
 - T-028: dash removed everywhere (client, Blink ActionKind, Combat, CombatService, Config, speed guard); Roblox Shift lock off, Ctrl shift lock kept; GDD controls (D-189).
 - T-027d3: `client/KithInput` — Q/B stance toggle, left-click Needle chain + finisher, Z/X/C specials with shot-2 cancel, Rime Fall ground point; wired in init.client (D-190). T-027d done.

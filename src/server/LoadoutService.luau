@@ -29,6 +29,7 @@ function LoadoutService.publish(player: Player, data: any)
 		player:SetAttribute(`Slot{i}Uid`, if inst then uid else nil)
 	end
 	player:SetAttribute("LoadoutGaps", table.concat(Loadout.gaps(data.loadout, data.kith, built, Config), ","))
+	player:SetAttribute("ActiveKith", Loadout.activeKith(data.loadout, data.kith, built)) -- KithInput stance (D-193)
 	player:SetAttribute("RefineYield", Refining.multiplier(data, Config, built)) -- loadout hint (T-025b2)
 	player:SetAttribute("OwnedKith", LoadoutScreen.encodeOwned(data.kith)) -- loadout screen list (T-016d, D-069)
 end

@@ -101,6 +101,19 @@ function Loadout.unequip(lo: any, slot: any): boolean
 	return true
 end
 
+-- The Kith whose stance the client drives (T-027d, D-193): the first equipped species with a chain move, or nil.
+function Loadout.activeKith(lo: any, owned: any, built: any): string?
+	for _, k in Loadout.equipped(lo, owned, built) do
+		for _, moveId in k.moves do
+			local move = built.moves[moveId]
+			if move and move.chain then
+				return k.id
+			end
+		end
+	end
+	return nil
+end
+
 -- Kith species records in slot order (empty and unknown slots skipped).
 function Loadout.equipped(lo: any, owned: any, built: any): { any }
 	local list = {}

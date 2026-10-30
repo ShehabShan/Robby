@@ -4,7 +4,7 @@
 -- through to CombatInput's light chain. Z / X / C fire the Kith's specials in both stances, and shot 2 of the chain
 -- may cancel into one (Stance.special). A `target = "Point"` move (Rime Fall) aims at the ground under the mouse,
 -- clamped to its range. FX play at once; the server runs the same machine and verifies every CastRequest.
--- The active Kith is Rimeshard until the loadout publishes one (Resume note in TASKS.md).
+-- The active Kith is the player's `ActiveKith` attribute (LoadoutService, D-193); it re-binds when the loadout changes.
 
 local ContextActionService = game:GetService("ContextActionService")
 local Players = game:GetService("Players")
@@ -51,26 +51,10 @@ local function groundPoint(camera: Camera, character: Model, root: BasePart, par
 	return p
 end
 
-function KithInput.start(
-	sendCast: SendCast,
-	sendAction: SendAction,
-	fx: FxRegistry.Registry,
-	built: any,
-	kithId: string
-)
-	local kith = built.kith[kithId]
-	local kit = if kith then Stance.kit(kith, built.moves) else nil
-	if not kit then
-		warn("KithInput: " .. kithId .. " has no chain move")
-		return
-	end
-	local chainMove = built.moves[kit.chain]
-	local fin = built.moves[kit.finisher]
-	local cfg: Stance.Cfg = {
-		chain = chainMove.chain,
-		finisherRecovery = if fin then fin.cooldown else chainMove.chain.recovery,
-	}
+function KithInput.start(sendCast: SendCast, sendAction: SendAction, fx: FxRegistry.Registry, built: any)
 	local player = Players.LocalPlayer
+	local kit: Stance.Kit? = nil -- nil = no chain Kith equipped: stance and specials are off
+	local cfg: Stance.Cfg? = nil
 	local state = Stance.new()
 	local seq = 0
 	local actionSeq = 0
@@ -122,13 +106,17 @@ function KithInput.start(
 		return true
 	end
 
-	ContextActionService:BindAction("KithStance", function(_, st: Enum.UserInputState, _): Enum.ContextActionResult
-		if st ~= Enum.UserInputState.Begin then
-			return Enum.ContextActionResult.Pass
-		end
+	local function toggleStance()
 		Stance.toggle(state)
 		actionSeq = (actionSeq + 1) % 65536
 		sendAction("Stance", nil, actionSeq)
+	end
+
+	ContextActionService:BindAction("KithStance", function(_, st: Enum.UserInputState, _): Enum.ContextActionResult
+		if st ~= Enum.UserInputState.Begin or kit == nil then
+			return Enum.ContextActionResult.Pass
+		end
+		toggleStance()
 		return Enum.ContextActionResult.Sink
 	end, true, Enum.KeyCode.Q, Enum.KeyCode.ButtonB)
 	ContextActionService:SetTitle("KithStance", "Stance")
@@ -137,11 +125,12 @@ function KithInput.start(
 	ContextActionService:BindActionAtPriority(
 		"KithChain",
 		function(_, st: Enum.UserInputState, _): Enum.ContextActionResult
-			if st ~= Enum.UserInputState.Begin or not state.on then
+			local k, c = kit, cfg
+			if st ~= Enum.UserInputState.Begin or not state.on or not k or not c then
 				return Enum.ContextActionResult.Pass
 			end
 			local now = os.clock()
-			local id = Stance.press(state, now, cfg, kit)
+			local id = Stance.press(state, now, c, k)
 			if id then
 				fire(id, now)
 			end
@@ -153,24 +142,57 @@ function KithInput.start(
 		Enum.KeyCode.ButtonR2
 	)
 
-	for i, key in SPECIAL_KEYS do
-		local moveId = kit.specials[i]
-		if moveId == nil then
-			break
+	local bound: { string } = {}
+	local function bindSpecials()
+		for _, name in bound do
+			ContextActionService:UnbindAction(name)
 		end
-		local name = "KithSpecial" .. i
-		ContextActionService:BindAction(name, function(_, st: Enum.UserInputState, _): Enum.ContextActionResult
-			if st ~= Enum.UserInputState.Begin then
-				return Enum.ContextActionResult.Pass
+		table.clear(bound)
+		local k, c = kit, cfg
+		if not k or not c then
+			return
+		end
+		for i, key in SPECIAL_KEYS do
+			local moveId = k.specials[i]
+			if moveId == nil then
+				break
 			end
-			local now = os.clock()
-			if Stance.special(state, now, cfg, kit, moveId) then
-				fire(moveId, now)
-			end
-			return Enum.ContextActionResult.Sink
-		end, true, key)
-		ContextActionService:SetTitle(name, tostring(built.moves[moveId].name or moveId))
+			local name = "KithSpecial" .. i
+			table.insert(bound, name)
+			ContextActionService:BindAction(name, function(_, st: Enum.UserInputState, _): Enum.ContextActionResult
+				if st ~= Enum.UserInputState.Begin then
+					return Enum.ContextActionResult.Pass
+				end
+				local now = os.clock()
+				if Stance.special(state, now, c, k, moveId) then
+					fire(moveId, now)
+				end
+				return Enum.ContextActionResult.Sink
+			end, true, key)
+			ContextActionService:SetTitle(name, tostring(built.moves[moveId].name or moveId))
+		end
 	end
+
+	-- Follow the loadout: `ActiveKith` is the first equipped Kith with a chain move (Loadout.activeKith, D-193).
+	local function load()
+		local kithId = player:GetAttribute("ActiveKith")
+		local kith = if typeof(kithId) == "string" then built.kith[kithId] else nil
+		local k = if kith then Stance.kit(kith, built.moves) else nil
+		if k then
+			local chainMove = built.moves[k.chain]
+			local fin = built.moves[k.finisher]
+			kit = k
+			cfg = { chain = chainMove.chain, finisherRecovery = if fin then fin.cooldown else chainMove.chain.recovery }
+		else
+			kit, cfg = nil, nil
+			if state.on then
+				toggleStance() -- the Kith left the loadout: drop the stance and tell the server
+			end
+		end
+		bindSpecials()
+	end
+	player:GetAttributeChangedSignal("ActiveKith"):Connect(load)
+	load()
 end
 
 return KithInput

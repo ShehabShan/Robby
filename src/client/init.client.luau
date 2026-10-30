@@ -62,10 +62,11 @@ local function action(kind: string, dir: Vector3?, seq: number)
 	Net.Action.Fire({ kind = kind :: any, dir = dir, seq = seq })
 end
 CombatInput.start(action)
--- Kith stance (T-027d3, D-190): Q / B toggles; stance on: left click = Needle chain; Z / X / C = Fan / Fall / Shatter.
+-- Kith stance (T-027d3, D-190): Q / B toggles; stance on: left click = chain; Z / X / C = specials of the active Kith
+-- (`ActiveKith` attribute from the loadout, D-193).
 KithInput.start(function(moveId: string, aim: Vector3, point: Vector3?, seq: number)
 	Net.CastRequest.Fire({ moveId = moveId, aim = aim, point = point, seq = seq })
-end, action, fx, built, "kith.rimeshard")
+end, action, fx, built)
 
 Net.CastFx.On(function(v)
 	if v.caster == player then
