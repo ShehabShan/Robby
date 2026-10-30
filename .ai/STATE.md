@@ -1,20 +1,15 @@
 # STATE
 
-## Now (after S13)
-- S13: T-016c HUD (D-068, mock render `scripts/hud_mock.sh`) and T-016d loadout screen (D-069) done. T-016 complete. T-017a Binding core done (D-070). Not yet cloud-tested or published.
-- S12: cloud re-run PASS (v8), T-016a loadout core (D-063), T-016b server loadout (D-064, cloud v9 PASS), **published v9** for the owner's playtest (D-065); Cut hit error fixed and **published v11** (D-066); mouse aim **published v13** (D-067).
-- S11 done: T-010 cloud pipeline (CLOUD ALL: PASS on Saved v5, D-060), T-014 HitFeel (D-061), T-015 Stone Ward + Wind Step (D-062). Done through T-015.
-- Next task: **T-016** core slots, loadout, role tags and Qi/Strain/Satiety HUD (ROADMAP). Keys E/Q/R are provisional until T-016 slots.
-- Cloud re-run of the S11 build is pending: uploading a new Saved version timed out twice in S11 (`scripts/cloud_test.py`, urlopen timeout 120). Retry first next session; `python3 scripts/cloud_test.py 5` reuses v5.
-- Owner: Studio playtest of Crescent, combat, Stone Ward (Q/Y) and Wind Step (R/L2) (needs `wally install`). Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`).
+## Now (after S17)
+- S17: T-019e client CrucibleHud (D-086) → **T-019 done**. Parallel sessions via git branches (D-087: `.ai/CLAIMS.md`, `claim.sh`, `merge.sh`, AGENTS §9). T-020 split a–d; T-020a Loom core (D-088) and T-020b Path Marks (D-089) done.
+- S16: T-018f breakthrough wiring; T-019a–d Crucible core, focus mini-game, server + Recoil, Twin Crescent (D-080–D-085).
+- Last publish: v14 (S15, D-078). Crucible, Loom and Marks are not yet cloud-tested or published.
 
-- **Phase:** 3 — Building (P-006 approved, D-049). Foundations done: R-021…R-026 + P-008 systems spec (S9, D-052).
-- **Doing:** none (S16 closed). T-019e partly open.
-- **NEXT:** T-019e client CrucibleHud wiring, then T-020.
-- **Then:** T-017 … T-024 (ROADMAP.md order).
+- **Phase:** 3 — Building (P-006 approved, D-049).
+- **Doing:** T-020 (a, b done).
+- **NEXT:** T-020c Weave content + server Loom, then T-020d Loom UI, then T-021 … T-024 (ROADMAP.md order).
+- **Parallel sessions:** check `.ai/CLAIMS.md` first. T-021 (Mistvale terrain) touches different files from T-020c/d, so it suits a second session.
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
-- **Blockers:** T-006: owner playtest of published v13 — check PC mouse aim (feedback → inbox). Open Cloud key works (read, Saved upload, Luau execution; S6).
-- **Last check.sh:** CHECK: PASS (2026-10-30, S14; 126 passed Lune tests)
-- **Notes:**
-  - Direction changed in S3: the obby is dropped, and the game is an RI-inspired action RPG (D-013).
-  - The `src/` code is an obby-era toolchain sample (D-019).
+- **Blockers:** T-006: owner playtest of the published build (feedback → inbox).
+- **Last check.sh:** CHECK: PASS (2026-10-30, S17)
+- **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC C (F is Parry), gamepad D-pad Right.

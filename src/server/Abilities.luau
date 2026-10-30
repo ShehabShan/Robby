@@ -22,6 +22,7 @@ local BreakthroughService = require(script.Parent.BreakthroughService)
 local statuses = require(script.Parent.StatusStore)
 local Loadout = require(ReplicatedStorage.Shared.Loadout)
 local DataService = require(script.Parent.DataService)
+local PathMarks = require(ReplicatedStorage.Shared.PathMarks)
 local KithCare = require(ReplicatedStorage.Shared.KithCare)
 local UpkeepService = require(script.Parent.UpkeepService)
 
@@ -95,7 +96,13 @@ local function applyOnHit(shot: Shot, humanoid: Humanoid): number
 		onOp = function(op: Effects.Op)
 			if op.kind == "Dmg" then
 				local base = if op.params then op.params.base else 0
-				local amount = DamageMath.compute({ base = base or 0, rank = 1 })
+				local data = DataService.get(shot.caster)
+				local path = PathMarks.pathOf(shot.move)
+				local boost, friction = PathMarks.hitMods(Config, data and data.marks, path)
+				local amount = DamageMath.compute({ base = base or 0, rank = 1, boost = boost, friction = friction })
+				if data then
+					PathMarks.award(data, Config, path, 1) -- Path Marks by use (T-020b, D-089)
+				end
 				humanoid:TakeDamage(amount)
 				BreakthroughService.onDamage(shot.caster, amount) -- trial cracks (T-018f)
 				total += amount

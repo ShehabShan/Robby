@@ -59,6 +59,7 @@ local Config = {
 		maxRank = 9,
 		crackPerDamage = 1, -- crack points per damage dealt during a trial (T-018f, D-080)
 	},
+	Marks = { perHit = 1, max = 500 }, -- Path Marks per damaging hit (T-020b, D-089); boost via DamageMath.marksBoost
 	Loom = { -- Weave Loom (T-020a, D-088); tune in playtests
 		maxSupports = 1, -- M1: core + 1 support (2–3 later, unlocked by Mastery)
 		frictionFullMarks = 60, -- opposed-Path Marks at which full Friction applies
