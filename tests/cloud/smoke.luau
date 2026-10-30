@@ -44,11 +44,27 @@ check("dummy exists", dummy ~= nil)
 local humanoid = dummy and dummy:FindFirstChildOfClass("Humanoid")
 check("dummy humanoid", humanoid ~= nil)
 
-local remotes = waitFor(function()
-	return ReplicatedStorage:FindFirstChild("BLINK_RELIABLE_REMOTE")
-		and ReplicatedStorage:FindFirstChild("BLINK_UNRELIABLE_REMOTE")
-end, 10)
-check("blink remotes", remotes ~= nil)
+-- Luau Execution is not a running server (RunService:IsRunning() == false), so Blink returns no-op stubs and
+-- creates no remote instances (D-060). There, check the Net API loads; remote instances are checked when running.
+if game:GetService("RunService"):IsRunning() then
+	local remotes = waitFor(function()
+		return ReplicatedStorage:FindFirstChild("BLINK_RELIABLE_REMOTE")
+			and ReplicatedStorage:FindFirstChild("BLINK_UNRELIABLE_REMOTE")
+	end, 10)
+	check("blink remotes", remotes ~= nil)
+else
+	local server = game:GetService("ServerScriptService"):FindFirstChild("Server")
+	local ok, net = pcall(function()
+		return require(server.Net)
+	end)
+	local api = ok
+		and type(net) == "table"
+		and type(net.CastRequest.On) == "function"
+		and type(net.Action.On) == "function"
+		and type(net.HitFx.FireAll) == "function"
+		and type(net.CastFx.FireAll) == "function"
+	check("blink remotes (API; instances need a running server)", api == true)
+end
 
 local ok, DamageMath = pcall(function()
 	return require(ReplicatedStorage.Shared.DamageMath)
