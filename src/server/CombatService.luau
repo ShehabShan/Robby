@@ -20,6 +20,7 @@ local statuses = require(script.Parent.StatusStore)
 local SpeedGuardService = require(script.Parent.SpeedGuardService)
 local Net = require(script.Parent.Net) -- Blink-generated (net/remotes.blink)
 local RemoteGuard = require(script.Parent.RemoteGuard)
+local Abilities = require(script.Parent.Abilities)
 
 local C = Config.Combat
 local RECORD_DT = 1 / 20
@@ -241,6 +242,8 @@ function CombatService.start()
 			Combat.setGuard(s.guard, true)
 		elseif kind == "Guard" then
 			Combat.setGuard(s.guard, false)
+		elseif kind == "Stance" then
+			Abilities.toggleStance(player) -- Kith stance swap (T-027d2, D-186)
 		end
 	end)
 

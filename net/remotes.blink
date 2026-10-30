@@ -5,7 +5,7 @@ option ClientOutput = "../src/client/Net.luau"
 option ServerOutput = "../src/server/Net.luau"
 option ManualReplication = false
 
-enum ActionKind = { Attack, Dash, Parry, Guard }
+enum ActionKind = { Attack, Dash, Parry, Guard, Stance }
 
 -- C→S: ask to cast a Move. The server validates moveId, cooldown, Qi and Strain.
 event CastRequest {
