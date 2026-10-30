@@ -1,6 +1,6 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
-## S26 (2026-10-30)
+## S26 / S27 (2026-10-30, one bot, two claims)
 - Done: T-021b Mistvale hub kit (D-146): `art/blender/hub_kit.py` builds 14 low-poly pieces (houses, gate, rest spot, Crucible shrine, fences, lantern, pines, rocks) → FBX/GLB + manifest, max 824 tris. check PASS.
 - Blocked: mesh upload to Roblox needs `roblox-open-cloud` (owner reconnect).
 - Next: T-021c hub assembly (now unblocked), T-023 boss.
@@ -9,6 +9,8 @@
 - T-023a: pure `BossBrain` + Mistmaw Elder boss (3 attacks, phase 2 at 50 %, D-137). T-023b: `BossService` (D-138).
 - T-023c part 1: boss HP bar + "Enraged" cue (`BossBar`, `BossHud`, D-139); boss arena area in Mistvale layout (D-140).
 - Blocker unchanged: `roblox-open-cloud` not enabled, so no cloud walk/playtest. CHECK: PASS. OLU ≈ 30.
+- Done: T-021c hub assembly (D-147): pure `MistvaleHub` plan + validate, server builds proxies; RestSpot/BindingGrove tagged. check PASS.
+- Next: T-025b Lotus in the world; swap proxies for meshes when Open Cloud works.
 
 ## S19 / S22 / S25 (2026-10-30, one bot, three claims)
 - Done: T-021a Mistvale code terrain + streaming (D-100); T-025a Mist Lotus Refine Kith (D-112); T-022a/b two beasts with telegraphs (D-124, D-125). All merged, check PASS.
