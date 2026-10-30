@@ -126,6 +126,10 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
 - After the spike: P-002 … P-006 continue.
 
 ## Phase 3 — Building (defined in P-005)
-- **T-002 [todo]** Build the ARCHITECTURE v2 skeleton: `Types`, `Stats`, `Effects`, `Moves`, Projectile delivery; migrate the spike (Crescent Cut → Move data, R-021 §5), with Lune tests. Keep `check.sh` green. Keep `check.sh` green.
+- **T-002 [doing S9] Build the ARCHITECTURE v2 skeleton** (split S9 into S-sized parts; owner asked to use the remaining budget):
+  - **T-002a [done S9] [S] Math core:** `Tags`, `Stats` (one aggregation), `DamageMath` (R-022) in `src/shared` + `tests/Foundations.spec.luau` (R-022 numbers reproduced). AC: check.sh PASS.
+  - **T-002b [doing S9] [S] Effects + Moves + Registry:** `Effects` (apply/stack/tick/expire, tags, modifiers), `Moves` (validate costs, cooldown per (caster, moveId)), `Registry` (validates Content records), Lune tests. AC: check.sh PASS. Resume from: `src/shared/Effects.luau`.
+  - **T-002c [todo] [S] Spike migration:** Crescent Cut → `Content` Move record + generic Projectile delivery; `Abilities` → one CastRequest path using `Moves`; `CrescentFx` → FX registry (R-021 §5). Keep the spike playable. AC: check.sh PASS, inspect passes.
+  - **T-002d [todo] [S] Packages:** Wally deps (Blink, ProfileStore, Trove, Signal), Blink IDL for SCHEMAS §9, `ProfileSchema` + migrations v1 with Lune tests.
 - **T-010 [blocked]** Cloud test pipeline: Open Cloud place upload + Luau Execution task + test runner. Needs a place ID and an API key (owner, via a custom integration).
 - **M1 tasks T-011 … T-024 [todo]:** see `.ai/ROADMAP.md` (IDs, scope and AC). Order: T-002 → T-010 → T-011 …
