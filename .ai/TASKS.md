@@ -65,7 +65,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - Add a recommendation.
   - AC: an "Options" section in RESEARCH.md that P-001 can present as-is.
 
-- **R-019 [todo] [S] RI systems map + first-ability pick** (owner request 2026-10-30, D-025):
+- **R-019 [doing] [S] RI systems map + first-ability pick** Resume from: searches; write research/notes/R-019-systems-map.md. (owner request 2026-10-30, D-025):
   - Table: each major RI system (creatures, ranks/stages, aptitude, essence, feeding, refinement, fusion, killer moves, paths, formations, clans/outcasts, regions) → Robby equivalent with our own name, the way Rell Seas mirrors One Piece.
   - Pick the test ability: a popular RI creature with a flashy move (candidate: the moonlight crescent-blade one), renamed; describe its move, VFX and feel.
   - AC: `research/notes/R-019-systems-map.md` + RESEARCH.md summary.

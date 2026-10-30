@@ -1,7 +1,7 @@
 # STATE
 
 - **Phase:** 1b — short research (owner reorder D-025) → P-007 spike plan → T-003…T-006 capability spike → P-002…P-006
-- **Doing:** none (if a task is `doing`, resume it before NEXT)
+- **Doing:** R-019 (S5). Resume from: research/notes/R-019-systems-map.md draft.
 - **NEXT:** R-019 — RI systems map + first-ability pick.
 - **Then:** P-007 → T-003 → T-004 → T-005 → T-006 → P-002 … P-006
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
