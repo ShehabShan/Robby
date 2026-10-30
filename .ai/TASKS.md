@@ -223,5 +223,5 @@ Pick one when the next real task won't fit before the 43 OLU wrap-up line. Log f
 - **T-027d [todo] [S] Input + stance:** AC adds: Needle shot 2 can cancel into Z/X/C (note §6). Kith-stance toggle swaps the left-click chain table; Z/X/C = Kith specials; Crucible → B (D-176); Blink aim-point field. AC: check.sh PASS.
 - **T-027e [todo] [S] Rime FX (client):** AC adds: ≤12 pooled shards per cast (note §6). `RimeFx.register` for fx.rime.* (pooled shards, frost decal, crust, hit-pause/shake) + SFX. AC: check.sh PASS, cloud smoke.
 - **T-027f [todo] [S] R15 animations:** needle flicks, fan sweep, fall raise/close, shatter clap · after T-026c.
-- **T-027g [todo] [S] Balance pass:** Qi regen vs costs, Mistfang/Boar/Mistmaw TTK sim vs Crescent (note §3). AC: numbers logged in RESEARCH.
+- **T-027g [done S41] [S] Balance pass:** Qi regen vs costs, Mistfang/Boar/Mistmaw TTK sim vs Crescent (note §3). AC: numbers logged in RESEARCH.
 - **T-027h [todo] [S] Playtest:** owner playtest of Rimeshard (publish only with owner OK).

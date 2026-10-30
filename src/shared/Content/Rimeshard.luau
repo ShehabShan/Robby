@@ -95,7 +95,7 @@ function Rimeshard.content(cfg: any): any
 				},
 			},
 			costs = { qi = n.finisher.cost },
-			cooldown = n.chain.recovery,
+			cooldown = n.finisherRecovery, -- D-182: the chain restarts after this pause, not after a normal recovery
 			knockback = true,
 			effects = { onHit = { "effect.rime.needle.hit", Frost.CHILL_ID } },
 			tags = TAGS_PROJ,

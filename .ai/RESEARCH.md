@@ -383,3 +383,17 @@ Draft model, curve table and 10 sources: `research/notes/R-022-stat-damage-math.
 **Unknowns**
 - Qi regen vs costs; Mistfang/Boar HP for pack tuning; gamepad feel of a 3-step ranged R1.
 **Sources** — `research/notes/R-028-first-ability-gu.md` (candidate table, full move sheet, balance, framework fit).
+
+### T-027g Rimeshard balance pass, sim (done 2026-10-30, S41)
+**Findings** (pure sim `Shared.RimeshardSim`, runner `lune run scripts/rime_balance.luau`; stationary targets, no misses/dodges, no beast damage, no melee chain — a ceiling, not a playtest)
+- Before tuning (R-028 §2 numbers): Mistmaw 800 hp 34.7 s vs Crescent 60.0 s; Boar 3.9 vs 7.5; Mistfang ×5 pack 2.2 vs 9.9. Rimeshard out-damaged Crescent ~1.7× single-target: the free Needle chain plus a 1.8 s Shard Fan carried sustained DPS.
+- Sweep (one change at a time, Mistmaw TTK): Needle 4 dmg → 41.0; Fan cd 3 → 41.6; Fan dmg 6 → 45.4; Shatter 6/stack → 46.2; finisher pause 1.2 → 44.6. Shatter per-stack barely matters (fires 2–3× per boss); Needle damage and Fan cadence drive the number.
+- Applied (D-183): Needle 4 dmg, Fan cooldown 3 s, finisher pause 1.2 s (D-182). After: Mistmaw 44.6 s (Crescent 60.0), Boar 4.9 (7.5), Mistfang 0.7 (2.5), Mistfang ×5 3.4 (9.9), Boar ×3 10.6 (15.9).
+- Crescent in the sim is Qi-bound (100 Qi, 5/s regen → ~1 blade per 2 s, ~10 DPS); a real Crescent player also has the free melee chain, so the single-target gap is smaller in play than the sim shows.
+**→ Implications for Robby**
+- Rimeshard keeps a clear pack-clear edge (2–3× faster on groups) and a modest single-target edge in the sim; acceptable for a Kith whose cost is ranged positioning and Qi on every special. Re-check once the melee chain is in the sim or in the T-027h playtest.
+- Shatter is the readable payoff, not the DPS source — keep 12 + 8/stack; tune Needle/Fan first if a playtest says "too strong".
+**Unknowns**
+- Sim ignores travel time (speed 100–120 vs range 35–45 ≈ 0.4 s per shard), target movement out of Rime Fall, and Chill expiring during repositioning; all reduce real Rimeshard output.
+- Melee light chain (≈12 DPS at 6 studs) is not modelled alongside Crescent.
+**Sources**: `research/notes/R-028-first-ability-gu.md` §2–§3; `src/shared/Config.luau` (Rimeshard, CrescentCut, Qi, beasts); sim output 2026-10-30.

@@ -37,17 +37,18 @@ local Config = {
 			chill = { maxStacks = 3, seconds = 3, slowPerStack = 0.15 }, -- -15 % move speed per stack; 3 stacks = Rimed
 			needle = { -- R1 left-click chain while Rimeshard is the active Kith; light-chain timing
 				chain = { steps = 3, window = 0.8, recovery = 0.25 },
-				damage = 5,
+				damage = 4, -- D-183 (was 5): sim parity with Crescent vs Mistmaw
 				speed = 120,
 				range = 45,
 				maxHits = 1,
 				hitboxSize = { x = 1, y = 1, z = 3 },
 				spawnOffset = 2,
 				finisher = { shards = 2, spreadDeg = 6, cost = 3 }, -- shot 3: two shards side by side, resets the chain
+				finisherRecovery = 1.2, -- pause after shot 3 before the chain restarts (D-182: keeps Needle ≈ melee DPS)
 			},
 			shardFan = { -- Z (Volley): close-range crowd clear; a target takes at most 2 of 5 shards
 				cost = 10,
-				cooldown = 1.8,
+				cooldown = 3, -- D-183 (was 1.8): Fan was carrying single-target DPS
 				damage = 8,
 				count = 5,
 				spreadDeg = 30,
