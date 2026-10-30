@@ -121,5 +121,21 @@ Full table (9 games) and gaps: `research/notes/R-014-comparable-games.md`.
   - Endgame tension from rivals and risky fusions, not permadeath; short sessions that still progress.
 - **Unknowns:** CCU of the RI fan game; real retention data.
 - **Sources:** see the notes file (18 sources).
-## R-015 … R-018
+### R-015 Headless asset pipeline feasibility (done 2026-10-30)
+Full notes + route table: `research/notes/R-015-asset-pipeline.md`.
+- **Findings:**
+  - Open Cloud Assets API uploads models (FBX/GLB/rbxm), images, audio, animations (rbxm/rbxmx) and meshes; 20 MB max; needs an API key (create.roblox.com/docs/cloud/guides/usage-assets).
+  - Limits: 20k triangles per mesh, 4 bone influences, textures ~1024 (create.roblox.com/docs/en-us/art/modeling/specifications).
+  - Audio ≤7 min; 100 uploads/month if ID-verified, else 10 (create.roblox.com/docs/en-us/audio/assets).
+  - `anim2rbx` converts FBX animations to `.rbxmx` without Studio (github.com/jiwonz/anim2rbx).
+  - VFX and terrain (`WriteVoxels`) are code, so Rojo-friendly (create.roblox.com/docs/reference/engine/classes/Terrain).
+  - AI 3D: Roblox Cube 3D (beta), Tripo/Meshy APIs; licences differ (meshy.ai/api).
+  - Creator Store assets are licensed for experiences but free models can be stolen (en.help.roblox.com Creator Store Terms).
+- **→ Implications for Robby:**
+  - A fully headless pipeline is feasible; the one owner step is an Open Cloud API key in a custom integration.
+  - VFX, terrain and UI can be good and cheap; hero meshes and combat animations are the quality bottleneck → stylised art and a likely animator budget (P-004).
+  - Early T-phase spike: upload one Blender mesh + one anim2rbx animation and play them.
+- **Unknowns:** anim2rbx with R15/custom rigs; AI mesh quality; `__higgsfield` availability/licence.
+- **Sources:** see the notes file (28 sources).
+## R-016 … R-018
 Not started. See TASKS.md.

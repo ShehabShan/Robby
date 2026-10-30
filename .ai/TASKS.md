@@ -34,7 +34,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - Cover cultivation/xianxia/wuxia and anime RPG games on Roblox: names, core loops, player counts, what works and what fails.
   - Note any existing RI-inspired Roblox games.
   - AC: a table of 5–8 games, plus gaps Robby can own.
-- **R-015 [doing] [S] Headless asset pipeline feasibility:** Resume from: searches; write research/notes/R-015-asset-pipeline.md.
+- **R-015 [done] [S] Headless asset pipeline feasibility:** (S4; route table in notes)
   - For each asset type (meshes, textures/images, animations, VFX, audio, terrain/maps, UI art), find:
     - whether Roblox Open Cloud APIs can upload it (the Assets API: types, scopes, limits)
     - whether Blender headless in the VM can make it
