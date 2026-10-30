@@ -13,6 +13,7 @@ local Config = require(ReplicatedStorage.Shared.Config)
 local Stages = require(ReplicatedStorage.Shared.Stages)
 local DataService = require(script.Parent.DataService)
 local Net = require(script.Parent.Net) -- Blink-generated (net/remotes.blink)
+local RemoteGuard = require(script.Parent.RemoteGuard)
 local RefineService = require(script.Parent.RefineService)
 
 local PUBLISH_EVERY = 0.25
@@ -58,6 +59,9 @@ end
 
 function BreakthroughService.start()
 	Net.Breakthrough.On(function(player: Player, value)
+		if not RemoteGuard.allow(player, "Breakthrough") then
+			return
+		end
 		if value.start ~= true or trials[player] then
 			return
 		end

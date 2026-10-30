@@ -14,6 +14,7 @@ local Registry = require(ReplicatedStorage.Shared.Registry)
 local DataService = require(script.Parent.DataService)
 local RefineService = require(script.Parent.RefineService)
 local Net = require(script.Parent.Net) -- Blink-generated (net/remotes.blink)
+local RemoteGuard = require(script.Parent.RemoteGuard)
 
 local built = Registry.build(All.content(Config))
 
@@ -32,6 +33,9 @@ end
 function LoomService.start()
 	DataService.onLoaded(LoomService.publish)
 	Net.WeaveSet.On(function(player: Player, value)
+		if not RemoteGuard.allow(player, "WeaveSet") then
+			return
+		end
 		local data = DataService.get(player)
 		local core, support = value.core, value.support
 		if not data or typeof(core) ~= "string" or typeof(support) ~= "string" then

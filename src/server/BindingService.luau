@@ -18,6 +18,7 @@ local Abilities = require(script.Parent.Abilities)
 local DataService = require(script.Parent.DataService)
 local LoadoutService = require(script.Parent.LoadoutService)
 local Net = require(script.Parent.Net) -- Blink-generated (net/remotes.blink)
+local RemoteGuard = require(script.Parent.RemoteGuard)
 
 local built = Registry.build(All.content(Config))
 
@@ -144,9 +145,15 @@ end
 function BindingService.start()
 	DataService.onLoaded(publishWallet)
 	Net.BindStart.On(function(player: Player, value)
+		if not RemoteGuard.allow(player, "BindStart") then
+			return
+		end
 		onStart(player, value.target)
 	end)
 	Net.BindInput.On(function(player: Player, value)
+		if not RemoteGuard.allow(player, "BindInput") then
+			return
+		end
 		onInput(player, value.channel, value.shard)
 	end)
 	Players.PlayerRemoving:Connect(cancel)

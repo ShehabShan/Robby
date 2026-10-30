@@ -15,6 +15,7 @@ local CrucibleFocus = require(ReplicatedStorage.Shared.CrucibleFocus)
 local Abilities = require(script.Parent.Abilities)
 local DataService = require(script.Parent.DataService)
 local Net = require(script.Parent.Net) -- Blink-generated (net/remotes.blink)
+local RemoteGuard = require(script.Parent.RemoteGuard)
 local RefineService = require(script.Parent.RefineService)
 
 type Session = { a: string, b: string, recipeId: string, focus: CrucibleFocus.Focus }
@@ -59,6 +60,9 @@ end
 
 function CrucibleService.start()
 	Net.CrucibleStart.On(function(player: Player, value)
+		if not RemoteGuard.allow(player, "CrucibleStart") then
+			return
+		end
 		if sessions[player] then
 			return
 		end
@@ -86,6 +90,9 @@ function CrucibleService.start()
 		end
 	end)
 	Net.CruciblePress.On(function(player: Player, _)
+		if not RemoteGuard.allow(player, "CruciblePress") then
+			return
+		end
 		local s = sessions[player]
 		if not s then
 			return

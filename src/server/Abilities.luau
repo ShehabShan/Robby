@@ -45,6 +45,7 @@ local function hitKey(model: Instance): string
 end
 local CastRequest = require(ReplicatedStorage.Shared.CastRequest)
 local Net = require(script.Parent.Net) -- Blink-generated (net/remotes.blink)
+local RemoteGuard = require(script.Parent.RemoteGuard)
 
 local built, errors = Registry.build(All.content(Config))
 if #errors > 0 then
@@ -215,6 +216,9 @@ function Abilities.start()
 	end)
 
 	Net.CastRequest.On(function(player: Player, value)
+		if not RemoteGuard.allow(player, "CastRequest") then
+			return
+		end
 		local rawMoveId, raw, rawSeq = value.moveId, value.aim, value.seq
 		local pool = pools[player]
 		local cds = cooldowns[player]

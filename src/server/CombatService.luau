@@ -19,6 +19,7 @@ local BreakthroughService = require(script.Parent.BreakthroughService)
 local statuses = require(script.Parent.StatusStore)
 local SpeedGuardService = require(script.Parent.SpeedGuardService)
 local Net = require(script.Parent.Net) -- Blink-generated (net/remotes.blink)
+local RemoteGuard = require(script.Parent.RemoteGuard)
 
 local C = Config.Combat
 local RECORD_DT = 1 / 20
@@ -218,6 +219,9 @@ end
 
 function CombatService.start()
 	Net.Action.On(function(player: Player, value)
+		if not RemoteGuard.allow(player, "Action") then
+			return
+		end
 		local now = os.clock()
 		local s = stateFor(player)
 		if not take(s, now) then

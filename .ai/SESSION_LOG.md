@@ -1,5 +1,8 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S35 (2026-10-30) — F-02 remote security
+- Pure `Shared.RateLimit` + `RemoteGuard` on all 11 client→server handlers; Blink covers type checks (D-171). check.sh PASS.
+
 ## S34 (2026-10-30) — F-03 data safety
 - Verified ProfileStore handles shutdown saves (BindToClose) and leave; added an old-save defaults spec (D-170). check.sh PASS.
 

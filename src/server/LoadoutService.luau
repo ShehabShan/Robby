@@ -13,6 +13,7 @@ local Refining = require(ReplicatedStorage.Shared.Refining)
 local LoadoutScreen = require(ReplicatedStorage.Shared.LoadoutScreen)
 local DataService = require(script.Parent.DataService)
 local Net = require(script.Parent.Net) -- Blink-generated (net/remotes.blink)
+local RemoteGuard = require(script.Parent.RemoteGuard)
 
 local built = Registry.build(All.content(Config))
 
@@ -35,6 +36,9 @@ end
 function LoadoutService.start()
 	DataService.onLoaded(LoadoutService.publish)
 	Net.Equip.On(function(player: Player, value)
+		if not RemoteGuard.allow(player, "Equip") then
+			return
+		end
 		local data = DataService.get(player)
 		if not data then
 			return

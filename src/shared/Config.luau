@@ -36,6 +36,21 @@ local Config = {
 	-- Movement (T-026b3a, D-163): studs/s; accel in studs/s per second.
 	Movement = { walk = 16, sprint = 24, accel = 40 },
 	-- Sprint speed guard (T-026b3b, D-166): server planar speed check; slack in studs per 0.25 s sample.
+	-- Remote rate limits per client→server event (F-02, D-171): tokens per second + burst.
+	RemoteRates = {
+		default = { rate = 10, burst = 10 },
+		CastRequest = { rate = 10, burst = 10 },
+		Action = { rate = 15, burst = 15 },
+		Equip = { rate = 4, burst = 8 },
+		BindStart = { rate = 2, burst = 4 },
+		BindInput = { rate = 15, burst = 15 },
+		Feed = { rate = 4, burst = 8 },
+		Refine = { rate = 4, burst = 8 },
+		Breakthrough = { rate = 2, burst = 4 },
+		CrucibleStart = { rate = 2, burst = 4 },
+		CruciblePress = { rate = 15, burst = 15 },
+		WeaveSet = { rate = 4, burst = 8 },
+	},
 	SpeedGuard = { tolerance = 1.25, slack = 2, burstSeconds = 0.6, strikes = 3 },
 	-- Combat core (T-013a, GDD §5): initial tuning, seconds unless noted.
 	Combat = {

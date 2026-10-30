@@ -14,6 +14,7 @@ local All = require(ReplicatedStorage.Shared.Content.All)
 local KithCare = require(ReplicatedStorage.Shared.KithCare)
 local DataService = require(script.Parent.DataService)
 local Net = require(script.Parent.Net) -- Blink-generated (net/remotes.blink)
+local RemoteGuard = require(script.Parent.RemoteGuard)
 
 local TICK = 0.5
 
@@ -77,6 +78,9 @@ end
 
 function UpkeepService.start()
 	Net.Feed.On(function(player: Player, value)
+		if not RemoteGuard.allow(player, "Feed") then
+			return
+		end
 		local data = DataService.get(player)
 		if not usableData(data) or type(value.uid) ~= "string" then
 			return

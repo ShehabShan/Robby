@@ -16,6 +16,7 @@ local Registry = require(ReplicatedStorage.Shared.Registry)
 local All = require(ReplicatedStorage.Shared.Content.All)
 local DataService = require(script.Parent.DataService)
 local Net = require(script.Parent.Net) -- Blink-generated (net/remotes.blink)
+local RemoteGuard = require(script.Parent.RemoteGuard)
 
 local TAG = "RestSpot"
 local built = Registry.build(All.content(Config))
@@ -70,6 +71,9 @@ end
 function RefineService.start()
 	ensureRestSpot()
 	Net.Refine.On(function(player: Player, value)
+		if not RemoteGuard.allow(player, "Refine") then
+			return
+		end
 		if value.holding == true then
 			holding[player] = true
 		else
