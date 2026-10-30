@@ -1,8 +1,8 @@
 # STATE
 
 - **Phase:** 3 — Building (P-006 approved, D-049). Foundations done: R-021…R-026 + P-008 systems spec (S9, D-052).
-- **Doing:** T-002b (S9). Resume from: `src/shared/Effects.luau` (T-002a done).
-- **NEXT:** T-002b → T-002c → T-002d (see TASKS.md), then T-010.
+- **Doing:** T-002c spike migration. Resume from: `src/shared/Content/` (T-002a, T-002b done S9).
+- **NEXT:** T-002c → T-002d (see TASKS.md), then T-010.
 - **Then:** T-002 → T-010 (cloud pipeline; key works, base on scripts/cloud_test.py) → M1 tasks (ROADMAP.md)
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006 needs the owner OK to publish. Open Cloud key works (read, Saved upload, Luau execution; S6).
