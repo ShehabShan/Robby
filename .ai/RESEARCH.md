@@ -368,3 +368,18 @@ Draft model, curve table and 10 sources: `research/notes/R-022-stat-damage-math.
 
 **Sources** — `research/notes/R-026-retention.md`.
 
+
+### R-028 First proper ability: in-depth Gu research (done 2026-10-30)
+**Findings**
+- Icicle Gu (ice, R2): fires single icicles or dense volleys that fall as an "icicle rain" piercing rock; Ice Explosion Gu detonates lodged ice, blast scales with ice mass, costs more essence, can hurt the user [sagaofgu icicle-gu, ice-explosion-gu].
+- Moonlight (R1, 5 m, 10 % essence) → Moonglow (R2, 3× power, 10 m) → Moonwhirl (green, curved blade) [sagaofgu moonlight/moonglow/moonwhirl]. Fireball R2 10 m cost 8; Fire Lance R2 5 m cost 16; Lava Explosion R3 lava crater; Lightning Arrow R2–4 15 m cost 3 [master-of-gu, sagaofgu].
+- Rell Seas: yellow cue = parryable, red = dodge; hit-pause, shake, particles, synced audio, follow-through anims [rellseaswiki combat-mechanics].
+- Blox Fruits ice: 2 s full freezes on 9–26 s cooldowns; Deepwoken Frostdraw: chill + area denial [bloxfruits/deepwoken wikis].
+- ARPG practice: telegraph decals during wind-up, separate larger AoE hitbox on impact, base + scaling-stat damage, cooldown + resource gating [gdquest, gamemechanicshoard].
+**→ Implications for Robby**
+- Chosen Kith: **Rimeshard** (Path.Frost, original name). R1 Needle chain (3 shots, replaces the melee chain while Rimeshard is active), Z Shard Fan (volley), X Rime Fall (ground zone), C Shatter (burst on Chilled targets). Chill stacks (−15 %/stack, max 3) link set-up to payoff.
+- Needs 3 pure deliveries (Volley, Zone, Burst) + Status/DmgPerStack/Stagger effect ops; everything else fits Content/FxRegistry/RemoteGuard as is.
+- Crucible key moves off C (D-176) so Z/X/C are the Kith special slots. Follow-up build tasks T-027a–h.
+**Unknowns**
+- Qi regen vs costs; Mistfang/Boar HP for pack tuning; gamepad feel of a 3-step ranged R1.
+**Sources** — `research/notes/R-028-first-ability-gu.md` (candidate table, full move sheet, balance, framework fit).
