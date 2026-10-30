@@ -3,7 +3,7 @@
 ## S9 — 2026-10-30 (retention + systems spec)
 - R-026 retention: benchmarks, discovery signals, onboarding practice → GDD §8 becomes a 20-minute first session with funnel events (D-051).
 - P-008 systems spec: ARCHITECTURE v2 module map + `.ai/SCHEMAS.md` (Effect/Move/Kith/Weave/Path/Profile/remotes/analytics; D-052).
-- Owner asked to use the rest: T-002 split a–d; done T-002a (Tags, Stats, DamageMath), T-002b (Effects, Moves, Registry), T-002c1 (Crescent as data); 52 tests (D-053).
+- Owner asked to use the rest: T-002 split a–d; done T-002a (Tags, Stats, DamageMath), T-002b (Effects, Moves, Registry), T-002c1 (Crescent as data); 40 tests pass (D-053).
 - check.sh PASS. OLU used: ~33. Next: T-002c2 spike wiring migration (strong coding model).
 
 ## S8 — 2026-10-30 (directive triage + systems foundations)
