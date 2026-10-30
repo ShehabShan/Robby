@@ -1,6 +1,7 @@
 # STATE
 
-## Now (after S39)
+## Now (after S40)
+- S40: R-028 done: first proper Kith = **Rimeshard** (frost; R1 Needle chain, Z Shard Fan, X Rime Fall, C Shatter, Chill stacks; D-175–D-177). Sheet: `research/notes/R-028-first-ability-gu.md`. T-027a Frost (D-178) + T-027b Volley/Zone/Burst deliveries (D-179) built; T-027c–h open. Owner decision: Crucible key C → B (D-176).
 - Owner added R-028: in-depth Gu research for the first proper ability (R1 + Z/X/C). Waits for owner go.
 - S39: published v16 (owner asked, plays via Sober on Linux) for the T-006 playtest.
 - S38: F-08 partial: no unused Config keys (D-174); hard-coded number scan next.
@@ -33,14 +34,18 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** —
-- **NEXT:** T-021 … T-024 (ROADMAP.md order).
+- **NEXT:** T-027c Rimeshard content (then T-027d input/stance, T-027e FX, T-027g balance); T-021 … T-024 continue.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
+  - T-027c Rimeshard content · —
+  - T-027d Input + stance (Z/X/C, Crucible → B) · T-027c
+  - T-027e Rime FX (client) · T-027c
+  - T-027g Balance pass (sim) · T-027c
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
   - T-026c R15 animations (kit KeyframeSequences, re-upload) · —
   - T-026d R15 cloud walk check · T-026c
   - T-024 First 10 minutes · all above
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox).
-- **Last check.sh:** CHECK: PASS (2026-10-30, S38)
+- **Last check.sh:** CHECK: PASS (2026-10-30, S40, 248 tests)
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC C (F is Parry), gamepad D-pad Right.
