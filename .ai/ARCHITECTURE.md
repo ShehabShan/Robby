@@ -1,27 +1,66 @@
-# ARCHITECTURE
+# ARCHITECTURE (P-004, S6, 2026-10-30)
 
-## Data model (default.project.json)
-| Repo path | Roblox location | Kind |
+Inputs: R-016 (stack), GDD v1, SPIKE.md / T-004 (proven pattern), ART.md (budgets). Supersedes the obby-era doc (D-019).
+
+## 1. Stack
+| Layer | Choice | Why |
 |---|---|---|
-| `src/shared/` | `ReplicatedStorage.Shared` | ModuleScripts (pure logic + config) |
-| `src/server/` | `ServerScriptService.Server` | `init.server.luau` = Script; siblings = ModuleScripts |
-| `src/client/` | `StarterPlayer.StarterPlayerScripts.Client` | `init.client.luau` = LocalScript |
-| `tests/` | not synced | Lune unit tests (`*.spec.luau`), runner `tests/run.luau` |
+| Toolchain | Rokit-pinned Rojo, Wally, StyLua, selene, luau-lsp, Lune (`rokit.toml`) | Headless, file-managed (D-001) |
+| Language | Luau `--!strict` everywhere | Type gate in `check.sh` |
+| Networking | **Blink** (IDL → generated typed remotes); plain RemoteEvents only in the spike | Compact and typed (R-016); ByteNet is the fallback |
+| Data | **ProfileStore** (session-locked) | Replaces ProfileService (R-016) |
+| Utilities | Trove (cleanup) and Signal | Small, no framework (Knit is legacy) |
+| Framework | None: plain modules with `start()` | Fewer moving parts for AI sessions |
+| World | StreamingEnabled with opportunistic stream-out; SLIM LOD | Mobile-first (R-016) |
 
-## Modules
-- `shared/Config` — tunables. `Config.Round = { minPlayers, intermission, race, results }`.
-- `shared/RoundState` — pure state machine. `new(): State`; `step(state, dt, playerCount, allFinished, timings): (State, Phase?)`. Phases: Waiting → Intermission → Racing → Results → (Intermission | Waiting). `round` increments on entering Racing.
-- `server/init.server` — Heartbeat loop driving RoundState; tracks `finished[player]`; publishes `Phase`/`TimeLeft`/`Round` attributes on ReplicatedStorage.
-- `client/init.client` — `RoundHud` ScreenGui reading those attributes.
+## 2. Data model (default.project.json)
+- `ReplicatedStorage.Shared` ← `src/shared`: pure rules and config (no services).
+- `ReplicatedStorage.Packages` ← `Packages/` (Wally, once deps are added).
+- `ServerScriptService.Server` ← `src/server`: authority and wiring.
+- `StarterPlayer.StarterPlayerScripts.Client` ← `src/client`: input, VFX, UI.
 
-## Status (read first)
-- The code under `src/` and `tests/` is an **obby-era toolchain sample** (D-019). It is not the game architecture.
-- P-004 rewrites this document for the RPG, and T-002 replaces the sample.
-- The toolchain, quality gate and testing approach below stay.
+## 3. Module map (target for the vertical slice)
+| Area | Shared (pure, tested) | Server | Client |
+|---|---|---|---|
+| Config | `Config` (all tunables) | — | — |
+| Qi / Core | `Qi`, `Core` (slots per Rank, Talent) | `QiService` | Qi bar |
+| Kith & moves | `Kith/<Name>` (one per move, like `CrescentCut`), `KithRegistry` | `Abilities` (validate, simulate, damage) | `AbilityInput`, `Fx/<Name>` |
+| Combat core | `Combo` (5-hit chain), `Parry`, `Dash`, `Damage` | `CombatService` (rewind hit checks) | `CombatInput`, `HitFeel` (hit-stop, shake) |
+| Cultivation | `Stages`, `Crucible` (recipes, fail odds), `Weaves`, `Upkeep`, `Binding` | `ProgressionService` | Journal, Crucible UI |
+| Economy | `Shards`, `Shop` | `EconomyService` (only writer of currency) | Shop UI |
+| Enemies | `AI/Brain` (state machine), `Telegraph` | `EnemyService`, `BossService` | Telegraph VFX |
+| Data | `ProfileSchema` (+ migrations) | `DataService` (ProfileStore) | — |
+| World | `Zones` | `WorldService` (terrain, spawns, dummy) | — |
+- Rule: logic lives in `src/shared` and takes dependencies as arguments; services are thin wiring.
+
+## 4. Networking & authority
+- Client sends **intent only**: cast(moveId, aimDir), attack(chainStep), dash(dir), parry().
+- The server validates: unit-vector aim, cooldown, Qi, alive state, rate limit. It then simulates projectiles and blockcasts itself (T-004 pattern).
+- Melee uses **rewind**: the server keeps ~1 s of target positions and checks range and line of sight at `now − ping`, capped at 250 ms.
+- The server broadcasts cosmetic events (CastFx, HitFx). The caster's client skips its own duplicate.
+- The server is the only writer of Qi, cooldowns, HP, progression and currency.
+
+## 5. Data (ProfileStore)
+- One profile per player: `{ version, talent, rank, stage, marks{path}, shards, jade, kith[{id, rank, fed}], loadout, journal{recipes, weaves}, settings }`.
+- `version` plus ordered migrations in `ProfileSchema`. Autosave and release on leave; never trust client data.
+- Robux purchases go through `ProcessReceipt` with an idempotent receipt log in the profile.
+
+## 6. Sample replacement
+- Done in T-004: obby `RoundState` and HUD were removed; the spike wiring is in `src/server/{Abilities,Dummy}` and `src/client/{AbilityInput,CrescentFx}`.
+- T-002 refactors the spike into the module map (§3), adds Wally deps (Blink, ProfileStore, Trove, Signal) and keeps `check.sh` green.
+
+## 7. Testing plan
+1. **Lune unit tests** (`tests/*.spec.luau`) for every shared module — part of `check.sh`.
+2. **Place inspection** (`tests/inspect_place.luau`) on the Rojo-built place — part of `check.sh`.
+3. **Cloud tests** (T-005b/T-010): upload the place via Open Cloud, run Luau Execution tasks (≤ 5 min, ≤ 10 concurrent) with Jest Roblox in the real engine. Blocked on the key header fix.
+4. **Owner playtests** on a private test place, only with explicit OK (T-006); feedback goes to `research/inbox/`.
+
+## 8. Budgets (mobile-first, R-016 / ART §5)
+< 500 draw calls, < 500k triangles in view, ≤ 1.3–1.5 GB client memory, 60 fps on a mid-range phone; ≤ 50 KB/s network per player.
 
 ## Scripts
 - `scripts/bootstrap.sh`: idempotent setup (Rokit tools, type defs, Wally, git proxy in the PromptQL VM).
-- `scripts/check.sh`: the quality gate. It prints PASS/FAIL per stage and then `CHECK: PASS|FAIL`.
+- `scripts/check.sh`: the quality gate (format, lint, sourcemap, types, tests, build, inspect), then `CHECK: PASS|FAIL`.
 - `scripts/olu.sh`: the OLU meter. A fresh bot counts from 0; `start` sets a baseline for a reused bot.
 - `scripts/search.sh "q" [chars]`: web search through PromptQL's Exa integration, with a capped answer and sources.
 - `scripts/save.sh "ID: msg"`: commit, rebase and push, then show the OLU meter.
@@ -31,4 +70,4 @@
 ## Conventions
 - Pure modules take dependencies as arguments; no `game:GetService` in `src/shared`.
 - Server modules require shared via `require(ReplicatedStorage.Shared.X)` (resolved by the Rojo sourcemap for type checking).
-- Tests require source by relative path: `require("../src/shared/X")`.
+- Entry scripts require their own modules via `script.X`.
