@@ -8,11 +8,11 @@ U, P = "10773761715", "95587500384127"
 BASE = os.environ["PROMPTQL_PLATFORM_API_URL"] + "/v1/integration/roblox-open-cloud/apis.roblox.com"
 JWT = os.environ["PROMPTQL_USER_JWT"]
 
-def call(method, path, body=None, ctype="application/json", desc="Robby cloud test (T-005b)"):
+def call(method, path, body=None, ctype="application/json", desc="Robby cloud test (T-005b)", timeout=120):
     req = urllib.request.Request(BASE + path, data=body, method=method, headers={
         "Authorization": f"Bearer {JWT}", "Content-Type": ctype, "X-PromptQL-Description": desc})
     try:
-        with urllib.request.urlopen(req, timeout=120) as r:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
             return r.status, json.loads(r.read() or b"{}")
     except urllib.error.HTTPError as e:
         return e.code, e.read().decode()[:500]
@@ -23,7 +23,8 @@ def main():
     else:
         data = open("build/Robby.rbxl", "rb").read()
         st, res = call("POST", f"/universes/v1/{U}/places/{P}/versions?versionType=Saved", data,
-                       "application/octet-stream", "Upload the Robby build as a Saved (unpublished) place version")
+                       "application/octet-stream", "Upload the Robby build as a Saved (unpublished) place version",
+                       timeout=600)  # S12: 120s timed out twice on upload in S11
         print("upload:", st, res)
         if st != 200:
             sys.exit(1)
