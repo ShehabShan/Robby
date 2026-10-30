@@ -163,4 +163,4 @@ The owner may run several sessions at once with the same start message. Git bran
   CLAIMS.md is unfinished work. Adopt it before new work: `git checkout -b session/Sx origin/session/Sx`, run `check.sh`
   (fix if it fails), `merge.sh`, then claim normally. Resume a half-done task from its Resume note.
   `save.sh` pushes are the heartbeat, so save at least every 30 min. Owner: if a session died, tell any bot
-  "release S<n>"; it runs `bash scripts/release.sh S<n>`. Emergency (45+ OLU): `save.sh` only; the branch waits for adoption.
+  "release S<n>" or paste the stopped bot's link (CLAIMS.md Bot column); it runs `bash scripts/release.sh <S<n>|link>`. Emergency (45+ OLU): `save.sh` only; the branch waits for adoption.

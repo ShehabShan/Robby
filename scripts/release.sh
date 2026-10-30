@@ -4,10 +4,12 @@
 # The branch is kept: its work waits for adoption (AGENTS.md §9).
 # Usage: bash scripts/release.sh          (release stale claims only)
 #        bash scripts/release.sh S25      (owner says S25 died: release it now)
+#        bash scripts/release.sh <bot id or bot link>   (owner says that PromptQL bot stopped)
 set -uo pipefail
 cd "$(dirname "$0")/.."
 mins="${STALE_MIN:-120}"
 force="${1:-}"
+force="${force%%\?*}"; force="${force%/}"; force="${force##*/}" # bot link -> bot id
 f=.ai/CLAIMS.md
 [ "$(git branch --show-current)" = main ] || { echo "RELEASE: run on main"; exit 1; }
 [ -z "$(git status --porcelain)" ] || { echo "RELEASE: tree not clean, run save.sh first"; exit 1; }
@@ -16,13 +18,13 @@ for try in 1 2 3; do
 	git fetch -q --prune origin '+refs/heads/session/*:refs/remotes/origin/session/*' 2>/dev/null
 	now=$(date -u +%s)
 	gone=""
-	while IFS='|' read -r _ s task br _d claimed _rest; do
-		s=$(echo "$s" | xargs); task=$(echo "$task" | xargs); br=$(echo "$br" | xargs)
+	while IFS='|' read -r _ s task br _d claimed bot _rest; do
+		s=$(echo "$s" | xargs); task=$(echo "$task" | xargs); br=$(echo "$br" | xargs); bot=$(echo "$bot" | xargs)
 		c=$(date -u -d "$(echo "$claimed" | xargs)" +%s 2>/dev/null || echo 0)
 		p=$(git log -1 --format=%ct "origin/$br" 2>/dev/null || echo 0)
 		last=$((c > p ? c : p))
 		age=$(((now - last) / 60))
-		if [ "$s" = "$force" ] || [ "$age" -ge "$mins" ]; then
+		if [ "$s" = "$force" ] || { [ ${#force} -ge 8 ] && [[ $bot == "$force"* ]]; } || [ "$age" -ge "$mins" ]; then
 			echo "RELEASE: $s $task (last activity ${age} min ago) -> released, branch $br kept for adoption"
 			case " $gone " in *" $s "*) ;; *) gone="$gone $s" ;; esac
 		else

@@ -28,7 +28,7 @@ for try in 1 2 3 4 5 6 7 8; do
 		d=$(printf 'D-%03d..D-%03d' "$lo" $((lo + 9)))
 	fi
 	[ -z "$(tail -c1 "$f")" ] || echo >>"$f"
-	echo "| $s | $task | session/$s | $d | $(date -u '+%Y-%m-%d %H:%M') | $note |" >>"$f"
+	echo "| $s | $task | session/$s | $d | $(date -u '+%Y-%m-%d %H:%M') | ${PROMPTQL_THREAD_ID:-unknown} | $note |" >>"$f"
 	git add "$f" && git commit -q -m "$s: claim $task"
 	git push -q origin HEAD:main 2>/dev/null && break
 	git reset -q --hard HEAD~1
