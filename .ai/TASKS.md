@@ -216,6 +216,9 @@ Pick one when the next real task won't fit before the 43 OLU wrap-up line. Log f
 - **F-10 [todo] Content check:** no real-IP names (D-014), palette respected, mild rating.
 
 
+### T-028 Movement: Shift = sprint only, no dash (owner inbox 2026-10-30)
+- **T-028 [todo] [S] Sprint on Shift, remove dash:** Roblox's built-in shift lock (Shift) off, our Control shift lock stays (D-164); Dash removed from client input, Blink `ActionKind`, `Combat`, `CombatService`, `Config`, speed guard burst (Wind Step keeps its burst); GDD controls table updated; Q freed (reserved for the Kith stance toggle, T-027d3). AC: check.sh PASS; Shift only sprints.
+
 ### T-027 Rimeshard Kith (from R-028; design in `research/notes/R-028-first-ability-gu.md`)
 - **T-027a [done S40] [S] Chill status + Shatter math (pure):** `Shared.Frost` + `tests/Frost.spec.luau` (4 specs). `Effects` ops `Status` (stacks, max, duration, MoveSpeed modifier), `DmgPerStack`, `Stagger`; spec. AC: check.sh PASS.
 - **T-027b [done S40] [S] Volley + Zone + Burst deliveries (pure):** `Deliveries/{Volley,Zone,Burst}.luau` + `tests/Deliveries.spec.luau`. `src/shared/Deliveries/{Volley,Zone,Burst}.luau`, aim-point validation, per-target hit cap; specs. AC: check.sh PASS.
