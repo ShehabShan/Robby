@@ -241,3 +241,16 @@ Full table (10 findings → mirrors) and 30 sources: `research/notes/R-020c-worl
 - **→ Implications for Robby:** a society per Reach; Veils with Rank gate + damping; Clan hub (Elder Council, Mission Hall, stipends, rival elders); grey Clans vs Rogues; Wild Surge event; Legacy Vault dungeons with a Warden rule; steep Rank gap, Rank 3 milestone, Talent = soft cap.
 - **Unknowns:** Wild Surge server load on mobile; pacing numbers (P-007).
 - **Sources:** see the notes file.
+
+### R-020d What fans value + GDD change list (done 2026-10-30)
+Findings table, 25-item GDD change list for P-006 and 20 sources: `research/notes/R-020d-fan-values-gdd-changes.md`.
+- **Findings:**
+  - Fans love the long climb, a ruthless self-serving lead, and a rigorous system where strategy beats raw power (chapterchronicles.com; goodnovel.com).
+  - Readers quit over darkness without catharsis and over-exposition (controllerandcape.com review).
+  - Iconic: second-chance rewinds, brutal taming trials, signature combo moves (tvtropes.org Awesome/ReverendInsanity).
+  - A fan card-game mod uses recipe drops → collect tools → synthesise at rest (steamcommunity.com workshop 3701087103).
+  - Roblox cultivation games are small; players hate stat-click grind and sluggish combat (bloxed.gg; devforum.roblox.com).
+  - An RI-named Roblox pet/meditate game fell from ~130 CCU to ~1 (robloxgo.com; trackers disagree).
+- **→ Implications for Robby:** systems are the star; grim world but rewarding play; Rogue agency; Signature Weave; utility Kith in M1; depth + combat feel are the edge. See the notes for the full GDD change list.
+- **Unknowns:** phone HUD load; conflicting CCU data.
+- **Sources:** see the notes file.
