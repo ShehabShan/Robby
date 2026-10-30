@@ -40,3 +40,4 @@
 - **D-028 GDD v1 key calls (P-002, S6):** Five Reaches, start in Mistvale; Kith earned only (never sold or traded); PvP opt-in; cosmetic-only monetisation (premium "Jade"); vertical slice = Mistvale hub + 1 zone + grove + boss, 3 Kith, Ranks 1→2.
 - **D-029 Art direction (P-003, S6):** stylised ink-wash xianxia, low-mid poly; code-built VFX/terrain/UI; Blender + anim2rbx for meshes/anims; animator budget is the main open risk.
 - **D-030 Architecture (P-004, S6):** no framework; Blink networking, ProfileStore, Trove/Signal; server rewind ≤ 250 ms for melee; pure shared modules + thin services.
+- **D-031 Roadmap (P-005, S6):** M1 vertical slice → M2 core content → M3 progression & economy → M4 polish → M5 soft launch; M1 = T-002, T-010, T-011…T-024 (ROADMAP.md).

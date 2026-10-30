@@ -3,7 +3,7 @@
 ## S6 — 2026-10-30 (spike wiring + planning)
 - T-004 done: Crescent Cut server/client wiring, code VFX, dummy; obby sample removed. T-005 done: place inspect PASS (in check.sh).
 - T-005b blocked: `roblox-open-cloud` key → 401 (needs `x-api-key` header). `-2` not enabled.
-- P-002 GDD, P-003 ART, P-004 ARCHITECTURE, P-005 ROADMAP done. D-027…D-030.
+- P-002 GDD, P-003 ART, P-004 ARCHITECTURE, P-005 ROADMAP done. D-027…D-031.
 - OLU used: ~24.
 - Next: P-006 owner approval; T-005b after the key fix.
 
