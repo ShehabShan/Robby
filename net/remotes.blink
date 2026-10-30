@@ -152,3 +152,24 @@ event Breakthrough {
 		start: boolean,
 	},
 }
+
+-- C→S: start a Crucible fusion of owned Kith `a` + `b` at a rest spot (T-019c, D-083). Server checks the recipe.
+event CrucibleStart {
+	From: Client,
+	Type: Reliable,
+	Call: SingleSync,
+	Data: struct {
+		a: string(..64),
+		b: string(..64),
+	},
+}
+
+-- C→S: focus mini-game press. The server scores it against its own clock and zones.
+event CruciblePress {
+	From: Client,
+	Type: Reliable,
+	Call: SingleSync,
+	Data: struct {
+		press: boolean,
+	},
+}

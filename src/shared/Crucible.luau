@@ -26,6 +26,17 @@ function Crucible.powerFactor(inst: any, cfg: any, now: number): number
 	return if Crucible.wounded(inst, now) then cfg.Crucible.woundedPower else 1
 end
 
+-- Recoil (GDD): drains current Qi; returns when the halved regen ends.
+function Crucible.applyRecoil(pool: any, cfg: any, now: number): number
+	pool.current = 0
+	return now + cfg.Crucible.recoilSeconds
+end
+
+-- Qi regen rate while Recoil may be active.
+function Crucible.regenRate(base: number, cfg: any, recoilUntil: any, now: number): number
+	return if typeof(recoilUntil) == "number" and now < recoilUntil then base * cfg.Crucible.recoilRegen else base
+end
+
 -- Recipe for two owned Kith uids, or (nil, reason).
 function Crucible.recipe(data: any, cfg: any, uidA: any, uidB: any, now: number): (string?, any)
 	if type(uidA) ~= "string" or type(uidB) ~= "string" or uidA == uidB then

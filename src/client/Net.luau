@@ -382,6 +382,27 @@ function SerdesFunctions.WriteEVENT_Breakthrough(Value: { start: boolean }): ()
 	buffer.writeu8(SendBuffer, BLOCK_START + 1, Value.start and 1 or 0)
 end
 
+function SerdesFunctions.WriteEVENT_CrucibleStart(Value: { a: string, b: string }): ()
+	-- Allocate BLOCK: 3 bytes
+	local BLOCK_START = Allocate(3)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 10)
+	local Length = #Value.a
+	buffer.writeu8(SendBuffer, BLOCK_START + 1, Length)
+	Allocate(Length)
+	buffer.writestring(SendBuffer, SendOffset, Value.a, Length)
+	local Length = #Value.b
+	buffer.writeu8(SendBuffer, BLOCK_START + 2, Length)
+	Allocate(Length)
+	buffer.writestring(SendBuffer, SendOffset, Value.b, Length)
+end
+
+function SerdesFunctions.WriteEVENT_CruciblePress(Value: { press: boolean }): ()
+	-- Allocate BLOCK: 2 bytes
+	local BLOCK_START = Allocate(2)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 11)
+	buffer.writeu8(SendBuffer, BLOCK_START + 1, Value.press and 1 or 0)
+end
+
 if not RunService:IsRunning() then
 	local NOOP = function() end
 	local Returns = table.freeze({
@@ -422,6 +443,12 @@ if not RunService:IsRunning() then
 		Fire = NOOP
 	},
 	Breakthrough = {
+		Fire = NOOP
+	},
+	CrucibleStart = {
+		Fire = NOOP
+	},
+	CruciblePress = {
 		Fire = NOOP
 	},
 	})
@@ -623,6 +650,16 @@ local Returns = table.freeze({
 	Breakthrough = {
 		Fire = function(Value: { start: boolean }): ()
 			SerdesFunctions.WriteEVENT_Breakthrough(Value)
+		end
+	},
+	CrucibleStart = {
+		Fire = function(Value: { a: string, b: string }): ()
+			SerdesFunctions.WriteEVENT_CrucibleStart(Value)
+		end
+	},
+	CruciblePress = {
+		Fire = function(Value: { press: boolean }): ()
+			SerdesFunctions.WriteEVENT_CruciblePress(Value)
 		end
 	},
 })

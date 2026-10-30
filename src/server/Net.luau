@@ -170,6 +170,8 @@ Queue.Reliable[6] = table.create(256)
 Queue.Reliable[7] = table.create(256)
 Queue.Reliable[8] = table.create(256)
 Queue.Reliable[9] = table.create(256)
+Queue.Reliable[10] = table.create(256)
+Queue.Reliable[11] = table.create(256)
 export type ActionKind = ("Attack" | "Dash" | "Parry" | "Guard")
 function SerdesFunctions.ReadEVENT_CastRequest(): ({ moveId: string, aim: Vector3, seq: number })
 	-- Read BLOCK: 15 bytes
@@ -374,6 +376,29 @@ function SerdesFunctions.ReadEVENT_Breakthrough(): ({ start: boolean })
 	return Value
 end
 
+function SerdesFunctions.ReadEVENT_CrucibleStart(): ({ a: string, b: string })
+	-- Read BLOCK: 2 bytes
+	local BLOCK_START = Read(2)
+	local Value = {} :: any
+	local Length = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+	Value.a = buffer.readstring(RecieveBuffer, Read(Length), Length)
+	if #Value.a < 0 then error(`Expected length of "Value.a" to be larger than or equal to 0, got {#Value.a} instead.`) end
+	if #Value.a > 64 then error(`Expected length of "Value.a" to be smaller than or equal to  64, got {#Value.a} instead.`) end
+	Length = buffer.readu8(RecieveBuffer, BLOCK_START + 1)
+	Value.b = buffer.readstring(RecieveBuffer, Read(Length), Length)
+	if #Value.b < 0 then error(`Expected length of "Value.b" to be larger than or equal to 0, got {#Value.b} instead.`) end
+	if #Value.b > 64 then error(`Expected length of "Value.b" to be smaller than or equal to  64, got {#Value.b} instead.`) end
+	return Value
+end
+
+function SerdesFunctions.ReadEVENT_CruciblePress(): ({ press: boolean })
+	-- Read BLOCK: 1 bytes
+	local BLOCK_START = Read(1)
+	local Value = {} :: any
+	Value.press = (buffer.readu8(RecieveBuffer, BLOCK_START + 0) == 1)
+	return Value
+end
+
 if not RunService:IsRunning() then
 	local NOOP = function() end
 	local Returns = table.freeze({
@@ -426,6 +451,12 @@ if not RunService:IsRunning() then
 		On = NOOP
 	},
 	Breakthrough = {
+		On = NOOP
+	},
+	CrucibleStart = {
+		On = NOOP
+	},
+	CruciblePress = {
 		On = NOOP
 	},
 	})
@@ -577,6 +608,28 @@ Reliable.OnServerEvent:Connect(function(Player: Player, Buffer: buffer, Instance
 					warn("[Blink]: Event queue of \"Breakthrough\" exceeded 256, did you forget to implement a listener?")
 				end
 				table.insert(Queue.Reliable[9], {Player, Value} :: {any})
+			end
+		elseif Index == 10 then
+			local Value: { a: string, b: string } = SerdesFunctions.ReadEVENT_CrucibleStart()
+			if Events.Reliable[10] ~= nil then
+				SerdesEvent = "CrucibleStart"
+				Events.Reliable[10](Player, Value)
+			else
+				if #Queue.Reliable[10] > 256 then
+					warn("[Blink]: Event queue of \"CrucibleStart\" exceeded 256, did you forget to implement a listener?")
+				end
+				table.insert(Queue.Reliable[10], {Player, Value} :: {any})
+			end
+		elseif Index == 11 then
+			local Value: { press: boolean } = SerdesFunctions.ReadEVENT_CruciblePress()
+			if Events.Reliable[11] ~= nil then
+				SerdesEvent = "CruciblePress"
+				Events.Reliable[11](Player, Value)
+			else
+				if #Queue.Reliable[11] > 256 then
+					warn("[Blink]: Event queue of \"CruciblePress\" exceeded 256, did you forget to implement a listener?")
+				end
+				table.insert(Queue.Reliable[11], {Player, Value} :: {any})
 			end
 		end
 	end
@@ -894,6 +947,34 @@ local Returns = table.freeze({
 			return function (): ()
 				if Events.Reliable[9] == Listener then
 					Events.Reliable[9] = nil
+				end
+			end
+		end
+	},
+	CrucibleStart = {
+		On = function(Listener: (Player: Player, Value: { a: string, b: string }) -> ()): () -> ()
+			Events.Reliable[10] = Listener
+			for Index, Arguments in Queue.Reliable[10] do
+				Listener(table.unpack(Arguments))
+			end
+			Queue.Reliable[10] = {}
+			return function (): ()
+				if Events.Reliable[10] == Listener then
+					Events.Reliable[10] = nil
+				end
+			end
+		end
+	},
+	CruciblePress = {
+		On = function(Listener: (Player: Player, Value: { press: boolean }) -> ()): () -> ()
+			Events.Reliable[11] = Listener
+			for Index, Arguments in Queue.Reliable[11] do
+				Listener(table.unpack(Arguments))
+			end
+			Queue.Reliable[11] = {}
+			return function (): ()
+				if Events.Reliable[11] == Listener then
+					Events.Reliable[11] = nil
 				end
 			end
 		end

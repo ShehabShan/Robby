@@ -65,4 +65,12 @@ return {
 		eq(Crucible.wounded(d.kith[res.woundedUid], 100 + C.woundedSeconds), false, "heals after a day")
 		eq((Crucible.recipe(d, Config, "a", "b", 101)), nil, "wounded cannot fuse")
 	end,
+	["crucible: Recoil drains Qi and halves regen for a while"] = function()
+		local pool = { current = 80, max = 100, regenRate = 5 }
+		local untilT = Crucible.applyRecoil(pool, Config, 1000)
+		eq(pool.current, 0, "drained")
+		eq(Crucible.regenRate(5, Config, untilT, 1001), 5 * C.recoilRegen, "halved")
+		eq(Crucible.regenRate(5, Config, untilT, untilT), 5, "back to normal")
+		eq(Crucible.regenRate(5, Config, nil, 0), 5, "no recoil")
+	end,
 }
