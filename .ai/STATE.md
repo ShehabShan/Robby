@@ -1,6 +1,7 @@
 # STATE
 
-## Now (after S42)
+## Now (after S43)
+- S43: T-028 done: dash removed, Shift = sprint only, Roblox Shift lock off (Ctrl shift lock kept), Q freed (D-189). T-027d3 done: `client/KithInput` — Q/B stance toggle, left-click Needle chain + finisher, Z/X/C specials with shot-2 cancel, Rime Fall ground point (D-190) → **T-027d done**. KithInput hard-codes `kith.rimeshard` until the loadout publishes the active Kith.
 - S42: T-027d split d1–d3 (D-184). d1 + d2 done: pure `Shared.Stance` (Needle chain/finisher/pause, Z/X/C, shot-2 cancel, server `verify`), Blink `CastRequest.point` + `ActionKind.Stance`, Crucible key C → B; server Volley/Zone/Burst casts, DmgPerStack/Stagger ops on per-model Chill holders (D-185–D-188). T-027d3 client input (`KithInput`) is left.
 - S41: T-027c Rimeshard content done (`Config.Abilities.Rimeshard`, `Content/Rimeshard.luau`, Registry Volley/Burst, Frost Path in Loom; D-180, D-181). T-027g balance sim done (`Shared.RimeshardSim`, `scripts/rime_balance.luau`): Needle 4 dmg, Fan cd 3 s, finisher pause 1.2 s (D-182, D-183); numbers in RESEARCH. Server `Abilities` still handles only `Dmg` ops — DmgPerStack/Stagger wiring is part of T-027d.
 - S40: R-028 done: first proper Kith = **Rimeshard** (frost; R1 Needle chain, Z Shard Fan, X Rime Fall, C Shatter, Chill stacks; D-175–D-177). Sheet: `research/notes/R-028-first-ability-gu.md`. T-027a Frost (D-178) + T-027b Volley/Zone/Burst deliveries (D-179) built; T-027c–h open. Owner decision: Crucible key C → B (D-176).
@@ -35,12 +36,12 @@
 - Last publish: v16 (S39, owner asked). Includes Crucible, Loom, Marks, speed guard, Rank-test credit, Mistmaw tuning, remote guard.
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
-- **Doing:** T-027d (d3 left). Resume from: T-027d3 `KithInput` + `init.client.luau` wiring.
-- **NEXT:** T-027d3 Client input (`KithInput`: stance key, Z/X/C, Rime Fall aim point, shot-2 cancel); then T-027e FX; T-021 … T-024 continue.
+- **Doing:** —
+- **NEXT:** T-027e Rime FX (client); then Stagger readers (D-188), loadout → active Kith for KithInput; T-021 … T-024 continue.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-027d3 Client input (KithInput, init.client.luau wiring) · —
-  - Stagger readers: CombatService/BeastBrain honour `State.Staggered` (D-188) · T-027d3
+  - Loadout publishes the active Kith; KithInput reads it (replaces hard-coded Rimeshard, D-190) · —
+  - Stagger readers: CombatService/BeastBrain honour `State.Staggered` (D-188) · —
   - T-027e Rime FX (client) · —
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
   - T-026c R15 animations (kit KeyframeSequences, re-upload) · —
@@ -48,5 +49,5 @@
   - T-024 First 10 minutes · all above
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox).
-- **Last check.sh:** CHECK: PASS (2026-10-30, S42, 256 tests)
-- **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC C (F is Parry), gamepad D-pad Right.
+- **Last check.sh:** CHECK: PASS (2026-10-30, S43, 255 tests)
+- **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); Q = Kith stance, Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
