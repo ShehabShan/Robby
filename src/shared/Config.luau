@@ -41,6 +41,18 @@ local Config = {
 		numberRise = 2, -- studs
 		sparks = 24,
 	},
+	Upkeep = { -- Satiety + Strain per Kith (T-018a, D-073); tune in playtests
+		satietyMax = 100,
+		drainPerMinute = 1.5, -- Rank 1 Kith, not fighting (~66 min from full to Dormant)
+		rankDrainFactor = 0.8, -- each species Rank above 1 eats 20 % less often
+		fightMultiplier = 3, -- heavy fighting drains faster
+		hungryAt = 30, -- below this the Kith is Hungry
+		hungryPower = 0.75, -- Hungry Kith hit for 75 %
+		meals = { common = 40, rare = 100 }, -- a Dormant Kith wakes only on a rare meal
+		strainMax = 100,
+		strainDecayPerSecond = 4,
+		exhaustSeconds = 20,
+	},
 	Binding = { -- tug-of-war (T-017a, D-070); tune in playtests
 		start = 0.25, -- bar position at the start (0..1)
 		channelRate = 0.18, -- bar per second while channelling (Will 0)
