@@ -1,19 +1,18 @@
 # STATE
 
-## Now (after S10)
-- S10 end: owner says `roblox-open-cloud` is now set up (Universe 10773761715, Place 95587500384127); first step next session: check these match `scripts/cloud_test.py`, then run it (T-010).
-- Done through T-013 (except T-010). Next task: **T-014 HitFeel** — extract hit-stop/shake/flash/numbers from `src/client/CrescentFx.luau` into a shared client `HitFeel` used by Crescent and CombatService hits (ART §5 items 2, 5).
-- T-010 done S11: `python3 scripts/cloud_test.py` → CLOUD ALL: PASS (Saved v5; needs `build/Robby.rbxl` from check.sh). Cloud part of T-012 covered.
-- Owner: Studio playtest of spike + combat (needs `wally install`). Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`).
-
+## Now (after S11)
+- S11 done: T-010 cloud pipeline (CLOUD ALL: PASS on Saved v5, D-060), T-014 HitFeel (D-061), T-015 Stone Ward + Wind Step (D-062). Done through T-015.
+- Next task: **T-016** core slots, loadout, role tags and Qi/Strain/Satiety HUD (ROADMAP). Keys E/Q/R are provisional until T-016 slots.
+- Cloud re-run of the S11 build is pending: uploading a new Saved version timed out twice in S11 (`scripts/cloud_test.py`, urlopen timeout 120). Retry first next session; `python3 scripts/cloud_test.py 5` reuses v5.
+- Owner: Studio playtest of Crescent, combat, Stone Ward (Q/Y) and Wind Step (R/L2) (needs `wally install`). Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`).
 
 - **Phase:** 3 — Building (P-006 approved, D-049). Foundations done: R-021…R-026 + P-008 systems spec (S9, D-052).
-- **Doing:** none. T-002a, b, c1–c3 done S9.
-- **NEXT:** T-002c4 FX registry (resume from `src/client/CrescentFx.luau`), then T-002d, then T-010. Use a strong coding model.
-- **Then:** T-002 → T-010 (cloud pipeline; key works, base on scripts/cloud_test.py) → M1 tasks (ROADMAP.md)
+- **Doing:** none.
+- **NEXT:** cloud re-run of the S11 build, then T-016 (ROADMAP.md).
+- **Then:** T-017 … T-024 (ROADMAP.md order).
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006 needs the owner OK to publish. Open Cloud key works (read, Saved upload, Luau execution; S6).
-- **Last check.sh:** CHECK: PASS (2026-10-30, S9)
+- **Last check.sh:** CHECK: PASS (2026-10-30, S11; 69 Lune tests)
 - **Notes:**
   - Direction changed in S3: the obby is dropped, and the game is an RI-inspired action RPG (D-013).
   - The `src/` code is an obby-era toolchain sample (D-019).

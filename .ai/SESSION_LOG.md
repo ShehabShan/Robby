@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S11 (2026-10-30)
+- Done: T-010 cloud pipeline (CLOUD ALL: PASS, Saved v5; Blink remotes checked as API in Luau Execution, D-060), T-014 HitFeel (D-061), T-015 Stone Ward + Wind Step (Self moves, Status tags, D-062).
+- 69 Lune tests, check.sh PASS. Upload of the new build timed out twice: cloud re-run pending.
+- Next: cloud re-run, then T-016 loadout/HUD. OLU used: ~39.
+- Owner: Studio playtest (run `wally install` first); new keys Q/Y Ward, R/L2 Step.
+
 ## S10 (2026-10-30)
 - Done: T-002c4 FX registry, T-002d1 ProfileSchema v1, T-002d2 packages + Blink IDL (T-002 done), T-011 Blink remotes, T-012 DataService, T-013a/b combat core + CombatService/CombatInput. 60 Lune tests, CHECK: PASS.
 - T-010 cloud runner written; blocked: `roblox-open-cloud` integration not enabled in this project.
