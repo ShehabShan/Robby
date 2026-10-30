@@ -15,6 +15,7 @@ local Config = require(ReplicatedStorage.Shared.Config)
 local BossBrain = require(ReplicatedStorage.Shared.BossBrain)
 local CombatService = require(script.Parent.CombatService)
 local DataService = require(script.Parent.DataService)
+local RankTest = require(ReplicatedStorage.Shared.RankTest)
 
 local C = Config.Bosses
 local TICK = 0.1
@@ -82,6 +83,10 @@ local function payKill(b: Boss)
 	local data = if player then DataService.get(player) else nil
 	if data and type(data.wallet) == "table" then
 		data.wallet.shards = (data.wallet.shards or 0) + b.kind.shards
+	end
+	if player and data and RankTest.credit(data, b.kind, os.time()) then
+		player:SetAttribute("RankTestPassed", b.kind.rankTest)
+		print(`[Boss] {player.Name} passed the {b.kind.rankTest} Rank test`)
 	end
 end
 

@@ -1,5 +1,8 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S32 (2026-10-30) — T-023c Rank-test credit
+- Killing the Mistmaw Elder now records the Academy Rank test as passed in the player's save (D-168). Tuning split to T-023d. check.sh PASS.
+
 ## S31 (2026-10-30) — T-021a-v cloud walk check
 - `roblox-open-cloud` connected again. Cloud smoke on Saved v15: specs 222/222, all PASS after the terrain check switched to voxel reads (D-167). Not published.
 

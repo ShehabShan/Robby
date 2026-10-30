@@ -185,6 +185,7 @@ local Config = {
 		kinds = {
 			["boss.mistmaw"] = { -- Mistmaw Elder: old mist wolf, Academy Rank-test boss in the Mistvale arena
 				name = "Mistmaw Elder",
+				rankTest = "academy", -- killing blow passes the Academy Rank test (D-168)
 				rank = 2,
 				hp = 900,
 				speed = 14,

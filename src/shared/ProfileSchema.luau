@@ -33,6 +33,7 @@ function ProfileSchema.template(): any
 		loadout = { slots = {}, weaves = {} },
 		journal = { recipes = {}, weaves = {}, codex = {} },
 		wallet = { shards = 0 },
+		trials = {}, -- Rank tests passed (T-023c, D-168): id → { at, count }
 		timers = {},
 		onboarding = { step = 0, done = false },
 		stats = { earned = {}, spent = {} },
