@@ -95,7 +95,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - AC: the owner approves, and this is logged as a decision. Building starts only after this.
 
 ## Phase 2b — Capability spike (owner request, allowed before P-006 by D-025)
-- **T-003 [todo] [S] Ability core:** pure module for the test ability (energy cost, cooldown, damage, hitbox shape, rank scaling) + server validation; Lune tests. AC: `check.sh` PASS.
+- **T-003 [doing] [S] Ability core:** Resume from: write src/shared/Qi.luau, Kith/CrescentCut.luau + specs. pure module for the test ability (energy cost, cooldown, damage, hitbox shape, rank scaling) + server validation; Lune tests. AC: `check.sh` PASS.
 - **T-004 [todo] [S] Ability wiring + VFX:** server remote, client input (key + mobile button), code-built VFX (Beam/Trail/Particles), placeholder SFX, a training dummy; `rojo build` makes a place file. AC: build succeeds, check PASS.
 - **T-005 [todo] [S] Headless verification:** inspect the built place with Lune; cloud test via Luau Execution if a place ID + Open Cloud key exist. AC: a written pass/fail report.
 - **T-006 [todo] [S] Owner playtest:** publish to a private test place only with the owner's explicit OK; owner plays in the normal Roblox app; feedback saved to the inbox. Needs place ID + Open Cloud key.
