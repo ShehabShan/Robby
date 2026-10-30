@@ -71,4 +71,41 @@ return {
 		eq(#data.loadout.weaves, 1, "replaced, not duplicated")
 		eq(data.journal.weaves["weave.piercing_crescent"], 100, "journal time")
 	end,
+	["loom: set / wovenFor / clear on real content (T-020c)"] = function()
+		local Config = require("../src/shared/Config")
+		local All = require("../src/shared/Content/All")
+		local Registry = require("../src/shared/Registry")
+		local built, errors = Registry.build(All.content(Config))
+		eq(#errors, 0, "registry errors")
+		local core = "move.crescent_cut"
+		local data: any = { loadout = { slots = {}, weaves = {} } }
+		local ok, why, first = Loom.set(data, Config, built, {}, core, { "support.piercing" }, 1)
+		eq(ok, false, "not equipped")
+		local allowed = { [core] = true }
+		ok, why = Loom.set(data, Config, built, allowed, core, { "support.nope" }, 1)
+		eq(why, "unknown support", "unknown")
+		ok, why, first = Loom.set(data, Config, built, allowed, core, { "support.piercing" }, 1)
+		eq(ok, true, "set")
+		eq(first, true, "resonance hint")
+		ok, why, first = Loom.set(data, Config, built, allowed, core, { "support.piercing" }, 2)
+		eq(first, false, "hint once")
+		eq(#data.loadout.weaves, 1, "one weave per core")
+		local c, p = Config.Abilities.CrescentCut, Config.Loom.supports.Piercing
+		local m = Loom.wovenFor(Config, built, data.loadout.weaves, core)
+		eq(m.id, core, "keeps core id")
+		eq(m.weaveId, "weave.crescent_cut", "weave id")
+		eq(m.delivery.params.maxHits, math.floor(c.maxHits * p.maxHitsMult + 0.5), "pierce")
+		eq(m.costs.qi, math.ceil(c.cost * p.costMult), "cost")
+		eq(built.moves[core].costs.qi, c.cost, "core untouched")
+		eq(Loom.wovenFor(Config, built, data.loadout.weaves, "move.twin_crescent"), nil, "other move")
+		eq(Loom.clear(data, core), true, "clear")
+		eq(Loom.wovenFor(Config, built, data.loadout.weaves, core), nil, "cleared")
+		eq(data.journal.weaves["weave.crescent_cut"], 1, "journal keeps it")
+	end,
+	["loom: registry rejects bad supports"] = function()
+		local Registry = require("../src/shared/Registry")
+		local bad = { id = "support.bad", requireTags = {}, costMult = 0, addEffects = { onHit = { "effect.x" } } }
+		local _, errors = Registry.build({ effects = {}, moves = {}, supports = { bad } })
+		eq(#errors, 3, "three errors")
+	end,
 }

@@ -23,6 +23,7 @@ local statuses = require(script.Parent.StatusStore)
 local Loadout = require(ReplicatedStorage.Shared.Loadout)
 local DataService = require(script.Parent.DataService)
 local PathMarks = require(ReplicatedStorage.Shared.PathMarks)
+local Loom = require(ReplicatedStorage.Shared.Loom)
 local KithCare = require(ReplicatedStorage.Shared.KithCare)
 local UpkeepService = require(script.Parent.UpkeepService)
 
@@ -216,6 +217,7 @@ function Abilities.start()
 		if not data or not Loadout.canCast(data.loadout, data.kith, built, move.id) then
 			return -- only moves of equipped Kith (T-016b, D-064)
 		end
+		move = Loom.wovenFor(Config, built, data.loadout.weaves, move.id) or move -- saved Weave (T-020c, D-090)
 		local _, kithInst = KithCare.casterOf(data, move)
 		local now = os.time()
 		if kithInst then

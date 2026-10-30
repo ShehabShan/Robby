@@ -7,6 +7,7 @@ local Crescent = {}
 function Crescent.content(cfg: any): any
 	local c = cfg.Abilities.CrescentCut
 	local t = cfg.Abilities.TwinCrescent
+	local pierce = cfg.Loom.supports.Piercing
 	return {
 		effects = {
 			{
@@ -64,6 +65,15 @@ function Crescent.content(cfg: any): any
 				effects = { onHit = { "effect.twin_crescent.hit" } },
 				tags = { "Path.Moon", "Role.Strike", "Delivery.Proj" },
 				fx = { cast = "fx.crescent.cast", travel = "fx.crescent.travel", hit = "fx.crescent.hit" },
+			},
+		},
+		supports = { -- Weave Loom supports (T-020c, D-090): modify a core move that has all requireTags
+			{
+				id = "support.piercing",
+				name = "Piercing Edge",
+				requireTags = { "Delivery.Proj" },
+				deliveryMods = { maxHits = pierce.maxHitsMult, range = pierce.rangeMult },
+				costMult = pierce.costMult,
 			},
 		},
 		kith = {

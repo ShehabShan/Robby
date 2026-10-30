@@ -172,6 +172,7 @@ Queue.Reliable[8] = table.create(256)
 Queue.Reliable[9] = table.create(256)
 Queue.Reliable[10] = table.create(256)
 Queue.Reliable[11] = table.create(256)
+Queue.Reliable[12] = table.create(256)
 export type ActionKind = ("Attack" | "Dash" | "Parry" | "Guard")
 function SerdesFunctions.ReadEVENT_CastRequest(): ({ moveId: string, aim: Vector3, seq: number })
 	-- Read BLOCK: 15 bytes
@@ -399,6 +400,21 @@ function SerdesFunctions.ReadEVENT_CruciblePress(): ({ press: boolean })
 	return Value
 end
 
+function SerdesFunctions.ReadEVENT_WeaveSet(): ({ core: string, support: string })
+	-- Read BLOCK: 2 bytes
+	local BLOCK_START = Read(2)
+	local Value = {} :: any
+	local Length = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+	Value.core = buffer.readstring(RecieveBuffer, Read(Length), Length)
+	if #Value.core < 0 then error(`Expected length of "Value.core" to be larger than or equal to 0, got {#Value.core} instead.`) end
+	if #Value.core > 64 then error(`Expected length of "Value.core" to be smaller than or equal to  64, got {#Value.core} instead.`) end
+	Length = buffer.readu8(RecieveBuffer, BLOCK_START + 1)
+	Value.support = buffer.readstring(RecieveBuffer, Read(Length), Length)
+	if #Value.support < 0 then error(`Expected length of "Value.support" to be larger than or equal to 0, got {#Value.support} instead.`) end
+	if #Value.support > 64 then error(`Expected length of "Value.support" to be smaller than or equal to  64, got {#Value.support} instead.`) end
+	return Value
+end
+
 if not RunService:IsRunning() then
 	local NOOP = function() end
 	local Returns = table.freeze({
@@ -457,6 +473,9 @@ if not RunService:IsRunning() then
 		On = NOOP
 	},
 	CruciblePress = {
+		On = NOOP
+	},
+	WeaveSet = {
 		On = NOOP
 	},
 	})
@@ -630,6 +649,17 @@ Reliable.OnServerEvent:Connect(function(Player: Player, Buffer: buffer, Instance
 					warn("[Blink]: Event queue of \"CruciblePress\" exceeded 256, did you forget to implement a listener?")
 				end
 				table.insert(Queue.Reliable[11], {Player, Value} :: {any})
+			end
+		elseif Index == 12 then
+			local Value: { core: string, support: string } = SerdesFunctions.ReadEVENT_WeaveSet()
+			if Events.Reliable[12] ~= nil then
+				SerdesEvent = "WeaveSet"
+				Events.Reliable[12](Player, Value)
+			else
+				if #Queue.Reliable[12] > 256 then
+					warn("[Blink]: Event queue of \"WeaveSet\" exceeded 256, did you forget to implement a listener?")
+				end
+				table.insert(Queue.Reliable[12], {Player, Value} :: {any})
 			end
 		end
 	end
@@ -975,6 +1005,20 @@ local Returns = table.freeze({
 			return function (): ()
 				if Events.Reliable[11] == Listener then
 					Events.Reliable[11] = nil
+				end
+			end
+		end
+	},
+	WeaveSet = {
+		On = function(Listener: (Player: Player, Value: { core: string, support: string }) -> ()): () -> ()
+			Events.Reliable[12] = Listener
+			for Index, Arguments in Queue.Reliable[12] do
+				Listener(table.unpack(Arguments))
+			end
+			Queue.Reliable[12] = {}
+			return function (): ()
+				if Events.Reliable[12] == Listener then
+					Events.Reliable[12] = nil
 				end
 			end
 		end

@@ -131,4 +131,80 @@ function Loom.record(data: any, weave: { id: string, core: string, supports: { s
 	return first
 end
 
+-- One Weave per core move (D-090): "move.crescent_cut" -> "weave.crescent_cut".
+function Loom.weaveIdFor(coreId: string): string
+	return "weave." .. (string.gsub(coreId, "^move%.", ""))
+end
+
+local function supportsOf(built: any, ids: { string }): { any }?
+	local list = {}
+	for _, id in ids do
+		local s = built.supports and built.supports[id]
+		if not s then
+			return nil
+		end
+		table.insert(list, s)
+	end
+	return list
+end
+
+-- Sets (or replaces) the Weave on an equipped core move (`allowed` = Loadout.allowedMoves). Server rules (T-020c).
+-- Returns ok, reason, first (true the first time this Weave is made: show the Resonance hint).
+function Loom.set(
+	data: any,
+	cfg: any,
+	built: any,
+	allowed: { [string]: boolean },
+	coreId: string,
+	supportIds: { string },
+	now: number
+): (boolean, string?, boolean)
+	local move = built.moves[coreId]
+	if not move or not allowed[coreId] then
+		return false, "core move not equipped", false
+	end
+	local supports = supportsOf(built, supportIds)
+	if not supports then
+		return false, "unknown support", false
+	end
+	local ok, why = Loom.check(cfg, move, supports)
+	if not ok then
+		return false, why, false
+	end
+	local w = { id = Loom.weaveIdFor(coreId), core = coreId, supports = table.clone(supportIds) }
+	return true, nil, Loom.record(data, w, now)
+end
+
+-- Removes the Weave on `coreId` from the loadout (the journal keeps it). Returns true if one was removed.
+function Loom.clear(data: any, coreId: string): boolean
+	local list = data.loadout and data.loadout.weaves
+	for i, w in list or {} do
+		if w.core == coreId then
+			table.remove(list, i)
+			return true
+		end
+	end
+	return false
+end
+
+-- The move to cast for `coreId` with its saved Weave, or nil (no Weave, or it no longer fits). The woven move keeps
+-- the core id, so cooldowns, FX and the client stay keyed by the core move; `weaveId` names the Weave.
+function Loom.wovenFor(cfg: any, built: any, weaves: { any }?, coreId: string): any
+	local list: { any } = weaves or {}
+	for _, w in list do
+		if w.core == coreId then
+			local move = built.moves[coreId]
+			local supports = supportsOf(built, w.supports or {})
+			if not move or not supports or not Loom.check(cfg, move, supports) then
+				return nil
+			end
+			local m = Loom.weave(move, supports, w.id)
+			m.weaveId = m.id
+			m.id = coreId
+			return m
+		end
+	end
+	return nil
+end
+
 return Loom

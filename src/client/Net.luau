@@ -403,6 +403,20 @@ function SerdesFunctions.WriteEVENT_CruciblePress(Value: { press: boolean }): ()
 	buffer.writeu8(SendBuffer, BLOCK_START + 1, Value.press and 1 or 0)
 end
 
+function SerdesFunctions.WriteEVENT_WeaveSet(Value: { core: string, support: string }): ()
+	-- Allocate BLOCK: 3 bytes
+	local BLOCK_START = Allocate(3)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 12)
+	local Length = #Value.core
+	buffer.writeu8(SendBuffer, BLOCK_START + 1, Length)
+	Allocate(Length)
+	buffer.writestring(SendBuffer, SendOffset, Value.core, Length)
+	local Length = #Value.support
+	buffer.writeu8(SendBuffer, BLOCK_START + 2, Length)
+	Allocate(Length)
+	buffer.writestring(SendBuffer, SendOffset, Value.support, Length)
+end
+
 if not RunService:IsRunning() then
 	local NOOP = function() end
 	local Returns = table.freeze({
@@ -449,6 +463,9 @@ if not RunService:IsRunning() then
 		Fire = NOOP
 	},
 	CruciblePress = {
+		Fire = NOOP
+	},
+	WeaveSet = {
 		Fire = NOOP
 	},
 	})
@@ -660,6 +677,11 @@ local Returns = table.freeze({
 	CruciblePress = {
 		Fire = function(Value: { press: boolean }): ()
 			SerdesFunctions.WriteEVENT_CruciblePress(Value)
+		end
+	},
+	WeaveSet = {
+		Fire = function(Value: { core: string, support: string }): ()
+			SerdesFunctions.WriteEVENT_WeaveSet(Value)
 		end
 	},
 })

@@ -1,5 +1,9 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S18 (2026-10-30)
+- Done: T-020c Weave content + server Loom (D-090): Piercing Edge support for Crescent Cut, Registry supports, Blink `WeaveSet` at rest spots, LoomService, woven casts.
+- Check PASS. Next: T-020d Loom UI. OLU ≈22 / 50.
+
 ## S17 (2026-10-30)
 - Done: T-019e client CrucibleHud (D-086) → T-019 complete; T-020 split a–d; T-020a Loom core (D-088); T-020b Path Marks (D-089).
 - Owner asked for parallel sessions: none existed (only main). Added CLAIMS.md + claim.sh/merge.sh + branch-aware save.sh (D-087, AGENTS §9).

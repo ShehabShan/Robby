@@ -173,3 +173,14 @@ event CruciblePress {
 		press: boolean,
 	},
 }
+
+-- C→S: set the Weave on equipped core move `core` with support `support` ("" clears it) at a rest spot (T-020c, D-090).
+event WeaveSet {
+	From: Client,
+	Type: Reliable,
+	Call: SingleSync,
+	Data: struct {
+		core: string(..64),
+		support: string(..64),
+	},
+}

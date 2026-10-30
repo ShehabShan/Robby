@@ -2,11 +2,12 @@
 -- Content registry (SCHEMAS §1): validates Content records and builds id lookups. Pure rules. No Roblox services.
 -- Every Content file passes `Registry.validate` in Lune tests, so broken data never reaches a server.
 
-export type Content = { effects: { any }, moves: { any }, kith: { any }? }
+export type Content = { effects: { any }, moves: { any }, kith: { any }?, supports: { any }? }
 export type Built = {
 	effects: { [string]: any },
 	moves: { [string]: any },
 	kith: { [string]: any },
+	supports: { [string]: any },
 }
 
 local Loadout = require("./Loadout")
@@ -80,12 +81,33 @@ local function checkMove(m: any, effects: { [string]: any }, kith: { [string]: a
 	end
 end
 
+-- Weave Loom supports (T-020c, D-090): positive multipliers, known on-hit effects, at least one requireTag.
+local function checkSupport(s: any, effects: { [string]: any }, errors: { string })
+	if type(s.requireTags) ~= "table" or #s.requireTags < 1 then
+		table.insert(errors, `{s.id}: needs requireTags`)
+	end
+	for k, f in s.deliveryMods or {} do
+		if not (type(f) == "number" and f > 0) then
+			table.insert(errors, `{s.id}: deliveryMods.{tostring(k)} must be > 0`)
+		end
+	end
+	if s.costMult ~= nil and not (type(s.costMult) == "number" and s.costMult > 0) then
+		table.insert(errors, `{s.id}: costMult must be > 0`)
+	end
+	for _, effectId in (s.addEffects and s.addEffects.onHit) or {} do
+		if effects[effectId] == nil then
+			table.insert(errors, `{s.id}: unknown effect {effectId}`)
+		end
+	end
+end
+
 -- Returns the lookups plus a list of errors (empty = valid).
 function Registry.build(content: Content): (Built, { string })
 	local errors: { string } = {}
 	local effects = index(content.effects, "effect.", errors)
 	local moves = index(content.moves, "move.", errors)
 	local kith = index(content.kith, "kith.", errors)
+	local supports = index(content.supports, "support.", errors)
 	for _, e in effects do
 		checkEffect(e, errors)
 	end
@@ -102,8 +124,11 @@ function Registry.build(content: Content): (Built, { string })
 			end
 		end
 	end
+	for _, s in supports do
+		checkSupport(s, effects, errors)
+	end
 	table.sort(errors)
-	return { effects = effects, moves = moves, kith = kith }, errors
+	return { effects = effects, moves = moves, kith = kith, supports = supports }, errors
 end
 
 return Registry
