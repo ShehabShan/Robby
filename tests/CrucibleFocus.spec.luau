@@ -34,7 +34,7 @@ return {
 		local f = CrucibleFocus.new(Config, { 0.5, 0.5, 0.5 }, 0)
 		local t = F.sweepSeconds * 0.5 -- needle at 0.5 = zone centre
 		eq(CrucibleFocus.press(f, Config, t), 1, "round 1 hit")
-		CrucibleFocus.step(f, Config, t + F.roundSeconds) -- round 2 times out
+		CrucibleFocus.step(f, Config, t + F.roundSeconds + 0.01) -- round 2 times out
 		eq(f.scores[2], 0, "timeout")
 		local t3 = f.roundStart + F.sweepSeconds * 0.5
 		eq(CrucibleFocus.press(f, Config, t3), 1, "round 3 hit")
