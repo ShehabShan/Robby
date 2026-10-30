@@ -118,6 +118,19 @@ function Registry.build(content: Content): (Built, { string })
 		if k.role ~= nil and not Loadout.isRole(k.role) then
 			table.insert(errors, `{id}: unknown role {tostring(k.role)}`)
 		end
+		local p = k.passive
+		if
+			p ~= nil
+			and (
+				type(p) ~= "table"
+				or (
+					p.refineYield ~= nil
+					and (typeof(p.refineYield) ~= "number" or p.refineYield < 0 or p.refineYield > 2)
+				)
+			)
+		then
+			table.insert(errors, `{id}: bad passive`)
+		end
 		for _, moveId in k.moves or {} do
 			if moves[moveId] == nil then
 				table.insert(errors, `{id}: unknown move {moveId}`)

@@ -65,13 +65,17 @@ function Stages.gain(data: any, cfg: any, points: number): number
 end
 
 -- Refine: spends up to `shards` from the wallet into Stage progress. Only at a rest spot. Returns Shards spent.
-function Stages.refine(data: any, cfg: any, shards: number, atRest: boolean): number
+-- `mult` (optional, T-025): Stage points per Shard from an equipped utility Kith (Shared.Refining).
+function Stages.refine(data: any, cfg: any, shards: number, atRest: boolean, mult: number?): number
 	if not atRest or shards <= 0 or type(data.wallet) ~= "table" then
 		return 0
 	end
 	local have = data.wallet.shards
 	have = if typeof(have) == "number" then have else 0
-	local spent = Stages.gain(data, cfg, math.min(math.floor(shards), have))
+	local m = if typeof(mult) == "number" and mult > 0 then mult else 1
+	local budget = math.min(math.floor(shards), have)
+	local used = Stages.gain(data, cfg, math.floor(budget * m))
+	local spent = math.min(budget, math.ceil(used / m - 1e-9))
 	data.wallet.shards = have - spent
 	return spent
 end

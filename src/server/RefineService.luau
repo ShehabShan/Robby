@@ -11,10 +11,14 @@ local RunService = game:GetService("RunService")
 
 local Config = require(ReplicatedStorage.Shared.Config)
 local Stages = require(ReplicatedStorage.Shared.Stages)
+local Refining = require(ReplicatedStorage.Shared.Refining)
+local Registry = require(ReplicatedStorage.Shared.Registry)
+local All = require(ReplicatedStorage.Shared.Content.All)
 local DataService = require(script.Parent.DataService)
 local Net = require(script.Parent.Net) -- Blink-generated (net/remotes.blink)
 
 local TAG = "RestSpot"
+local built = Registry.build(All.content(Config))
 local PUBLISH_EVERY = 0.25
 
 local holding: { [Player]: boolean } = {}
@@ -86,7 +90,7 @@ function RefineService.start()
 				local whole = math.floor(a)
 				acc[player] = a - whole
 				if whole >= 1 then
-					Stages.refine(data, Config, whole, true)
+					Stages.refine(data, Config, whole, true, Refining.multiplier(data, Config, built))
 				end
 			end
 		end

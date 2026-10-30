@@ -136,6 +136,10 @@ local Config = {
 		wildWill = 1, -- Will when the wild Kith has no `Will` attribute
 		dummyKith = "kith.stone", -- the training dummy doubles as a wild Kith until the world spawns them -- guided first bind: the bar never drops below this
 	},
+	Refining = { -- utility Kith that speed Refine (T-025, D-112); tune in playtests
+		lotusYield = 0.5, -- Mist Lotus: +50 % Stage points per Shard while equipped
+		maxYield = 1, -- cap on the bonus (best equipped Kith only, no stacking)
+	},
 	Loadout = {
 		baseSlots = 3, -- Core slots at Rank 1 (GDD)
 		slotsPerRank = 1,
