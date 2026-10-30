@@ -6,6 +6,7 @@ local HudLayout = require("../src/shared/HudLayout")
 local BindingUi = require("../src/shared/BindingUi")
 local ShellUi = require("../src/shared/ShellUi")
 local CrucibleUi = require("../src/shared/CrucibleUi")
+local LoomUi = require("../src/shared/LoomUi")
 
 local function rgba(c: { number }, a: number?): string
 	return `rgba({c[1]},{c[2]},{c[3]},{a or 1})`
@@ -24,6 +25,11 @@ local function html(state: any): string
 	end
 	for _, e in ShellUi.build(state.shell) do -- Core Shell (T-018d, D-076)
 		table.insert(elements, e)
+	end
+	if state.loom then -- Weave Loom panel (T-020d, D-110)
+		for _, e in LoomUi.build(state.loom) do
+			table.insert(elements, e)
+		end
 	end
 	if state.crucible then -- Crucible panel (T-019e, D-085)
 		for _, e in CrucibleUi.build(state.crucible) do
@@ -78,6 +84,8 @@ local cases = {
 	{ name = "phone_crucible_confirm_360x640", platform = "touch", width = 360, height = 640, crucible = "confirm" },
 	{ name = "pc_crucible_focus_1280x720", platform = "pc", width = 1280, height = 720, crucible = "focus" },
 	{ name = "phone_crucible_focus_360x640", platform = "touch", width = 360, height = 640, crucible = "focus" },
+	{ name = "pc_loom_1280x720", platform = "pc", width = 1280, height = 720, loom = true },
+	{ name = "phone_loom_360x640", platform = "touch", width = 360, height = 640, loom = true },
 	{ name = "pc_bind_1280x720", platform = "pc", width = 1280, height = 720, bind = "running" },
 }
 
@@ -123,6 +131,23 @@ for _, c in cases do
 				needle = 0.3,
 				zone = 0.7,
 				zoneWidth = 0.18,
+			}
+			else nil,
+		loom = if c.loom
+			then {
+				width = c.width,
+				height = c.height,
+				platform = c.platform,
+				core = "Crescent Cut",
+				support = "Piercing Edge",
+				fits = true,
+				qiBefore = 10,
+				qiAfter = 14,
+				friction = -0.12,
+				boost = 0.06,
+				woven = false,
+				result = "ok",
+				resonance = true,
 			}
 			else nil,
 		bind = if c.bind
