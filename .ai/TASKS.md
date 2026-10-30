@@ -95,7 +95,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
 - **P-002c [done S7] [S] GDD v2:** apply the R-020 change list (`research/notes/R-020d-fan-values-gdd-changes.md` §2) to `.ai/GDD.md`; mirror names only (D-014). AC: GDD sections updated, parked items listed in §12, D-034 logged.
 - **P-003b [done S7] [S] Phone HUD mock v1:** `art/mocks/hud-v1.html` — Strain/Satiety live on Kith buttons so only 2 bars (health, Qi). Answers the R-020 HUD-load unknown; owner feel-and-look check in P-006.
 - **P-003c [done S7] [S] Weave Loom mock v1:** `art/mocks/weave-loom-v1.html` — one screen: Kith list, core + 3 support slots with resonance thread, live preview incl. Friction. Answers the R-020b Loom-on-phone unknown.
-- **P-006 [blocked: owner] [S] Approval gate:** summary ready in `.ai/P-006-summary.md` (S7); waiting for the owner's OK.
+- **P-006 [done S8] [S] Approval gate:** owner approved 2026-10-30 (`research/inbox/2026-10-30-owner-p006-approval.md`, D-049).
   - Give the owner a short plain-language summary of the plan.
   - AC: the owner approves, and this is logged as a decision. Building starts only after this.
 
