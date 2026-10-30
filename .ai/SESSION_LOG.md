@@ -3,7 +3,7 @@
 ## S12 (2026-10-30)
 - Checked S11 push: code fine; cloud re-run PASS (v8) after upload timeout fix (600 s).
 - Done: T-016 split a–d; T-016a pure Loadout (D-063); T-016b starter Kith, cast gate, Equip remote (D-064). 79 tests, cloud v9 PASS.
-- Owner asked to publish: published v9 live (`scripts/publish.py`, D-065).
+- Owner asked to publish: published v9 live (`scripts/publish.py`, D-065). Playtest log showed a GetDebugId error on Cut hits; fixed and republished (D-066).
 - Next: T-016c HUD mock, then T-016d. OLU used: ~34.
 
 ## S11 (2026-10-30)

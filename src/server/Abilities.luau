@@ -23,6 +23,20 @@ local Loadout = require(ReplicatedStorage.Shared.Loadout)
 local DataService = require(script.Parent.DataService)
 
 local CHEST = Vector3.new(0, 0.5, 0)
+
+-- Stable per-model hit key for pierce tracking. `GetDebugId` needs Plugin capability and errors in live
+-- servers (S12 owner playtest), so keys come from a weak table instead.
+local hitKeys: { [Instance]: string } = setmetatable({}, { __mode = "k" }) :: any
+local nextHitKey = 0
+local function hitKey(model: Instance): string
+	local key = hitKeys[model]
+	if key == nil then
+		nextHitKey += 1
+		key = `m{nextHitKey}`
+		hitKeys[model] = key
+	end
+	return key
+end
 local CastRequest = require(ReplicatedStorage.Shared.CastRequest)
 local Net = require(script.Parent.Net) -- Blink-generated (net/remotes.blink)
 
@@ -138,7 +152,7 @@ local function sweep(shot: Shot, from: number, to: number)
 			if victim and Status.blocksHit(statuses, victim, os.clock()) then
 				continue -- warded or in i-frames
 			end
-			if Projectile.registerHit(shot.state, model:GetFullName() .. tostring(model:GetDebugId()), p) then
+			if Projectile.registerHit(shot.state, hitKey(model), p) then
 				local amount = applyOnHit(shot, humanoid)
 				Net.HitFx.FireAll({
 					fxId = shot.move.fx.hit,
