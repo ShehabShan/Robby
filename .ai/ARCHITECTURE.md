@@ -56,7 +56,7 @@ Inputs: R-016 (stack), GDD v1, SPIKE.md / T-004 (proven pattern), ART.md (budget
 ## 7. Testing plan
 1. **Lune unit tests** (`tests/*.spec.luau`) for every shared module — part of `check.sh`.
 2. **Place inspection** (`tests/inspect_place.luau`) on the Rojo-built place — part of `check.sh`.
-3. **Cloud tests** (T-005b/T-010): upload the place via Open Cloud, run Luau Execution tasks (≤ 5 min, ≤ 10 concurrent) with Jest Roblox in the real engine. Blocked on the key header fix.
+3. **Cloud tests** (T-005b/T-010): upload the place via Open Cloud, run Luau Execution tasks (≤ 5 min, ≤ 10 concurrent) with Jest Roblox in the real engine, through the `roblox-open-cloud` integration (see `.ai/OPEN_CLOUD.md`).
 4. **Owner playtests** on a private test place, only with explicit OK (T-006); feedback goes to `research/inbox/`.
 
 ## 8. Budgets (mobile-first, R-016 / ART §5)
