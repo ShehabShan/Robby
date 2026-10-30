@@ -303,3 +303,15 @@ Draft model, curve table and 10 sources: `research/notes/R-022-stat-damage-math.
 **Unknowns**
 - CCL fit for our combat (R-025); tick rates and entity caps (P-008).
 **Sources** — `research/notes/R-021-ability-frameworks.md` §7.
+
+### R-023a Economy research + sim plan (done 2026-10-30)
+**Findings**
+- Faucets vs sinks must stay balanced, especially in events; sinks should feel like progress [Roblox docs balance-virtual-economies; blakeir.com].
+- Trading is not a sink unless a fee removes currency [blakeir.com; Aalto thesis].
+- Dupes come from client trust and stale saves: server-side atomic trades, session locking, unique item ids [Roblox client-server docs; devforum session locking].
+- Blox Fruits max level ~40–60 h with a separate raid currency as a progression sink [outputlag; rblxwiki].
+**→ Implications for Robby**
+- Refine is the main sink; inflation risk is for capped Rank-5 players. Trade fee added (D-045). Sim plan in `research/notes/R-023-economy.md` §3.
+**Unknowns**
+- Real income rates — set by the R-023b sim, then playtests.
+**Sources** — the note's source list.

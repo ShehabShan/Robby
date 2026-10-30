@@ -140,7 +140,7 @@ Numbers are first targets to tune in playtests.
 - **Co-op:** parties of up to 4; shared kills and Shards; Binding credit goes to whoever lands the bind.
 - **PvP:** opt-in only — duels by invite and marked PvP zones. No ganking of PvP-off players. Rank-banded matchmaking for arenas later.
 - **Clans:** a player-made Clan joins either the Clans or the Rogues faction at Rank 2. Faction perks are cosmetic or quest access, not raw power. The split is **morally grey**, not good vs evil: Clans get stipends, safe storage and guards; Rogues get bounty hunting, black-market Crucible recipes and freedom to play selfishly (within Roblox rules), but no stipend.
-- **Trading:** Shards and materials only; Kith are untradable (scarcity rule, §6).
+- **Trading:** Shards and materials only, with a Shard fee on each trade so trading also removes currency (D-045); server-side, atomic, session-locked; Kith are untradable (scarcity rule, §6).
 
 - **R-027:** arenas use a fixed entry fee and fixed prizes (no player-to-player betting). Rogue black-market recipes are faster with a higher fail chance. Rogues earn **Notoriety** from PvP-zone kills, which draws NPC hunter patrols; a Cleanse consumable lowers it. Player bounties only in PvP zones.
 
