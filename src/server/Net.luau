@@ -163,6 +163,7 @@ local SerdesEvent = "?"
 local SerdesThread: thread?
 Queue.Reliable[0] = table.create(256)
 Queue.Reliable[1] = table.create(256)
+Queue.Reliable[2] = table.create(256)
 Queue.Unreliable[0] = table.create(256)
 export type ActionKind = ("Attack" | "Dash" | "Parry" | "Guard")
 function SerdesFunctions.ReadEVENT_CastRequest(): ({ moveId: string, aim: Vector3, seq: number })
@@ -207,6 +208,18 @@ function SerdesFunctions.ReadEVENT_Action(): ({ kind: ("Attack" | "Dash" | "Parr
 		Value.dir = Vector3.new(X, Y, Z)
 	end
 	Value.seq = buffer.readu16(RecieveBuffer, BLOCK_START + 2)
+	return Value
+end
+
+function SerdesFunctions.ReadEVENT_Equip(): ({ slot: number, uid: string })
+	-- Read BLOCK: 2 bytes
+	local BLOCK_START = Read(2)
+	local Value = {} :: any
+	Value.slot = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+	local Length = buffer.readu8(RecieveBuffer, BLOCK_START + 1)
+	Value.uid = buffer.readstring(RecieveBuffer, Read(Length), Length)
+	if #Value.uid < 0 then error(`Expected length of "Value.uid" to be larger than or equal to 0, got {#Value.uid} instead.`) end
+	if #Value.uid > 64 then error(`Expected length of "Value.uid" to be smaller than or equal to  64, got {#Value.uid} instead.`) end
 	return Value
 end
 
@@ -263,7 +276,7 @@ end
 function SerdesFunctions.WriteEVENT_EntityState(Value: { uid: string, hp: number, qi: number, tags: { string }, rank: number }): ()
 	-- Allocate BLOCK: 12 bytes
 	local BLOCK_START = Allocate(12)
-	buffer.writeu8(SendBuffer, BLOCK_START + 0, 2)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 3)
 	local Length = #Value.uid
 	buffer.writeu8(SendBuffer, BLOCK_START + 1, Length)
 	Allocate(Length)
@@ -291,7 +304,7 @@ end
 function SerdesFunctions.WriteEVENT_ProfileDelta(Value: { { path: string, value: any } }): ()
 	-- Allocate BLOCK: 2 bytes
 	local BLOCK_START = Allocate(2)
-	buffer.writeu8(SendBuffer, BLOCK_START + 0, 3)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 4)
 	-- START ARRAY
 	buffer.writeu8(SendBuffer, BLOCK_START + 1, #Value)
 		-- Allocate BLOCK: 1 bytes
@@ -317,6 +330,9 @@ if not RunService:IsRunning() then
 		On = NOOP
 	},
 	Action = {
+		On = NOOP
+	},
+	Equip = {
 		On = NOOP
 	},
 	Aim = {
@@ -430,6 +446,17 @@ Reliable.OnServerEvent:Connect(function(Player: Player, Buffer: buffer, Instance
 				end
 				table.insert(Queue.Reliable[1], {Player, Value} :: {any})
 			end
+		elseif Index == 2 then
+			local Value: { slot: number, uid: string } = SerdesFunctions.ReadEVENT_Equip()
+			if Events.Reliable[2] ~= nil then
+				SerdesEvent = "Equip"
+				Events.Reliable[2](Player, Value)
+			else
+				if #Queue.Reliable[2] > 256 then
+					warn("[Blink]: Event queue of \"Equip\" exceeded 256, did you forget to implement a listener?")
+				end
+				table.insert(Queue.Reliable[2], {Player, Value} :: {any})
+			end
 		end
 	end
 end)
@@ -486,6 +513,20 @@ local Returns = table.freeze({
 			return function (): ()
 				if Events.Reliable[1] == Listener then
 					Events.Reliable[1] = nil
+				end
+			end
+		end
+	},
+	Equip = {
+		On = function(Listener: (Player: Player, Value: { slot: number, uid: string }) -> ()): () -> ()
+			Events.Reliable[2] = Listener
+			for Index, Arguments in Queue.Reliable[2] do
+				Listener(table.unpack(Arguments))
+			end
+			Queue.Reliable[2] = {}
+			return function (): ()
+				if Events.Reliable[2] == Listener then
+					Events.Reliable[2] = nil
 				end
 			end
 		end

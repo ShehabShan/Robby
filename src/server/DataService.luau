@@ -8,6 +8,13 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
 
 local ProfileSchema = require(ReplicatedStorage.Shared.ProfileSchema)
+local Config = require(ReplicatedStorage.Shared.Config)
+local Registry = require(ReplicatedStorage.Shared.Registry)
+local All = require(ReplicatedStorage.Shared.Content.All)
+local Loadout = require(ReplicatedStorage.Shared.Loadout)
+
+local built = Registry.build(All.content(Config))
+local loadedListeners: { (Player, any) -> () } = {}
 local Retired = require(ReplicatedStorage.Shared.Retired)
 local ProfileStore: any = require(ServerScriptService.ServerPackages.ProfileStore) :: any
 
@@ -41,6 +48,9 @@ local function load(store: any, player: Player)
 	for _, issue in issues do
 		warn(`DataService: {player.UserId}: {issue}`)
 	end
+	for _, issue in Loadout.prepare(data, Config, built) do -- starter Kith + sanitized loadout (T-016b)
+		warn(`DataService: {player.UserId}: loadout {issue}`)
+	end
 	profile:AddUserId(player.UserId)
 	profile.OnSessionEnd:Connect(function()
 		profiles[player] = nil
@@ -48,9 +58,17 @@ local function load(store: any, player: Player)
 	end)
 	if player.Parent == Players then
 		profiles[player] = profile
+		for _, fn in loadedListeners do
+			task.spawn(fn, player, profile.Data)
+		end
 	else
 		profile:EndSession()
 	end
+end
+
+-- Calls `fn(player, data)` after each profile finishes loading (T-016b: LoadoutService publishes slots).
+function DataService.onLoaded(fn: (Player, any) -> ())
+	table.insert(loadedListeners, fn)
 end
 
 -- The loaded profile data for `player`, or nil while loading / after leaving.

@@ -92,6 +92,28 @@ return {
 			eq(Loadout.isRole(k.role), true, id)
 		end
 	end,
+	["loadout: prepare grants starter Kith and fills the slots"] = function()
+		local data: any = { rank = 1, kith = {}, loadout = { slots = {}, weaves = {} } }
+		eq(#Loadout.prepare(data, Config, built), 0, "no issues")
+		eq(data.loadout.slots[1], "starter.crescent", "slot 1")
+		eq(data.loadout.slots[2], "starter.stone", "slot 2")
+		eq(data.loadout.slots[3], "starter.wind", "slot 3")
+		for _, id in { "move.crescent_cut", "move.stone_ward", "move.wind_step" } do
+			eq(Loadout.canCast(data.loadout, data.kith, built, id), true, id)
+		end
+	end,
+	["loadout: prepare keeps a valid loadout and refuses unequipped moves"] = function()
+		local data: any = { rank = 1, kith = owned(), loadout = { slots = { "", "u2", "" }, weaves = {} } }
+		Loadout.prepare(data, Config, built)
+		eq(data.kith.starter, nil, "no starter grant")
+		eq(data.loadout.slots[1], "", "kept empty")
+		eq(Loadout.canCast(data.loadout, data.kith, built, "move.stone_ward"), true, "equipped")
+		eq(Loadout.canCast(data.loadout, data.kith, built, "move.crescent_cut"), false, "unequipped refused")
+		local bare: any = { rank = 1, kith = owned() }
+		Loadout.prepare(bare, Config, built)
+		eq(bare.loadout.slots[1], "u1", "filled from owned")
+		eq(bare.loadout.slots[3], "u3", "uid order")
+	end,
 	["registry: unknown Kith role is an error"] = function()
 		local _, errors =
 			Registry.build({ effects = {}, moves = {}, kith = { { id = "kith.k", role = "Tank", moves = {} } } })

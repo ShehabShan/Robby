@@ -31,6 +31,17 @@ event Action {
 	},
 }
 
+-- C→S: put Kith `uid` in core slot `slot` ("" unequips). The server checks rank, slot and ownership (T-016b).
+event Equip {
+	From: Client,
+	Type: Reliable,
+	Call: SingleSync,
+	Data: struct {
+		slot: u8,
+		uid: string(..64),
+	},
+}
+
 -- C→S: aim direction for other players' FX only; never trusted for hits.
 event Aim {
 	From: Client,

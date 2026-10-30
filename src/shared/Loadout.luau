@@ -135,6 +135,48 @@ function Loadout.gaps(lo: any, owned: any, built: any, cfg: any): { string }
 	return missing
 end
 
+-- Server load step (T-016b): a profile with no Kith gets the starter Kith; the loadout is sanitized; an
+-- all-empty loadout is filled from owned Kith (uid order). Mutates `data` in place; returns sanitize issues.
+function Loadout.prepare(data: any, cfg: any, built: any): { string }
+	if type(data.kith) ~= "table" then
+		data.kith = {}
+	end
+	if next(data.kith) == nil then
+		for _, speciesId in cfg.Loadout.starter do
+			if built.kith[speciesId] then
+				local uid = "starter." .. (string.gsub(speciesId, "^kith%.", ""))
+				data.kith[uid] = { uid = uid, speciesId = speciesId }
+			end
+		end
+	end
+	if type(data.loadout) ~= "table" then
+		data.loadout = { slots = {}, weaves = {} }
+	end
+	local lo = data.loadout
+	local issues = Loadout.sanitize(lo, cfg, data.rank or 1, data.kith, built)
+	if #Loadout.equipped(lo, data.kith, built) == 0 then
+		local uids: { string } = {}
+		for uid in data.kith do
+			if speciesOf(data.kith, built, uid) then
+				table.insert(uids, uid)
+			end
+		end
+		table.sort(uids)
+		for i, uid in uids do
+			if i > #lo.slots then
+				break
+			end
+			lo.slots[i] = uid
+		end
+	end
+	return issues
+end
+
+-- True when `moveId` belongs to an equipped Kith.
+function Loadout.canCast(lo: any, owned: any, built: any, moveId: string): boolean
+	return Loadout.allowedMoves(lo, owned, built)[moveId] == true
+end
+
 -- The set of move ids the equipped Kith grant. The server refuses casts outside it (T-016b).
 function Loadout.allowedMoves(lo: any, owned: any, built: any): { [string]: boolean }
 	local allowed: { [string]: boolean } = {}

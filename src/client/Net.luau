@@ -162,8 +162,8 @@ local SerdesEvent = "?"
 local SerdesThread: thread?
 Queue.Unreliable[1] = table.create(256)
 Queue.Unreliable[2] = table.create(256)
-Queue.Reliable[2] = table.create(256)
 Queue.Reliable[3] = table.create(256)
+Queue.Reliable[4] = table.create(256)
 export type ActionKind = ("Attack" | "Dash" | "Parry" | "Guard")
 function SerdesFunctions.WriteEVENT_CastRequest(Value: { moveId: string, aim: Vector3, seq: number }): ()
 	-- Allocate BLOCK: 16 bytes
@@ -205,6 +205,17 @@ function SerdesFunctions.WriteEVENT_Action(Value: { kind: ("Attack" | "Dash" | "
 		buffer.writef32(SendBuffer, BLOCK_START + 8, Vector.Z)
 	end
 	buffer.writeu16(SendBuffer, BLOCK_START + 3, Value.seq)
+end
+
+function SerdesFunctions.WriteEVENT_Equip(Value: { slot: number, uid: string }): ()
+	-- Allocate BLOCK: 3 bytes
+	local BLOCK_START = Allocate(3)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 2)
+	buffer.writeu8(SendBuffer, BLOCK_START + 1, Value.slot)
+	local Length = #Value.uid
+	buffer.writeu8(SendBuffer, BLOCK_START + 2, Length)
+	Allocate(Length)
+	buffer.writestring(SendBuffer, SendOffset, Value.uid, Length)
 end
 
 function SerdesFunctions.WriteEVENT_Aim(Value: Vector3): ()
@@ -340,6 +351,9 @@ if not RunService:IsRunning() then
 	Action = {
 		Fire = NOOP
 	},
+	Equip = {
+		Fire = NOOP
+	},
 	Aim = {
 		Fire = NOOP
 	},
@@ -397,27 +411,27 @@ Reliable.OnClientEvent:Connect(function(Buffer: buffer, Instances: {Instance})
 		-- Read BLOCK: 1 bytes
 		local BLOCK_START = Read(1)
 		local Index = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
-		if Index == 2 then
+		if Index == 3 then
 			local Value: { uid: string, hp: number, qi: number, tags: { string }, rank: number } = SerdesFunctions.ReadEVENT_EntityState()
-			if Events.Reliable[2] ~= nil then
-				SerdesEvent = "EntityState"
-				Events.Reliable[2](Value)
-			else
-				if #Queue.Reliable[2] > 256 then
-					warn("[Blink]: Event queue of \"EntityState\" exceeded 256, did you forget to implement a listener?")
-				end
-				table.insert(Queue.Reliable[2], {Value} :: {any})
-			end
-		elseif Index == 3 then
-			local Value: { { path: string, value: any } } = SerdesFunctions.ReadEVENT_ProfileDelta()
 			if Events.Reliable[3] ~= nil then
-				SerdesEvent = "ProfileDelta"
+				SerdesEvent = "EntityState"
 				Events.Reliable[3](Value)
 			else
 				if #Queue.Reliable[3] > 256 then
-					warn("[Blink]: Event queue of \"ProfileDelta\" exceeded 256, did you forget to implement a listener?")
+					warn("[Blink]: Event queue of \"EntityState\" exceeded 256, did you forget to implement a listener?")
 				end
 				table.insert(Queue.Reliable[3], {Value} :: {any})
+			end
+		elseif Index == 4 then
+			local Value: { { path: string, value: any } } = SerdesFunctions.ReadEVENT_ProfileDelta()
+			if Events.Reliable[4] ~= nil then
+				SerdesEvent = "ProfileDelta"
+				Events.Reliable[4](Value)
+			else
+				if #Queue.Reliable[4] > 256 then
+					warn("[Blink]: Event queue of \"ProfileDelta\" exceeded 256, did you forget to implement a listener?")
+				end
+				table.insert(Queue.Reliable[4], {Value} :: {any})
 			end
 		end
 	end
@@ -467,6 +481,11 @@ local Returns = table.freeze({
 			SerdesFunctions.WriteEVENT_Action(Value)
 		end
 	},
+	Equip = {
+		Fire = function(Value: { slot: number, uid: string }): ()
+			SerdesFunctions.WriteEVENT_Equip(Value)
+		end
+	},
 	Aim = {
 		Fire = function(Value: Vector3): ()
 			local Previous = Save()
@@ -500,20 +519,6 @@ local Returns = table.freeze({
 	},
 	EntityState = {
 		On = function(Listener: (Value: { uid: string, hp: number, qi: number, tags: { string }, rank: number }) -> ()): () -> ()
-			Events.Reliable[2] = Listener
-			for Index, Arguments in Queue.Reliable[2] do
-				Listener(table.unpack(Arguments))
-			end
-			Queue.Reliable[2] = {}
-			return function (): ()
-				if Events.Reliable[2] == Listener then
-					Events.Reliable[2] = nil
-				end
-			end
-		end
-	},
-	ProfileDelta = {
-		On = function(Listener: (Value: { { path: string, value: any } }) -> ()): () -> ()
 			Events.Reliable[3] = Listener
 			for Index, Arguments in Queue.Reliable[3] do
 				Listener(table.unpack(Arguments))
@@ -522,6 +527,20 @@ local Returns = table.freeze({
 			return function (): ()
 				if Events.Reliable[3] == Listener then
 					Events.Reliable[3] = nil
+				end
+			end
+		end
+	},
+	ProfileDelta = {
+		On = function(Listener: (Value: { { path: string, value: any } }) -> ()): () -> ()
+			Events.Reliable[4] = Listener
+			for Index, Arguments in Queue.Reliable[4] do
+				Listener(table.unpack(Arguments))
+			end
+			Queue.Reliable[4] = {}
+			return function (): ()
+				if Events.Reliable[4] == Listener then
+					Events.Reliable[4] = nil
 				end
 			end
 		end

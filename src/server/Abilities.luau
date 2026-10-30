@@ -19,6 +19,8 @@ local Projectile = require(ReplicatedStorage.Shared.Deliveries.Projectile)
 local All = require(ReplicatedStorage.Shared.Content.All)
 local Status = require(ReplicatedStorage.Shared.Status)
 local statuses = require(script.Parent.StatusStore)
+local Loadout = require(ReplicatedStorage.Shared.Loadout)
+local DataService = require(script.Parent.DataService)
 
 local CHEST = Vector3.new(0, 0.5, 0)
 local CastRequest = require(ReplicatedStorage.Shared.CastRequest)
@@ -179,6 +181,10 @@ function Abilities.start()
 		local move = CastRequest.decode(rawMoveId, rawSeq, built.moves)
 		if not pool or not cds or not move or typeof(raw) ~= "Vector3" then
 			return
+		end
+		local data = DataService.get(player)
+		if not data or not Loadout.canCast(data.loadout, data.kith, built, move.id) then
+			return -- only moves of equipped Kith (T-016b, D-064)
 		end
 		local v = raw :: Vector3
 		if not Projectile.isValidDirection(v.X, v.Y, v.Z) then

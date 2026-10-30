@@ -46,6 +46,7 @@ local Config = {
 		slotsPerRank = 1,
 		maxSlots = 7, -- Mortal cap
 		warnRoles = { "Strike", "Guard" }, -- loadout screen warns when none is equipped (D-063)
+		starter = { "kith.crescent", "kith.stone", "kith.wind" }, -- granted to a profile with no Kith (D-064)
 	},
 }
 

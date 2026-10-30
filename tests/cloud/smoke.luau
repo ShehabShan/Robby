@@ -90,6 +90,22 @@ local okMock, mockVersion = pcall(function()
 end)
 check("mock profile v1 (ProfileStore)", okMock and mockVersion == 1, mockVersion)
 
+-- T-016b: a fresh profile gets the starter loadout; a move of an unequipped Kith is refused.
+local okLoadout, loadoutResult = pcall(function()
+	require(game:GetService("ServerScriptService").Server.LoadoutService)
+	local Loadout = require(ReplicatedStorage.Shared.Loadout)
+	local Registry = require(ReplicatedStorage.Shared.Registry)
+	local All = require(ReplicatedStorage.Shared.Content.All)
+	local built = Registry.build(All.content(Config))
+	local data: any = require(ReplicatedStorage.Shared.ProfileSchema).template()
+	Loadout.prepare(data, Config, built)
+	local starterOk = Loadout.canCast(data.loadout, data.kith, built, "move.crescent_cut")
+	Loadout.unequip(data.loadout, 1)
+	local refused = not Loadout.canCast(data.loadout, data.kith, built, "move.crescent_cut")
+	return starterOk and refused
+end)
+check("loadout gates casts (starter ok, unequipped refused)", okLoadout and loadoutResult == true, loadoutResult)
+
 local allPass = true
 for _, r in results do
 	print(r)
