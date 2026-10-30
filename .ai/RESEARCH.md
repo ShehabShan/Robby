@@ -201,3 +201,15 @@ Full map (18 systems) and ability notes: `research/notes/R-019-systems-map.md`.
   - Spike ability: **Crescent Kith → Crescent Cut** (Moon path, rank 1).
 - **Unknowns:** numbers (P-007); whether code-built VFX look shiny enough (T-004).
 - **Sources:** see the notes file (10 sources).
+### R-020a Gu system in depth (done 2026-10-30)
+Full table (10 findings → mirrors) and 20 sources: `research/notes/R-020a-gu-system.md`.
+- **Findings:**
+  - Taming a wild creature-tool is a sustained essence tug-of-war against its will (sagaofgu.com/cultivation/refinement).
+  - Each eats a specific food; heavy use makes it hungry sooner; starved ones go dormant or die (sagaofgu.com/cultivation/gu-worms).
+  - Low-rank tools collapse if spammed without rest; some are consumables (sagaofgu.com/cultivation/mortal-gu).
+  - Stages are a wall hardening light → water → stone → crystal; breakthroughs shatter it; partial damage heals (sagaofgu.com/cultivation/aperture-and-primeval-essence).
+  - Fusion needs sustained focus while stones are fed in; high-rank fail rates are brutal (sagaofgu.com/cultivation/gu-fusion).
+  - One life-bound tool shares injury with its master; rank 6+ tools are world-unique (sagaofgu.com/cultivation/vital-gu, /immortal-gu).
+- **→ Implications for Robby:** Binding = skill tug-of-war; per-Kith Satiety + Strain with Dormant/Exhausted/Wounded states (no permanent loss); Core Shell Stage visual + wave breakthrough trial; Heart Kith identity; Shards = money + Qi refill; Singular Kith parked for Ascendant.
+- **Unknowns:** meter overload on mobile HUD; real numbers are design choices (P-007).
+- **Sources:** see the notes file.
