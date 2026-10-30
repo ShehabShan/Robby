@@ -213,3 +213,16 @@ Full table (10 findings → mirrors) and 20 sources: `research/notes/R-020a-gu-s
 - **→ Implications for Robby:** Binding = skill tug-of-war; per-Kith Satiety + Strain with Dormant/Exhausted/Wounded states (no permanent loss); Core Shell Stage visual + wave breakthrough trial; Heart Kith identity; Shards = money + Qi refill; Singular Kith parked for Ascendant.
 - **Unknowns:** meter overload on mobile HUD; real numbers are design choices (P-007).
 - **Sources:** see the notes file.
+
+### R-020b Paths & killer moves (done 2026-10-30)
+Full table (10 findings → mirrors) and 18 sources: `research/notes/R-020b-paths-killer-moves.md`.
+- **Findings:**
+  - Power is split into many thematic paths, each with sub-paths (sagaofgu.com/paths).
+  - Path marks multiply that path's moves; enough marks lift a move a rank (sagaofgu.com/cultivation/dao-marks).
+  - Marks of different paths conflict (fire vs water); most specialise in 1–2 paths; mark-dense areas suppress rivals (basicutils.com dao-marks guide).
+  - Attainment is a separate understanding ladder that improves control, move creation and reduces friction (sagaofgu.com/cultivation/attainment).
+  - A combo move = one core tool that sets the effect + supports that amplify; costs more essence and strain (sagaofgu.com/cultivation/killer-moves).
+  - A balanced kit covers attack, defence, healing, storage, movement, investigation (sagaofgu.com/cultivation/gu-set).
+- **→ Implications for Robby:** Path Marks as per-Path scaling; use-based Mastery tiers; Path Friction wheel (allied/opposed); Weave = core + supports built in a Weave Loom; Kith role tags; Path Ground in Reaches; Party Arrays later.
+- **Unknowns:** launch Path count (suggest 5); Weave Loom clarity on mobile.
+- **Sources:** see the notes file.
