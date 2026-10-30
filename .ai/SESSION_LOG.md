@@ -3,9 +3,9 @@
 ## S6 — 2026-10-30 (spike wiring + planning)
 - T-004 done: Crescent Cut server/client wiring, code VFX, dummy; obby sample removed. T-005 done: place inspect PASS (in check.sh).
 - T-005b blocked: `roblox-open-cloud` key → 401 (needs `x-api-key` header). `-2` not enabled.
-- P-002 GDD v1, P-003 ART.md, P-004 ARCHITECTURE.md done. D-027…D-030.
-- OLU used: ~22.
-- Next: P-005 roadmap → P-006 owner approval.
+- P-002 GDD, P-003 ART, P-004 ARCHITECTURE, P-005 ROADMAP done. D-027…D-030.
+- OLU used: ~24.
+- Next: P-006 owner approval; T-005b after the key fix.
 
 ## S5 — 2026-10-30 (owner reorder; spike started; stopped early, owner low on OLU)
 - Owner: concept A, structured like RI (D-025). R-019 systems map + first ability Crescent Cut; P-007 spike plan `.ai/SPIKE.md` (D-026).

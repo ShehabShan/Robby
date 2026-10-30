@@ -88,7 +88,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - Cover the stack (from R-016), module map, networking, data (ProfileStore), and how the sample code gets replaced.
   - Include the testing plan: Lune unit tests, cloud tests, and owner playtests.
   - AC: ARCHITECTURE.md rewritten.
-- **P-005 [todo] [S] Roadmap:**
+- **P-005 [done S6] [S] Roadmap:** `.ai/ROADMAP.md`
   - Milestones: M1 vertical slice → M2 core content → M3 progression and economy → M4 polish → M5 soft launch.
   - Rewrite Phase 3 below as S-sized T-tasks with AC.
   - AC: `.ai/ROADMAP.md`, and `.ai/PLAYTEST.md` (a checklist the owner runs in Studio at each milestone).
@@ -107,4 +107,4 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
 ## Phase 3 — Building (defined in P-005)
 - **T-002 [todo]** Replace the obby sample code (RoundState, HUD) with the P-004 skeleton. Keep `check.sh` green.
 - **T-010 [blocked]** Cloud test pipeline: Open Cloud place upload + Luau Execution task + test runner. Needs a place ID and an API key (owner, via a custom integration).
-- The rest comes from P-005.
+- **M1 tasks T-011 … T-024 [todo]:** see `.ai/ROADMAP.md` (IDs, scope and AC). Order: T-002 → T-010 → T-011 …
