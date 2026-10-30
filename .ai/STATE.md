@@ -11,10 +11,12 @@
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-020c Weave content + server Loom · —
-  - T-021 Mistvale terrain + hub kit · — (split into terrain / Blender kit for 2 bots)
+  - T-021a Mistvale terrain (code) · —
+  - T-021b Mistvale hub kit (Blender) · —
   - T-022 Enemies: 2 beasts · —
-  - T-025 Qi-refining utility Kith · — (Mistvale placement waits for T-021)
+  - T-025 Qi-refining utility Kith · — (Mistvale placement waits for T-021c)
   - T-020d Loom UI · T-020c
+  - T-021c Hub assembly · T-021a, T-021b
   - T-023 Boss + arena · T-022
   - T-024 First 10 minutes · all above
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).

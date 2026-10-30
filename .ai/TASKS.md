@@ -170,4 +170,8 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - **T-020b [done S17] [S] Path Marks:** Marks earned by use per Path, `DamageMath.marksBoost` applied to that Path's moves, Friction applied to opposed moves. AC: Lune; check PASS. Done S17: `Shared.PathMarks` (pathOf/award/hitMods), `Config.Marks`, wired in server `Abilities` onHit (D-089).
   - **T-020c [todo] [S] Weave content + server Loom:** 1 support (e.g. Pierce/Burst) for Crescent, Blink `WeaveSet` at a rest spot, journal, Resonance hint. AC: Registry validates; Lune; check PASS.
   - **T-020d [todo] [S] Loom UI + client wiring:** pure `Shared.LoomUi` + mock, then client. Shows Friction, cost, Marks boost. AC: Lune + mock; check PASS.
+- **T-021 [todo] Mistvale terrain + hub kit** (split S17 for 2 parallel bots; ROADMAP AC: Hub and 1 zone walkable; budgets met).
+  - **T-021a [todo] [S] Mistvale terrain (code):** code-generated terrain for the hub valley + 1 hunting zone (GDD §6 layout), spawn point, walkable paths, StreamingEnabled. No buildings. AC: walkable in a Studio/cloud run; terrain budget (ARCHITECTURE §8); check PASS.
+  - **T-021b [todo] [S] Mistvale hub kit (Blender):** headless Blender scripts (`scripts/blender-setup.sh`, `art/blender/`) for the hub building/prop kit (houses, rest spot, Crucible shrine, fences). AC: meshes export to `build/art` within ART §5 budgets; check PASS. Touches no terrain files.
+  - **T-021c [todo] [S] Hub assembly:** place the T-021b kit on the T-021a terrain (village, rest spot, Crucible, Binding grove marker). After T-021a + T-021b. AC: hub + 1 zone walkable; budgets met; check PASS.
 - **M1 tasks T-011 … T-024 [todo]:** see `.ai/ROADMAP.md` (IDs, scope and AC). Order: T-002 → T-010 → T-011 …

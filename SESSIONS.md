@@ -21,7 +21,7 @@ Use the **same message every time**. The bot works out on its own where the last
 You can start two or more bots at once with the same message. Each bot claims a different task in `.ai/CLAIMS.md`,
 works on its own branch (`session/S<n>`) and merges into `main` when it finishes. Nothing extra is needed from you.
 If a bot is cut off, the next bot finds its branch and finishes merging it.
-How many at once: count the tasks with no `after` in `.ai/STATE.md` → **Parallel lanes** (4 on 2026-10-30).
+How many at once: count the tasks with no `after` in `.ai/STATE.md` → **Parallel lanes** (5 on 2026-10-30).
 Extra bots find no free task and stop after about 5 OLU. Each bot can use up to 50 OLU.
 
 ## Give the bot your ideas (research material)
