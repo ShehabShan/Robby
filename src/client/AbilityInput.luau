@@ -7,7 +7,7 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Config = require(ReplicatedStorage.Shared.Config)
-local CrescentCut = require(ReplicatedStorage.Shared.Kith.CrescentCut)
+local Projectile = require(ReplicatedStorage.Shared.Deliveries.Projectile)
 local CrescentFx = require(script.Parent.CrescentFx)
 
 local cfg = Config.Abilities.CrescentCut
@@ -47,7 +47,7 @@ function AbilityInput.start(castRequest: RemoteEvent)
 			return Enum.ContextActionResult.Sink
 		end
 		local look = camera.CFrame.LookVector
-		local x, z, ok = CrescentCut.flatten(look.X, look.Z)
+		local x, z, ok = Projectile.flatten(look.X, look.Z)
 		if not ok then
 			return Enum.ContextActionResult.Sink
 		end

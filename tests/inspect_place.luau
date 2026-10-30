@@ -24,7 +24,7 @@ end
 
 expect({ "ReplicatedStorage", "Shared", "Config" }, "ModuleScript")
 expect({ "ReplicatedStorage", "Shared", "Qi" }, "ModuleScript")
-expect({ "ReplicatedStorage", "Shared", "Kith", "CrescentCut" }, "ModuleScript")
+expect({ "ReplicatedStorage", "Shared", "Deliveries", "Projectile" }, "ModuleScript")
 expect({ "ServerScriptService", "Server" }, "Script")
 expect({ "ServerScriptService", "Server", "Abilities" }, "ModuleScript")
 expect({ "ServerScriptService", "Server", "Dummy" }, "ModuleScript")

@@ -49,11 +49,11 @@ local remotes = waitFor(function()
 end, 10)
 check("remotes folder", remotes ~= nil, remotes and #remotes:GetChildren() or 0)
 
-local ok, CrescentCut = pcall(function()
-	return require(ReplicatedStorage.Shared.Kith.CrescentCut)
+local ok, DamageMath = pcall(function()
+	return require(ReplicatedStorage.Shared.DamageMath)
 end)
 local Config = ok and require(ReplicatedStorage.Shared.Config)
-local dmg = ok and CrescentCut.damageFor(1, Config.Abilities.CrescentCut)
+local dmg = ok and DamageMath.compute({ base = Config.Abilities.CrescentCut.baseDamage, rank = 1 })
 check("damageFor(1) == 20", dmg == 20, dmg)
 
 if humanoid and dmg then
