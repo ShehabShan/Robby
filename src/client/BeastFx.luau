@@ -61,7 +61,15 @@ local function warn(ctx: any)
 	if not body or not body:IsA("BasePart") then
 		return
 	end
-	local kind = Config.Beasts.kinds[model:GetAttribute("BeastKind")]
+	local kind: any = Config.Beasts.kinds[model:GetAttribute("BeastKind")]
+	if model:GetAttribute("TelegraphRange") ~= nil then -- bosses send the current attack's shape (D-138)
+		kind = {
+			range = model:GetAttribute("TelegraphRange"),
+			arcDot = model:GetAttribute("TelegraphArc"),
+			telegraph = model:GetAttribute("TelegraphSeconds"),
+			hp = model:GetAttribute("TelegraphWeight"),
+		}
+	end
 	local params = TelegraphFx.params(kind)
 	local here = body.Position - Vector3.new(0, body.Size.Y / 2 - 0.05, 0)
 	local look = body.CFrame.LookVector

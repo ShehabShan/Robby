@@ -190,6 +190,7 @@ local Config = {
 				phase2At = 0.5, -- HP fraction where phase 2 starts
 				phase2Recover = 0.7, -- recover-time multiplier in phase 2 (telegraphs stay the same)
 				shards = 120,
+				respawn = 90, -- seconds after the boss dies
 				attacks = {
 					bite = { range = 8, arcDot = 0.3, telegraph = 0.6, recover = 0.7, damage = 14 },
 					slam = { range = 12, arcDot = -1, telegraph = 1.0, recover = 1.2, damage = 22 },
