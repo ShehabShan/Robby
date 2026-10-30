@@ -1,6 +1,7 @@
 # STATE
 
-## Now (after S33)
+## Now (after S34)
+- S34: F-03 data safety verified: ProfileStore saves on shutdown/leave; old-save defaults spec (D-170).
 - S33: T-023d done: Mistmaw Elder tuned for Rank 1–2 (hp 800, hits 10/16/13; Rank 1 kill ≈ 102 s, D-169).
 - S32: T-023c done: Mistmaw Elder kill records the Academy Rank test in the save (D-168). Boss tuning split to T-023d.
 - S31: `roblox-open-cloud` works again. T-021a-v cloud smoke on Saved v15: specs 222/222, all PASS (terrain check reads voxels, D-167). Not published.
@@ -35,5 +36,5 @@
   - T-024 First 10 minutes · all above
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox).
-- **Last check.sh:** CHECK: PASS (2026-10-30, S33)
+- **Last check.sh:** CHECK: PASS (2026-10-30, S34)
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC C (F is Parry), gamepad D-pad Right.
