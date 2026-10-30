@@ -17,7 +17,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - For each file in `research/inbox/` not yet listed in VISION.md "Owner ideas", add an entry with the date, file name and the owner's key points in their own words.
   - Flag conflicts with D-014 (IP) or Roblox policy to the owner. Don't silently drop anything.
   - AC: every inbox file is listed in VISION.md.
-- **R-011 [todo] [S] Source study: Reverend Insanity.**
+- **R-011 [doing] [S] Source study: Reverend Insanity.** Resume from: start searches; write research/notes/R-011-reverend-insanity.md.
   - Cover the world structure, the Gu system (types, refinement, feeding, combining, ranks 1–9), cultivation (aperture, essence), factions/clans, the early-story setting, tone and themes, and what readers love most.
   - Split everything into (a) **game-able mechanics**, (b) IP-specific elements we must not copy, and (c) generic or folklore elements (gu lore, xianxia tropes).
   - AC: `research/notes/R-011-reverend-insanity.md` plus a summary in RESEARCH.md.
