@@ -28,6 +28,6 @@ used=$(awk -v a="$total" -v b="$base" 'BEGIN{printf "%.1f", a-b}')
 status=$(awk -v u="$used" -v w="$WRAP" -v h="$HARD" 'BEGIN{
 	if (u >= h) print "EMERGENCY: one-line STATE update + commit + push NOW";
 	else if (u >= w) print "WRAP UP: stop new work, do close-out";
-	else if (u >= 30) print "FINISH CURRENT STEP: no new task";
+	else if (u >= w - 5) print "LAST STEP: only start a step that can be saved by the wrap-up line";
 	else print "OK"}')
 echo "OLU this session: $used / $CAP -> $status"

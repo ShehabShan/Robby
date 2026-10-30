@@ -18,7 +18,7 @@ the Roblox game *Rell Seas*. It is built **headlessly** (no Roblox Studio) by AI
 - **Size every task to fit one session.**
   - An S task is about 30 OLU of work or less (boot ~5 + work ≤30 + close-out ~5 + buffer).
   - If a task might not fit, split it **before** starting into sub-tasks (`R-011a`, `R-011b`, …), each with its own AC and S-sized. Save the split, then do the first sub-task.
-- **If a task grows mid-way:** at 30 OLU, stop expanding.
+- **If a task grows mid-way:** split the rest into a new sub-task in TASKS.md and keep working. Work continues until the 43 OLU wrap-up line (owner, S9, D-054).
   - Move the rest into a new sub-task with a "Resume from:" note.
   - Bring what's done up to that sub-task's AC, then commit it.
 - **Blocked on the owner** (choices in P-001/P-006, missing keys):
@@ -70,7 +70,7 @@ Use the next session number (`S<n>`) after the newest entry in `.ai/SESSION_LOG.
    - On the first save of the task, mark it `doing`, with a one-line "Resume from:" note, in both TASKS.md and STATE.md.
      Then a cut-off session leaves an accurate trail.
    - Size check and splitting: see §0.
-   - Start a second task only if you are under 25 OLU.
+   - Keep taking the next task (or sub-task) until 43 OLU. Save after every step, so the wrap-up never leaves broken code (D-054).
 2. **Research**: run `bash scripts/search.sh "question" [chars]`. It does a web search with a capped answer and sources, typically 3–8 searches per task.
    - Write each task up in RESEARCH.md using this format:
      `### R-0XX Title (done YYYY-MM-DD)` → **Findings**, with a source on each fact → **→ Implications for Robby** → **Unknowns** → **Sources**.
