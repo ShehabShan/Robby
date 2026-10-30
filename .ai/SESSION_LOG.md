@@ -1,5 +1,8 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S38 (2026-10-30) — F-08 config hygiene (partial)
+- No unused top-level Config keys (D-174). Hard-coded number scan left. Stopped at the OLU wrap point.
+
 ## S37 (2026-10-30) — F-07 docs drift done
 - Stale Resume notes cleaned, T-006 Resume note added, ref scan clean (D-173). check.sh PASS.
 
