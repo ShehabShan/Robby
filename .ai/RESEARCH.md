@@ -136,6 +136,19 @@ Full notes + route table: `research/notes/R-015-asset-pipeline.md`.
   - VFX, terrain and UI can be good and cheap; hero meshes and combat animations are the quality bottleneck → stylised art and a likely animator budget (P-004).
   - Early T-phase spike: upload one Blender mesh + one anim2rbx animation and play them.
 - **Unknowns:** anim2rbx with R15/custom rigs; AI mesh quality; `__higgsfield` availability/licence.
-- **Sources:** see the notes file (28 sources).
-## R-016 … R-018
+- **Sources:** see the notes file (31 sources).
+### R-016 Tech for a high-quality action RPG on Roblox (done 2026-10-30)
+Full notes + recommended stack table: `research/notes/R-016-tech-stack.md`.
+- **Findings:**
+  - Combat standard: client hits locally for feel, sends a claim; server rewinds positions by latency and checks range/LOS/cooldown (create.roblox.com/docs/en-us/projects/server-authority).
+  - Streaming: Improved model streaming, Opportunistic stream-out, SLIM LOD (create.roblox.com/docs/en-us/workspace/streaming/techniques).
+  - Mobile budget: < 500 draw calls, < 500k tris, < 1.3 GB memory (devforum.roblox.com/t/…/3127146).
+  - Libraries: ProfileStore (not ProfileService), ByteNet/Blink/Zap networking, Trove + Signal; Knit is legacy (github.com/officialmmt/OpenRoblox).
+  - Luau Execution API runs tests in a real place: ≤ 5 min, ≤ 10 concurrent; Jest Roblox via Rojo-built place (create.roblox.com/docs/cloud/reference/features/luau-execution).
+- **→ Implications for Robby:**
+  - Stack: Rojo toolchain + pure modules, server-validated combat with rewind, Blink, ProfileStore, Trove/Signal, no framework.
+  - Mobile-first budgets and streaming from day one; Lune locally + Jest Roblox in cloud (T-010).
+- **Unknowns:** Blink vs ByteNet (spike); rewind tolerances; T-010 still needs place ID + key.
+- **Sources:** see the notes file (23 sources).
+## R-017 … R-018
 Not started. See TASKS.md.

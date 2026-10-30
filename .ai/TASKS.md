@@ -47,7 +47,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
     - Blender → Roblox animation export
     - quality reachable by scripted modelling vs owner-provided models (`assets/source/`)
   - AC: a route table (asset type → route, quality, cost, owner involvement).
-- **R-016 [doing] [S] Tech for a high-quality action RPG on Roblox:** Resume from: searches; write research/notes/R-016-tech-stack.md.
+- **R-016 [done] [S] Tech for a high-quality action RPG on Roblox:** (S4; stack table in notes)
   - Cover:
     - combat netcode (client-predicted hits vs server validation)
     - animation and VFX systems
