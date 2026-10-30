@@ -74,15 +74,16 @@ local function warn(ctx: any)
 	local here = body.Position - Vector3.new(0, body.Size.Y / 2 - 0.05, 0)
 	local look = body.CFrame.LookVector
 	local cf = CFrame.lookAt(here, here + Vector3.new(look.X, 0, look.Z))
+	local isBoss = model:GetAttribute("TelegraphRange") ~= nil -- beasts already get BeastHud's ring (D-157)
 	local folder = Instance.new("Folder")
 	folder.Name = "TelegraphFx"
-	if params.allRound then
+	if isBoss and params.allRound then
 		disc(folder, cf, params.radius, 0.8) -- faint outer ring: the danger zone
 		local fill = disc(folder, cf, 0.2, 0.4) -- inner disc grows to the edge as the wind-up ends
 		TweenService:Create(fill, TweenInfo.new(params.seconds, Enum.EasingStyle.Linear), {
 			Size = Vector3.new(0.05, params.radius * 2, params.radius * 2),
 		}):Play()
-	else
+	elseif isBoss then -- beasts: sound only here
 		cone(folder, cf, params)
 	end
 	folder.Parent = workspace
