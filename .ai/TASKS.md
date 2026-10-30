@@ -191,3 +191,17 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
     - **T-023c [doing] [S] Boss HUD + tuning:** Done S25 (D-139): client `BossHud` HP bar + "Enraged" phase cue, pure `Shared.BossBar`. Resume from: Rank-test credit on kill (or in T-024); tune for Rank 1–2 (playtest needs `roblox-open-cloud`). After T-023b.
 - **T-026 [todo] [M] R15 movement system (owner):** integrate the owner's `assets/source/R15 Movement System.rbxm` (inbox 2026-10-30-r15-movement). AC: contents inspected (lune) and listed in a D-entry; scripts adapted to the Rojo layout (strict Luau, stylua/selene, check.sh PASS); wired into the character without breaking combat, stagger, Binding or the HUD; walk check in the cloud (needs `roblox-open-cloud`).
 - **M1 tasks T-011 … T-024 [todo]:** see `.ai/ROADMAP.md` (IDs, scope and AC). Order: T-002 → T-010 → T-011 …
+
+## Filler tasks (≤10 OLU, owner 2026-10-30)
+Pick one when the next real task won't fit before the 43 OLU wrap-up line. Log findings as new tasks; fix only if tiny.
+- **F-01 [todo] Attribute contract:** every server `SetAttribute` is read by a client, and every client `GetAttribute` is set somewhere.
+- **F-02 [todo] Remote security:** every `OnServerEvent` handler type-checks its args and checks rate, range and cooldown.
+- **F-03 [todo] Data safety:** save on `PlayerRemoving` + `BindToClose`, defaults for new fields, old-save migration spec.
+- **F-04 [todo] Leak check:** connections and tagged instances cleaned up on player leave and on Kith or beast death.
+- **F-05 [todo] Spec gaps:** one spec for each pure `Shared` module without one.
+- **F-06 [todo] TODO/FIXME sweep:** turn each into a task or fix it.
+- **F-07 [todo] Docs drift:** STATE/TASKS/DECISIONS duplicate D-IDs, dead task refs, stale "Resume from:" notes.
+- **F-08 [todo] Config hygiene:** unused `Config` keys; hard-coded numbers that belong in `Config`.
+- **F-09 [todo] Mobile/gamepad UI:** every button ≥ `MIN_TOUCH`, layouts fit narrow screens, gamepad binding for every action.
+- **F-10 [todo] Content check:** no real-IP names (D-014), palette respected, mild rating.
+
