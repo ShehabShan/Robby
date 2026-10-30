@@ -15,6 +15,9 @@ local Config = require(ReplicatedStorage.Shared.Config)
 local BeastBrain = require(ReplicatedStorage.Shared.BeastBrain)
 local CombatService = require(script.Parent.CombatService)
 local DataService = require(script.Parent.DataService)
+local Status = require(ReplicatedStorage.Shared.Status)
+local statuses = require(script.Parent.StatusStore)
+local STAGGER_TAG = "State.Staggered" -- Shatter on a Rimed beast (D-188); read each tick (T-031, D-196)
 
 local B = Config.Beasts
 local TICK = 0.1
@@ -204,6 +207,10 @@ local function tick(b: Beast, now: number)
 	local target, dist = nearest(b.root.Position)
 	local here = b.root.Position
 	local homeDist = Vector3.new(here.X - b.home.X, 0, here.Z - b.home.Z).Magnitude
+	local staggerEnd = Status.expiry(statuses, b.model, STAGGER_TAG)
+	if staggerEnd > now and b.brain.staggerUntil < staggerEnd then
+		BeastBrain.stagger(b.brain, now, staggerEnd - now)
+	end
 	local out = BeastBrain.step(b.brain, b.kind, { now = now, targetDist = dist, homeDist = homeDist })
 	if out.move == "target" and target then
 		b.humanoid:MoveTo(target.Position)

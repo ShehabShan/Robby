@@ -28,6 +28,12 @@ function Status.has(s: Statuses, who: any, tag: string, now: number): boolean
 	return t ~= nil and (t[tag] or NEVER) > now
 end
 
+-- When `who`'s `tag` expires (-math.huge if never granted). Stagger readers use it (T-031, D-196).
+function Status.expiry(s: Statuses, who: any, tag: string): number
+	local t = s[who]
+	return if t then (t[tag] or NEVER) else NEVER
+end
+
 -- True while a ward or i-frames make `who` ignore incoming hits.
 function Status.blocksHit(s: Statuses, who: any, now: number): boolean
 	for _, tag in BLOCKING do

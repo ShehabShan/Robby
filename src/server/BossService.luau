@@ -15,6 +15,9 @@ local Config = require(ReplicatedStorage.Shared.Config)
 local BossBrain = require(ReplicatedStorage.Shared.BossBrain)
 local CombatService = require(script.Parent.CombatService)
 local DataService = require(script.Parent.DataService)
+local Status = require(ReplicatedStorage.Shared.Status)
+local statuses = require(script.Parent.StatusStore)
+local STAGGER_TAG = "State.Staggered" -- Shatter on a Rimed boss (D-188); read each tick (T-031, D-196)
 local RankTest = require(ReplicatedStorage.Shared.RankTest)
 
 local C = Config.Bosses
@@ -199,6 +202,10 @@ local function tick(b: Boss, now: number)
 	local here = b.root.Position
 	local homeDist = Vector3.new(here.X - b.home.X, 0, here.Z - b.home.Z).Magnitude
 	local hpFrac = b.humanoid.Health / b.humanoid.MaxHealth
+	local staggerEnd = Status.expiry(statuses, b.model, STAGGER_TAG)
+	if staggerEnd > now and b.brain.staggerUntil < staggerEnd then
+		BossBrain.stagger(b.brain, now, staggerEnd - now)
+	end
 	local out = BossBrain.step(b.brain, b.kind, { now = now, targetDist = dist, homeDist = homeDist, hpFrac = hpFrac })
 	if out.move == "target" and target then
 		b.humanoid:MoveTo(target.Position)

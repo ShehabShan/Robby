@@ -32,4 +32,12 @@ return {
 		Status.clear(s, "a")
 		eq(Status.blocksHit(s, "a", 0.5), false, "cleared")
 	end,
+	["status: expiry reports the grant end (T-031)"] = function()
+		local s = Status.new()
+		eq(Status.expiry(s, "m", "State.Staggered"), -math.huge, "never granted")
+		Status.grant(s, "m", "State.Staggered", 3)
+		Status.grant(s, "m", "State.Staggered", 2)
+		eq(Status.expiry(s, "m", "State.Staggered"), 3, "longer grant kept")
+		eq(Status.expiry(s, "m", "State.Other"), -math.huge, "other tag")
+	end,
 }
