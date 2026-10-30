@@ -75,7 +75,9 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
 - **P-001 [done] [S] Concept pick:** owner chose A, structured like RI (D-025).
   - Present the R-018 options to the owner in plain language, with a recommendation. Then end the session and wait.
   - AC: the owner's choice is logged as a decision.
-- **P-002 [todo] [S→M] GDD v1:**
+- **P-002a [doing] [S] GDD v1 part 1 (§1–6):** Resume from: write GDD §1–6 (pitch, world, loop, cultivation, combat, progression). AC: §1–6 filled, no TODOs.
+- **P-002b [todo] [S] GDD v1 part 2 (§7–12):** world structure, first 10 min, social, monetisation, vertical slice, out of scope. AC: no TODOs left in GDD.md.
+- **P-002 [split → P-002a/b] GDD v1:**
   - Fill in every section of the GDD.md template for the chosen concept.
   - AC: no TODOs left. Split it across sessions if needed.
 - **P-003 [todo] [S] Art direction, asset plan & quality bar:**
