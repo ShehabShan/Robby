@@ -9,8 +9,8 @@
 - Owner: Studio playtest of Crescent, combat, Stone Ward (Q/Y) and Wind Step (R/L2) (needs `wally install`). Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`).
 
 - **Phase:** 3 — Building (P-006 approved, D-049). Foundations done: R-021…R-026 + P-008 systems spec (S9, D-052).
-- **Doing:** T-018 (Resume from: T-018f breakthrough wiring).
-- **NEXT:** owner asked (S14 end) to publish S14: first cloud smoke (`scripts/cloud_test.py`), then publish (`scripts/publish.py`). `roblox-open-cloud` is connected again (universe 10773761715, place 95587500384127; visibility PRIVATE, owner users/7738981129). Then T-018f breakthrough wiring, then T-019 Crucible. Also owner-approved (S14 end): write a short `CONTRIBUTING.md` for the owner's friend (branch + PR flow, run bootstrap.sh once, check.sh PASS before push; good areas: Content abilities/Kith like `Content/Crescent.luau`, Studio assets/VFX/anim/sound, research notes in `research/notes`, playtesting; leave Config.luau, net/remotes.blink, server services, init files and .ai/ to the bot; bot reviews/merges PRs at session start) and add an AGENTS.md rule: study high-quality games when designing.
+- **Doing:** T-018f (S16; Resume from: BreakthroughService + ShellUi trial view).
+- **NEXT:** T-018f breakthrough wiring (doing S16; Resume from: BreakthroughService + ShellUi trial view), then T-019 Crucible. S15 published v14 (D-078) and wrote CONTRIBUTING.md (D-079).
 - **Then:** T-017 … T-024 (ROADMAP.md order).
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of published v13 — check PC mouse aim (feedback → inbox). Open Cloud key works (read, Saved upload, Luau execution; S6).
