@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S7 — 2026-10-30 (deep RI research + GDD v2)
+- R-020 done via R-020a–d: Gu system, Paths/killer moves, world/factions/pacing, fan values → 25-item GDD change list (research/notes/R-020*).
+- P-002c GDD v2 (D-034), ROADMAP M1 re-scoped + T-025 (D-035), phone HUD mock (D-036) + Weave Loom mock (art/mocks/).
+- P-006 summary ready (.ai/P-006-summary.md). AGENTS §6: Open Cloud confirmed working, no re-probe; owner can switch models (D-033).
+- OLU used: ~23. Next: owner approves P-006 → T-002.
+
 ## S6 — 2026-10-30 (spike wiring + planning)
 - T-004 done: Crescent Cut server/client wiring, code VFX, dummy; obby sample removed. T-005 done: place inspect PASS (in check.sh).
 - T-005b done: owner fixed the key; cloud smoke PASS on Saved version 3 (`scripts/cloud_test.py`).

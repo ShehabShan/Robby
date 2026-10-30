@@ -1,0 +1,62 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Robby — Weave Loom mock v1</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#111;font-family:system-ui,sans-serif;color:#eee;display:flex;flex-direction:column;align-items:center;gap:14px;padding:16px}
+h1{font-size:16px;font-weight:600;color:#bcd}
+.phone{position:relative;width:760px;max-width:100%;aspect-ratio:19.5/9;border-radius:28px;overflow:hidden;border:6px solid #222;
+background:radial-gradient(ellipse at 50% 45%,#2d2347 0%,#15121f 70%);display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:10px;padding:14px}
+.panel{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.panel h2{font-size:11px;color:#b9a8e6;letter-spacing:.08em;text-transform:uppercase}
+.kith{display:flex;align-items:center;gap:8px;padding:6px;border-radius:10px;background:rgba(0,0,0,.3);font-size:11px}
+.kith i{width:28px;height:28px;border-radius:50%;flex:none}
+.moon{background:#8fd3ff}.wind{background:#9ff0c8}.stone{background:#c9b48a}.flame{background:#ff8a5c}
+.kith small{display:block;color:#99a;font-size:9px}
+.kith.dim{opacity:.4}
+.loom{position:relative;display:flex;align-items:center;justify-content:center}
+.core{position:absolute;width:86px;height:86px;border-radius:50%;border:3px solid #8fd3ff;box-shadow:0 0 22px #8fd3ff,inset 0 0 18px rgba(143,211,255,.5);display:flex;align-items:center;justify-content:center;font-size:11px;text-align:center}
+.slot{position:absolute;width:56px;height:56px;border-radius:50%;border:2px dashed rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-size:10px;text-align:center}
+.s1{top:8%;left:50%;transform:translateX(-50%);border:3px solid #9ff0c8;box-shadow:0 0 16px #9ff0c8}
+.s2{bottom:10%;left:16%}.s3{bottom:10%;right:16%}
+.thread{position:absolute;top:24%;left:50%;width:3px;height:16%;background:linear-gradient(#9ff0c8,#8fd3ff);transform:translateX(-50%);box-shadow:0 0 8px #bff}
+.res{position:absolute;top:2%;right:4%;font-size:10px;color:#9ff0c8}
+.stat{font-size:11px;display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.good{color:#9ff0c8}.bad{color:#ff8a5c}
+.wheel{font-size:10px;color:#aab;line-height:1.5}
+.btn{margin-top:auto;padding:10px;border-radius:12px;text-align:center;font-weight:700;font-size:12px;background:linear-gradient(#7d5cc9,#4d3591)}
+.legend{max-width:760px;font-size:12px;color:#ccd;line-height:1.6}
+.legend b{color:#fff}
+</style></head><body>
+<h1>Robby — Weave Loom mock v1 (phone, landscape)</h1>
+<div class="phone">
+  <div class="panel">
+    <h2>Your Kith</h2>
+    <div class="kith"><i class="moon"></i><div>Crescent<small>Moon · Strike · CORE</small></div></div>
+    <div class="kith"><i class="wind"></i><div>Gale<small>Wind · Stride · +range</small></div></div>
+    <div class="kith"><i class="stone"></i><div>Bulwark<small>Stone · Guard · +stagger</small></div></div>
+    <div class="kith dim"><i class="flame"></i><div>Cinder<small>Flame · opposed to Moon</small></div></div>
+  </div>
+  <div class="panel loom">
+    <div class="res">✦ Resonance!</div>
+    <div class="thread"></div>
+    <div class="slot s1">Gale<br>+range</div>
+    <div class="core">Crescent<br><small>core</small></div>
+    <div class="slot s2">empty</div>
+    <div class="slot s3">empty</div>
+  </div>
+  <div class="panel">
+    <h2>Weave preview</h2>
+    <div class="stat"><span>Effect</span><span>Long crescent arc</span></div>
+    <div class="stat"><span>Power</span><span class="good">+40%</span></div>
+    <div class="stat"><span>Qi cost</span><span>35</span></div>
+    <div class="stat"><span>Strain</span><span>High</span></div>
+    <div class="stat"><span>Friction</span><span class="good">none (allied)</span></div>
+    <div class="wheel">Moon ↔ Wind allied · Moon ✕ Flame opposed (−30% if used)</div>
+    <div class="btn">Weave it · name it</div>
+  </div>
+</div>
+<div class="legend">
+<b>Left:</b> owned Kith with Path and role; opposed ones are dimmed. <b>Centre:</b> drag a Kith onto the core, then onto up to 3 support slots; a glowing thread and "Resonance" mean the pair works (no blind guessing). <b>Right:</b> live preview of power, Qi cost, Strain and Friction. Big touch targets; one screen, no scrolling.
+</div>
+</body></html>
