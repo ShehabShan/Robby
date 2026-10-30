@@ -279,3 +279,14 @@ Draft model, curve table and 10 sources: `research/notes/R-022-stat-damage-math.
 **Unknowns**
 - Points 13, 27, 31–35, 37, 39, 41–42 not verified in the source; verdicts rest on playability.
 **Sources** — see the note §4.
+
+### R-021p Ability needs catalogue (done 2026-10-30)
+**Findings**
+- 52 abilities (37 GDD v2 + R-027 mechanics, 15 iconic source roles) broken into trigger, target, delivery, effect, duration, cost, tags, FX and network primitives (note §2–§3).
+- Hardest cases: channels (6 rows share one primitive), max-Qi reservation and HP-for-Qi costs, per-viewer info, summons with drain and caps, terrain-changing entities, supports that modify a core's delivery, moveset swaps (note §4).
+- Spike: pure-module pattern, server projectile sweep and Qi pool are reusable; per-Kith modules and per-player cooldowns must become data and per-move keys (note §5).
+**→ Implications for Robby**
+- R-021 uses the 15-point checklist (note §6, D-043): any framework failing points 1–11 is rejected.
+**Unknowns**
+- Exact tick rates and entity caps (set in P-008 against the mobile budget).
+**Sources** — GDD v2, R-022, R-027, F-001 §2, `src/` spike code.
