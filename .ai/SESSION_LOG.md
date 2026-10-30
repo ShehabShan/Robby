@@ -4,6 +4,7 @@
 - T-028: dash removed everywhere (client, Blink ActionKind, Combat, CombatService, Config, speed guard); Roblox Shift lock off, Ctrl shift lock kept; GDD controls (D-189).
 - T-027d3: `client/KithInput` — Q/B stance toggle, left-click Needle chain + finisher, Z/X/C specials with shot-2 cancel, Rime Fall ground point; wired in init.client (D-190). T-027d done.
 - check.sh PASS (255 tests). Next: T-027e Rime FX; Stagger readers (D-188); loadout → active Kith for KithInput. ≈34 OLU.
+- `.ai/OPEN_CLOUD.md` + AGENTS/ARCHITECTURE pointers (D-191); cloud_test.py on main → Saved v17, CLOUD ALL: PASS (255 specs + smoke). Not published (live = v16).
 
 ## S42 (2026-10-30) — T-027d1 + T-027d2 Kith stance core and server casts
 - T-027d split d1–d3 (D-184). d1: pure `Shared.Stance` (toggle, Needle chain/finisher, Z/X/C specials, shot-2 cancel, server `verify`), 6 specs; Blink `CastRequest.point`; Crucible key C → B (D-176).
