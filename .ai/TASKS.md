@@ -71,7 +71,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - AC: `research/notes/R-019-systems-map.md` + RESEARCH.md summary.
 
 ## Phase 2 — Planning (ends with owner approval)
-- **P-007 [todo] [S] Spike plan** (D-025): ability spec (inputs incl. mobile, cost, cooldown, damage, hitbox, VFX/SFX, numbers), training dummy, file layout, how we verify without Studio. AC: `.ai/SPIKE.md`; owner OKs the test-publish route.
+- **P-007 [done] [S] Spike plan** (S5): `.ai/SPIKE.md`. Owner OK on the publish route is asked at T-006.
 - **P-001 [done] [S] Concept pick:** owner chose A, structured like RI (D-025).
   - Present the R-018 options to the owner in plain language, with a recommendation. Then end the session and wait.
   - AC: the owner's choice is logged as a decision.

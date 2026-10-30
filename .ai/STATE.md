@@ -1,8 +1,8 @@
 # STATE
 
-- **Phase:** 1b — short research (owner reorder D-025) → P-007 spike plan → T-003…T-006 capability spike → P-002…P-006
+- **Phase:** 2b — capability spike (D-025): T-003 → T-006, then P-002 … P-006
 - **Doing:** none (if a task is `doing`, resume it before NEXT)
-- **NEXT:** P-007 — spike plan for Crescent Cut (R-019 done S5).
+- **NEXT:** T-003 — Crescent Cut core (pure modules + tests), per `.ai/SPIKE.md`.
 - **Then:** T-003 → T-004 → T-005 → T-006 → P-002 … P-006
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-005/T-006 need a Roblox place ID + Open Cloud API key (custom integration) and the owner's OK to publish to a private test place.
