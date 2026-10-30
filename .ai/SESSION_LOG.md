@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S45 — 2026-10-31 (≈36 OLU)
+- T-030b done (D-194, D-195): Rimeshard is the first starter Kith (slot 1 = stance); existing saves get a one-time `gift.rimeshard`.
+- T-031 done (D-196): Shatter stagger now freezes beasts and the boss (`Status.expiry` + spec).
+- T-027e done (D-197): `client/RimeFx` + `Shared.RimeFxPlan` spec. Cloud smoke waits for the owner (away, no open-cloud).
+- check.sh PASS. Not published.
+
 ## S44 — 2026-10-30 (≈38 OLU)
 - T-029 done (D-192): `Shared.Version` 0.0.17 + spec, HUD top-right `v0.0.17 (Roblox <n>)`, `publish.py` prints both numbers. Not published (owner changed to "no upload now").
 - T-030 done (D-193): `Loadout.activeKith` + spec, `ActiveKith` attribute, `KithInput` follows the loadout (hard-coded Rimeshard removed).
