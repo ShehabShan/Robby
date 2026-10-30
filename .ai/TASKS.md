@@ -26,7 +26,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - Collect Roblox DMCA/IP enforcement cases for fan games.
   - Define what "inspired by" safely allows (mechanics, themes) and what it doesn't (names, characters, plot, art).
   - AC: confirm or revise D-014, with reasons.
-- **R-013 [todo] [S] Rell Seas teardown:**
+- **R-013 [doing] [S] Rell Seas teardown:** Resume from: searches; write research/notes/R-013-rell-seas.md.
   - Cover the core loop, combat (moves, hitboxes, feel), progression, world structure and size, quality markers (VFX, animation, UI, map art, audio), monetisation and social features.
   - Include the developer, team size, development time and update cadence, what players praise and complain about, and visits/CCU if public.
   - AC: a draft of a measurable "quality bar" list for P-003.
