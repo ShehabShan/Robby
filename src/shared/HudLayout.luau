@@ -37,6 +37,7 @@ export type State = {
 	qiMax: number,
 	slots: { SlotState },
 	gaps: { string },
+	version: string?, -- corner label, e.g. "v0.0.17 (Roblox 18)" (T-029); nil = not shown
 }
 
 HudLayout.ROLE_CODE = {
@@ -250,6 +251,23 @@ function HudLayout.build(state: State): { Element }
 		local x = left + (k % cols) * step
 		local y = top + (k // cols) * step
 		slot(out, i, s, x, y, size, platform)
+	end
+
+	if state.version ~= nil then
+		local h = 16
+		table.insert(out, {
+			id = "version",
+			kind = "text",
+			x = state.width - MARGIN - 180,
+			y = MARGIN,
+			w = 180,
+			h = h,
+			color = { 150, 155, 165 },
+			alpha = 0.8,
+			text = state.version,
+			textSize = HudLayout.MIN_TEXT,
+			align = "right",
+		})
 	end
 
 	local warn = HudLayout.gapText(state.gaps)

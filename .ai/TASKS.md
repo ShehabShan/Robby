@@ -217,7 +217,7 @@ Pick one when the next real task won't fit before the 43 OLU wrap-up line. Log f
 
 
 ### T-029 Game version 0.0.x (owner inbox 2026-10-30)
-- **T-029 [doing] [S] Semantic game version:** Roblox numbers place uploads itself (v16, v17 = upload counter, not changeable). Add our own version: pure `Shared.Version` (`0.0.<n>` string + parse/compare) + spec, shown bottom-right in the HUD, printed by `publish.py`/`cloud_test.py` next to the Roblox place version. Bump the patch number on every publish. AC: check.sh PASS; HUD shows `0.0.17`; publish output names both numbers.
+- **T-029 [done S44] [S] Semantic game version:** Roblox numbers place uploads itself (v16, v17 = upload counter, not changeable). Add our own version: pure `Shared.Version` (`0.0.<n>` string + parse/compare) + spec, shown bottom-right in the HUD, printed by `publish.py`/`cloud_test.py` next to the Roblox place version. Bump the patch number on every publish. AC: check.sh PASS; HUD shows `v0.0.17 (Roblox <n>)`; publish output names both numbers. Done S44 (D-192); not published (owner: no upload now).
 
 ### T-028 Movement: Shift = sprint only, no dash (owner inbox 2026-10-30)
 - **T-028 [done S43] [S] Sprint on Shift, remove dash:** Roblox's built-in shift lock (Shift) off, our Control shift lock stays (D-164); Dash removed from client input, Blink `ActionKind`, `Combat`, `CombatService`, `Config`, speed guard burst (Wind Step keeps its burst); GDD controls table updated; Q freed (reserved for the Kith stance toggle, T-027d3). AC: check.sh PASS; Shift only sprints.

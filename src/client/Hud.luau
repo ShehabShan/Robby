@@ -7,6 +7,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 
 local HudLayout = require(ReplicatedStorage.Shared.HudLayout)
+local Version = require(ReplicatedStorage.Shared.Version)
 
 local Hud = {}
 
@@ -93,6 +94,7 @@ local function readState(player: Player, built: any): HudLayout.State
 		qiMax = tonumber(player:GetAttribute("QiMax")) or 0,
 		slots = slots,
 		gaps = gaps,
+		version = Version.label(game.PlaceVersion), -- T-029: our 0.0.x plus Roblox's upload number
 	}
 end
 
