@@ -30,6 +30,14 @@ return {
 		eq(p.loadout.weaves ~= nil, true, "reconciled nested")
 		eq(#issues, 0)
 	end,
+	["profile: v1 save without later fields gets their defaults (F-03)"] = function()
+		local p, issues = ProfileSchema.load({ schemaVersion = 1, rank = 2, wallet = { shards = 7 } })
+		eq(p.rank, 2, "kept rank")
+		eq(p.wallet.shards, 7, "kept shards")
+		eq(type(p.trials), "table", "trials default (D-168)")
+		eq(type(p.loadout.slots), "table", "loadout default")
+		eq(#issues, 0)
+	end,
 	["profile: every past version has a migration path"] = function()
 		for v = 0, ProfileSchema.VERSION - 1 do
 			local ok, err = ProfileSchema.migrate({ schemaVersion = v })
