@@ -39,8 +39,9 @@ MistvaleLayout.DEFAULT = {
 	areas = {
 		{ name = "hub", x = 0, z = 0, radius = 160, height = 0 },
 		{ name = "zone1", x = 80, z = -280, radius = 120, height = 8 },
+		{ name = "arena", x = -170, z = -260, radius = 50, height = 12 }, -- boss arena (T-023, D-140)
 	},
-	paths = { { from = "hub", to = "zone1", width = 16 } },
+	paths = { { from = "hub", to = "zone1", width = 16 }, { from = "zone1", to = "arena", width = 12 } },
 	river = { x = 300, swing = 25, wave = 90, width = 22, depth = 10, bankRise = 12 },
 	rim = { start = 0.8, height = 70 },
 	hills = { base = 3, amp = 14, scale = 120 },

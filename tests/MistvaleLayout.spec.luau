@@ -72,4 +72,14 @@ return {
 		ok(L.heightAt(layout, 123, -77) == L.heightAt(layout, 123, -77), "deterministic")
 		ok(#L.anchors(layout) == #layout.areas + 1, "anchors")
 	end,
+	["mistvale: boss arena is its own area, away from hub and zone1 (D-140)"] = function()
+		local layout = L.DEFAULT
+		local arena = layout.areas[3]
+		assert(arena.name == "arena", "arena name")
+		assert(L.zoneAt(layout, arena.x, arena.z) == "arena", "arena centre")
+		for _, other in { layout.areas[1], layout.areas[2] } do
+			local d = math.sqrt((arena.x - other.x) ^ 2 + (arena.z - other.z) ^ 2)
+			assert(d > arena.radius + other.radius, `apart from {other.name}`)
+		end
+	end,
 }
