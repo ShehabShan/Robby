@@ -161,5 +161,31 @@ Full notes + tone table: `research/notes/R-017-maturity-audience.md`.
   - Keep RI's cunning and scarcity as strategy and rivalry; no gore, corpses or cruelty; stylised hit effects; creatures merge, not devour.
 - **Unknowns:** exact age per label; discovery effect of Mild vs Moderate.
 - **Sources:** see the notes file (9 sources).
-## R-018
-Not started. See TASKS.md.
+### R-018 Research synthesis — Options (done 2026-10-30)
+Built from R-011…R-017. All names are working names (D-023); label Mild (D-024). Creatures = our own term, not "Gu".
+
+**Option A — "Beastbound" open-world action RPG (recommended)**
+- Pitch: your powers are living creatures you tame, feed, fuse and chain into combos, climbing a 9-rank ladder.
+- Loop: explore a mountain region → fight/tame creatures → fuse into stronger ones → rank up (pick 1 of 3 perks) → harder zones and bosses.
+- Hook: Rell Seas-style combat (5-hit chains, parry, dash) + a creature collection no Roblox game has (R-014 gap).
+- Vertical slice: one mountain village + valley, 6 creatures, 2 fusion recipes, 3 combos, 1 two-phase boss, ranks 1–2.
+- Risks: creature art and animation are the bottleneck (R-015); feeding may feel like a chore.
+- Cost: high (largest art/animation need; likely artist/animator budget).
+
+**Option B — Clan war PvPvE**
+- Pitch: join a mountain clan or live as an outcast; fight for territory and scarce springs.
+- Loop: gather → raid/defend points → clan ranks and shared upgrades.
+- Hook: rivalry and cunning (the source's tone, kept Mild).
+- Vertical slice: 1 map, 2 factions, 3 capture points, 4 creatures.
+- Risks: needs many players online; balance and toxicity.
+- Cost: medium.
+
+**Option C — Crucible roguelite**
+- Pitch: short runs into a shifting crucible; draft and fuse creatures mid-run; permanent rank progress between runs.
+- Loop: enter → fight rooms → fuse picks → boss → keep rank XP.
+- Hook: 10–15 minute sessions that always progress (R-014 "respect time").
+- Vertical slice: 3 floors, 10 creatures, 1 boss, procedural rooms.
+- Risks: less of the "big world" quality of the benchmark; needs lots of run variety.
+- Cost: low–medium (procedural rooms, fewer hand-built maps).
+
+**Recommendation:** A as the game, with B (clans) and C (crucible runs) as later modes on the same combat and creature systems. Start small: the A vertical slice.

@@ -1,5 +1,12 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S4 — 2026-10-30 (research phase complete)
+- Inbox empty (R-010). Done R-011 source study, R-012 IP (D-023), R-013 Rell Seas + quality bar, R-014 comparables, R-015 asset routes, R-016 tech stack, R-017 maturity (D-024).
+- R-018: 3 concept options + recommendation (A: creature-fusion open-world action RPG) in RESEARCH.md.
+- Notes in research/notes/R-011…R-017. No code changes; CHECK: PASS.
+- OLU used: ~24.1 at close-out.
+- Next: P-001 (owner picks a concept).
+
 ## S3 — 2026-10-29 (system hardening, no game work)
 - The owner changed direction: the game is a Reverend Insanity-inspired action RPG with Rell Seas quality (D-013), and the obby GDD is archived.
 - Added: VISION.md, a research inbox, SESSIONS.md (owner guide), search.sh/save.sh, AGENTS boot steps for fresh bots, and R-010…R-018 and P-001…P-006 with AC.

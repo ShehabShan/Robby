@@ -60,7 +60,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - Cover Roblox Maturity & Compliance labels, rules on violence, blood and dark themes, and age-gated features.
   - Recommend a label and how to adapt RI's tone.
   - AC: a recommendation logged for P-002.
-- **R-018 [todo] [S] Research synthesis:**
+- **R-018 [done] [S] Research synthesis:** (S4; Options in RESEARCH.md)
   - Write 3 distinct concept options. Each needs a one-line pitch, core loop, hook, a vertical-slice idea, risks, and build cost.
   - Add a recommendation.
   - AC: an "Options" section in RESEARCH.md that P-001 can present as-is.
