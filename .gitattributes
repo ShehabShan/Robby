@@ -1,0 +1,4 @@
+# Append-only logs: parallel session branches both add entries (D-087)
+.ai/DECISIONS.md merge=union
+.ai/SESSION_LOG.md merge=union
+.ai/RESEARCH.md merge=union

@@ -10,6 +10,7 @@ the Roblox game *Rell Seas*. It is built **headlessly** (no Roblox Studio) by AI
 ## 0. Session contract (non-negotiable)
 - **Start without waiting.** The owner sends the same generic message every session (SESSIONS.md). Find where the last session left off and continue on your own.
 - **Finding where we left off:**
+  0. Skip every task listed in `.ai/CLAIMS.md`: another session has it (§9).
   1. Any task marked `doing` in `.ai/TASKS.md`: resume it from its "Resume from:" note.
   2. Otherwise, take NEXT in `.ai/STATE.md`.
   3. If STATE looks stale, `git log --oneline -5` is the truth.
@@ -63,7 +64,8 @@ Reused bot: `cd /workspace/Robby && git pull -q --rebase && bash scripts/olu.sh 
 Then read **`.ai/STATE.md` only**. If the owner's message contains ideas or material, save it **verbatim** to
 `research/inbox/YYYY-MM-DD-<topic>.md` and run `save.sh` before anything else.
 If the owner asks for something specific, it outranks STATE's NEXT. Add it to TASKS.md first, then do it.
-Use the next session number (`S<n>`) after the newest entry in `.ai/SESSION_LOG.md`.
+Then claim your task: `bash scripts/claim.sh <TASK-ID>` (§9). It gives your session number `S<n>` and decision IDs
+and moves you to branch `session/S<n>`. Work and save there.
 
 ## 4. Work loop
 1. Take the NEXT task from STATE.md, and read its entry in `.ai/TASKS.md`.
@@ -89,7 +91,7 @@ Use the next session number (`S<n>`) after the newest entry in `.ai/SESSION_LOG.
 2. `.ai/TASKS.md`: update statuses. A half-done task stays `doing` and gets a "Resume from:" note.
 3. `.ai/SESSION_LOG.md`: add one entry at the top (6 lines or fewer, including the OLU used).
 4. Append new decisions to `.ai/DECISIONS.md`. Don't re-open logged decisions unless the owner asks.
-5. `bash scripts/save.sh "<ID>: close-out"`.
+5. `bash scripts/save.sh "<ID>: close-out"`, then `bash scripts/merge.sh` (§9).
 6. Send the owner a **short report** of 5 lines or fewer, in plain language: what was done, what's next, and any owner action.
    - Details belong in the repo, not in chat. Output tokens are expensive (§6 "Output").
    - Give more detail only if the owner asks.
@@ -123,6 +125,7 @@ Use the next session number (`S<n>`) after the newest entry in `.ai/SESSION_LOG.
 ## 7. Map
 - `.ai/VISION.md`: owner direction, owner ideas, known risks
 - `.ai/STATE.md`: phase, NEXT task (short)
+- `.ai/CLAIMS.md`: tasks claimed by running sessions (§9)
 - `.ai/TASKS.md`: backlog by phase, with acceptance criteria
 - `.ai/RESEARCH.md`: research findings (`research/notes/` for long notes)
 - `.ai/GDD.md`: game design (written in P-002)
@@ -132,9 +135,23 @@ Use the next session number (`S<n>`) after the newest entry in `.ai/SESSION_LOG.
 - `.ai/archive/`: superseded docs (do not use)
 - `research/inbox/`: owner material
 - `SESSIONS.md`: the owner's guide to running sessions
-- `scripts/`: `bootstrap.sh`, `check.sh`, `olu.sh`, `search.sh`, `save.sh`, `blender-setup.sh` (on demand, only for art tasks)
+- `scripts/`: `bootstrap.sh`, `check.sh`, `claim.sh`, `merge.sh`, `olu.sh`, `search.sh`, `save.sh`, `blender-setup.sh` (on demand, only for art tasks)
 - `art/blender/`: Blender Python scripts that generate assets into `build/art/`
 - `assets/source/`: owner-provided models, textures and audio (never edit; listed in `INDEX.md`)
 
 ## 8. Human testing (Studio, on the owner's machine)
 `rokit install && wally install && rojo serve`, then connect the Rojo plugin in Studio and press Play.
+
+## 9. Parallel sessions (owner, S17, D-087)
+The owner may run several sessions at once with the same start message. Git branches keep them apart:
+- **Claim first.** `claim.sh <TASK-ID>` reserves `S<n>` and 10 decision IDs (use only those), pushes the claim to main and
+  creates `session/S<n>`. Another task later in the same session: `save.sh`, then `claim.sh <next>` again.
+- **Don't collide.** Never take a claimed task. Avoid tasks that edit the same files as a claimed one
+  (e.g. `net/remotes.blink`, `init.client.luau` / `init.server.luau`); if unavoidable, keep those edits small.
+- **Save** with `save.sh` (pushes your branch). **Merge** with `merge.sh` as the last close-out step: it rebases on main,
+  needs CHECK: PASS, releases your claims, pushes main and deletes the branch. On a conflict it lists the files:
+  keep both sides (main's lines plus yours), `git add`, `git rebase --continue`, run `merge.sh` again.
+- **STATE.md NEXT** = the next unclaimed task. SESSION_LOG/DECISIONS/RESEARCH merge by union (`.gitattributes`).
+- **Cut-off sessions.** At boot, run `git ls-remote --heads origin 'session/*'`. A branch whose claim is over 12 h old
+  was cut off: `git checkout -b session/Sx origin/session/Sx`, `merge.sh` (releases its claim; the half-done task stays
+  `doing` with its Resume note), then claim normally. Emergency (45+ OLU): `save.sh` only; the branch waits for adoption.

@@ -17,6 +17,11 @@ Use the **same message every time**. The bot works out on its own where the last
 3. Approve the pop-ups. They are for the VM, GitHub pushes and web searches.
 4. At the end, the bot tells you what it did and what's next. If it asks you a question, answer it in that bot.
 
+## Run several sessions at the same time
+You can start two or more bots at once with the same message. Each bot claims a different task in `.ai/CLAIMS.md`,
+works on its own branch (`session/S<n>`) and merges into `main` when it finishes. Nothing extra is needed from you.
+If a bot is cut off, the next bot finds its branch and finishes merging it.
+
 ## Give the bot your ideas (research material)
 Any of these works:
 - Add them to the start message, after the text above: "My ideas: …". The bot saves them word for word in `research/inbox/`.
