@@ -226,3 +226,18 @@ Full table (10 findings → mirrors) and 19 sources: `research/notes/R-020b-path
 - **→ Implications for Robby:** Path Marks as per-Path scaling; use-based Mastery tiers; Path Friction wheel (allied/opposed); Weave = core + supports built in a Weave Loom; Kith role tags; Path Ground in Reaches; Party Arrays later.
 - **Unknowns:** launch Path count (suggest 5); Weave Loom clarity on mobile.
 - **Sources:** see the notes file.
+
+### R-020c World structure, factions & progression pacing (done 2026-10-30)
+Full table (10 findings → mirrors) and 30 sources: `research/notes/R-020c-world-factions-pacing.md`.
+- **Findings:**
+  - Five regions, each a distinct society (sects, clans, tribes, sea, desert) (sagaofgu.com/regions).
+  - Regional walls suppress crossers, stronger ones more (sagaofgu.com/cultivation/regional-walls).
+  - Clans = bloodline + elder council + mission/asset halls; heirs compete via rival elders (sagaofgu.com/factions/internal-affairs-hall).
+  - Centre sects recruit by talent with entry/loyalty tests (reverend-insanity.fandom.com/wiki/Central_Continent).
+  - Righteous vs demonic is sociopolitical, not good vs evil (reverend-insanity.fandom.com/wiki/Righteous_Path).
+  - Recurring beast tides escalate to beast-king assaults (sagaofgu.com/cultivation/beast-tide).
+  - Inheritance grounds: keyed pocket worlds with a testing spirit and restrictions (sagaofgu.com/inheritances/three-kings-inheritance).
+  - Each rank is a large power jump; talent sets pace, resources speed it (sagaofgu.com/cultivation/aptitude).
+- **→ Implications for Robby:** a society per Reach; Veils with Rank gate + damping; Clan hub (Elder Council, Mission Hall, stipends, rival elders); grey Clans vs Rogues; Wild Surge event; Legacy Vault dungeons with a Warden rule; steep Rank gap, Rank 3 milestone, Talent = soft cap.
+- **Unknowns:** Wild Surge server load on mobile; pacing numbers (P-007).
+- **Sources:** see the notes file.

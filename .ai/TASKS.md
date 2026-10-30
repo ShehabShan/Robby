@@ -104,8 +104,8 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
 - **R-020 [todo] [M] Deep Reverend Insanity research (owner, 2026-10-30):** quality over quantity. Go beyond R-011/R-019: the Gu system in depth (ranks, refinement, feeding, aperture), Paths and killer moves, factions and world structure, pacing of progression, and what fans value most. Each finding sourced; map each to an original mirror concept (D-014). AC: `research/notes/R-020-*.md` + RESEARCH.md entry + a list of GDD changes for P-006. Split (S7) into:
   - **R-020a [done S7] [S] Gu system in depth:** ranks, refinement/recipes, feeding/upkeep, aperture & essence, Gu loss/death. AC: `research/notes/R-020a-gu-system.md` (sourced, each finding → original mirror) + RESEARCH.md entry.
   - **R-020b [done S7] [S] Paths & killer moves:** Path list, attainment, killer-move composition, combat roles. Same AC shape (`R-020b-paths-killer-moves.md`).
-  - **R-020c [doing] [S] World structure, factions & progression pacing:** regions, clan/sect politics, rank pacing over the story, power gaps. Same AC shape (`R-020c-world-factions-pacing.md`). Resume from: searches, then write notes.
-  - **R-020d [todo] [S] What fans value + GDD change list:** fan-favourite moments/mechanics (reviews, forums), then a consolidated GDD change list for P-006. AC: notes + RESEARCH.md entry + list.
+  - **R-020c [done S7] [S] World structure, factions & progression pacing:** regions, clan/sect politics, rank pacing over the story, power gaps. Same AC shape (`R-020c-world-factions-pacing.md`).
+  - **R-020d [doing] [S] What fans value + GDD change list:** fan-favourite moments/mechanics (reviews, forums), then a consolidated GDD change list for P-006. AC: notes + RESEARCH.md entry + list. Resume from: fan searches, then notes + consolidated list from R-020a–c §2.
 - **T-006 [blocked] [S] Owner playtest:** publish to a private test place only with the owner's explicit OK; owner plays in the normal Roblox app; feedback saved to the inbox. Needs place ID + Open Cloud key.
 - After the spike: P-002 … P-006 continue.
 
