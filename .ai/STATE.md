@@ -1,7 +1,7 @@
 # STATE
 
 ## Now (after S27)
-- S27: T-021c hub assembly (D-147): pure `Shared.MistvaleHub` plan + `validate`, server `MistvaleHubBuilder` builds code proxies (houses, RestSpot, Crucible shrine, gate, lanterns, pines, Binding grove marker). T-025b1: 2 wild Mist Lotus in the grove, bindable (D-158). Mesh swap waits for `roblox-open-cloud`.
+- S27: T-021c hub assembly (D-147): pure `Shared.MistvaleHub` plan + `validate`, server `MistvaleHubBuilder` builds code proxies (houses, RestSpot, Crucible shrine, gate, lanterns, pines, Binding grove marker). T-025b done: 2 wild Mist Lotus in the grove, bindable (D-158) + loadout "Refine ×1.5" hint (D-159). Mesh swap waits for `roblox-open-cloud`.
 - S25 (cont.): T-023 boss: pure `BossBrain` + Mistmaw Elder (3 telegraphed attacks, phase 2 at 50 %, D-137), `BossService` (D-138), boss HP bar + "Enraged" cue (D-139), arena area in Mistvale layout (D-140). Beast warning sound + boss rings/cones via `BeastFx` (D-136). T-023c doing (Rank-test credit + tuning).
 - S26: T-021b Mistvale hub kit (D-146): `art/blender/hub_kit.py` → 14 low-poly pieces (FBX/GLB + manifest, max 824 tris). Roblox upload waits for `roblox-open-cloud`.
 - Ops (D-134): CLAIMS has a Bot column; owner can say "release <bot link>" to free a stopped bot's claim.
@@ -26,7 +26,6 @@
   
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
   - T-023c Boss Rank-test credit + tuning · playtest needs `roblox-open-cloud` (T-023a/b done)
-  - T-025b2 Lotus Refine hint · —
   - T-021a-v Cloud walk check · owner reconnects `roblox-open-cloud`
   - T-024 First 10 minutes · all above
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
