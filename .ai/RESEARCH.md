@@ -326,3 +326,15 @@ Draft model, curve table and 10 sources: `research/notes/R-022-stat-damage-math.
 **Unknowns**
 - Real income and kill rates (playtests); trade volume.
 **Sources** — R-023 note §4 (sim, not external sources).
+
+### R-024 Save data & live-ops flexibility (done 2026-10-30)
+**Findings**
+- ProfileStore (successor to ProfileService): session locking, 300 s auto-save, Luau types; recommended for new projects [madstudioroblox ProfileStore docs].
+- Reconcile only adds missing keys; renames/removals need migrations [ProfileStore API; devforum reconcile].
+- Versioned saves with sequential migrations are the standard [KeepBlox schema guide; prayit version history].
+- ConfigService gives live flags, per-player values and experiments without restarts [Roblox ConfigService docs (unverified link)].
+**→ Implications for Robby**
+- 10 save/live-ops rules (D-047); migrations tested in check.sh from T-002 on.
+**Unknowns**
+- ConfigService limits; Open Cloud DataStore backups (T-010/P-008).
+**Sources** — `research/notes/R-024-save-liveops.md` §4.

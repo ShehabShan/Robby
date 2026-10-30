@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S8 — 2026-10-30 (directive triage + systems foundations)
+- R-027 owner directive list: 44 points → 86 parts judged; 10 slice mechanics + M2 items into GDD, no permanent player loss (D-042).
+- R-021p ability catalogue (52 rows, 15-point checklist, D-043) → R-021 framework: pure-Luau "Kith GAS-lite" (D-044).
+- R-023 economy: research + Python sim; Rank costs, trade fee, post-cap sinks (D-045, D-046). R-024 save/live-ops rules (D-047).
+- OLU used: ~27. Next: R-025 combat netcode, then R-026, P-008. P-006 approval still open.
+
 ## S7 — 2026-10-30 (deep RI research + GDD v2)
 - R-020 done via R-020a–d: Gu system, Paths/killer moves, world/factions/pacing, fan values → 25-item GDD change list (research/notes/R-020*).
 - P-002c GDD v2 (D-034), ROADMAP M1 re-scoped + T-025 (D-035), phone HUD mock (D-036) + Weave Loom mock (art/mocks/).

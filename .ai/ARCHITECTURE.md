@@ -80,3 +80,4 @@ Inputs: R-016 (stack), GDD v1, SPIKE.md / T-004 (proven pattern), ART.md (budget
 - **Currency ledger** keyed by tier (Shards now, later tiers); exchange is one-way upward (R-023).
 - **Global uniqueness** (Singular Kith, Ascendant) needs a MemoryStore/DataStore lock; not before Ascendant.
 - **Per-viewer info** (Seek layer, Path Sense): the server sends tags; the client decides what to render.
+- **Saves (R-024, D-047):** `schemaVersion` + ordered pure migrations (Lune-tested from every past version) → Reconcile → validate; add fields freely, never reuse keys; stable string content ids with a Retired map; new systems behind ConfigService flags with coded fallbacks and bounded tuning (`research/notes/R-024-save-liveops.md`).
