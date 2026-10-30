@@ -1,5 +1,8 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S33 (2026-10-30) — T-023d boss tuning
+- Pure `Shared.BossTuning` + spec band; Mistmaw Elder softened (hp 800, hits 10/16/13): Rank 1 kill ≈ 102 s, 7 hits to die (D-169). check.sh PASS.
+
 ## S32 (2026-10-30) — T-023c Rank-test credit
 - Killing the Mistmaw Elder now records the Academy Rank test as passed in the player's save (D-168). Tuning split to T-023d. check.sh PASS.
 

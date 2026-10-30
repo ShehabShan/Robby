@@ -187,7 +187,7 @@ local Config = {
 				name = "Mistmaw Elder",
 				rankTest = "academy", -- killing blow passes the Academy Rank test (D-168)
 				rank = 2,
-				hp = 900,
+				hp = 800, -- D-169 (was 900)
 				speed = 14,
 				aggro = 45,
 				leash = 70,
@@ -197,9 +197,9 @@ local Config = {
 				shards = 120,
 				respawn = 90, -- seconds after the boss dies
 				attacks = {
-					bite = { range = 8, arcDot = 0.3, telegraph = 0.6, recover = 0.7, damage = 14 },
-					slam = { range = 12, arcDot = -1, telegraph = 1.0, recover = 1.2, damage = 22 },
-					lunge = { range = 18, arcDot = 0.6, telegraph = 0.8, recover = 1.0, damage = 18 },
+					bite = { range = 8, arcDot = 0.3, telegraph = 0.6, recover = 0.7, damage = 10 },
+					slam = { range = 12, arcDot = -1, telegraph = 1.0, recover = 1.2, damage = 16 },
+					lunge = { range = 18, arcDot = 0.6, telegraph = 0.8, recover = 1.0, damage = 13 },
 				},
 				pattern = { "bite", "bite", "slam", "lunge" },
 				pattern2 = { "lunge", "bite", "slam", "slam", "lunge" },
