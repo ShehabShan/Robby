@@ -11,7 +11,8 @@
 - Blocker unchanged: `roblox-open-cloud` not enabled, so no cloud walk/playtest. CHECK: PASS. OLU ≈ 30.
 - Done: T-021c hub assembly (D-147): pure `MistvaleHub` plan + validate, server builds proxies; RestSpot/BindingGrove tagged. check PASS.
 - Done: T-025b wild Mist Lotus in the Binding grove (D-158) + loadout "Refine ×1.5" hint (D-159).
-- Next: swap hub proxies for meshes + cloud walk check when Open Cloud works. OLU ≈35 / 50.
+- Owner: added T-026 (R15 movement .rbxm in assets/source) and filler list F-01..F-10; first scan found F-03 (no BindToClose/save call in src) and F-02 (Net.luau 528/667). OLU ≈44 / 50.
+- Next: verify F-03 first; swap hub proxies for meshes + cloud walk check when Open Cloud works. OLU ≈35 / 50.
 
 ## S19 / S22 / S25 (2026-10-30, one bot, three claims)
 - Done: T-021a Mistvale code terrain + streaming (D-100); T-025a Mist Lotus Refine Kith (D-112); T-022a/b two beasts with telegraphs (D-124, D-125). All merged, check PASS.

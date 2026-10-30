@@ -194,13 +194,13 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
 
 ## Filler tasks (≤10 OLU, owner 2026-10-30)
 Pick one when the next real task won't fit before the 43 OLU wrap-up line. Log findings as new tasks; fix only if tiny.
-- **F-01 [todo] Attribute contract:** every server `SetAttribute` is read by a client, and every client `GetAttribute` is set somewhere.
-- **F-02 [todo] Remote security:** every `OnServerEvent` handler type-checks its args and checks rate, range and cooldown.
-- **F-03 [todo] Data safety:** save on `PlayerRemoving` + `BindToClose`, defaults for new fields, old-save migration spec.
-- **F-04 [todo] Leak check:** connections and tagged instances cleaned up on player leave and on Kith or beast death.
-- **F-05 [todo] Spec gaps:** one spec for each pure `Shared` module without one.
-- **F-06 [todo] TODO/FIXME sweep:** turn each into a task or fix it.
-- **F-07 [todo] Docs drift:** STATE/TASKS/DECISIONS duplicate D-IDs, dead task refs, stale "Resume from:" notes.
+- **F-01 [todo] Attribute contract:** every server `SetAttribute` is read by a client, and every client `GetAttribute` is set somewhere. Scan S27 (regex, unverified): set but never read by name: BossKind, Stage, StageProgress, TrialCrack, TrialLeft, TrialResult, TrialWaves (could be read via GetAttributes/AttributeChanged).
+- **F-02 [todo] Remote security:** every `OnServerEvent` handler type-checks its args and checks rate, range and cooldown. Scan S27: no typeof check near `OnServerEvent` at src/server/Net.luau:528 and :667 (could be validated in a helper). Verify first.
+- **F-03 [todo] Data safety:** save on `PlayerRemoving` + `BindToClose`, defaults for new fields, old-save migration spec. Scan S27: no `BindToClose`, `UpdateAsync` or `SetAsync` found in src/ (PlayerRemoving ×9). Confirm how DataService saves; possible data loss on shutdown. Highest priority.
+- **F-04 [todo] Leak check:** connections and tagged instances cleaned up on player leave and on Kith or beast death. Scan S27: CrucibleHud/BindingHud (5), LoomHud/Net (4) Connect with no Disconnect. Heuristic only.
+- **F-05 [scanned S27] Spec gaps:** one spec for each pure `Shared` module without one. Scan S27: every Shared module has a spec.
+- **F-06 [scanned S27] TODO/FIXME sweep:** turn each into a task or fix it. Scan S27: 0 TODO/FIXME.
+- **F-07 [todo] Docs drift:** STATE/TASKS/DECISIONS duplicate D-IDs, dead task refs, stale "Resume from:" notes. Scan S27: no duplicate D-IDs. T-006 and T-023 are `doing` with no "Resume from:" note.
 - **F-08 [todo] Config hygiene:** unused `Config` keys; hard-coded numbers that belong in `Config`.
 - **F-09 [todo] Mobile/gamepad UI:** every button ≥ `MIN_TOUCH`, layouts fit narrow screens, gamepad binding for every action.
 - **F-10 [todo] Content check:** no real-IP names (D-014), palette respected, mild rating.
