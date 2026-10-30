@@ -80,7 +80,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
 - **P-002 [done S6, via P-002a/b] GDD v1:**
   - Fill in every section of the GDD.md template for the chosen concept.
   - AC: no TODOs left. Split it across sessions if needed.
-- **P-003 [doing] [S] Art direction, asset plan & quality bar:** Resume from: write `.ai/ART.md` from R-013/R-015 + GDD §11. —
+- **P-003 [done S6] [S] Art direction, asset plan & quality bar:** `.ai/ART.md` —
   - Cover the style, palette, references, the asset list for the vertical slice with a route for each (from R-015), and the measurable quality bar (from R-013).
   - Also list the owner actions needed (accounts, assets, Studio steps).
   - AC: `.ai/ART.md`.
