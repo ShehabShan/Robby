@@ -1,6 +1,7 @@
 # STATE
 
-## Now (after S38)
+## Now (after S39)
+- S39: published v16 (owner asked, plays via Sober on Linux) for the T-006 playtest.
 - S38: F-08 partial: no unused Config keys (D-174); hard-coded number scan next.
 - S37: F-07 done: stale Resume notes cleaned, T-006 Resume note, ref scan clean (D-173).
 - S36: F-07 partial: T-023 done; T-026c/d unblocked (open-cloud works) (D-172).
@@ -27,7 +28,7 @@
 - S18: T-020c Weave content + server Loom (D-090): Piercing Edge support, Blink `WeaveSet` at rest spots, `LoomService`, woven casts.
 - S17: T-019e client CrucibleHud (D-086) → **T-019 done**. Parallel sessions via git branches (D-087: `.ai/CLAIMS.md`, `claim.sh`, `merge.sh`, AGENTS §9). T-020 split a–d; T-020a Loom core (D-088) and T-020b Path Marks (D-089) done.
 - S16: T-018f breakthrough wiring; T-019a–d Crucible core, focus mini-game, server + Recoil, Twin Crescent (D-080–D-085).
-- Last publish: v14 (S15, D-078). Crucible, Loom (incl. Weaves) and Marks are not yet cloud-tested or published.
+- Last publish: v16 (S39, owner asked). Includes Crucible, Loom, Marks, speed guard, Rank-test credit, Mistmaw tuning, remote guard.
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** —

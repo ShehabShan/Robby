@@ -1,5 +1,8 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S39 (2026-10-30) — publish v16
+- Owner asked to publish (no Studio; playing with Sober on Ubuntu). check.sh PASS, Published v16.
+
 ## S38 (2026-10-30) — F-08 config hygiene (partial)
 - No unused top-level Config keys (D-174). Hard-coded number scan left. Stopped at the OLU wrap point.
 
