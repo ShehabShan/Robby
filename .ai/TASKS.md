@@ -186,5 +186,5 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - **T-023 [doing] Boss + arena** (ROADMAP AC: every attack telegraphed; beatable at Rank 1–2). Split S25:
     - **T-023a [done S25, D-137] [S] Boss brain:** pure `Shared.BossBrain` + `Config.Bosses` (Mistmaw Elder: 3 attacks in a fixed readable pattern, phase 2 at 50 % HP with a faster pattern, every telegraph ≥ minTelegraph), spec. AC: tests cover pattern, phase 2, telegraph floor, validate; check PASS.
     - **T-023b [done S25, D-138] [S] Boss server + arena:** `Server.BossService` + boss telegraph attrs read by `BeastFx`. Arena anchor comes with T-021c (fallback spot in zone 1).
-    - **T-023c [todo] [S] Boss HUD + tuning:** client boss HP bar + phase cue (reads `Boss` tag, `Phase` attr); Rank-test credit on kill (or in T-024); tune for Rank 1–2 (playtest needs `roblox-open-cloud`). After T-023b.
+    - **T-023c [doing] [S] Boss HUD + tuning:** Done S25 (D-139): client `BossHud` HP bar + "Enraged" phase cue, pure `Shared.BossBar`. Resume from: Rank-test credit on kill (or in T-024); tune for Rank 1–2 (playtest needs `roblox-open-cloud`). After T-023b.
 - **M1 tasks T-011 … T-024 [todo]:** see `.ai/ROADMAP.md` (IDs, scope and AC). Order: T-002 → T-010 → T-011 …

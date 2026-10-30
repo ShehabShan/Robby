@@ -76,3 +76,4 @@ CrucibleHud.start(Net) -- Crucible confirm / focus / result (T-019e, D-085)
 LoomHud.start(Net) -- Weave Loom panel (T-020e, D-111)
 
 require(script.BeastHud).start(fx) -- beast labels + telegraph "!" and ground warning (T-022c)
+require(script.BossHud).start() -- boss HP bar + phase cue (T-023c)
