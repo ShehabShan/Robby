@@ -18,7 +18,12 @@ fi
 
 # Wally packages (only when dependencies are declared)
 if sed -n '/^\[dependencies\]/,$p' wally.toml | grep -qE '^[A-Za-z_]+ *= *"'; then
-	wally install >/dev/null
+	# The VM's global git config routes github.com through the PromptQL proxy, which wally's
+	# libgit2 cannot authenticate to; run wally with a clean HOME (public index, no auth needed).
+	WALLY_BIN=$(find "$HOME/.rokit/tool-storage" -type f -name wally 2>/dev/null | head -1)
+	WALLY_HOME=$(mktemp -d)
+	HOME="$WALLY_HOME" "${WALLY_BIN:-wally}" install >/dev/null
+	rm -rf "$WALLY_HOME"
 fi
 
 # PromptQL VM only: route git through the GitHub integration proxy (no tokens stored)

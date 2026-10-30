@@ -1,0 +1,91 @@
+-- Network contract (SCHEMAS §9, D-050). Blink compiles this into typed remotes.
+-- check.sh compiles it into build/net/ to prove it is valid; runtime wiring replaces the
+-- spike's plain RemoteEvents in a later task. The client is never trusted (server authority).
+
+option ClientOutput = "../build/net/Client.luau"
+option ServerOutput = "../build/net/Server.luau"
+option ManualReplication = false
+
+enum ActionKind = { Attack, Dash, Parry, Guard }
+
+-- C→S: ask to cast a Move. The server validates moveId, cooldown, Qi and Strain.
+event CastRequest {
+	From: Client,
+	Type: Reliable,
+	Call: SingleSync,
+	Data: struct {
+		moveId: string(..64),
+		aim: vector,
+		seq: u16,
+	},
+}
+
+-- C→S: basic actions.
+event Action {
+	From: Client,
+	Type: Reliable,
+	Call: SingleSync,
+	Data: struct {
+		kind: ActionKind,
+		dir: vector?,
+		seq: u16,
+	},
+}
+
+-- C→S: aim direction for other players' FX only; never trusted for hits.
+event Aim {
+	From: Client,
+	Type: Unreliable,
+	Call: SingleSync,
+	Data: vector,
+}
+
+-- S→C: cosmetic effects, keyed by Content fx ids.
+event CastFx {
+	From: Server,
+	Type: Unreliable,
+	Call: SingleSync,
+	Data: struct {
+		fxId: string(..64),
+		caster: Instance(Player),
+		pos: vector,
+		dir: vector,
+	},
+}
+
+event HitFx {
+	From: Server,
+	Type: Unreliable,
+	Call: SingleSync,
+	Data: struct {
+		fxId: string(..64),
+		caster: Instance(Player),
+		pos: vector,
+		dir: vector,
+	},
+}
+
+-- S→C: entity state (tags are the viewer layer only).
+event EntityState {
+	From: Server,
+	Type: Reliable,
+	Call: SingleSync,
+	Data: struct {
+		uid: string(..64),
+		hp: f32,
+		qi: f32,
+		tags: string(..64)[..32],
+		rank: u8,
+	},
+}
+
+-- S→C: changed profile paths only.
+event ProfileDelta {
+	From: Server,
+	Type: Reliable,
+	Call: SingleSync,
+	Data: struct {
+		path: string(..128),
+		value: unknown,
+	}[..64],
+}

@@ -133,4 +133,4 @@ Use the next session number (`S<n>`) after the newest entry in `.ai/SESSION_LOG.
 - `assets/source/`: owner-provided models, textures and audio (never edit; listed in `INDEX.md`)
 
 ## 8. Human testing (Studio, on the owner's machine)
-`rokit install && rojo serve`, then connect the Rojo plugin in Studio and press Play.
+`rokit install && wally install && rojo serve`, then connect the Rojo plugin in Studio and press Play.

@@ -19,6 +19,8 @@ run() {
 	fi
 }
 
+mkdir -p build/net
+run net blink net/remotes.blink
 run format stylua --check src tests
 run lint selene src
 run sourcemap rojo sourcemap default.project.json -o sourcemap.json
