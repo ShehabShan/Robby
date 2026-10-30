@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S12 (2026-10-30)
+- Checked S11 push: code fine; cloud re-run PASS (v8) after upload timeout fix (600 s).
+- Done: T-016 split a–d; T-016a pure Loadout (D-063); T-016b starter Kith, cast gate, Equip remote (D-064). 79 tests, cloud v9 PASS.
+- Owner asked to publish: published v9 live (`scripts/publish.py`, D-065).
+- Next: T-016c HUD mock, then T-016d. OLU used: ~34.
+
 ## S11 (2026-10-30)
 - Done: T-010 cloud pipeline (CLOUD ALL: PASS, Saved v5; Blink remotes checked as API in Luau Execution, D-060), T-014 HitFeel (D-061), T-015 Stone Ward + Wind Step (Self moves, Status tags, D-062).
 - 69 Lune tests, check.sh PASS. Upload of the new build timed out twice: cloud re-run pending.
