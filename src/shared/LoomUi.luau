@@ -95,6 +95,27 @@ function LoomUi.view(cfg: any, built: any, coreId: string, supportId: string, ma
 	}
 end
 
+-- First (core move, support) that fits among the equipped Kith species, in slot order (M1: one support each).
+function LoomUi.pickCore(built: any, species: { string }): (string?, string?)
+	local sids = {}
+	for id in built.supports or {} do
+		table.insert(sids, id)
+	end
+	table.sort(sids)
+	for _, sp in species do
+		local k = built.kith[sp]
+		for _, moveId in (k and k.moves) or {} do
+			local move = built.moves[moveId]
+			for _, sid in sids do
+				if move and Loom.fits(move, built.supports[sid]) then
+					return moveId, sid
+				end
+			end
+		end
+	end
+	return nil, nil
+end
+
 function LoomUi.resultText(s: State): (string?, HudLayout.Rgb)
 	if s.resonance then
 		return "Resonance! New Weave recorded in your journal.", GOOD

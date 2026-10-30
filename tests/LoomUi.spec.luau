@@ -68,6 +68,13 @@ return {
 		eq(v.qiAfter, v.qiBefore, "cost unchanged")
 		eq(v.support, "Melee", "derived name")
 	end,
+	["loom ui: pickCore finds the equipped core + fitting support"] = function()
+		local core, sup = LoomUi.pickCore(built, { "kith.stone", "kith.crescent" })
+		eq(core ~= nil and built.moves[core] ~= nil, true, "core found")
+		eq(sup, "support.piercing", "support")
+		eq((LoomUi.pickCore(built, {})), nil, "nothing equipped")
+		eq((LoomUi.pickCore(built, { "kith.gone" })), nil, "unknown species")
+	end,
 	["loom ui: parseWeaves"] = function()
 		local m = LoomUi.parseWeaves("move.crescent_cut=support.piercing,move.x=support.a+support.b")
 		eq(m["move.crescent_cut"][1], "support.piercing", "one")

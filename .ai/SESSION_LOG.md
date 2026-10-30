@@ -1,5 +1,9 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S21 (2026-10-30)
+- Same bot as S18/S20. Done: T-020e Loom client wiring (D-111) → **T-020 complete**.
+- Check PASS. Next: free lanes T-021b / T-022 / T-025 (T-021a claimed by S19). OLU ≈29 / 50 (S18+S20+S21 together).
+
 ## S20 (2026-10-30)
 - Same bot as S18. Split T-020d into d (pure UI) + e (client). Done: T-020d `Shared.LoomUi` + spec + mock (D-110).
 - Check PASS. Next: T-020e Loom client wiring. OLU ≈27 / 50 (S18+S20 together).
