@@ -24,12 +24,11 @@
 - **Parallel lanes** (task · after):
   
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
-  - T-021c Hub assembly · — (T-021a + T-021b done)
   - T-023c Boss Rank-test credit + tuning · playtest needs `roblox-open-cloud` (T-023a/b done)
-  - T-025b Lotus in the world · T-021c (T-025a done)
+  - T-025b Lotus in the world · — (T-021c done)
   - T-021a-v Cloud walk check · owner reconnects `roblox-open-cloud`
   - T-024 First 10 minutes · all above
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox). Owner: reconnect the `roblox-open-cloud` integration (cloud tests + publish fail: "not enabled for this project", S19).
-- **Last check.sh:** CHECK: PASS (2026-10-30, S25 cont.)
+- **Last check.sh:** CHECK: PASS (2026-10-30, S27)
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC C (F is Parry), gamepad D-pad Right.
