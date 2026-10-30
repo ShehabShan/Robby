@@ -14,3 +14,9 @@
 - Owner fix: edit the integration so the key is sent as header `x-api-key`. The key needs these permissions on this experience:
   - universe/place read + write (place publishing)
   - Luau execution
+
+## Cloud result (T-005b, S6, 2026-10-30)
+- Owner switched the key to an `x-api-key` header and fixed the key; universe/place GET now 200.
+- `scripts/cloud_test.py` uploaded `build/Robby.rbxl` as **Saved** version 3 (not published) and ran `tests/cloud/smoke.luau` as a Luau Execution task.
+- Place Scripts do **not** auto-run in a Luau Execution session; the smoke test starts `ServerScriptService.Server.{Dummy,Abilities}` itself.
+- **CLOUD: PASS** — dummy + humanoid exist, 3 remotes, `damageFor(1) == 20`, dummy HP 200 → 180.

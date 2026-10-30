@@ -41,3 +41,4 @@
 - **D-029 Art direction (P-003, S6):** stylised ink-wash xianxia, low-mid poly; code-built VFX/terrain/UI; Blender + anim2rbx for meshes/anims; animator budget is the main open risk.
 - **D-030 Architecture (P-004, S6):** no framework; Blink networking, ProfileStore, Trove/Signal; server rewind ≤ 250 ms for melee; pure shared modules + thin services.
 - **D-031 Roadmap (P-005, S6):** M1 vertical slice → M2 core content → M3 progression & economy → M4 polish → M5 soft launch; M1 = T-002, T-010, T-011…T-024 (ROADMAP.md).
+- **D-032 Cloud tests (T-005b, S6):** upload with `versionType=Saved` only (never Published without owner OK); Luau Execution sessions do not auto-run place Scripts, so cloud tests start server modules themselves.

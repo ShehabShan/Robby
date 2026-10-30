@@ -1,11 +1,11 @@
 # STATE
 
 - **Phase:** 2b — capability spike (D-025): T-003 → T-006, then P-002 … P-006
-- **Doing:** T-005b (S6). Resume from: upload Saved version + Luau task.
-- **NEXT:** P-006 — owner approval of GDD + ART + ARCHITECTURE + ROADMAP (waiting on the owner). Meanwhile: T-005b once the key is fixed.
-- **Then:** after P-006: T-002 → T-010 → M1 tasks (ROADMAP.md)
+- **Doing:** none (if a task is `doing`, resume it before NEXT)
+- **NEXT:** P-006 — owner approval of GDD + ART + ARCHITECTURE + ROADMAP (waiting on the owner).
+- **Then:** after P-006: T-002 → T-010 (cloud pipeline; key works, base on scripts/cloud_test.py) → M1 tasks (ROADMAP.md)
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
-- **Blockers:** T-005b/T-006: `roblox-open-cloud` key 401 — owner must set the integration to send header `x-api-key` (see research/notes/T-005-verification.md). T-006 also needs the owner OK to publish.
+- **Blockers:** T-006 needs the owner OK to publish. Open Cloud key works (read, Saved upload, Luau execution; S6).
 - **Last check.sh:** CHECK: PASS incl. place inspect (2026-10-30, S6)
 - **Notes:**
   - Direction changed in S3: the obby is dropped, and the game is an RI-inspired action RPG (D-013).
