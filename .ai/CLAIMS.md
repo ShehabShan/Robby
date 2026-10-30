@@ -6,3 +6,4 @@ Never start a task that has a row here. A claim whose branch had no push for 2 h
 | Session | Task | Branch | Decisions | Claimed (UTC) | Bot | Note |
 |---|---|---|---|---|---|---|
 | S40 | R-028 | session/S40 | D-175..D-184 | 2026-10-30 21:30 | cbeddb96-d795-422e-bfa8-abaebd444be9 |  |
+| S40 | T-027a | session/S40 | D-175..D-184 | 2026-10-30 21:36 | cbeddb96-d795-422e-bfa8-abaebd444be9 |  |
