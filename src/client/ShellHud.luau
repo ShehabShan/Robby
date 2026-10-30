@@ -42,6 +42,15 @@ function ShellHud.start(net: any)
 			net.Refine.Fire({ holding = on })
 		end
 	end
+	-- With a full Peak the button starts the breakthrough trial instead of refining (T-018f).
+	local function press(on: boolean)
+		if on and player:GetAttribute("StageReady") == true and player:GetAttribute("TrialWave") == nil then
+			net.Breakthrough.Fire({ start = true })
+			return
+		end
+		set(on)
+	end
+
 	local function num(name: string, default: number): number
 		local v = player:GetAttribute(name)
 		return if typeof(v) == "number" then v else default
@@ -64,6 +73,14 @@ function ShellHud.start(net: any)
 			ready = player:GetAttribute("StageReady") == true,
 			atRest = rest,
 			shards = num("Shards", 0),
+			trial = if typeof(player:GetAttribute("TrialWave")) == "number"
+				then {
+					wave = num("TrialWave", 1),
+					waves = num("TrialWaves", 3),
+					crack = num("TrialCrack", 0),
+					timeLeft = num("TrialLeft", 0),
+				}
+				else nil,
 		}
 	end
 
@@ -80,7 +97,7 @@ function ShellHud.start(net: any)
 			b.InputBegan:Connect(function(input: InputObject)
 				local t = input.UserInputType
 				if t == Enum.UserInputType.Touch or t == Enum.UserInputType.MouseButton1 then
-					set(true)
+					press(true)
 				end
 			end)
 			b.InputEnded:Connect(function(input: InputObject)
@@ -141,7 +158,7 @@ function ShellHud.start(net: any)
 
 	ContextActionService:BindAction("Refine", function(_, s: Enum.UserInputState, _): Enum.ContextActionResult
 		if s == Enum.UserInputState.Begin then
-			set(true)
+			press(true)
 		elseif s == Enum.UserInputState.End or s == Enum.UserInputState.Cancel then
 			set(false)
 		end

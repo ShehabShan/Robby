@@ -67,6 +67,8 @@ local cases = {
 	{ name = "pc_1280x720", platform = "pc", width = 1280, height = 720 },
 	{ name = "gamepad_1280x720", platform = "gamepad", width = 1280, height = 720 },
 	{ name = "phone_bind_360x640", platform = "touch", width = 360, height = 640, bind = "running" },
+	{ name = "pc_trial_1280x720", platform = "pc", width = 1280, height = 720, trial = true },
+	{ name = "phone_trial_360x640", platform = "touch", width = 360, height = 640, trial = true },
 	{ name = "pc_bind_1280x720", platform = "pc", width = 1280, height = 720, bind = "running" },
 }
 
@@ -89,10 +91,11 @@ for _, c in cases do
 			height = c.height,
 			platform = c.platform,
 			rank = 1,
-			stage = 2,
-			progress = 0.45,
-			ready = false,
+			stage = if c.trial then 4 else 2,
+			progress = if c.trial then 1 else 0.45,
+			ready = c.trial == true,
 			atRest = c.bind == nil,
+			trial = if c.trial then { wave = 2, waves = 3, crack = 0.55, timeLeft = 14 } else nil,
 			shards = 120,
 		},
 		bind = if c.bind

@@ -59,6 +59,25 @@ function Breakthrough.step(t: Trial, dt: number)
 	end
 end
 
+-- Crack points from damage the player deals during a trial (moves on the shell / wave enemies, T-018f).
+function Breakthrough.crackFor(cfg: any, damage: number): number
+	return math.max(0, damage) * cfg.Breakthrough.crackPerDamage
+end
+
+export type View = { wave: number, waves: number, crack: number, timeLeft: number }
+
+-- HUD view: current wave, crack (0..1 of the wave) and whole seconds left.
+function Breakthrough.view(t: Trial, cfg: any): View
+	local c = cfg.Breakthrough
+	local inWave = t.crack - (t.wave - 1) * c.crackPerWave
+	return {
+		wave = t.wave,
+		waves = c.waves,
+		crack = math.clamp(inWave / c.crackPerWave, 0, 1),
+		timeLeft = math.max(0, math.ceil(t.waveLeft)),
+	}
+end
+
 -- Applies a finished trial to the profile. Returns true on a Rank-up.
 function Breakthrough.finish(data: any, t: Trial, now: number): boolean
 	if t.result == "cracked" then

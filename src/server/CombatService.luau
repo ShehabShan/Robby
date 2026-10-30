@@ -14,6 +14,7 @@ local Combat = require(ReplicatedStorage.Shared.Combat)
 local Rewind = require(ReplicatedStorage.Shared.Rewind)
 local DamageMath = require(ReplicatedStorage.Shared.DamageMath)
 local Status = require(ReplicatedStorage.Shared.Status)
+local BreakthroughService = require(script.Parent.BreakthroughService)
 local statuses = require(script.Parent.StatusStore)
 local Net = require(script.Parent.Net) -- Blink-generated (net/remotes.blink)
 
@@ -173,6 +174,7 @@ local function attack(player: Player, s: State, rawDir: any, now: number)
 			end
 		end
 		humanoid:TakeDamage(amount)
+		BreakthroughService.onDamage(player, amount) -- trial cracks (T-018f)
 		Net.HitFx.FireAll({ fxId = HIT_FX, caster = player, pos = pos, dir = dir, target = model, amount = amount })
 	end
 end

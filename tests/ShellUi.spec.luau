@@ -96,4 +96,22 @@ return {
 		eq(m.shellIcon.color, ShellUi.SHELL_COLOR.crystal, "peak is crystal")
 		eq(string.find(m.shellName.text, "ready", 1, true) ~= nil, true, "ready label")
 	end,
+	["shell ui: Breakthrough button when ready, crack bar during the trial"] = function()
+		local s = st("pc", 1280, 720, true)
+		s.stage, s.ready = 4, true
+		eq(byId(ShellUi.build(s)).shellRefine.text, "Breakthrough [H]", "breakthrough button")
+		s.trial = { wave = 2, waves = 3, crack = 0.5, timeLeft = 14 }
+		local m = byId(ShellUi.build(s))
+		eq(m.shellRefine, nil, "no button during the trial")
+		eq(m.trialText.text, "Wave 2/3 · 14s", "trial label")
+		eq(m.trialFill.w, math.floor(m.trialBack.w * 0.5 + 0.5), "crack fill")
+		eq(m.shellCrack ~= nil, true, "cracks on the shell")
+		for _, c in { { "touch", 360, 640 }, { "gamepad", 1280, 720 } } do
+			local t = st(c[1], c[2], c[3], true)
+			t.trial = s.trial
+			for _, e in ShellUi.build(t) do
+				eq(e.x >= 0 and e.y >= 0 and e.x + e.w <= c[2] and e.y + e.h <= c[3], true, `{c[1]} {e.id} on screen`)
+			end
+		end
+	end,
 }

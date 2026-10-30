@@ -142,3 +142,13 @@ event Refine {
 		holding: boolean,
 	},
 }
+
+-- C→S: start the Rank breakthrough trial (T-018f, D-080). The server checks a full Peak and the rest spot.
+event Breakthrough {
+	From: Client,
+	Type: Reliable,
+	Call: SingleSync,
+	Data: struct {
+		start: boolean,
+	},
+}

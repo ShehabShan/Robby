@@ -18,6 +18,7 @@ local DamageMath = require(ReplicatedStorage.Shared.DamageMath)
 local Projectile = require(ReplicatedStorage.Shared.Deliveries.Projectile)
 local All = require(ReplicatedStorage.Shared.Content.All)
 local Status = require(ReplicatedStorage.Shared.Status)
+local BreakthroughService = require(script.Parent.BreakthroughService)
 local statuses = require(script.Parent.StatusStore)
 local Loadout = require(ReplicatedStorage.Shared.Loadout)
 local DataService = require(script.Parent.DataService)
@@ -96,6 +97,7 @@ local function applyOnHit(shot: Shot, humanoid: Humanoid): number
 				local base = if op.params then op.params.base else 0
 				local amount = DamageMath.compute({ base = base or 0, rank = 1 })
 				humanoid:TakeDamage(amount)
+				BreakthroughService.onDamage(shot.caster, amount) -- trial cracks (T-018f)
 				total += amount
 			end
 		end,

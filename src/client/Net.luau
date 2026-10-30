@@ -375,6 +375,13 @@ function SerdesFunctions.WriteEVENT_Refine(Value: { holding: boolean }): ()
 	buffer.writeu8(SendBuffer, BLOCK_START + 1, Value.holding and 1 or 0)
 end
 
+function SerdesFunctions.WriteEVENT_Breakthrough(Value: { start: boolean }): ()
+	-- Allocate BLOCK: 2 bytes
+	local BLOCK_START = Allocate(2)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 9)
+	buffer.writeu8(SendBuffer, BLOCK_START + 1, Value.start and 1 or 0)
+end
+
 if not RunService:IsRunning() then
 	local NOOP = function() end
 	local Returns = table.freeze({
@@ -412,6 +419,9 @@ if not RunService:IsRunning() then
 		Fire = NOOP
 	},
 	Refine = {
+		Fire = NOOP
+	},
+	Breakthrough = {
 		Fire = NOOP
 	},
 	})
@@ -608,6 +618,11 @@ local Returns = table.freeze({
 	Refine = {
 		Fire = function(Value: { holding: boolean }): ()
 			SerdesFunctions.WriteEVENT_Refine(Value)
+		end
+	},
+	Breakthrough = {
+		Fire = function(Value: { start: boolean }): ()
+			SerdesFunctions.WriteEVENT_Breakthrough(Value)
 		end
 	},
 })

@@ -51,6 +51,8 @@ local function atRest(player: Player): boolean
 	return false
 end
 
+RefineService.atRest = atRest -- used by BreakthroughService (T-018f)
+
 local function publish(player: Player, data: any)
 	local v = Stages.view(data, Config)
 	player:SetAttribute("Rank", data.rank or 1)

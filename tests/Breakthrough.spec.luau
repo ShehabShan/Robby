@@ -53,4 +53,16 @@ return {
 		eq(retry.wave, 2, "retry wave")
 		eq(Breakthrough.carried(data, Config, 1e9), 0, "fully healed")
 	end,
+	["breakthrough: damage cracks the shell; view shows wave, crack and time"] = function()
+		local t = Breakthrough.start(peak(1), Config, 0) :: any
+		Breakthrough.hit(t, Config, Breakthrough.crackFor(Config, 50))
+		local v = Breakthrough.view(t, Config)
+		eq(v.wave, 1, "wave")
+		eq(v.waves, B.waves, "waves")
+		eq(v.crack, 50 * B.crackPerDamage / B.crackPerWave, "crack")
+		eq(v.timeLeft, B.waveSeconds, "time")
+		Breakthrough.hit(t, Config, Breakthrough.crackFor(Config, B.crackPerWave / B.crackPerDamage))
+		eq(Breakthrough.view(t, Config).wave, 2, "next wave")
+		eq(Breakthrough.crackFor(Config, -5), 0, "no negative crack")
+	end,
 }

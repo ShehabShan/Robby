@@ -47,6 +47,7 @@ local Config = {
 		waveSeconds = 20,
 		healPerSecond = 1, -- cracks heal after a failed trial
 		maxRank = 9,
+		crackPerDamage = 1, -- crack points per damage dealt during a trial (T-018f, D-080)
 	},
 	Stages = { -- 4 Stages per Rank as a Core Shell (T-018c, D-075); tune in playtests
 		baseCost = 50, -- points (1 Shard = 1 point) for Rank 1 First Stage

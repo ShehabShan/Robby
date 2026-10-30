@@ -16,6 +16,7 @@ export type State = {
 	ready: boolean, -- full Peak: breakthrough trial ready
 	atRest: boolean,
 	shards: number,
+	trial: { wave: number, waves: number, crack: number, timeLeft: number }?, -- breakthrough trial (T-018f)
 }
 
 local ShellUi = {}
@@ -32,6 +33,7 @@ ShellUi.SHELL_COLOR = {
 local MARGIN = 12
 local ICON = 28
 local WHITE: HudLayout.Rgb = { 245, 245, 250 }
+local CRACK: HudLayout.Rgb = { 245, 130, 80 } -- breakthrough cracks (T-018f)
 
 function ShellUi.label(s: State): string
 	local name = Stages.NAMES[s.stage] or "?"
@@ -77,7 +79,52 @@ function ShellUi.build(s: State): { HudLayout.Element }
 		h = 10,
 		color = color,
 	})
-	if s.atRest then
+	if s.trial then
+		local t = s.trial
+		local y = MARGIN + ICON + 8
+		local crack = math.clamp(t.crack, 0, 1)
+		table.insert(out, {
+			id = "shellCrack",
+			kind = "dot",
+			x = x0 + ICON // 4,
+			y = MARGIN + ICON // 4,
+			w = ICON // 2,
+			h = ICON // 2,
+			color = CRACK,
+			alpha = 0.3 + 0.7 * crack,
+		})
+		table.insert(out, {
+			id = "trialText",
+			kind = "text",
+			x = x0,
+			y = y,
+			w = w,
+			h = 16,
+			color = WHITE,
+			text = `Wave {t.wave}/{t.waves} · {t.timeLeft}s`,
+			textSize = HudLayout.MIN_TEXT,
+			align = "left",
+		})
+		table.insert(out, {
+			id = "trialBack",
+			kind = "panel",
+			x = x0,
+			y = y + 18,
+			w = w,
+			h = 12,
+			color = { 20, 24, 32 },
+			alpha = 0.75,
+		})
+		table.insert(out, {
+			id = "trialFill",
+			kind = "fill",
+			x = x0,
+			y = y + 18,
+			w = math.floor(w * crack + 0.5),
+			h = 12,
+			color = CRACK,
+		})
+	elseif s.atRest then
 		local key = ShellUi.KEYS[s.platform]
 		table.insert(out, {
 			id = "shellRefine",
@@ -88,7 +135,7 @@ function ShellUi.build(s: State): { HudLayout.Element }
 			h = ShellUi.BUTTON_H[s.platform] or 44,
 			color = { 70, 150, 230 },
 			alpha = 0.85,
-			text = `Refine ×{s.shards}` .. (if key then ` [{key}]` else ""),
+			text = (if s.ready then "Breakthrough" else `Refine ×{s.shards}`) .. (if key then ` [{key}]` else ""),
 			textSize = if s.platform == "touch" then 16 else 14,
 		})
 	end
