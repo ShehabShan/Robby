@@ -56,7 +56,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
     - libraries (ProfileStore, networking, Trove/Signal, the state of Knit-like frameworks)
     - cloud testing (Jest-Lua, the Luau Execution API from R-001)
   - AC: a recommended stack with reasons, as input to P-004.
-- **R-017 [todo] [S] Content maturity & audience:**
+- **R-017 [doing] [S] Content maturity & audience:** Resume from: searches; write research/notes/R-017-maturity-audience.md.
   - Cover Roblox Maturity & Compliance labels, rules on violence, blood and dark themes, and age-gated features.
   - Recommend a label and how to adapt RI's tone.
   - AC: a recommendation logged for P-002.
