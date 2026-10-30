@@ -1,6 +1,7 @@
 # STATE
 
-## Now (after S35)
+## Now (after S36)
+- S36: F-07 partial: T-023 done; T-026c/d unblocked (open-cloud works) (D-172).
 - S35: F-02 remote security: per-player rate guard on all client→server events; Blink covers type checks (D-171).
 - S34: F-03 data safety verified: ProfileStore saves on shutdown/leave; old-save defaults spec (D-170).
 - S33: T-023d done: Mistmaw Elder tuned for Rank 1–2 (hp 800, hits 10/16/13; Rank 1 kill ≈ 102 s, D-169).
@@ -32,10 +33,10 @@
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
-  - T-026c R15 animations (kit KeyframeSequences, re-upload) · `roblox-open-cloud`
-  - T-026d R15 cloud walk check · T-026c + `roblox-open-cloud`
+  - T-026c R15 animations (kit KeyframeSequences, re-upload) · —
+  - T-026d R15 cloud walk check · T-026c
   - T-024 First 10 minutes · all above
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox).
-- **Last check.sh:** CHECK: PASS (2026-10-30, S35)
+- **Last check.sh:** CHECK: PASS (2026-10-30, S36)
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC C (F is Parry), gamepad D-pad Right.
