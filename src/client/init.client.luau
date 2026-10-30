@@ -40,7 +40,7 @@ end
 local function cast(moveId: string, aim: Vector3, seq: number)
 	Net.CastRequest.Fire({ moveId = moveId, aim = aim, seq = seq })
 end
--- Provisional keys (D-062): E/X Crescent Cut, Q/Y Stone Ward, R/L2 Wind Step.
+-- Provisional keys (D-062): E/X Crescent Cut, V/Y Stone Ward (D-165), R/L2 Wind Step.
 AbilityInput.start(cast, fx, built.moves["move.crescent_cut"], {
 	name = "CrescentCut",
 	title = "Cut",
@@ -49,7 +49,7 @@ AbilityInput.start(cast, fx, built.moves["move.crescent_cut"], {
 AbilityInput.start(cast, fx, built.moves["move.stone_ward"], {
 	name = "StoneWard",
 	title = "Ward",
-	keys = { Enum.KeyCode.Q, Enum.KeyCode.ButtonY },
+	keys = { Enum.KeyCode.V, Enum.KeyCode.ButtonY },
 })
 AbilityInput.start(cast, fx, built.moves["move.wind_step"], {
 	name = "WindStep",

@@ -1,5 +1,5 @@
 --!strict
--- Combat input (T-013b, GDD §5 controls): light chain (LMB / RT), dash (V / B, D-164), parry+guard
+-- Combat input (T-013b, GDD §5 controls): light chain (LMB / RT), dash (Q / B, D-165), parry+guard
 -- (F / LB: press parries and raises the guard, release lowers it). Sends intent only; the server decides.
 -- The dash moves the local character (it owns its physics); the server only grants the i-frames.
 
@@ -63,7 +63,7 @@ function CombatInput.start(send: Send)
 		root.AssemblyLinearVelocity = dir * C.dash.speed + Vector3.new(0, root.AssemblyLinearVelocity.Y, 0)
 		send("Dash", dir, nextSeq())
 		return Enum.ContextActionResult.Sink
-	end, true, Enum.KeyCode.V, Enum.KeyCode.ButtonB)
+	end, true, Enum.KeyCode.Q, Enum.KeyCode.ButtonB)
 
 	ContextActionService:BindAction("CombatParry", function(_, state: Enum.UserInputState, _): Enum.ContextActionResult
 		if state == Enum.UserInputState.Begin then

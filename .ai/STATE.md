@@ -1,7 +1,7 @@
 # STATE
 
 ## Now (after S29)
-- S29: shift lock on LeftControl (aim follows character facing), Sprint = LeftShift, Dash = V (D-164, owner request).
+- S29: shift lock on LeftControl (aim follows character facing), Sprint = LeftShift, Dash = Q, Stone Ward = V (D-164, D-165, owner request).
 - S28: T-026 R15 kit inspected and ported selectively (D-160): movement feel lean/bob/landing dip (D-161), surface footsteps (D-162), client sprint on LeftControl/L3 (D-163). Server speed guard T-026b3b next.
 - S27: T-021c hub assembly (D-147): pure `Shared.MistvaleHub` plan + `validate`, server `MistvaleHubBuilder` builds code proxies (houses, RestSpot, Crucible shrine, gate, lanterns, pines, Binding grove marker). T-025b done: 2 wild Mist Lotus in the grove, bindable (D-158) + loadout "Refine ×1.5" hint (D-159). Mesh swap waits for `roblox-open-cloud`.
 - S25 (cont.): T-023 boss: pure `BossBrain` + Mistmaw Elder (3 telegraphed attacks, phase 2 at 50 %, D-137), `BossService` (D-138), boss HP bar + "Enraged" cue (D-139), arena area in Mistvale layout (D-140). Beast warning sound + boss rings/cones via `BeastFx` (D-136). T-023c doing (Rank-test credit + tuning).
