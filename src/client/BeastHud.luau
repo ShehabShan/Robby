@@ -7,6 +7,7 @@ local CollectionService = game:GetService("CollectionService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
+local Config = require(ReplicatedStorage.Shared.Config)
 local RankBand = require(ReplicatedStorage.Shared.RankBand)
 
 local BeastHud = {}
@@ -51,8 +52,42 @@ local function attach(inst: Instance)
 		name.Text = `{model.Name} · R{tostring(model:GetAttribute("Rank") or 1)}`
 		name.TextColor3 = Color3.fromRGB(band.r, band.g, band.b)
 	end
+	-- Wind-up ground ring (D-136): a red disc of the strike reach under the beast while `Telegraph` is on.
+	local kind: any = Config.Beasts.kinds[model:GetAttribute("BeastKind") :: any]
+	local ring: Part? = nil
+	local function clearRing()
+		if ring then
+			ring:Destroy()
+			ring = nil
+		end
+	end
 	local function telegraph()
-		alert.Visible = model:GetAttribute("Telegraph") == true
+		local on = model:GetAttribute("Telegraph") == true
+		alert.Visible = on
+		clearRing()
+		if on and kind then
+			local params = RaycastParams.new()
+			params.FilterType = Enum.RaycastFilterType.Exclude
+			params.FilterDescendantsInstances = { model }
+			local hit = workspace:Raycast(part.Position, Vector3.new(0, -30, 0), params)
+			local ground = if hit then hit.Position else part.Position - Vector3.new(0, part.Size.Y / 2, 0)
+			local d = (kind.range + 1) * 2
+			local r = Instance.new("Part")
+			r.Name = "TelegraphRing"
+			r.Shape = Enum.PartType.Cylinder
+			r.Size = Vector3.new(0.2, d, d)
+			r.CFrame = CFrame.new(ground + Vector3.new(0, 0.15, 0)) * CFrame.Angles(0, 0, math.pi / 2)
+			r.Anchored = true
+			r.CanCollide = false
+			r.CanQuery = false
+			r.CanTouch = false
+			r.CastShadow = false
+			r.Material = Enum.Material.Neon
+			r.Color = Color3.fromRGB(255, 60, 40)
+			r.Transparency = 0.65
+			r.Parent = workspace
+			ring = r
+		end
 	end
 	refresh()
 	telegraph()
@@ -60,6 +95,7 @@ local function attach(inst: Instance)
 	model:GetAttributeChangedSignal("Telegraph"):Connect(telegraph)
 	model.Destroying:Connect(function()
 		rankConn:Disconnect()
+		clearRing()
 	end)
 	gui.Parent = part
 end
