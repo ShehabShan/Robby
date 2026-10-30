@@ -1,6 +1,7 @@
 # STATE
 
-## Now (after S20)
+## Now (after S21)
+- S21: T-020e Loom client `LoomHud` (D-111) → **T-020 done**.
 - S20: T-020d Loom UI pure `Shared.LoomUi` + spec + mock (D-110). T-020e (client) split out.
 - S18: T-020c Weave content + server Loom (D-090): Piercing Edge support, Blink `WeaveSet` at rest spots, `LoomService`, woven casts.
 - S17: T-019e client CrucibleHud (D-086) → **T-019 done**. Parallel sessions via git branches (D-087: `.ai/CLAIMS.md`, `claim.sh`, `merge.sh`, AGENTS §9). T-020 split a–d; T-020a Loom core (D-088) and T-020b Path Marks (D-089) done.
@@ -8,19 +9,18 @@
 - Last publish: v14 (S15, D-078). Crucible, Loom (incl. Weaves) and Marks are not yet cloud-tested or published.
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
-- **Doing:** T-020 (a–d done).
-- **NEXT:** T-020e Loom client wiring, then T-021 … T-024 (ROADMAP.md order).
+- **Doing:** —
+- **NEXT:** T-021 … T-024 (ROADMAP.md order).
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-021a Mistvale terrain (code) · —
   - T-021b Mistvale hub kit (Blender) · —
   - T-022 Enemies: 2 beasts · —
   - T-025 Qi-refining utility Kith · — (Mistvale placement waits for T-021c)
-  - T-020e Loom client wiring · —
   - T-021c Hub assembly · T-021a, T-021b
   - T-023 Boss + arena · T-022
   - T-024 First 10 minutes · all above
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox).
-- **Last check.sh:** CHECK: PASS (2026-10-30, S20)
+- **Last check.sh:** CHECK: PASS (2026-10-30, S21)
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC C (F is Parry), gamepad D-pad Right.
