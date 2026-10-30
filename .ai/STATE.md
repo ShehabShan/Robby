@@ -8,14 +8,15 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-020 (a, b, c done).
-- **NEXT:** T-020d Loom UI, then T-021 … T-024 (ROADMAP.md order).
+- **NEXT:** T-020d Loom UI (pure), then T-020e client wiring, then T-021 … T-024 (ROADMAP.md order).
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-021a Mistvale terrain (code) · —
   - T-021b Mistvale hub kit (Blender) · —
   - T-022 Enemies: 2 beasts · —
   - T-025 Qi-refining utility Kith · — (Mistvale placement waits for T-021c)
-  - T-020d Loom UI · —
+  - T-020d Loom UI (pure) + mock · —
+  - T-020e Loom client wiring · T-020d
   - T-021c Hub assembly · T-021a, T-021b
   - T-023 Boss + arena · T-022
   - T-024 First 10 minutes · all above
