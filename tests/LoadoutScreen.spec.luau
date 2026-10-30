@@ -82,4 +82,8 @@ return {
 		eq(m.unequip.action.kind, "unequip", "unequip")
 		eq(m.selected ~= nil, true, "selection outline")
 	end,
+	["loadout: Refine hint shows only with a bonus"] = function()
+		assert(LoadoutScreen.refineText(1.5) == "Refine ×1.5", "1.5")
+		assert(LoadoutScreen.refineText(1) == nil and LoadoutScreen.refineText(nil) == nil, "no bonus")
+	end,
 }

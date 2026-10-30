@@ -60,6 +60,7 @@ function Ui.start(built: any, net: any)
 			width = size.X,
 			height = size.Y,
 			platform = platform(),
+			refine = player:GetAttribute("RefineYield") :: number?,
 			slots = slots,
 			slotUids = uids,
 			owned = LoadoutScreen.parseOwned(player:GetAttribute("OwnedKith")),

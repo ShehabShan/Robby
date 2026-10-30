@@ -21,9 +21,18 @@ export type State = {
 	owned: { Owned },
 	roles: { [string]: string }, -- species id -> role
 	selected: number,
+	refine: number?, -- Refine multiplier from equipped utility Kith (Refining.multiplier, T-025b2)
 }
 
 LoadoutScreen.MIN_TOUCH = HudLayout.MIN_TOUCH
+
+-- "Refine ×1.5" when an equipped utility Kith (e.g. Mist Lotus) boosts Refine, else nil (T-025b2, D-159).
+function LoadoutScreen.refineText(mult: number?): string?
+	if typeof(mult) ~= "number" or mult <= 1.001 then
+		return nil
+	end
+	return string.format("Refine ×%.1f", mult)
+end
 local WHITE = { 245, 245, 250 }
 local MARGIN = 12
 local GAP = 8
@@ -148,6 +157,22 @@ function LoadoutScreen.build(s: State): { any }
 		16,
 		{ kind = "close" }
 	)
+
+	local refine = LoadoutScreen.refineText(s.refine)
+	if refine then
+		table.insert(out, {
+			id = "refine",
+			kind = "text",
+			x = x0 + w - closeSize - 8 - 150,
+			y = y0 + 12,
+			w = 140,
+			h = 20,
+			color = { 242, 213, 154 },
+			text = refine,
+			textSize = 14,
+			align = "right",
+		})
+	end
 
 	-- Core slots row (wraps on narrow screens).
 	local size = HudLayout.slotSize(s.platform)
