@@ -101,6 +101,11 @@ local function targets(): { Model }
 			table.insert(list, beast)
 		end
 	end
+	for _, wild in CollectionService:GetTagged("WildKith") do -- wild Kith to weaken and Bind (T-025b1)
+		if wild:IsA("Model") then
+			table.insert(list, wild)
+		end
+	end
 	return list
 end
 

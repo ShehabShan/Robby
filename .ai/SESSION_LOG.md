@@ -10,7 +10,7 @@
 - T-023c part 1: boss HP bar + "Enraged" cue (`BossBar`, `BossHud`, D-139); boss arena area in Mistvale layout (D-140).
 - Blocker unchanged: `roblox-open-cloud` not enabled, so no cloud walk/playtest. CHECK: PASS. OLU ≈ 30.
 - Done: T-021c hub assembly (D-147): pure `MistvaleHub` plan + validate, server builds proxies; RestSpot/BindingGrove tagged. check PASS.
-- Next: T-025b Lotus in the world; swap proxies for meshes when Open Cloud works.
+- Done: T-025b1 wild Mist Lotus in the Binding grove (D-158). Next: T-025b2 Refine hint; swap proxies for meshes when Open Cloud works. OLU ≈32 / 50.
 
 ## S19 / S22 / S25 (2026-10-30, one bot, three claims)
 - Done: T-021a Mistvale code terrain + streaming (D-100); T-025a Mist Lotus Refine Kith (D-112); T-022a/b two beasts with telegraphs (D-124, D-125). All merged, check PASS.
