@@ -1,5 +1,9 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S20 (2026-10-30)
+- Same bot as S18. Split T-020d into d (pure UI) + e (client). Done: T-020d `Shared.LoomUi` + spec + mock (D-110).
+- Check PASS. Next: T-020e Loom client wiring. OLU ≈27 / 50 (S18+S20 together).
+
 ## S18 (2026-10-30)
 - Done: T-020c Weave content + server Loom (D-090): Piercing Edge support for Crescent Cut, Registry supports, Blink `WeaveSet` at rest spots, LoomService, woven casts.
 - Check PASS. Next: T-020d Loom UI. OLU ≈22 / 50.
