@@ -116,7 +116,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - **R-024 [todo] [S] Save data & live-ops flexibility:** ProfileStore schema migration, feature flags, content versioning, remote config. AC: rules for adding systems without breaking saves.
   - **R-025 [todo] [S] Combat netcode & anti-exploit:** how top Roblox action games (Rell Seas, Deepwoken, Blox Fruits) handle hits, lag and exploits. AC: confirm/adjust D-030.
   - **R-026 [todo] [S] Retention & first session:** Roblox RPG D1/D7 benchmarks, onboarding, what keeps players. AC: adjust GDD §8.
-  - **F-001 [done S7] [S] Fidelity audit:** `research/notes/F-001-fidelity-audit.md` — design vs source, gaps fixed in GDD (Clan Academy, Sanctum, Trials of Heaven, rare Second Chance Kith, iconic Kith mirror list; D-038). *Verify* items go to R-021+ sessions only if needed.
+  - **F-001 [done S7] [S] Fidelity audit:** `research/notes/F-001-fidelity-audit.md` — design vs source, gaps fixed in GDD (Clan Academy, Sanctum, Trials of Heaven, rare Second Chance Kith, iconic Kith role list; D-038). *Verify* items go to R-021+ sessions only if needed.
   - **P-008 [todo] [S] Systems spec:** turn R-021…R-026 into ARCHITECTURE v2 + data schemas (Kith/Weave/Path/Effect). Before T-002.
 - **T-006 [blocked] [S] Owner playtest:** publish to a private test place only with the owner's explicit OK; owner plays in the normal Roblox app; feedback saved to the inbox. Needs place ID + Open Cloud key.
 - After the spike: P-002 … P-006 continue.
