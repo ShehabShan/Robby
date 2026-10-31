@@ -49,4 +49,30 @@ function RimeFxPlan.rain(count: number, radius: number): { { x: number, z: numbe
 	return out
 end
 
+-- T-027i polish (D-198..D-201). Hit-pause length per hit kind, in frames at `fps` (default 60).
+RimeFxPlan.HIT_PAUSE_FRAMES = { needle = 2, shatter = 3 }
+
+function RimeFxPlan.hitPauseSeconds(kind: string, fps: number?): number
+	local frames = RimeFxPlan.HIT_PAUSE_FRAMES[kind] or 0
+	return frames / (fps or 60)
+end
+
+-- Frost veins for Shatter: indices of `dists` (caster→Chilled target distances) within `radius`,
+-- nearest first, at most `maxCount`.
+function RimeFxPlan.veins(dists: { number }, radius: number, maxCount: number): { number }
+	local idx: { number } = {}
+	for i, d in dists do
+		if d <= radius then
+			table.insert(idx, i)
+		end
+	end
+	table.sort(idx, function(a, b)
+		return dists[a] < dists[b]
+	end)
+	while #idx > math.max(0, math.floor(maxCount)) do
+		table.remove(idx)
+	end
+	return idx
+end
+
 return RimeFxPlan

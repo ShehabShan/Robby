@@ -44,6 +44,21 @@ local function take(): BasePart?
 		part.Color = ICE
 		part.Transparency = 0.2
 		part.Size = Vector3.new(0.3, 0.3, 1.8)
+		local a0 = Instance.new("Attachment") -- T-027i (D-198): short trail on flying shards
+		a0.Position = Vector3.new(0, 0, -0.9)
+		a0.Parent = part
+		local a1 = Instance.new("Attachment")
+		a1.Position = Vector3.new(0, 0, 0.9)
+		a1.Parent = part
+		local trail = Instance.new("Trail")
+		trail.Attachment0 = a0
+		trail.Attachment1 = a1
+		trail.Color = ColorSequence.new(ICE)
+		trail.Transparency = NumberSequence.new(0.3, 1)
+		trail.Lifetime = 0.15
+		trail.LightEmission = 0.5
+		trail.Enabled = false
+		trail.Parent = part
 		p = part
 	end
 	return p
@@ -51,6 +66,10 @@ end
 
 local function give(p: BasePart)
 	active -= 1
+	local trail = p:FindFirstChildOfClass("Trail")
+	if trail then
+		trail.Enabled = false
+	end
 	p.Parent = nil
 	table.insert(pool, p)
 end
@@ -128,6 +147,10 @@ local function fly(origin: any, dir: any, speed: number, range: number)
 	end
 	shard.CFrame = CFrame.lookAt(origin, origin + dir)
 	shard.Parent = workspace
+	local trail = shard:FindFirstChildOfClass("Trail")
+	if trail then
+		trail.Enabled = true
+	end
 	local traveled = 0
 	local conn: RBXScriptConnection? = nil
 	conn = RunService.RenderStepped:Connect(function(dt: number)
@@ -170,6 +193,8 @@ local function disc(pos: Vector3, radius: number, color: Color3, material: Enum.
 	Debris:AddItem(p, seconds + 0.1)
 end
 
+local chilled: { [Model]: Highlight } = {} -- models wearing a Chill crust right now (T-027i veins)
+
 local function crust(model: any)
 	if typeof(model) ~= "Instance" or not model:IsA("Model") then
 		return
@@ -186,6 +211,127 @@ local function crust(model: any)
 	h.DepthMode = Enum.HighlightDepthMode.Occluded
 	h.Parent = model
 	Debris:AddItem(h, R.chill.seconds)
+	chilled[model] = h
+	task.delay(R.chill.seconds, function()
+		if chilled[model] == h then
+			chilled[model] = nil
+		end
+	end)
+end
+
+-- T-027i (D-199): a thin frost vein races from the caster to a Chilled target during the Shatter wind-up.
+local function vein(from: Vector3, to: Vector3, seconds: number)
+	local d = (to - from).Magnitude
+	if d < 0.5 then
+		return
+	end
+	local look = CFrame.lookAt(from, to)
+	local p = Instance.new("Part")
+	p.Anchored = true
+	p.CanCollide = false
+	p.CanQuery = false
+	p.CanTouch = false
+	p.CastShadow = false
+	p.Material = Enum.Material.Neon
+	p.Color = ICE
+	p.Transparency = 0.2
+	p.Size = Vector3.new(0.15, 0.15, 0.1)
+	p.CFrame = look * CFrame.new(0, 0, -0.05)
+	p.Parent = workspace
+	TweenService:Create(p, TweenInfo.new(seconds, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+		Size = Vector3.new(0.15, 0.15, d),
+		CFrame = look * CFrame.new(0, 0, -d / 2),
+	}):Play()
+	Debris:AddItem(p, seconds + 0.25)
+end
+
+local function veinsFrom(root: BasePart)
+	local dists: { number } = {}
+	local models: { Model } = {}
+	for model in chilled do
+		local tr = rootOf(model)
+		if tr then
+			table.insert(models, model)
+			table.insert(dists, (tr.Position - root.Position).Magnitude)
+		end
+	end
+	for _, i in RimeFxPlan.veins(dists, R.shatter.radius, R.shatter.maxTargets) do
+		local tr = rootOf(models[i])
+		if tr then
+			vein(root.Position, tr.Position, R.shatter.telegraph)
+		end
+	end
+end
+
+-- T-027i (D-200): snow drifting down over the Rime Fall area for `seconds`.
+local function snow(centre: Vector3, radius: number, seconds: number)
+	local a = Instance.new("Attachment")
+	a.WorldPosition = centre + Vector3.new(0, 16, 0)
+	a.Parent = workspace.Terrain
+	local e = Instance.new("ParticleEmitter")
+	e.Texture = SMOKE_TEXTURE
+	e.Color = ColorSequence.new(Color3.new(1, 1, 1), ICE)
+	e.Size = NumberSequence.new(0.35, 0.15)
+	e.Transparency = NumberSequence.new(0.1, 1)
+	e.Lifetime = NumberRange.new(1.2, 1.8)
+	e.Speed = NumberRange.new(8, 12)
+	e.Acceleration = Vector3.new(0, -6, 0)
+	e.SpreadAngle = Vector2.new(radius * 2.5, radius * 2.5)
+	e.EmissionDirection = Enum.NormalId.Bottom
+	e.LightEmission = 0.4
+	e.Rate = 40
+	e.Parent = a
+	task.delay(seconds, function()
+		e.Rate = 0
+	end)
+	Debris:AddItem(a, seconds + 2)
+end
+
+-- T-027i (D-200): impact crack ring that spreads across the ground when the rain ends.
+local function crack(centre: Vector3, radius: number)
+	local p = Instance.new("Part")
+	p.Shape = Enum.PartType.Cylinder
+	p.Anchored = true
+	p.CanCollide = false
+	p.CanQuery = false
+	p.CanTouch = false
+	p.Material = Enum.Material.Neon
+	p.Color = ICE
+	p.Transparency = 0.3
+	p.Size = Vector3.new(0.1, 0.5, 0.5)
+	p.CFrame = CFrame.new(centre) * CFrame.Angles(0, 0, math.rad(90))
+	p.Parent = workspace
+	TweenService:Create(p, TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+		Size = Vector3.new(0.1, radius * 2, radius * 2),
+		Transparency = 1,
+	}):Play()
+	Debris:AddItem(p, 0.45)
+end
+
+-- T-027i (D-201): 2–3 frame hit-pause on the local caster's animations (Needle 2, Shatter 3).
+local function pause(ctx: any, kind: string)
+	local me = Players.LocalPlayer
+	if ctx.caster ~= me then
+		return
+	end
+	local character = me.Character
+	if not character then
+		return
+	end
+	local humanoid = character:FindFirstChildOfClass("Humanoid")
+	local animator = if humanoid then humanoid:FindFirstChildOfClass("Animator") else nil
+	if not animator then
+		return
+	end
+	local tracks = animator:GetPlayingAnimationTracks()
+	for _, t in tracks do
+		t:AdjustSpeed(0)
+	end
+	task.delay(RimeFxPlan.hitPauseSeconds(kind), function()
+		for _, t in tracks do
+			t:AdjustSpeed(1)
+		end
+	end)
 end
 
 local function rain(ctx: any)
@@ -219,6 +365,10 @@ local function rain(ctx: any)
 			drop(i, p.x, p.z)
 		end
 		disc(centre, f.radius, ICE, Enum.Material.Ice, f.duration + 1.5) -- frost decal left on the ground
+		snow(centre, f.radius, f.duration)
+		task.delay(f.duration, function()
+			crack(centre, f.radius)
+		end)
 	end
 	if ctx.caster == Players.LocalPlayer then
 		task.delay(f.delay, start) -- the caster plays cast + travel at once; rain waits out the telegraph
@@ -254,6 +404,7 @@ function RimeFx.register(reg: FxRegistry.Registry)
 	end)
 	FxRegistry.register(reg, "fx.rime.hit", function(ctx: any)
 		hit(ctx, 10)
+		pause(ctx, "needle")
 	end)
 	FxRegistry.register(reg, "fx.rime.fall.tick", function(ctx: any)
 		hit(ctx, 5)
@@ -271,6 +422,9 @@ function RimeFx.register(reg: FxRegistry.Registry)
 	FxRegistry.register(reg, "fx.rime.shatter.cast", function(ctx: any)
 		local root = rootOf(ctx.character)
 		sound(SHATTER_SOUND, root, 0.6)
+		if root then
+			veinsFrom(root)
+		end
 		if root then
 			local ring = Instance.new("Part")
 			ring.Shape = Enum.PartType.Ball
@@ -294,6 +448,7 @@ function RimeFx.register(reg: FxRegistry.Registry)
 	end)
 	FxRegistry.register(reg, "fx.rime.shatter", function(ctx: any)
 		hit(ctx, 24)
+		pause(ctx, "shatter")
 	end)
 end
 

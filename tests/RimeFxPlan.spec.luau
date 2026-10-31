@@ -24,6 +24,21 @@ return {
 		end
 		eq(#RimeFxPlan.extras(2, 6), 1, "finisher extra")
 	end,
+	["rimefx: hit-pause is 2 frames for needle, 3 for shatter (T-027i)"] = function()
+		eq(RimeFxPlan.hitPauseSeconds("needle"), 2 / 60, "needle")
+		eq(RimeFxPlan.hitPauseSeconds("shatter"), 3 / 60, "shatter")
+		eq(RimeFxPlan.hitPauseSeconds("shatter", 30), 0.1, "fps")
+		eq(RimeFxPlan.hitPauseSeconds("other"), 0, "unknown kind")
+	end,
+	["rimefx: veins pick nearest chilled targets in range, capped (T-027i)"] = function()
+		local v = RimeFxPlan.veins({ 30, 5, 10, 2, 26 }, 25, 12)
+		eq(#v, 3, "in range")
+		eq(v[1], 4, "nearest first")
+		eq(v[2], 2, "second")
+		eq(v[3], 3, "third")
+		eq(#RimeFxPlan.veins({ 1, 2, 3 }, 25, 2), 2, "cap")
+		eq(#RimeFxPlan.veins({}, 25, 12), 0, "empty")
+	end,
 	["rimefx: rain points sit in the circle"] = function()
 		local r = RimeFxPlan.rain(8, 7)
 		eq(#r, 8, "count")
