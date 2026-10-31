@@ -138,6 +138,43 @@ local okLoadout, loadoutResult = pcall(function()
 end)
 check("loadout gates casts (starter ok, unequipped refused)", okLoadout and loadoutResult == true, loadoutResult)
 
+-- T-036c (D-220): with the Rimeshard slot selected, Z / X / C specials pass the live-slot gate and the server
+-- stance check (owner report: Z/X/C did nothing in v21); with another slot selected they are refused.
+local okSlot, slotResult = pcall(function()
+	local Loadout = require(ReplicatedStorage.Shared.Loadout)
+	local Stance = require(ReplicatedStorage.Shared.Stance)
+	local Registry = require(ReplicatedStorage.Shared.Registry)
+	local All = require(ReplicatedStorage.Shared.Content.All)
+	local built = Registry.build(All.content(Config))
+	local data: any = require(ReplicatedStorage.Shared.ProfileSchema).template()
+	Loadout.prepare(data, Config, built)
+	local rimeSlot = table.find(data.loadout.slots, "starter.rimeshard")
+	local crescentSlot = table.find(data.loadout.slots, "starter.crescent")
+	if not rimeSlot or not crescentSlot then
+		return "missing starter slot"
+	end
+	local kit = Stance.kit(built.kith["kith.rimeshard"], built.moves)
+	if not kit then
+		return "no rimeshard kit"
+	end
+	local chainMove = built.moves[kit.chain]
+	local fin = built.moves[kit.finisher]
+	local cfg = { chain = chainMove.chain, finisherRecovery = if fin then fin.cooldown else chainMove.chain.recovery }
+	for i, id in kit.specials do
+		if not Loadout.canCastLive(data.loadout, data.kith, built, Config, rimeSlot, id) then
+			return `special {i} not live`
+		end
+		if not Stance.verify(Stance.new(), 100 + i, cfg, kit, id) then
+			return `special {i} refused by stance`
+		end
+		if Loadout.canCastLive(data.loadout, data.kith, built, Config, crescentSlot, id) then
+			return `special {i} live on crescent slot`
+		end
+	end
+	return true
+end)
+check("slot-selected Rimeshard Z/X/C cast; other slot refused", okSlot and slotResult == true, slotResult)
+
 local allPass = true
 for _, r in results do
 	print(r)
