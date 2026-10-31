@@ -124,10 +124,17 @@ local okLoadout, loadoutResult = pcall(function()
 	local built = Registry.build(All.content(Config))
 	local data: any = require(ReplicatedStorage.Shared.ProfileSchema).template()
 	Loadout.prepare(data, Config, built)
+	-- Starter order comes from Config.Loadout.starter (D-194: Rimeshard first), so find Crescent's slot by uid.
 	local starterOk = Loadout.canCast(data.loadout, data.kith, built, "move.crescent_cut")
-	Loadout.unequip(data.loadout, 1)
+		and Loadout.canCast(data.loadout, data.kith, built, "move.rime.needle")
+	local crescentSlot = table.find(data.loadout.slots, "starter.crescent")
+	if not crescentSlot then
+		return "no starter.crescent slot"
+	end
+	Loadout.unequip(data.loadout, crescentSlot)
 	local refused = not Loadout.canCast(data.loadout, data.kith, built, "move.crescent_cut")
-	return starterOk and refused
+	local rimeStillOk = Loadout.canCast(data.loadout, data.kith, built, "move.rime.needle")
+	return starterOk and refused and rimeStillOk
 end)
 check("loadout gates casts (starter ok, unequipped refused)", okLoadout and loadoutResult == true, loadoutResult)
 
