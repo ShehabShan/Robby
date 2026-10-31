@@ -1,6 +1,6 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
-## S78 — 2026-10-31 (34 OLU before close-out; saving target below 45)
+## S78 — 2026-10-31 (35.1 OLU at merge; final STATE save below 45)
 - b4c split; b4c1 owned confirmed-impact engine renderer + lifecycle adapter done (D-275–D-277).
 - CHECK PASS: 497 pure tests/73 specs plus 20 actual engine/listener cases; seven deliberate faults detected/restored.
 - Legacy/startup unchanged: no duplicate FX, gameplay timing changes, cloud/device test or publication.

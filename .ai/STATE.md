@@ -1,6 +1,10 @@
 # STATE
 
-## Now (after S77)
+## Now (after S78)
+- S78 merged f0a525c at 35.1 OLU: T-043c0b4c split; c1 owned confirmed-impact engine renderer/lifecycle adapter done (D-275–D-277). CHECK PASS: 497 pure tests/73 specs plus 20 actual-source receipt/engine cases; seven temporary behavioral faults detected/restored. No live startup cutover, gameplay timing changes, cloud/device test or publication.
+- **NEXT: T-043c0b4c2** seekable accepted/predicted delivery renderer (size/split before work), then c3 atomic keyed cutover and d2 M1 visuals. Handoff: research/notes/T-043c0b4c1-contact-engine.md. Audit authoritative woven geometry: existing receipts lack radius/range/speed/shard-count/spread. Contact adapter is intentionally not started while legacy HitFx is active. No owner action required.
+
+### S77 history
 - S77 merged 68806c4 at 34.7 OLU: b4b3 confirmed-contact dispatch and immutable receipt/delivery mapping done (D-272–D-274); b4b complete. CHECK PASS: 497 pure tests/73 specs (33 new), actual receipt-listener → command/style/cleanup composition, 11 temporary behavioral faults detected/restored. No live renderer cutover, gameplay timing changes, cloud/device test or publication.
 - **NEXT: T-043c0b4c** live renderer adoption (size/split before work), then d2 M1 visuals. Handoffs: research/notes/T-043c0b4b3a-contact-dispatch.md and T-043c0b4b3b-command-map.md. Confirmed contact leases are independent of presentation terminals; generic impact when acceptance metadata is absent. Use outer warning gate exclusively; preserve accepted hazards after local death and owner echo suppression until complete keyed cutover. No new owner action required.
 
@@ -86,16 +90,17 @@
 - Last publish: Roblox v27 = game v0.0.22 (S64, owner asked). S65 did not publish.
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
-- **Doing:** T-043 overhaul: c0b4 presentation (b4a/b4b complete → b4c live adoption), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-043c0b4c — live renderer adoption (size/split before work), then d2 M1 visuals. Resume from research/notes/T-043c0b4b3a-contact-dispatch.md and T-043c0b4b3b-command-map.md; retain warning contract from T-043c0b4b2b-essential-warnings.md. Owner M1 review before special art.
+- **Doing:** T-043 overhaul: c0b4 presentation (b4a/b4b + b4c1 complete → c2 seekable renderer → c3 atomic cutover), then d2 M1 visuals; T-042b live-input verification remains open.
+- **NEXT:** T-043c0b4c2 — seekable accepted/predicted delivery renderer (size/split before work), then c3 atomic live cutover and d2 M1 visuals. Resume from research/notes/T-043c0b4c1-contact-engine.md; retain outer warning gate contract from T-043c0b4b2b-essential-warnings.md. Audit missing authoritative geometry before warning extents. Owner M1 review before special art.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-043c0b4c live renderer (serialized; size/split) · b4b1 owned commands + b4b2 clock/fallback + b4b3 contacts/map (done)
+  - T-043c0b4c2 seekable delivery renderer (serialized; size/split) · b4c1 contact engine (done)
+  - T-043c0b4c3 atomic keyed startup/legacy cutover · b4c2
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
   - T-043h1 truthful Chill state · T-043b + T-043c1 (done) + T-043c0b (coordinate remotes)
   - Unrelated beast/movement/onboarding lanes deferred while owner-priority Rimeshard overhaul is active.
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** M1 owner quality review before specials; T-042b fresh-server input verification remains open. No publish without explicit request.
 - **Last cloud test:** CLOUD ALL: PASS on Saved v26 (2026-10-31, S63, 278/278 tests + server smoke); live published = v27 (game v0.0.22); publication HTTP 200, player readback pending
-- **Last check.sh:** CHECK: PASS (2026-10-31, S77 merge): 497 pure tests (73 suites), actual receipt-listener contact command/style/cleanup composition and existing dispatch/lifecycle/input/timing/authoring/types/build/inspect green. Eleven temporary contact/map/adapter behavioral faults rejected and restored. Five future Z/X contract probes intentionally fail. No cloud/device/renderer quality verification or publication.
+- **Last check.sh:** CHECK: PASS (2026-10-31, S78 merge): 497 pure tests (73 suites), 20 actual-source contact engine/listener cases and all existing dispatch/lifecycle/input/timing/authoring/types/build/inspect gates green. Seven temporary engine/lifecycle faults rejected and restored. Five future Z/X contract probes intentionally fail. No cloud/device/renderer quality verification or publication.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
