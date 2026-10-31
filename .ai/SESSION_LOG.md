@@ -1,7 +1,7 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
 ## S58 — 2026-10-31 (same bot, ≈19 OLU)
-- **S59 (2026-10-31, ~36 OLU):** T-036 split a–c. T-036a done (D-216, D-217): slot-selected abilities core — keys 1–7 / gamepad Y select a slot (`SelectSlot`, `ActiveSlot`), only the selected Kith is live (server-enforced), Rimeshard stance auto-on, Crescent Cut moved from E to Z of its slot, Q toggle gone, Wind Step fixed on R. check.sh PASS. Not cloud-tested, not published. Next: T-036b HUD/touch, T-036c cloud test + owner bug.
+- **S59 (2026-10-31, ~36 OLU):** T-036 split a–c. T-036a done (D-216, D-217): slot-selected abilities core — keys 1–7 / gamepad Y select a slot (`SelectSlot`, `ActiveSlot`), only the selected Kith is live (server-enforced), Rimeshard stance auto-on, Crescent Cut moved from E to Z of its slot, Q toggle gone, Wind Step fixed on R. check.sh PASS. Not cloud-tested, not published. T-036b part 1 (D-218): HUD shows the selected slot. Next: T-036b touch tap, T-036c cloud test + owner bug.
 - T-036 planned with owner (approved; waits for build). T-037 done: lean-reading rule (D-214), Stone Ward removed (D-215). check.sh PASS. Not published.
 
 ## S57 — 2026-10-31 (same bot, ≈5 OLU)

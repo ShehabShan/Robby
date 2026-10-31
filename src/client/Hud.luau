@@ -64,6 +64,7 @@ local function readState(player: Player, built: any): HudLayout.State
 		health, healthMax = hum.Health, hum.MaxHealth
 	end
 	local slots: { HudLayout.SlotState } = {}
+	local activeSlot = tonumber(player:GetAttribute("ActiveSlot")) or 1 -- selected core slot (T-036b, D-218)
 	for i = 1, tonumber(player:GetAttribute("SlotCount")) or 0 do
 		local species = player:GetAttribute(`Slot{i}`)
 		local k = if type(species) == "string" then built.kith[species] else nil
@@ -71,6 +72,8 @@ local function readState(player: Player, built: any): HudLayout.State
 		table.insert(slots, {
 			role = if k then k.role else nil,
 			name = if k then species :: string else nil,
+			key = tostring(i),
+			selected = i == activeSlot,
 			strain = if typeof(st) == "number" then st else nil,
 			satiety = if typeof(sa) == "number" then sa else nil,
 		})

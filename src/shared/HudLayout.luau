@@ -23,6 +23,7 @@ export type SlotState = {
 	role: string?,
 	name: string?,
 	key: string?, -- input hint (PC / gamepad only)
+	selected: boolean?, -- the live slot (T-036b, D-218): brighter plus a marker under it
 	strain: number?, -- 0..1, nil = not shown
 	satiety: number?, -- 0..1, nil = not shown
 	cooldown: number?, -- 0..1 remaining
@@ -161,8 +162,21 @@ local function slot(out: { Element }, i: number, s: SlotState, x: number, y: num
 		w = size,
 		h = size,
 		color = color,
-		alpha = if filled then 0.92 else 0.55,
+		alpha = if s.selected then 1 else if filled then 0.92 else 0.55,
 	})
+	if s.selected then
+		table.insert(out, {
+			id = `slot{i}Sel`,
+			kind = "text",
+			x = x,
+			y = y + size,
+			w = size,
+			h = 14,
+			color = { 255, 220, 120 },
+			text = "▲",
+			textSize = HudLayout.MIN_TEXT,
+		})
+	end
 	local cd = s.cooldown
 	if cd ~= nil and cd > 0 then
 		local h = math.floor(size * clamp01(cd) + 0.5)

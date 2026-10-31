@@ -9,7 +9,10 @@ end
 local function state(platform: string, w: number, h: number, roles: { string | false }, gaps: { string }): any
 	local slots = {}
 	for _, r in roles do
-		table.insert(slots, { role = if r then r else nil, name = if r then "k" else nil, key = "E" })
+		table.insert(
+			slots,
+			{ role = if r then r else nil, name = if r then "k" else nil, key = "E", selected = #slots == 1 }
+		)
 	end
 	return {
 		width = w,
