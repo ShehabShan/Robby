@@ -36,6 +36,7 @@ the Roblox game *Rell Seas*. It is built **headlessly** (no Roblox Studio) by AI
   - Reused bot (an existing VM): run `bash scripts/olu.sh start` first.
 - The meter prints what to do: `OK` → `FINISH CURRENT STEP` (30+) → `WRAP UP` (43+) → `EMERGENCY` (45+: one-line STATE update + `save.sh`, nothing else).
 - The main costs are big file reads and long command output, so keep both short. Read only the files the task needs.
+- **Lean reading (owner, S58, D-214):** never read the whole repo. No `find`, `ls -R` or `tree` over the repo, and no `cat` of whole files over ~80 lines. Boot reads only `.ai/STATE.md` (§3). For the task: `grep -n "T-0xx" .ai/TASKS.md` for its entry, use the Map (§7) and `grep -rn` to find the 1–3 files it touches, then read only the lines you need (`sed -n a,bp`). Do not open DECISIONS.md, SESSION_LOG.md, research/, VISION or skills unless the task names them; grep them for a specific ID instead. Cap command output with `| head` / `| tail`.
   Each step costs more as the context grows.
 
 ## 2. Phases (gated, in order)
