@@ -31,7 +31,7 @@ local Config = {
 		},
 		-- M1 Kith moves (T-015a). Initial tuning; tune in playtest.
 		StoneWard = { cost = 15, cooldown = 6, seconds = 1.5 },
-		WindStep = { cost = 8, cooldown = 3, distance = 14, iframes = 0.3 },
+		WindStep = { cost = 8, cooldown = 3, distance = 14, iframes = 0.3, burstSeconds = 0.25 }, -- burstSeconds: client covers `distance` in this time; server speed guard mirrors it (F-08, D-204)
 		-- Rimeshard Kith (T-027c, R-028 §2, D-180): Chill sets up (R1/Z/X), Shatter pays off (C). Tune in playtest.
 		Rimeshard = {
 			chill = { maxStacks = 3, seconds = 3, slowPerStack = 0.15 }, -- -15 % move speed per stack; 3 stacks = Rimed

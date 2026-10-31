@@ -9,11 +9,12 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local CastRequest = require(ReplicatedStorage.Shared.CastRequest)
+local Config = require(ReplicatedStorage.Shared.Config)
 local FxRegistry = require(ReplicatedStorage.Shared.FxRegistry)
 local Projectile = require(ReplicatedStorage.Shared.Deliveries.Projectile)
 
 -- Wind Step covers its distance in this burst (the client owns its character physics).
-local BURST_SECONDS = 0.25
+local BURST_SECONDS = Config.Abilities.WindStep.burstSeconds
 local CHEST = Vector3.new(0, 0.5, 0)
 
 local AbilityInput = {}

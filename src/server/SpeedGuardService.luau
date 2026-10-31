@@ -10,11 +10,10 @@ local Config = require(ReplicatedStorage.Shared.Config)
 local SpeedGuard = require(ReplicatedStorage.Shared.SpeedGuard)
 
 local SAMPLE_DT = 0.25
-local WIND_STEP_BURST = 0.25 -- mirrors BURST_SECONDS in client AbilityInput
 local G = Config.SpeedGuard
 local CFG: SpeedGuard.Cfg = {
 	sprint = Config.Movement.sprint,
-	burstSpeed = Config.Abilities.WindStep.distance / WIND_STEP_BURST,
+	burstSpeed = Config.Abilities.WindStep.distance / Config.Abilities.WindStep.burstSeconds,
 	burstSeconds = G.burstSeconds,
 	tolerance = G.tolerance,
 	slack = G.slack,
