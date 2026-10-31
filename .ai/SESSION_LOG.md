@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S83 — 2026-10-31 (Burst slices; continuing)
+- T-043c0b4c2c2c1/c2 done: provisional original-caster Burst warning, truthful release unknown, primary/reserve engine sampling and cleanup.
+- CHECK PASS: 571 pure/78 specs, 7 character-client/29 delivery-engine cases; nine mutations detected/restored.
+- D-294–D-297; handoffs research/notes/T-043c0b4c2c2c{1-burst-policy,2-burst-engine}.md. No startup/publish/cloud change.
+- 23.7 OLU before merge; continuing to c3 split. No owner action.
+
 ## S82 — 2026-10-31 — T-043c0b4c2c2b2b (D-290–D-293)
 - Atomic original-character replica/resolver and prepared borrowed delivery owner done; startup remains off.
 - CHECK PASS: 569 pure/78 specs, 35 dispatch, 5 character-client, 25 delivery-engine cases; 12 verified behavioral mutations restored; 100 clean owner restarts.
