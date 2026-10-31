@@ -29,6 +29,40 @@ local function setup(options)
 	return g, f
 end
 return {
+	["clock wrapper preserves accepted world on pose retirement and keeps seeking"] = function()
+		local g, f = setup()
+		G.accept(g, "g:1", timeline(100), 0, 100)
+		assert(G.retirePose(g, "g:1", 0.2, 100.2))
+		assert(f.cleaned == 0 and g.bridge.resources.count == 1)
+		G.tick(g, 1, 101)
+		assert(not f.frames[#f.frames].poseAllowed and f.cleaned == 0)
+		G.tick(g, 2, 102)
+		assert(f.cleaned == 1 and g.bridge.resources.count == 0)
+		G.destroy(g)
+	end,
+	["repeated queue admission cancellation and expiry never retain retired ownership"] = function()
+		local g, f = setup()
+		for i = 1, 1000 do
+			local localNow, serverNow, key = i * 30, 100 + i * 30, "g:" .. i
+			assert(G.accept(g, key, timeline(serverNow + 0.2), localNow, serverNow) == "queued")
+			assert(g.count == 1)
+			if i % 2 == 0 then
+				G.cancel(g, key, localNow + 0.1, serverNow + 0.1)
+			else
+				G.tick(g, localNow + 0.3, serverNow + 0.3)
+			end
+			G.tick(g, localNow + 3, serverNow + 3)
+			assert(g.count == 0 and next(g.pending) == nil)
+			assert(g.bridge.resources.count == 0 and next(g.bridge.leases) == nil)
+			local entries = 0
+			for _ in g.bridge.presentation.entries do
+				entries += 1
+			end
+			assert(entries <= 1)
+		end
+		assert(f.cleaned == 500)
+		G.destroy(g)
+	end,
 	["overflow cancellation watermark suppresses queued and replayed future receipts"] = function()
 		local g, f = setup()
 		G.accept(g, "future1", timeline(100.2), 0, 100)

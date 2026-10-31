@@ -17,3 +17,6 @@ Borrow explicit prediction identity/adoption and reversible cosmetics, not a gam
 
 ## Next
 b4b2: bounded future/clock admission plus separately bounded essential fallback (split before work if needed). b4b3: independent confirmed-contact dispatch after terminals, mapping delivery metadata into renderer commands. b4c: engine/input/listener integration only after both. Five c2/c3 timing probes and owner M1 review remain outstanding.
+
+## Regression sensitivity (S75)
+Six temporary behavioral faults were independently detected by real-module tests, then restored in finally blocks: drop adoption, skip expired cleanup, ignore renderer failure, drain acceptance before cancellation, lose future overflow watermark, and unbounded clock correction. Full CHECK PASS after restoration; final expanded suite has 429 pure tests/69 suites. This checks sensitivity to those faults, not exhaustive correctness or live quality.
