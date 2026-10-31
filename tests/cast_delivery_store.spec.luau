@@ -50,6 +50,22 @@ local function fixture(capacity)
 	return f
 end
 return {
+	["full accepted registry rejects new identity and cannot resurrect same-key terminal"] = function()
+		local f = fixture(1)
+		local c = f:command()
+		f:accept(c)
+		local second = f:command(2)
+		assert(Store.accept(f.store, second) == "refuse")
+		assert(Store.get(f.store, c.key).accepted == c and f.store.count == 1)
+		Gate.cancel(f.gate, c.key, 1, 101)
+		Store.prune(f.store, f.gate)
+		assert(f.store.count == 0)
+		assert(Store.accept(f.store, c) == "stored")
+		local calls = #f.rendered
+		Gate.accept(f.gate, c.key, c.timeline, 2, 102)
+		Store.prune(f.store, f.gate)
+		assert(#f.rendered == calls and f.store.count == 0)
+	end,
 	["queued wait timeout prunes pinned metadata without flashing old geometry"] = function()
 		local f = fixture()
 		local c = f:command()

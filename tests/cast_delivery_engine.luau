@@ -385,4 +385,21 @@ test("pinned registry composes future prediction adoption remap and late fallbac
 	assert(f.store.count == 0 and #f:live() == 0)
 	f:stop()
 end)
+test("repeated accepted lease turnover keeps one bounded tree and no pinned residue", function()
+	local f = fixture(1, true)
+	for i = 1, 100 do
+		local c = command("Zone", i)
+		local a = table.clone(c.metadata.acceptance)
+		a.acceptedAt, a.releaseAt, a.endsAt = 100 + i, 100 + i, 100 + i + 0.5
+		local r = Receipts.new(Config.CastClientReceipt)
+		assert(Receipts.put(r, a, 0) == "stored")
+		c = assert(Map.accepted({ m = c.metadata.style }, Receipts.get(r, a.castId, 0)))
+		f:accept(c, i, 100 + i)
+		assert(f.primary.count == 1 and f.store.count == 1 and #f:live("Part") == 1)
+		Gate.tick(f.gate, i + 0.5, 100 + i + 0.5)
+		Store.prune(f.store, f.gate)
+		assert(f.primary.count == 0 and f.reserve.count == 0 and f.store.count == 0 and #f:live() == 0)
+	end
+	f:stop()
+end)
 print("DELIVERY ENGINE: PASS (" .. count .. " cases)")

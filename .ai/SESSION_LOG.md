@@ -1,5 +1,12 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S80 — 2026-10-31 — T-043c0b4c2c2a/b1 (D-283–D-286)
+- Bounded primary/reserve delivery trees and pinned immutable gate-lifetime metadata done; original-character/receipt lifecycle and truthful Burst remain separate next tasks. No startup/timing changes.
+- CHECK PASS: 535 pure/76 specs, 14 actual-source delivery engine cases, all existing gates; 13 deliberate behavioral faults detected/restored; 100 one-slot turnover cycles leak-free in mocks.
+- Next c2c2b2 (size/split): engine receipt/pose owner, then c2c2c truthful moving Burst and c3 atomic cutover. Handoffs: research/notes/T-043c0b4c2c2a-delivery-engine.md and T-043c0b4c2c2b1-metadata.md.
+- OLU: 37.7 before close-out; final meter recorded in STATE after merge. No cloud/device test, publication or owner action.
+
+
 ## S79 — 2026-10-31 — T-043c0b4c2a/b/c1 (D-278–D-282)
 - Woven geometry now survives authoritative acceptance/replay; pure seekable frames and bounded owned engine tree prepared. No startup cutover or gameplay timing changes.
 - CHECK PASS: 521 pure tests/75 specs; 33 dispatch cases, listener/engine gates plus four new world-tree groups. 17 temporary behavioral faults detected/restored.
