@@ -197,21 +197,24 @@ function KithInput.start(sendCast: SendCast, selectSlot: SelectSlot, fx: FxRegis
 			end, true, key)
 			ContextActionService:SetTitle(name, tostring(built.moves[moveId].name or moveId))
 		end
-		-- Right click fires the first move of a chainless Kith (Crescent Cut, owner, T-038a, D-221). Pass, not Sink:
-		-- the camera keeps right-drag; with a chain Kith (or an empty slot) right click stays camera only (D-217).
+		-- Left click fires the first move of a chainless Kith (Crescent Cut; owner 2026-10-31, T-041, D-228, replaces
+		-- the right click of D-221). High priority + Sink, like KithChain, so it replaces the basic attack while that
+		-- Kith is selected; with a chain Kith or an empty slot left click stays the basic attack.
 		local plainFirst = if k == nil then plainMoves[1] else nil
 		if plainFirst ~= nil then
 			table.insert(bound, "KithPlainClick")
-			ContextActionService:BindAction(
+			ContextActionService:BindActionAtPriority(
 				"KithPlainClick",
 				function(_, st: Enum.UserInputState, _): Enum.ContextActionResult
-					if st == Enum.UserInputState.Begin then
-						fire(plainFirst, os.clock())
+					if st ~= Enum.UserInputState.Begin then
+						return Enum.ContextActionResult.Pass
 					end
-					return Enum.ContextActionResult.Pass
+					fire(plainFirst, os.clock())
+					return Enum.ContextActionResult.Sink
 				end,
 				false,
-				Enum.UserInputType.MouseButton2
+				Enum.ContextActionPriority.High.Value,
+				Enum.UserInputType.MouseButton1
 			)
 		end
 	end

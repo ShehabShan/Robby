@@ -3,6 +3,7 @@
 ## S62 — 2026-10-31 (same bot, ≈34 OLU)
 - T-040 done (D-227): dev switch keeps all Kith Ready (no feeding). Owner screenshot: red Satiety dot on Rimeshard slot = starving, the likely T-038 cause.
 - check.sh PASS; CLOUD ALL: PASS (276 specs). Published game v0.0.21 = Roblox v25 (owner asked). ≈38 OLU.
+- T-041 done (D-228): Crescent Cut on left click. Owner: Rimeshard still dead in v0.0.21 → T-042 next session. ≈42 OLU.
 
 ## S61 — 2026-10-31 (new bot, ≈27 OLU)
 - T-039 done (D-224–D-226): Inventory shows Kith state + Satiety and a help line; Dormant/Tired Kith greyed and refused by the server; title Inventory, cleaner footer, "+N more Kith".

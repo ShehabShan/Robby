@@ -1,6 +1,7 @@
 # STATE
 
 ## Now (after S62)
+- S62 late: owner playtest of v0.0.21 — Rimeshard Z/X/C still dead → T-042 (next session first). T-041 done (D-228): Crescent Cut moved from right click to left click. check.sh PASS. Not published (live = v0.0.21).
 - S62 publish (owner asked): game v0.0.21 = Roblox place v25 (T-038 + T-039 + T-040), cloud test CLOUD ALL: PASS (276 specs) before publishing.
 - S62: T-040 done (D-227): development switch `Config.Upkeep.devAlwaysReady = true` keeps every owned Kith Ready (full Satiety, no Strain, never Dormant/Tired), so no feeding while testing. Owner's v0.0.20 screenshot showed a red Satiety dot on slot 1 (Rimeshard): it was starving, which explains the dead Z/X/C (T-038). check.sh PASS. Not published.
 - S61: T-039 done (D-224–D-226): Inventory shows each Kith's state (Ready / Hungry / Dormant / Tired) + Satiety % and a plain help line; Dormant/Tired Kith are greyed ("Feed first" / "Wait: tired") and the server refuses to equip them; screen titled Inventory, footer without overlap, "+N more Kith". check.sh PASS; CLOUD ALL: PASS on Saved v24 (275 specs, includes S60 T-038 code). Not published.
@@ -59,8 +60,8 @@
 - Last publish: Roblox v25 = game v0.0.21 (S62, owner asked, T-038/T-039/T-040 playtest). Before that: v23 = game v0.0.20 (S59b).
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
-- **Doing:** T-038 (Resume from: owner playtest of the next publish — Rimeshard cause was a starving Kith (red Satiety dot), now masked by T-040's dev switch; close T-038 when the owner confirms Z/X/C work.)
-- **NEXT:** owner playtest of v0.0.21 (do Rimeshard Z/X/C work now? Inventory OK?); then T-022c beast feel; T-026d / T-027h wait for owner feedback in `research/inbox/`; then T-026c R15 animations, T-024 First 10 minutes. Before launch: set `devAlwaysReady = false`.
+- **Doing:** none (T-038 superseded by T-042).
+- **NEXT:** T-042 Rimeshard Z/X/C dead live (start by asking the owner for F9 client console output); publish T-041 left click with it if the owner asks; then T-022c beast feel; T-026c R15 animations, T-024. Before launch: set `devAlwaysReady = false`.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
