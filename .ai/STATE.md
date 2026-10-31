@@ -1,6 +1,7 @@
 # STATE
 
-## Now (after S56)
+## Now (after S57)
+- S57 (owner asked): T-035 done (D-213): Tab = Roblox player/server list again; loadout opens from a new Inventory icon (🎒) in the top bar right of the chat button, all platforms (gamepad Back still works). Version 0.0.19. check.sh PASS. Published via roblox-open-cloud (owner asked).
 - S56 (owner asked): T-034 done (D-211, D-212): owner could not find the Rimeshard stance. Fix: the gifted Rimeshard is auto-equipped into slot 1 once, so the stance works without the loadout menu; Needle chain gets an on-screen touch button (mobile). check.sh PASS. Not published, not cloud-tested.
 - S55 (same bot, owner asked): T-026c done (D-210): kit idle/walk/run/jump/land animations uploaded under the owner and wired (`Shared.MoveAnims`, `MoveAnimClient`). check.sh PASS. Cloud test PASS on place v20 (270/270 specs + smoke; earlier timeouts were an unanswered approval popup). Published as place v20 (game v0.0.18) for the owner walk playtest (T-026d).
 - S53 (same bot, owner asked): T-033 done (D-209): Studio saves split from live, every save sanitized, early saves after breakthrough/fusion/Binding. check.sh PASS. Not published.

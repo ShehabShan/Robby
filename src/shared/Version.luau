@@ -6,7 +6,7 @@ local Version = {}
 
 Version.MAJOR = 0
 Version.MINOR = 0
-Version.PATCH = 18
+Version.PATCH = 19
 Version.STRING = `{Version.MAJOR}.{Version.MINOR}.{Version.PATCH}`
 
 export type Parts = { major: number, minor: number, patch: number }

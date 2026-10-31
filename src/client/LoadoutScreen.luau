@@ -1,12 +1,14 @@
 --!strict
 -- Loadout screen wiring (T-016d, D-069): draws Shared.LoadoutScreen.build() with Roblox GUI objects.
--- Open/close: Tab (PC), Back/Select (gamepad), "Kith" button (touch). Buttons work with mouse, touch and
+-- Open/close: the Inventory icon in the top bar, right of Roblox's chat button (all platforms), or Back/Select
+-- (gamepad). Tab is left to Roblox's player list (D-213). Buttons work with mouse, touch and
 -- gamepad selection (GuiService). Picks go to the server over Blink `Equip`; the server re-checks them (D-064).
 
 local ContextActionService = game:GetService("ContextActionService")
 local GuiService = game:GetService("GuiService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local StarterGui = game:GetService("StarterGui")
 local UserInputService = game:GetService("UserInputService")
 
 local LoadoutScreen = require(ReplicatedStorage.Shared.LoadoutScreen)
@@ -157,23 +159,40 @@ function Ui.start(built: any, net: any)
 			return Enum.ContextActionResult.Sink
 		end,
 		false,
-		Enum.KeyCode.Tab,
-		Enum.KeyCode.ButtonSelect
+		Enum.KeyCode.ButtonSelect -- Tab stays with Roblox's player/server list (D-213)
 	)
+	pcall(function()
+		StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, true)
+	end)
 
-	-- Touch toggle (top-right, clear of the HUD bars and the slot grid).
+	-- Inventory icon in Roblox's top bar, just right of the chat button, on every platform (D-213).
+	-- GuiService.TopbarInset is the free top-bar strip that starts right after Roblox's own buttons.
 	local open = Instance.new("TextButton")
-	open.Name = "LoadoutOpen"
-	open.Text = "Kith"
+	open.Name = "InventoryOpen"
+	open.Text = "🎒"
+	open.TextScaled = true
 	open.Font = Enum.Font.GothamBold
-	open.TextSize = 16
 	open.TextColor3 = Color3.new(1, 1, 1)
-	open.BackgroundColor3 = Color3.fromRGB(40, 45, 60)
-	open.BackgroundTransparency = 0.2
-	open.AnchorPoint = Vector2.new(1, 0)
-	open.Position = UDim2.new(1, -12, 0, 12)
-	open.Size = UDim2.fromOffset(64, LoadoutScreen.MIN_TOUCH)
-	open.Visible = platform() == "touch"
+	open.BackgroundColor3 = Color3.fromRGB(18, 18, 21)
+	open.BackgroundTransparency = 0.3
+	open.AutoButtonColor = true
+	local pad = Instance.new("UIPadding")
+	pad.PaddingTop, pad.PaddingBottom = UDim.new(0.18, 0), UDim.new(0.18, 0)
+	pad.PaddingLeft, pad.PaddingRight = UDim.new(0.18, 0), UDim.new(0.18, 0)
+	pad.Parent = open
+	local round = Instance.new("UICorner")
+	round.CornerRadius = UDim.new(1, 0)
+	round.Parent = open
+	local function place()
+		local inset = GuiService.TopbarInset
+		local h = if inset.Height > 0 then inset.Height else 58
+		local size = math.max(LoadoutScreen.MIN_TOUCH, math.floor(h * 0.76))
+		local left = if inset.Min.X > 0 then inset.Min.X else 104
+		open.Size = UDim2.fromOffset(size, size)
+		open.Position = UDim2.fromOffset(left, inset.Min.Y + math.floor((h - size) / 2))
+	end
+	place()
+	GuiService:GetPropertyChangedSignal("TopbarInset"):Connect(place)
 	open.Activated:Connect(function()
 		apply({ kind = "toggle" })
 	end)

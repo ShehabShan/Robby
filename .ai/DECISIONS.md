@@ -174,3 +174,4 @@
 
 - **D-211 Gift auto-equip (S56, T-034):** a one-time gift Kith (`Config.Loadout.gifts`) is moved into loadout slot 1 once (`data.giftsEquipped`), other equipped Kith shift right; a later unequip is respected. Reason: owner could not find the Rimeshard stance because the gift sat unequipped.
 - **D-212 Needle touch button (S56, T-034):** `KithChain` binds with an on-screen button (title "Needle"), so the stance chain is usable on mobile; it still passes through when the stance is off.
+- **D-213 Inventory icon + Tab player list (S57, T-035, owner):** Tab no longer toggles the loadout; Roblox's PlayerList stays enabled. The loadout (Kith inventory) opens from an `InventoryOpen` icon placed at `GuiService.TopbarInset.Min.X` (the top-bar slot right of Roblox's chat button), re-placed when the inset changes; shown on every platform. Gamepad Back/Select still toggles.

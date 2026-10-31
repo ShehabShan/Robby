@@ -1,5 +1,8 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S57 — 2026-10-31 (same bot, ≈5 OLU)
+- T-035 done (D-213): Tab back to Roblox player list; top-bar Inventory icon opens the loadout. v0.0.19. check.sh PASS. Published (owner asked).
+
 ## S56 — 2026-10-31 (≈13 OLU)
 - T-034 done (D-211, D-212): Rimeshard gift auto-equipped in slot 1 once (existing saves); Needle chain touch button. check.sh PASS. Not published.
 
