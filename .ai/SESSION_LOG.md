@@ -1,7 +1,7 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
-## S64 — 2026-10-31 (same bot, publication follow-up)
-- Owner approved publishing T-041 + T-042a for playtesting; version bumped to v0.0.22 (D-192).
+## S64 — 2026-10-31 (same bot, ≈39 cumulative OLU incl. S63)
+- Owner-approved T-041 + T-042a published: game v0.0.22 = Roblox v27 (HTTP 200). check.sh PASS after version bump + merge; pushed main.
 - Baseline: CLOUD ALL PASS Saved v26 (278/278 + smoke); client wiring PASS (5 mocks), live-device verification pending T-042b.
 
 ## S63 — 2026-10-31 (≈29 OLU at close-out)

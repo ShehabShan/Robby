@@ -7,4 +7,4 @@ READY WITH ACCEPTED RISK for the owner-requested private playtest, not general r
 - Unverified: actual rendering, live input arbitration, touch viewport/performance/accessibility and new-server player readback. Owner explicitly approved publication for this playtest, not a claim that these gates pass.
 - Owner checks: join a fresh server showing v0.0.22; select Rimeshard and test Z/X/C (touch buttons on mobile), then Crescent left click. F9 errors if still broken.
 - Rollback: restore prior Published Roblox v25 (game v0.0.21) in Creator Dashboard; do not restart existing servers without owner approval. No save migration to reverse.
-- Publication result: pending.
+- Publication result: HTTP 200, Published Roblox v27 = game v0.0.22. check.sh PASS before save and again during merge. Live player readback remains unverified until the owner joins a fresh server.
