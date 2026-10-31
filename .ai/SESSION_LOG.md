@@ -1,6 +1,6 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
-## S77 — 2026-10-31 (33.7 OLU before close-out; saving target below 45)
+## S77 — 2026-10-31 (34.7 OLU at merge; final STATE save below 45)
 - b4b3 done via b3a/b3b: once-only confirmed-contact ownership + immutable delivery/receipt mapping (D-272–D-274).
 - CHECK PASS: 497 pure tests/73 specs (33 new), actual receipt-listener composition green; 11 deliberate faults detected/restored.
 - No live renderer cutover, gameplay timing changes, cloud/device verification or publication. Repaired local toolchain after public GitHub API 403.
