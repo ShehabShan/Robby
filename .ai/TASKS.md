@@ -211,7 +211,7 @@ Pick one when the next real task won't fit before the 43 OLU wrap-up line. Log f
 - **F-05 [scanned S27] Spec gaps:** one spec for each pure `Shared` module without one. Scan S27: every Shared module has a spec.
 - **F-06 [scanned S27] TODO/FIXME sweep:** turn each into a task or fix it. Scan S27: 0 TODO/FIXME.
 - **F-07 [done S37] Docs drift:** Done (D-172, D-173): T-023 marked done; T-026c/d unblocked; stale "Resume from:" removed from done R-027/R-021p/R-023a; T-006 got a Resume note. Dead-ref scan clean (T-024 lives in ROADMAP). Was: STATE/TASKS/DECISIONS duplicate D-IDs, dead task refs, stale "Resume from:" notes. Scan S27: no duplicate D-IDs. T-006 and T-023 are `doing` with no "Resume from:" note.
-- **F-08 [doing] Config hygiene:** S38 (D-174): scan of the top two `Config` levels (110 keys) found no unused key. Resume from: hard-coded numbers in `src/server` and `src/client` that belong in `Config`. Was: unused `Config` keys; hard-coded numbers that belong in `Config`.
+- **F-08 [doing] Config hygiene:** S38 (D-174): scan of the top two `Config` levels (110 keys) found no unused key. S47 (D-202): `src/server` scan — the only gameplay literal was the 2 s corpse despawn (beasts + boss) → `Config.Beasts.corpseSeconds`; the rest are geometry/index/Blink-type numbers. Resume from: hard-coded numbers in `src/client` that belong in `Config`. Was: unused `Config` keys; hard-coded numbers that belong in `Config`.
 - **F-09 [todo] Mobile/gamepad UI:** every button ≥ `MIN_TOUCH`, layouts fit narrow screens, gamepad binding for every action.
 - **F-10 [todo] Content check:** no real-IP names (D-014), palette respected, mild rating.
 

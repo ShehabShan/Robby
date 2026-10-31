@@ -1,5 +1,8 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S47 — 2026-10-31 (same bot as S46, ≈8 OLU)
+- F-08 part 2 (D-202): `src/server` hard-coded-number scan; corpse despawn 2 s → `Config.Beasts.corpseSeconds`. Resume from: `src/client` scan. check.sh PASS.
+
 ## S46 — 2026-10-31 (≈30 OLU)
 - T-027i done (D-198–D-201): shard Trails, Shatter frost veins, Rime Fall snow + crack ring, Needle/Shatter hit-pause; `RimeFxPlan.veins`/`hitPauseSeconds` + spec.
 - No open PRs, no stale claims. check.sh PASS. Not published. Cloud smoke result in STATE.
