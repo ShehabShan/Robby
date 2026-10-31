@@ -16,7 +16,7 @@ local function slice(first, after)
 	return source:sub(a, b - 1)
 end
 local function harness()
-	local h = { now = 100, pending = {}, damage = 0, hits = 0, fx = 0, targets = {}, serial = 0 }
+	local h = { now = 100, pending = {}, damage = 0, hits = 0, fx = 0, targets = {}, serial = 0, terminals = {} }
 	local players = {
 		GetPlayerFromCharacter = function()
 			return nil
@@ -31,6 +31,8 @@ local function harness()
 		Config = Config,
 		Players = players,
 		CastLifetime = L,
+		CastReceipts = require("../src/shared/CastReceipts"),
+		terminalReceipts = require("../src/shared/CastReceipts").new(Config.CastTerminal),
 		lifetimes = L.new(64),
 		Projectile = require("../src/shared/Deliveries/Projectile"),
 		Volley = require("../src/shared/Deliveries/Volley"),
@@ -86,6 +88,11 @@ local function harness()
 			end,
 		},
 		Net = {
+			CastTerminal = {
+				FireAll = function(v)
+					table.insert(h.terminals, v)
+				end,
+			},
 			CastFx = {
 				FireAll = function()
 					h.fx += 1
@@ -122,7 +129,8 @@ local function harness()
 	local body = slice("-- Sweeps the projectile", "-- The Kith's Kit")
 	local methods = luau.load(
 		body
-			.. "\nlocal function boot()\n"
+			.. slice("local function sendTerminal", "local function sendDisposition")
+			.. "\nlifetimes.onTerminal = recordTerminal\nlocal function boot()\n"
 			.. heartbeat
 			.. "\nboot()\nreturn { shot=pushShot, volley=volleyCast, zone=zoneCast, burst=burstCast }",
 		{ environment = env, injectGlobals = true }
@@ -203,7 +211,7 @@ local cases = {
 		assert(#h.env.zones == 0 and h.env.lifetimes.count == 0)
 		assert(handle.terminal.reason == "completed" and handle.acceptance.characterKey == "old")
 		h.heartbeat(0)
-		assert(h.damage == move.delivery.params.ticks)
+		assert(h.damage == move.delivery.params.ticks and #h.terminals == 1)
 	end,
 	["volley shares identity but all shards retire; per-target cap unchanged"] = function()
 		local h = harness()
@@ -222,7 +230,7 @@ local cases = {
 		assert(handle.terminal.reason == "completed" and #h.env.shots == 0)
 		local damage = h.damage
 		h.heartbeat(2)
-		assert(h.damage == damage)
+		assert(h.damage == damage and #h.terminals == 1)
 	end,
 	["single projectile completes once on hit without duplicate damage"] = function()
 		local h = harness()
@@ -232,7 +240,7 @@ local cases = {
 		h.heartbeat(0.1)
 		assert(h.damage == 1 and handle.terminal.reason == "completed")
 		h.heartbeat(1)
-		assert(h.damage == 1 and h.env.lifetimes.count == 0)
+		assert(h.damage == 1 and h.env.lifetimes.count == 0 and #h.terminals == 1)
 	end,
 	["burst cannot rebound onto respawn, dead or departed original caster"] = function()
 		for _, cause in { "respawn", "dead", "leave" } do
@@ -250,7 +258,7 @@ local cases = {
 			h.pending[1]()
 			assert(h.damage == 0 and handle.terminal.reason == "caster_lost")
 			h.pending[1]()
-			assert(h.damage == 0 and h.env.lifetimes.count == 0)
+			assert(h.damage == 0 and h.env.lifetimes.count == 0 and #h.terminals == 1)
 		end
 	end,
 	["burst allows slot switch, successful callback once and ignores late expired callback"] = function()
@@ -261,20 +269,20 @@ local cases = {
 		h.now += 0.5
 		h.pending[1]()
 		h.pending[1]()
-		assert(h.damage == 1 and handle.terminal.reason == "completed")
+		assert(h.damage == 1 and handle.terminal.reason == "completed" and #h.terminals == 1)
 		local late = harness()
 		late:target()
 		local expired = late:cast("move.rime.shatter")
 		late.now = 120
 		late.heartbeat(20)
 		late.pending[1]()
-		assert(late.damage == 0 and expired.terminal.reason == "expired")
+		assert(late.damage == 0 and expired.terminal.reason == "expired" and #late.terminals == 1)
 		local beforeHeartbeat = harness()
 		beforeHeartbeat:target()
 		local stalled = beforeHeartbeat:cast("move.rime.shatter")
 		beforeHeartbeat.now = 120
 		beforeHeartbeat.pending[1]()
-		assert(beforeHeartbeat.damage == 0 and stalled.terminal.reason == "expired")
+		assert(beforeHeartbeat.damage == 0 and stalled.terminal.reason == "expired" and #beforeHeartbeat.terminals == 1)
 	end,
 }
 local count = 0

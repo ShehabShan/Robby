@@ -626,6 +626,8 @@ type CastSession = {
 	connections: { RBXScriptConnection },
 }
 local castSessions: { [Player]: CastSession } = {}
+-- Completed world records survive player departure; eviction never grants admission.
+local terminalReceipts = CastReceipts.new(Config.CastTerminal)
 local function syncCast(player: Player, session: CastSession)
 	Net.CastGeneration.Fire(player, {
 		generation = session.admission.ledger.generation,
@@ -666,6 +668,31 @@ local function sendAcceptance(player: Player, a: CastReceipts.Acceptance, broadc
 		Net.CastAccepted.Fire(player, value)
 	end
 end
+local function sendTerminal(player: Player?, key: string, terminal: CastReceipts.Terminal)
+	local value = { castId = key, reason = terminal.reason, at = terminal.at }
+	if player then
+		Net.CastTerminal.Fire(player, value)
+	else
+		Net.CastTerminal.FireAll(value)
+	end
+end
+local function recordTerminal(handle: CastLifetime.Handle, now: number)
+	local a, terminal = handle.acceptance, handle.terminal
+	if not terminal then
+		return
+	end
+	CastReceipts.put(terminalReceipts, a, now)
+	CastReceipts.terminate(terminalReceipts, a.castId, terminal.reason, terminal.at, now)
+	-- Keep owner replay terminal even if the bounded world cache churns.
+	for player, session in castSessions do
+		if player.UserId == a.casterUserId then
+			CastReceipts.put(session.receipts, a, now)
+			CastReceipts.terminate(session.receipts, a.castId, terminal.reason, terminal.at, now)
+			break
+		end
+	end
+	sendTerminal(nil, a.castId, terminal)
+end
 local function sendDisposition(player: Player, value: any, status: string, reason: string)
 	Net.CastDisposition.Fire(player, {
 		generation = value.generation,
@@ -677,6 +704,7 @@ local function sendDisposition(player: Player, value: any, status: string, reaso
 end
 
 function Abilities.start()
+	lifetimes.onTerminal = recordTerminal
 	local function join(player: Player)
 		local session: CastSession = {
 			admission = CastAdmission.new(HttpService:GenerateGUID(false), Config.CastProtocol),
@@ -837,9 +865,14 @@ function Abilities.start()
 			warn("Cast authorization internal_error")
 		end
 		if result.receipt and result.receipt.status == "accepted" then
-			local entry = CastReceipts.get(session.receipts, result.receipt.castId :: string, os.clock())
+			local key = result.receipt.castId :: string
+			local entry = CastReceipts.get(terminalReceipts, key, os.clock())
+				or CastReceipts.get(session.receipts, key, os.clock())
 			if entry and entry.acceptance then
 				sendAcceptance(player, entry.acceptance, result.kind == "completed")
+				if entry.terminal then
+					sendTerminal(player, key, entry.terminal)
+				end
 			else
 				sendDisposition(player, value, "expired", "receipt_expired")
 			end
@@ -906,6 +939,7 @@ function Abilities.start()
 			end
 		end
 		CastLifetime.expire(lifetimes, now)
+		CastReceipts.prune(terminalReceipts, now)
 	end)
 end
 

@@ -11,7 +11,12 @@ export type Handle = {
 	finished: { [number]: boolean },
 	terminal: CastReceipts.Terminal?,
 }
-export type State = { capacity: number, active: { [string]: Handle }, count: number }
+export type State = {
+	capacity: number,
+	active: { [string]: Handle },
+	count: number,
+	onTerminal: ((Handle, number) -> ())?,
+}
 function CastLifetime.new(capacity: number): State
 	assert(capacity >= 1 and capacity % 1 == 0 and capacity < math.huge, "invalid world capacity")
 	return { capacity = capacity, active = {}, count = 0 }
@@ -51,6 +56,10 @@ function CastLifetime.terminate(s: State, h: Handle, reason: string, now: number
 	h.terminal = table.freeze({ reason = reason, at = h.acceptance.acceptedAt + now - h.startedAt })
 	s.active[h.acceptance.castId] = nil
 	s.count -= 1
+	-- Synchronous non-yielding handoff; only the winning transition invokes it.
+	if s.onTerminal then
+		s.onTerminal(h, now)
+	end
 	return true
 end
 function CastLifetime.finish(s: State, h: Handle, resource: number, now: number): boolean

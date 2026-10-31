@@ -163,10 +163,11 @@ local SerdesThread: thread?
 Queue.Reliable[2] = table.create(256)
 Queue.Reliable[3] = table.create(256)
 Queue.Reliable[4] = table.create(256)
+Queue.Reliable[5] = table.create(256)
 Queue.Unreliable[1] = table.create(256)
 Queue.Unreliable[2] = table.create(256)
-Queue.Reliable[8] = table.create(256)
 Queue.Reliable[9] = table.create(256)
+Queue.Reliable[10] = table.create(256)
 export type ActionKind = ("Attack" | "Parry" | "Guard" | "Stance")
 function SerdesFunctions.WriteEVENT_CastRequest(Value: { moveId: string, generation: string, aim: Vector3, point: Vector3?, seq: number }): ()
 	-- Allocate BLOCK: 18 bytes
@@ -268,6 +269,22 @@ function SerdesFunctions.ReadEVENT_CastAccepted(): ({ castId: string, generation
 	return Value
 end
 
+function SerdesFunctions.ReadEVENT_CastTerminal(): ({ castId: string, reason: string, at: number })
+	-- Read BLOCK: 10 bytes
+	local BLOCK_START = Read(10)
+	local Value = {} :: any
+	local Length = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+	Value.castId = buffer.readstring(RecieveBuffer, Read(Length), Length)
+	if #Value.castId < 0 then error(`Expected length of "Value.castId" to be larger than or equal to 0, got {#Value.castId} instead.`) end
+	if #Value.castId > 70 then error(`Expected length of "Value.castId" to be smaller than or equal to  70, got {#Value.castId} instead.`) end
+	Length = buffer.readu8(RecieveBuffer, BLOCK_START + 1)
+	Value.reason = buffer.readstring(RecieveBuffer, Read(Length), Length)
+	if #Value.reason < 0 then error(`Expected length of "Value.reason" to be larger than or equal to 0, got {#Value.reason} instead.`) end
+	if #Value.reason > 64 then error(`Expected length of "Value.reason" to be smaller than or equal to  64, got {#Value.reason} instead.`) end
+	Value.at = buffer.readf64(RecieveBuffer, BLOCK_START + 2)
+	return Value
+end
+
 function SerdesFunctions.ReadEVENT_CastDisposition(): ({ generation: string, seq: number, moveId: string, status: string, reason: string })
 	-- Read BLOCK: 6 bytes
 	local BLOCK_START = Read(6)
@@ -295,7 +312,7 @@ end
 function SerdesFunctions.WriteEVENT_Action(Value: { kind: ("Attack" | "Parry" | "Guard" | "Stance"), dir: Vector3?, seq: number }): ()
 	-- Allocate BLOCK: 5 bytes
 	local BLOCK_START = Allocate(5)
-	buffer.writeu8(SendBuffer, BLOCK_START + 0, 5)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 6)
 	if Value.kind == "Attack" then
 		buffer.writeu8(SendBuffer, BLOCK_START + 1, 0)
 	elseif Value.kind == "Parry" then
@@ -322,7 +339,7 @@ end
 function SerdesFunctions.WriteEVENT_Equip(Value: { slot: number, uid: string }): ()
 	-- Allocate BLOCK: 3 bytes
 	local BLOCK_START = Allocate(3)
-	buffer.writeu8(SendBuffer, BLOCK_START + 0, 6)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 7)
 	buffer.writeu8(SendBuffer, BLOCK_START + 1, Value.slot)
 	local Length = #Value.uid
 	buffer.writeu8(SendBuffer, BLOCK_START + 2, Length)
@@ -333,7 +350,7 @@ end
 function SerdesFunctions.WriteEVENT_SelectSlot(Value: { slot: number }): ()
 	-- Allocate BLOCK: 2 bytes
 	local BLOCK_START = Allocate(2)
-	buffer.writeu8(SendBuffer, BLOCK_START + 0, 7)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 8)
 	buffer.writeu8(SendBuffer, BLOCK_START + 1, Value.slot)
 end
 
@@ -464,14 +481,14 @@ end
 function SerdesFunctions.WriteEVENT_BindStart(Value: { target: Model }): ()
 	-- Allocate BLOCK: 1 bytes
 	local BLOCK_START = Allocate(1)
-	buffer.writeu8(SendBuffer, BLOCK_START + 0, 10)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 11)
 	table.insert(SendInstances, Value.target or Null)
 end
 
 function SerdesFunctions.WriteEVENT_BindInput(Value: { channel: boolean, shard: boolean }): ()
 	-- Allocate BLOCK: 3 bytes
 	local BLOCK_START = Allocate(3)
-	buffer.writeu8(SendBuffer, BLOCK_START + 0, 11)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 12)
 	buffer.writeu8(SendBuffer, BLOCK_START + 1, Value.channel and 1 or 0)
 	buffer.writeu8(SendBuffer, BLOCK_START + 2, Value.shard and 1 or 0)
 end
@@ -479,7 +496,7 @@ end
 function SerdesFunctions.WriteEVENT_Feed(Value: { uid: string, rare: boolean }): ()
 	-- Allocate BLOCK: 3 bytes
 	local BLOCK_START = Allocate(3)
-	buffer.writeu8(SendBuffer, BLOCK_START + 0, 12)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 13)
 	local Length = #Value.uid
 	buffer.writeu8(SendBuffer, BLOCK_START + 1, Length)
 	Allocate(Length)
@@ -490,21 +507,21 @@ end
 function SerdesFunctions.WriteEVENT_Refine(Value: { holding: boolean }): ()
 	-- Allocate BLOCK: 2 bytes
 	local BLOCK_START = Allocate(2)
-	buffer.writeu8(SendBuffer, BLOCK_START + 0, 13)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 14)
 	buffer.writeu8(SendBuffer, BLOCK_START + 1, Value.holding and 1 or 0)
 end
 
 function SerdesFunctions.WriteEVENT_Breakthrough(Value: { start: boolean }): ()
 	-- Allocate BLOCK: 2 bytes
 	local BLOCK_START = Allocate(2)
-	buffer.writeu8(SendBuffer, BLOCK_START + 0, 14)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 15)
 	buffer.writeu8(SendBuffer, BLOCK_START + 1, Value.start and 1 or 0)
 end
 
 function SerdesFunctions.WriteEVENT_CrucibleStart(Value: { a: string, b: string }): ()
 	-- Allocate BLOCK: 3 bytes
 	local BLOCK_START = Allocate(3)
-	buffer.writeu8(SendBuffer, BLOCK_START + 0, 15)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 16)
 	local Length = #Value.a
 	buffer.writeu8(SendBuffer, BLOCK_START + 1, Length)
 	Allocate(Length)
@@ -518,14 +535,14 @@ end
 function SerdesFunctions.WriteEVENT_CruciblePress(Value: { press: boolean }): ()
 	-- Allocate BLOCK: 2 bytes
 	local BLOCK_START = Allocate(2)
-	buffer.writeu8(SendBuffer, BLOCK_START + 0, 16)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 17)
 	buffer.writeu8(SendBuffer, BLOCK_START + 1, Value.press and 1 or 0)
 end
 
 function SerdesFunctions.WriteEVENT_WeaveSet(Value: { core: string, support: string }): ()
 	-- Allocate BLOCK: 3 bytes
 	local BLOCK_START = Allocate(3)
-	buffer.writeu8(SendBuffer, BLOCK_START + 0, 17)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 18)
 	local Length = #Value.core
 	buffer.writeu8(SendBuffer, BLOCK_START + 1, Length)
 	Allocate(Length)
@@ -549,6 +566,9 @@ if not RunService:IsRunning() then
 		On = NOOP
 	},
 	CastAccepted = {
+		On = NOOP
+	},
+	CastTerminal = {
 		On = NOOP
 	},
 	CastDisposition = {
@@ -667,37 +687,48 @@ Reliable.OnClientEvent:Connect(function(Buffer: buffer, Instances: {Instance})
 				table.insert(Queue.Reliable[3], {Value} :: {any})
 			end
 		elseif Index == 4 then
-			local Value: { generation: string, seq: number, moveId: string, status: string, reason: string } = SerdesFunctions.ReadEVENT_CastDisposition()
+			local Value: { castId: string, reason: string, at: number } = SerdesFunctions.ReadEVENT_CastTerminal()
 			if Events.Reliable[4] ~= nil then
-				SerdesEvent = "CastDisposition"
+				SerdesEvent = "CastTerminal"
 				Events.Reliable[4](Value)
 			else
 				if #Queue.Reliable[4] > 256 then
-					warn("[Blink]: Event queue of \"CastDisposition\" exceeded 256, did you forget to implement a listener?")
+					warn("[Blink]: Event queue of \"CastTerminal\" exceeded 256, did you forget to implement a listener?")
 				end
 				table.insert(Queue.Reliable[4], {Value} :: {any})
 			end
-		elseif Index == 8 then
-			local Value: { uid: string, hp: number, qi: number, tags: { string }, rank: number } = SerdesFunctions.ReadEVENT_EntityState()
-			if Events.Reliable[8] ~= nil then
-				SerdesEvent = "EntityState"
-				Events.Reliable[8](Value)
+		elseif Index == 5 then
+			local Value: { generation: string, seq: number, moveId: string, status: string, reason: string } = SerdesFunctions.ReadEVENT_CastDisposition()
+			if Events.Reliable[5] ~= nil then
+				SerdesEvent = "CastDisposition"
+				Events.Reliable[5](Value)
 			else
-				if #Queue.Reliable[8] > 256 then
-					warn("[Blink]: Event queue of \"EntityState\" exceeded 256, did you forget to implement a listener?")
+				if #Queue.Reliable[5] > 256 then
+					warn("[Blink]: Event queue of \"CastDisposition\" exceeded 256, did you forget to implement a listener?")
 				end
-				table.insert(Queue.Reliable[8], {Value} :: {any})
+				table.insert(Queue.Reliable[5], {Value} :: {any})
 			end
 		elseif Index == 9 then
-			local Value: { { path: string, value: any } } = SerdesFunctions.ReadEVENT_ProfileDelta()
+			local Value: { uid: string, hp: number, qi: number, tags: { string }, rank: number } = SerdesFunctions.ReadEVENT_EntityState()
 			if Events.Reliable[9] ~= nil then
-				SerdesEvent = "ProfileDelta"
+				SerdesEvent = "EntityState"
 				Events.Reliable[9](Value)
 			else
 				if #Queue.Reliable[9] > 256 then
-					warn("[Blink]: Event queue of \"ProfileDelta\" exceeded 256, did you forget to implement a listener?")
+					warn("[Blink]: Event queue of \"EntityState\" exceeded 256, did you forget to implement a listener?")
 				end
 				table.insert(Queue.Reliable[9], {Value} :: {any})
+			end
+		elseif Index == 10 then
+			local Value: { { path: string, value: any } } = SerdesFunctions.ReadEVENT_ProfileDelta()
+			if Events.Reliable[10] ~= nil then
+				SerdesEvent = "ProfileDelta"
+				Events.Reliable[10](Value)
+			else
+				if #Queue.Reliable[10] > 256 then
+					warn("[Blink]: Event queue of \"ProfileDelta\" exceeded 256, did you forget to implement a listener?")
+				end
+				table.insert(Queue.Reliable[10], {Value} :: {any})
 			end
 		end
 	end
@@ -775,8 +806,8 @@ local Returns = table.freeze({
 			end
 		end
 	},
-	CastDisposition = {
-		On = function(Listener: (Value: { generation: string, seq: number, moveId: string, status: string, reason: string }) -> ()): () -> ()
+	CastTerminal = {
+		On = function(Listener: (Value: { castId: string, reason: string, at: number }) -> ()): () -> ()
 			Events.Reliable[4] = Listener
 			for Index, Arguments in Queue.Reliable[4] do
 				Listener(table.unpack(Arguments))
@@ -785,6 +816,20 @@ local Returns = table.freeze({
 			return function (): ()
 				if Events.Reliable[4] == Listener then
 					Events.Reliable[4] = nil
+				end
+			end
+		end
+	},
+	CastDisposition = {
+		On = function(Listener: (Value: { generation: string, seq: number, moveId: string, status: string, reason: string }) -> ()): () -> ()
+			Events.Reliable[5] = Listener
+			for Index, Arguments in Queue.Reliable[5] do
+				Listener(table.unpack(Arguments))
+			end
+			Queue.Reliable[5] = {}
+			return function (): ()
+				if Events.Reliable[5] == Listener then
+					Events.Reliable[5] = nil
 				end
 			end
 		end
@@ -837,20 +882,6 @@ local Returns = table.freeze({
 	},
 	EntityState = {
 		On = function(Listener: (Value: { uid: string, hp: number, qi: number, tags: { string }, rank: number }) -> ()): () -> ()
-			Events.Reliable[8] = Listener
-			for Index, Arguments in Queue.Reliable[8] do
-				Listener(table.unpack(Arguments))
-			end
-			Queue.Reliable[8] = {}
-			return function (): ()
-				if Events.Reliable[8] == Listener then
-					Events.Reliable[8] = nil
-				end
-			end
-		end
-	},
-	ProfileDelta = {
-		On = function(Listener: (Value: { { path: string, value: any } }) -> ()): () -> ()
 			Events.Reliable[9] = Listener
 			for Index, Arguments in Queue.Reliable[9] do
 				Listener(table.unpack(Arguments))
@@ -859,6 +890,20 @@ local Returns = table.freeze({
 			return function (): ()
 				if Events.Reliable[9] == Listener then
 					Events.Reliable[9] = nil
+				end
+			end
+		end
+	},
+	ProfileDelta = {
+		On = function(Listener: (Value: { { path: string, value: any } }) -> ()): () -> ()
+			Events.Reliable[10] = Listener
+			for Index, Arguments in Queue.Reliable[10] do
+				Listener(table.unpack(Arguments))
+			end
+			Queue.Reliable[10] = {}
+			return function (): ()
+				if Events.Reliable[10] == Listener then
+					Events.Reliable[10] = nil
 				end
 			end
 		end

@@ -54,6 +54,8 @@ local function harness(step, protocol)
 		pending = {},
 		acceptedWire = {},
 		dispositionWire = {},
+		terminalWire = {},
+		wireOrder = {},
 		strain = 0,
 		fought = 0,
 		published = 0,
@@ -169,13 +171,26 @@ local function harness(step, protocol)
 		pools = { [player] = h.qi },
 		cooldowns = { [player] = h.cds },
 		Net = {
+			CastTerminal = {
+				FireAll = function(v)
+					table.insert(h.terminalWire, { audience = "all", value = v })
+					table.insert(h.wireOrder, "terminal:all")
+				end,
+				Fire = function(to, v)
+					assert(to == player)
+					table.insert(h.terminalWire, { audience = "owner", value = v })
+					table.insert(h.wireOrder, "terminal:owner")
+				end,
+			},
 			CastAccepted = {
 				FireAll = function(v)
 					table.insert(h.acceptedWire, { audience = "all", value = v })
+					table.insert(h.wireOrder, "accept:all")
 				end,
 				Fire = function(to, v)
 					assert(to == player)
 					table.insert(h.acceptedWire, { audience = "owner", value = v })
+					table.insert(h.wireOrder, "accept:owner")
 				end,
 			},
 			CastDisposition = {
@@ -276,10 +291,11 @@ local function harness(step, protocol)
 			.. kitSource
 			.. authorization
 			.. dispatch
-			.. "\nreturn { authorize = authorizeCast, deliver = deliverCast, sessions = castSessions }",
+			.. "\nreturn { authorize = authorizeCast, deliver = deliverCast, sessions = castSessions, worldReceipts = terminalReceipts }",
 		{ environment = env, injectGlobals = true }
 	)()
 	h.sessions = seam.sessions
+	h.worldReceipts = seam.worldReceipts
 	h.qi = env.pools[player]
 	h.qi.current = 100
 	h.cds = env.cooldowns[player]
@@ -328,6 +344,79 @@ local function receipt(h, v)
 	return h.env.CastReceipts.get(h.sessions[h.player].receipts, v.generation .. ":" .. tostring(v.seq), h.now)
 end
 local cases = {
+	["world terminal replay stays bounded after departure and expires without new broadcasts"] = function()
+		local h = harness()
+		h.worldReceipts.policy =
+			table.freeze({ capacity = 2, responseSeconds = 10, tombstoneSeconds = 12, maxLifetimeSeconds = 10 })
+		h.callback(h.player, packet(h, 1, "move.rime.fall"))
+		local first = h.deliveries[1].lifetime
+		h.players.PlayerRemoving:Fire(h.player)
+		Lifetime.finish(h.env.lifetimes, first, 1, h.now)
+		for seq = 2, 4 do
+			local a = table.clone(first.acceptance)
+			a.seq, a.castId = seq, a.generation .. ":" .. seq
+			local handle = Lifetime.start(h.env.lifetimes, a, h.now, 1, 1)
+			Lifetime.finish(h.env.lifetimes, handle, 1, h.now)
+		end
+		local n = 0
+		for _, entry in h.worldReceipts.entries do
+			n += 1
+			assert(entry.acceptance and entry.terminal)
+		end
+		assert(n == 2 and h.worldReceipts.entries[first.acceptance.castId] == nil and #h.terminalWire == 4)
+		h.now += 13
+		h.heartbeat(0)
+		assert(next(h.worldReceipts.entries) == nil and #h.terminalWire == 4)
+	end,
+
+	["terminal broadcasts once, owner replay orders original acceptance before original terminal"] = function()
+		local h = harness()
+		local v = packet(h, 1, "move.rime.fall")
+		h.callback(h.player, v)
+		local handle = h.deliveries[1].lifetime
+		h.now += 2
+		assert(Lifetime.finish(h.env.lifetimes, handle, 1, h.now))
+		local terminal = h.terminalWire[1]
+		assert(terminal.audience == "all" and terminal.value.castId == handle.acceptance.castId)
+		assert(terminal.value.at == handle.terminal.at and terminal.value.reason == "completed")
+		assert(not Lifetime.terminate(h.env.lifetimes, handle, "expired", h.now))
+		table.clear(h.sessions[h.player].receipts.entries) -- world replay survives owner cache eviction
+		h.root.Position = rb.Vector3.new(99, 99, 99)
+		h.callback(h.player, v)
+		assert(#h.terminalWire == 2 and h.terminalWire[2].audience == "owner")
+		assert(h.terminalWire[2].value.at == terminal.value.at)
+		assert(h.wireOrder[#h.wireOrder - 1] == "accept:owner" and h.wireOrder[#h.wireOrder] == "terminal:owner")
+		assert(h.acceptedWire[2].value.origin == h.acceptedWire[1].value.origin)
+		assert(#h.deliveries == 1 and h.strain == 1)
+	end,
+	["departure before completion still broadcasts terminal exactly once to observers"] = function()
+		local h = harness()
+		local v = packet(h, 1, "move.wind_step")
+		h.callback(h.player, v)
+		h.players.PlayerRemoving:Fire(h.player)
+		h.now += h.pending[1].seconds
+		h.pending[1].fn()
+		h.pending[1].fn()
+		h.heartbeat(0)
+		assert(#h.terminalWire == 1 and h.terminalWire[1].audience == "all")
+		assert(h.terminalWire[1].value.reason == "completed")
+	end,
+	["heartbeat expiry emits one terminal; cache timeout cannot cause replay delivery"] = function()
+		local h = harness()
+		local v = packet(h, 1, "move.rime.fall")
+		h.callback(h.player, v)
+		local handle = h.deliveries[1].lifetime
+		h.now = handle.deadline
+		h.heartbeat(0)
+		assert(#h.terminalWire == 1 and h.terminalWire[1].value.reason == "expired")
+		h.callback(h.player, v)
+		assert(#h.terminalWire == 2 and h.terminalWire[2].audience == "owner")
+		h.now += 13
+		h.heartbeat(0)
+		h.callback(h.player, v)
+		assert(#h.terminalWire == 2 and #h.deliveries == 1)
+	end,
+
 	["world capacity rejects before atomic payment; free room admits a fresh sequence only"] = function()
 		local h = harness(2)
 		h.env.lifetimes.capacity = 1

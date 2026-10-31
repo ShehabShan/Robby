@@ -51,6 +51,13 @@ event CastAccepted {
 		aim: vector, origin: vector, centre: vector?,
 	},
 }
+-- Server-owned terminal; broadcast once, original acceptance precedes owner replay.
+event CastTerminal {
+	From: Server,
+	Type: Reliable,
+	Call: SingleSync,
+	Data: struct { castId: string(..70), reason: string(..64), at: f64 },
+}
 -- Expired means response unavailable, NOT cancellation of a paid world hazard.
 event CastDisposition {
 	From: Server,

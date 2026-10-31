@@ -278,3 +278,6 @@ Paid resources retain immutable acceptance independently of player sessions. Glo
 
 ### D-255 · S72 · 2026-10-31 — delayed burst belongs to its accepted character
 Shatter's delayed callback must find the same alive captured character with player still present; death/departure/replacement cancels instead of rebinding to respawn. Slot switch alone does not cancel. Accepted zones/projectiles remain world-owned and survive departure. Successful move timing unchanged.
+
+### D-256 — S73: reliable world terminal handoff (T-043c0b3c3b1)
+One synchronous callback on the winning CastLifetime transition emits CastTerminal reliably to all clients, independent of player presence. Completed world replay retains immutable original acceptance + terminal for 12 seconds, max 2048 entries; the owner cache is also marked terminal. An admitted duplicate replays acceptance then terminal owner-only; no replay admission, payment or delivery. Cache eviction/expiry never cancels active world hazards. Server tests cover completion, expiry, departure, duplicate order, bounded replay and all real-source delivery kinds. Client tombstones and rendering remain separate steps; no publication.
