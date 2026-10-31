@@ -1,11 +1,11 @@
 --!strict
--- Timed status tags per entity (T-015b, D-062): `State.Warded` (Stone Ward) and `State.Iframes` (Wind Step).
+-- Timed status tags per entity (T-015b, D-062): `State.Iframes` (Wind Step). Stone Ward removed (D-215).
 -- Pure: no services, so it is tested under Lune. The server passes its clock (`now`) in.
 
 export type Statuses = { [any]: { [string]: number } }
 
 local NEVER = -math.huge
-local BLOCKING = { "State.Warded", "State.Iframes" }
+local BLOCKING = { "State.Iframes" }
 
 local Status = {}
 

@@ -1,5 +1,8 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S58 — 2026-10-31 (same bot, ≈19 OLU)
+- T-036 planned with owner (approved; waits for build). T-037 done: lean-reading rule (D-214), Stone Ward removed (D-215). check.sh PASS. Not published.
+
 ## S57 — 2026-10-31 (same bot, ≈5 OLU)
 - T-035 done (D-213): Tab back to Roblox player list; top-bar Inventory icon opens the loadout. v0.0.19. check.sh PASS. Published (owner asked).
 

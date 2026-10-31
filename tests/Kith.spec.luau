@@ -13,17 +13,14 @@ return {
 	["kith: all M1 Kith validate together"] = function()
 		local built, errors = Registry.build(All.content(Config))
 		eq(#errors, 0, `errors: {table.concat(errors, "; ")}`)
-		for _, id in { "kith.crescent", "kith.stone", "kith.wind" } do
+		for _, id in { "kith.crescent", "kith.wind" } do
 			eq(built.kith[id] ~= nil, true, id)
 		end
 	end,
-	["kith: Stone Ward and Wind Step mirror Config"] = function()
+	["kith: Wind Step mirrors Config"] = function()
 		local built = Registry.build(All.content(Config))
-		local ward, step = built.moves["move.stone_ward"], built.moves["move.wind_step"]
-		local s, w = Config.Abilities.StoneWard, Config.Abilities.WindStep
-		eq(ward.costs.qi, s.cost)
-		eq(ward.cooldown, s.cooldown)
-		eq(built.effects["effect.stone.ward"].seconds, s.seconds)
+		local step = built.moves["move.wind_step"]
+		local w = Config.Abilities.WindStep
 		eq(step.costs.qi, w.cost)
 		eq(step.cooldown, w.cooldown)
 		eq(step.delivery.params.distance, w.distance)
@@ -31,7 +28,7 @@ return {
 	end,
 	["kith: Self moves cast through Moves"] = function()
 		local built = Registry.build(All.content(Config))
-		for _, id in { "move.stone_ward", "move.wind_step" } do
+		for _, id in { "move.wind_step" } do
 			local move = built.moves[id]
 			eq(move.delivery.kind, "Self", id)
 			local caster: any = { qi = Config.Qi.max, strain = 0, strainMax = 10, hp = 100, cooldowns = {} }

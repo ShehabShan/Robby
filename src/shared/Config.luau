@@ -30,7 +30,6 @@ local Config = {
 			spawnOffset = 3,
 		},
 		-- M1 Kith moves (T-015a). Initial tuning; tune in playtest.
-		StoneWard = { cost = 15, cooldown = 6, seconds = 1.5 },
 		WindStep = { cost = 8, cooldown = 3, distance = 14, iframes = 0.3, burstSeconds = 0.25 }, -- burstSeconds: client covers `distance` in this time; server speed guard mirrors it (F-08, D-204)
 		-- Rimeshard Kith (T-027c, R-028 §2, D-180): Chill sets up (R1/Z/X), Shatter pays off (C). Tune in playtest.
 		Rimeshard = {
@@ -200,7 +199,7 @@ local Config = {
 		weakenAt = 0.3, -- a wild Kith can be bound at or below this share of its max health (T-017b)
 		range = 24, -- studs from the player to the wild Kith
 		wildWill = 1, -- Will when the wild Kith has no `Will` attribute
-		dummyKith = "kith.stone", -- the training dummy doubles as a wild Kith until the world spawns them -- guided first bind: the bar never drops below this
+		dummyKith = "kith.crescent", -- the training dummy doubles as a wild Kith until the world spawns them -- guided first bind: the bar never drops below this
 	},
 	Beasts = { -- wild beasts (T-022, D-124); server AI in Shared.BeastBrain; tune in playtests
 		respawn = 20, -- seconds after a beast dies or is bound
@@ -239,7 +238,7 @@ local Config = {
 				cooldown = 3,
 				damage = 18,
 				shards = 14,
-				wildKith = "kith.stone",
+				wildKith = "kith.crescent",
 			},
 		},
 	},
@@ -277,9 +276,9 @@ local Config = {
 		baseSlots = 3, -- Core slots at Rank 1 (GDD)
 		slotsPerRank = 1,
 		maxSlots = 7, -- Mortal cap
-		warnRoles = { "Strike", "Guard" }, -- loadout screen warns when none is equipped (D-063)
+		warnRoles = { "Strike" }, -- loadout screen warns when none is equipped (D-063)
 		-- granted to a profile with no Kith (D-064); slots fill in this order, so Rimeshard is the active stance (D-194)
-		starter = { "kith.rimeshard", "kith.stone", "kith.crescent", "kith.wind" },
+		starter = { "kith.rimeshard", "kith.crescent", "kith.wind" },
 		gifts = { "kith.rimeshard" }, -- granted once to existing profiles that lack the species (D-195)
 	},
 }

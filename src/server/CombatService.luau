@@ -168,7 +168,7 @@ local function attack(player: Player, s: State, rawDir: any, now: number)
 		local victim = Players:GetPlayerFromCharacter(model)
 		local vs = if victim then states[victim] else nil
 		if victim and Status.blocksHit(statuses, victim, now) then
-			continue -- Stone Ward or Wind Step i-frames
+			continue -- Wind Step i-frames
 		end
 		if vs then
 			if Combat.parries(vs.parry, now) then
@@ -191,7 +191,7 @@ local function attack(player: Player, s: State, rawDir: any, now: number)
 	end
 end
 
--- A beast strike on a player (T-022b): "evaded" (i-frames / Stone Ward), "parried", "blocked" or "hit".
+-- A beast strike on a player (T-022b): "evaded" (i-frames), "parried", "blocked" or "hit".
 -- A guard break staggers the player and still counts as a hit.
 function CombatService.incoming(victim: Player, amount: number, now: number): string
 	if Status.blocksHit(statuses, victim, now) then

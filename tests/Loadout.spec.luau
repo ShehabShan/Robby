@@ -14,7 +14,7 @@ local built = Registry.build(All.content(Config))
 local function owned(): any
 	return {
 		u1 = { speciesId = "kith.crescent" },
-		u2 = { speciesId = "kith.stone" },
+		u2 = { speciesId = "kith.wind" },
 		u3 = { speciesId = "kith.wind" },
 		u4 = { speciesId = "kith.gone" },
 	}
@@ -83,18 +83,14 @@ return {
 		local lo, own = fresh(), owned()
 		eq(#Loadout.gaps(lo, own, built, Config), #Config.Loadout.warnRoles, "empty warns all")
 		Loadout.equip(lo, Config, 1, own, built, 1, "u1")
-		local gaps = Loadout.gaps(lo, own, built, Config)
-		eq(#gaps, 1, "one gap")
-		eq(gaps[1], "Guard", "no Guard")
 		eq(Loadout.roleCounts(lo, own, built).Strike, 1, "strike count")
-		Loadout.equip(lo, Config, 1, own, built, 2, "u2")
 		eq(#Loadout.gaps(lo, own, built, Config), 0, "no gaps")
 	end,
 	["loadout: only equipped Kith moves are allowed"] = function()
 		local lo, own = fresh(), owned()
 		Loadout.equip(lo, Config, 1, own, built, 3, "u2")
 		local allowed = Loadout.allowedMoves(lo, own, built)
-		eq(allowed["move.stone_ward"], true, "equipped move")
+		eq(allowed["move.wind_step"], true, "equipped move")
 		eq(allowed["move.crescent_cut"], nil, "unequipped move")
 	end,
 	["loadout: six GDD roles; every M1 Kith has one"] = function()
@@ -108,12 +104,12 @@ return {
 		local data: any = { rank = 1, kith = {}, loadout = { slots = {}, weaves = {} } }
 		eq(#Loadout.prepare(data, Config, built), 0, "no issues")
 		eq(data.loadout.slots[1], "starter.rimeshard", "slot 1")
-		eq(data.loadout.slots[2], "starter.stone", "slot 2")
-		eq(data.loadout.slots[3], "starter.crescent", "slot 3")
+		eq(data.loadout.slots[2], "starter.crescent", "slot 2")
+		eq(data.loadout.slots[3], "starter.wind", "slot 3")
 		eq(data.kith["starter.wind"] ~= nil, true, "wind owned")
 		eq(data.kith["gift.rimeshard"], nil, "no duplicate gift")
 		eq(Loadout.activeKith(data.loadout, data.kith, built), "kith.rimeshard", "Rimeshard stance reachable")
-		for _, id in { "move.crescent_cut", "move.stone_ward" } do
+		for _, id in { "move.crescent_cut", "move.wind_step" } do
 			eq(Loadout.canCast(data.loadout, data.kith, built, id), true, id)
 		end
 	end,
@@ -143,7 +139,7 @@ return {
 		Loadout.prepare(data, Config, built)
 		eq(data.kith.starter, nil, "no starter grant")
 		eq(data.loadout.slots[1], "", "kept empty")
-		eq(Loadout.canCast(data.loadout, data.kith, built, "move.stone_ward"), true, "equipped")
+		eq(Loadout.canCast(data.loadout, data.kith, built, "move.wind_step"), true, "equipped")
 		eq(Loadout.canCast(data.loadout, data.kith, built, "move.crescent_cut"), false, "unequipped refused")
 		local bare: any = { rank = 1, kith = owned() }
 		Loadout.prepare(bare, Config, built)

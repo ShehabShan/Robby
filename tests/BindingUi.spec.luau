@@ -99,10 +99,10 @@ return {
 	end,
 	["bind ui: picks the nearest bindable wild Kith"] = function()
 		local i = BindingUi.pickTarget(Config, built, {
-			{ speciesId = "kith.stone", hp = 100, maxHp = 100, dist = 2 }, -- healthy
-			{ speciesId = "kith.stone", hp = 20, maxHp = 100, dist = 10 },
-			{ speciesId = "kith.stone", hp = 10, maxHp = 100, dist = 6 },
-			{ speciesId = "kith.stone", hp = 10, maxHp = 100, dist = 999 }, -- far
+			{ speciesId = "kith.crescent", hp = 100, maxHp = 100, dist = 2 }, -- healthy
+			{ speciesId = "kith.crescent", hp = 20, maxHp = 100, dist = 10 },
+			{ speciesId = "kith.crescent", hp = 10, maxHp = 100, dist = 6 },
+			{ speciesId = "kith.crescent", hp = 10, maxHp = 100, dist = 999 }, -- far
 		})
 		eq(i, 3, "nearest weakened")
 		eq(BindingUi.pickTarget(Config, built, {}), nil, "none")
