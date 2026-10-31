@@ -350,3 +350,6 @@ CastWorldTree binds an unparented Folder before configuring/activating up to16 s
 
 ### D-283 (S80, 2026-10-31) — stage delivery lifecycle before Burst
 Split c2c2 into S-sized owned renderer (a), receipt/pose owner (b), and separately gated truthful moving Burst (c). Keep startup off and Burst explicitly unavailable until its original-character release-centre semantics are supported; no fabricated static ring or gameplay change.
+
+### D-284 (S80, 2026-10-31) — bounded delivery trees owned by outer gate leases
+CastDeliveryFx has independent bounded primary/reserve pools. One bound world tree per accepted cast, immutable metadata reference, immediate seek and disposer-based eviction; no second clock or receipt cache. Self/prediction allocate no world resources; pose anticipation is intentionally a no-op until authored. Burst remains explicit failure in both pools. Prepared only, no live startup or gameplay change.
