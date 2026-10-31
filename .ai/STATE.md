@@ -1,6 +1,7 @@
 # STATE
 
 ## Now (after S62)
+- S62 publish (owner asked): game v0.0.21 = Roblox place v25 (T-038 + T-039 + T-040), cloud test CLOUD ALL: PASS (276 specs) before publishing.
 - S62: T-040 done (D-227): development switch `Config.Upkeep.devAlwaysReady = true` keeps every owned Kith Ready (full Satiety, no Strain, never Dormant/Tired), so no feeding while testing. Owner's v0.0.20 screenshot showed a red Satiety dot on slot 1 (Rimeshard): it was starving, which explains the dead Z/X/C (T-038). check.sh PASS. Not published.
 - S61: T-039 done (D-224–D-226): Inventory shows each Kith's state (Ready / Hungry / Dormant / Tired) + Satiety % and a plain help line; Dormant/Tired Kith are greyed ("Feed first" / "Wait: tired") and the server refuses to equip them; screen titled Inventory, footer without overlap, "+N more Kith". check.sh PASS; CLOUD ALL: PASS on Saved v24 (275 specs, includes S60 T-038 code). Not published.
 - S60: T-038 doing (D-221–D-223): right click = Crescent Cut when Crescent is selected; HUD shows Dormant/Tired on a slot + client cast guard (likely cause of the dead Rimeshard: slot-1 Rimeshard starved); predicted slot highlight, HUD rebuilds only on change. check.sh PASS. Not cloud-tested, not published.
@@ -55,11 +56,11 @@
 - S18: T-020c Weave content + server Loom (D-090): Piercing Edge support, Blink `WeaveSet` at rest spots, `LoomService`, woven casts.
 - S17: T-019e client CrucibleHud (D-086) → **T-019 done**. Parallel sessions via git branches (D-087: `.ai/CLAIMS.md`, `claim.sh`, `merge.sh`, AGENTS §9). T-020 split a–d; T-020a Loom core (D-088) and T-020b Path Marks (D-089) done.
 - S16: T-018f breakthrough wiring; T-019a–d Crucible core, focus mini-game, server + Recoil, Twin Crescent (D-080–D-085).
-- Last publish: Roblox v23 = game v0.0.20 (S59b, owner asked, slot selection playtest). Before that: v19 = game v0.0.18 (S50, owner asked, for the T-027h mobile playtest). Before that: v16 (S39). Includes Crucible, Loom, Marks, speed guard, Rank-test credit, Mistmaw tuning, remote guard.
+- Last publish: Roblox v25 = game v0.0.21 (S62, owner asked, T-038/T-039/T-040 playtest). Before that: v23 = game v0.0.20 (S59b).
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-038 (Resume from: owner playtest of the next publish — Rimeshard cause was a starving Kith (red Satiety dot), now masked by T-040's dev switch; close T-038 when the owner confirms Z/X/C work.)
-- **NEXT:** Publish v0.0.21 (T-038 + T-039 + T-040) only if the owner asks; then T-022c beast feel; T-026d / T-027h wait for owner feedback in `research/inbox/`; then T-026c R15 animations, T-024 First 10 minutes. Before launch: set `devAlwaysReady = false`.
+- **NEXT:** owner playtest of v0.0.21 (do Rimeshard Z/X/C work now? Inventory OK?); then T-022c beast feel; T-026d / T-027h wait for owner feedback in `research/inbox/`; then T-026c R15 animations, T-024 First 10 minutes. Before launch: set `devAlwaysReady = false`.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
@@ -68,6 +69,6 @@
   - T-024 First 10 minutes · all above
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox).
-- **Last cloud test:** CLOUD ALL: PASS on Saved v24 (2026-10-31, S61, incl. T-039 care check); live = v23 (game v0.0.20)
+- **Last cloud test:** CLOUD ALL: PASS on v25 (2026-10-31, S62, 276 specs); live = v25 (game v0.0.21)
 - **Last check.sh:** CHECK: PASS (2026-10-31, S62)
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
