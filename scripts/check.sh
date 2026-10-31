@@ -31,6 +31,7 @@ run cast-dispatch lune run tests/cast_dispatch.luau
 run cast-lifecycle lune run tests/cast_lifecycle.luau
 run cast-receipt-client lune run tests/cast_receipt_client.luau
 run cast-contact-engine lune run tests/cast_contact_engine.luau
+run cast-world-tree lune run tests/cast_world_tree.luau
 run m1-authoring lune run tests/rime_m1_assets.luau
 mkdir -p build
 run build rojo build default.project.json -o build/Robby.rbxl
