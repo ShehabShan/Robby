@@ -66,6 +66,7 @@ function Ui.start(built: any, net: any)
 			slots = slots,
 			slotUids = uids,
 			owned = LoadoutScreen.parseOwned(player:GetAttribute("OwnedKith")),
+			care = LoadoutScreen.parseCare(player:GetAttribute("OwnedCare")),
 			roles = roles,
 			selected = model.selected,
 		}
@@ -108,6 +109,7 @@ function Ui.start(built: any, net: any)
 				t.TextColor3 = rgb(e.color)
 				t.TextSize = e.textSize or 14
 				t.Font = Enum.Font.GothamBold
+				t.TextWrapped = e.wrap == true -- care help line (T-039a)
 				t.TextXAlignment = if e.align == "left"
 					then Enum.TextXAlignment.Left
 					elseif e.align == "right" then Enum.TextXAlignment.Right

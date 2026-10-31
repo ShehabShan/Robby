@@ -89,6 +89,33 @@ return {
 		end
 		assert(LoadoutScreen.selectHint("touch"):find("Tap") ~= nil, "touch says tap")
 	end,
+	["inventory: care state per Kith with a plain help line (T-039a)"] = function()
+		local cfg = { Upkeep = { satietyMax = 100, strainMax = 100, hungryAt = 30 } }
+		local kith = {
+			a = { speciesId = "kith.crescent", satiety = 80, strain = 0 },
+			b = { speciesId = "kith.stone", satiety = 10, strain = 0 },
+			c = { speciesId = "kith.wind", satiety = 0, strain = 0, dormant = true },
+			d = { speciesId = "kith.wind", satiety = 50, strain = 100, exhaustedUntil = 20 },
+		}
+		local care = LoadoutScreen.parseCare(LoadoutScreen.encodeCare(kith, cfg, 10))
+		eq(care.a.state, "Ready", "ready")
+		eq(care.a.satiety, 80, "pct")
+		eq(care.b.state, "Hungry", "hungry")
+		eq(care.c.state, "Dormant", "dormant")
+		eq(care.d.state, "Exhausted", "exhausted")
+		eq(LoadoutScreen.careText(care.d), "Tired 50%", "tired word")
+		eq(LoadoutScreen.careText(nil), nil, "no data")
+		local s = state("touch", 360, 640, 3)
+		s.care = { u1 = { state = "Ready", satiety = 80 }, u2 = { state = "Dormant", satiety = 0 } }
+		local list = LoadoutScreen.build(s)
+		local m = byId(list)
+		eq(m.kith1.text, "Crescent · Strike (slot 1) · Ready 80%", "ready row")
+		eq(m.kith2.text, "Stone · Guard · Dormant 0%", "dormant row")
+		eq(m.careHelp.text, LoadoutScreen.CARE_HELP, "help line")
+		for _, e in list do
+			eq(e.x >= 0 and e.y >= 0 and e.x + e.w <= 360 and e.y + e.h <= 640, true, `{e.id} inside`)
+		end
+	end,
 	["loadout: Refine hint shows only with a bonus"] = function()
 		assert(LoadoutScreen.refineText(1.5) == "Refine ×1.5", "1.5")
 		assert(LoadoutScreen.refineText(1) == nil and LoadoutScreen.refineText(nil) == nil, "no bonus")

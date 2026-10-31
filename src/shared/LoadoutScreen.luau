@@ -5,6 +5,7 @@
 -- The server re-checks every request (LoadoutService, D-064).
 
 local HudLayout = require("./HudLayout")
+local KithCare = require("./KithCare")
 
 local LoadoutScreen = {}
 
@@ -22,7 +23,49 @@ export type State = {
 	roles: { [string]: string }, -- species id -> role
 	selected: number,
 	refine: number?, -- Refine multiplier from equipped utility Kith (Refining.multiplier, T-025b2)
+	care: { [string]: Care }?, -- uid -> care state (published as `OwnedCare`, T-039a)
 }
+export type Care = { state: string, satiety: number } -- KithCare state, satiety 0..100 %
+
+-- Player-facing care words (T-039a, D-224): "Exhausted" reads as "Tired" (owner's word).
+LoadoutScreen.STATE_LABEL = { Ready = "Ready", Hungry = "Hungry", Dormant = "Dormant", Exhausted = "Tired" }
+LoadoutScreen.CARE_HELP = "Hungry = weaker. Dormant = starved, can't fight: feed it a rare meal. "
+	.. "Tired = worn out, can't fight: wait to recover."
+
+-- "uid=State:pct,..." for every owned Kith (server publishes it as `OwnedCare`).
+function LoadoutScreen.encodeCare(kith: { [string]: any }, cfg: any, now: number): string
+	local parts = {}
+	for uid, inst in kith do
+		if type(inst) == "table" then
+			local _, satiety, state = KithCare.view(inst, cfg, now)
+			table.insert(parts, `{uid}={state}:{math.floor(satiety * 100 + 0.5)}`)
+		end
+	end
+	table.sort(parts)
+	return table.concat(parts, ",")
+end
+
+function LoadoutScreen.parseCare(raw: any): { [string]: Care }
+	local out: { [string]: Care } = {}
+	if type(raw) ~= "string" then
+		return out
+	end
+	for _, pair in string.split(raw, ",") do
+		local uid, state, pct = string.match(pair, "^([^=]+)=(%a+):(%d+)$")
+		if uid and state and pct then
+			out[uid] = { state = state, satiety = tonumber(pct) :: number }
+		end
+	end
+	return out
+end
+
+-- "Ready 80%" / "Tired 40%" for a Kith row, nil without data.
+function LoadoutScreen.careText(c: Care?): string?
+	if not c then
+		return nil
+	end
+	return `{LoadoutScreen.STATE_LABEL[c.state] or c.state} {c.satiety}%`
+end
 
 LoadoutScreen.MIN_TOUCH = HudLayout.MIN_TOUCH
 
@@ -249,6 +292,22 @@ function LoadoutScreen.build(s: State): { any }
 		align = "left",
 	})
 	top += 20
+	if s.care and next(s.care) then
+		table.insert(out, {
+			id = "careHelp",
+			kind = "text",
+			x = x0 + MARGIN,
+			y = top,
+			w = w - 2 * MARGIN,
+			h = 30,
+			color = { 200, 205, 215 },
+			text = LoadoutScreen.CARE_HELP,
+			textSize = 12,
+			align = "left",
+			wrap = true,
+		})
+		top += 34
+	end
 	local listW = w - 2 * MARGIN
 	local equipped: { [string]: number } = {}
 	for i, uid in s.slotUids do
@@ -264,6 +323,10 @@ function LoadoutScreen.build(s: State): { any }
 		end
 		local role = s.roles[o.species]
 		local tag = if equipped[o.uid] then ` (slot {equipped[o.uid]})` else ""
+		local care = LoadoutScreen.careText(if s.care then s.care[o.uid] else nil)
+		if care then
+			tag ..= ` · {care}`
+		end
 		local color = if role then (HudLayout.ROLE_COLOR[role] or { 110, 110, 120 }) else { 110, 110, 120 }
 		button(
 			out,

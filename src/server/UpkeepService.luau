@@ -12,6 +12,7 @@ local Config = require(ReplicatedStorage.Shared.Config)
 local Registry = require(ReplicatedStorage.Shared.Registry)
 local All = require(ReplicatedStorage.Shared.Content.All)
 local KithCare = require(ReplicatedStorage.Shared.KithCare)
+local LoadoutScreen = require(ReplicatedStorage.Shared.LoadoutScreen)
 local DataService = require(script.Parent.DataService)
 local Net = require(script.Parent.Net) -- Blink-generated (net/remotes.blink)
 local RemoteGuard = require(script.Parent.RemoteGuard)
@@ -55,6 +56,7 @@ local function publish(player: Player, data: any, now: number)
 			player:SetAttribute(`Slot{i}State`, nil)
 		end
 	end
+	player:SetAttribute("OwnedCare", LoadoutScreen.encodeCare(data.kith, Config, now)) -- Inventory care (T-039a)
 end
 
 local function tick(dt: number)
