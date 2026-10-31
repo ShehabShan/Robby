@@ -1,6 +1,7 @@
 # STATE
 
-## Now (after S55)
+## Now (after S56)
+- S56 (owner asked): T-034 done (D-211, D-212): owner could not find the Rimeshard stance. Fix: the gifted Rimeshard is auto-equipped into slot 1 once, so the stance works without the loadout menu; Needle chain gets an on-screen touch button (mobile). check.sh PASS. Not published, not cloud-tested.
 - S55 (same bot, owner asked): T-026c done (D-210): kit idle/walk/run/jump/land animations uploaded under the owner and wired (`Shared.MoveAnims`, `MoveAnimClient`). check.sh PASS. Cloud test PASS on place v20 (270/270 specs + smoke; earlier timeouts were an unanswered approval popup). Published as place v20 (game v0.0.18) for the owner walk playtest (T-026d).
 - S53 (same bot, owner asked): T-033 done (D-209): Studio saves split from live, every save sanitized, early saves after breakthrough/fusion/Binding. check.sh PASS. Not published.
 - S52 (owner inbox 2026-10-31): VISION Direction 6–7 — one thing at a time, refine/polish before expanding (D-206); endgame-ready backend, no endgame build (D-207). roblox-data skill trial found save gaps → T-033 (D-208). check.sh PASS.

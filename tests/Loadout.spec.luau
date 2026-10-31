@@ -122,6 +122,11 @@ return {
 		Loadout.prepare(data, Config, built)
 		eq(data.kith["gift.rimeshard"].speciesId, "kith.rimeshard", "gift granted")
 		eq(data.gifts["kith.rimeshard"], true, "gift recorded")
+		eq(data.loadout.slots[1], "gift.rimeshard", "gift auto-equipped in slot 1 (D-211)")
+		eq(Loadout.activeKith(data.loadout, data.kith, built), "kith.rimeshard", "stance reachable without the menu")
+		Loadout.unequip(data.loadout, 1)
+		Loadout.prepare(data, Config, built)
+		eq(data.loadout.slots[1], "", "a later unequip is respected")
 		eq(Loadout.equip(data.loadout, Config, 1, data.kith, built, 1, "gift.rimeshard"), true, "equippable")
 		eq(Loadout.activeKith(data.loadout, data.kith, built), "kith.rimeshard", "stance after equip")
 		data.kith["gift.rimeshard"] = nil
@@ -129,7 +134,12 @@ return {
 		eq(data.kith["gift.rimeshard"], nil, "not granted twice")
 	end,
 	["loadout: prepare keeps a valid loadout and refuses unequipped moves"] = function()
-		local data: any = { rank = 1, kith = owned(), loadout = { slots = { "", "u2", "" }, weaves = {} } }
+		local data: any = {
+			rank = 1,
+			kith = owned(),
+			loadout = { slots = { "", "u2", "" }, weaves = {} },
+			giftsEquipped = { ["kith.rimeshard"] = true }, -- auto-equip already done (D-211)
+		}
 		Loadout.prepare(data, Config, built)
 		eq(data.kith.starter, nil, "no starter grant")
 		eq(data.loadout.slots[1], "", "kept empty")

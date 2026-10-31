@@ -208,6 +208,55 @@ function Loadout.prepare(data: any, cfg: any, built: any): { string }
 			lo.slots[i] = uid
 		end
 	end
+	-- Gifts go into slot 1 once (D-211): an unequipped gift is unreachable for players who never open the loadout
+	-- screen (S56: the owner could not find the Rimeshard stance). Later unequips are respected.
+	if type(data.giftsEquipped) ~= "table" then
+		data.giftsEquipped = {}
+	end
+	for _, speciesId in cfg.Loadout.gifts or {} do
+		if built.kith[speciesId] and not data.giftsEquipped[speciesId] then
+			data.giftsEquipped[speciesId] = true
+			local already = false
+			for _, k in Loadout.equipped(lo, data.kith, built) do
+				if k.id == speciesId then
+					already = true
+					break
+				end
+			end
+			local uid: string? = nil
+			if not already then
+				local giftUid = "gift." .. (string.gsub(speciesId, "^kith%.", ""))
+				local g = data.kith[giftUid]
+				if type(g) == "table" and g.speciesId == speciesId then
+					uid = giftUid
+				else
+					for u, k in data.kith do
+						if type(k) == "table" and k.speciesId == speciesId then
+							uid = u
+							break
+						end
+					end
+				end
+			end
+			if uid then
+				local n = Loadout.slotCount(cfg, data.rank or 1)
+				local len = math.min(n, math.max(#lo.slots, 1))
+				local slots: { string } = { uid }
+				for _, other in lo.slots do
+					if #slots >= len then
+						break
+					end
+					if other ~= "" and other ~= uid then
+						table.insert(slots, other)
+					end
+				end
+				for i = #slots + 1, len do
+					slots[i] = ""
+				end
+				lo.slots = slots
+			end
+		end
+	end
 	return issues
 end
 

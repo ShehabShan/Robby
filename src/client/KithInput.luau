@@ -136,11 +136,12 @@ function KithInput.start(sendCast: SendCast, sendAction: SendAction, fx: FxRegis
 			end
 			return Enum.ContextActionResult.Sink
 		end,
-		false,
+		true, -- on-screen button so the Needle chain works on mobile (D-212)
 		Enum.ContextActionPriority.High.Value,
 		Enum.UserInputType.MouseButton1,
 		Enum.KeyCode.ButtonR2
 	)
+	ContextActionService:SetTitle("KithChain", "Needle")
 
 	local bound: { string } = {}
 	local function bindSpecials()
