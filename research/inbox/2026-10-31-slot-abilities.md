@@ -8,3 +8,11 @@ Fix some issues:
 3) pressing E shot a sword cut or similar move, while I Haven’t selected any ability. It seem to be hard coded to E Button. Remove this from E and make it as a ability and put it inco to inventory so we can select and use it.
 
 (Ask me if you are confused or clarification of the issues I described)
+
+# Owner answers 2026-10-31 09:39 (-04), verbatim
+
+1) yes 
+2)Tell me what Stone Ward (v) do. if Wind Step (R) is dough, then it should be fixed to R key.
+3)for now, it will only moves camera as it is.
+
+(Z/X/C doing nothing: I think The ability isn't being selected or you haven't told me how to use it properly.)
