@@ -94,6 +94,21 @@ local Config = {
 	-- World and client end-of-life retention; covers max cast lifetime + expiry grace.
 	CastTerminal = { capacity = 2048, responseSeconds = 10, tombstoneSeconds = 12, maxLifetimeSeconds = 10 },
 	CastClientReceipt = { capacity = 256, responseSeconds = 10, tombstoneSeconds = 12, maxLifetimeSeconds = 10 },
+	-- Cosmetic-only initial budgets, NOT measured device tuning; no live adoption yet.
+	-- 10s receipt lifetime + 0.5s future allowance fits 12s terminal retention.
+	CastWarning = {
+		presentation = { capacity = 256, predictionSeconds = 1, tombstoneSeconds = 12, maxLifetimeSeconds = 10 },
+		perCast = 16,
+		clock = {
+			pendingCapacity = 64,
+			futureSeconds = 0.5,
+			maxWaitSeconds = 2,
+			maxSampleError = 1,
+			correctionPerSecond = 0.25,
+		},
+		warning = { capacity = 64, predictionSeconds = 1, tombstoneSeconds = 12, maxLifetimeSeconds = 10 },
+		warningPerCast = 2,
+	},
 	CastReceipt = { capacity = 128, responseSeconds = 10, tombstoneSeconds = 10, maxLifetimeSeconds = 10 },
 	RemoteRates = {
 		default = { rate = 10, burst = 10 },

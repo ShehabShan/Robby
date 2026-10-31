@@ -21,23 +21,33 @@ export type Frame = {
 -- Return true only if the command was handled. false/throw retires ALL resources
 -- for that cast; the later essential-cue layer receives the failure outcome.
 export type Renderer = (Frame) -> boolean
+export type Unavailable = (string, Presentation.Timeline, number) -> ()
 export type State = {
 	presentation: Presentation.State,
 	resources: Resources.State,
 	leases: { [string]: Resources.Lease },
 	render: Renderer,
+	unavailable: Unavailable?,
+	callbackFailures: number,
 	busy: boolean,
 	closed: boolean,
 	renderFailures: number,
 	resourceRefusals: number,
 	refusals: number,
 }
-function CastBridge.new(policy: Presentation.Policy, perCast: number, render: Renderer): State
+function CastBridge.new(
+	policy: Presentation.Policy,
+	perCast: number,
+	render: Renderer,
+	unavailable: Unavailable?
+): State
 	return {
 		presentation = Presentation.new(policy),
 		resources = Resources.new(policy.capacity, perCast),
 		leases = {},
 		render = render,
+		unavailable = unavailable,
+		callbackFailures = 0,
 		busy = false,
 		closed = false,
 		renderFailures = 0,
@@ -69,11 +79,26 @@ local function begin(s: State, now: number): boolean
 	end
 	return true
 end
+local function notify(s: State, key: string, timeline: Presentation.Timeline?, now: number)
+	if timeline and s.unavailable then
+		local ok = pcall(s.unavailable, key, table.freeze(table.clone(timeline)), now)
+		if not ok then
+			s.callbackFailures += 1
+		end
+	end
+end
 local function fail(s: State, key: string, now: number): string
-	-- Do not replay this cast on the next tick or duplicate acceptance.
-	Presentation.cancel(s.presentation, key, now)
+	local entry = s.presentation.entries[key]
+	local timeline = if entry then entry.timeline else nil
+	-- Failed prediction is not authoritative rejection: keep its bounded entry
+	-- (without resources) so a later true acceptance can still adopt/fall back.
+	-- Failed accepted rendering is terminal for normal cosmetics, not gameplay.
+	if not entry or entry.kind ~= "predicted" then
+		Presentation.cancel(s.presentation, key, now)
+	end
 	clear(s, key)
 	s.renderFailures += 1
+	notify(s, key, timeline, now)
 	return "failed"
 end
 local function emit(s: State, key: string, action: string, now: number, timeline: Presentation.Timeline?): string
@@ -143,6 +168,18 @@ function CastBridge.accept(s: State, key: string, timeline: Presentation.Timelin
 		return "refuse"
 	end
 	local outcome = apply(s, key, Presentation.accept(s.presentation, key, timeline, now), now)
+	-- Only a valid still-live accepted world cue refused for capacity is eligible.
+	-- Invalid time/data, tombstones, expired receipts and predictions never notify.
+	local phase = Presentation.phase(timeline, now)
+	if
+		outcome == "refuse"
+		and #key > 0
+		and #key <= 256
+		and (phase == "warning" or phase == "active")
+		and timeline.endsAt - timeline.acceptedAt <= s.presentation.policy.maxLifetimeSeconds
+	then
+		notify(s, key, timeline, now)
+	end
 	s.busy = false
 	return outcome
 end
