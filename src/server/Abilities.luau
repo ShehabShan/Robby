@@ -422,6 +422,15 @@ function Abilities.start()
 		cooldowns[player] = {}
 		player:SetAttribute("QiMax", pool.max)
 		publishQi(player, pool)
+		-- Stance follows the selected slot (T-036a, D-216): on while the live Kith has a chain; mirrors KithInput.
+		local function followSlot()
+			local id = player:GetAttribute("ActiveKith")
+			local kith = if typeof(id) == "string" then built.kith[id] else nil
+			local on = Stance.set(stanceFor(player), kith ~= nil and Stance.kit(kith, built.moves) ~= nil)
+			player:SetAttribute("Stance", on)
+		end
+		player:GetAttributeChangedSignal("ActiveKith"):Connect(followSlot)
+		followSlot()
 	end
 	Players.PlayerAdded:Connect(join)
 	for _, p in Players:GetPlayers() do
@@ -446,8 +455,9 @@ function Abilities.start()
 			return
 		end
 		local data = DataService.get(player)
-		if not data or not Loadout.canCast(data.loadout, data.kith, built, move.id) then
-			return -- only moves of equipped Kith (T-016b, D-064)
+		local slot = tonumber(player:GetAttribute("ActiveSlot")) or 1
+		if not data or not Loadout.canCastLive(data.loadout, data.kith, built, Config, slot, move.id) then
+			return -- only the selected slot's Kith (+ fixed moves) may cast (T-036a, D-216)
 		end
 		move = Loom.wovenFor(Config, built, data.loadout.weaves, move.id) or move -- saved Weave (T-020c, D-090)
 		local _, kithInst = KithCare.casterOf(data, move)

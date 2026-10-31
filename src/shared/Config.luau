@@ -88,6 +88,7 @@ local Config = {
 		CastRequest = { rate = 10, burst = 10 },
 		Action = { rate = 15, burst = 15 },
 		Equip = { rate = 4, burst = 8 },
+		SelectSlot = { rate = 8, burst = 8 },
 		BindStart = { rate = 2, burst = 4 },
 		BindInput = { rate = 15, burst = 15 },
 		Feed = { rate = 4, burst = 8 },
@@ -279,6 +280,7 @@ local Config = {
 		warnRoles = { "Strike" }, -- loadout screen warns when none is equipped (D-063)
 		-- granted to a profile with no Kith (D-064); slots fill in this order, so Rimeshard is the active stance (D-194)
 		starter = { "kith.rimeshard", "kith.crescent", "kith.wind" },
+		fixedMoves = { "move.wind_step" }, -- live whenever their Kith is equipped, not only when selected (owner, D-217)
 		gifts = { "kith.rimeshard" }, -- granted once to existing profiles that lack the species (D-195)
 	},
 }

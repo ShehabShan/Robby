@@ -101,17 +101,42 @@ function Loadout.unequip(lo: any, slot: any): boolean
 	return true
 end
 
--- The Kith whose stance the client drives (T-027d, D-193): the first equipped species with a chain move, or nil.
-function Loadout.activeKith(lo: any, owned: any, built: any): string?
-	for _, k in Loadout.equipped(lo, owned, built) do
-		for _, moveId in k.moves do
-			local move = built.moves[moveId]
-			if move and move.chain then
-				return k.id
-			end
+-- Slot selection (T-036a, D-216): the player selects one core slot; only that slot's Kith is live. `slot` is checked
+-- against the Rank's slot count; nil for anything else.
+function Loadout.selectSlot(cfg: any, rank: number, slot: any): number?
+	if type(slot) ~= "number" or slot ~= math.floor(slot) or slot < 1 or slot > Loadout.slotCount(cfg, rank) then
+		return nil
+	end
+	return slot
+end
+
+-- The species in the selected slot (its stance and moves are live), or nil for an empty slot.
+function Loadout.activeKith(lo: any, owned: any, built: any, slot: number): string?
+	local k = speciesOf(owned, built, lo.slots[slot])
+	return if k then k.id else nil
+end
+
+-- The moves the player may cast now: the selected Kith's moves plus `cfg.Loadout.fixedMoves` whose Kith is equipped
+-- anywhere (Wind Step stays on R, owner, D-217). The server refuses casts outside this set.
+function Loadout.liveMoves(lo: any, owned: any, built: any, cfg: any, slot: number): { [string]: boolean }
+	local live: { [string]: boolean } = {}
+	local k = speciesOf(owned, built, lo.slots[slot])
+	if k then
+		for _, id in k.moves or {} do
+			live[id] = true
 		end
 	end
-	return nil
+	local allowed = Loadout.allowedMoves(lo, owned, built)
+	for _, id in cfg.Loadout.fixedMoves do
+		if allowed[id] then
+			live[id] = true
+		end
+	end
+	return live
+end
+
+function Loadout.canCastLive(lo: any, owned: any, built: any, cfg: any, slot: number, moveId: string): boolean
+	return Loadout.liveMoves(lo, owned, built, cfg, slot)[moveId] == true
 end
 
 -- Kith species records in slot order (empty and unknown slots skipped).

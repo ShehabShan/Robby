@@ -1,11 +1,10 @@
 --!strict
--- Kith stance input (T-027d3, D-190): Q / gamepad B toggles the Kith stance (`Shared.Stance`). Stance on: left click
--- fires the active Kith's chain move and the third press its finisher (Rimeshard Needle); off: left click falls
--- through to CombatInput's light chain. Z / X / C fire the Kith's specials in both stances, and shot 2 of the chain
--- may cancel into one (Stance.special). A `target = "Point"` move (Rime Fall) aims at the ground under the mouse,
--- clamped to its range. FX play at once; the server runs the same machine and verifies every CastRequest.
--- The active Kith is the player's `ActiveKith` attribute (LoadoutService, D-193); it re-binds when the loadout changes.
-
+-- Slot-selected abilities (T-036a, D-216): keys 1–7 / gamepad Y select a core slot (server `SelectSlot`). The Kith
+-- in the selected slot is live: with a chain move (Rimeshard) its stance is on, so left click runs the chain and
+-- Z / X / C its specials (shot 2 may cancel into one, Stance.special); without a chain (Crescent) Z / X / C fire its
+-- moves and left click stays the sword light chain. The Q stance toggle is gone (D-216). A `target = "Point"` move
+-- (Rime Fall) aims at the ground under the mouse. The live Kith is the player's `ActiveKith` attribute
+-- (LoadoutService); bindings follow it. Fixed moves (Wind Step on R) are AbilityInput's, not this file's.
 local ContextActionService = game:GetService("ContextActionService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -13,6 +12,7 @@ local UserInputService = game:GetService("UserInputService")
 
 local AimDir = require(script.Parent.AimDir)
 local CastRequest = require(ReplicatedStorage.Shared.CastRequest)
+local Config = require(ReplicatedStorage.Shared.Config)
 local FxRegistry = require(ReplicatedStorage.Shared.FxRegistry)
 local Projectile = require(ReplicatedStorage.Shared.Deliveries.Projectile)
 local Stance = require(ReplicatedStorage.Shared.Stance)
@@ -20,9 +20,18 @@ local Zone = require(ReplicatedStorage.Shared.Deliveries.Zone)
 
 local CHEST = Vector3.new(0, 0.5, 0)
 local SPECIAL_KEYS = { Enum.KeyCode.Z, Enum.KeyCode.X, Enum.KeyCode.C } -- Kit specials in order (Fan / Fall / Shatter)
+local SLOT_KEYS = {
+	Enum.KeyCode.One,
+	Enum.KeyCode.Two,
+	Enum.KeyCode.Three,
+	Enum.KeyCode.Four,
+	Enum.KeyCode.Five,
+	Enum.KeyCode.Six,
+	Enum.KeyCode.Seven,
+}
 
 export type SendCast = (moveId: string, aim: Vector3, point: Vector3?, seq: number) -> ()
-export type SendAction = (kind: string, dir: Vector3?, seq: number) -> ()
+export type SelectSlot = (slot: number) -> ()
 
 local KithInput = {}
 
@@ -51,13 +60,12 @@ local function groundPoint(camera: Camera, character: Model, root: BasePart, par
 	return p
 end
 
-function KithInput.start(sendCast: SendCast, sendAction: SendAction, fx: FxRegistry.Registry, built: any)
+function KithInput.start(sendCast: SendCast, selectSlot: SelectSlot, fx: FxRegistry.Registry, built: any)
 	local player = Players.LocalPlayer
-	local kit: Stance.Kit? = nil -- nil = no chain Kith equipped: stance and specials are off
+	local kit: Stance.Kit? = nil -- nil = the live Kith has no chain: left click is the light chain
 	local cfg: Stance.Cfg? = nil
 	local state = Stance.new()
 	local seq = 0
-	local actionSeq = 0
 	local lastCast: { [string]: number } = {}
 
 	local function ready(): (Model?, BasePart?, Camera?)
@@ -106,20 +114,30 @@ function KithInput.start(sendCast: SendCast, sendAction: SendAction, fx: FxRegis
 		return true
 	end
 
-	local function toggleStance()
-		Stance.toggle(state)
-		actionSeq = (actionSeq + 1) % 65536
-		sendAction("Stance", nil, actionSeq)
+	-- Slot keys: 1–7 select a slot; gamepad Y steps to the next one. The server validates and republishes the slot.
+	for i, key in SLOT_KEYS do
+		ContextActionService:BindAction(
+			"SelectSlot" .. i,
+			function(_, st: Enum.UserInputState, _): Enum.ContextActionResult
+				if st ~= Enum.UserInputState.Begin then
+					return Enum.ContextActionResult.Pass
+				end
+				selectSlot(i)
+				return Enum.ContextActionResult.Sink
+			end,
+			false,
+			key
+		)
 	end
-
-	ContextActionService:BindAction("KithStance", function(_, st: Enum.UserInputState, _): Enum.ContextActionResult
-		if st ~= Enum.UserInputState.Begin or kit == nil then
+	ContextActionService:BindAction("SelectSlotNext", function(_, st: Enum.UserInputState, _): Enum.ContextActionResult
+		if st ~= Enum.UserInputState.Begin then
 			return Enum.ContextActionResult.Pass
 		end
-		toggleStance()
+		local n = tonumber(player:GetAttribute("SlotCount")) or 1
+		local cur = tonumber(player:GetAttribute("ActiveSlot")) or 1
+		selectSlot(cur % n + 1)
 		return Enum.ContextActionResult.Sink
-	end, true, Enum.KeyCode.Q, Enum.KeyCode.ButtonB)
-	ContextActionService:SetTitle("KithStance", "Stance")
+	end, false, Enum.KeyCode.ButtonY)
 
 	-- Left click above CombatInput's light chain: taken while the stance is on, passed through when it is off.
 	ContextActionService:BindActionAtPriority(
@@ -144,17 +162,16 @@ function KithInput.start(sendCast: SendCast, sendAction: SendAction, fx: FxRegis
 	ContextActionService:SetTitle("KithChain", "Needle")
 
 	local bound: { string } = {}
+	local plainMoves: { string } = {} -- moves of a live Kith without a chain (Crescent Cut on Z, D-216)
 	local function bindSpecials()
 		for _, name in bound do
 			ContextActionService:UnbindAction(name)
 		end
 		table.clear(bound)
 		local k, c = kit, cfg
-		if not k or not c then
-			return
-		end
+		local ids: { string } = if k then k.specials else plainMoves
 		for i, key in SPECIAL_KEYS do
-			local moveId = k.specials[i]
+			local moveId = ids[i]
 			if moveId == nil then
 				break
 			end
@@ -165,7 +182,7 @@ function KithInput.start(sendCast: SendCast, sendAction: SendAction, fx: FxRegis
 					return Enum.ContextActionResult.Pass
 				end
 				local now = os.clock()
-				if Stance.special(state, now, c, k, moveId) then
+				if not k or not c or Stance.special(state, now, c, k, moveId) then
 					fire(moveId, now)
 				end
 				return Enum.ContextActionResult.Sink
@@ -174,11 +191,12 @@ function KithInput.start(sendCast: SendCast, sendAction: SendAction, fx: FxRegis
 		end
 	end
 
-	-- Follow the loadout: `ActiveKith` is the first equipped Kith with a chain move (Loadout.activeKith, D-193).
+	-- Follow the selected slot: `ActiveKith` is the species in `ActiveSlot` (Loadout.activeKith, D-216).
 	local function load()
 		local kithId = player:GetAttribute("ActiveKith")
 		local kith = if typeof(kithId) == "string" then built.kith[kithId] else nil
 		local k = if kith then Stance.kit(kith, built.moves) else nil
+		table.clear(plainMoves)
 		if k then
 			local chainMove = built.moves[k.chain]
 			local fin = built.moves[k.finisher]
@@ -186,10 +204,15 @@ function KithInput.start(sendCast: SendCast, sendAction: SendAction, fx: FxRegis
 			cfg = { chain = chainMove.chain, finisherRecovery = if fin then fin.cooldown else chainMove.chain.recovery }
 		else
 			kit, cfg = nil, nil
-			if state.on then
-				toggleStance() -- the Kith left the loadout: drop the stance and tell the server
+			if kith then
+				for _, id in kith.moves or {} do
+					if built.moves[id] and not table.find(Config.Loadout.fixedMoves, id) then
+						table.insert(plainMoves, id)
+					end
+				end
 			end
 		end
+		Stance.set(state, k ~= nil) -- the server mirrors this from the same attribute (Abilities, D-216)
 		bindSpecials()
 	end
 	player:GetAttributeChangedSignal("ActiveKith"):Connect(load)

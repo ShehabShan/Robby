@@ -44,6 +44,13 @@ function Stance.kit(kith: any, moves: { [string]: any }): Kit?
 	return { chain = chainId, finisher = finisher, specials = specials }
 end
 
+-- Sets the stance (slot selection, T-036a): on when the selected Kith has a chain. A chain in progress is dropped.
+function Stance.set(s: State, on: boolean): boolean
+	s.on = on
+	s.chain = Combat.newChain()
+	return on
+end
+
 -- Flips the stance; a chain in progress is dropped. Returns the new state.
 function Stance.toggle(s: State): boolean
 	s.on = not s.on

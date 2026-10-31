@@ -44,12 +44,7 @@ end
 local function cast(moveId: string, aim: Vector3, seq: number)
 	Net.CastRequest.Fire({ moveId = moveId, aim = aim, seq = seq })
 end
--- Provisional keys (D-062): E/X Crescent Cut, R/L2 Wind Step. Stone Ward removed (owner, D-215).
-AbilityInput.start(cast, fx, built.moves["move.crescent_cut"], {
-	name = "CrescentCut",
-	title = "Cut",
-	keys = { Enum.KeyCode.E, Enum.KeyCode.ButtonX },
-})
+-- Wind Step stays on R/L2 (owner, D-217). Crescent Cut left E: it is a slot move now (KithInput, T-036a, D-216).
 AbilityInput.start(cast, fx, built.moves["move.wind_step"], {
 	name = "WindStep",
 	title = "Step",
@@ -60,11 +55,13 @@ local function action(kind: string, dir: Vector3?, seq: number)
 	Net.Action.Fire({ kind = kind :: any, dir = dir, seq = seq })
 end
 CombatInput.start(action)
--- Kith stance (T-027d3, D-190): Q / B toggles; stance on: left click = chain; Z / X / C = specials of the active Kith
--- (`ActiveKith` attribute from the loadout, D-193).
+-- Slot-selected abilities (T-036a, D-216): keys 1–7 select a core slot; the selected Kith's chain takes left click,
+-- Z / X / C are its specials (or its moves, for a Kith without a chain). `ActiveKith` comes from the loadout.
 KithInput.start(function(moveId: string, aim: Vector3, point: Vector3?, seq: number)
 	Net.CastRequest.Fire({ moveId = moveId, aim = aim, point = point, seq = seq })
-end, action, fx, built)
+end, function(slot: number)
+	Net.SelectSlot.Fire({ slot = slot })
+end, fx, built)
 
 Net.CastFx.On(function(v)
 	if v.caster == player then

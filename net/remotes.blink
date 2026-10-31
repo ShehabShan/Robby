@@ -43,6 +43,16 @@ event Equip {
 	},
 }
 
+-- C→S: select core slot `slot` (keys 1–7 / touch tap); only that slot's Kith is live (T-036a, D-216).
+event SelectSlot {
+	From: Client,
+	Type: Reliable,
+	Call: SingleSync,
+	Data: struct {
+		slot: u8,
+	},
+}
+
 -- C→S: aim direction for other players' FX only; never trusted for hits.
 event Aim {
 	From: Client,

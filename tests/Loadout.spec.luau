@@ -25,17 +25,25 @@ local function fresh(): any
 end
 
 return {
-	["loadout: activeKith is the first equipped Kith with a chain move"] = function()
+	["loadout: the selected slot's Kith is live; fixed moves stay live (T-036a)"] = function()
 		local own = owned()
 		own.u5 = { speciesId = "kith.rimeshard" }
 		local lo = fresh()
-		eq(Loadout.activeKith(lo, own, built), nil, "nothing equipped")
+		eq(Loadout.activeKith(lo, own, built, 1), nil, "nothing equipped")
 		Loadout.equip(lo, Config, 1, own, built, 1, "u1")
-		eq(Loadout.activeKith(lo, own, built), nil, "Crescent has no chain move")
 		Loadout.equip(lo, Config, 1, own, built, 2, "u5")
-		eq(Loadout.activeKith(lo, own, built), "kith.rimeshard", "Rimeshard drives the stance")
-		Loadout.unequip(lo, 2)
-		eq(Loadout.activeKith(lo, own, built), nil, "unequipped again")
+		Loadout.equip(lo, Config, 1, own, built, 3, "u2")
+		eq(Loadout.activeKith(lo, own, built, 1), "kith.crescent", "slot 1")
+		eq(Loadout.activeKith(lo, own, built, 2), "kith.rimeshard", "slot 2")
+		eq(Loadout.canCastLive(lo, own, built, Config, 1, "move.crescent_cut"), true, "selected Crescent")
+		eq(Loadout.canCastLive(lo, own, built, Config, 1, "move.rime.shard_fan"), false, "Rimeshard parked")
+		eq(Loadout.canCastLive(lo, own, built, Config, 2, "move.rime.shard_fan"), true, "Rimeshard selected")
+		eq(Loadout.canCastLive(lo, own, built, Config, 2, "move.wind_step"), true, "Wind Step fixed on R")
+		Loadout.unequip(lo, 3)
+		eq(Loadout.canCastLive(lo, own, built, Config, 2, "move.wind_step"), false, "Wind unequipped")
+		eq(Loadout.selectSlot(Config, 1, 3), 3, "slot 3 at Rank 1")
+		eq(Loadout.selectSlot(Config, 1, 4), nil, "slot 4 needs Rank 2")
+		eq(Loadout.selectSlot(Config, 1, 1.5), nil, "whole numbers only")
 	end,
 	["loadout: 3 slots at Rank 1, +1 per Rank, max 7"] = function()
 		eq(Loadout.slotCount(Config, 1), 3, "rank 1")
@@ -108,7 +116,7 @@ return {
 		eq(data.loadout.slots[3], "starter.wind", "slot 3")
 		eq(data.kith["starter.wind"] ~= nil, true, "wind owned")
 		eq(data.kith["gift.rimeshard"], nil, "no duplicate gift")
-		eq(Loadout.activeKith(data.loadout, data.kith, built), "kith.rimeshard", "Rimeshard stance reachable")
+		eq(Loadout.activeKith(data.loadout, data.kith, built, 1), "kith.rimeshard", "Rimeshard stance reachable")
 		for _, id in { "move.crescent_cut", "move.wind_step" } do
 			eq(Loadout.canCast(data.loadout, data.kith, built, id), true, id)
 		end
@@ -119,12 +127,12 @@ return {
 		eq(data.kith["gift.rimeshard"].speciesId, "kith.rimeshard", "gift granted")
 		eq(data.gifts["kith.rimeshard"], true, "gift recorded")
 		eq(data.loadout.slots[1], "gift.rimeshard", "gift auto-equipped in slot 1 (D-211)")
-		eq(Loadout.activeKith(data.loadout, data.kith, built), "kith.rimeshard", "stance reachable without the menu")
+		eq(Loadout.activeKith(data.loadout, data.kith, built, 1), "kith.rimeshard", "stance reachable without the menu")
 		Loadout.unequip(data.loadout, 1)
 		Loadout.prepare(data, Config, built)
 		eq(data.loadout.slots[1], "", "a later unequip is respected")
 		eq(Loadout.equip(data.loadout, Config, 1, data.kith, built, 1, "gift.rimeshard"), true, "equippable")
-		eq(Loadout.activeKith(data.loadout, data.kith, built), "kith.rimeshard", "stance after equip")
+		eq(Loadout.activeKith(data.loadout, data.kith, built, 1), "kith.rimeshard", "stance after equip")
 		data.kith["gift.rimeshard"] = nil
 		Loadout.prepare(data, Config, built)
 		eq(data.kith["gift.rimeshard"], nil, "not granted twice")
