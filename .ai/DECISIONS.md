@@ -392,3 +392,6 @@ Fresh published original characterKey/user plus live world character/root drives
 
 ### D-297 (S83) — Provisional versus fixed cue
 Use faint amber for provisional moving Burst (not a fixed damage footprint). Empty admitted frames remove stale children on missing/dead/replaced original or release. Final art/live replication not validated; startup remains gated. Evidence: research/notes/T-043c0b4c2c2c2-burst-engine.md.
+
+### D-298 (S84) — Single keyed send policy
+Both inputs share CastSend allocation/generation and protected optional prediction, OFF until atomic cutover. Gameplay send is independent of delayed cosmetic identity. Uncertain transport consumes the sequence, never retries a potentially paid cast; cosmetic failures never duplicate sends. Handoff: research/notes/T-043c0b4c3a-keyed-sender.md.

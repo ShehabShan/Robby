@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S84 — 2026-10-31 (same budgeted interaction as S83; continuing)
+- c3a done: shared keyed sender extraction, optional prediction OFF; D-298.
+- CHECK PASS: 579 pure/79 specs plus actual two-input sender; four mutations detected/restored.
+- Handoff research/notes/T-043c0b4c3a-keyed-sender.md. Legacy unchanged; no publish/cloud/device test.
+- 30 OLU cumulative before merge; continuing prepared lifecycle if budget permits. No owner action.
+
 ## S83 — 2026-10-31 (Burst slices; continuing)
 - T-043c0b4c2c2c1/c2 done: provisional original-caster Burst warning, truthful release unknown, primary/reserve engine sampling and cleanup.
 - CHECK PASS: 571 pure/78 specs, 7 character-client/29 delivery-engine cases; nine mutations detected/restored.
