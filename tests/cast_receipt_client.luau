@@ -3,6 +3,11 @@ local fs, luau, rb = require("@lune/fs"), require("@lune/luau"), require("@lune/
 local Inbox = require("../src/shared/CastInbox")
 local ContactInbox = require("../src/shared/CastContactInbox")
 local Config = require("../src/shared/Config")
+local Dispatch = require("../src/shared/CastContactDispatch")
+local CommandMap = require("../src/shared/CastCommandMap")
+local Registry = require("../src/shared/Registry")
+local All = require("../src/shared/Content/All")
+local catalog = CommandMap.catalog(Registry.build(All.content(Config)).moves)
 local source = fs.readFile("src/client/CastReceiptClient.luau")
 local init = fs.readFile("src/client/init.client.luau")
 assert(init:find("require(script.CastReceiptClient).start()", 1, true) < init:find("Net.CastSync.Fire", 1, true))
@@ -124,6 +129,20 @@ reordered.seq, reordered.castId = 3, "scope:1:3"
 listeners.terminal({ castId = reordered.castId, reason = "caster_lost", at = a.acceptedAt + 0.1 })
 listeners.accepted(reordered)
 assert(state.acceptances.entries[reordered.castId].acceptance == nil)
+-- S77: compose the ACTUAL listener adapter with the pure contact owner/mapper.
+-- Rendering is injected, not live engine proof; no production cutover is enabled.
+local effects, contactCleanups = {}, 0
+local dispatcher = Dispatch.new(contactState, Config.CastContactPresentation, function(frame)
+	local mapped = CommandMap.contact(catalog, frame.contact, state.acceptances.entries[frame.contact.castId])
+	assert(not effects[frame.key], "actual listener replayed a consumed impact")
+	effects[frame.key] = mapped
+	assert(frame.bind("impact", function()
+		contactCleanups += 1
+	end))
+	return true
+end)
+assert(Dispatch.tick(dispatcher, now, contact.at))
+assert(dispatcher.rendered == 1)
 -- All acceptance/contact/terminal permutations, plus duplicate contact, are independent.
 local permutations =
 	{ { "A", "C", "T" }, { "A", "T", "C" }, { "C", "A", "T" }, { "C", "T", "A" }, { "T", "A", "C" }, { "T", "C", "A" } }
@@ -141,11 +160,16 @@ for i, events in permutations do
 		else
 			listeners.contact(cv)
 			listeners.contact(cv)
+			assert(Dispatch.tick(dispatcher, now, cv.at))
 		end
 	end
 	local entry = ContactInbox.get(contactState, av.castId, 1)
 	assert(entry and entry.value.amount == 4 and state.acceptances.entries[av.castId].terminal)
+	local mapped = effects[tostring(#av.castId) .. ":" .. av.castId .. ":1"]
+	assert(mapped and mapped.receipt.position.y == 2)
+	assert(mapped.delivery == (if i <= 2 then "Zone" else "Generic"))
 end
+assert(dispatcher.rendered == 7 and dispatcher.consumed == 7)
 assert(contactState.count == 7)
 local late = table.clone(contact)
 late.ordinal = 2
@@ -154,16 +178,21 @@ late.at = a.endsAt
 serverNow = a.endsAt + 1
 listeners.contact(late) -- valid late contact AFTER terminal must not disappear
 assert(ContactInbox.get(contactState, a.castId, 2))
+assert(Dispatch.tick(dispatcher, now, serverNow) and dispatcher.rendered == 8)
+assert(contactCleanups == 0, "server terminal must not cancel confirmed-contact resources")
 now += 13
 heartbeat()
 assert(next(state.acceptances.entries) == nil and next(state.responses) == nil)
 assert(contactState.count == 0 and next(contactState.identities) == nil)
+assert(Dispatch.tick(dispatcher, now, serverNow) and contactCleanups == 8)
+assert(next(contactState.consumed) == nil and dispatcher.resources.count == 0)
 listeners.accepted(a) -- TTL retirement must not revive old ended cast
 assert(next(state.acceptances.entries) == nil)
 stop()
 stop()
 assert(disconnected == 5 and adapter.inbox() == nil and adapter.contacts() == nil and next(listeners) == nil)
 callbacks.contact(contact)
+assert(not Dispatch.tick(dispatcher, now, serverNow) and dispatcher.closed)
 assert(contactState.closed and contactState.count == 0)
 callbacks.accepted(a) -- queued callback cannot resurrect destroyed inbox
 callbacks.terminal({ castId = a.castId, reason = "completed", at = a.endsAt })
@@ -201,5 +230,5 @@ listeners.accepted(a) -- even a fresh adapter rejects an already expired schedul
 assert(next(adapter.inbox().acceptances.entries) == nil)
 stop2()
 print(
-	"CAST RECEIPT CLIENT: PASS (actual adapter; registration, vectors/clocks, duplicate, disposition, terminal/contact permutations, late contacts, duplicate/expiry, teardown/restart)"
+	"CAST RECEIPT CLIENT: PASS (actual adapter; registration, vectors/clocks, duplicate, disposition, terminal/contact permutations, actual listener -> once-only command/style/cleanup, late contacts, duplicate/expiry, teardown/restart)"
 )
