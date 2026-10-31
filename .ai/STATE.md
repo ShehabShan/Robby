@@ -1,6 +1,10 @@
 # STATE
 
-## Now (after S75)
+## Now (after S76)
+- S76 merged 5594d9a at 39.0 OLU: b4b2b independent essential-world-warning reserve and failure routing done (D-268–D-271). CHECK PASS: 464 pure tests/71 specs, 35 new reserve/gate cases; eight temporary behavioral faults detected/restored. Concrete initial Config bounds, delayed-drain/seek failure routing and failed-prediction acceptance recovery. Pure modules only; no live renderer cutover, cloud/device test or publication.
+- **NEXT: T-043c0b4b3** confirmed-contact dispatch with independent resource expiry and late-after-terminal delivery; then b4c live renderer. Handoff: research/notes/T-043c0b4b2b-essential-warnings.md. Use the outer warning gate exclusively; keep accepted world hazards after local death and owner echo suppression until complete cutover. No new owner action required.
+
+### S75 history
 - S75 merged 9137d2c at 35.7 OLU: b4b1 owned presentation executor and b4b2a bounded clock/future receipt gate done (D-264–D-267). CHECK PASS: 429 pure tests/69 specs including 38 new bridge/clock cases, all existing dispatch/lifecycle/client/timing/build gates. Six deliberate behavioral faults detected/restored; full CHECK PASS afterward. Pure modules only: no renderer cutover, cloud test or publication.
 - **NEXT: T-043c0b4b2b** separately bounded essential warning fallback and production policy, then b4b3 confirmed-contact dispatch and b4c live renderer. Handoffs: research/notes/T-043c0b4b1-command-executor.md and T-043c0b4b2a-clock-gate.md. Observe delayed gate-drain renderer failures, not just immediate accept returns. Keep accepted world hazards after local death, late contacts after terminals, and owner echo suppression until complete cutover.
 
@@ -78,16 +82,16 @@
 - Last publish: Roblox v27 = game v0.0.22 (S64, owner asked). S65 did not publish.
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
-- **Doing:** T-043 overhaul: c0b4 presentation (b4a/b4b1/b4b2a done → b4b2b fallback → b4b3 contacts → b4c live adoption), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-043c0b4b2b — essential warning fallback and production policy (size/split before work), then b4b3 confirmed-contact dispatch, b4c live renderer adoption and d2 M1 visuals. Resume from research/notes/T-043c0b4b2a-clock-gate.md and T-043c0b4b1-command-executor.md. Owner M1 review before special art.
+- **Doing:** T-043 overhaul: c0b4 presentation (b4a/b4b1/b4b2 done → b4b3 contacts → b4c live adoption), then d2 M1 visuals; T-042b live-input verification remains open.
+- **NEXT:** T-043c0b4b3 — confirmed-contact dispatch (size/split before work), then b4c live renderer adoption and d2 M1 visuals. Resume from research/notes/T-043c0b4b2b-essential-warnings.md and T-043c0b3c3c3-client-contacts.md. Owner M1 review before special art.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-043c0b4b2b essential fallback → b4b3 contacts → b4c live renderer (serialized) · b4b1 owned commands + b4b2a clock gate (done)
+  - T-043c0b4b3 contacts → b4c live renderer (serialized) · b4b1 owned commands + b4b2 clock/fallback (done)
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
   - T-043h1 truthful Chill state · T-043b + T-043c1 (done) + T-043c0b (coordinate remotes)
   - Unrelated beast/movement/onboarding lanes deferred while owner-priority Rimeshard overhaul is active.
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** M1 owner quality review before specials; T-042b fresh-server input verification remains open. No publish without explicit request.
 - **Last cloud test:** CLOUD ALL: PASS on Saved v26 (2026-10-31, S63, 278/278 tests + server smoke); live published = v27 (game v0.0.22); publication HTTP 200, player readback pending
-- **Last check.sh:** CHECK: PASS (2026-10-31, S75 merge): 429 pure tests (69 suites), existing dispatch/lifecycle/input/receipt/timing/authoring/types/build/inspect green. Six temporary bridge/clock faults rejected and restored. Five future Z/X contract probes intentionally fail. No cloud/device/renderer quality verification or publication.
+- **Last check.sh:** CHECK: PASS (2026-10-31, S76 merge): 464 pure tests (71 suites), existing dispatch/lifecycle/input/receipt/timing/authoring/types/build/inspect green. Eight temporary warning/bridge faults rejected and restored. Five future Z/X contract probes intentionally fail. No cloud/device/renderer quality verification or publication.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
