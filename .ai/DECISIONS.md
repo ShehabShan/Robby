@@ -295,3 +295,6 @@ Pure CastContacts is a per-world-lifetime notification ledger, not damage eligib
 
 - **D-262 (S74, 2026-10-31):** Split b4 before work into b4a pure cleanup ownership, b4b reconciliation command bridge/skew/fallback, b4c actual renderer/input cutover. c0b remains incomplete until all pass; no owner echo suppression removal before complete replacement.
 - **D-263 (S74, 2026-10-31):** CastResources uses unique immutable leases/tickets, fixed owner/per-cast caps, detach-before-dispose and error counting. Refused binds dispose their newly supplied resource; pose retirement never clears world effects. Pure unused runtime foundation only; non-yielding engine cleanup and production tuning belong to b4b/c.
+
+### D-264 — S75: split reconciliation bridge before implementation (2026-10-31)
+T-043c0b4b becomes b1 owned synchronous command executor, b2 clock admission/essential fallback, b3 confirmed-contact dispatch. Each is independently tested and S-sized; b4c alone switches the live renderer. The split prevents speculative transport, fallback and engine changes inside one session. STATE remains unchanged on the session branch per AGENTS §9.
