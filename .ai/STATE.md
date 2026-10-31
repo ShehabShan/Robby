@@ -1,6 +1,7 @@
 # STATE
 
-## Now (after S48)
+## Now (after S49)
+- S49 (same bot): F-08 done (D-204): `src/client` scan; Wind Step 0.25 s burst → `Config.Abilities.WindStep.burstSeconds`, shared with the server speed guard. check.sh PASS.
 - S48: `roblox-open-cloud` connected again; cloud smoke on Saved v18 found one stale check (slot 1 is Rimeshard since D-194) → T-030c done (D-203): smoke finds starters by uid. Re-run: specs 266/266, CLOUD ALL: PASS on Saved v18. Not published.
 - S47 (same bot): F-08 part 2 (D-202): `src/server` literal scan; corpse despawn → `Config.Beasts.corpseSeconds`. F-08 stays doing (Resume from: `src/client` scan).
 - S46: T-027i done: Rime FX polish (shard Trails, Shatter frost veins, Rime Fall snow + crack ring, Needle 2 / Shatter 3 frame hit-pause; D-198–D-201). Cloud smoke for T-027e/T-027i still pending: `roblox-open-cloud` not connected in the S46 bot (proxy 404). Not published.
@@ -42,7 +43,7 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** —
-- **NEXT:** T-027h Rimeshard playtest (cloud smoke done S48; publish only when the owner says so); then F-08 (`src/client` scan), T-022c beast feel, T-026c R15 animations, T-024 First 10 minutes.
+- **NEXT:** T-027h Rimeshard playtest (cloud smoke done S48; publish only when the owner says so); then T-022c beast feel, T-026c R15 animations, T-024 First 10 minutes.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
@@ -52,5 +53,5 @@
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox).
 - **Last cloud test:** CLOUD ALL: PASS on Saved v18 (2026-10-31, S48); live = v16
-- **Last check.sh:** CHECK: PASS (2026-10-31, S48)
+- **Last check.sh:** CHECK: PASS (2026-10-31, S49)
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); Q = Kith stance, Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
