@@ -353,3 +353,6 @@ Split c2c2 into S-sized owned renderer (a), receipt/pose owner (b), and separate
 
 ### D-284 (S80, 2026-10-31) — bounded delivery trees owned by outer gate leases
 CastDeliveryFx has independent bounded primary/reserve pools. One bound world tree per accepted cast, immutable metadata reference, immediate seek and disposer-based eviction; no second clock or receipt cache. Self/prediction allocate no world resources; pose anticipation is intentionally a no-op until authored. Burst remains explicit failure in both pools. Prepared only, no live startup or gameplay change.
+
+### D-285 (S80, 2026-10-31) — separate metadata lifetime from engine subscriptions
+Split c2c2b into bounded gate-lifetime metadata registry (b1) and engine receipt/character/lifecycle wiring (b2). The registry pins one immutable command metadata object before gate admission and through future queues or reserve fallback, not just while the receipt inbox retains it. It does not own another clock or authorize effects.
