@@ -196,3 +196,13 @@ FxRegistry accepts `fx` plus at least two nonempty word/underscore segments, sti
 
 ### D-230 (S63, 2026-10-31) — Client wiring has its own headless gate
 `tests/client_input.luau` executes actual KithInput and RimeFx registration under Lune with mocked services, real Content/Stance/FX rules and dispatch spies. `check.sh` runs it separately from the pure/cloud specs. It covers Z/X/C, late ActiveKith replication, slot switching, cast guards and touch callbacks, without pretending to prove rendering, engine input arbitration or real-device play. T-042b still requires the owner playtest; the confirmed regression was silent FX registration rejection.
+
+
+### D-231 (S65, 2026-10-31) — Rimeshard research is visual evidence, not a search summary
+T-043a uses five accessible Blox Fruits Ice/Blizzard gameplay clips inspected as timestamped contact sheets, plus the current code audit and official Roblox particle documentation. Silent clips do not support audio claims; YouTube access failures are explicit. Reference excerpts stay in research, never in game asset inputs. The proposal and evidence are in `research/notes/T-043a-{reference-audit,rimeshard-direction}.md` and `T-043a-review.html`.
+
+### D-232 (S65, 2026-10-31) — Direction review and M1 quality gate precede a whole-kit rebuild
+Recommended, NOT owner-approved: faceted hand-shaped frost (option A), with dedicated poses and distinct straight/fan/downward/target-fracture silhouettes. B snowstorm and C gauntlet alternatives are documented. T-043b records the owner's choice; an M1 asset/visual/audio slice is then reviewed in motion before special art. T-043 remains open until the owner explicitly accepts the entire kit. Functional tests and T-042b input verification are not aesthetic approval. Implementation is split into S-sized tasks; do not assume budget permission to skip review.
+
+### D-233 (S65, 2026-10-31) — Presentation must tell the truth about combat
+The audit identifies Z's declared 0.2 s telegraph vs immediate server Volley insertion and X's caster-only 0.6 s rain delay despite simultaneous cast/travel broadcasts. These are code findings, not a live reproduction or fix. T-043c1 first specifies/regresses timing and reconciliation; c2/c3 make explicit isolated fixes after direction approval. Chill/target-local Shatter requires authoritative stack/expiry/consumption data. Preserve damage/range/cooldowns unless a named decision justifies change. Mobile caps in the proposal are hypotheses awaiting target-device measurement, not proven budgets.
