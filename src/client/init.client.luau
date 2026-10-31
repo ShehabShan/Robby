@@ -6,7 +6,7 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Config = require(ReplicatedStorage.Shared.Config)
-local CastRequest = require(ReplicatedStorage.Shared.CastRequest)
+local CastSend = require(ReplicatedStorage.Shared.CastSend)
 local CastReady = require(ReplicatedStorage.Shared.CastReady)
 local All = require(ReplicatedStorage.Shared.Content.All)
 local FxRegistry = require(ReplicatedStorage.Shared.FxRegistry)
@@ -63,18 +63,19 @@ end)
 local function canRequestCast(): boolean
 	return player.Character ~= removingCharacter and CastReady.ready(castReady, player.Character)
 end
-local nextCastSeq = CastRequest.allocator()
+-- Both input adapters share one connection-lifetime sequence and generation path.
+-- Prediction seam remains OFF until atomic legacy/keyed renderer cutover.
+local sendCast = CastSend.new({
+	ready = canRequestCast,
+	generation = function()
+		return castReady.generation
+	end,
+	fire = function(value)
+		Net.CastRequest.Fire(value)
+	end,
+})
 local function cast(moveId: string, aim: Vector3, point: Vector3?)
-	if not canRequestCast() then
-		return
-	end
-	Net.CastRequest.Fire({
-		moveId = moveId,
-		aim = aim,
-		point = point,
-		seq = nextCastSeq(),
-		generation = castReady.generation :: string,
-	})
+	sendCast(moveId, aim, point)
 end
 -- Generation sync retries are bounded to one/second while unready, not cast retries.
 Net.CastSync.Fire(0)

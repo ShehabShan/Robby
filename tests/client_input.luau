@@ -168,7 +168,7 @@ local function harness(initial)
 	assert(not initSource:find("Net.CastRequest.Fire", endAt, true), "extra unshared cast sender")
 	assert(initSource:find("AbilityInput.start(cast,", 1, true))
 	assert(initSource:find("KithInput.start(cast,", 1, true))
-	env.CastRequest = Shared.CastRequest
+	env.CastSend = require("../src/shared/CastSend")
 	env.CastReady = require("../src/shared/CastReady")
 	env.player = player
 	local asyncTask = env.task
