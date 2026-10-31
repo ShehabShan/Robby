@@ -1,8 +1,8 @@
 # STATE
 
-## Now (after S71)
-- S71 merged: T-043c0b3c2a/b done (D-250–D-252). Live immutable acceptance geometry/deadlines, reliable fresh/duplicate/rejected/expired responses, bounded client inbox. CHECK PASS: 348 pure +14 input +24 dispatcher cases + receipt adapter. Current timings unchanged; no renderer/cloud/publication claim. Merge76ba10e at41.6 OLU; close-out saving below45.
-- **NEXT: T-043c0b3c3** terminals/contacts (split first), then b4 renderer. Handoff: research/notes/T-043c0b-S71-handoff.md. Preserve accepted zones across slot/death/departure; receipt ownership on departure must be solved before terminal transport. Five future timing probes remain intentionally red for T-043c2/c3. Older status bullets below are historical.
+## Now (after S72)
+- S72 merged: T-043c0b3c3a done (D-253–D-255). Bounded world-owned immutable acceptance handles, per-resource once-only completion, pre-payment capacity guard and character-safe delayed Shatter. Accepted zones/shards survive slot/death/departure independently of player replay cache. CHECK PASS: 353 pure/64 suites +27 dispatch +5 real-source lifecycle scenarios; prior input/receipt/timing/art suites green. Merge 48872fa at 38.3 OLU; no cloud/publication or renderer claim.
+- **NEXT: T-043c0b3c3b** reliable terminals/tombstones (re-size/split if needed), then c3c confirmed contacts and b4 renderer. Handoff: research/notes/T-043c0b3c3a-lifetime.md and prior S71 handoff. `CastLifetime.terminate` is only a local transition: reliable emission/replay is NOT implemented. Preserve accepted world hazards after departure, bounded replay and one terminal; test reordered/duplicate/late events. Five future timing probes remain intentionally red for T-043c2/c3. Older bullets below are historical.
 
 - **S69 saved/merged at 43.6 OLU:** c0b1/b2/b3a/b3b1 done (D-243–D-246); shared sender, atomic payment/stance and local prediction guards active; pure replay admission not wired. Handoff: research/notes/T-043c0b-S69-handoff.md. No publication.
 - S68: T-043c1 and T-043c0a1/a2 done (D-238–D-242): real-source timing/centre regression harness + desired contract; unused pure bounded CastLedger and CastPresentation with 29 new tests. check.sh PASS (307 pure + timing suite + 5 client-input + 3 authoring). Merged 0bb5c91 at 38.1 OLU; saving completed below 45. No live timing/network changes, assets, cloud execution or publication. Handoff: `research/notes/T-043c1-timing-contract.md`, `T-043c0a1-cast-ledger.md`, `T-043c0a2-cast-presentation.md`. Five `--contract` readiness probes remain intentionally red until c2/c3 (documented, not part of green CI).
@@ -20,7 +20,7 @@
 - S59 (cont.): T-036b done (D-218, D-219): HUD brightens the selected slot, ▲ marker, key hints 1–7; HUD slots are buttons (tap/click selects), loadout screen shows a per-platform select hint. check.sh PASS. Not cloud-tested, not published.
 - S59b (new bot): T-036c done (D-220): cloud smoke on Saved v22 covers slot selection (Rimeshard Z/X/C live when selected, refused otherwise); specs 272/272, CLOUD ALL: PASS. Owner's v21 Z/X/C bug does not reproduce server-side; published v0.0.20 (Roblox v23) for the owner playtest. **T-036 done.**
 - Owner playtest of v0.0.20 (inbox 2026-10-31-v20-playtest.md) → T-038 (3 fixes) + B-01 React UI backlog.
-- NEXT: T-038 (owner answer on Rimeshard), then T-022c beast feel or T-026c R15 animations; T-024 after those.
+- Historical S59 NEXT: T-038 (owner answer on Rimeshard), then T-022c beast feel or T-026c R15 animations; T-024 after those.
 - S58 (owner asked): T-037 done (D-214, D-215): AGENTS.md §1 lean-reading rule (read only task files); Stone Ward removed completely (move, Kith, Config, FX, V key, Warded status; starters now Rimeshard/Crescent/Wind; dummy + wild Kith = Crescent; loadout only warns on missing Strike). check.sh PASS. Not published.
 - S57 (owner asked): T-035 done (D-213): Tab = Roblox player/server list again; loadout opens from a new Inventory icon (🎒) in the top bar right of the chat button, all platforms (gamepad Back still works). Version 0.0.19. check.sh PASS. Published via roblox-open-cloud (owner asked).
 - S56 (owner asked): T-034 done (D-211, D-212): owner could not find the Rimeshard stance. Fix: the gifted Rimeshard is auto-equipped into slot 1 once, so the stance works without the loadout menu; Needle chain gets an on-screen touch button (mobile). check.sh PASS. Not published, not cloud-tested.
@@ -70,16 +70,16 @@
 - Last publish: Roblox v27 = game v0.0.22 (S64, owner asked). S65 did not publish.
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
-- **Doing:** T-043 overhaul (a/b/d1/c1/c0a and c0b1/b2/b3a/b3b1 complete; c0b3b2 generation, b3c receipts, b4 presentation then d2); T-042b live-input verification remains open.
-- **NEXT:** T-043c0b3b2a — explicit authorization boundary, then b2b live generation/replay. Parent b3b2 doing; Resume from: real Abilities authorization split. Resume from research/notes/T-043c0b-S69-handoff.md and T-043c0b3a-admission.md; preserve live timings, bind readiness to current character, explicit non-yielding authorization outcomes. Then b3c reliable receipts, b4 reconciliation, d2 M1 visuals; owner M1 review before special art.
+- **Doing:** T-043 overhaul: c0b3c3 lifecycle (c3a done; c3b terminals → c3c contacts), then b4 presentation and d2 M1 visuals; T-042b live-input verification remains open.
+- **NEXT:** T-043c0b3c3b — reliable terminal transport and bounded replay/tombstones, after completed world-owned lifetime c3a. Resume from research/notes/T-043c0b3c3a-lifetime.md; then c3c confirmed contacts, b4 reconciliation, d2 M1 visuals. Owner M1 review before special art.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-043c0b3b2 generation/replay → b3c receipts → b4 reconciliation (serialized) · T-043c0a (done)
+  - T-043c0b3c3b reliable terminals → c3c confirmed contacts → b4 reconciliation (serialized) · c3a world lifetime (done)
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
   - T-043h1 truthful Chill state · T-043b + T-043c1 (done) + T-043c0b (coordinate remotes)
   - Unrelated beast/movement/onboarding lanes deferred while owner-priority Rimeshard overhaul is active.
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** M1 owner quality review before specials; T-042b fresh-server input verification remains open. No publish without explicit request.
 - **Last cloud test:** CLOUD ALL: PASS on Saved v26 (2026-10-31, S63, 278/278 tests + server smoke); live published = v27 (game v0.0.22); publication HTTP 200, player readback pending
-- **Last check.sh:** CHECK: PASS (2026-10-31, S69 merge): 329 pure tests (59 suites), 11 actual-input mocks, 6 actual-dispatch mocks, timing characterization + 3 authoring tests, types/build/inspect. Five future Z/X contract probes intentionally fail. No cloud/device/renderer quality verification or publication.
+- **Last check.sh:** CHECK: PASS (2026-10-31, S72 merge): 353 pure tests (64 suites), 27 actual-dispatch cases, 5 real-source lifecycle scenarios; input/receipt/timing/authoring/types/build/inspect green. Five future Z/X contract probes intentionally fail. No cloud/device/renderer quality verification or publication.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
