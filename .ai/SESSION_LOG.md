@@ -1,10 +1,10 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
-## S74 — 2026-10-31 (36.4 OLU before close-out)
+## S74 — 2026-10-31 (37.4 OLU at merge; final STATE save below 45)
 - c3c2/c3c3 done: reliable post-effect contacts + bounded independent client inbox; late/duplicate/tick/teardown tests (D-259–D-261).
 - b4 split before work; b4a done: keyed resource leases, once-only cleanup and pose/world separation (D-262–D-263); no renderer adoption.
 - CHECK PASS: 391 pure/67 specs, 31 dispatch, 13 lifecycle and actual client adapter; 7/7 deliberate behavioural faults detected/restored.
-- Next b4b bridge/skew/fallback then b4c live renderer; handoffs T-043c0b3c3c2-server-contacts.md, c3c3-client-contacts.md, T-043c0b4a-resource-ownership.md. No cloud test/publication.
+- Next b4b bridge/skew/fallback then b4c live renderer; handoffs T-043c0b3c3c2-server-contacts.md, T-043c0b3c3c3-client-contacts.md, T-043c0b4a-resource-ownership.md. No cloud test/publication.
 
 ## S73 — 2026-10-31 (41.5 OLU before close-out)
 - c3b done: reliable once-only cast terminals, ordered replay, bounded client reorder/expiry protection (D-256–D-257).
