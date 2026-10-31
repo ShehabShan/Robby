@@ -1,8 +1,9 @@
 # STATE
 
-## Now (after S65)
+## Now (after S67)
+- S67: T-043d1 done (D-235–D-237): original 16-triangle M1 shard family, arm-only R15 left/right/paired clips, reproducible FBX/GLB/RBXM exports, headless board + offline motion GIF. Evidence: `research/notes/T-043d1-m1-prototype.md`. Merged; check.sh PASS (278 gameplay + 3 offline authoring tests + 5 input mocks); mesh round-trips and cloud packing PASS. No gameplay changes, asset uploads, cloud execution or publication. 37.1 OLU at merge; saving completed below 45.
 - S65: T-043a done (D-231–D-233). Five Blox Fruits Ice/Blizzard clips visually inspected; evidence, all-move audit, 3 direction options, recommended faceted-frost storyboards and illustrated review board saved in `research/notes/T-043a-*`. Merged to main; check.sh PASS; board layout/images PASS at 1100/390/320 px. No gameplay changes, cloud test or publication this session. OLU 34.4 at merge, saving completed below the owner's 45-OLU threshold.
-- Owner APPROVED option A faceted hand-shaped frost and M1-first prototype on 2026-10-31. T-043b done; next T-043d1 original shard/pose prototype. Approval is not publication or whole-kit acceptance. This follow-up stopped for the existing budget cap before implementation; verbatim reply in inbox/2026-10-31-rimeshard-direction-approved.md.
+- Owner APPROVED option A faceted hand-shaped frost and M1-first prototype on 2026-10-31. T-043b and T-043d1 done; next T-043c1 timing contract before d2 integration. Approval is not publication or whole-kit acceptance. This follow-up stopped for the existing budget cap before implementation; verbatim reply in inbox/2026-10-31-rimeshard-direction-approved.md.
 - S64 (owner approved): published game v0.0.22 = Roblox place v27 (HTTP 200), T-041 left click + T-042a Rimeshard FX fix. check.sh PASS after version bump and merge. T-042b awaits owner fresh-server Z/X/C/touch playtest; no live-device PASS claimed. Release evidence/rollback: `.ai/RELEASE_S64.md`.
 - S63: T-042a done (D-229–D-230): fixed FX registry rejecting four-part Rimeshard cast/travel IDs; 278 pure tests + 5 mocked client wiring cases PASS, check.sh PASS. Merged to main. T-042b CLOUD ALL: PASS on Saved v26 (278/278 specs); owner playtest still needed. Not published.
 - S62 late: owner playtest of v0.0.21 — Rimeshard Z/X/C still dead → T-042 (next session first). T-041 done (D-228): Crescent Cut moved from right click to left click. check.sh PASS. Not published (live = v0.0.21).
@@ -64,16 +65,16 @@
 - Last publish: Roblox v27 = game v0.0.22 (S64, owner asked). S65 did not publish.
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
-- **Doing:** T-043 overhaul (T-043a research complete, T-043b approved A; M1 prototype pending); T-042b live-input verification remains open.
-- **NEXT:** T-043d1 — original M1 shard/pose prototype (owner explicitly approved). Read its TASKS entry and skills. T-043c1 timing contract remains required before integration; do not skip M1 owner quality review before specials.
+- **Doing:** T-043 overhaul (a research, b approved A, d1 prototype complete; c1 contract and d2 integration next); T-042b live-input verification remains open.
+- **NEXT:** T-043c1 — presentation timing contract/regressions (prep only), then T-043d2 M1 visual integration using d1 sources/evidence. Read TASKS entries and skills. No live timing changes in c1. Do not skip M1 owner quality review before specials.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-043c1 timing contract/regressions (prep only) · —
-  - T-043d1 original M1 shape/pose prototype · T-043b owner choice
+  - T-043d2 integrated M1 visual slice · T-043d1 (done) + T-043c1
   - T-043h1 truthful Chill state · T-043b + T-043c1 (coordinate remotes with c2/c3)
   - Unrelated beast/movement/onboarding lanes deferred while owner-priority Rimeshard overhaul is active.
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** M1 owner quality review before specials; T-042b fresh-server input verification remains open. No publish without explicit request.
 - **Last cloud test:** CLOUD ALL: PASS on Saved v26 (2026-10-31, S63, 278/278 tests + server smoke); live published = v27 (game v0.0.22); publication HTTP 200, player readback pending
-- **Last check.sh:** CHECK: PASS (2026-10-31, S65 close-out + merge; source gameplay unchanged). Board browser/layout/images and local research links PASS; no live-device quality or FPS claim.
+- **Last check.sh:** CHECK: PASS (2026-10-31, S67 close-out + merge; source gameplay unchanged). 278 gameplay tests + 3 offline authoring tests + 5 client-input mocks; FBX/GLB/RBXM round-trips and cloud packing PASS. Headless previews only; no live blend/device quality/FPS claim.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
