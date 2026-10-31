@@ -1,6 +1,7 @@
 # STATE
 
-## Now (after S59)
+## Now (after S60)
+- S60: T-038 doing (D-221–D-223): right click = Crescent Cut when Crescent is selected; HUD shows Dormant/Tired on a slot + client cast guard (likely cause of the dead Rimeshard: slot-1 Rimeshard starved); predicted slot highlight, HUD rebuilds only on change. check.sh PASS. Not cloud-tested, not published.
 - S59 (owner asked): T-036 split a–c. T-036a done (D-216, D-217): slot-selected abilities core — keys 1–7 / gamepad Y select a core slot (`SelectSlot` → `ActiveSlot`), only the selected Kith's moves are live (server-enforced); Rimeshard stance turns on by itself when selected (left click = chain, Z/X/C = specials); Crescent Cut left E and sits on Z of Crescent's slot; Q stance toggle removed; Wind Step fixed on R. check.sh PASS. Not cloud-tested, not published.
 - S59 (cont.): T-036b done (D-218, D-219): HUD brightens the selected slot, ▲ marker, key hints 1–7; HUD slots are buttons (tap/click selects), loadout screen shows a per-platform select hint. check.sh PASS. Not cloud-tested, not published.
 - S59b (new bot): T-036c done (D-220): cloud smoke on Saved v22 covers slot selection (Rimeshard Z/X/C live when selected, refused otherwise); specs 272/272, CLOUD ALL: PASS. Owner's v21 Z/X/C bug does not reproduce server-side; published v0.0.20 (Roblox v23) for the owner playtest. **T-036 done.**
@@ -55,8 +56,8 @@
 - Last publish: Roblox v23 = game v0.0.20 (S59b, owner asked, slot selection playtest). Before that: v19 = game v0.0.18 (S50, owner asked, for the T-027h mobile playtest). Before that: v16 (S39). Includes Crucible, Loom, Marks, speed guard, Rank-test credit, Mistmaw tuning, remote guard.
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
-- **Doing:** —
-- **NEXT:** T-038 v0.0.20 playtest fixes (right click = Crescent Z, Rimeshard moves dead when selected, slot-switch lag; see TASKS); then T-022c beast feel; T-026d live walk test (published v20; waits for owner walk feedback in `research/inbox/`), then owner playtest; T-027h Rimeshard playtest (published v19, waits for owner feedback, then tune); then T-022c beast feel, T-026c R15 animations, T-024 First 10 minutes.
+- **Doing:** T-038 (Resume from: cloud smoke of a/b/c, then confirm the Rimeshard cause with the owner — does slot 1 say Dormant/Tired?)
+- **NEXT:** finish T-038 (cloud smoke + owner answer on Rimeshard); then T-022c beast feel; T-026d live walk test (published v20; waits for owner walk feedback in `research/inbox/`), then owner playtest; T-027h Rimeshard playtest (published v19, waits for owner feedback, then tune); then T-022c beast feel, T-026c R15 animations, T-024 First 10 minutes.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
@@ -66,5 +67,5 @@
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox).
 - **Last cloud test:** CLOUD ALL: PASS on Saved v22 (2026-10-31, S59b, incl. slot selection); live = v23 (game v0.0.20)
-- **Last check.sh:** CHECK: PASS (2026-10-31, S59)
+- **Last check.sh:** CHECK: PASS (2026-10-31, S60)
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
