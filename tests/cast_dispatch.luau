@@ -16,6 +16,7 @@ local function slice(first, after)
 	return source:sub(a, b - 1)
 end
 local dispatch = slice("Net.CastRequest.On(function(player: Player, value)", "\n\tRunService.Heartbeat:Connect")
+local authorization = slice("-- T-043c0b3b2a: explicit", "function Abilities.start()")
 local kitSource = slice("local function kitFor(", "local function stanceFor(")
 local function harness(step)
 	local h = {
@@ -36,7 +37,7 @@ local function harness(step)
 	local root = { Position = rb.Vector3.new(0, 3, 0) }
 	local character = {
 		FindFirstChildOfClass = function()
-			return { Health = 100 }
+			return { Health = h.hp or 100 }
 		end,
 	}
 	local player = {
@@ -74,7 +75,7 @@ local function harness(step)
 		},
 		DataService = {
 			get = function()
-				return { loadout = { weaves = {} }, kith = {} }
+				return if h.noData then nil else { loadout = { weaves = {} }, kith = {} }
 			end,
 		},
 		Loadout = {
@@ -111,7 +112,7 @@ local function harness(step)
 			h.published += 1
 		end,
 		aliveRoot = function()
-			return root
+			return if h.noRoot then nil else root
 		end,
 		stanceFor = function()
 			return h.stance
@@ -133,7 +134,17 @@ local function harness(step)
 		pushShot = delivery("Projectile"),
 		fireCast = function() end,
 	}
-	luau.load(kitSource .. dispatch, { environment = env, injectGlobals = true })()
+	local seam = luau.load(
+		kitSource .. authorization .. dispatch .. "\nreturn { authorize = authorizeCast, deliver = deliverCast }",
+		{ environment = env, injectGlobals = true }
+	)()
+	h.authorize = function(value)
+		return seam.authorize(player, value)
+	end
+	h.deliver = seam.deliver
+	h.player = player
+	h.env = env
+	h.root = root
 	function h:send(id)
 		self.callback(
 			player,
@@ -146,7 +157,147 @@ local function pristine(h, step)
 	assert(#h.deliveries == 0 and h.strain == 0 and h.fought == 0 and h.published == 0)
 	assert(h.stance.chain.step == step and h.stance.chain.lastAt == 100)
 end
+local function request(id)
+	return {
+		moveId = id or "move.rime.shard_fan",
+		seq = 1,
+		aim = rb.Vector3.new(0, 0, -1),
+		point = rb.Vector3.new(0, 0, -10),
+	}
+end
 local cases = {
+	["explicit rejection reasons leave payment and delivery untouched"] = function()
+		local rows = {
+			{
+				"not_ready",
+				function(h)
+					h.env.pools[h.player] = nil
+				end,
+			},
+			{
+				"not_ready",
+				function(h)
+					h.env.cooldowns[h.player] = nil
+				end,
+			},
+			{
+				"invalid_request",
+				function(_, v)
+					v.moveId = "unknown"
+				end,
+			},
+			{
+				"invalid_request",
+				function(_, v)
+					v.seq = 65536
+				end,
+			},
+			{
+				"invalid_request",
+				function(_, v)
+					v.aim = {}
+				end,
+			},
+			{
+				"loadout",
+				function(h)
+					h.noData = true
+				end,
+			},
+			{
+				"loadout",
+				function(h)
+					h.owns = false
+				end,
+			},
+			{
+				"unusable",
+				function(h)
+					h.usable = false
+				end,
+			},
+			{
+				"aim",
+				function(_, v)
+					v.aim = rb.Vector3.new(0 / 0, 0, 0)
+				end,
+			},
+			{
+				"aim",
+				function(_, v)
+					v.aim = rb.Vector3.new(0, 1, 0)
+				end,
+			},
+			{
+				"character",
+				function(h)
+					h.noRoot = true
+				end,
+			},
+			{
+				"character",
+				function(h)
+					h.player.Character = nil
+				end,
+			},
+			{
+				"point",
+				function(_, v)
+					v.moveId = "move.rime.fall"
+					v.point = nil
+				end,
+			},
+			{
+				"point",
+				function(_, v)
+					v.moveId = "move.rime.fall"
+					v.point = rb.Vector3.new(1e6, 0, 0)
+				end,
+			},
+			{
+				"stance",
+				function(_, v)
+					v.moveId = "move.rime.needle_finisher"
+				end,
+			},
+			{
+				"qi",
+				function(h)
+					h.qi.current = 0
+				end,
+			},
+			{
+				"cooldown",
+				function(h)
+					h.cds["move.rime.shard_fan"] = 110
+				end,
+			},
+		}
+		for _, row in rows do
+			local h, v = harness(2), request()
+			row[2](h, v)
+			local qi, cd = h.qi.current, h.cds[v.moveId]
+			local accepted, reason = h.authorize(v)
+			assert(accepted == nil and reason == row[1], tostring(reason) .. " vs " .. row[1])
+			pristine(h, 2)
+			assert(h.qi.current == qi and h.cds[v.moveId] == cd)
+		end
+	end,
+	["authorization completes without yielding or engine work; delivery uses captured geometry"] = function()
+		local h = harness(2)
+		local job = coroutine.create(h.authorize)
+		local ok, accepted, reason = coroutine.resume(job, request())
+		assert(ok and accepted and reason == nil and coroutine.status(job) == "dead")
+		assert(h.qi.current == 90 and h.strain == 1 and h.stance.chain.step == 0)
+		assert(h.fought == 0 and h.published == 0 and #h.deliveries == 0)
+		local origin = accepted.origin
+		h.root.Position = rb.Vector3.new(100, 100, 100)
+		assert(accepted.origin == origin and accepted.character == h.player.Character)
+		h.deliver(accepted)
+		assert(h.qi.current == 90 and h.strain == 1 and h.fought == 1 and h.published == 1)
+		assert(#h.deliveries == 1 and h.deliveries[1].time == h.now)
+	end,
+
 	["unpaid shot2 cancel keeps authoritative state; paid retry casts once"] = function()
 		local h = harness(2)
 		h.qi.current = 0

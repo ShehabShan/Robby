@@ -416,6 +416,124 @@ function Abilities.pool(player: Player): Qi.Pool?
 	return pools[player]
 end
 
+-- T-043c0b3b2a: explicit synchronous authorization seam for replay admission.
+-- Captures one delivery; this is not a network receipt or a replay guard yet.
+type AcceptedCast = {
+	player: Player,
+	character: Model,
+	root: BasePart,
+	move: any,
+	pool: Qi.Pool,
+	dir: Vector3,
+	point: Vector3?,
+	origin: Vector3,
+}
+local function authorizeCast(player: Player, value: any): (AcceptedCast?, string?)
+	local rawMoveId, raw, rawSeq = value.moveId, value.aim, value.seq
+	local pool = pools[player]
+	local cds = cooldowns[player]
+	local move = CastRequest.decode(rawMoveId, rawSeq, built.moves)
+	if not pool or not cds then
+		return nil, "not_ready"
+	end
+	if not move or typeof(raw) ~= "Vector3" then
+		return nil, "invalid_request"
+	end
+	local data = DataService.get(player)
+	local slot = tonumber(player:GetAttribute("ActiveSlot")) or 1
+	if not data or not Loadout.canCastLive(data.loadout, data.kith, built, Config, slot, move.id) then
+		return nil, "loadout" -- only the selected slot's Kith (+ fixed moves) may cast (T-036a, D-216)
+	end
+	move = Loom.wovenFor(Config, built, data.loadout.weaves, move.id) or move -- saved Weave (T-020c, D-090)
+	local _, kithInst = KithCare.casterOf(data, move)
+	local now = os.time()
+	if kithInst then
+		KithCare.ensure(kithInst, Config)
+		if not KithCare.usable(kithInst, Config, now) then
+			return nil, "unusable" -- Dormant or Exhausted Kith cannot cast (T-018b, D-074)
+		end
+	end
+	local v = raw :: Vector3
+	if not Projectile.isValidDirection(v.X, v.Y, v.Z) then
+		return nil, "aim"
+	end
+	local x, z, okFlat = Projectile.flatten(v.X, v.Z)
+	local character = player.Character
+	local root = aliveRoot(character)
+	if not okFlat then
+		return nil, "aim"
+	end
+	if not root or not character then
+		return nil, "character"
+	end
+	local point: Vector3? = nil
+	if move.delivery.kind == "Zone" then
+		local rawPoint = value.point
+		if typeof(rawPoint) ~= "Vector3" then
+			return nil, "point"
+		end
+		local rp = root.Position
+		if not Zone.isValidPoint(rp.X, rp.Z, rawPoint.X, rawPoint.Z, move.delivery.params) then
+			return nil, "point" -- out of range or not finite (T-027b)
+		end
+		point = rawPoint
+	end
+	local kit, stanceCfg = kitFor(move)
+	local humanoid = character:FindFirstChildOfClass("Humanoid")
+	local caster: Moves.Caster = {
+		qi = pool.current,
+		strain = 0,
+		strainMax = math.huge, -- per-Kith Strain is charged below via KithCare (T-018b, D-074)
+		hp = if humanoid then humanoid.Health else 0,
+		cooldowns = cds,
+	}
+	-- Capture engine-facing values before committing payment. No effects, scheduling,
+	-- attribute publication or remote sends occur inside authorization.
+	local dir = Vector3.new(x, 0, z)
+	local accepted: AcceptedCast = {
+		player = player,
+		character = character,
+		root = root,
+		move = move,
+		pool = pool,
+		dir = dir,
+		point = point,
+		origin = root.Position + dir * (move.delivery.params.spawnOffset or 0) + CHEST,
+	}
+	local strain = if kithInst then KithCare.moveStrain(Config, move) else 0
+	local paid, reason =
+		CastTransaction.pay(if kit then stanceFor(player) else nil, stanceCfg, kit, caster, move, os.clock())
+	if not paid then
+		return nil, reason or "payment"
+	end
+	pool.current = caster.qi
+	if kithInst then
+		KithCare.addStrain(kithInst, Config, strain, now)
+	end
+	return accepted, nil
+end
+
+-- Invoke only once for a fresh acceptance, OUTSIDE the admission transaction.
+local function deliverCast(accepted: AcceptedCast)
+	local player, character, root, move = accepted.player, accepted.character, accepted.root, accepted.move
+	local dir = accepted.dir
+	UpkeepService.fought(player)
+	publishQi(player, accepted.pool)
+	local kind = move.delivery.kind
+	if kind == "Self" then
+		selfCast(player, move, root, dir)
+	elseif kind == "Burst" then
+		burstCast(player, character, move, dir)
+	elseif kind == "Zone" then
+		zoneCast(player, character, move, accepted.point :: Vector3, dir)
+	elseif kind == "Volley" then
+		volleyCast(player, character, move, accepted.origin, dir)
+	else
+		pushShot(player, character, move, accepted.origin, dir)
+		fireCast(move, player, accepted.origin, dir)
+	end
+end
+
 function Abilities.start()
 	local function join(player: Player)
 		local pool = Qi.new(Config.Qi.max, Config.Qi.regen)
@@ -448,89 +566,10 @@ function Abilities.start()
 		if not RemoteGuard.allow(player, "CastRequest") then
 			return
 		end
-		local rawMoveId, raw, rawSeq = value.moveId, value.aim, value.seq
-		local pool = pools[player]
-		local cds = cooldowns[player]
-		local move = CastRequest.decode(rawMoveId, rawSeq, built.moves)
-		if not pool or not cds or not move or typeof(raw) ~= "Vector3" then
-			return
+		local accepted = authorizeCast(player, value)
+		if accepted then
+			deliverCast(accepted)
 		end
-		local data = DataService.get(player)
-		local slot = tonumber(player:GetAttribute("ActiveSlot")) or 1
-		if not data or not Loadout.canCastLive(data.loadout, data.kith, built, Config, slot, move.id) then
-			return -- only the selected slot's Kith (+ fixed moves) may cast (T-036a, D-216)
-		end
-		move = Loom.wovenFor(Config, built, data.loadout.weaves, move.id) or move -- saved Weave (T-020c, D-090)
-		local _, kithInst = KithCare.casterOf(data, move)
-		local now = os.time()
-		if kithInst then
-			KithCare.ensure(kithInst, Config)
-			if not KithCare.usable(kithInst, Config, now) then
-				return -- Dormant or Exhausted Kith cannot cast (T-018b, D-074)
-			end
-		end
-		local v = raw :: Vector3
-		if not Projectile.isValidDirection(v.X, v.Y, v.Z) then
-			return
-		end
-		local x, z, okFlat = Projectile.flatten(v.X, v.Z)
-		local character = player.Character
-		local root = aliveRoot(character)
-		if not okFlat or not root or not character then
-			return
-		end
-		local point: Vector3? = nil
-		if move.delivery.kind == "Zone" then
-			local rawPoint = value.point
-			if typeof(rawPoint) ~= "Vector3" then
-				return
-			end
-			local rp = root.Position
-			if not Zone.isValidPoint(rp.X, rp.Z, rawPoint.X, rawPoint.Z, move.delivery.params) then
-				return -- out of range or not finite (T-027b)
-			end
-			point = rawPoint
-		end
-		local kit, stanceCfg = kitFor(move)
-		local humanoid = character:FindFirstChildOfClass("Humanoid")
-		local caster: Moves.Caster = {
-			qi = pool.current,
-			strain = 0,
-			strainMax = math.huge, -- per-Kith Strain is charged below via KithCare (T-018b, D-074)
-			hp = if humanoid then humanoid.Health else 0,
-			cooldowns = cds,
-		}
-		-- Stance and payment commit together; rejected costs cannot consume a chain/cancel.
-		if
-			not CastTransaction.pay(if kit then stanceFor(player) else nil, stanceCfg, kit, caster, move, os.clock())
-		then
-			return
-		end
-		pool.current = caster.qi
-		if kithInst then
-			KithCare.addStrain(kithInst, Config, KithCare.moveStrain(Config, move), now)
-		end
-		UpkeepService.fought(player)
-		publishQi(player, pool)
-		local dir = Vector3.new(x, 0, z)
-		local kind = move.delivery.kind
-		if kind == "Self" then
-			selfCast(player, move, root, dir)
-			return
-		elseif kind == "Burst" then
-			burstCast(player, character, move, dir)
-			return
-		elseif kind == "Zone" then
-			zoneCast(player, character, move, point :: Vector3, dir)
-			return
-		end
-		local origin = root.Position + dir * (move.delivery.params.spawnOffset or 0) + CHEST
-		if kind == "Volley" then
-			volleyCast(player, character, move, origin, dir)
-			return
-		end
-		pushShot(player, character, move, origin, dir)
-		fireCast(move, player, origin, dir)
 	end)
 
 	RunService.Heartbeat:Connect(function(dt: number)
