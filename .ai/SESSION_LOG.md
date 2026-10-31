@@ -1,6 +1,6 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
-## S68 — 2026-10-31 (35.4 OLU after last code save; final meter in STATE)
+## S68 — 2026-10-31 (38.1 OLU at merge; saving below 45)
 - T-043c1 done (D-238–D-240): actual-source Z/X timing/centre characterization + explicit future contract; five readiness probes intentionally red, no live fixes claimed.
 - T-043c0a1/a2 done (D-241–D-242): bounded pure request ledger and prediction lifecycle; c0a complete. No live wiring, asset uploads, cloud execution or publication.
 - check.sh PASS: 307 pure tests (29 new), timing characterization + five input mocks + three authoring tests; source/net behaviour unchanged.
