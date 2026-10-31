@@ -138,6 +138,31 @@ local okLoadout, loadoutResult = pcall(function()
 end)
 check("loadout gates casts (starter ok, unequipped refused)", okLoadout and loadoutResult == true, loadoutResult)
 
+-- T-039 (D-224, D-225): the Inventory shows care state, and a Dormant Kith cannot be equipped until fed.
+local okCare, careResult = pcall(function()
+	local Loadout = require(ReplicatedStorage.Shared.Loadout)
+	local LoadoutScreen = require(ReplicatedStorage.Shared.LoadoutScreen)
+	local Registry = require(ReplicatedStorage.Shared.Registry)
+	local All = require(ReplicatedStorage.Shared.Content.All)
+	local built = Registry.build(All.content(Config))
+	local data: any = require(ReplicatedStorage.Shared.ProfileSchema).template()
+	Loadout.prepare(data, Config, built)
+	local now = os.time()
+	local care = LoadoutScreen.parseCare(LoadoutScreen.encodeCare(data.kith, Config, now))
+	local c = care["starter.crescent"]
+	if not c or c.state ~= "Ready" then
+		return "starter.crescent care " .. tostring(c and c.state)
+	end
+	local slot = table.find(data.loadout.slots, "starter.crescent") :: number
+	Loadout.unequip(data.loadout, slot)
+	data.kith["starter.crescent"].dormant = true
+	local refused = not Loadout.equip(data.loadout, Config, 1, data.kith, built, slot, "starter.crescent", now)
+	data.kith["starter.crescent"].dormant = nil
+	local ok = Loadout.equip(data.loadout, Config, 1, data.kith, built, slot, "starter.crescent", now)
+	return refused and ok
+end)
+check("inventory care state + Dormant equip refused (T-039)", okCare and careResult == true, careResult)
+
 -- T-036c (D-220): with the Rimeshard slot selected, Z / X / C specials pass the live-slot gate and the server
 -- stance check (owner report: Z/X/C did nothing in v21); with another slot selected they are refused.
 local okSlot, slotResult = pcall(function()
