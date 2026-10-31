@@ -1,6 +1,9 @@
 # STATE
 
-## Now (after S69)
+## Now (after S70)
+- S70 merged: live character-bound cast generation/replay and explicit authorization done (D-247–D-248); pure full receipt store done (D-249). CHECK PASS: 339 pure +14 input +16 dispatcher mocks. No cloud/publication. Close-out meter 44.4 OLU before final saves.
+- **NEXT: T-043c0b3c2** live acceptance/rejection (size/split first), then c3 terminals/contacts and b4 renderer. Handoff: research/notes/T-043c0b-S70-handoff.md and T-043c0b3c1-receipts.md. Older status bullets below are historical.
+
 - **S69 saved/merged at 43.6 OLU:** c0b1/b2/b3a/b3b1 done (D-243–D-246); shared sender, atomic payment/stance and local prediction guards active; pure replay admission not wired. Handoff: research/notes/T-043c0b-S69-handoff.md. No publication.
 - S68: T-043c1 and T-043c0a1/a2 done (D-238–D-242): real-source timing/centre regression harness + desired contract; unused pure bounded CastLedger and CastPresentation with 29 new tests. check.sh PASS (307 pure + timing suite + 5 client-input + 3 authoring). Merged 0bb5c91 at 38.1 OLU; saving completed below 45. No live timing/network changes, assets, cloud execution or publication. Handoff: `research/notes/T-043c1-timing-contract.md`, `T-043c0a1-cast-ledger.md`, `T-043c0a2-cast-presentation.md`. Five `--contract` readiness probes remain intentionally red until c2/c3 (documented, not part of green CI).
 - S67: T-043d1 done (D-235–D-237): original 16-triangle M1 shard family, arm-only R15 left/right/paired clips, reproducible FBX/GLB/RBXM exports, headless board + offline motion GIF. Evidence: `research/notes/T-043d1-m1-prototype.md`. Merged; check.sh PASS (278 gameplay + 3 offline authoring tests + 5 input mocks); mesh round-trips and cloud packing PASS. No gameplay changes, asset uploads, cloud execution or publication. 37.1 OLU at merge; saving completed below 45.
