@@ -263,6 +263,19 @@ local function packet(h, seq, move)
 	return v
 end
 local cases = {
+	["epoch exhaustion cannot reuse generation for another character"] = function()
+		local h = harness()
+		local v = packet(h, 1)
+		local session = h.sessions[h.player]
+		session.admission.epoch = 4294967295
+		h.player.CharacterRemoving:Fire(h.player.Character)
+		assert(session.admission.closed and h.snapshot.character == nil)
+		h.player.Character = table.clone(h.player.Character)
+		h.player.CharacterAdded:Fire(h.player.Character)
+		h.callback(h.player, v)
+		assert(#h.deliveries == 0 and h.strain == 0 and h.snapshot.character == nil)
+	end,
+
 	["live replay blocks duplicate and changed payload; expiry does not reopen payment"] = function()
 		local h = harness()
 		local v = packet(h, 1)

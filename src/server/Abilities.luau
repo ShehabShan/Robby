@@ -543,8 +543,14 @@ local function syncCast(player: Player, session: CastSession)
 	Net.CastGeneration.Fire(player, {
 		generation = session.admission.ledger.generation,
 		epoch = session.admission.epoch,
-		character = session.character,
+		character = if session.admission.closed then nil else session.character,
 	})
+end
+-- Epoch exhaustion must fail closed; never reuse a character generation.
+local function rotateCast(session: CastSession)
+	if not CastAdmission.rotate(session.admission) then
+		CastAdmission.destroy(session.admission)
+	end
 end
 local function castVector(v: Vector3): CastAdmission.Vec
 	return { x = v.X, y = v.Y, z = v.Z }
@@ -576,7 +582,7 @@ function Abilities.start()
 				return
 			end
 			session.character = character
-			CastAdmission.rotate(session.admission)
+			rotateCast(session)
 			stances[player] = Stance.new()
 			followSlot()
 			syncCast(player, session)
@@ -589,7 +595,7 @@ function Abilities.start()
 					return
 				end
 				session.character = nil
-				CastAdmission.rotate(session.admission)
+				rotateCast(session)
 				stances[player] = Stance.new()
 				syncCast(player, session)
 			end)
@@ -668,7 +674,7 @@ function Abilities.start()
 			deliverCast(accepted)
 		end
 		if result.renew then
-			CastAdmission.rotate(session.admission)
+			rotateCast(session)
 		end
 		if result.renew or result.reason == "generation" then
 			syncCast(player, session)
