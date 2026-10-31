@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S76 — 2026-10-31 (37.8 OLU before close-out; saving target below 45)
+- b4b2b done: independent world-warning reserve + immediate/drained/seek failure routing and Config policy (D-268–D-270).
+- Failed prediction no longer rejects true acceptance; missing prediction lease restarts cleanly (D-271). No live renderer cutover/publication.
+- CHECK PASS: 464 pure/71 specs (35 new cases); eight deliberate faults detected/restored; existing gates green.
+- Next b4b3 confirmed contacts, then b4c live renderer. Handoff: research/notes/T-043c0b4b2b-essential-warnings.md. No owner action required.
+
 ## S75 — 2026-10-31 (35.7 OLU at merge; final STATE save below 45)
 - b4b split; b4b1 done: owned seekable command executor, same-lease prediction adoption and isolated cleanup (D-264–D-265).
 - b4b2 split; b2a done: bounded monotonic clock/future queue with terminal/overflow anti-replay (D-266–D-267).
