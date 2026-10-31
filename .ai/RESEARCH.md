@@ -397,3 +397,15 @@ Draft model, curve table and 10 sources: `research/notes/R-022-stat-damage-math.
 - Sim ignores travel time (speed 100–120 vs range 35–45 ≈ 0.4 s per shard), target movement out of Rime Fall, and Chill expiring during repositioning; all reduce real Rimeshard output.
 - Melee light chain (≈12 DPS at 6 studs) is not modelled alongside Crescent.
 **Sources**: `research/notes/R-028-first-ability-gu.md` §2–§3; `src/shared/Config.luau` (Rimeshard, CrescentCut, Qi, beasts); sim output 2026-10-30.
+
+### T-043a Rimeshard quality reference study (research done 2026-10-31; design S65)
+**Findings**
+- Five silent Blox Fruits Ice/Blizzard gameplay clips were visually sampled: M1 body poses, directional ring trail, angular ice crown, fan release and bounded vertical spiral. Linked clips, timestamped observations and reference-only sheets: [audit](../research/notes/T-043a-reference-audit.md).
+- Current Rimeshard reuses tiny cuboid shards, generic smoke and built-in sword/ping sounds, without dedicated attack poses in its KithInput/RimeFx path; Z telegraph vs immediate shot and X local/remote rain delay differ in code. Sources: `src/client/RimeFx.luau`, `src/server/Abilities.luau`, `src/shared/Content/Rimeshard.luau` (audit links).
+- Roblox documents 100 particles/s per emitter on mobile (400 desktop), overdraw costs, and flipbook low-memory fallback: [official docs](https://create.roblox.com/docs/effects/particle-emitters). Search's 400-mobile claim rejected.
+**→ Implications for Robby**
+- Propose pose-first faceted ice, four distinct move silhouettes and confirmed-target Shatter impact; prototype M1 before expanding. [Direction](../research/notes/T-043a-rimeshard-direction.md).
+- Preserve balance and server authority; resolve event timing under tests instead of hiding it with bigger effects. Quality acceptance remains the owner's, separate from T-042b functionality.
+**Unknowns**
+- No live render/audio/device performance measured; clips have no audio and unknown game versions. YouTube access failed; no claim of watching those videos. Owner has not selected a direction.
+**Sources**: five linked gameplay clips + Roblox official particle docs + inspected repo code, with exact evidence boundaries in the audit above.
