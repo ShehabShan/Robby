@@ -1,6 +1,7 @@
 # STATE
 
-## Now (after S46)
+## Now (after S47)
+- S47 (same bot): F-08 part 2 (D-202): `src/server` literal scan; corpse despawn → `Config.Beasts.corpseSeconds`. F-08 stays doing (Resume from: `src/client` scan).
 - S46: T-027i done: Rime FX polish (shard Trails, Shatter frost veins, Rime Fall snow + crack ring, Needle 2 / Shatter 3 frame hit-pause; D-198–D-201). Cloud smoke for T-027e/T-027i still pending: `roblox-open-cloud` not connected in the S46 bot (proxy 404). Not published.
 - S45: T-030b done: Rimeshard is the first starter Kith (slot 1 = active stance, D-194); existing saves get a one-time `gift.rimeshard` to equip in the loadout menu (D-195). T-031 done: Shatter's `State.Staggered` freezes beasts and the boss (D-196). T-027e done: `client/RimeFx` + pure `Shared.RimeFxPlan` (D-197); cloud smoke pending (owner away). Not published.
 - S44: T-029 done: own game version `Shared.Version` 0.0.17 (Roblox's v16/v17 = its upload counter, not ours; D-192), HUD top-right `v0.0.17 (Roblox <n>)`, `publish.py` prints both. Bump PATCH before every publish. T-030 done: `Loadout.activeKith` → `ActiveKith` attribute → `KithInput` follows the loadout (D-193). **T-030b open:** Rimeshard is not obtainable yet (starter = Crescent/Stone/Wind), so the stance is unreachable in a live playtest. Owner (18:52): no publish now.
@@ -50,5 +51,5 @@
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox).
 - **Last cloud test:** CLOUD ALL: PASS on Saved v17 (2026-10-30, S43); live = v16
-- **Last check.sh:** CHECK: PASS (2026-10-31, S46)
+- **Last check.sh:** CHECK: PASS (2026-10-31, S47)
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); Q = Kith stance, Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
