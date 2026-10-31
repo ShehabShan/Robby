@@ -76,7 +76,13 @@ local function fixture(capacity, useStore)
 			end,
 			__newindex = function(_, k, v)
 				if k == "Parent" then
-					assert(f.bound, "activation before ownership")
+					local state = if f.borrowedOwner then f.owner.state() else nil
+					local owned = state
+						and (
+							state.gate.gate.bridge.resources.count > 0
+							or state.gate.reserve.bridge.resources.count > 0
+						)
+					assert(if f.borrowedOwner then owned else f.bound, "activation before ownership")
 					fault("parent-" .. class)
 				elseif k == "CFrame" then
 					fault("update")
@@ -87,33 +93,144 @@ local function fixture(capacity, useStore)
 		table.insert(f.objects, o)
 		return o
 	end
-	local modules = { CastDeliveryPlan = Plan, CastCommandMap = Map, CastBridge = {}, CastWarningReserve = {} }
+	local Identity = require("../src/shared/CastCharacterIdentity")
+	local modules = {
+		CastDeliveryPlan = Plan,
+		CastCommandMap = Map,
+		CastBridge = {},
+		CastWarningReserve = {},
+		Config = Config,
+		CastDeliveryDispatch = Dispatch,
+		CastCharacterIdentity = Identity,
+		CastInbox = Inbox,
+		CastContactInbox = require("../src/shared/CastContactInbox"),
+	}
 	local shared = {}
 	for k in modules do
 		shared[k] = k
 	end
+	f.localNow, f.serverNow = 0, 100
+	f.listeners, f.heartbeats, f.oldBeats = {}, {}, {}
+	local net = {}
+	for _, name in { "CastAccepted", "CastTerminal", "CastContact", "CastDisposition" } do
+		net[name] = {
+			On = function(fn)
+				assert(not f.listeners[name])
+				f.listeners[name] = fn
+				return function()
+					f.listeners[name] = nil
+				end
+			end,
+		}
+	end
+	modules.Net = net
+	local world = {
+		GetServerTimeNow = function()
+			return f.serverNow
+		end,
+	}
+	f.model = {
+		raw = Identity.encode({ generation = "g", characterKey = "old", slotRevision = 4, casterUserId = 42 }),
+		present = true,
+		humanoid = { Health = 100 },
+		GetAttribute = function(self)
+			return self.raw
+		end,
+		IsDescendantOf = function(self, parent)
+			assert(parent == world)
+			return self.present
+		end,
+		FindFirstChildOfClass = function(self)
+			return self.humanoid
+		end,
+	}
+	f.player = { UserId = 42, Character = f.model }
+	local players = {
+		LocalPlayer = f.player,
+		GetPlayerByUserId = function(_, id)
+			return if id == 42 then f.player else nil
+		end,
+	}
+	f.player.Parent = players
+	local services = {
+		Players = players,
+		ReplicatedStorage = { Shared = shared },
+		RunService = {
+			Heartbeat = {
+				Connect = function(_, fn)
+					f.heartbeats[fn] = true
+					table.insert(f.oldBeats, fn)
+					return {
+						Disconnect = function()
+							f.heartbeats[fn] = nil
+						end,
+					}
+				end,
+			},
+		},
+	}
 	local env = {
 		game = {
-			GetService = function()
-				return { Shared = shared }
+			GetService = function(_, name)
+				return assert(services[name], name)
 			end,
 		},
-		script = { Parent = { CastWorldTree = "CastWorldTree" } },
+		script = {
+			Parent = {
+				CastWorldTree = "CastWorldTree",
+				CastCharacterClient = "CastCharacterClient",
+				CastDeliveryFx = "CastDeliveryFx",
+				CastReceiptClient = "CastReceiptClient",
+				Net = "Net",
+			},
+		},
 		require = function(k)
 			return assert(modules[k], k)
 		end,
-		workspace = {},
+		workspace = world,
+		os = {
+			clock = function()
+				return f.localNow
+			end,
+		},
 		Instance = { new = new },
 		Vector3 = rb.Vector3,
 		CFrame = rb.CFrame,
 		Color3 = rb.Color3,
 		Enum = rb.Enum,
 	}
-	for _, name in { "CastWorldTree", "CastDeliveryFx" } do
-		modules[name] = luau.load(fs.readFile("src/client/" .. name .. ".luau"), {
-			injectGlobals = true,
-			environment = env,
-		})()
+	for _, name in
+		{ "CastWorldTree", "CastDeliveryFx", "CastCharacterClient", "CastReceiptClient", "CastDeliveryClient" }
+	do
+		modules[name] =
+			luau.load(fs.readFile("src/client/" .. name .. ".luau"), { injectGlobals = true, environment = env })()
+	end
+	f.owner, f.receipts = modules.CastDeliveryClient, modules.CastReceiptClient
+	function f:beat(localNow, serverNow)
+		self.localNow, self.serverNow = localNow, serverNow
+		for callback in self.heartbeats do
+			callback()
+		end
+	end
+	function f:wire(cmd)
+		local a = table.clone(cmd.metadata.acceptance)
+		local function vector(v)
+			return rb.Vector3.new(v.x, v.y, v.z)
+		end
+		a.origin, a.aim = vector(a.origin), vector(a.aim)
+		a.centre = if a.centre then vector(a.centre) else nil
+		self.listeners.CastAccepted(a)
+	end
+	function f:startOwner()
+		self:stop() -- dispose unused manual fixture ownership first
+		self.borrowedOwner = true
+		self.stopReceipts = self.receipts.start()
+		self.stopOwner = self.owner.start({ m = { delivery = "Zone", worldWarning = true } })
+	end
+	function f:stopOwnerAll()
+		self.stopOwner()
+		self.stopReceipts()
+		assert(next(self.heartbeats) == nil and next(self.listeners) == nil and #self:live() == 0)
 	end
 	f.store = if useStore then Store.new(16) else nil
 	f.fx = modules.CastDeliveryFx
@@ -487,5 +604,165 @@ test("borrowed dispatcher closes on inbox loss and restart never replays old tre
 	Dispatch.tick(f.dispatcher, 0, 100)
 	assert(#f:live() == 0 and f.store.count == 0)
 	f:stop()
+end)
+test("actual borrowed receipt owner resolves pose then retires only pose on death", function()
+	local f, c = fixture(), command("Zone")
+	f:startOwner()
+	assert(f.owner.start({}) == f.stopOwner)
+	f:wire(c)
+	f:beat(0, 100)
+	local state = assert(f.owner.state())
+	local resource = state.gate.gate.bridge.resources.owners[c.key]
+	assert(
+		resource and not resource.poseClosed and #f:live() > 0,
+		`resource={resource} live={#f:live()} store={state.store.count} receipts={state.inbox.acceptances.serial} refusals={state.refusals} raw={f.model.raw}`
+	)
+	f.model.humanoid.Health = 0
+	f:beat(0.1, 100.1)
+	assert(resource.poseClosed and #f:live() > 0 and state.store.count == 1)
+	f.model.humanoid.Health = 100
+	f:beat(0.2, 100.2)
+	assert(resource.poseClosed)
+	f:stopOwnerAll()
+end)
+test("late missing observer can resolve but replacement cannot inherit seen pose", function()
+	local f, c = fixture(), command("Zone")
+	local raw = f.model.raw
+	f.model.raw = nil
+	f:startOwner()
+	f:wire(c)
+	f:beat(0, 100)
+	local state = f.owner.state()
+	local resource = state.gate.gate.bridge.resources.owners[c.key]
+	assert(resource and not resource.poseClosed and #f:live() > 0)
+	f.model.raw = raw
+	f:beat(0.1, 100.1)
+	f.player.Character = table.clone(f.model)
+	f.player.Character.raw = nil
+	f:beat(0.2, 100.2)
+	assert(resource.poseClosed and #f:live() > 0)
+	f:stopOwnerAll()
+end)
+test("slot mismatch and missing world descendant retire pose not accepted warning", function()
+	for _, reason in { "slot", "stream", "leave" } do
+		local f, c = fixture(), command("Zone")
+		f:startOwner()
+		f:wire(c)
+		f:beat(0, 100)
+		local resource = f.owner.state().gate.gate.bridge.resources.owners[c.key]
+		if reason == "slot" then
+			f.model.raw = "1:g3:old42:5"
+		elseif reason == "stream" then
+			f.model.present = false
+		else
+			f.player.Parent = nil
+		end
+		f:beat(0.1, 100.1)
+		assert(resource.poseClosed and #f:live() > 0)
+		f:stopOwnerAll()
+	end
+end)
+test("actual owner prediction requires fresh local identity and adopts immutable receipt", function()
+	local f, c = fixture(), command("Zone")
+	f:startOwner()
+	local identity = { generation = "g", characterKey = "old", slotRevision = 4, casterUserId = 42 }
+	local bad = table.clone(identity)
+	bad.casterUserId = 43
+	assert(f.owner.predict("g:1", bad) == "refuse")
+	f.model.humanoid.Health = 0
+	assert(f.owner.predict("g:1", identity) == "refuse")
+	f.model.humanoid.Health = 100
+	assert(f.owner.predict("g:1", identity) ~= "refuse")
+	assert(#f:live() == 0)
+	local state = f.owner.state()
+	local lease = state.gate.gate.bridge.leases[c.key]
+	f:wire(c)
+	f:beat(0.1, 100.1)
+	assert(state.gate.gate.bridge.leases[c.key] == lease and #f:live() > 0)
+	f:stopOwnerAll()
+	assert(f.owner.predict("g:2", identity) == "refuse")
+end)
+test("owner stops safely on borrowed receipt loss and stale callbacks cannot kill restart", function()
+	local f, c = fixture(), command("Zone")
+	f:startOwner()
+	f:wire(c)
+	f:beat(0, 100)
+	local oldStop = f.stopOwner
+	f.stopReceipts()
+	f:beat(0.1, 100.1)
+	assert(f.owner.state() == nil and #f:live() == 0 and next(f.heartbeats) == nil)
+	f.stopReceipts = f.receipts.start()
+	f.stopOwner = f.owner.start({ m = { delivery = "Zone", worldWarning = true } })
+	oldStop()
+	f.oldBeats[2]() -- stopped delivery callback must be inert
+	f:wire(c)
+	f:beat(0.2, 100.2)
+	assert(f.owner.state() and #f:live() == 0) -- cursor also suppresses fresh inbox replay
+	f:stopOwnerAll()
+end)
+test("same inbox restart suppresses unpolled receipt and permits later fresh cast", function()
+	local f, c = fixture(), command("Zone")
+	f:startOwner()
+	f:wire(c)
+	f.stopOwner()
+	f.stopOwner = f.owner.start({ m = { delivery = "Zone", worldWarning = true } })
+	f:beat(0, 100)
+	assert(#f:live() == 0)
+	local fresh = command("Zone", 2)
+	local a = table.clone(fresh.metadata.acceptance)
+	a.acceptedAt = 100.1
+	a.releaseAt = 101.1
+	a.endsAt = 105.1
+	f:wire({ metadata = { acceptance = a } })
+	f:beat(0.1, 100.1)
+	assert(#f:live() > 0)
+	f:stopOwnerAll()
+end)
+test("one hundred actual owner restart cycles leak neither subscriptions nor trees", function()
+	local f = fixture()
+	f:startOwner()
+	for n = 1, 100 do
+		local c = command("Zone", n)
+		local a = table.clone(c.metadata.acceptance)
+		a.acceptedAt = 100 + n
+		a.releaseAt = 101 + n
+		a.endsAt = 105 + n
+		f:beat(n, 100 + n)
+		f:wire({ metadata = { acceptance = a } })
+		f:beat(n, 100 + n)
+		assert(#f:live() > 0)
+		f.stopOwner()
+		assert(#f:live() == 0)
+		f.stopOwner = f.owner.start({ m = { delivery = "Zone", worldWarning = true } })
+	end
+	f:stopOwnerAll()
+end)
+test("actual owner terminal batch cancels futures before geometry and failure routes reserve", function()
+	local f, c = fixture(), command("Zone")
+	f:startOwner()
+	local a = table.clone(c.metadata.acceptance)
+	a.acceptedAt = 100.4
+	a.releaseAt = 101.4
+	a.endsAt = 105.4
+	f:wire({ metadata = { acceptance = a } })
+	f:beat(0, 100)
+	assert(#f:live() == 0)
+	f.listeners.CastTerminal({ castId = c.key, reason = "cancel", at = 100.4 })
+	f:beat(0.4, 100.4)
+	assert(#f.objects == 0)
+	f:stopOwnerAll()
+	f, c = fixture(), command("Zone")
+	f:startOwner()
+	f.faults.update = 1
+	f:wire(c)
+	f:beat(0, 100)
+	local state = f.owner.state()
+	assert(
+		state.gate.gate.bridge.resources.count == 0 and state.gate.reserve.bridge.resources.count == 1 and #f:live() > 0
+	)
+	f.model.humanoid.Health = 0
+	f:beat(0.1, 100.1)
+	assert(#f:live() > 0)
+	f:stopOwnerAll()
 end)
 print("DELIVERY ENGINE: PASS (" .. count .. " cases)")

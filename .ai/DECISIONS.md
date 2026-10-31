@@ -374,3 +374,9 @@ One bounded server-authored model attribute carries generation/characterKey/user
 
 ### D-291 — Fresh fail-closed pose lookup (S82, 2026-10-31)
 Resolve independently replicated exact identity and current world/living model each frame, without caches/subscriptions/yields. Eventual replication is not authoritative liveness; missing pose cannot cancel accepted world geometry. Burst release semantics remain separate pending work.
+
+### D-292 — Borrowed delivery engine owner (S82, 2026-10-31)
+CastDeliveryClient owns heartbeat/dispatcher and bounded separate primary/reserve pools, borrowing receipt inbox. Stop before receipt owner; preserve explicit dispatcher cursor across restarts. Startup stays off until truthful Burst and atomic legacy cutover.
+
+### D-293 — Observed-pose loss is irreversible, not world cancellation (S82, 2026-10-31)
+Fresh resolver per admitted frame; missing-before-first-observation may arrive late, but loss after observation retires pose only. Bounded seen/retired flags follow canonical store lifetime; accepted world warnings remain independent. Prediction art remains unauthored.
