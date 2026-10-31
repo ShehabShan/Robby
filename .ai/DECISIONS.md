@@ -298,3 +298,6 @@ Pure CastContacts is a per-world-lifetime notification ledger, not damage eligib
 
 ### D-264 — S75: split reconciliation bridge before implementation (2026-10-31)
 T-043c0b4b becomes b1 owned synchronous command executor, b2 clock admission/essential fallback, b3 confirmed-contact dispatch. Each is independently tested and S-sized; b4c alone switches the live renderer. The split prevents speculative transport, fallback and engine changes inside one session. STATE remains unchanged on the session branch per AGENTS §9.
+
+### D-265 — S75: owned, seekable presentation executor (2026-10-31)
+CastBridge composes real CastPresentation and CastResources behind synchronous non-yielding renderer commands. Prediction adoption retains the exact lease; tick-before-event consumes every cleanup, idle ticks seek immutable authoritative centre/time without inferring impacts. Local pose loss does not cancel accepted world hazards. Renderer false/throw cancels cosmetic ownership, exposes failure telemetry, cleans partial allocations, and suppresses replay; a later independent essential-cue layer must handle fallback. Reentrant bridge mutations refuse rather than queue; callers retry teardown after an active command. No gameplay, live renderer, clock correction or contact delivery is changed.
