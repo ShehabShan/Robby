@@ -177,4 +177,30 @@ function WindStep.step(s: State, elapsed: number, clearance: number?, cancelled:
 	end
 	return frame(s, distance, seconds)
 end
+-- Prospective PreSimulation budget: never drive the NEXT frame with the past frame's speed.
+-- Caller sweeps this distance from the ACTUAL root before applying speed for exactly dt.
+-- A final partial interval divides by FULL simulation dt, preventing endpoint overshoot.
+-- finishAfter means release after this simulation step, not before its bounded displacement.
+function WindStep.forward(p: Profile, elapsed: number, dt: number, clearance: number?): (number, number, boolean)
+	if
+		not finite(elapsed)
+		or elapsed < 0
+		or not finite(dt)
+		or dt <= 0
+		or dt > p.maxFrame
+		or elapsed >= p.duration
+		or (clearance ~= nil and (not finite(clearance) or clearance < 0))
+	then
+		return 0, 0, true
+	end
+	local finish = math.min(p.duration, elapsed + dt)
+	local a = WindStep.sample(p, elapsed)
+	local b = WindStep.sample(p, finish)
+	local requested = math.max(0, b - a)
+	local allowed = if clearance ~= nil then math.max(0, clearance - p.skin) else requested
+	local distance = math.min(requested, allowed)
+	return distance,
+		distance / dt,
+		finish >= p.duration or (clearance ~= nil and (clearance <= p.skin or allowed < requested))
+end
 return WindStep

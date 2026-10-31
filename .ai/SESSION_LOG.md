@@ -1,5 +1,12 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S87 — 2026-10-31
+- Wind Step audit/redesign done; pure motion and prospective physics budget prepared; D-304–D-307/D-310.
+- Pure slipstream plan + actual-plan960/320px boards/GIF done; explicit Self metadata contract; D-308–D-309.
+- CHECK PASS:626 pure/83 specs + prior engine/build gates;14 behavioral mutations detected/restored.
+- Close-out began at40.8 OLU, saving deadline45. NEXT b2b2 prepared motion driver, then b2c activation/b3b renderer/c3b2c cutover.
+- Live movement/visuals unchanged; no cloud/device/feel acceptance or publication. No owner action.
+
 ## S86 follow-up — 2026-10-31 (same cumulative budget)
 - Owner rejects Wind Step appearance/function; verbatim feedback saved, autonomous redesign authorized.
 - Reprioritized/split b2b into design audit, movement rework and receipt-owned visuals; NEXT b2b1.
