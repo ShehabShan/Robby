@@ -407,3 +407,6 @@ CastPresentationClient composes existing CastOwner in receipt → delivery → c
 
 ### D-302 — Cutover preserves non-cast melee and Self feedback (S86, 2026-10-31)
 Source audit: CombatService emits only legacy fx.combat.hit, while Abilities emits reliable CastContact as well as legacy ability HitFx. Removing all HitFx would erase sword feedback. CastDeliveryFx intentionally renders no world tree for Self, while legacy KithFx renders Wind Step gusts. Split c3b2 into an exact non-cast listener boundary, receipt-owned Self parity, and atomic final wiring; no live partial cutover. Never use blanket legacy fallback for keyed ability effects.
+
+### D-303 — Exact prepared sword-contact listener (S86, 2026-10-31)
+CombatContactClient accepts only HitFeel.GENERIC_ID, preserving server-provided caster/target/position/direction/amount without resolving replacement Characters. Every cast/unknown ID is refused, including content-wide checks against reusing the reserved ID. Singleton/rollback/stale callback cleanup mirrors the presentation owners. Registration alone stays inert; c3b2c must replace the blanket legacy listener and start this boundary atomically. Legacy generic melee effects retain their existing internally timed lifetime; this adapter owns only their subscription, not retroactive effect cancellation.
