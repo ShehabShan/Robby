@@ -3,8 +3,8 @@
 ## S79 — 2026-10-31 — T-043c0b4c2a/b/c1 (D-278–D-282)
 - Woven geometry now survives authoritative acceptance/replay; pure seekable frames and bounded owned engine tree prepared. No startup cutover or gameplay timing changes.
 - CHECK PASS: 521 pure tests/75 specs; 33 dispatch cases, listener/engine gates plus four new world-tree groups. 17 temporary behavioral faults detected/restored.
-- Next c2c2: lifecycle orchestration and truthful moving Burst semantics, then c3 atomic cutover. Handoffs: research/notes/T-043c0b4c2{a-geometry,b-seek-plan,c1-world-tree}.md.
-- OLU: 39.8 before close-out; target all saving below45. No cloud/device test, publication or owner action.
+- Next c2c2: lifecycle orchestration and truthful moving Burst semantics, then c3 atomic cutover. Handoffs: research/notes/T-043c0b4c2a-geometry.md, T-043c0b4c2b-seek-plan.md and T-043c0b4c2c1-world-tree.md.
+- OLU: 40.9 at merge; final STATE saving below45. No cloud/device test, publication or owner action.
 
 
 ## S78 — 2026-10-31 (35.1 OLU at merge; final STATE save below 45)
