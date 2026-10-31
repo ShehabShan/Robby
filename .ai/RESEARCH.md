@@ -409,3 +409,13 @@ Draft model, curve table and 10 sources: `research/notes/R-022-stat-damage-math.
 **Unknowns**
 - No live render/audio/device performance measured; clips have no audio and unknown game versions. YouTube access failed; no claim of watching those videos. Owner has not selected a direction.
 **Sources**: five linked gameplay clips + Roblox official particle docs + inspected repo code, with exact evidence boundaries in the audit above.
+
+### R-029 World-owned cast delivery lifetime (done 2026-10-31)
+**Findings**
+- Roblox networking discussions recommend server-owned projectile authority rather than depending on a departing client; community guidance, not an official guarantee ([ownership discussion](https://devforum.roblox.com/t/who-should-i-set-the-network-ownership-of-a-projectile-to/1487698)).
+- Robby's replay cache is player-owned and destroyed on departure, whereas existing accepted world hazards continue; actual code and adapter evidence: [S72 lifetime notes](../research/notes/T-043c0b3c3a-lifetime.md).
+**→ Implications for Robby**
+- Keep immutable accepted identity on a bounded world handle, count every shot/zone/delay resource once and reject excess work before payment; D-253–D-255. Bind delayed Shatter to its accepted character, never respawn.
+**Unknowns**
+- Live Roblox transport/rendering/device quality not measured. Reliable terminal/contact transport and renderer adoption remain separate tasks; no publication.
+**Sources**: linked community discussion, repo code and real-source mocks in the S72 notes; no claims about Rell Seas internals.

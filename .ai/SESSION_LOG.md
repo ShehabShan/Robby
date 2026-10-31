@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S72 — 2026-10-31 (37.3 OLU before close-out)
+- T-043c0b3c3a done (D-253–D-255): bounded world-owned cast handles; zones/shards survive departure; delayed Shatter never rebinds on respawn.
+- CHECK PASS: 353 pure/64 suites, 27 dispatch, 5 real-source lifecycle scenarios; no cloud/publication or renderer claim.
+- Handoff: research/notes/T-043c0b3c3a-lifetime.md. Next c3b reliable terminals, c3c contacts, then b4 renderer.
+
+
 ## S71 — 2026-10-31 (40.5 OLU before close-out)
 - T-043c0b3c2a/b done: actual acceptance capture/cache, reliable owner/observer transport and bounded client inbox (D-250–D-252).
 - CHECK PASS: 348 pure tests, 24 dispatcher, 14 input cases, receipt adapter; no cloud/publication or renderer claim.

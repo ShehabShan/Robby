@@ -403,6 +403,11 @@ local function burstCast(player: Player, character: Model, move: any, dir: Vecto
 		if not CastLifetime.isActive(lifetimes, lifetime) then
 			return
 		end
+		-- task.delay can resume before the heartbeat reaper after a scheduler stall.
+		if os.clock() >= lifetime.deadline then
+			CastLifetime.terminate(lifetimes, lifetime, "expired", os.clock())
+			return
+		end
 		local castRoot = if player.Parent == Players and player.Character == character
 			then aliveRoot(character)
 			else nil

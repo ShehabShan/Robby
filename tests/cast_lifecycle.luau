@@ -269,6 +269,12 @@ local cases = {
 		late.heartbeat(20)
 		late.pending[1]()
 		assert(late.damage == 0 and expired.terminal.reason == "expired")
+		local beforeHeartbeat = harness()
+		beforeHeartbeat:target()
+		local stalled = beforeHeartbeat:cast("move.rime.shatter")
+		beforeHeartbeat.now = 120
+		beforeHeartbeat.pending[1]()
+		assert(beforeHeartbeat.damage == 0 and stalled.terminal.reason == "expired")
 	end,
 }
 local count = 0
