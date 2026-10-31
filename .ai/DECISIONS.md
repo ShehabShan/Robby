@@ -347,3 +347,6 @@ CastDeliveryPlan consumes immutable acceptance geometry and the outer warning ga
 
 ### D-282 (S79, 2026-10-31) — One owned world tree, bounded child shapes
 CastWorldTree binds an unparented Folder before configuring/activating up to16 safe Parts. One world-only allocation fits the reserve's two-slot budget without borrowing pose capacity. Seek updates stable shape slots; stale/update/parenting failures fail closed, with idempotent tree destruction. Flat Cylinder discs carry exact diameter and horizontal orientation; Boxes carry captured sweep extents. This is minimal essential geometry, not approved M1 art. No animation, particles, delayed tasks, extra clock or startup wiring. Lifecycle metadata ownership and truthful Burst treatment remain c2c2.
+
+### D-283 (S80, 2026-10-31) — stage delivery lifecycle before Burst
+Split c2c2 into S-sized owned renderer (a), receipt/pose owner (b), and separately gated truthful moving Burst (c). Keep startup off and Burst explicitly unavailable until its original-character release-centre semantics are supported; no fabricated static ring or gameplay change.
