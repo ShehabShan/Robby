@@ -154,5 +154,23 @@ for clip in SOURCE['clips']:
         if o.name.startswith('needle_'): o.hide_render=True
     render(clip['name']+'-recover.png')
     if clip['name']=='needle_pair': bpy.ops.wm.save_as_mainfile(filepath=str(OUT/'rime_m1_pose_proxy.blend'))
+if '--motion' in sys.argv:
+    # Low-rate offline curve preview, not Roblox AnimationTrack or device performance evidence.
+    scene.render.resolution_x=320; scene.render.resolution_y=320; scene.cycles.samples=8
+    (OUT/'motion').mkdir(exist_ok=True)
+    starts=[0,.25,.5]
+    for frame in range(19):
+        t=min(frame/10,1.7)
+        index=0 if t<.25 else 1 if t<.5 else 2
+        clip=SOURCE['clips'][index]; local_t=min(t-starts[index],clip['duration'])
+        a,b=clip['frames'][-2:]
+        for first,second in zip(clip['frames'],clip['frames'][1:]):
+            if first['t']<=local_t<=second['t']: a,b=first,second; break
+        weight=max(0,min(1,(local_t-a['t'])/(b['t']-a['t'])))
+        angles={n:[v+(w-v)*weight for v,w in zip(a['arms'][n],b['arms'][n])] for n in SOURCE['authoredJoints']}
+        pose(angles,clip)
+        for o in DYNAMIC:
+            if o.name.startswith('needle_') and local_t>.11: o.hide_render=True
+        render(f'motion/{frame:02d}.png')
 (OUT/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
 print('RIME M1: 3 original closed 16-triangle meshes, six pose renders; no gameplay modified')

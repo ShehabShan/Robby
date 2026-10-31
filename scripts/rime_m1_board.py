@@ -36,3 +36,13 @@ for j,line in enumerate(['Left / right / brighter paired variant; 1.8-stud dart 
     d.text((288,1220+j*35),line,font=font(17),fill='#bcd4dd')
 board.save(OUT/'m1-board.jpg',quality=91)
 print('BOARD:',OUT/'m1-board.jpg')
+frames=[]
+for path in sorted((BUILD/'motion').glob('*.png')):
+    im=Image.open(path).convert('RGB'); draw=ImageDraw.Draw(im)
+    draw.rectangle((0,0,320,44),fill='#0d1720')
+    draw.text((10,6),'OFFLINE POSE CURVES / NOT GAMEPLAY',font=font(12),fill='#d7f5ff')
+    draw.text((10,25),f"t={min(int(path.stem)/10,1.7):.2f}s / release is immediate",font=font(12),fill='#92b4c6')
+    frames.append(im)
+if frames:
+    frames[0].save(OUT/'m1-motion.gif',save_all=True,append_images=frames[1:],duration=100,loop=0)
+    print('MOTION:',len(frames),'offline frames')

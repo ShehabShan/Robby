@@ -209,3 +209,12 @@ The audit identifies Z's declared 0.2 s telegraph vs immediate server Volley ins
 
 ### D-234 (S66, 2026-10-31) — Owner approves faceted frost and M1-first prototype
 The owner replied "Yes" to "Approve this direction and prototype left-click first?" This approves option A (sharp, hand-shaped ice with deliberate poses) and the left-click prototype, not whole-kit quality acceptance or publication. Verbatim approval: `research/inbox/2026-10-31-rimeshard-direction-approved.md`. T-043b is done; T-043d1 is next. Existing balance/server authority and later owner M1 review gates remain.
+
+### D-235 — M1 original faceted prototype (S67, 2026-10-31)
+T-043d1 authors three 16-triangle original darts and left/right/paired upper-body poses in editable procedural sources. No copied assets, special-move art or gameplay changes. Evidence: research/notes/T-043d1-m1-prototype.md.
+
+### D-236 — Upper-body-only immediate presentation (S67, 2026-10-31)
+Action sequences drive six arm joints only, hierarchy containers have zero weight, terminal arms release weight; no root/waist/leg/head motion. Release at zero and 0.25/0.25/1.2 s clip durations preserve existing recovery, not a new wind-up. Integration must explicitly handle t=0 release rather than trust marker delivery; markers never deal damage. Actual R15 blend/axis/fit validation remains d2.
+
+### D-237 — Prototype evidence and ownership boundary (S67, 2026-10-31)
+Headless mannequin frames/GIF and Blender FBX/GLB round-trips are prototype evidence only, not live Roblox motion/performance or owner acceptance. Upload original sequences under experience owner 7738981129 via existing integration after updating asset metadata; verify creator, permissions, moderation and actual playback before IDs enter gameplay. Mesh route/type verified at integration time. No asset upload or publication performed.
