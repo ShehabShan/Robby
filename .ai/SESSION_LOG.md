@@ -1,5 +1,9 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S62 — 2026-10-31 (same bot, ≈34 OLU)
+- T-040 done (D-227): dev switch keeps all Kith Ready (no feeding). Owner screenshot: red Satiety dot on Rimeshard slot = starving, the likely T-038 cause.
+- check.sh PASS. Not published.
+
 ## S61 — 2026-10-31 (new bot, ≈27 OLU)
 - T-039 done (D-224–D-226): Inventory shows Kith state + Satiety and a help line; Dormant/Tired Kith greyed and refused by the server; title Inventory, cleaner footer, "+N more Kith".
 - check.sh PASS; CLOUD ALL: PASS on Saved v24 (275 specs). Not published.
