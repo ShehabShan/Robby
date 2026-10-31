@@ -319,3 +319,5 @@ Config.CastWarning provides primary 256 entries/16 resources, pending64/future0.
 
 ### D-271 — prediction render failure is not authoritative rejection (S76, 2026-10-31)
 A failed predicted renderer keeps a bounded predicted identity but disposes resources; a later accepted receipt creates a fresh start lease instead of adopting nonexistent visuals and can use the reserve. Failed accepted rendering is tombstoned; true server terminals still dominate. Regression suite detects both accidentally rejecting acceptance and adopting missing prediction ownership. Handoff: research/notes/T-043c0b4b2b-essential-warnings.md.
+
+- **D-272 (S77, 2026-10-31):** Split T-043c0b4b3 before implementation: b3a owns once-only contact consumption and independent cosmetic resources; b3b maps receipt/content metadata for warning/contact commands. Neither changes live rendering or gameplay.
