@@ -1,5 +1,12 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S70 — 2026-10-31
+- b3b2a/b done (D-247–D-248): explicit authorization, live character generation/replay, readiness/respawn cleanup; duplicate requests cannot repay or redeliver.
+- b3c1 done (D-249): pure immutable bounded acceptance/terminal records; live full receipts remain next.
+- CHECK PASS: 339 pure tests, 14 input and 16 dispatcher/lifecycle mocks + timing/art/build. No cloud or publication; five future timing probes remain intentionally red.
+- Next T-043c0b3c2 (size/split before work), c3, b4; research/notes/T-043c0b-S70-handoff.md and T-043c0b3c1-receipts.md.
+
+
 ## S69 — 2026-10-31 (43.6 OLU at merge; saving below 45)
 - T-043c0b1/b2/b3a/b3b1 done (D-243–D-246): one shared cast sender, atomic stance/payment, bounded pure admission core and reversible local prediction guards.
 - check.sh PASS: 329 pure tests, 11 actual-input mocks, 6 actual-dispatch mocks + timing/authoring/build; five future Z/X contract probes still intentionally fail.
