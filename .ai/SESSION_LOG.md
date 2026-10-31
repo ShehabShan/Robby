@@ -1,6 +1,6 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
-## S69 — 2026-10-31 (37.5 OLU before close-out; saving below 45)
+## S69 — 2026-10-31 (43.6 OLU at merge; saving below 45)
 - T-043c0b1/b2/b3a/b3b1 done (D-243–D-246): one shared cast sender, atomic stance/payment, bounded pure admission core and reversible local prediction guards.
 - check.sh PASS: 329 pure tests, 11 actual-input mocks, 6 actual-dispatch mocks + timing/authoring/build; five future Z/X contract probes still intentionally fail.
 - No network-schema changes, asset uploads, cloud run or publication; live generation/replay/receipts and renderer adoption are NOT connected.

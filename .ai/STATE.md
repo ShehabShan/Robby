@@ -1,6 +1,7 @@
 # STATE
 
-## Now (after S68)
+## Now (after S69)
+- **S69 saved/merged at 43.6 OLU:** c0b1/b2/b3a/b3b1 done (D-243–D-246); shared sender, atomic payment/stance and local prediction guards active; pure replay admission not wired. Handoff: research/notes/T-043c0b-S69-handoff.md. No publication.
 - S68: T-043c1 and T-043c0a1/a2 done (D-238–D-242): real-source timing/centre regression harness + desired contract; unused pure bounded CastLedger and CastPresentation with 29 new tests. check.sh PASS (307 pure + timing suite + 5 client-input + 3 authoring). Merged 0bb5c91 at 38.1 OLU; saving completed below 45. No live timing/network changes, assets, cloud execution or publication. Handoff: `research/notes/T-043c1-timing-contract.md`, `T-043c0a1-cast-ledger.md`, `T-043c0a2-cast-presentation.md`. Five `--contract` readiness probes remain intentionally red until c2/c3 (documented, not part of green CI).
 - S67: T-043d1 done (D-235–D-237): original 16-triangle M1 shard family, arm-only R15 left/right/paired clips, reproducible FBX/GLB/RBXM exports, headless board + offline motion GIF. Evidence: `research/notes/T-043d1-m1-prototype.md`. Merged; check.sh PASS (278 gameplay + 3 offline authoring tests + 5 input mocks); mesh round-trips and cloud packing PASS. No gameplay changes, asset uploads, cloud execution or publication. 37.1 OLU at merge; saving completed below 45.
 - S65: T-043a done (D-231–D-233). Five Blox Fruits Ice/Blizzard clips visually inspected; evidence, all-move audit, 3 direction options, recommended faceted-frost storyboards and illustrated review board saved in `research/notes/T-043a-*`. Merged to main; check.sh PASS; board layout/images PASS at 1100/390/320 px. No gameplay changes, cloud test or publication this session. OLU 34.4 at merge, saving completed below the owner's 45-OLU threshold.
@@ -66,16 +67,16 @@
 - Last publish: Roblox v27 = game v0.0.22 (S64, owner asked). S65 did not publish.
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
-- **Doing:** T-043 overhaul (a/b/d1/c1/c0a complete; c0b protocol adapter then d2 M1 integration); T-042b live-input verification remains open.
-- **NEXT:** T-043c0b1 doing — Resume from: unify both input senders; c0b split b1–b4 before coding (two input senders + server validation/payment + accepted/rejected/terminal adapter). Read c1/c0a1/c0a2 handoffs; preserve live Z/X/M1 timings in c0b. Then T-043d2 original M1 visual integration. Do not skip M1 owner quality review before special-move art.
+- **Doing:** T-043 overhaul (a/b/d1/c1/c0a and c0b1/b2/b3a/b3b1 complete; c0b3b2 generation, b3c receipts, b4 presentation then d2); T-042b live-input verification remains open.
+- **NEXT:** T-043c0b3b2 — size/split live generation/replay wiring first. Resume from research/notes/T-043c0b-S69-handoff.md and T-043c0b3a-admission.md; preserve live timings, bind readiness to current character, explicit non-yielding authorization outcomes. Then b3c reliable receipts, b4 reconciliation, d2 M1 visuals; owner M1 review before special art.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-043c0b1 shared sender → b2 atomic payment → b3/b4 protocol/reconciliation (serialized) · T-043c0a (done)
+  - T-043c0b3b2 generation/replay → b3c receipts → b4 reconciliation (serialized) · T-043c0a (done)
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
   - T-043h1 truthful Chill state · T-043b + T-043c1 (done) + T-043c0b (coordinate remotes)
   - Unrelated beast/movement/onboarding lanes deferred while owner-priority Rimeshard overhaul is active.
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** M1 owner quality review before specials; T-042b fresh-server input verification remains open. No publish without explicit request.
 - **Last cloud test:** CLOUD ALL: PASS on Saved v26 (2026-10-31, S63, 278/278 tests + server smoke); live published = v27 (game v0.0.22); publication HTTP 200, player readback pending
-- **Last check.sh:** CHECK: PASS (2026-10-31, S68 close-out + merge; live gameplay unchanged). 307 pure tests + real-source timing characterization + 3 offline authoring tests + 5 client-input mocks. S67 asset round-trip evidence retained; no S68 cloud test, real-client blend/device quality/FPS claim.
+- **Last check.sh:** CHECK: PASS (2026-10-31, S69 merge): 329 pure tests (59 suites), 11 actual-input mocks, 6 actual-dispatch mocks, timing characterization + 3 authoring tests, types/build/inspect. Five future Z/X contract probes intentionally fail. No cloud/device/renderer quality verification or publication.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
