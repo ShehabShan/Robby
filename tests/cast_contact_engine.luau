@@ -93,7 +93,7 @@ local function fixture(capacity)
 				return values[key]
 			end,
 			__newindex = function(_, key, value)
-				if f.failProperty == key then
+				if f.failProperty == key or (key == "Parent" and f.failParentClass == class) then
 					error("property failure")
 				end
 				values[key] = value
@@ -136,6 +136,13 @@ local function fixture(capacity)
 	local render = f.fx.render
 	f.fx.render = function(frame, command)
 		table.insert(f.routes, command)
+		if f.staleTicket then
+			local copy = table.clone(frame)
+			copy.isCurrent = function()
+				return false
+			end
+			return render(copy, command)
+		end
 		if f.refuseBind then
 			local copy = table.clone(frame)
 			copy.bind = function(_, dispose)
@@ -337,7 +344,7 @@ test("capacity refusal never evicts or replays", function()
 	assert(f.bursts == 2)
 	f:finish()
 end)
-for _, failure in { "new", "property", "emit", "bind" } do
+for _, failure in { "new", "property", "emit", "bind", "parent", "stale" } do
 	test(failure .. " failure cleans all partial objects; no retry", function()
 		local f = fixture()
 		f:start()
@@ -345,6 +352,10 @@ for _, failure in { "new", "property", "emit", "bind" } do
 			f.failClass = "TextLabel"
 		elseif failure == "property" then
 			f.failProperty = "Text"
+		elseif failure == "parent" then
+			f.failParentClass = "TextLabel"
+		elseif failure == "stale" then
+			f.staleTicket = true
 		elseif failure == "emit" then
 			f.failEmit = true
 		else
@@ -354,6 +365,7 @@ for _, failure in { "new", "property", "emit", "bind" } do
 		f:tick()
 		assert(f.client.state().renderFailures == 1 and #f:alive() == 0 and f.bursts == 0)
 		f.failClass, f.failProperty, f.failEmit, f.refuseBind = nil, nil, nil, nil
+		f.failParentClass, f.staleTicket = nil, nil
 		f:contact(1)
 		f:tick()
 		assert(f.bursts == 0)
