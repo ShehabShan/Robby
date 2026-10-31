@@ -19,8 +19,12 @@ local function event(name)
 		end,
 	}
 end
-local net =
-	{ CastAccepted = event("accepted"), CastDisposition = event("disposition"), CastTerminal = event("terminal") }
+local net = {
+	CastAccepted = event("accepted"),
+	CastDisposition = event("disposition"),
+	CastTerminal = event("terminal"),
+	CastContact = event("contact"),
+}
 local serverNow = 1000000
 local heartbeat
 local services = {
@@ -82,6 +86,9 @@ local a = {
 }
 listeners.accepted(a)
 local state = adapter.inbox()
+for _ = 1, 1000 do
+	listeners.contact({ castId = a.castId })
+end
 local original = state.acceptances.entries[a.castId]
 assert(original.acceptance.centre.x == 5 and original.acceptance.acceptedAt == 1000000)
 now += 5
@@ -110,7 +117,7 @@ listeners.accepted(a) -- TTL retirement must not revive old ended cast
 assert(next(state.acceptances.entries) == nil)
 stop()
 stop()
-assert(disconnected == 4 and adapter.inbox() == nil and next(listeners) == nil)
+assert(disconnected == 5 and adapter.inbox() == nil and next(listeners) == nil)
 callbacks.accepted(a) -- queued callback cannot resurrect destroyed inbox
 callbacks.terminal({ castId = a.castId, reason = "completed", at = a.endsAt })
 assert(next(state.acceptances.entries) == nil)

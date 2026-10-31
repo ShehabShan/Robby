@@ -40,6 +40,9 @@ function CastReceiptClient.start(): () -> ()
 	local disconnectTerminal = Net.CastTerminal.On(function(v)
 		CastInbox.terminal(state, v.castId, v.reason, v.at, os.clock())
 	end)
+	-- c3c2 ships the server channel before c3c3 stores contacts. Drain it now:
+	-- Blink otherwise retains an unbounded queue while waiting for a listener.
+	local disconnectContact = Net.CastContact.On(function() end)
 	local disconnectDisposition = Net.CastDisposition.On(function(v)
 		CastInbox.disposition(state, v, os.clock())
 	end)
@@ -60,6 +63,7 @@ function CastReceiptClient.start(): () -> ()
 		closed = true
 		disconnectAccepted()
 		disconnectTerminal()
+		disconnectContact()
 		disconnectDisposition()
 		heartbeat:Disconnect()
 		CastInbox.destroy(state)

@@ -58,6 +58,17 @@ event CastTerminal {
 	Call: SingleSync,
 	Data: struct { castId: string(..70), reason: string(..64), at: f64 },
 }
+-- Successful authoritative effects only; one notification per cast/resource/tick/target.
+-- No Instance or Player references; consumers may receive this before acceptance/after terminal.
+event CastContact {
+	From: Server,
+	Type: Reliable,
+	Call: SingleSync,
+	Data: struct {
+		castId: string(..70), ordinal: u16, resource: u8, tick: u16,
+		targetKey: string(..128), at: f64, amount: f64, position: vector, direction: vector,
+	},
+}
 -- Expired means response unavailable, NOT cancellation of a paid world hazard.
 event CastDisposition {
 	From: Server,

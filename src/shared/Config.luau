@@ -88,6 +88,8 @@ local Config = {
 	-- Full acceptance cache: longest current cast is X at 1.6s; 10s bounds future content.
 	-- World delivery handles: reject before payment when full, never evict a paid cast.
 	CastLifetime = { capacity = 2048, graceSeconds = 1 },
+	-- Per-world-cast notification bound only; full never suppresses damage or legacy FX.
+	CastContact = { capacity = 128 },
 	-- World and client end-of-life retention; covers max cast lifetime + expiry grace.
 	CastTerminal = { capacity = 2048, responseSeconds = 10, tombstoneSeconds = 12, maxLifetimeSeconds = 10 },
 	CastClientReceipt = { capacity = 256, responseSeconds = 10, tombstoneSeconds = 12, maxLifetimeSeconds = 10 },

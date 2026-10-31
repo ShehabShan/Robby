@@ -17,7 +17,8 @@ local function slice(first, after)
 	return source:sub(a, b - 1)
 end
 local dispatch = slice("function Abilities.start()", "\nreturn Abilities") .. "\nAbilities.start()"
-local authorization = slice("-- T-043c0b3b2a: explicit", "function Abilities.start()")
+local authorization = slice("-- Confirmed contacts", "-- Sweeps the projectile")
+	.. slice("-- T-043c0b3b2a: explicit", "function Abilities.start()")
 local groundSource = slice("local function groundCentre(", "-- Geometry and monotonic start")
 local kitSource = slice("local function kitFor(", "local function stanceFor(")
 local function signal()
@@ -114,6 +115,7 @@ local function harness(step, protocol)
 		CastLedger = require("../src/shared/CastLedger"),
 		CastReceipts = require("../src/shared/CastReceipts"),
 		CastLifetime = Lifetime,
+		CastContacts = require("../src/shared/CastContacts"),
 		lifetimes = Lifetime.new(Config.CastLifetime.capacity),
 		task = {
 			delay = function(seconds, fn)
@@ -291,11 +293,12 @@ local function harness(step, protocol)
 			.. kitSource
 			.. authorization
 			.. dispatch
-			.. "\nreturn { authorize = authorizeCast, deliver = deliverCast, sessions = castSessions, worldReceipts = terminalReceipts }",
+			.. "\nreturn { authorize = authorizeCast, deliver = deliverCast, sessions = castSessions, worldReceipts = terminalReceipts, contactLedgers = contactLedgers }",
 		{ environment = env, injectGlobals = true }
 	)()
 	h.sessions = seam.sessions
 	h.worldReceipts = seam.worldReceipts
+	h.contactLedgers = seam.contactLedgers
 	h.qi = env.pools[player]
 	h.qi.current = 100
 	h.cds = env.cooldowns[player]
@@ -451,15 +454,19 @@ local cases = {
 		h.callback(h.player, v)
 		local handle = h.deliveries[1].lifetime
 		assert(handle == h.env.lifetimes.active[v.generation .. ":1"])
+		local ledger = h.contactLedgers[handle]
+		assert(ledger.castId == handle.acceptance.castId and ledger.capacity == Config.CastContact.capacity)
 		assert(handle.acceptance.centre.y == h.acceptedWire[1].value.centre.Y)
 		h.callback(h.player, v)
 		assert(#h.deliveries == 1 and h.env.lifetimes.count == 1)
+		assert(h.contactLedgers[handle] == ledger and ledger.count == 0)
 		local cache = h.sessions[h.player].receipts
 		h.players.PlayerRemoving:Fire(h.player)
 		assert(cache.closed and next(cache.entries) == nil)
 		assert(Lifetime.isActive(h.env.lifetimes, handle) and handle.acceptance.characterKey ~= "")
 		Lifetime.finish(h.env.lifetimes, handle, 1, h.now + 2)
 		assert(handle.terminal.reason == "completed" and h.env.lifetimes.count == 0)
+		assert(ledger.closed and h.contactLedgers[handle] == nil)
 	end,
 	["self delivery schedules actual accepted duration and completes once after departure"] = function()
 		local h = harness()

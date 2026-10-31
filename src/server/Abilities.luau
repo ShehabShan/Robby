@@ -20,6 +20,7 @@ local CastLedger = require(ReplicatedStorage.Shared.CastLedger)
 local CastReceipts = require(ReplicatedStorage.Shared.CastReceipts)
 local CastSchedule = require(ReplicatedStorage.Shared.CastSchedule)
 local CastLifetime = require(ReplicatedStorage.Shared.CastLifetime)
+local CastContacts = require(ReplicatedStorage.Shared.CastContacts)
 local Registry = require(ReplicatedStorage.Shared.Registry)
 local DamageMath = require(ReplicatedStorage.Shared.DamageMath)
 local Projectile = require(ReplicatedStorage.Shared.Deliveries.Projectile)
@@ -207,6 +208,53 @@ local function selfCast(player: Player, move: any, root: BasePart, dir: Vector3)
 	end
 end
 
+-- Confirmed contacts are post-effect notifications, never damage admission or replay.
+local contactLedgers: { [CastLifetime.Handle]: CastContacts.State } = {}
+local function startContactLedger(handle: CastLifetime.Handle)
+	contactLedgers[handle] = CastContacts.new(
+		handle.acceptance.castId,
+		handle.resources,
+		handle.acceptance.acceptedAt,
+		Config.CastContact.capacity
+	)
+end
+local function confirmedContact(
+	handle: CastLifetime.Handle,
+	resource: number,
+	tick: number,
+	target: Instance?,
+	pos: Vector3,
+	dir: Vector3,
+	amount: number
+)
+	local ledger = contactLedgers[handle]
+	if not ledger or not target then
+		return
+	end
+	local status, contact = CastContacts.record(ledger, {
+		resource = resource,
+		tick = tick,
+		targetKey = hitKey(target),
+		at = handle.acceptance.acceptedAt + os.clock() - handle.startedAt,
+		position = { x = pos.X, y = pos.Y, z = pos.Z },
+		direction = { x = dir.X, y = dir.Y, z = dir.Z },
+		amount = amount,
+	})
+	if status == "stored" and contact then
+		Net.CastContact.FireAll(table.freeze({
+			castId = contact.castId,
+			ordinal = contact.ordinal,
+			resource = contact.resource,
+			tick = contact.tick,
+			targetKey = contact.targetKey,
+			at = contact.at,
+			amount = contact.amount,
+			position = Vector3.new(contact.position.x, contact.position.y, contact.position.z),
+			direction = Vector3.new(contact.direction.x, contact.direction.y, contact.direction.z),
+		}))
+	end
+end
+
 -- Sweeps the projectile from `from` to `to` studs along its path; may hit several targets in one step.
 local function sweep(shot: Shot, from: number, to: number)
 	if to <= from then
@@ -238,6 +286,7 @@ local function sweep(shot: Shot, from: number, to: number)
 			end
 			if shot.register(hitKey(model)) then
 				local amount = applyOnHit(shot.caster, shot.move, humanoid)
+				confirmedContact(shot.lifetime, shot.resource, 1, model, result.Position, shot.dir, amount)
 				Net.HitFx.FireAll({
 					fxId = shot.move.fx.hit,
 					caster = shot.caster,
@@ -377,7 +426,7 @@ end
 local function tickZone(z: ZoneCast, now: number)
 	local p = z.move.delivery.params
 	local due = Zone.step(z.state, now, p)
-	for _ = 1, due do
+	for tick = z.state.fired - due + 1, z.state.fired do
 		for _, humanoid in humanoidsInZone(z, p) do
 			local model = humanoid.Parent
 			local victim = if model then Players:GetPlayerFromCharacter(model) else nil
@@ -386,7 +435,9 @@ local function tickZone(z: ZoneCast, now: number)
 			end
 			local root = if model then model:FindFirstChild("HumanoidRootPart") else nil
 			local pos = if root and root:IsA("BasePart") then root.Position else z.center
-			hitFx(z.move, z.caster, pos, Vector3.yAxis, model, applyOnHit(z.caster, z.move, humanoid))
+			local amount = applyOnHit(z.caster, z.move, humanoid)
+			confirmedContact(z.lifetime, 1, tick, model, pos, Vector3.yAxis, amount)
+			hitFx(z.move, z.caster, pos, Vector3.yAxis, model, amount)
 		end
 	end
 end
@@ -439,7 +490,9 @@ local function burstCast(player: Player, character: Model, move: any, dir: Vecto
 				continue
 			end
 			local pos = Vector3.new(c.x, castRoot.Position.Y, c.z)
-			hitFx(move, player, pos, dir, model, applyOnHit(player, move, humanoid))
+			local amount = applyOnHit(player, move, humanoid)
+			confirmedContact(lifetime, 1, 1, model, pos, dir, amount)
+			hitFx(move, player, pos, dir, model, amount)
 		end
 		CastLifetime.finish(lifetimes, lifetime, 1, os.clock())
 	end)
@@ -681,6 +734,11 @@ local function recordTerminal(handle: CastLifetime.Handle, now: number)
 	if not terminal then
 		return
 	end
+	local ledger = contactLedgers[handle]
+	if ledger then
+		CastContacts.close(ledger)
+		contactLedgers[handle] = nil
+	end
 	CastReceipts.put(terminalReceipts, a, now)
 	CastReceipts.terminate(terminalReceipts, a.castId, terminal.reason, terminal.at, now)
 	-- Keep owner replay terminal even if the bounded world cache churns.
@@ -846,13 +904,15 @@ function Abilities.start()
 						centre = if a.point then castVector(a.point) else nil,
 					}
 					local stored = CastReceipts.put(session.receipts, receipt, a.monotonicAt)
-					lifetime = CastLifetime.start(
+					local handle = CastLifetime.start(
 						lifetimes,
 						receipt,
 						a.monotonicAt,
 						if a.move.delivery.kind == "Volley" then a.move.delivery.params.count else 1,
 						Config.CastLifetime.graceSeconds
 					)
+					lifetime = handle
+					startContactLedger(handle)
 					if stored ~= "stored" then
 						warn("Paid cast receipt unavailable: " .. stored) -- never suppress paid delivery or re-pay
 					end
