@@ -1,8 +1,8 @@
 # STATE
 
-## Now (after S72)
-- S72 merged: T-043c0b3c3a done (D-253–D-255). Bounded world-owned immutable acceptance handles, per-resource once-only completion, pre-payment capacity guard and character-safe delayed Shatter. Accepted zones/shards survive slot/death/departure independently of player replay cache. CHECK PASS: 353 pure/64 suites +27 dispatch +5 real-source lifecycle scenarios; prior input/receipt/timing/art suites green. Merge 48872fa at 38.3 OLU; no cloud/publication or renderer claim.
-- **NEXT: T-043c0b3c3b** reliable terminals/tombstones (re-size/split if needed), then c3c confirmed contacts and b4 renderer. Handoff: research/notes/T-043c0b3c3a-lifetime.md and prior S71 handoff. `CastLifetime.terminate` is only a local transition: reliable emission/replay is NOT implemented. Preserve accepted world hazards after departure, bounded replay and one terminal; test reordered/duplicate/late events. Five future timing probes remain intentionally red for T-043c2/c3. Older bullets below are historical.
+## Now (after S73)
+- S73 merged bcc48f8 at 42.8 OLU: c3b reliable cast terminals and bounded client tombstones done (D-256–D-257); c3c1 pure post-damage contact ledger done (D-258). CHECK PASS: 369 pure tests/65 specs, 31 dispatcher cases, 5 real-source lifecycle scenarios plus receipt adapter. All new regression cases verified registered/executed. No publication, cloud/live-network or renderer claim.
+- **NEXT: T-043c0b3c3c2** server confirmed-contact transport, then c3c3 client ordering and b4 renderer. Handoffs: research/notes/T-043c0b3c3b-terminals.md and T-043c0b3c3c1-contact-ledger.md. Reliable terminal broadcast/replay IS implemented; CastContacts is pure and intentionally not wired yet. Keep post-damage notification bounds independent of damage eligibility; preserve world hazards after death/leave. Five future timing probes remain intentionally red for T-043c2/c3. Older bullets below are historical.
 
 - **S69 saved/merged at 43.6 OLU:** c0b1/b2/b3a/b3b1 done (D-243–D-246); shared sender, atomic payment/stance and local prediction guards active; pure replay admission not wired. Handoff: research/notes/T-043c0b-S69-handoff.md. No publication.
 - S68: T-043c1 and T-043c0a1/a2 done (D-238–D-242): real-source timing/centre regression harness + desired contract; unused pure bounded CastLedger and CastPresentation with 29 new tests. check.sh PASS (307 pure + timing suite + 5 client-input + 3 authoring). Merged 0bb5c91 at 38.1 OLU; saving completed below 45. No live timing/network changes, assets, cloud execution or publication. Handoff: `research/notes/T-043c1-timing-contract.md`, `T-043c0a1-cast-ledger.md`, `T-043c0a2-cast-presentation.md`. Five `--contract` readiness probes remain intentionally red until c2/c3 (documented, not part of green CI).
@@ -70,8 +70,8 @@
 - Last publish: Roblox v27 = game v0.0.22 (S64, owner asked). S65 did not publish.
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
-- **Doing:** T-043 overhaul: c0b3c3 lifecycle (c3a done; c3b terminals → c3c contacts), then b4 presentation and d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-043c0b3c3b — reliable terminal transport and bounded replay/tombstones, after completed world-owned lifetime c3a. Resume from research/notes/T-043c0b3c3a-lifetime.md; then c3c confirmed contacts, b4 reconciliation, d2 M1 visuals. Owner M1 review before special art.
+- **Doing:** T-043 overhaul: c0b3c3 lifecycle (c3a/b done; c3c1 pure done → c3c2/c3 contacts), then b4 presentation and d2 M1 visuals; T-042b live-input verification remains open.
+- **NEXT:** T-043c0b3c3c2 — wire reliable server confirmed contacts after damage using pure CastContacts; then c3c3 client ordering, b4 reconciliation, d2 M1 visuals. Resume from research/notes/T-043c0b3c3c1-contact-ledger.md. Owner M1 review before special art.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-043c0b3c3b reliable terminals → c3c confirmed contacts → b4 reconciliation (serialized) · c3a world lifetime (done)
