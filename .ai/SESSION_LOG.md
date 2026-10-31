@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S68 — 2026-10-31 (35.4 OLU after last code save; final meter in STATE)
+- T-043c1 done (D-238–D-240): actual-source Z/X timing/centre characterization + explicit future contract; five readiness probes intentionally red, no live fixes claimed.
+- T-043c0a1/a2 done (D-241–D-242): bounded pure request ledger and prediction lifecycle; c0a complete. No live wiring, asset uploads, cloud execution or publication.
+- check.sh PASS: 307 pure tests (29 new), timing characterization + five input mocks + three authoring tests; source/net behaviour unchanged.
+- Next c0b protocol wiring (size/split first), then d2 M1 visual integration; owner M1/whole-kit quality and T-042b device checks still open.
+
 ## S67 — 2026-10-31 (36.4 OLU before close-out; final meter in STATE)
 - T-043d1 done (D-235–D-237): original faceted dart family, R15 arm-only 1/2/pair clip source, exports, board and offline motion preview; research/notes/T-043d1-m1-prototype.md.
 - check.sh PASS: 278 gameplay tests + 3 offline export tests + 5 input cases; six FBX/GLB re-imports PASS; cloud pack has no offline dependencies.
