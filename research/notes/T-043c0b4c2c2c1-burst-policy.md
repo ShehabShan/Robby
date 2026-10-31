@@ -1,0 +1,8 @@
+# Truthful Burst seek policy (S83)
+- CastDeliveryPlan accepts an optional fresh original-character BurstSample: key/user/liveness, admitted frame clock and immutable position. Generation/slot pose eligibility is intentionally separate.
+- Before release only: provisional follow-caster warning with captured woven radius. Missing/dead/wrong/stale sample means an empty successful plan, never acceptance origin/centre fallback. This permits late identity availability without terminal renderer failure.
+- At/after release: centreStatus=release_unknown, empty world. Neither last observed root nor a late root proves the server's sampled release centre. Confirmed contacts alone own impacts. No server protocol/timing/damage change.
+- Empty frames seek existing trees, removing their children; first empty frame allocates no Folder. Engine feed/visual distinction remains c2; startup OFF.
+- CHECK PASS: 571 pure tests/78 specs, existing engine suites. Four deliberate mutations detected/restored: wrong original admitted, stale sample admitted, exact boundary extended, acceptance origin substituted.
+- Research via search.sh: WildStar's telegraph readability discussion (https://www.greenyneko.com/2019/07/wildstars-legacy-telegraph-based-combat.html), GW2 community concerns (https://en-forum.guildwars2.com/topic/55434-suggestion-gw2-and-telegraphs/). Design takeaway: communicate location uncertainty rather than inventing a fixed final footprint; not claims about private game implementations.
+- Next c2: fresh root resolver independent of pose generation/slot; pass identical samples policy to primary/reserve; visibly distinguish provisional warnings; test movement, missing/dead/replaced/late, expiry, failure and restart cleanup.

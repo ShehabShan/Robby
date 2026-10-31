@@ -15,6 +15,13 @@ export type Pose = {
 	casterUserId: number,
 	alive: boolean,
 }
+export type BurstSample = {
+	characterKey: string,
+	casterUserId: number,
+	alive: boolean,
+	observedAt: number,
+	position: Receipts.Vec,
+}
 export type Shape = {
 	slot: string,
 	kind: string,
@@ -23,7 +30,14 @@ export type Shape = {
 	size: Receipts.Vec?,
 	radius: number?,
 }
-export type Frame = { phase: string, progress: number, speculative: boolean, pose: boolean, world: { Shape } }
+export type Frame = {
+	phase: string,
+	progress: number,
+	speculative: boolean,
+	pose: boolean,
+	world: { Shape },
+	centreStatus: string?,
+}
 local function finite(n: any): boolean
 	return type(n) == "number" and n == n and math.abs(n) < math.huge
 end
@@ -57,7 +71,13 @@ function Plan.predicted(identity: Identity, pose: Pose?, allowed: boolean): Fram
 end
 -- Metadata must come from an immutable validated receipt. now is the OUTER gate's
 -- admitted common clock, not a fresh workspace/OS sample. Late starts seek directly.
-function Plan.accepted(metadata: Map.Metadata, now: number, pose: Pose?, allowed: boolean): (Frame?, string?)
+function Plan.accepted(
+	metadata: Map.Metadata,
+	now: number,
+	pose: Pose?,
+	allowed: boolean,
+	burst: BurstSample?
+): (Frame?, string?)
 	local a, style = metadata.acceptance, metadata.style
 	local g = a.geometry
 	if not g or not Geometry.valid(g) or g.kind ~= style.delivery then
@@ -82,11 +102,6 @@ function Plan.accepted(metadata: Map.Metadata, now: number, pose: Pose?, allowed
 	if not vector(a.origin) or not vector(a.aim) then
 		return nil, "position"
 	end
-	-- Legacy Burst selects around the original caster at release. A static captured
-	-- origin, or a replacement character's pose, is not its authoritative centre.
-	if g.centreMode == "CasterAtRelease" then
-		return nil, "moving_centre"
-	end
 	local timeline = {
 		acceptedAt = a.acceptedAt,
 		releaseAt = a.releaseAt,
@@ -97,7 +112,34 @@ function Plan.accepted(metadata: Map.Metadata, now: number, pose: Pose?, allowed
 	}
 	local phase, progress = Presentation.phase(timeline, now)
 	local world: { Shape } = {}
-	if g.kind == "Projectile" or g.kind == "Volley" then
+	local centreStatus: string? = nil
+	if g.centreMode == "CasterAtRelease" then
+		-- This is a provisional follow-caster cue, NEVER a sampled release footprint.
+		-- Once release time is reached, neither a late root nor the last seen root
+		-- proves where the server resolved the attack. Contact receipts own impacts.
+		centreStatus = if now >= a.releaseAt then "release_unknown" else "unavailable"
+		if
+			now < a.releaseAt
+			and burst
+			and burst.alive == true
+			and burst.characterKey == a.characterKey
+			and #burst.characterKey > 0
+			and burst.casterUserId == a.casterUserId
+			and burst.observedAt == now
+			and vector(burst.position)
+		then
+			centreStatus = "provisional"
+			table.insert(
+				world,
+				table.freeze({
+					slot = "burst-follow",
+					kind = "Disc",
+					radius = g.radius,
+					position = vec(burst.position.x, burst.position.y, burst.position.z),
+				})
+			)
+		end
+	elseif g.kind == "Projectile" or g.kind == "Volley" then
 		local magnitude = math.sqrt(a.aim.x * a.aim.x + a.aim.z * a.aim.z)
 		if not finite(magnitude) or math.abs(magnitude - 1) > 0.01 or math.abs(a.aim.y) > 0.001 then
 			return nil, "aim"
@@ -142,6 +184,7 @@ function Plan.accepted(metadata: Map.Metadata, now: number, pose: Pose?, allowed
 		)
 	end
 	return table.freeze({
+		centreStatus = centreStatus,
 		phase = phase,
 		progress = progress,
 		speculative = false,

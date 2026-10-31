@@ -380,3 +380,9 @@ CastDeliveryClient owns heartbeat/dispatcher and bounded separate primary/reserv
 
 ### D-293 — Observed-pose loss is irreversible, not world cancellation (S82, 2026-10-31)
 Fresh resolver per admitted frame; missing-before-first-observation may arrive late, but loss after observation retires pose only. Bounded seen/retired flags follow canonical store lifetime; accepted world warnings remain independent. Prediction art remains unauthored.
+
+### D-294 (S83) — Burst slices
+Split truthful Burst into pure seek policy c1 and original-character engine feed c2 before atomic startup c3. No gameplay changes.
+
+### D-295 (S83) — Provisional warning, unknown release
+A fresh original key/user live root may drive only a pre-release provisional warning, independent of pose generation/slot. At release or without a sample, show no area; never infer exact server centre from acceptance or late/current root. Empty plans permit late observer recovery. Evidence: research/notes/T-043c0b4c2c2c1-burst-policy.md.

@@ -167,13 +167,73 @@ return {
 			)
 		end
 	end,
-	["Burst fails explicitly rather than pretending captured origin is release centre"] = function()
+	["Burst unavailable samples never fall back to acceptance origin or centre"] = function()
 		local m = metadata("Burst")
-		local f, reason = Plan.accepted(m, 100.5, pose(), true)
-		assert(f == nil and reason == "moving_centre")
-		m.acceptance.centre = { x = 99, y = 99, z = 99 }
-		f, reason = Plan.accepted(m, 100.5, nil, false)
-		assert(f == nil and reason == "moving_centre")
+		for _, now in { 100, 100.5, 101, 104 } do
+			local f = assert(Plan.accepted(m, now, pose(), true))
+			assert(#f.world == 0)
+			assert(f.centreStatus == (if now < 101 then "unavailable" else "release_unknown"))
+		end
+	end,
+	["Burst follows fresh original position only before exact release boundary"] = function()
+		local m = metadata("Burst")
+		local sample = {
+			characterKey = "old",
+			casterUserId = 42,
+			alive = true,
+			observedAt = 100.5,
+			position = {
+				x = 20,
+				y = 3,
+				z = 40,
+			},
+		}
+		local first = assert(Plan.accepted(m, 100.5, nil, false, sample))
+		assert(first.centreStatus == "provisional" and not first.pose and first.phase == "warning")
+		assert(first.world[1].radius == 17 and first.world[1].position.x == 20)
+		sample.position.x = 30
+		local moved = assert(Plan.accepted(m, 100.5, nil, false, sample))
+		assert(moved.world[1].position.x == 30 and first.world[1].position.x == 20)
+		assert(table.isfrozen(first.world[1].position))
+		for _, now in { 101, 101.001, 104 } do
+			sample.observedAt = now
+			local late = assert(Plan.accepted(m, now, nil, false, sample))
+			assert(#late.world == 0 and late.centreStatus == "release_unknown")
+		end
+	end,
+	["Burst rejects stale dead missing wrong original and malformed samples"] = function()
+		local m = metadata("Burst")
+		local good = {
+			characterKey = "old",
+			casterUserId = 42,
+			alive = true,
+			observedAt = 100.5,
+			position = {
+				x = 20,
+				y = 3,
+				z = 40,
+			},
+		}
+		for field, value in
+			{
+				characterKey = "replacement",
+				casterUserId = 99,
+				alive = false,
+				observedAt = 100.4,
+				position = {
+					x = 0 / 0,
+					y = 0,
+					z = 0,
+				},
+			}
+		do
+			local bad = table.clone(good)
+			bad[field] = value
+			local f = assert(Plan.accepted(m, 100.5, pose(), true, bad))
+			assert(#f.world == 0 and f.centreStatus == "unavailable", field)
+		end
+		local f = assert(Plan.accepted(m, 100.5, nil, false, good))
+		assert(#f.world == 1 and not f.pose) -- original continuity is not pose eligibility
 	end,
 	["Self owns no world warning and never synthesizes a hit"] = function()
 		local f = assert(Plan.accepted(metadata("Self"), 103, pose(), true))
