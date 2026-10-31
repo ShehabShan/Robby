@@ -218,3 +218,12 @@ Action sequences drive six arm joints only, hierarchy containers have zero weigh
 
 ### D-237 — Prototype evidence and ownership boundary (S67, 2026-10-31)
 Headless mannequin frames/GIF and Blender FBX/GLB round-trips are prototype evidence only, not live Roblox motion/performance or owner acceptance. Upload original sequences under experience owner 7738981129 via existing integration after updating asset metadata; verify creator, permissions, moderation and actual playback before IDs enter gameplay. Mesh route/type verified at integration time. No asset upload or publication performed.
+
+### D-238 — Source-executed timing characterization (S68, 2026-10-31)
+T-043c1 executes actual Abilities/RimeFx/CastFx receiver source slices with deterministic time and real pure dependencies. Z queues five shots immediately despite telegraph0.20; X local/observer onset differs and the caster ignores the accepted ground centre. Default CI records these existing defects; `--contract` intentionally fails five desired-readiness assertions. No live behaviour changed. Full evidence/limitations: research/notes/T-043c1-timing-contract.md.
+
+### D-239 — Authoritative Rimeshard timing target (S68, 2026-10-31)
+Future c2 adds an explicit Z0.20 server wind-up, freezes aim, releases from current same-character root, cancels on pre-release death/slot revision/departure, and pays once at acceptance without cancellation refund. Future c3 keeps X's four damage deadlines, adopts validated ground centre, and aligns cosmetic contacts from server acceptance time. Accepted X hazards persist across caster slot/death as existing gameplay; only caster poses/predictions cancel. No new parry mechanic or M1 timing change. Contract specifies late-message, rejection, duplicate and resource cleanup; implementation/tests remain follow-up work.
+
+### D-240 — Separate protocol work before presentation integration (S68, 2026-10-31)
+Existing CastFx/HitFx are unreliable and lack identity/time; KithInput and AbilityInput allocate seq independently. Split shared foundation into T-043c0a pure identity/lifecycle policy and T-043c0b serialized wiring before c2/c3/d2/h1, rather than hiding broad networking in art. Preserve M1-first visual priority and owner quality gates. STATE stays untouched on the session branch (AGENTS §9); TASKS carries the first-save Resume note.

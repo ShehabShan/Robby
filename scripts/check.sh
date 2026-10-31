@@ -26,6 +26,7 @@ run sourcemap rojo sourcemap default.project.json -o sourcemap.json
 run types luau-lsp analyze --definitions=.cache/globalTypes.d.luau --sourcemap=sourcemap.json --ignore="**/Net.luau" src
 run tests lune run tests/run.luau
 run client-input lune run tests/client_input.luau
+run rime-timing lune run tests/rime_timing.luau
 run m1-authoring lune run tests/rime_m1_assets.luau
 mkdir -p build
 run build rojo build default.project.json -o build/Robby.rbxl
