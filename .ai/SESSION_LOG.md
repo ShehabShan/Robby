@@ -1,5 +1,8 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S54 — 2026-10-31 (same bot, ≈4 OLU)
+- T-026c started: `scripts/extract_anims.luau` exports the kit's 7 KeyframeSequences for upload. Blocked: `roblox-open-cloud` not enabled in this PromptQL project; waiting for the owner to connect it. check.sh PASS.
+
 ## S53 — 2026-10-31 (same bot, ≈6 OLU)
 - T-033 done (D-209): Studio store split, save-time sanitize (+2 specs), throttled early saves after breakthrough/fusion/Binding. check.sh PASS. Not published.
 
