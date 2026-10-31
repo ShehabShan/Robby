@@ -1,17 +1,17 @@
 # STATE
 
-## Owner update — Wind Step rework (2026-10-31)
-- **NEXT: T-043c0b4c3b2b1** — owner rejects Wind Step's current appearance AND function and authorizes autonomous redesign. Prioritize its movement/visual audit and design, then bounded implementation. Do not treat the old gust or velocity behavior as accepted quality to preserve.
-- Verbatim feedback: research/inbox/2026-10-31-wind-step-rework.md. b2b split into design/audit, movement rework and receipt-owned visuals; then atomic c3b2c. Server authority and other moves remain protected; no publication authorization.
-- This follow-up only records/reprioritizes the request: no movement/visual implementation yet. Existing cumulative budget was 41.7 OLU at inspection; no reset, stopping for saving deadline. Last code checks remain PASS.
+## Now — after S87 (2026-10-31)
+- Phase3 building, approved. **NEXT: T-043c0b4c3b2b2b2** — prepared original-root Wind Step motion driver, actual-source engine tests. Claim before work; size/split acceptance integration if needed. Then b2c atomic movement activation, b3b receipt-owned Self rendering, c3b2c atomic visual cutover, d2 M1 integration.
+- Owner rejects Wind Step appearance AND function; autonomous redesign delegated, not publication. Source: research/inbox/2026-10-31-wind-step-rework.md. Do not preserve old impulse/smoke as accepted quality; other moves/server authority protected.
+- S87 merged8408080: b2b1 audit/design; b2b2a pure motion; b2b2b1 forward simulation budget; b2b3a pure visual plan/offline preview complete. D-304–D-310. CHECK PASS:626 pure/83 specs plus all previous actual-source/engine/build gates;14 behavioral mutations detected/restored. Claims released.
+- Design target (NOT live):14stud/.24s,70stud/s cruise then .08s brake,.18s server iframes,Qi8/cd3 unchanged; travel intent/facing; acceptance-only server movement. No speculative displacement. Two jade ribbons, sparse motes,.12s fade; actual-plan960/320px boards+GIF inspected, not Roblox/device/owner quality acceptance.
+- Handoffs: research/notes/T-043c0b4c3b2b1-wind-design.md (audit/matrix), T-043c0b4c3b2b2a-motion-policy.md (incl forward budget), T-043c0b4c3b2b3a-slipstream.md (preview + explicit immutable Self snapshot contract).
+- Engine seam: forward plans upcoming simulation interval, final partial distance divided by FULL dt; sweep current root, apply once, release after simulation. >50ms physics hitch stops, no catch-up. Pure step is retrospective accounting, NOT a velocity driver. Ownership/resource preflight, starting overlap, collision, death/replacement, gravity/knockback and failure cleanup still need engine implementation/tests.
+- Prepared policies/visuals are NOT live-wired. Config, inputs, server gameplay, metadata transport and legacy appearance unchanged; no cloud test, feel acceptance or publication. No owner action. Merge at41.7 OLU; final STATE saving below45.
 
-## Now (after S86)
-- S86 merged c1479a3: exception-safe Receipt/Delivery/Contact starts, prepared exclusive CastPresentationClient, and exact non-cast CombatContactClient boundary. c3b1b + c3b2a done; D-300–D-303.
-- **S86 original next (superseded by owner update above):** Self cosmetic parity, then atomic cutover and d2 M1 visuals. Handoffs: research/notes/T-043c0b4c3b1b-safe-owner.md and T-043c0b4c3b2a-legacy-boundary.md.
-- Cutover audit: CombatService sword hits have ONLY legacy fx.combat.hit (preserve exact route); keyed abilities must never use that fallback. Self delivery currently has no world tree, so wholesale removal would erase Wind Step gusts. Original parity constraint superseded for Wind Step by the owner update above.
-- CHECK PASS: 586 pure/80 specs, existing 14 input/29 delivery groups plus 11 owner/5 combat-contact groups; 15 behavioral mutations detected/restored, 100 coordinated lifetimes + 100 non-cast listener replacements.
-- Prepared adapters are NOT live-wired. Legacy/startup/prediction unchanged; no gameplay timing, cloud/device/visual acceptance or publication. No owner action.
-- Merged at 33.5 OLU; final STATE saving below45; claims released.
+## S86 retained cutover context
+- S86 merged c1479a3: exception-safe Receipt/Delivery/Contact starts, prepared exclusive CastPresentationClient and exact non-cast CombatContactClient; D-300–D-303. Preserve CombatService sword HitFx; keyed abilities must not fallback. Self has no live receipt world tree yet.
+- Prior instruction to preserve old Wind movement/gust parity is superseded by owner redesign. Startup/prediction remain OFF until atomic cutover. Handoffs: research/notes/T-043c0b4c3b1b-safe-owner.md and T-043c0b4c3b2a-legacy-boundary.md.
 
 ### S85 history
 - S83/S84/S85 merged: truthful Burst, shared keyed sender, pure ordered lifecycle. Final code merge 78a9327. CHECK PASS: 586 pure/80 specs, 7 character-client/29 delivery-engine; 15 behavioral mutations detected/restored across the slices.
