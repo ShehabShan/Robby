@@ -1,5 +1,9 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S46 — 2026-10-31 (≈30 OLU)
+- T-027i done (D-198–D-201): shard Trails, Shatter frost veins, Rime Fall snow + crack ring, Needle/Shatter hit-pause; `RimeFxPlan.veins`/`hitPauseSeconds` + spec.
+- No open PRs, no stale claims. check.sh PASS. Not published. Cloud smoke result in STATE.
+
 ## S45 — 2026-10-31 (≈36 OLU)
 - T-030b done (D-194, D-195): Rimeshard is the first starter Kith (slot 1 = stance); existing saves get a one-time `gift.rimeshard`.
 - T-031 done (D-196): Shatter stagger now freezes beasts and the boss (`Status.expiry` + spec).
