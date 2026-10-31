@@ -1,8 +1,8 @@
 # STATE
 
-## Now (after S70)
-- S70 merged: live character-bound cast generation/replay and explicit authorization done (D-247–D-248); pure full receipt store done (D-249). CHECK PASS: 339 pure +14 input +16 dispatcher mocks. No cloud/publication. Close-out meter 44.4 OLU before final saves.
-- **NEXT: T-043c0b3c2** live acceptance/rejection (size/split first), then c3 terminals/contacts and b4 renderer. Handoff: research/notes/T-043c0b-S70-handoff.md and T-043c0b3c1-receipts.md. Older status bullets below are historical.
+## Now (after S71)
+- S71 merged: T-043c0b3c2a/b done (D-250–D-252). Live immutable acceptance geometry/deadlines, reliable fresh/duplicate/rejected/expired responses, bounded client inbox. CHECK PASS: 348 pure +14 input +24 dispatcher cases + receipt adapter. Current timings unchanged; no renderer/cloud/publication claim. Merge76ba10e at41.6 OLU; close-out saving below45.
+- **NEXT: T-043c0b3c3** terminals/contacts (split first), then b4 renderer. Handoff: research/notes/T-043c0b-S71-handoff.md. Preserve accepted zones across slot/death/departure; receipt ownership on departure must be solved before terminal transport. Five future timing probes remain intentionally red for T-043c2/c3. Older status bullets below are historical.
 
 - **S69 saved/merged at 43.6 OLU:** c0b1/b2/b3a/b3b1 done (D-243–D-246); shared sender, atomic payment/stance and local prediction guards active; pure replay admission not wired. Handoff: research/notes/T-043c0b-S69-handoff.md. No publication.
 - S68: T-043c1 and T-043c0a1/a2 done (D-238–D-242): real-source timing/centre regression harness + desired contract; unused pure bounded CastLedger and CastPresentation with 29 new tests. check.sh PASS (307 pure + timing suite + 5 client-input + 3 authoring). Merged 0bb5c91 at 38.1 OLU; saving completed below 45. No live timing/network changes, assets, cloud execution or publication. Handoff: `research/notes/T-043c1-timing-contract.md`, `T-043c0a1-cast-ledger.md`, `T-043c0a2-cast-presentation.md`. Five `--contract` readiness probes remain intentionally red until c2/c3 (documented, not part of green CI).
