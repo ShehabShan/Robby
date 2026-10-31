@@ -4,7 +4,7 @@
 - Atomic original-character replica/resolver and prepared borrowed delivery owner done; startup remains off.
 - CHECK PASS: 569 pure/78 specs, 35 dispatch, 5 character-client, 25 delivery-engine cases; 12 verified behavioral mutations restored; 100 clean owner restarts.
 - Next c2c2c truthful moving Burst (size/split), then atomic cutover; handoffs research/notes/T-043c0b4c2c2b2b1-character-identity.md and T-043c0b4c2c2b2b2-engine-owner.md.
-- OLU 41.2 at close-out; saving/merging now before45. No publication, cloud/device proof or new owner action.
+- OLU 42.6 at merge; final STATE saving below45. No publication, cloud/device proof or new owner action.
 
 ## S81 — 2026-10-31 — T-043c0b4c2c2b2a (D-287–D-289)
 - Bounded receipt dispatcher, terminal-batch cancellation and restart suppression done; no startup or gameplay timing changes.

@@ -1,6 +1,11 @@
 # STATE
 
-## Now (after S81)
+## Now (after S82)
+- S82 merged 167d783: original-character atomic identity publication/fresh resolver and prepared borrowed delivery engine owner complete (D-290–D-293). CHECK PASS: 569 pure/78 specs, 35 dispatch, 5 character-client, 25 delivery-engine cases; 12 verified mutations restored, 100 clean owner restarts.
+- **NEXT: T-043c0b4c2c2c** truthful moving Burst (size/split), then c3 atomic keyed cutover and d2 M1 visuals. Handoffs: research/notes/T-043c0b4c2c2b2b1-character-identity.md and T-043c0b4c2c2b2b2-engine-owner.md. Never substitute replacement Character or acceptance origin for exact original release position.
+- Merged at 42.6 OLU; claims released, final STATE saving below45. Stop delivery before receipts; preserve restart cursor. Startup remains off, pose art incomplete. No publication, cloud/device validation or new owner action.
+
+### S81 history
 - S81 merged 8758684: T-043c0b4c2c2b2a bounded borrowed-receipt dispatcher, terminal-batch cancellation and explicit restart suppression done (D-287–D-289). CHECK PASS: 565 pure/77 specs, 17 actual-source delivery engine cases; 10 behavioral mutations detected/restored and 100 leak-free dispatcher turnovers. No startup cutover, gameplay timing changes, cloud/device test or publication.
 - **NEXT: T-043c0b4c2c2b2b** original-character engine binding (size/split before work), then c2c2c truthful moving Burst, c3 atomic cutover and d2 M1 visuals. Handoff: research/notes/T-043c0b4c2c2b2a-dispatch.md. Audit observer identity transport first: local CastGeneration handshake is not an observer characterKey/slotRevision resolver. Never infer original identity from replacement Character.
 - S81 merged at 39.9 OLU; claims released, final STATE saving below45. Preserve dispatcher cursor across owner restart; stop delivery before borrowed receipts. No new owner action. Prediction pose art and engine listener binding remain incomplete.
@@ -104,11 +109,11 @@
 - Last publish: Roblox v27 = game v0.0.22 (S64, owner asked). S65 did not publish.
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
-- **Doing:** T-043 overhaul: c0b4 presentation (delivery Fx/metadata/receipt dispatcher done → original-character engine binding/Burst → atomic cutover), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-043c0b4c2c2b2b — original-character engine binding (size/split), then c2c2c truthful moving Burst, c3 atomic live cutover and d2 M1 visuals. Resume from S81 dispatcher handoff above; observer identity replication needs audit. No duplicate legacy/keyed rendering or fake fixed Burst centre.
+- **Doing:** T-043 overhaul: c0b4 presentation (delivery Fx/metadata/receipt dispatcher/original-character owner done → truthful Burst → atomic cutover), then d2 M1 visuals; T-042b live-input verification remains open.
+- **NEXT:** T-043c0b4c2c2c — truthful moving Burst (size/split), then c3 atomic live cutover and d2 M1 visuals. Resume from S82 handoffs above; identity replica/borrowed owner ready but not started. No duplicate legacy/keyed rendering or fake fixed Burst centre.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-043c0b4c2c2b2b original-character engine binding (serialized; size/split) · b2a dispatcher (done)
+  - T-043c0b4c2c2c truthful moving Burst (serialized; size/split) · c2c2b engine lifecycle (done)
   - T-043c0b4c3 atomic keyed startup/legacy cutover · b4c2
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
   - T-043h1 truthful Chill state · T-043b + T-043c1 (done) + T-043c0b (coordinate remotes)
@@ -116,5 +121,5 @@
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** M1 owner quality review before specials; T-042b fresh-server input verification remains open. No publish without explicit request.
 - **Last cloud test:** CLOUD ALL: PASS on Saved v26 (2026-10-31, S63, 278/278 tests + server smoke); live published = v27 (game v0.0.22); publication HTTP 200, player readback pending
-- **Last check.sh:** CHECK: PASS (2026-10-31, S81 merge): 565 pure tests/77 suites, 17 actual delivery-engine cases and all existing listener/engine/type/build/inspect gates. Ten temporary behavioral faults detected/restored. Five future Z/X probes intentionally red. No cloud/device/visual quality verification or publication.
+- **Last check.sh:** CHECK: PASS (2026-10-31, S82 merge): 569 pure/78 suites, 35 dispatch, 5 character-client, 25 delivery-engine cases and all prior gates. Twelve verified behavioral faults detected/restored. Five future Z/X probes intentionally red. No cloud/device/visual acceptance or publication.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
