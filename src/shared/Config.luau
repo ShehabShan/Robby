@@ -204,6 +204,7 @@ local Config = {
 	},
 	Beasts = { -- wild beasts (T-022, D-124); server AI in Shared.BeastBrain; tune in playtests
 		respawn = 20, -- seconds after a beast dies or is bound
+		corpseSeconds = 2, -- corpse stays this long before Destroy (beasts and bosses; F-08, D-202)
 		spread = 35, -- studs from the zone centre
 		spawns = { { kind = "beast.mistfang", count = 3 }, { kind = "beast.stonehide", count = 2 } }, -- hunting zone 1
 		minTelegraph = 0.4, -- seconds; every beast attack winds up at least this long (ROADMAP T-022)

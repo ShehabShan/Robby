@@ -185,7 +185,7 @@ spawnBoss = function(kindId: string, home: Vector3)
 		if i then
 			table.remove(bosses, i)
 		end
-		task.delay(2, function()
+		task.delay(Config.Beasts.corpseSeconds, function()
 			model:Destroy()
 		end)
 		task.delay(k.respawn or 90, function()
