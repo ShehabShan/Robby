@@ -193,3 +193,6 @@
 
 ### D-229 (S63, 2026-10-31) — Nested FX IDs are valid
 FxRegistry accepts `fx` plus at least two nonempty word/underscore segments, still capped at 64 characters. Rimeshard uses four-part IDs (e.g. `fx.rime.fan.cast`); the old three-part validator silently refused every Rimeshard cast handler. Preserve content IDs, fix the validator, and test registration/dispatch of every real Content FX ID. This proves missing effects, not that all live input faults are resolved; owner verification remains T-042b.
+
+### D-230 (S63, 2026-10-31) — Client wiring has its own headless gate
+`tests/client_input.luau` executes actual KithInput and RimeFx registration under Lune with mocked services, real Content/Stance/FX rules and dispatch spies. `check.sh` runs it separately from the pure/cloud specs. It covers Z/X/C, late ActiveKith replication, slot switching, cast guards and touch callbacks, without pretending to prove rendering, engine input arbitration or real-device play. T-042b still requires the owner playtest; the confirmed regression was silent FX registration rejection.
