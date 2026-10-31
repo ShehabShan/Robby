@@ -24,6 +24,52 @@ local function accept()
 	return true, nil
 end
 return {
+	["all fingerprint fields bind decoded intent independently"] = function()
+		local s = state()
+		local raw = request(s, 1)
+		raw.point = { x = 5, y = 6, z = -10 }
+		local _, base = A.canonical(raw)
+		for _, part in { "aim", "point" } do
+			for _, axis in { "x", "y", "z" } do
+				local changed = table.clone(raw)
+				changed[part] = table.clone(raw[part])
+				changed[part][axis] += 2 ^ -20
+				local _, key = A.canonical(changed)
+				assert(key ~= base, part .. axis)
+			end
+		end
+		local changed = table.clone(raw)
+		changed.moveId ..= "x"
+		local _, moveKey = A.canonical(changed)
+		assert(moveKey ~= base)
+		local bytes = buffer.create(4)
+		buffer.writef32(bytes, 0, 0.1)
+		raw.aim.x = buffer.readf32(bytes, 0)
+		local decoded, key = A.canonical(raw)
+		assert(decoded.aim.x == raw.aim.x)
+		local _, repeatKey = A.canonical(decoded)
+		assert(key == repeatKey, "wire-decoded f32 remains exactly stable")
+	end,
+	["two caster scopes isolate identical request sequences and cached costs"] = function()
+		local a = A.new("caster_a", Config.CastProtocol)
+		local b = A.new("caster_b", Config.CastProtocol)
+		local paid = { a = 0, b = 0 }
+		local function authA()
+			paid.a += 1
+			return true, nil
+		end
+		local function authB()
+			paid.b += 1
+			return true, nil
+		end
+		local ar, br = request(a, 1), request(b, 1)
+		local first = A.dispatch(a, ar, 0, authA)
+		local second = A.dispatch(b, br, 0, authB)
+		assert(first.receipt.castId ~= second.receipt.castId)
+		assert(A.dispatch(b, ar, 0, authB).reason == "generation")
+		assert(A.dispatch(a, ar, 1, authA).kind == "duplicate")
+		assert(paid.a == 1 and paid.b == 1)
+	end,
 	["canonical binary identity is finite complete and unambiguous"] = function()
 		local s = state()
 		local r = request(s, 1)
