@@ -1,5 +1,8 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S49 — 2026-10-31 (same bot as S48, ≈10 OLU)
+- F-08 done (D-204): `src/client` literal scan; Wind Step 0.25 s burst → `Config.Abilities.WindStep.burstSeconds`, shared with `SpeedGuardService`. check.sh PASS. Not published.
+
 ## S48 — 2026-10-31 (≈25 OLU)
 - Cloud smoke on Saved v18 (first run with `roblox-open-cloud` connected): specs 266/266, one smoke FAIL — "loadout gates casts" unequipped slot 1 expecting Crescent, but Rimeshard is slot 1 since D-194.
 - T-030c done (D-203): smoke finds the Crescent starter slot by uid and gates Rimeshard too. check.sh PASS. Re-ran cloud smoke from main after merge (result in STATE). Not published.
