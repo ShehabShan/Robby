@@ -173,6 +173,9 @@ local function harness(initial)
 	env.player = player
 	local asyncTask = env.task
 	env.task = {
+		wait = function(seconds)
+			coroutine.yield(seconds)
+		end,
 		spawn = function(fn)
 			h.syncLoop = fn
 		end,
@@ -185,6 +188,7 @@ local function harness(initial)
 		},
 		CastSync = {
 			Fire = function()
+				assert(h.snapshot, "sync sent before receipt listener")
 				h.syncs = (h.syncs or 0) + 1
 			end,
 		},
@@ -206,6 +210,7 @@ local function harness(initial)
 		initSource:sub(startAt, endAt - 1) .. "\nreturn {cast = cast, ready = canRequestCast}",
 		{ environment = env, injectGlobals = true }
 	)()
+	h.environment = env
 	local cast = sender.cast
 	h.sender, h.player = sender, player
 	h.snapshot({ epoch = 2, generation = "server:2", character = character })
@@ -271,6 +276,26 @@ local function harness(initial)
 end
 
 local cases = {
+	["actual unready sync loop waits a second, never retries casts, stops on departure"] = function()
+		local h = harness("kith.rimeshard")
+		h.player.Parent = {}
+
+		h:press(E.KeyCode.R)
+		h:respawn(true)
+		local count = h.syncs
+		local loop = coroutine.create(h.syncLoop)
+		local ok, seconds = coroutine.resume(loop)
+		assert(ok and seconds == 1 and h.syncs == count, tostring(seconds))
+		ok, seconds = coroutine.resume(loop)
+		assert(ok and seconds == 1 and h.syncs == count + 1 and #h.sent == 1)
+		h.snapshot({ epoch = 4, generation = "server:4", character = h.player.Character })
+		coroutine.resume(loop)
+		assert(h.syncs == count + 1 and #h.sent == 1)
+		h.player.Parent = nil
+		coroutine.resume(loop)
+		assert(coroutine.status(loop) == "dead" and h.syncs == count + 1)
+	end,
+
 	["real sender gates respawn until matching snapshot, no attribute dependency"] = function()
 		local h = harness("kith.rimeshard")
 		local old = h.player.Character

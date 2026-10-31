@@ -15,7 +15,7 @@ local function slice(first, after)
 	assert(not source:find(first, a + 1, true), "ambiguous source seam")
 	return source:sub(a, b - 1)
 end
-local dispatch = slice("function Abilities.start()", "\n\tRunService.Heartbeat:Connect") .. "\nend\nAbilities.start()"
+local dispatch = slice("function Abilities.start()", "\nreturn Abilities") .. "\nAbilities.start()"
 local authorization = slice("-- T-043c0b3b2a: explicit", "function Abilities.start()")
 local kitSource = slice("local function kitFor(", "local function stanceFor(")
 local function signal()
@@ -101,6 +101,18 @@ local function harness(step, protocol)
 		stances = stances,
 		Qi = require("../src/shared/Qi"),
 		CastAdmission = require("../src/shared/CastAdmission"),
+		CastLedger = require("../src/shared/CastLedger"),
+		RunService = { Heartbeat = {
+			Connect = function(_, fn)
+				h.heartbeat = fn
+			end,
+		} },
+		zones = {},
+		shots = {},
+		holders = {},
+		tickZone = function(z)
+			z.ticks += 1
+		end,
 		HttpService = {
 			GenerateGUID = function()
 				return "server-test"
@@ -263,6 +275,40 @@ local function packet(h, seq, move)
 	return v
 end
 local cases = {
+	["heartbeat prunes receipts but accepted zones survive renewal respawn and leave"] = function()
+		local h = harness()
+		local v = packet(h, 1)
+		h.callback(h.player, v)
+		local admission = h.sessions[h.player].admission
+		local zone = { ticks = 0, state = { done = false } }
+		table.insert(h.env.zones, zone)
+		h.now += 11
+		h.heartbeat(0)
+		assert(next(admission.ledger.entries) == nil and zone.ticks == 1)
+		h.callback(h.player, v)
+		assert(#h.deliveries == 1)
+		h.player.CharacterRemoving:Fire(h.player.Character)
+		h.player.Character = table.clone(h.player.Character)
+		h.player.CharacterAdded:Fire(h.player.Character)
+		h.heartbeat(0)
+		assert(h.env.zones[1] == zone and zone.ticks == 2)
+		h.players.PlayerRemoving:Fire(h.player)
+		h.heartbeat(0)
+		assert(h.env.zones[1] == zone and zone.ticks == 3)
+		zone.state.done = true
+		h.heartbeat(0)
+		assert(#h.env.zones == 0 and zone.ticks == 4)
+	end,
+	["rate guard drops sync/cast without allocating or changing epoch"] = function()
+		local h = harness()
+		local session, snapshot = h.sessions[h.player], h.snapshot
+		h.allowed = false
+		h.sync()
+		h.callback(h.player, packet(h, 1))
+		assert(h.snapshot == snapshot and next(session.admission.ledger.entries) == nil)
+		assert(#h.deliveries == 0 and h.strain == 0 and h.qi.current == 100)
+	end,
+
 	["epoch exhaustion cannot reuse generation for another character"] = function()
 		local h = harness()
 		local v = packet(h, 1)

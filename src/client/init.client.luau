@@ -77,6 +77,9 @@ Net.CastSync.Fire(0)
 task.spawn(function()
 	while player.Parent do
 		task.wait(1)
+		if not player.Parent then
+			break
+		end
 		if not canRequestCast() then
 			Net.CastSync.Fire(0)
 		end
