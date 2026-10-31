@@ -3,7 +3,7 @@
 ## Now (after S59)
 - S59 (owner asked): T-036 split a–c. T-036a done (D-216, D-217): slot-selected abilities core — keys 1–7 / gamepad Y select a core slot (`SelectSlot` → `ActiveSlot`), only the selected Kith's moves are live (server-enforced); Rimeshard stance turns on by itself when selected (left click = chain, Z/X/C = specials); Crescent Cut left E and sits on Z of Crescent's slot; Q stance toggle removed; Wind Step fixed on R. check.sh PASS. Not cloud-tested, not published.
 - S59 (cont.): T-036b done (D-218, D-219): HUD brightens the selected slot, ▲ marker, key hints 1–7; HUD slots are buttons (tap/click selects), loadout screen shows a per-platform select hint. check.sh PASS. Not cloud-tested, not published.
-- S59b (new bot): T-036c done (D-220): cloud smoke on Saved v22 covers slot selection (Rimeshard Z/X/C live when selected, refused otherwise); specs 272/272, CLOUD ALL: PASS. Owner's v21 Z/X/C bug does not reproduce server-side; needs an owner playtest on a new build (publish only if asked). **T-036 done.**
+- S59b (new bot): T-036c done (D-220): cloud smoke on Saved v22 covers slot selection (Rimeshard Z/X/C live when selected, refused otherwise); specs 272/272, CLOUD ALL: PASS. Owner's v21 Z/X/C bug does not reproduce server-side; published v0.0.20 (Roblox v23) for the owner playtest. **T-036 done.**
 - NEXT: T-022c beast feel (doing: tuning + real SFX left) or T-026c R15 animations; T-024 after those.
 - S58 (owner asked): T-037 done (D-214, D-215): AGENTS.md §1 lean-reading rule (read only task files); Stone Ward removed completely (move, Kith, Config, FX, V key, Warded status; starters now Rimeshard/Crescent/Wind; dummy + wild Kith = Crescent; loadout only warns on missing Strike). check.sh PASS. Not published.
 - S57 (owner asked): T-035 done (D-213): Tab = Roblox player/server list again; loadout opens from a new Inventory icon (🎒) in the top bar right of the chat button, all platforms (gamepad Back still works). Version 0.0.19. check.sh PASS. Published via roblox-open-cloud (owner asked).
@@ -51,7 +51,7 @@
 - S18: T-020c Weave content + server Loom (D-090): Piercing Edge support, Blink `WeaveSet` at rest spots, `LoomService`, woven casts.
 - S17: T-019e client CrucibleHud (D-086) → **T-019 done**. Parallel sessions via git branches (D-087: `.ai/CLAIMS.md`, `claim.sh`, `merge.sh`, AGENTS §9). T-020 split a–d; T-020a Loom core (D-088) and T-020b Path Marks (D-089) done.
 - S16: T-018f breakthrough wiring; T-019a–d Crucible core, focus mini-game, server + Recoil, Twin Crescent (D-080–D-085).
-- Last publish: Roblox v19 = game v0.0.18 (S50, owner asked, for the T-027h mobile playtest). Before that: v16 (S39). Includes Crucible, Loom, Marks, speed guard, Rank-test credit, Mistmaw tuning, remote guard.
+- Last publish: Roblox v23 = game v0.0.20 (S59b, owner asked, slot selection playtest). Before that: v19 = game v0.0.18 (S50, owner asked, for the T-027h mobile playtest). Before that: v16 (S39). Includes Crucible, Loom, Marks, speed guard, Rank-test credit, Mistmaw tuning, remote guard.
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** —
@@ -64,6 +64,6 @@
   - T-024 First 10 minutes · all above
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox).
-- **Last cloud test:** CLOUD ALL: PASS on Saved v22 (2026-10-31, S59b, incl. slot selection); live = v19 (game v0.0.18)
+- **Last cloud test:** CLOUD ALL: PASS on Saved v22 (2026-10-31, S59b, incl. slot selection); live = v23 (game v0.0.20)
 - **Last check.sh:** CHECK: PASS (2026-10-31, S59)
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.

@@ -2,7 +2,8 @@
 
 ## S59b — 2026-10-31 (new bot, ≈33 OLU)
 - T-036b done (D-219): HUD slots are buttons (tap/click selects), loadout screen select hint per platform. check.sh PASS.
-- T-036c done (D-220): cloud smoke on Saved v22 — specs 272/272, Rimeshard Z/X/C live when its slot is selected, refused otherwise; CLOUD ALL: PASS. Owner's v21 Z/X/C bug not reproducible server-side; needs playtest on a new build. Not published.
+- T-036c done (D-220): cloud smoke on Saved v22 — specs 272/272, Rimeshard Z/X/C live when its slot is selected, refused otherwise; CLOUD ALL: PASS. Owner's v21 Z/X/C bug not reproducible server-side.
+- Published game v0.0.20 = Roblox place v23 (owner asked) for the slot-selection / Z/X/C playtest.
 
 ## S58 — 2026-10-31 (same bot, ≈19 OLU)
 - **S59 (2026-10-31, ~36 OLU):** T-036 split a–c. T-036a done (D-216, D-217): slot-selected abilities core — keys 1–7 / gamepad Y select a slot (`SelectSlot`, `ActiveSlot`), only the selected Kith is live (server-enforced), Rimeshard stance auto-on, Crescent Cut moved from E to Z of its slot, Q toggle gone, Wind Step fixed on R. check.sh PASS. Not cloud-tested, not published. T-036b part 1 (D-218): HUD shows the selected slot. Next: T-036b touch tap, T-036c cloud test + owner bug.
