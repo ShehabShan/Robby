@@ -83,6 +83,8 @@ local Config = {
 	Movement = { walk = 16, sprint = 24, accel = 40 },
 	-- Sprint speed guard (T-026b3b, D-166): server planar speed check; slack in studs per 0.25 s sample.
 	-- Remote rate limits per client→server event (F-02, D-171): tokens per second + burst.
+	-- T-043c0b3a: replay policy prepared for b3b, not yet connected to live remotes.
+	CastProtocol = { capacity = 128, maxAdvance = 1024, responseSeconds = 10, renewDistance = 30000 },
 	RemoteRates = {
 		default = { rate = 10, burst = 10 },
 		CastRequest = { rate = 10, burst = 10 },

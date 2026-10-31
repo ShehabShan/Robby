@@ -244,3 +244,8 @@ Unused Shared.CastPresentation owns prediction→accepted→terminal states, imm
 - Abilities now validates Stance.verify and Moves.pay against private nested copies in Shared.CastTransaction; commits the original tables only when both succeed, without yielding. Low Qi/cooldown no longer consumes a chain step, finisher or shot-2 special cancel.
 - Successful cost/cooldown/recovery/finisher timing is unchanged; Wind Step bypasses stance as before. The free Needle test uses cooldown rejection, not a fictitious Qi cost. This is atomic authorization, NOT replay protection; b3 is still required.
 - 8 pure transaction cases plus 6 actual CastRequest dispatcher mocks cover rejects and one-time successful side effects, immediate delivery and fixed moves. CHECK PASS: 317 pure + 7 input + 6 dispatch + timing + authoring. No cloud test/publication.
+
+### D-245 — Bounded canonical admission before wire integration (S69, 2026-10-31)
+- Shared.CastAdmission wraps CastLedger with lossless decoded-vector binary fingerprints, immutable validated requests, server scope/epoch/cast identity, bounded renewal policy and one synchronous authorization call. Config.CastProtocol is prepared, not yet live.
+- Failed authorization is cached too; exceptions/yields fail closed for that request and never retry partial side effects, but cannot roll back engine work. b3b must keep its callback non-yielding/non-throwing and retain world hazards across generation rotation; b3c owns full reliable receipts.
+- Policy and limits, explicit rotation/old-generation rejection, tests and remaining work: research/notes/T-043c0b3a-admission.md. 327 pure specs + full check PASS; no publication.
