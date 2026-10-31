@@ -290,3 +290,5 @@ Pure CastContacts is a per-world-lifetime notification ledger, not damage eligib
 
 - **D-259 (S74, 2026-10-31):** Reliable CastContact is post-effect notification only, 128 records per active world lifetime; full drops notification, never damage or legacy HitFx. Reuse weak per-model target identity, cumulative zone ticks, paired server processing clock; close/release on terminal. No contact replay on repeated cast requests.
 - **D-260 (S74, 2026-10-31):** Register a temporary CastContact drain in CastReceiptClient until c3c3 owns bounded storage, preventing Blink listener-wait queue growth. No contact renderer/legacy FX switch until b4.
+
+- **D-261 (S74, 2026-10-31):** Confirmed contacts use independent client inbox: 512 immutable records, 12s local retention/server-age window, 1s future tolerance; ordinal and semantic identity dedupe, no terminal/acceptance gate. Eviction/expiry uses conservative server-time watermark; teardown/restart drops pre-reset effects. Possible overload visual loss is explicit, never gameplay loss. No renderer adoption.

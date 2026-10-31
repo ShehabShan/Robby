@@ -4,15 +4,21 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 local Config = require(ReplicatedStorage.Shared.Config)
 local CastInbox = require(ReplicatedStorage.Shared.CastInbox)
+local CastContactInbox = require(ReplicatedStorage.Shared.CastContactInbox)
 local Net = require(script.Parent.Net)
 local CastReceiptClient = {}
 local active: CastInbox.State? = nil
 local stop: (() -> ())? = nil
+local contacts: CastContactInbox.State? = nil
+local retiredContactThrough: number? = nil
 local function vector(v: Vector3): { x: number, y: number, z: number }
 	return { x = v.X, y = v.Y, z = v.Z }
 end
 function CastReceiptClient.inbox(): CastInbox.State?
 	return active
+end
+function CastReceiptClient.contacts(): CastContactInbox.State?
+	return contacts
 end
 function CastReceiptClient.start(): () -> ()
 	if stop then
@@ -20,6 +26,8 @@ function CastReceiptClient.start(): () -> ()
 	end
 	local state = CastInbox.new(Config.CastClientReceipt)
 	active = state
+	local contactState = CastContactInbox.new(Config.CastClientContact, retiredContactThrough)
+	contacts = contactState
 	local disconnectAccepted = Net.CastAccepted.On(function(v)
 		CastInbox.accept(state, {
 			castId = v.castId,
@@ -40,9 +48,20 @@ function CastReceiptClient.start(): () -> ()
 	local disconnectTerminal = Net.CastTerminal.On(function(v)
 		CastInbox.terminal(state, v.castId, v.reason, v.at, os.clock())
 	end)
-	-- c3c2 ships the server channel before c3c3 stores contacts. Drain it now:
-	-- Blink otherwise retains an unbounded queue while waiting for a listener.
-	local disconnectContact = Net.CastContact.On(function() end)
+	-- A genuine contact can arrive before acceptance or after terminal on separate channels.
+	local disconnectContact = Net.CastContact.On(function(v)
+		CastContactInbox.record(contactState, {
+			castId = v.castId,
+			ordinal = v.ordinal,
+			resource = v.resource,
+			tick = v.tick,
+			targetKey = v.targetKey,
+			at = v.at,
+			amount = v.amount,
+			position = vector(v.position),
+			direction = vector(v.direction),
+		}, os.clock(), workspace:GetServerTimeNow())
+	end)
 	local disconnectDisposition = Net.CastDisposition.On(function(v)
 		CastInbox.disposition(state, v, os.clock())
 	end)
@@ -52,6 +71,7 @@ function CastReceiptClient.start(): () -> ()
 		local now = os.clock()
 		if now - lastPrune >= 1 then
 			CastInbox.prune(state, now)
+			CastContactInbox.prune(contactState, now)
 			lastPrune = now
 		end
 	end)
@@ -67,7 +87,11 @@ function CastReceiptClient.start(): () -> ()
 		disconnectDisposition()
 		heartbeat:Disconnect()
 		CastInbox.destroy(state)
-		active, stop = nil, nil
+		CastContactInbox.destroy(contactState)
+		-- A restart is a presentation reset: never replay pre-reset effects. This may
+		-- intentionally drop delayed older contacts, without touching world gameplay.
+		retiredContactThrough = math.max(contactState.retiredThrough, workspace:GetServerTimeNow())
+		active, contacts, stop = nil, nil, nil
 	end
 	stop = cleanup
 	return cleanup

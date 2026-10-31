@@ -1,6 +1,7 @@
 -- Executes actual client receipt adapter with mocked engine/network, not live-network proof.
 local fs, luau, rb = require("@lune/fs"), require("@lune/luau"), require("@lune/roblox")
 local Inbox = require("../src/shared/CastInbox")
+local ContactInbox = require("../src/shared/CastContactInbox")
 local Config = require("../src/shared/Config")
 local source = fs.readFile("src/client/CastReceiptClient.luau")
 local init = fs.readFile("src/client/init.client.luau")
@@ -28,7 +29,7 @@ local net = {
 local serverNow = 1000000
 local heartbeat
 local services = {
-	ReplicatedStorage = { Shared = { Config = "config", CastInbox = "inbox" } },
+	ReplicatedStorage = { Shared = { Config = "config", CastInbox = "inbox", CastContactInbox = "contacts" } },
 	RunService = {
 		Heartbeat = {
 			Connect = function(_, fn)
@@ -58,7 +59,7 @@ local adapter = luau.load(source, {
 		},
 		script = { Parent = { Net = "net" } },
 		require = function(id)
-			return ({ config = Config, inbox = Inbox, net = net })[id]
+			return ({ config = Config, inbox = Inbox, contacts = ContactInbox, net = net })[id]
 		end,
 		os = {
 			clock = function()
@@ -86,9 +87,22 @@ local a = {
 }
 listeners.accepted(a)
 local state = adapter.inbox()
+local contact = {
+	castId = a.castId,
+	ordinal = 1,
+	resource = 1,
+	tick = 1,
+	targetKey = "m1",
+	at = a.acceptedAt + 0.1,
+	amount = 4,
+	position = rb.Vector3.new(1, 2, 3),
+	direction = rb.Vector3.zAxis,
+}
 for _ = 1, 1000 do
-	listeners.contact({ castId = a.castId })
+	listeners.contact(contact)
 end
+local contactState = adapter.contacts()
+assert(contactState.count == 1 and ContactInbox.get(contactState, a.castId, 1).value.position.y == 2)
 local original = state.acceptances.entries[a.castId]
 assert(original.acceptance.centre.x == 5 and original.acceptance.acceptedAt == 1000000)
 now += 5
@@ -110,23 +124,82 @@ reordered.seq, reordered.castId = 3, "scope:1:3"
 listeners.terminal({ castId = reordered.castId, reason = "caster_lost", at = a.acceptedAt + 0.1 })
 listeners.accepted(reordered)
 assert(state.acceptances.entries[reordered.castId].acceptance == nil)
+-- All acceptance/contact/terminal permutations, plus duplicate contact, are independent.
+local permutations =
+	{ { "A", "C", "T" }, { "A", "T", "C" }, { "C", "A", "T" }, { "C", "T", "A" }, { "T", "A", "C" }, { "T", "C", "A" } }
+for i, events in permutations do
+	local av = table.clone(a)
+	av.seq = 10 + i
+	av.castId = "scope:1:" .. av.seq
+	local cv = table.clone(contact)
+	cv.castId = av.castId
+	for _, event in events do
+		if event == "A" then
+			listeners.accepted(av)
+		elseif event == "T" then
+			listeners.terminal({ castId = av.castId, reason = "completed", at = av.endsAt })
+		else
+			listeners.contact(cv)
+			listeners.contact(cv)
+		end
+	end
+	local entry = ContactInbox.get(contactState, av.castId, 1)
+	assert(entry and entry.value.amount == 4 and state.acceptances.entries[av.castId].terminal)
+end
+assert(contactState.count == 7)
+local late = table.clone(contact)
+late.ordinal = 2
+late.tick = 2
+late.at = a.endsAt
+serverNow = a.endsAt + 1
+listeners.contact(late) -- valid late contact AFTER terminal must not disappear
+assert(ContactInbox.get(contactState, a.castId, 2))
 now += 13
 heartbeat()
 assert(next(state.acceptances.entries) == nil and next(state.responses) == nil)
+assert(contactState.count == 0 and next(contactState.identities) == nil)
 listeners.accepted(a) -- TTL retirement must not revive old ended cast
 assert(next(state.acceptances.entries) == nil)
 stop()
 stop()
-assert(disconnected == 5 and adapter.inbox() == nil and next(listeners) == nil)
+assert(disconnected == 5 and adapter.inbox() == nil and adapter.contacts() == nil and next(listeners) == nil)
+callbacks.contact(contact)
+assert(contactState.closed and contactState.count == 0)
 callbacks.accepted(a) -- queued callback cannot resurrect destroyed inbox
 callbacks.terminal({ castId = a.castId, reason = "completed", at = a.endsAt })
 assert(next(state.acceptances.entries) == nil)
+local oldContactCallback = callbacks.contact
 local stop2 = adapter.start()
-assert(adapter.inbox() ~= state)
+assert(adapter.inbox() ~= state and adapter.contacts() ~= contactState)
+listeners.contact(contact) -- restart watermark must not replay previous effects
+assert(adapter.contacts().count == 0)
+serverNow += 1
+local fresh = table.clone(contact)
+fresh.at = serverNow
+fresh.castId = "fresh:1"
+listeners.contact(fresh)
+assert(adapter.contacts().count == 1)
+oldContactCallback(fresh)
+assert(contactState.count == 0 and adapter.contacts().count == 1)
+-- Pressure must remain bounded in the real adapter, not only in the pure module.
+for i = 1, Config.CastClientContact.capacity + 3 do
+	local cv = table.clone(fresh)
+	cv.castId = "pressure:" .. i
+	cv.at = serverNow + i * 0.001
+	listeners.contact(cv)
+end
+assert(adapter.contacts().count <= Config.CastClientContact.capacity)
+listeners.contact(fresh) -- the evicted first receipt cannot reappear
+assert(ContactInbox.get(adapter.contacts(), fresh.castId, 1) == nil)
+local n = 0
+for _ in adapter.contacts().identities do
+	n += 1
+end
+assert(n == adapter.contacts().count)
 serverNow = a.endsAt + Config.CastLifetime.graceSeconds
 listeners.accepted(a) -- even a fresh adapter rejects an already expired schedule
 assert(next(adapter.inbox().acceptances.entries) == nil)
 stop2()
 print(
-	"CAST RECEIPT CLIENT: PASS (actual adapter; registration, vectors/clocks, duplicate, disposition, terminal reorder/expiry, teardown/restart)"
+	"CAST RECEIPT CLIENT: PASS (actual adapter; registration, vectors/clocks, duplicate, disposition, terminal/contact permutations, late contacts, duplicate/expiry, teardown/restart)"
 )
