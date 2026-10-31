@@ -63,7 +63,7 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-042b verification (T-042a fixed confirmed missing FX; owner live-input confirmation pending).
-- **NEXT:** T-042b Rimeshard verification: owner join fresh server showing v0.0.22 / Roblox v27 and confirm Z/X/C (touch buttons on mobile); F9 errors if still broken. Publication is complete. Owner confirmation remains required; then T-022c beast feel. T-026c is already done (S55), then T-026d/T-024. Before launch: set `devAlwaysReady = false`.
+- **NEXT:** T-043a — owner priority: research + design Rimeshard overhaul (Blox Fruits quality reference), ALL moves including left click; iterate across sessions until owner satisfied. See TASKS and inbox 2026-10-31-rimeshard-quality-direction.md. Defer unrelated work; keep per-session OLU caps. T-042b functional verification remains open.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
