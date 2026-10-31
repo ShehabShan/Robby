@@ -75,6 +75,7 @@ local adapter = luau.load(source, {
 })()
 local stop = adapter.start()
 assert(adapter.start() == stop)
+local geometry = require("../src/shared/CastGeometry")
 local a = {
 	castId = "scope:1:1",
 	generation = "scope:1",
@@ -88,6 +89,9 @@ local a = {
 	endsAt = 1000001.6,
 	aim = rb.Vector3.new(0, 0, -1),
 	origin = rb.Vector3.new(0, 3, 0),
+	geometry = table.clone(
+		assert(geometry.capture({ delivery = { kind = "Zone", params = { radius = 17, range = 49 } } }, {}))
+	),
 	centre = rb.Vector3.new(5, 0, -10),
 }
 listeners.accepted(a)
@@ -110,6 +114,16 @@ local contactState = adapter.contacts()
 assert(contactState.count == 1 and ContactInbox.get(contactState, a.castId, 1).value.position.y == 2)
 local original = state.acceptances.entries[a.castId]
 assert(original.acceptance.centre.x == 5 and original.acceptance.acceptedAt == 1000000)
+assert(original.acceptance.geometry.radius == 17 and original.acceptance.geometry.range == 49)
+a.geometry.radius = 99
+assert(original.acceptance.geometry.radius == 17 and table.isfrozen(original.acceptance.geometry))
+a.geometry.radius = 17
+local bad = table.clone(a)
+bad.seq, bad.castId = 4, "scope:1:4"
+bad.geometry = table.clone(a.geometry)
+bad.geometry.radius = 0 / 0
+listeners.accepted(bad)
+assert(state.acceptances.entries[bad.castId] == nil)
 now += 5
 listeners.accepted(a)
 assert(state.acceptances.entries[a.castId] == original)

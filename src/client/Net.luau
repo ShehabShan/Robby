@@ -225,9 +225,9 @@ function SerdesFunctions.ReadEVENT_CastGeneration(): ({ generation: string, epoc
 	return Value
 end
 
-function SerdesFunctions.ReadEVENT_CastAccepted(): ({ castId: string, generation: string, seq: number, moveId: string, casterUserId: number, characterKey: string, slotRevision: number, acceptedAt: number, releaseAt: number, endsAt: number, aim: Vector3, origin: Vector3, centre: Vector3? })
-	-- Read BLOCK: 67 bytes
-	local BLOCK_START = Read(67)
+function SerdesFunctions.ReadEVENT_CastAccepted(): ({ castId: string, generation: string, seq: number, moveId: string, casterUserId: number, characterKey: string, slotRevision: number, acceptedAt: number, releaseAt: number, endsAt: number, aim: Vector3, origin: Vector3, centre: Vector3?, geometry: { kind: string, centreMode: string, radius: number, range: number, speed: number, count: number, spreadDeg: number, hitboxX: number, hitboxY: number, hitboxZ: number }? })
+	-- Read BLOCK: 68 bytes
+	local BLOCK_START = Read(68)
 	local Value = {} :: any
 	local Length = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
 	Value.castId = buffer.readstring(RecieveBuffer, Read(Length), Length)
@@ -266,6 +266,27 @@ function SerdesFunctions.ReadEVENT_CastAccepted(): ({ castId: string, generation
 		Y = buffer.readf32(RecieveBuffer, BLOCK_START + 4)
 		Z = buffer.readf32(RecieveBuffer, BLOCK_START + 8)
 		Value.centre = Vector3.new(X, Y, Z)
+	end
+	if buffer.readu8(RecieveBuffer, BLOCK_START + 67) == 1 then
+		-- Read BLOCK: 59 bytes
+		local BLOCK_START = Read(59)
+		Value.geometry = {} :: any
+		Length = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+		Value.geometry.kind = buffer.readstring(RecieveBuffer, Read(Length), Length)
+		if #Value.geometry.kind < 0 then error(`Expected length of "Value.geometry.kind" to be larger than or equal to 0, got {#Value.geometry.kind} instead.`) end
+		if #Value.geometry.kind > 16 then error(`Expected length of "Value.geometry.kind" to be smaller than or equal to  16, got {#Value.geometry.kind} instead.`) end
+		Length = buffer.readu8(RecieveBuffer, BLOCK_START + 1)
+		Value.geometry.centreMode = buffer.readstring(RecieveBuffer, Read(Length), Length)
+		if #Value.geometry.centreMode < 0 then error(`Expected length of "Value.geometry.centreMode" to be larger than or equal to 0, got {#Value.geometry.centreMode} instead.`) end
+		if #Value.geometry.centreMode > 20 then error(`Expected length of "Value.geometry.centreMode" to be smaller than or equal to  20, got {#Value.geometry.centreMode} instead.`) end
+		Value.geometry.radius = buffer.readf64(RecieveBuffer, BLOCK_START + 2)
+		Value.geometry.range = buffer.readf64(RecieveBuffer, BLOCK_START + 10)
+		Value.geometry.speed = buffer.readf64(RecieveBuffer, BLOCK_START + 18)
+		Value.geometry.count = buffer.readu8(RecieveBuffer, BLOCK_START + 26)
+		Value.geometry.spreadDeg = buffer.readf64(RecieveBuffer, BLOCK_START + 27)
+		Value.geometry.hitboxX = buffer.readf64(RecieveBuffer, BLOCK_START + 35)
+		Value.geometry.hitboxY = buffer.readf64(RecieveBuffer, BLOCK_START + 43)
+		Value.geometry.hitboxZ = buffer.readf64(RecieveBuffer, BLOCK_START + 51)
 	end
 	return Value
 end
@@ -708,7 +729,7 @@ Reliable.OnClientEvent:Connect(function(Buffer: buffer, Instances: {Instance})
 				table.insert(Queue.Reliable[2], {Value} :: {any})
 			end
 		elseif Index == 3 then
-			local Value: { castId: string, generation: string, seq: number, moveId: string, casterUserId: number, characterKey: string, slotRevision: number, acceptedAt: number, releaseAt: number, endsAt: number, aim: Vector3, origin: Vector3, centre: Vector3? } = SerdesFunctions.ReadEVENT_CastAccepted()
+			local Value: { castId: string, generation: string, seq: number, moveId: string, casterUserId: number, characterKey: string, slotRevision: number, acceptedAt: number, releaseAt: number, endsAt: number, aim: Vector3, origin: Vector3, centre: Vector3?, geometry: { kind: string, centreMode: string, radius: number, range: number, speed: number, count: number, spreadDeg: number, hitboxX: number, hitboxY: number, hitboxZ: number }? } = SerdesFunctions.ReadEVENT_CastAccepted()
 			if Events.Reliable[3] ~= nil then
 				SerdesEvent = "CastAccepted"
 				Events.Reliable[3](Value)
@@ -836,7 +857,7 @@ local Returns = table.freeze({
 		end
 	},
 	CastAccepted = {
-		On = function(Listener: (Value: { castId: string, generation: string, seq: number, moveId: string, casterUserId: number, characterKey: string, slotRevision: number, acceptedAt: number, releaseAt: number, endsAt: number, aim: Vector3, origin: Vector3, centre: Vector3? }) -> ()): () -> ()
+		On = function(Listener: (Value: { castId: string, generation: string, seq: number, moveId: string, casterUserId: number, characterKey: string, slotRevision: number, acceptedAt: number, releaseAt: number, endsAt: number, aim: Vector3, origin: Vector3, centre: Vector3?, geometry: { kind: string, centreMode: string, radius: number, range: number, speed: number, count: number, spreadDeg: number, hitboxX: number, hitboxY: number, hitboxZ: number }? }) -> ()): () -> ()
 			Events.Reliable[3] = Listener
 			for Index, Arguments in Queue.Reliable[3] do
 				Listener(table.unpack(Arguments))

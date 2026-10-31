@@ -49,6 +49,11 @@ event CastAccepted {
 		casterUserId: f64, characterKey: string(..64), slotRevision: u32,
 		acceptedAt: f64, releaseAt: f64, endsAt: f64,
 		aim: vector, origin: vector, centre: vector?,
+		geometry: struct {
+			kind: string(..16), centreMode: string(..20),
+			radius: f64, range: f64, speed: f64, count: u8, spreadDeg: f64,
+			hitboxX: f64, hitboxY: f64, hitboxZ: f64,
+		}?,
 	},
 }
 -- Server-owned terminal; broadcast once, original acceptance precedes owner replay.

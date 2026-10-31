@@ -335,3 +335,9 @@ A failed predicted renderer keeps a bounded predicted identity but disposes reso
 
 ### D-278 (S79, 2026-10-31) — Stage authoritative geometry before seekable rendering
 Split T-043c0b4c2 into geometry transport (a), pure seek plan (b), owned engine adapter (c). Receipts must snapshot woven delivery bounds, not reconstruct base content. Audit: Burst currently selects around the living original caster at delayed release, unlike fixed ground Zone; transport this distinction and do not claim acceptance origin is its exact damage centre. No gameplay timing/centre changes in this slice.
+
+### D-279 (S79, 2026-10-31) — Immutable woven geometry on reliable acceptance
+CastGeometry captures kind, centreMode, radius/range/speed, fan count/spread and actual sweep box from the authorized woven move before payment. Missing/fractional/nonfinite geometry refuses before payment. Receipts and world lifetimes independently freeze it; fresh and duplicate wire responses reuse the original. Optional field preserves old metadata-only receipts; missing geometry never licenses exact world extents. Built-in damage/effect rules remain server-owned.
+
+### D-280 (S79, 2026-10-31) — State centre semantics truthfully
+Trajectory uses captured origin/aim, Zone is Fixed at captured ground point, Burst is CasterAtRelease (original living character's position sampled at delayed release), Self has None. Radius describes eligibility bounds, not a promise of damage (marks, caps, collision still apply). Burst exact fixed-centre warnings must wait for authoritative centre work or fail closed; do not silently change gameplay here.

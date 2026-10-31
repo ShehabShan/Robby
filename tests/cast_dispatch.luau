@@ -123,6 +123,8 @@ local function harness(step, protocol)
 			end,
 		},
 		CastSchedule = require("../src/shared/CastSchedule"),
+		CastGeometry = require("../src/shared/CastGeometry"),
+		DEFAULT_HITBOX = Config.Abilities.Rimeshard.needle.hitboxSize,
 		workspace = {
 			GetServerTimeNow = function()
 				return 1000000 + h.now
@@ -236,7 +238,7 @@ local function harness(step, protocol)
 		},
 		Loom = {
 			wovenFor = function()
-				return nil
+				return h.woven
 			end,
 		},
 		KithCare = {
@@ -347,6 +349,60 @@ local function receipt(h, v)
 	return h.env.CastReceipts.get(h.sessions[h.player].receipts, v.generation .. ":" .. tostring(v.seq), h.now)
 end
 local cases = {
+	["woven geometry captured before payment and replayed unchanged on wire and lifetime"] = function()
+		for _, kind in { "Projectile", "Volley", "Zone", "Burst", "Self" } do
+			local base = nil
+			for _, move in built.moves do
+				if move.delivery.kind == kind then
+					base = move
+					break
+				end
+			end
+			assert(base, kind)
+			local h = harness()
+			local move = table.clone(base)
+			move.delivery = table.clone(base.delivery)
+			local p = table.clone(base.delivery.params)
+			move.delivery.params = p
+			if kind == "Projectile" or kind == "Volley" then
+				p.speed, p.range, p.hitbox = 123, 49, { x = 7, y = 4, z = 3 }
+				if kind == "Volley" then
+					p.count, p.spreadDeg = 7, 61
+				end
+			elseif kind == "Zone" then
+				p.radius, p.range = 17, 49
+			elseif kind == "Burst" then
+				p.radius = 22
+			end
+			h.woven = move
+			local v = packet(h, 1, base.id)
+			v.point = rb.Vector3.new(0, 0, -10)
+			h.callback(h.player, v)
+			local a = assert(receipt(h, v), kind).acceptance
+			local expected = h.env.CastGeometry.capture(move, h.env.DEFAULT_HITBOX)
+			assert(h.env.CastGeometry.same(a.geometry, expected), kind)
+			assert(h.env.CastGeometry.same(h.acceptedWire[1].value.geometry, expected), kind)
+			local handle = h.env.lifetimes.active[a.castId]
+			assert(handle and h.env.CastGeometry.same(handle.acceptance.geometry, expected), kind)
+			p.speed, p.radius, p.count = 999, 999, 16
+			h.now += 0.01
+			h.callback(h.player, v)
+			assert(#h.deliveries == 1 and #h.acceptedWire == 2)
+			assert(h.env.CastGeometry.same(h.acceptedWire[2].value.geometry, expected))
+		end
+	end,
+	["malformed woven geometry refuses before qi strain cooldown or delivery"] = function()
+		local h = harness()
+		local base = built.moves["move.rime.shard_fan"]
+		h.woven = table.clone(base)
+		h.woven.delivery = table.clone(base.delivery)
+		h.woven.delivery.params = table.clone(base.delivery.params)
+		h.woven.delivery.params.count = 1.5
+		h.callback(h.player, packet(h, 1, base.id))
+		assert(h.qi.current == 100 and h.strain == 0 and next(h.cds) == nil)
+		assert(#h.deliveries == 0 and #h.acceptedWire == 0 and h.dispositionWire[1].reason == "geometry")
+	end,
+
 	["world terminal replay stays bounded after departure and expires without new broadcasts"] = function()
 		local h = harness()
 		h.worldReceipts.policy =

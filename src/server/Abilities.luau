@@ -19,6 +19,7 @@ local CastAdmission = require(ReplicatedStorage.Shared.CastAdmission)
 local CastLedger = require(ReplicatedStorage.Shared.CastLedger)
 local CastReceipts = require(ReplicatedStorage.Shared.CastReceipts)
 local CastSchedule = require(ReplicatedStorage.Shared.CastSchedule)
+local CastGeometry = require(ReplicatedStorage.Shared.CastGeometry)
 local CastLifetime = require(ReplicatedStorage.Shared.CastLifetime)
 local CastContacts = require(ReplicatedStorage.Shared.CastContacts)
 local Registry = require(ReplicatedStorage.Shared.Registry)
@@ -545,6 +546,7 @@ type AcceptedCast = {
 	monotonicAt: number,
 	acceptedAt: number,
 	schedule: CastSchedule.Offsets,
+	geometry: CastGeometry.Snapshot,
 }
 local function authorizeCast(player: Player, value: any): (AcceptedCast?, string?)
 	local rawMoveId, raw, rawSeq = value.moveId, value.aim, value.seq
@@ -600,6 +602,10 @@ local function authorizeCast(player: Player, value: any): (AcceptedCast?, string
 	if not schedule then
 		return nil, "schedule"
 	end
+	local geometry = CastGeometry.capture(move, DEFAULT_HITBOX)
+	if not geometry then
+		return nil, "geometry"
+	end
 	local kit, stanceCfg = kitFor(move)
 	local humanoid = character:FindFirstChildOfClass("Humanoid")
 	local caster: Moves.Caster = {
@@ -626,6 +632,7 @@ local function authorizeCast(player: Player, value: any): (AcceptedCast?, string
 		monotonicAt = 0,
 		acceptedAt = 0,
 		schedule = schedule,
+		geometry = geometry,
 	}
 	if not CastLifetime.hasRoom(lifetimes) then
 		return nil, "delivery_capacity"
@@ -711,6 +718,7 @@ local function sendAcceptance(player: Player, a: CastReceipts.Acceptance, broadc
 		acceptedAt = a.acceptedAt,
 		releaseAt = a.releaseAt,
 		endsAt = a.endsAt,
+		geometry = a.geometry,
 		aim = Vector3.new(a.aim.x, a.aim.y, a.aim.z),
 		origin = Vector3.new(a.origin.x, a.origin.y, a.origin.z),
 		centre = if a.centre then Vector3.new(a.centre.x, a.centre.y, a.centre.z) else nil,
@@ -899,6 +907,7 @@ function Abilities.start()
 						acceptedAt = a.acceptedAt,
 						releaseAt = a.acceptedAt + a.schedule.release,
 						endsAt = a.acceptedAt + a.schedule.finish,
+						geometry = a.geometry,
 						aim = castVector(a.dir),
 						origin = castVector(a.origin),
 						centre = if a.point then castVector(a.point) else nil,

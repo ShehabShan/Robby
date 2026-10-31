@@ -40,6 +40,7 @@ function CastReceiptClient.start(): () -> ()
 			acceptedAt = v.acceptedAt,
 			releaseAt = v.releaseAt,
 			endsAt = v.endsAt,
+			geometry = v.geometry,
 			aim = vector(v.aim),
 			origin = vector(v.origin),
 			centre = if v.centre then vector(v.centre) else nil,

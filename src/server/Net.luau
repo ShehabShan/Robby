@@ -223,9 +223,9 @@ function SerdesFunctions.WriteEVENT_CastGeneration(Value: { generation: string, 
 	table.insert(SendInstances, Value.character or Null)
 end
 
-function SerdesFunctions.WriteEVENT_CastAccepted(Value: { castId: string, generation: string, seq: number, moveId: string, casterUserId: number, characterKey: string, slotRevision: number, acceptedAt: number, releaseAt: number, endsAt: number, aim: Vector3, origin: Vector3, centre: Vector3? }): ()
-	-- Allocate BLOCK: 68 bytes
-	local BLOCK_START = Allocate(68)
+function SerdesFunctions.WriteEVENT_CastAccepted(Value: { castId: string, generation: string, seq: number, moveId: string, casterUserId: number, characterKey: string, slotRevision: number, acceptedAt: number, releaseAt: number, endsAt: number, aim: Vector3, origin: Vector3, centre: Vector3?, geometry: { kind: string, centreMode: string, radius: number, range: number, speed: number, count: number, spreadDeg: number, hitboxX: number, hitboxY: number, hitboxZ: number }? }): ()
+	-- Allocate BLOCK: 69 bytes
+	local BLOCK_START = Allocate(69)
 	buffer.writeu8(SendBuffer, BLOCK_START + 0, 3)
 	local Length = #Value.castId
 	buffer.writeu8(SendBuffer, BLOCK_START + 1, Length)
@@ -265,6 +265,27 @@ function SerdesFunctions.WriteEVENT_CastAccepted(Value: { castId: string, genera
 		buffer.writef32(SendBuffer, BLOCK_START + 0, Vector.X)
 		buffer.writef32(SendBuffer, BLOCK_START + 4, Vector.Y)
 		buffer.writef32(SendBuffer, BLOCK_START + 8, Vector.Z)
+	end
+	buffer.writeu8(SendBuffer, BLOCK_START + 68, Value.geometry ~= nil and 1 or 0)
+	if Value.geometry ~= nil then
+		-- Allocate BLOCK: 59 bytes
+		local BLOCK_START = Allocate(59)
+		local Length = #Value.geometry.kind
+		buffer.writeu8(SendBuffer, BLOCK_START + 0, Length)
+		Allocate(Length)
+		buffer.writestring(SendBuffer, SendOffset, Value.geometry.kind, Length)
+		local Length = #Value.geometry.centreMode
+		buffer.writeu8(SendBuffer, BLOCK_START + 1, Length)
+		Allocate(Length)
+		buffer.writestring(SendBuffer, SendOffset, Value.geometry.centreMode, Length)
+		buffer.writef64(SendBuffer, BLOCK_START + 2, Value.geometry.radius)
+		buffer.writef64(SendBuffer, BLOCK_START + 10, Value.geometry.range)
+		buffer.writef64(SendBuffer, BLOCK_START + 18, Value.geometry.speed)
+		buffer.writeu8(SendBuffer, BLOCK_START + 26, Value.geometry.count)
+		buffer.writef64(SendBuffer, BLOCK_START + 27, Value.geometry.spreadDeg)
+		buffer.writef64(SendBuffer, BLOCK_START + 35, Value.geometry.hitboxX)
+		buffer.writef64(SendBuffer, BLOCK_START + 43, Value.geometry.hitboxY)
+		buffer.writef64(SendBuffer, BLOCK_START + 51, Value.geometry.hitboxZ)
 	end
 end
 
@@ -977,12 +998,12 @@ local Returns = table.freeze({
 		end,
 	},
 	CastAccepted = {
-		Fire = function(Player: Player, Value: { castId: string, generation: string, seq: number, moveId: string, casterUserId: number, characterKey: string, slotRevision: number, acceptedAt: number, releaseAt: number, endsAt: number, aim: Vector3, origin: Vector3, centre: Vector3? }): ()
+		Fire = function(Player: Player, Value: { castId: string, generation: string, seq: number, moveId: string, casterUserId: number, characterKey: string, slotRevision: number, acceptedAt: number, releaseAt: number, endsAt: number, aim: Vector3, origin: Vector3, centre: Vector3?, geometry: { kind: string, centreMode: string, radius: number, range: number, speed: number, count: number, spreadDeg: number, hitboxX: number, hitboxY: number, hitboxZ: number }? }): ()
 			Load(PlayersMap[Player])
 			SerdesFunctions.WriteEVENT_CastAccepted(Value)
 			PlayersMap[Player] = Save()
 		end,
-		FireAll = function(Value: { castId: string, generation: string, seq: number, moveId: string, casterUserId: number, characterKey: string, slotRevision: number, acceptedAt: number, releaseAt: number, endsAt: number, aim: Vector3, origin: Vector3, centre: Vector3? }): ()
+		FireAll = function(Value: { castId: string, generation: string, seq: number, moveId: string, casterUserId: number, characterKey: string, slotRevision: number, acceptedAt: number, releaseAt: number, endsAt: number, aim: Vector3, origin: Vector3, centre: Vector3?, geometry: { kind: string, centreMode: string, radius: number, range: number, speed: number, count: number, spreadDeg: number, hitboxX: number, hitboxY: number, hitboxZ: number }? }): ()
 			Load()
 			SerdesFunctions.WriteEVENT_CastAccepted(Value)
 			local Buffer, Size, Instances = SendBuffer, SendCursor, SendInstances
@@ -994,7 +1015,7 @@ local Returns = table.freeze({
 				PlayersMap[Player] = Save()
 			end
 		end,
-		FireList = function(List: {Player}, Value: { castId: string, generation: string, seq: number, moveId: string, casterUserId: number, characterKey: string, slotRevision: number, acceptedAt: number, releaseAt: number, endsAt: number, aim: Vector3, origin: Vector3, centre: Vector3? }): ()
+		FireList = function(List: {Player}, Value: { castId: string, generation: string, seq: number, moveId: string, casterUserId: number, characterKey: string, slotRevision: number, acceptedAt: number, releaseAt: number, endsAt: number, aim: Vector3, origin: Vector3, centre: Vector3?, geometry: { kind: string, centreMode: string, radius: number, range: number, speed: number, count: number, spreadDeg: number, hitboxX: number, hitboxY: number, hitboxZ: number }? }): ()
 			Load()
 			SerdesFunctions.WriteEVENT_CastAccepted(Value)
 			local Buffer, Size, Instances = SendBuffer, SendCursor, SendInstances
@@ -1006,7 +1027,7 @@ local Returns = table.freeze({
 				PlayersMap[Player] = Save()
 			end
 		end,
-		FireExcept = function(Except: Player, Value: { castId: string, generation: string, seq: number, moveId: string, casterUserId: number, characterKey: string, slotRevision: number, acceptedAt: number, releaseAt: number, endsAt: number, aim: Vector3, origin: Vector3, centre: Vector3? }): ()
+		FireExcept = function(Except: Player, Value: { castId: string, generation: string, seq: number, moveId: string, casterUserId: number, characterKey: string, slotRevision: number, acceptedAt: number, releaseAt: number, endsAt: number, aim: Vector3, origin: Vector3, centre: Vector3?, geometry: { kind: string, centreMode: string, radius: number, range: number, speed: number, count: number, spreadDeg: number, hitboxX: number, hitboxY: number, hitboxZ: number }? }): ()
 			Load()
 			SerdesFunctions.WriteEVENT_CastAccepted(Value)
 			local Buffer, Size, Instances = SendBuffer, SendCursor, SendInstances

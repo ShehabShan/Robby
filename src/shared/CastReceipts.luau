@@ -1,6 +1,7 @@
 --!strict
 -- Pure bounded authoritative acceptance/terminal records. NOT admission: cache
 -- misses/eviction NEVER grant permission to pay or execute a cast again.
+local Geometry = require("./CastGeometry")
 local CastReceipts = {}
 export type Vec = { x: number, y: number, z: number }
 export type Acceptance = {
@@ -17,6 +18,7 @@ export type Acceptance = {
 	aim: Vec,
 	origin: Vec,
 	centre: Vec?,
+	geometry: Geometry.Snapshot?,
 }
 export type Terminal = { reason: string, at: number }
 export type Entry = { acceptance: Acceptance?, terminal: Terminal?, expiresAt: number, order: number }
@@ -54,6 +56,7 @@ local function valid(a: Acceptance, policy: Policy): boolean
 		and vector(a.aim)
 		and vector(a.origin)
 		and (a.centre == nil or vector(a.centre))
+		and (a.geometry == nil or (Geometry.valid(a.geometry) and (a.geometry.kind ~= "Zone" or a.centre ~= nil)))
 end
 local function copy(a: Acceptance): Acceptance
 	return table.freeze({
@@ -70,6 +73,7 @@ local function copy(a: Acceptance): Acceptance
 		aim = copyVector(a.aim),
 		origin = copyVector(a.origin),
 		centre = if a.centre then copyVector(a.centre) else nil,
+		geometry = if a.geometry then Geometry.copy(a.geometry) else nil,
 	})
 end
 local function sameVector(a: Vec?, b: Vec?): boolean
@@ -92,6 +96,7 @@ local function same(a: Acceptance, b: Acceptance): boolean
 		and sameVector(a.aim, b.aim)
 		and sameVector(a.origin, b.origin)
 		and sameVector(a.centre, b.centre)
+		and Geometry.same(a.geometry, b.geometry)
 end
 function CastReceipts.new(policy: Policy): State
 	assert(integer(policy.capacity, 32767) and policy.capacity > 0, "invalid capacity")

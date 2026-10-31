@@ -1,6 +1,7 @@
 --!strict
 -- World-owned delivery identity, independent of player replay caches. No engine objects.
 local CastReceipts = require("./CastReceipts")
+local Geometry = require("./CastGeometry")
 local CastLifetime = {}
 export type Handle = {
 	acceptance: CastReceipts.Acceptance,
@@ -30,6 +31,7 @@ function CastLifetime.start(s: State, a: CastReceipts.Acceptance, now: number, r
 	assert(resources >= 1 and resources <= 16 and resources % 1 == 0, "invalid resource count")
 	assert(now == now and math.abs(now) < math.huge and grace >= 0 and grace < math.huge, "invalid world clock")
 	local copy = table.clone(a)
+	copy.geometry = if a.geometry then Geometry.copy(a.geometry) else nil
 	copy.aim = table.freeze(table.clone(a.aim))
 	copy.origin = table.freeze(table.clone(a.origin))
 	copy.centre = if a.centre then table.freeze(table.clone(a.centre)) else nil
