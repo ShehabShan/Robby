@@ -30,7 +30,8 @@ local function render(
 	owner: Tree.Owner,
 	metadata: Map.Metadata?,
 	pose: Plan.Pose?,
-	poseAllowed: boolean
+	poseAllowed: boolean,
+	burst: Plan.BurstSample?
 ): boolean
 	if s.closed or not metadata or not timeline then
 		return false
@@ -44,9 +45,9 @@ local function render(
 	then
 		return false
 	end
-	local plan = Plan.accepted(metadata, now, pose, poseAllowed)
+	local plan = Plan.accepted(metadata, now, pose, poseAllowed, burst)
 	if not plan then
-		-- Includes moving Burst: never report success with a fabricated static ring.
+		-- Invalid metadata/clock is a renderer failure, not a fabricated fallback.
 		return false
 	end
 	local existing = s.entries[key]
@@ -89,7 +90,8 @@ function Fx.primary(
 	frame: Bridge.Frame,
 	metadata: Map.Metadata?,
 	identity: Plan.Identity?,
-	pose: Plan.Pose?
+	pose: Plan.Pose?,
+	burst: Plan.BurstSample?
 ): boolean
 	if s.closed then
 		return false
@@ -105,14 +107,14 @@ function Fx.primary(
 		end,
 		isCurrent = frame.isCurrent,
 		release = frame.release,
-	}, metadata, pose, frame.poseAllowed)
+	}, metadata, pose, frame.poseAllowed, burst)
 end
-function Fx.warning(s: State, frame: Reserve.Frame, metadata: Map.Metadata?): boolean
+function Fx.warning(s: State, frame: Reserve.Frame, metadata: Map.Metadata?, burst: Plan.BurstSample?): boolean
 	return render(s, frame.key, frame.timeline, frame.now, {
 		bind = frame.bind,
 		isCurrent = frame.isCurrent,
 		release = frame.release,
-	}, metadata, nil, false)
+	}, metadata, nil, false, burst)
 end
 function Fx.destroy(s: State)
 	if s.closed then

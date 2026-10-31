@@ -18,6 +18,16 @@ local function fixture()
 			raw = I.encode(v),
 			present = true,
 			humanoid = { Health = 100 },
+			root = {
+				Position = { X = 10, Y = 3, Z = 20 },
+				IsA = function(_, kind)
+					return kind == "BasePart"
+				end,
+			},
+			FindFirstChild = function(self, name)
+				assert(name == "HumanoidRootPart")
+				return self.root
+			end,
 			GetAttribute = function(self, name)
 				assert(name == I.attribute)
 				return self.raw
@@ -55,6 +65,71 @@ local function fixture()
 	return client, player, original, expected, model
 end
 local cases = {
+	["Burst uses original key continuity despite generation and slot renewal"] = function()
+		local c, _, m, e = fixture()
+		local v = table.clone(e)
+		v.generation = "renewed"
+		v.slotRevision = 9
+		m.raw = I.encode(v)
+		assert(c.resolve(e) == nil)
+		local sample = assert(c.burst(e, 100))
+		assert(sample.characterKey == e.characterKey and sample.casterUserId == 42 and sample.observedAt == 100)
+		assert(sample.position.x == 10 and table.isfrozen(sample.position))
+		m.root.Position = { X = 25, Y = 4, Z = 30 }
+		assert(c.burst(e, 100.1).position.x == 25 and sample.position.x == 10)
+	end,
+	["Burst fails closed for dead missing streamed replaced malformed samples"] = function()
+		for _, mode in
+			{
+				"health",
+				"nanhealth",
+				"humanoid",
+				"root",
+				"rootclass",
+				"position",
+				"identity",
+				"stream",
+				"leave",
+				"replacement",
+				"user",
+			}
+		do
+			local c, p, m, e, model = fixture()
+			if mode == "health" then
+				m.humanoid.Health = 0
+			elseif mode == "nanhealth" then
+				m.humanoid.Health = 0 / 0
+			elseif mode == "humanoid" then
+				m.humanoid = nil
+			elseif mode == "root" then
+				m.root = nil
+			elseif mode == "rootclass" then
+				m.root.IsA = function()
+					return false
+				end
+			elseif mode == "position" then
+				m.root.Position.X = math.huge
+			elseif mode == "identity" then
+				m.raw = nil
+			elseif mode == "stream" then
+				m.present = false
+			elseif mode == "leave" then
+				p.Parent = nil
+			elseif mode == "replacement" then
+				local v = table.clone(e)
+				v.characterKey = "new"
+				p.Character = model(v)
+			else
+				local v = table.clone(e)
+				v.casterUserId = 99
+				m.raw = I.encode(v)
+			end
+			assert(c.burst(e, 100) == nil, mode)
+		end
+		local c, _, _, e = fixture()
+		assert(c.burst({}, 100) == nil and c.burst(e, 0 / 0) == nil and c.burst(e, math.huge) == nil)
+	end,
+
 	["late observer resolves only independently published complete original identity"] = function()
 		local c, p, m, e = fixture()
 		local raw = m.raw

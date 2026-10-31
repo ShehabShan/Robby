@@ -133,6 +133,16 @@ local function fixture(capacity, useStore)
 		raw = Identity.encode({ generation = "g", characterKey = "old", slotRevision = 4, casterUserId = 42 }),
 		present = true,
 		humanoid = { Health = 100 },
+		root = {
+			Position = rb.Vector3.new(20, 3, 40),
+			IsA = function(_, kind)
+				return kind == "BasePart"
+			end,
+		},
+		FindFirstChild = function(self, name)
+			assert(name == "HumanoidRootPart")
+			return self.root
+		end,
 		GetAttribute = function(self)
 			return self.raw
 		end,
@@ -221,11 +231,11 @@ local function fixture(capacity, useStore)
 		a.centre = if a.centre then vector(a.centre) else nil
 		self.listeners.CastAccepted(a)
 	end
-	function f:startOwner()
+	function f:startOwner(kind)
 		self:stop() -- dispose unused manual fixture ownership first
 		self.borrowedOwner = true
 		self.stopReceipts = self.receipts.start()
-		self.stopOwner = self.owner.start({ m = { delivery = "Zone", worldWarning = true } })
+		self.stopOwner = self.owner.start({ m = { delivery = kind or "Zone", worldWarning = true } })
 	end
 	function f:stopOwnerAll()
 		self.stopOwner()
@@ -604,6 +614,105 @@ test("borrowed dispatcher closes on inbox loss and restart never replays old tre
 	Dispatch.tick(f.dispatcher, 0, 100)
 	assert(#f:live() == 0 and f.store.count == 0)
 	f:stop()
+end)
+test("Burst owner follows original movement through pose renewal and erases at exact release", function()
+	local f, c = fixture(), command("Burst")
+	f:startOwner("Burst")
+	f:wire(c)
+	f:beat(0, 100)
+	local first = f:live("Part")[1]
+	assert(first and first.CFrame.Position.X == 20 and first.Size.Y == 34)
+	assert(first.Color == rb.Color3.fromRGB(255, 205, 110) and first.Transparency == 0.85)
+	f.model.root.Position = rb.Vector3.new(30, 4, 50)
+	f.model.raw = "7:renewed3:old42:5" -- same original, different generation/slot
+	f:beat(0.2, 100.2)
+	assert(f:live("Part")[1] == first and first.CFrame.Position.X == 30)
+	assert(f.owner.state().gate.gate.bridge.resources.owners[c.key].poseClosed)
+	f:beat(1, 101)
+	assert(#f:live("Part") == 0 and first.dead)
+	f.model.root.Position = rb.Vector3.new(99, 4, 99)
+	f:beat(1.5, 101.5)
+	assert(#f:live("Part") == 0)
+	f:beat(5, 105)
+	assert(#f:live() == 0)
+	f:stopOwnerAll()
+end)
+test("Burst primary and reserve clear stale warnings on every original availability loss", function()
+	for _, reserve in { false, true } do
+		for _, mode in { "dead", "missing", "stream", "identity", "leave", "replacement" } do
+			local f, c = fixture(), command("Burst")
+			f:startOwner("Burst")
+			if reserve then
+				f.faults["allocate-Folder"] = 1
+			end
+			f:wire(c)
+			f:beat(0, 100)
+			assert(#f:live("Part") == 1)
+			if reserve then
+				assert(f.owner.state().gate.fallbacks == 1)
+			end
+			if mode == "dead" then
+				f.model.humanoid.Health = 0
+			elseif mode == "missing" then
+				f.model.root = nil
+			elseif mode == "stream" then
+				f.model.present = false
+			elseif mode == "identity" then
+				f.model.raw = nil
+			elseif mode == "leave" then
+				f.player.Parent = nil
+			else
+				f.player.Character = table.clone(f.model)
+				f.player.Character.raw = "1:g11:replacement42:4"
+			end
+			f:beat(0.1, 100.1)
+			assert(#f:live("Part") == 0, mode)
+			f:stopOwnerAll()
+		end
+	end
+end)
+test("Burst late observer starts provisionally only before release in primary and reserve", function()
+	for _, reserve in { false, true } do
+		for _, late in { 100.3, 101, 102 } do
+			local f, c = fixture(), command("Burst")
+			local raw = f.model.raw
+			f.model.raw = nil
+			f:startOwner("Burst")
+			f:wire(c)
+			f:beat(0, 100)
+			assert(#f.objects == 0)
+			f.model.raw = raw
+			if reserve then
+				f.faults["allocate-Folder"] = 1
+			end
+			f:beat(late - 100, late)
+			assert(#f:live("Part") == (if late < 101 then 1 else 0))
+			if reserve and late < 101 then
+				assert(f.owner.state().gate.fallbacks == 1)
+			end
+			f:stopOwnerAll()
+		end
+	end
+end)
+test("Burst reserve follows without pose and removes area on release then restart suppresses", function()
+	local f, c = fixture(), command("Burst")
+	f:startOwner("Burst")
+	f.faults["allocate-Part"] = 1
+	f:wire(c)
+	f:beat(0, 100)
+	assert(f.owner.state().gate.fallbacks == 1 and #f:live("Part") == 1)
+	local first = f:live("Part")[1]
+	f.model.root.Position = rb.Vector3.new(55, 3, 66)
+	f:beat(0.5, 100.5)
+	assert(first.CFrame.Position.X == 55 and #f:live("Part") == 1)
+	f:beat(1, 101)
+	assert(#f:live("Part") == 0)
+	f.stopOwner()
+	f.stopOwner = f.owner.start({ m = { delivery = "Burst", worldWarning = true } })
+	f:wire(c)
+	f:beat(1.1, 101.1)
+	assert(#f:live() == 0)
+	f:stopOwnerAll()
 end)
 test("actual borrowed receipt owner resolves pose then retires only pose on death", function()
 	local f, c = fixture(), command("Zone")

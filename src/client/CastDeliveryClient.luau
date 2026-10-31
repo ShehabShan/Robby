@@ -12,6 +12,14 @@ local Character = require(script.Parent.CastCharacterClient)
 local Receipts = require(script.Parent.CastReceiptClient)
 local Fx = require(script.Parent.CastDeliveryFx)
 local Client = {}
+local function burstSample(entry: any, now: number)
+	local metadata = if entry and entry.accepted then entry.accepted.metadata else nil
+	local a = if metadata then metadata.acceptance else nil
+	if a and a.geometry and a.geometry.kind == "Burst" and now < a.releaseAt then
+		return Character.burst(entry.identity, now)
+	end
+	return nil
+end
 local active: Dispatch.State? = nil
 local stop: (() -> ())? = nil
 local cursor: Dispatch.Cursor? = nil
@@ -57,10 +65,17 @@ function Client.start(catalog: Map.Catalog): () -> ()
 			end
 		end
 		local accepted = if entry then entry.accepted else nil
-		return Fx.primary(primary, frame, if accepted then accepted.metadata else nil, identity, pose)
+		return Fx.primary(
+			primary,
+			frame,
+			if accepted then accepted.metadata else nil,
+			identity,
+			pose,
+			burstSample(entry, frame.now)
+		)
 	end, function(frame, entry)
 		local accepted = if entry then entry.accepted else nil
-		return Fx.warning(reserve, frame, if accepted then accepted.metadata else nil)
+		return Fx.warning(reserve, frame, if accepted then accepted.metadata else nil, burstSample(entry, frame.now))
 	end, cursor)
 	active = state
 	local heartbeat: RBXScriptConnection? = nil

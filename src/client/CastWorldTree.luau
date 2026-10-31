@@ -53,7 +53,10 @@ local function update(h: Handle, frame: Plan.Frame)
 			part.Size = Vector3.new(0.06, radius * 2, radius * 2)
 			part.CFrame = CFrame.new(position) * CFrame.Angles(0, 0, math.pi / 2)
 		end
-		part.Transparency = if frame.phase == "warning" then 0.65 else 0.8
+		-- Amber faint follow cue is deliberately distinct from a fixed blue footprint.
+		local provisional = frame.centreStatus == "provisional"
+		part.Color = if provisional then Color3.fromRGB(255, 205, 110) else Color3.fromRGB(180, 235, 255)
+		part.Transparency = if provisional then 0.85 elseif frame.phase == "warning" then 0.65 else 0.8
 	end
 	for slot, part in h.parts do
 		if not seen[slot] then
