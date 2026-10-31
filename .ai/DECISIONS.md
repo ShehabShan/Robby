@@ -417,3 +417,6 @@ Owner delegated redesign; choose travel intent/facing,14stud/.24s (70stud/s then
 Replace smoke with two short tapered jade ribbons, launch arc and sparse motes; sampled original-character motion, bounded fade, explicit receipt ownership/late seek. No camera effects or damage silhouette; no owner-quality acceptance yet. Same design note defines preview and device gates.
 ### D-306 — Bounded rework and atomic promotion (S87, 2026-10-31)
 Split movement into pure policy/prepared engine/activation and visuals into phase preview/receipt renderer; each independently checked/saved. Movement activation and keyed visual cutover each roll back atomically, never mixed drivers/listeners. Guard and respawn-immunity gaps belong to activation; no non-Wind timing change or publish authorization.
+
+### D-307 — Prepared pure motion policy (S87, 2026-10-31)
+Shared.WindStep validates/freezes the proposed14/.24/.08 profile, uses travel-intent/facing, allows safe running/jump/fall states, integrates travel and drops old motion after50ms hitches. Collision skin and terminal cancellation are sticky. It grants no authority and is not live-wired; Config remains unchanged.24 pure cases and8 behavioral mutations pass; engine adapter must sweep from actual root and interpret distances as bounded budgets, never CFrame teleports or deferred catch-up.
