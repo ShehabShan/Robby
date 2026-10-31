@@ -17,6 +17,8 @@ local Moves = require(ReplicatedStorage.Shared.Moves)
 local CastTransaction = require(ReplicatedStorage.Shared.CastTransaction)
 local CastAdmission = require(ReplicatedStorage.Shared.CastAdmission)
 local CastLedger = require(ReplicatedStorage.Shared.CastLedger)
+local CastReceipts = require(ReplicatedStorage.Shared.CastReceipts)
+local CastSchedule = require(ReplicatedStorage.Shared.CastSchedule)
 local Registry = require(ReplicatedStorage.Shared.Registry)
 local DamageMath = require(ReplicatedStorage.Shared.DamageMath)
 local Projectile = require(ReplicatedStorage.Shared.Deliveries.Projectile)
@@ -291,15 +293,19 @@ local function volleyCast(player: Player, character: Model, move: any, origin: V
 end
 
 -- Zone (Rime Fall): the validated aim point snapped to the ground; ticks run from the heartbeat.
-local function zoneCast(player: Player, character: Model, move: any, point: Vector3, dir: Vector3)
+local function groundCentre(character: Model, point: Vector3): Vector3
 	local params = RaycastParams.new()
 	params.FilterType = Enum.RaycastFilterType.Exclude
 	params.FilterDescendantsInstances = { character }
 	local hit = workspace:Raycast(point + Vector3.new(0, GROUND_PROBE, 0), Vector3.new(0, -2 * GROUND_PROBE, 0), params)
-	local center = if hit then hit.Position else point
+	return if hit then hit.Position else point
+end
+
+-- Geometry and monotonic start are captured once by authorization.
+local function zoneCast(player: Player, character: Model, move: any, center: Vector3, dir: Vector3, startedAt: number)
 	table.insert(
 		zones,
-		{ caster = player, character = character, center = center, move = move, state = Zone.new(os.clock()) }
+		{ caster = player, character = character, center = center, move = move, state = Zone.new(startedAt) }
 	)
 	fireCast(move, player, center, dir)
 end
@@ -420,7 +426,7 @@ function Abilities.pool(player: Player): Qi.Pool?
 end
 
 -- T-043c0b3b2a: explicit synchronous authorization seam for replay admission.
--- Captures one delivery; this is not a network receipt or a replay guard yet.
+-- Captures one delivery and paired clocks; the caller stores an immutable receipt.
 type AcceptedCast = {
 	player: Player,
 	character: Model,
@@ -430,6 +436,9 @@ type AcceptedCast = {
 	dir: Vector3,
 	point: Vector3?,
 	origin: Vector3,
+	monotonicAt: number,
+	acceptedAt: number,
+	schedule: CastSchedule.Offsets,
 }
 local function authorizeCast(player: Player, value: any): (AcceptedCast?, string?)
 	local rawMoveId, raw, rawSeq = value.moveId, value.aim, value.seq
@@ -479,7 +488,11 @@ local function authorizeCast(player: Player, value: any): (AcceptedCast?, string
 		if not Zone.isValidPoint(rp.X, rp.Z, rawPoint.X, rawPoint.Z, move.delivery.params) then
 			return nil, "point" -- out of range or not finite (T-027b)
 		end
-		point = rawPoint
+		point = groundCentre(character, rawPoint) -- legacy fallback; hardening belongs to T-043c3
+	end
+	local schedule = CastSchedule.offsets(move, built.effects, Config.CastReceipt.maxLifetimeSeconds)
+	if not schedule then
+		return nil, "schedule"
 	end
 	local kit, stanceCfg = kitFor(move)
 	local humanoid = character:FindFirstChildOfClass("Humanoid")
@@ -501,7 +514,12 @@ local function authorizeCast(player: Player, value: any): (AcceptedCast?, string
 		pool = pool,
 		dir = dir,
 		point = point,
-		origin = root.Position + dir * (move.delivery.params.spawnOffset or 0) + CHEST,
+		origin = if move.delivery.kind == "Self" or move.delivery.kind == "Burst"
+			then root.Position
+			else root.Position + dir * (move.delivery.params.spawnOffset or 0) + CHEST,
+		monotonicAt = 0,
+		acceptedAt = 0,
+		schedule = schedule,
 	}
 	local strain = if kithInst then KithCare.moveStrain(Config, move) else 0
 	local paid, reason =
@@ -513,6 +531,9 @@ local function authorizeCast(player: Player, value: any): (AcceptedCast?, string
 	if kithInst then
 		KithCare.addStrain(kithInst, Config, strain, now)
 	end
+	-- No yield separates successful payment, these two clock reads and receipt capture.
+	accepted.monotonicAt = os.clock()
+	accepted.acceptedAt = workspace:GetServerTimeNow()
 	return accepted, nil
 end
 
@@ -528,7 +549,7 @@ local function deliverCast(accepted: AcceptedCast)
 	elseif kind == "Burst" then
 		burstCast(player, character, move, dir)
 	elseif kind == "Zone" then
-		zoneCast(player, character, move, accepted.point :: Vector3, dir)
+		zoneCast(player, character, move, accepted.point :: Vector3, dir, accepted.monotonicAt)
 	elseif kind == "Volley" then
 		volleyCast(player, character, move, accepted.origin, dir)
 	else
@@ -537,7 +558,14 @@ local function deliverCast(accepted: AcceptedCast)
 	end
 end
 
-type CastSession = { admission: CastAdmission.State, character: Model?, connections: { RBXScriptConnection } }
+type CastSession = {
+	admission: CastAdmission.State,
+	receipts: CastReceipts.State,
+	character: Model?,
+	characterKey: string,
+	slotRevision: number,
+	connections: { RBXScriptConnection },
+}
 local castSessions: { [Player]: CastSession } = {}
 local function syncCast(player: Player, session: CastSession)
 	Net.CastGeneration.Fire(player, {
@@ -560,7 +588,10 @@ function Abilities.start()
 	local function join(player: Player)
 		local session: CastSession = {
 			admission = CastAdmission.new(HttpService:GenerateGUID(false), Config.CastProtocol),
+			receipts = CastReceipts.new(Config.CastReceipt),
 			character = nil,
+			characterKey = "",
+			slotRevision = 0,
 			connections = {},
 		}
 		castSessions[player] = session
@@ -577,11 +608,23 @@ function Abilities.start()
 			player:SetAttribute("Stance", on)
 		end
 		table.insert(session.connections, player:GetAttributeChangedSignal("ActiveKith"):Connect(followSlot))
+		table.insert(
+			session.connections,
+			player:GetAttributeChangedSignal("ActiveSlot"):Connect(function()
+				-- Every change, even away-and-back, invalidates a future pending-slot token.
+				if session.slotRevision >= 4294967295 then
+					CastAdmission.destroy(session.admission)
+				else
+					session.slotRevision += 1
+				end
+			end)
+		)
 		local function characterAdded(character: Model)
 			if session.character == character then
 				return
 			end
 			session.character = character
+			session.characterKey = HttpService:GenerateGUID(false)
 			rotateCast(session)
 			stances[player] = Stance.new()
 			followSlot()
@@ -613,6 +656,7 @@ function Abilities.start()
 		local session = castSessions[player]
 		if session then
 			CastAdmission.destroy(session.admission)
+			CastReceipts.destroy(session.receipts)
 			for _, connection in session.connections do
 				connection:Disconnect()
 			end
@@ -653,7 +697,7 @@ function Abilities.start()
 				point = if value.point then castVector(value.point) else nil,
 			},
 			os.clock(),
-			function(request, _castId)
+			function(request, castId)
 				local context, reason = authorizeCast(player, {
 					moveId = request.moveId,
 					seq = request.seq,
@@ -662,6 +706,27 @@ function Abilities.start()
 						then Vector3.new(request.point.x, request.point.y, request.point.z)
 						else nil,
 				})
+				if context then
+					local a = context
+					local stored = CastReceipts.put(session.receipts, {
+						castId = castId,
+						generation = request.generation,
+						seq = request.seq,
+						moveId = a.move.id,
+						casterUserId = player.UserId,
+						characterKey = session.characterKey,
+						slotRevision = session.slotRevision,
+						acceptedAt = a.acceptedAt,
+						releaseAt = a.acceptedAt + a.schedule.release,
+						endsAt = a.acceptedAt + a.schedule.finish,
+						aim = castVector(a.dir),
+						origin = castVector(a.origin),
+						centre = if a.point then castVector(a.point) else nil,
+					}, a.monotonicAt)
+					if stored ~= "stored" then
+						warn("Paid cast receipt unavailable: " .. stored) -- never suppress paid delivery or re-pay
+					end
+				end
 				accepted = context
 				return context ~= nil, reason
 			end
@@ -689,6 +754,7 @@ function Abilities.start()
 		local now = os.clock()
 		for _, session in castSessions do
 			CastLedger.prune(session.admission.ledger, now)
+			CastReceipts.prune(session.receipts, now)
 		end
 		for i = #zones, 1, -1 do
 			local z = zones[i]

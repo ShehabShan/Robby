@@ -92,10 +92,11 @@ local function server(c, accepted)
 		},
 		task = { delay = c.delay },
 	}
-	local exports = luau.load(serverSource .. "\nreturn {volley = volleyCast, zone = zoneCast}", {
-		environment = env,
-		injectGlobals = true,
-	})()
+	local exports =
+		luau.load(serverSource .. "\nreturn {volley = volleyCast, zone = zoneCast, ground = groundCentre}", {
+			environment = env,
+			injectGlobals = true,
+		})()
 	exports.shots, exports.zones, exports.sent = shots, zones, sent
 	return exports
 end
@@ -204,7 +205,7 @@ local function scenario(up, down)
 	local s = server(c, accepted)
 	localFx.predict(predicted) -- KithInput dispatches cast/travel before sending, tested in client_input.
 	c.advance(100 + up)
-	s.zone(caster, caster.Character, fall, predicted, V.zAxis)
+	s.zone(caster, caster.Character, fall, s.ground(caster.Character, predicted), V.zAxis, c.now)
 	eq(s.zones[1].center, accepted, "server raycast accepted centre")
 	c.advance(100 + up + down)
 	for _, event in s.sent do

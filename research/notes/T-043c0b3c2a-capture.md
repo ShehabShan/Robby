@@ -1,0 +1,8 @@
+# T-043c0b3c2a — live immutable acceptance capture
+S71 · 2026-10-31 · D-251. No cloud/publication.
+
+- Pure CastSchedule maps actual woven delivery parameters to release/end offsets. Z/finisher are still immediate; X uses Zone.tickAt(1/n), Burst telegraph, Self longest onSelf effect. Invalid/over10s schedule rejects before payment; future content must revise/test policy.
+- Abilities samples monotonic and synchronized server time after payment. Ground resolution happens once before payment; same centre and captured monotonic start drive zone insertion. Legacy miss fallback/ground ray and Burst behavior remain; T-043c2/c3 own changes. No renderer reconciliation claim.
+- Each session caches bounded immutable full acceptances with actual normalized aim/origin, centre, request/caster/character identity and selected-slot revision. Character GUID changes only on new character, not sequence renewal. ActiveSlot changes increment revision even away-and-back. Overflow closes admission. Cache failures warn but never suppress paid delivery or authorize retry.
+- Receipts survive generation/respawn and prune on heartbeat. Departure destroys session cache; c3 must explicitly transfer surviving world hazards to an owner before introducing terminal delivery. Existing zones continue after departure.
+- Evidence: 343 pure tests (four schedule cases), 21 actual dispatcher cases, 14 input cases; CHECK PASS. Fixtures verify ground ray once, exact zone start/centre, paired clocks, duplicate immutability/no extra payment, slot revisions/character independence, capacity eviction/expiry and rejection. Default timing characterization unchanged; five red future contract probes remain.

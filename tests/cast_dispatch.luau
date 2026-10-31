@@ -17,6 +17,7 @@ local function slice(first, after)
 end
 local dispatch = slice("function Abilities.start()", "\nreturn Abilities") .. "\nAbilities.start()"
 local authorization = slice("-- T-043c0b3b2a: explicit", "function Abilities.start()")
+local groundSource = slice("local function groundCentre(", "-- Geometry and monotonic start")
 local kitSource = slice("local function kitFor(", "local function stanceFor(")
 local function signal()
 	local listeners = {}
@@ -66,8 +67,9 @@ local function harness(step, protocol)
 		end,
 	}
 	local attrs = { ActiveSlot = 1, ActiveKith = "kith.rimeshard" }
-	local changed = signal()
+	local changed, slotChanged = signal(), signal()
 	local player = {
+		UserId = 42,
 		Character = character,
 		CharacterAdded = signal(),
 		CharacterRemoving = signal(),
@@ -77,8 +79,8 @@ local function harness(step, protocol)
 		SetAttribute = function(_, name, value)
 			attrs[name] = value
 		end,
-		GetAttributeChangedSignal = function()
-			return changed
+		GetAttributeChangedSignal = function(_, name)
+			return if name == "ActiveSlot" then slotChanged else changed
 		end,
 	}
 	local stances = {}
@@ -94,6 +96,7 @@ local function harness(step, protocol)
 			table.insert(h.deliveries, { kind = kind, id = move.id, time = h.now })
 		end
 	end
+	local guid = 0
 	local env = {
 		Config = if protocol then setmetatable({ CastProtocol = protocol }, { __index = Config }) else Config,
 		Abilities = {},
@@ -102,6 +105,24 @@ local function harness(step, protocol)
 		Qi = require("../src/shared/Qi"),
 		CastAdmission = require("../src/shared/CastAdmission"),
 		CastLedger = require("../src/shared/CastLedger"),
+		CastReceipts = require("../src/shared/CastReceipts"),
+		CastSchedule = require("../src/shared/CastSchedule"),
+		workspace = {
+			GetServerTimeNow = function()
+				return 1000000 + h.now
+			end,
+			Raycast = function()
+				h.raycasts = (h.raycasts or 0) + 1
+				return if h.noGround then nil else { Position = rb.Vector3.new(0, 0, -10) }
+			end,
+		},
+		RaycastParams = {
+			new = function()
+				return {}
+			end,
+		},
+		Enum = rb.Enum,
+		GROUND_PROBE = 50,
 		RunService = { Heartbeat = {
 			Connect = function(_, fn)
 				h.heartbeat = fn
@@ -115,7 +136,8 @@ local function harness(step, protocol)
 		end,
 		HttpService = {
 			GenerateGUID = function()
-				return "server-test"
+				guid += 1
+				return "server-test-" .. tostring(guid)
 			end,
 		},
 		Status = {
@@ -223,7 +245,8 @@ local function harness(step, protocol)
 		fireCast = function() end,
 	}
 	local seam = luau.load(
-		kitSource
+		groundSource
+			.. kitSource
 			.. authorization
 			.. dispatch
 			.. "\nreturn { authorize = authorizeCast, deliver = deliverCast, sessions = castSessions }",
@@ -236,7 +259,7 @@ local function harness(step, protocol)
 	h.stance = stances[player]
 	h.stance.chain.step, h.stance.chain.lastAt = step or 0, if step then 100 else -math.huge
 	h.published = 0
-	h.players, h.changed = players, changed
+	h.players, h.changed, h.slotChanged = players, changed, slotChanged
 	h.authorize = function(value)
 		return seam.authorize(player, value)
 	end
@@ -274,7 +297,105 @@ local function packet(h, seq, move)
 	v.seq, v.generation = seq, h.snapshot.generation
 	return v
 end
+local function receipt(h, v)
+	return h.env.CastReceipts.get(h.sessions[h.player].receipts, v.generation .. ":" .. tostring(v.seq), h.now)
+end
 local cases = {
+	["fresh captured receipt uses server clocks, real centre and original immutable geometry"] = function()
+		local h = harness()
+		local v = packet(h, 1, "move.rime.fall")
+		v.point = rb.Vector3.new(0, 6, -10)
+		v.aim = rb.Vector3.new(0, 0.6, -0.8)
+		h.callback(h.player, v)
+		local a = assert(receipt(h, v)).acceptance
+		assert(a and a.casterUserId == 42 and a.moveId == v.moveId and a.seq == 1)
+		assert(a.acceptedAt == 1000000 + h.now and a.releaseAt == a.acceptedAt + 0.6 and a.endsAt == a.acceptedAt + 1.6)
+		assert(a.centre.y == 0 and a.centre.z == -10 and a.aim.z == -1 and a.aim.y == 0)
+		assert(h.raycasts == 1 and a.slotRevision == 0 and #a.characterKey > 0)
+		local qi, strain = h.qi.current, h.strain
+		h.root.Position = rb.Vector3.new(100, 100, 100)
+		h.now += 1
+		h.callback(h.player, v)
+		assert(receipt(h, v).acceptance == a and h.raycasts == 1 and #h.deliveries == 1)
+		assert(h.qi.current == qi and h.strain == strain)
+	end,
+	["zone delivery consumes exact captured point and monotonic start without a second raycast"] = function()
+		local h = harness()
+		local a = assert(h.authorize(request("move.rime.fall")))
+		local env = table.clone(h.env)
+		env.zones = {}
+		local deliver = luau.load(
+			slice("local function zoneCast(", "-- Live humanoids whose root") .. "\nreturn zoneCast",
+			{ environment = env, injectGlobals = true }
+		)()
+		h.now += 0.1
+		deliver(h.player, a.character, a.move, a.point, a.dir, a.monotonicAt)
+		assert(env.zones[1].center == a.point and env.zones[1].state.startedAt == a.monotonicAt)
+		assert(h.raycasts == 1 and a.monotonicAt == 100.01)
+	end,
+	["current Z receipts are immediate; slot away-back revision is distinct from character identity"] = function()
+		local h = harness()
+		local v = packet(h, 1, "move.rime.shard_fan")
+		h.callback(h.player, v)
+		local a = receipt(h, v).acceptance
+		assert(a.releaseAt == a.acceptedAt and math.abs(a.endsAt - a.acceptedAt - 0.35) < 1e-8)
+		h.player:SetAttribute("ActiveSlot", 2)
+		h.slotChanged:Fire()
+		h.player:SetAttribute("ActiveSlot", 1)
+		h.slotChanged:Fire()
+		h.now += 4
+		local v2 = packet(h, 2, "move.rime.shard_fan")
+		h.callback(h.player, v2)
+		local b = receipt(h, v2).acceptance
+		assert(b.slotRevision == 2 and b.characterKey == a.characterKey and a.slotRevision == 0)
+	end,
+	["full cache survives sequence renewal and respawn but never authorizes old identity"] = function()
+		local h = harness(nil, { capacity = 128, maxAdvance = 1, responseSeconds = 10, renewDistance = 2 })
+		local v = packet(h, 1)
+		h.callback(h.player, v)
+		local a = receipt(h, v).acceptance
+		h.now += 3
+		h.callback(h.player, packet(h, 2))
+		h.now += 3
+		h.callback(h.player, packet(h, 3)) -- renew after two advances
+		local key = h.sessions[h.player].characterKey
+		assert(key == a.characterKey and h.snapshot.generation ~= v.generation)
+		h.callback(h.player, v)
+		assert(#h.deliveries == 3)
+		h.player.CharacterRemoving:Fire(h.player.Character)
+		h.player.Character = table.clone(h.player.Character)
+		h.player.CharacterAdded:Fire(h.player.Character)
+		assert(h.sessions[h.player].characterKey ~= key and receipt(h, v).acceptance == a)
+		h.callback(h.player, v)
+		assert(#h.deliveries == 3)
+	end,
+	["receipt eviction and heartbeat expiry never repeat delivery; reject has no acceptance"] = function()
+		local h = harness()
+		h.sessions[h.player].receipts = h.env.CastReceipts.new({
+			capacity = 1,
+			responseSeconds = 10,
+			tombstoneSeconds = 10,
+			maxLifetimeSeconds = 10,
+		})
+		local v = packet(h, 1)
+		h.callback(h.player, v)
+		h.now += 4
+		local v2 = packet(h, 2)
+		h.callback(h.player, v2)
+		assert(receipt(h, v) == nil and receipt(h, v2))
+		h.callback(h.player, v)
+		assert(#h.deliveries == 2)
+		h.now += 11
+		h.heartbeat(0)
+		assert(receipt(h, v2) == nil)
+		h.callback(h.player, v2)
+		assert(#h.deliveries == 2)
+		h.qi.current = 0
+		local reject = packet(h, 3)
+		h.callback(h.player, reject)
+		assert(receipt(h, reject) == nil and #h.deliveries == 2)
+	end,
+
 	["heartbeat prunes receipts but accepted zones survive renewal respawn and leave"] = function()
 		local h = harness()
 		local v = packet(h, 1)
@@ -388,7 +509,10 @@ local cases = {
 		assert(session.admission.closed and next(session.admission.ledger.entries) == nil)
 		assert(h.sessions[h.player] == nil and h.env.pools[h.player] == nil and h.env.stances[h.player] == nil)
 		assert(
-			h.player.CharacterAdded.count() == 0 and h.player.CharacterRemoving.count() == 0 and h.changed.count() == 0
+			h.player.CharacterAdded.count() == 0
+				and h.player.CharacterRemoving.count() == 0
+				and h.changed.count() == 0
+				and h.slotChanged.count() == 0
 		)
 		h.callback(h.player, packet(h, 3))
 		assert(#h.deliveries == 1 and h.cleared)

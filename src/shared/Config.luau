@@ -85,6 +85,8 @@ local Config = {
 	-- Remote rate limits per client→server event (F-02, D-171): tokens per second + burst.
 	-- T-043c0b3a: replay policy prepared for b3b, not yet connected to live remotes.
 	CastProtocol = { capacity = 128, maxAdvance = 1024, responseSeconds = 10, renewDistance = 30000 },
+	-- Full acceptance cache: longest current cast is X at 1.6s; 10s bounds future content.
+	CastReceipt = { capacity = 128, responseSeconds = 10, tombstoneSeconds = 10, maxLifetimeSeconds = 10 },
 	RemoteRates = {
 		default = { rate = 10, burst = 10 },
 		CastRequest = { rate = 10, burst = 10 },
