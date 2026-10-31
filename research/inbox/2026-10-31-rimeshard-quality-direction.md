@@ -1,0 +1,3 @@
+<agent_mention /> Add a task for next session that we will heavily work on Rimeshard to make it better. Doesn't matter how long it take, we will make it a proper ability. It look shit now. We have blox fruit for reference how how good the ability need to be. the current "Rimeshard" look terrible, all of it move including the left click attack. So doesn't matter how much it take, Untile I am satisfy with the result, we will work on Rimeshard. First we need to do some research and design thinking of how to make the ability look better. You have internet access so there is many thing can pull and check and do.
+
+Note: you have low OLU, so add what I said above as a task for next session to do.
