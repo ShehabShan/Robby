@@ -5,3 +5,4 @@ Never start a task that has a row here. A claim whose branch had no push for 2 h
 
 | Session | Task | Branch | Decisions | Claimed (UTC) | Bot | Note |
 |---|---|---|---|---|---|---|
+| S58 | T-037 | session/S58 | D-214..D-223 | 2026-10-31 13:43 | 45dfa146-834c-435d-b87e-867793eea38f | owner: remove Stone Ward + lean reading rule |
