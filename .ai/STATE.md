@@ -1,6 +1,8 @@
 # STATE
 
-## Now (after S64)
+## Now (after S65)
+- S65: T-043a done (D-231–D-233). Five Blox Fruits Ice/Blizzard clips visually inspected; evidence, all-move audit, 3 direction options, recommended faceted-frost storyboards and illustrated review board saved in `research/notes/T-043a-*`. Merged to main; check.sh PASS; board layout/images PASS at 1100/390/320 px. No gameplay changes, cloud test or publication this session. OLU 34.4 at merge, saving completed below the owner's 45-OLU threshold.
+- Owner gate T-043b: choose A faceted frost (recommended), B snowstorm or C gauntlet; then M1 prototype/review before specials. Recommendation is NOT approved. Parent T-043 stays doing until owner satisfaction. T-043c1 is safe preparatory regression/spec work while waiting.
 - S64 (owner approved): published game v0.0.22 = Roblox place v27 (HTTP 200), T-041 left click + T-042a Rimeshard FX fix. check.sh PASS after version bump and merge. T-042b awaits owner fresh-server Z/X/C/touch playtest; no live-device PASS claimed. Release evidence/rollback: `.ai/RELEASE_S64.md`.
 - S63: T-042a done (D-229–D-230): fixed FX registry rejecting four-part Rimeshard cast/travel IDs; 278 pure tests + 5 mocked client wiring cases PASS, check.sh PASS. Merged to main. T-042b CLOUD ALL: PASS on Saved v26 (278/278 specs); owner playtest still needed. Not published.
 - S62 late: owner playtest of v0.0.21 — Rimeshard Z/X/C still dead → T-042 (next session first). T-041 done (D-228): Crescent Cut moved from right click to left click. check.sh PASS. Not published (live = v0.0.21).
@@ -59,19 +61,19 @@
 - S18: T-020c Weave content + server Loom (D-090): Piercing Edge support, Blink `WeaveSet` at rest spots, `LoomService`, woven casts.
 - S17: T-019e client CrucibleHud (D-086) → **T-019 done**. Parallel sessions via git branches (D-087: `.ai/CLAIMS.md`, `claim.sh`, `merge.sh`, AGENTS §9). T-020 split a–d; T-020a Loom core (D-088) and T-020b Path Marks (D-089) done.
 - S16: T-018f breakthrough wiring; T-019a–d Crucible core, focus mini-game, server + Recoil, Twin Crescent (D-080–D-085).
-- Last publish: Roblox v25 = game v0.0.21 (S62, owner asked, T-038/T-039/T-040 playtest). Before that: v23 = game v0.0.20 (S59b).
+- Last publish: Roblox v27 = game v0.0.22 (S64, owner asked). S65 did not publish.
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
-- **Doing:** T-042b verification (T-042a fixed confirmed missing FX; owner live-input confirmation pending).
-- **NEXT:** T-043a — owner priority: research + design Rimeshard overhaul (Blox Fruits quality reference), ALL moves including left click; iterate across sessions until owner satisfied. See TASKS and inbox 2026-10-31-rimeshard-quality-direction.md. Defer unrelated work; keep per-session OLU caps. T-042b functional verification remains open.
+- **Doing:** T-043 overhaul (T-043a research complete, T-043b direction choice pending); T-042b live-input verification remains open.
+- **NEXT:** T-043c1 — unblocked preparatory timing contract/regressions only (Z declared telegraph vs immediate launch; X caster/observer rain delay). No gameplay/art rebuild until T-043b owner direction review. If owner responds, record their choice first and follow the S-sized dependency gates in TASKS. Defer unrelated work. Review board: `research/notes/T-043a-review.html`; source audit and direction alongside it.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
-  - T-026c R15 animations (kit KeyframeSequences, re-upload) · —
-  - T-026d R15 cloud walk check · T-026c
-  - T-024 First 10 minutes · all above
+  - T-043c1 timing contract/regressions (prep only) · —
+  - T-043d1 original M1 shape/pose prototype · T-043b owner choice
+  - T-043h1 truthful Chill state · T-043b + T-043c1 (coordinate remotes with c2/c3)
+  - Unrelated beast/movement/onboarding lanes deferred while owner-priority Rimeshard overhaul is active.
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
-- **Blockers:** T-006: owner playtest of the published build (feedback → inbox).
+- **Blockers:** T-043b owner direction choice before major rebuilding; T-043e owner M1 review before specials. T-006/T-042b owner fresh-server playtest remains pending. No publish without explicit owner request.
 - **Last cloud test:** CLOUD ALL: PASS on Saved v26 (2026-10-31, S63, 278/278 tests + server smoke); live published = v27 (game v0.0.22); publication HTTP 200, player readback pending
-- **Last check.sh:** CHECK: PASS (2026-10-31, S64; 278 pure tests + 5 mocked client wiring cases)
+- **Last check.sh:** CHECK: PASS (2026-10-31, S65 close-out + merge; source gameplay unchanged). Board browser/layout/images and local research links PASS; no live-device quality or FPS claim.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
