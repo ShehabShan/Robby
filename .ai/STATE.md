@@ -1,12 +1,13 @@
 # STATE
 
-## Now (after S60)
+## Now (after S61)
+- S61: T-039 done (D-224–D-226): Inventory shows each Kith's state (Ready / Hungry / Dormant / Tired) + Satiety % and a plain help line; Dormant/Tired Kith are greyed ("Feed first" / "Wait: tired") and the server refuses to equip them; screen titled Inventory, footer without overlap, "+N more Kith". check.sh PASS; CLOUD ALL: PASS on Saved v24 (275 specs, includes S60 T-038 code). Not published.
 - S60: T-038 doing (D-221–D-223): right click = Crescent Cut when Crescent is selected; HUD shows Dormant/Tired on a slot + client cast guard (likely cause of the dead Rimeshard: slot-1 Rimeshard starved); predicted slot highlight, HUD rebuilds only on change. check.sh PASS. Not cloud-tested, not published.
 - S59 (owner asked): T-036 split a–c. T-036a done (D-216, D-217): slot-selected abilities core — keys 1–7 / gamepad Y select a core slot (`SelectSlot` → `ActiveSlot`), only the selected Kith's moves are live (server-enforced); Rimeshard stance turns on by itself when selected (left click = chain, Z/X/C = specials); Crescent Cut left E and sits on Z of Crescent's slot; Q stance toggle removed; Wind Step fixed on R. check.sh PASS. Not cloud-tested, not published.
 - S59 (cont.): T-036b done (D-218, D-219): HUD brightens the selected slot, ▲ marker, key hints 1–7; HUD slots are buttons (tap/click selects), loadout screen shows a per-platform select hint. check.sh PASS. Not cloud-tested, not published.
 - S59b (new bot): T-036c done (D-220): cloud smoke on Saved v22 covers slot selection (Rimeshard Z/X/C live when selected, refused otherwise); specs 272/272, CLOUD ALL: PASS. Owner's v21 Z/X/C bug does not reproduce server-side; published v0.0.20 (Roblox v23) for the owner playtest. **T-036 done.**
 - Owner playtest of v0.0.20 (inbox 2026-10-31-v20-playtest.md) → T-038 (3 fixes) + B-01 React UI backlog.
-- NEXT: T-038, then T-022c beast feel or T-026c R15 animations; T-024 after those.
+- NEXT: T-038 (owner answer on Rimeshard), then T-022c beast feel or T-026c R15 animations; T-024 after those.
 - S58 (owner asked): T-037 done (D-214, D-215): AGENTS.md §1 lean-reading rule (read only task files); Stone Ward removed completely (move, Kith, Config, FX, V key, Warded status; starters now Rimeshard/Crescent/Wind; dummy + wild Kith = Crescent; loadout only warns on missing Strike). check.sh PASS. Not published.
 - S57 (owner asked): T-035 done (D-213): Tab = Roblox player/server list again; loadout opens from a new Inventory icon (🎒) in the top bar right of the chat button, all platforms (gamepad Back still works). Version 0.0.19. check.sh PASS. Published via roblox-open-cloud (owner asked).
 - S56 (owner asked): T-034 done (D-211, D-212): owner could not find the Rimeshard stance. Fix: the gifted Rimeshard is auto-equipped into slot 1 once, so the stance works without the loadout menu; Needle chain gets an on-screen touch button (mobile). check.sh PASS. Not published, not cloud-tested.
@@ -56,8 +57,8 @@
 - Last publish: Roblox v23 = game v0.0.20 (S59b, owner asked, slot selection playtest). Before that: v19 = game v0.0.18 (S50, owner asked, for the T-027h mobile playtest). Before that: v16 (S39). Includes Crucible, Loom, Marks, speed guard, Rank-test credit, Mistmaw tuning, remote guard.
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
-- **Doing:** T-038 (Resume from: cloud smoke of a/b/c, then confirm the Rimeshard cause with the owner — does slot 1 say Dormant/Tired?)
-- **NEXT:** T-039a care state in the Inventory, then T-039b no equip while Dormant/Tired, then T-039c Inventory layout (T-039 split S61, owner asked 2026-10-31); then finish T-038 (cloud smoke + owner answer on Rimeshard); then T-022c beast feel; T-026d live walk test (published v20; waits for owner walk feedback in `research/inbox/`), then owner playtest; T-027h Rimeshard playtest (published v19, waits for owner feedback, then tune); then T-022c beast feel, T-026c R15 animations, T-024 First 10 minutes.
+- **Doing:** T-038 (Resume from: owner answer — does the Rimeshard slot show "Dormant"/"Tired"? If not, log client console errors in Studio. Cloud smoke PASS on Saved v24, S61.)
+- **NEXT:** T-038 owner answer; then T-022c beast feel; T-026d live walk test and T-027h Rimeshard playtest wait for owner feedback in `research/inbox/`; then T-026c R15 animations, T-024 First 10 minutes. Publish v0.0.21 (T-038 + T-039) only if the owner asks.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
@@ -66,6 +67,6 @@
   - T-024 First 10 minutes · all above
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox).
-- **Last cloud test:** CLOUD ALL: PASS on Saved v22 (2026-10-31, S59b, incl. slot selection); live = v23 (game v0.0.20)
-- **Last check.sh:** CHECK: PASS (2026-10-31, S60)
+- **Last cloud test:** CLOUD ALL: PASS on Saved v24 (2026-10-31, S61, incl. T-039 care check); live = v23 (game v0.0.20)
+- **Last check.sh:** CHECK: PASS (2026-10-31, S61)
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.

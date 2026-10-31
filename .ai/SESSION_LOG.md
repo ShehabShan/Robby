@@ -1,5 +1,9 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S61 — 2026-10-31 (new bot, ≈27 OLU)
+- T-039 done (D-224–D-226): Inventory shows Kith state + Satiety and a help line; Dormant/Tired Kith greyed and refused by the server; title Inventory, cleaner footer, "+N more Kith".
+- check.sh PASS; CLOUD ALL: PASS on Saved v24 (275 specs). Not published.
+
 ## S60 — 2026-10-31 (new bot, ≈43 OLU)
 - T-038 doing (D-221–D-223): right click = Crescent Cut when Crescent is selected; Dormant/Tired label on slots + client cast guard (likely cause of the dead Rimeshard); predicted slot highlight + HUD rebuild only on change. check.sh PASS.
 - Left: cloud smoke, then confirm the Rimeshard cause with the owner. Not published.
