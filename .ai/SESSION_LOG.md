@@ -4,7 +4,7 @@
 - c3b1b done: exception-safe engine starts, prepared exclusive presentation owner; D-300–D-301.
 - c3b2 split: preserve non-cast sword hits + Self parity; b2a exact prepared melee listener done; D-302–D-303.
 - CHECK PASS: 586 pure/80 specs, 11 owner + 5 combat-contact groups; 15 behavioral mutations detected/restored; 100-turnover checks.
-- 32.3 OLU before close-out; NEXT c3b2b Self parity then atomic c3b2c. Legacy/startup unchanged; no publish/cloud/device claim; no owner action.
+- 33.5 OLU at merge; final STATE saving below45; NEXT c3b2b Self parity then atomic c3b2c. Legacy/startup unchanged; no publish/cloud/device claim; no owner action.
 
 ## S85 — 2026-10-31 (same budget as S83/S84; close-out)
 - c3b1a done: ordered lifecycle policy and 7 tests; D-299. Engine exception-safety explicitly deferred to c3b1b.

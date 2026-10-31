@@ -1,6 +1,14 @@
 # STATE
 
-## Now (after S85)
+## Now (after S86)
+- S86 merged c1479a3: exception-safe Receipt/Delivery/Contact starts, prepared exclusive CastPresentationClient, and exact non-cast CombatContactClient boundary. c3b1b + c3b2a done; D-300–D-303.
+- **NEXT: T-043c0b4c3b2b** receipt-owned Self cosmetic parity, then c3b2c atomic input/legacy cutover, then d2 M1 visuals. Handoffs: research/notes/T-043c0b4c3b1b-safe-owner.md and T-043c0b4c3b2a-legacy-boundary.md.
+- Cutover audit: CombatService sword hits have ONLY legacy fx.combat.hit (preserve exact route); keyed abilities must never use that fallback. Self delivery currently has no world tree, so wholesale removal would erase Wind Step gusts. Preserve local movement velocity.
+- CHECK PASS: 586 pure/80 specs, existing 14 input/29 delivery groups plus 11 owner/5 combat-contact groups; 15 behavioral mutations detected/restored, 100 coordinated lifetimes + 100 non-cast listener replacements.
+- Prepared adapters are NOT live-wired. Legacy/startup/prediction unchanged; no gameplay timing, cloud/device/visual acceptance or publication. No owner action.
+- Merged at 33.5 OLU; final STATE saving below45; claims released.
+
+### S85 history
 - S83/S84/S85 merged: truthful Burst, shared keyed sender, pure ordered lifecycle. Final code merge 78a9327. CHECK PASS: 586 pure/80 specs, 7 character-client/29 delivery-engine; 15 behavioral mutations detected/restored across the slices.
 - **NEXT: T-043c0b4c3b1b** exception-safe engine starts and prepared coordinated owner; then c3b2 atomic legacy replacement, then d2 M1 visuals. Resume from research/notes/T-043c0b4c3b1a-owner-policy.md; earlier handoffs c3a-keyed-sender and c2c2c1/c2 Burst notes.
 - Pure CastOwner cannot recover resources a failing engine start never returned. Receipt listener and consumer heartbeat acquisition must unwind inside each start before composition. No new framework needed.
@@ -112,16 +120,16 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-043 overhaul: c0b4 presentation (delivery Fx/metadata/receipt dispatcher/original-character owner done → truthful Burst → atomic cutover), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-043c0b4c3b1b — exception-safe engine lifecycle, then c3b2 atomic live cutover and d2 M1 visuals. Resume from S82 handoffs above; identity replica/borrowed owner ready but not started. No duplicate legacy/keyed rendering or fake fixed Burst centre.
+- **NEXT:** T-043c0b4c3b2b — receipt-owned Self parity, then c3b2c atomic live cutover and d2 M1 visuals. Resume from S86 handoffs above; prepared owners ready but not started. Preserve non-cast sword hits; no duplicate legacy/keyed rendering or fake fixed Burst centre.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-043c0b4c3b1b exception-safe lifecycle (serialized) · c3a sender/b1a policy (done)
-  - T-043c0b4c3 atomic keyed startup/legacy cutover · b4c2
+  - T-043c0b4c3b2b Self cosmetic parity (serialized) · b1 lifecycle/b2a boundary (done)
+  - T-043c0b4c3b2c atomic keyed startup/legacy cutover · b2b (pending)
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
   - T-043h1 truthful Chill state · T-043b + T-043c1 (done) + T-043c0b (coordinate remotes)
   - Unrelated beast/movement/onboarding lanes deferred while owner-priority Rimeshard overhaul is active.
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** M1 owner quality review before specials; T-042b fresh-server input verification remains open. No publish without explicit request.
 - **Last cloud test:** CLOUD ALL: PASS on Saved v26 (2026-10-31, S63, 278/278 tests + server smoke); live published = v27 (game v0.0.22); publication HTTP 200, player readback pending
-- **Last check.sh:** CHECK: PASS (2026-10-31, S82 merge): 569 pure/78 suites, 35 dispatch, 5 character-client, 25 delivery-engine cases and all prior gates. Twelve verified behavioral faults detected/restored. Five future Z/X probes intentionally red. No cloud/device/visual acceptance or publication.
+- **Last check.sh:** CHECK: PASS (2026-10-31, S86 merge): 586 pure/80 suites, 14 client-input, 7 character-client, 29 delivery-engine, 11 owner-engine, 5 combat-contact cases and all prior gates. Fifteen verified behavioral faults detected/restored this session. Five future Z/X probes intentionally red; not changed/re-run in S86. No cloud/device/visual acceptance or publication.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
