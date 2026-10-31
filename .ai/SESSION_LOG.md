@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S71 — 2026-10-31 (40.5 OLU before close-out)
+- T-043c0b3c2a/b done: actual acceptance capture/cache, reliable owner/observer transport and bounded client inbox (D-250–D-252).
+- CHECK PASS: 348 pure tests, 24 dispatcher, 14 input cases, receipt adapter; no cloud/publication or renderer claim.
+- Handoff: research/notes/T-043c0b-S71-handoff.md. Next c3 terminals/contact (split first), then b4.
+
+
 ## S70 — 2026-10-31
 - b3b2a/b done (D-247–D-248): explicit authorization, live character generation/replay, readiness/respawn cleanup; duplicate requests cannot repay or redeliver.
 - b3c1 done (D-249): pure immutable bounded acceptance/terminal records; live full receipts remain next.
