@@ -121,6 +121,22 @@ function CastWarningGate.tick(s: State, localNow: number, serverNow: number): bo
 	finish(s)
 	return ok -- clock processing, NOT a guarantee of visible warnings
 end
+-- Cancel a whole borrowed-inbox snapshot without seeking any cancelled key.
+function CastWarningGate.cancelMany(s: State, keys: { [string]: boolean }, localNow: number, serverNow: number): boolean
+	if not begin(s, localNow, serverNow) then
+		return false
+	end
+	local ok = Gate.cancelMany(s.gate, keys, localNow, serverNow)
+	if ok and s.gate.now then
+		for key in keys do
+			if s.reserve.bridge.presentation.entries[key] then
+				Reserve.cancel(s.reserve, key, s.gate.now)
+			end
+		end
+	end
+	finish(s)
+	return ok
+end
 function CastWarningGate.cancel(s: State, key: string, localNow: number, serverNow: number): string
 	if not begin(s, localNow, serverNow) then
 		return "refuse"

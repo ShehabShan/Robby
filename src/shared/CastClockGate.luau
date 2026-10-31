@@ -83,7 +83,7 @@ local function valid(s: State, key: string, t: Presentation.Timeline): boolean
 end
 -- Local elapsed time always advances the clock. A bounded slew can never reverse
 -- it or freeze cleanup. Outlier/nonfinite server samples are ignored after anchoring.
-local function begin(s: State, localNow: number, serverNow: number): boolean
+local function begin(s: State, localNow: number, serverNow: number, cancelled: { [string]: boolean }?): boolean
 	if s.closed or s.busy or not finite(localNow) or (s.lastLocal and localNow < s.lastLocal) then
 		s.refusals += 1
 		return false
@@ -114,6 +114,16 @@ local function begin(s: State, localNow: number, serverNow: number): boolean
 	s.lastLocal = localNow
 	s.now = now
 	s.busy = true
+	-- A snapshot's terminals retire together BEFORE any seek or future drain.
+	if cancelled then
+		for key in cancelled do
+			local pending = s.pending[key]
+			remove(s, key)
+			if Bridge.cancel(s.bridge, key, now) == "refuse" and pending then
+				s.retiredThrough = math.max(s.retiredThrough, pending.timeline.acceptedAt)
+			end
+		end
+	end
 	Bridge.tick(s.bridge, now)
 	-- Detach each queued item before dispatch/disposal. Deadline wins over release
 	-- after a long idle gap; we do not flash an old warning just because time caught up.
@@ -182,6 +192,13 @@ function CastClockGate.accept(
 	end
 	s.busy = false
 	return outcome
+end
+function CastClockGate.cancelMany(s: State, keys: { [string]: boolean }, localNow: number, serverNow: number): boolean
+	if not begin(s, localNow, serverNow, keys) then
+		return false
+	end
+	s.busy = false
+	return true
 end
 function CastClockGate.cancel(s: State, key: string, localNow: number, serverNow: number): string
 	-- Do not drain this key into a visible start when its cancellation arrives.

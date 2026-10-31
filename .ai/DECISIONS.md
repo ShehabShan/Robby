@@ -359,3 +359,9 @@ Split c2c2b into bounded gate-lifetime metadata registry (b1) and engine receipt
 
 ### D-286 (S80, 2026-10-31) — stage metadata before admission; prune against actual gate lifetime
 CastDeliveryStore pins metadata through future queue, active primary or reserve, including failed prediction identity awaiting acceptance. Drop only after all those paths end, not after pose death or receipt eviction. Duplicate mappings of the same receipt preserve the first metadata object; different receipt objects conflict conservatively. Capacity never evicts a live entry. Engine owner must stop admission when staging refuses, and use the stored canonical command.
+
+### D-287 (S81, 2026-10-31) — split borrowed-receipt orchestration from engine identity binding
+T-043c0b4c2c2b2a implements a pure bounded CastDeliveryDispatch over the actual inbox/store/outer gate. b2b owns engine/character resolution separately: observer characterKey and slotRevision are not yet replicated identities, so looking up the current replacement character would invent provenance. No startup cutover.
+
+### D-288 (S81, 2026-10-31) — cancel a receipt snapshot before any visible advancement
+ClockGate/WarningGate cancelMany retire all primary/pending/reserve keys before seeking or draining. Sequential cancel calls can otherwise render another due key that is also cancelled in the same snapshot. Dispatch observes immutable receipt orders using two scalars, stages canonical metadata before admission, prunes against gate ownership after operations and treats expired responses as non-rejections.
