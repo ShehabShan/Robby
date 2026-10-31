@@ -105,4 +105,30 @@ return {
 		eq((Retired.resolve("x", map)), nil, "loop")
 		eq((Retired.resolve("z", map)), nil, "no replacement")
 	end,
+	["profile: sanitize makes a save writable"] = function()
+		local shared = { n = 1 }
+		local p = ProfileSchema.template()
+		p.wallet.shards = 0 / 0
+		p.stats.earned.x = math.huge
+		p.settings.name = "\xff"
+		p.settings.ok = "fine"
+		p.settings.fn = function() end
+		p.settings.a, p.settings.b = shared, shared
+		p.settings.loop = p.settings
+		local issues = ProfileSchema.sanitize(p)
+		eq(p.wallet.shards, 0, "NaN")
+		eq(p.stats.earned.x, 0, "inf")
+		eq(p.settings.name, "", "utf8")
+		eq(p.settings.ok, "fine", "good string kept")
+		eq(p.settings.fn, nil, "function removed")
+		eq(p.settings.loop, nil, "cycle cut")
+		eq(p.settings.a.n, 1, "shared kept")
+		eq(p.settings.b.n, 1, "shared kept twice")
+		eq(#issues, 5)
+		eq(#ProfileSchema.sanitize(p), 0, "clean after one pass")
+	end,
+	["profile: Studio uses its own store"] = function()
+		eq(ProfileSchema.storeName(true), "PlayerData_Studio")
+		eq(ProfileSchema.storeName(false), "PlayerData")
+	end,
 }

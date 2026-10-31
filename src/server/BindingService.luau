@@ -62,6 +62,7 @@ local function finish(player: Player, a: Active, result: string)
 		local data = DataService.get(player)
 		if data then
 			BindingRules.grant(data, a.speciesId)
+			DataService.saveNow(player) -- T-033: new Kith bound
 			LoadoutService.publish(player, data)
 			publishWallet(player, data)
 		end

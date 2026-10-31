@@ -54,6 +54,9 @@ local function finish(player: Player, s: Session)
 			data.timers.recoilUntil = Crucible.applyRecoil(pool, Config, os.time())
 		end
 	end
+	if res then
+		DataService.saveNow(player) -- T-033: fusion result
+	end
 	player:SetAttribute("CrucibleResult", if res then (if res.success then "success" else "failed") else "refused")
 	publish(player, nil)
 end

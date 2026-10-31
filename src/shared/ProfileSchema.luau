@@ -165,6 +165,50 @@ function ProfileSchema.validate(data: any, resolve: Resolve?): { string }
 	return issues
 end
 
+-- Studio writes go to a separate store, so test runs never touch live saves (T-033, roblox-data skill).
+function ProfileSchema.storeName(isStudio: boolean): string
+	return if isStudio then "PlayerData_Studio" else "PlayerData"
+end
+
+-- Makes `data` safe to write, in place (T-033, roblox-data skill): one bad value fails the whole
+-- DataStore write. NaN/inf → 0, invalid UTF-8 strings → "", functions/Instances/userdata removed,
+-- a table that contains itself is cut. Shared (non-cyclic) tables are kept. Returns issues.
+function ProfileSchema.sanitize(data: any): { string }
+	local issues: { string } = {}
+	local onPath: { [any]: boolean } = {}
+	local function walk(t: any, path: string)
+		onPath[t] = true
+		for k, v in t do
+			local here = `{path}.{tostring(k)}`
+			local kind = typeof(v)
+			if kind == "number" then
+				if v ~= v or v == math.huge or v == -math.huge then
+					table.insert(issues, `{here}: {tostring(v)} → 0`)
+					t[k] = 0
+				end
+			elseif kind == "string" then
+				if utf8.len(v) == nil then
+					table.insert(issues, `{here}: invalid UTF-8 → ""`)
+					t[k] = ""
+				end
+			elseif kind == "table" then
+				if onPath[v] then
+					table.insert(issues, `{here}: cycle removed`)
+					t[k] = nil
+				else
+					walk(v, here)
+				end
+			elseif kind ~= "boolean" then
+				table.insert(issues, `{here}: {kind} removed`)
+				t[k] = nil
+			end
+		end
+		onPath[t] = nil
+	end
+	walk(data, "data")
+	return issues
+end
+
 -- Full load pipeline for a raw saved table (or nil for a new player).
 -- Returns (profile or nil, issues). nil means "do not use or save this profile".
 function ProfileSchema.load(raw: any, resolve: Resolve?): (any, { string })

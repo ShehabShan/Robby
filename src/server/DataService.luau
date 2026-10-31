@@ -4,6 +4,7 @@
 -- A save the schema refuses (newer version, bad version) is left untouched and the player is kicked.
 
 local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
 
@@ -18,11 +19,14 @@ local loadedListeners: { (Player, any) -> () } = {}
 local Retired = require(ReplicatedStorage.Shared.Retired)
 local ProfileStore: any = require(ServerScriptService.ServerPackages.ProfileStore) :: any
 
-local STORE_NAME = "PlayerData"
+local STORE_NAME = ProfileSchema.storeName(RunService:IsStudio()) -- T-033
+local SAVE_GAP = 30 -- seconds between early saves; autosave (5 min) and session end cover the rest
 
 local DataService = {}
 
 local profiles: { [Player]: any } = {}
+local lastSave: { [Player]: number } = {}
+local pendingSave: { [Player]: boolean } = {}
 
 local function resolve(id: string): (string?, boolean)
 	return Retired.resolve(id)
@@ -52,6 +56,11 @@ local function load(store: any, player: Player)
 		warn(`DataService: {player.UserId}: loadout {issue}`)
 	end
 	profile:AddUserId(player.UserId)
+	profile.OnSave:Connect(function() -- T-033: never let one bad value fail the write
+		for _, issue in ProfileSchema.sanitize(profile.Data) do
+			warn(`DataService: {player.UserId}: save fix {issue}`)
+		end
+	end)
 	profile.OnSessionEnd:Connect(function()
 		profiles[player] = nil
 		player:Kick("Your data session ended. Please rejoin.")
@@ -77,6 +86,29 @@ function DataService.get(player: Player): any
 	return if profile then profile.Data else nil
 end
 
+-- Saves soon after a meaningful change (rank up, fusion, purchase), at most once per SAVE_GAP;
+-- a change inside the gap is saved when the gap ends (T-033).
+function DataService.saveNow(player: Player)
+	local profile = profiles[player]
+	if profile == nil or pendingSave[player] then
+		return
+	end
+	local wait = SAVE_GAP - (os.clock() - (lastSave[player] or -math.huge))
+	if wait <= 0 then
+		lastSave[player] = os.clock()
+		profile:Save()
+		return
+	end
+	pendingSave[player] = true
+	task.delay(wait, function()
+		pendingSave[player] = nil
+		if profiles[player] == profile and profile:IsActive() then
+			lastSave[player] = os.clock()
+			profile:Save()
+		end
+	end)
+end
+
 function DataService.start()
 	local store = ProfileStore.New(STORE_NAME, ProfileSchema.template())
 	local function added(player: Player)
@@ -88,6 +120,7 @@ function DataService.start()
 	end
 	Players.PlayerRemoving:Connect(function(player: Player)
 		local profile = profiles[player]
+		lastSave[player] = nil
 		if profile then
 			profile:EndSession()
 		end

@@ -49,6 +49,7 @@ local function finish(player: Player, t: Breakthrough.Trial)
 	local data = DataService.get(player)
 	if data then
 		Breakthrough.finish(data, t, os.time())
+		DataService.saveNow(player) -- T-033: rank/stage change
 		player:SetAttribute("Rank", data.rank or 1)
 		player:SetAttribute("Stage", data.stage or 1)
 		player:SetAttribute("StageReady", Stages.ready(data, Config))

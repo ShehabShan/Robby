@@ -1,5 +1,8 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S53 — 2026-10-31 (same bot, ≈6 OLU)
+- T-033 done (D-209): Studio store split, save-time sanitize (+2 specs), throttled early saves after breakthrough/fusion/Binding. check.sh PASS. Not published.
+
 ## S52 — 2026-10-31 (≈5 OLU)
 - R-010: owner inbox `2026-10-31-focus-direction` → VISION Direction 6–7 (D-206 one thing at a time, D-207 endgame-ready backend). Skill trial roblox-data vs DataService found gaps → T-033 (D-208). check.sh PASS.
 
