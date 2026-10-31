@@ -82,6 +82,13 @@ return {
 		eq(m.unequip.action.kind, "unequip", "unequip")
 		eq(m.selected ~= nil, true, "selection outline")
 	end,
+	["loadout: select hint on every platform"] = function()
+		for _, p in { "touch", "pc", "gamepad" } do
+			local m = byId(LoadoutScreen.build(state(p, 1280, 720, 3)))
+			assert(m.selectHint ~= nil and m.selectHint.text == LoadoutScreen.selectHint(p), `{p} select hint`)
+		end
+		assert(LoadoutScreen.selectHint("touch"):find("Tap") ~= nil, "touch says tap")
+	end,
 	["loadout: Refine hint shows only with a bonus"] = function()
 		assert(LoadoutScreen.refineText(1.5) == "Refine ×1.5", "1.5")
 		assert(LoadoutScreen.refineText(1) == nil and LoadoutScreen.refineText(nil) == nil, "no bonus")

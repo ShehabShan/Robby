@@ -27,6 +27,16 @@ export type State = {
 LoadoutScreen.MIN_TOUCH = HudLayout.MIN_TOUCH
 
 -- "Refine ×1.5" when an equipped utility Kith (e.g. Mist Lotus) boosts Refine, else nil (T-025b2, D-159).
+-- Text that tells the player how to select the live slot (T-036b, D-219).
+function LoadoutScreen.selectHint(platform: string): string
+	if platform == "touch" then
+		return "Tap a slot on the HUD to use its Kith"
+	elseif platform == "gamepad" then
+		return "Y: next slot — its Kith's moves go live"
+	end
+	return "1–7: select a slot — its Kith's moves go live"
+end
+
 function LoadoutScreen.refineText(mult: number?): string?
 	if typeof(mult) ~= "number" or mult <= 1.001 then
 		return nil
@@ -281,6 +291,19 @@ function LoadoutScreen.build(s: State): { any }
 		15,
 		{ kind = "unequip" }
 	)
+	-- How to make a slot's Kith live (T-036b, D-219): same wording as the HUD key hints.
+	table.insert(out, {
+		id = "selectHint",
+		kind = "text",
+		x = x0 + MARGIN,
+		y = y0 + h - MARGIN - rowH,
+		w = 300,
+		h = rowH,
+		color = { 180, 190, 205 },
+		text = LoadoutScreen.selectHint(s.platform),
+		textSize = 13,
+		align = "left",
+	})
 	if not touch then
 		local hint = if s.platform == "gamepad" then "Back: close" else "Tab: close"
 		table.insert(out, {

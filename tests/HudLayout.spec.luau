@@ -43,6 +43,12 @@ return {
 			eq(e.x >= 0 and e.y >= 0 and e.x + e.w <= 360 and e.y + e.h <= 640, true, `{e.id} inside viewport`)
 		end
 	end,
+	["hud: each slot carries its index for tap-to-select"] = function()
+		local m = byId(HudLayout.build(state("touch", 360, 640, SEVEN, {})))
+		for i = 1, 7 do
+			eq(m[`slot{i}`].tap, i, `slot{i} tap`)
+		end
+	end,
 	["hud: touch slots are at least 44 px and do not overlap"] = function()
 		local m = byId(HudLayout.build(state("touch", 360, 640, SEVEN, {})))
 		for i = 1, 7 do

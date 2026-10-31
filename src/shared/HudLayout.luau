@@ -18,6 +18,7 @@ export type Element = {
 	text: string?,
 	textSize: number?,
 	align: string?, -- "left" | "center" | "right" (text only, default center)
+	tap: number?, -- slot index to select when the element is tapped/clicked (T-036b, D-219)
 }
 export type SlotState = {
 	role: string?,
@@ -163,6 +164,7 @@ local function slot(out: { Element }, i: number, s: SlotState, x: number, y: num
 		h = size,
 		color = color,
 		alpha = if s.selected then 1 else if filled then 0.92 else 0.55,
+		tap = i,
 	})
 	if s.selected then
 		table.insert(out, {

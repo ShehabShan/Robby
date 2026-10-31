@@ -74,7 +74,12 @@ Net.HitFx.On(function(v)
 	FxRegistry.play(fx, v.fxId, { caster = v.caster, pos = v.pos, dir = v.dir, target = v.target, amount = v.amount })
 end)
 
-Hud.start(built) -- HP/Qi bars, slot bar, gap warning (T-016c, D-068)
+Hud.start(
+	built,
+	function(slot: number) -- HP/Qi bars, slot bar, gap warning (T-016c, D-068); tap a slot = select it (T-036b)
+		Net.SelectSlot.Fire({ slot = slot })
+	end
+)
 LoadoutUi.start(built, Net) -- equip/unequip screen (T-016d, D-069)
 MoveFeelClient.start() -- body lean, camera bob, landing dip (T-026b1, D-161)
 MoveAnimClient.start() -- kit idle/walk/run/jump/land animations (T-026c)

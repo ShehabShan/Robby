@@ -24,6 +24,8 @@ local function rgb(c: { number }): Color3
 	return Color3.fromRGB(c[1], c[2], c[3])
 end
 
+local onTap: ((slot: number) -> ())? = nil -- tap/click on a slot selects it (T-036b, D-219)
+
 local function create(e: HudLayout.Element, parent: Instance): GuiObject
 	local obj: GuiObject
 	if e.kind == "text" then
@@ -32,21 +34,34 @@ local function create(e: HudLayout.Element, parent: Instance): GuiObject
 		t.Font = Enum.Font.GothamBold
 		t.TextStrokeTransparency = 0.4
 		obj = t
+	elseif e.kind == "slot" then
+		local b = Instance.new("TextButton") -- a button, so a touch tap (or click) selects the slot
+		b.Text = ""
+		b.AutoButtonColor = false
+		b.BorderSizePixel = 0
+		local corner = Instance.new("UICorner")
+		corner.CornerRadius = UDim.new(0, 10)
+		corner.Parent = b
+		local stroke = Instance.new("UIStroke")
+		stroke.Color = Color3.new(1, 1, 1)
+		stroke.Transparency = 0.3
+		stroke.Thickness = 2
+		stroke.Parent = b
+		local slot = e.tap
+		if slot ~= nil then
+			b.Activated:Connect(function()
+				if onTap then
+					onTap(slot)
+				end
+			end)
+		end
+		obj = b
 	else
 		local f = Instance.new("Frame")
 		f.BorderSizePixel = 0
 		local corner = Instance.new("UICorner")
-		corner.CornerRadius = if e.kind == "dot"
-			then UDim.new(0.5, 0)
-			else UDim.new(0, if e.kind == "slot" then 10 else 3)
+		corner.CornerRadius = if e.kind == "dot" then UDim.new(0.5, 0) else UDim.new(0, 3)
 		corner.Parent = f
-		if e.kind == "slot" then
-			local stroke = Instance.new("UIStroke")
-			stroke.Color = Color3.new(1, 1, 1)
-			stroke.Transparency = 0.3
-			stroke.Thickness = 2
-			stroke.Parent = f
-		end
 		obj = f
 	end
 	obj.Name = e.id
@@ -101,7 +116,8 @@ local function readState(player: Player, built: any): HudLayout.State
 	}
 end
 
-function Hud.start(built: any)
+function Hud.start(built: any, selectSlot: ((slot: number) -> ())?)
+	onTap = selectSlot
 	local player = Players.LocalPlayer
 	local gui = Instance.new("ScreenGui")
 	gui.Name = "Hud"
