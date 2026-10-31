@@ -10,13 +10,13 @@ Run `lune run tests/rime_timing.luau` (also in `scripts/check.sh`). This execute
 |---|---|---|
 | Z, zero latency | Five simulation shots queued at 0; cast + travel broadcast together despite `telegraph=0.20` | No Z shot before acceptance +0.20 |
 | M1 finisher | Two shots queued immediately | Keep immediate; do NOT delay every Volley |
-| X, zero latency | Caster rain begins 0.60, observer 0.00 | Both follow acceptance +0.60 |
+| X, zero latency | Caster rain begins 0.60, observer 0.00 | Both contacts follow acceptance +0.60; descent can start earlier as specified below |
 | X, uplink 0.08/downlink 0.04 | Caster 0.60, observer 0.12 | First damage/contact target 0.68, not a fresh delay after receipt |
 | X accepted centre | Server raycast snaps (5,6,-10) to (5,0,-10); own CastFx echo is discarded | Caster and observer use accepted centre; predicted ring is provisional |
 | X decorative contacts | Eight falling shards; first observer contact +0.22 after receipt | Four grouped contact beats matched to Zone ticks, not eight apparent hits |
 | X damage | Real Zone.step: +0.60, +0.933333, +1.266667, +1.60 after acceptance | Preserve all four times and counts; late heartbeat catches up once only |
 
-`lune run tests/rime_timing.luau --contract` deliberately exits nonzero and prints five named EXPECTED-CONTRACT failures on this revision. This is a **red readiness probe**, not a CI pass and not proof the fixes exist. Default CI characterizes known defects while remaining green. c2/c3 must replace each affected characterization with desired assertions and ultimately make the readiness command green; never delete a failed requirement merely to pass.
+`lune run tests/rime_timing.luau --contract` deliberately exits nonzero and prints five named EXPECTED-CONTRACT failures (Z pre-release shot count, three X contact deadlines, accepted centre) on this revision. This is a **red readiness probe**, not a CI pass and not proof the fixes exist. Default CI characterizes known defects while remaining green. c2/c3 must replace each affected characterization with desired assertions and ultimately make the readiness command green; never delete a failed requirement merely to pass.
 
 ## Target timeline (implementation contract, not live behaviour)
 

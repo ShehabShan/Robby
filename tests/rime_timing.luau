@@ -224,11 +224,11 @@ local function scenario(up, down)
 	return localFx, remoteFx, s
 end
 local localFx, remoteFx = scenario(0, 0)
-probe("X zero-latency observer waits for warning", remoteFx.starts[1].at, localFx.starts[1].at)
+probe("X zero-latency observer contact at first damage beat", remoteFx.impacts[1].at, 100.6)
 probe("X caster corrects to accepted centre", localFx.starts[1].pos, remoteFx.starts[1].pos)
 local delayedLocal, delayedRemote = scenario(0.08, 0.04)
-probe("X latency uses acceptance epoch, not input", delayedLocal.starts[1].at, 100.68)
-probe("X latency observer uses acceptance epoch, not receipt", delayedRemote.starts[1].at, 100.68)
+probe("X latency caster contact uses acceptance epoch", delayedLocal.impacts[1].at, 100.68)
+probe("X latency observer contact uses acceptance epoch", delayedRemote.impacts[1].at, 100.68)
 
 -- Real Zone.step: exactly four authoritative beats, no early tick or duplicate catch-up damage.
 do
