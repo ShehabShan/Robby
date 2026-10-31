@@ -410,3 +410,10 @@ Source audit: CombatService emits only legacy fx.combat.hit, while Abilities emi
 
 ### D-303 — Exact prepared sword-contact listener (S86, 2026-10-31)
 CombatContactClient accepts only HitFeel.GENERIC_ID, preserving server-provided caster/target/position/direction/amount without resolving replacement Characters. Every cast/unknown ID is refused, including content-wide checks against reusing the reserved ID. Singleton/rollback/stale callback cleanup mirrors the presentation owners. Registration alone stays inert; c3b2c must replace the blanket legacy listener and start this boundary atomically. Legacy generic melee effects retain their existing internally timed lifetime; this adapter owns only their subscription, not retroactive effect cancellation.
+
+### D-304 — Wind Step directional short slip (S87, 2026-10-31)
+Owner delegated redesign; choose travel intent/facing,14stud/.24s (70stud/s then .08s brake),.18s server iframes,Qi8/cd3 unchanged. Acceptance-only server-controlled planar movement, gravity preserved; no speculative displacement. This is design, not live feel approval; full contract/audit: research/notes/T-043c0b4c3b2b1-wind-design.md.
+### D-305 — Readable jade slipstream (S87, 2026-10-31)
+Replace smoke with two short tapered jade ribbons, launch arc and sparse motes; sampled original-character motion, bounded fade, explicit receipt ownership/late seek. No camera effects or damage silhouette; no owner-quality acceptance yet. Same design note defines preview and device gates.
+### D-306 — Bounded rework and atomic promotion (S87, 2026-10-31)
+Split movement into pure policy/prepared engine/activation and visuals into phase preview/receipt renderer; each independently checked/saved. Movement activation and keyed visual cutover each roll back atomically, never mixed drivers/listeners. Guard and respawn-immunity gaps belong to activation; no non-Wind timing change or publish authorization.

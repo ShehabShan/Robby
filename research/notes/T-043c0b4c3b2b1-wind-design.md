@@ -1,0 +1,54 @@
+# Wind Step — short directional slip (S87, 2026-10-31)
+
+Owner delegation: `research/inbox/2026-10-31-wind-step-rework.md`; D-304–D-306. This is a selected implementation direction, NOT owner feel/visual acceptance. No publication authorized.
+
+## Audit: existing source, not a live-device diagnosis
+- `AbilityInput`: one AssemblyLinearVelocity write (56 studs/s), before `send`; no .25-second controller, cancellation or swept clearance. Actual distance is physics-dependent, not guaranteed 14. Rejected/unready/uncertain casts can already have moved. Local cooldown/FX are started before server acceptance.
+- `AimDir`: mouse-plane aim on desktop, camera on touch, facing under shift lock. This is attack aiming, not travel intent; standing vertical camera can fail the flatten check. Input readiness checks generation, not equipped Wind eligibility.
+- `Abilities.authorizeCast`: finite unit aim/alive original character, equipped fixed move, usable Kith, transactionally paid Qi/cooldown/strain and bounded lifetime are already authoritative. Preserve those seams. `selfCast` grants player-keyed iframes and opens SpeedGuard, but does not enforce movement or collision.
+- Airborne input currently preserves Y for ONE write; grounded/air/seated/collision outcomes are not constrained. `Status.clear` only runs on leave: rapid replacement can inherit the short player-keyed iframes. `SpeedGuard.reset` forgets positions but not burstUntil. These are code-level risks, not reported exploit reproductions.
+- `KithFx`: 16 jade smoke particles, 180-degree spread, .2–.4s lifetime, Debris after1s. It does not show travel direction, braking, acceptance, or an owned cancellable character lifetime.
+- `CastGeometry` Self is None/zero; no motion snapshot. `CastSchedule` Self lifetime follows effects. Current Self delivery renderer has no world tree. S86 prepared owners remain off; preserve non-cast sword HitFx and every other move.
+
+## Reference study (web research, not footage/playtest evidence)
+- Deepwoken community mechanics describe movement-directed rolling and an airborne dodge: https://deepwoken.fandom.com/wiki/Combat_Mechanics . Borrow direction from travel intent; do NOT import roll cancels, double dash or invulnerability exploits. Community source, not an official specification.
+- Secondary Hades design analyses emphasize a discrete readable dash and coordinated feedback: https://ludologico.squarespace.com/hades-dash and https://teemo.dev/game-design/hades/systems/game-feel-and-juice/ . Borrow clear onset/travel/brake, not art or exact tuning; search did not establish official tuning or Rell Seas dash mechanics.
+- Roblox engine references: https://create.roblox.com/docs/reference/engine/classes/WorldRoot.md and https://devforum.roblox.com/t/introducing-shapecasts/2320655 (shapecasts miss starting intersections); https://create.roblox.com/docs/reference/engine/classes/Humanoid.md (MoveDirection); https://create.roblox.com/docs/reference/engine/classes/LinearVelocity (Plane mode). Skill advice is subordinate to API behavior; planar velocity needs the appropriate one-attachment configuration, not a blanket two-attachment rule.
+
+## Chosen gameplay contract (D-304)
+- Keep R/L2/touch Step, equipped fixed Wind requirement, Qi8, cooldown3s and existing Kith strain rules. Change direction to nonzero horizontal Humanoid.MoveDirection, else original root facing; never mouse target. Lock direction once, no steering mid-step.
+- Target14 studs on clear flat ground, .24s total: .16s at70 studs/s, .08s linear deceleration to0. Pure time-integrated plan, partition-independent; no missed-frame catch-up teleport. End grounded movement returns to walking/sprinting naturally. Client must not add a second push.
+- Server-only .18s iframes from acceptance (down from .3), independent of cosmetic fade. An obstacle stops travel, not the already-paid dodge window; no refund/retry. Kill/removal clears this character's dodge protection. Do not extend any world hazard or another move's immunity.
+- Air dash allowed, same horizontal cap, Y unconstrained (gravity continues), no upward kick/hover. Reject dead, anchored, seated or swimming/climbing character before payment. Falling/landing does not extend the window. No animation-based gameplay timing.
+- Motion is acceptance-only for the first safe implementation: temporary server network ownership of the original root, bounded Plane LinearVelocity, matching .24s server clock, forward body-volume sweep and starting-overlap check. This deliberately trades round-trip onset latency for rejection correctness; responsive cosmetic anticipation is allowed, speculative displacement is NOT. Measure latency later before considering a separate reconciled prediction change.
+- Sweep every physics step for that step's bounded displacement; stop at skin margin .15 studs from collidable geometry (Terrain included), ignore original character and noncollidable/query-only effects. Use conservative root-aligned torso volume, not a point ray. Handle initial overlap separately: refuse/stop, never escape by teleport. Server must verify CanSetNetworkOwnership and resources before committing payment; failure means no paid movement cast.
+- At stop/rejection/death/removal/replacement/teardown: detach owned force/attachment and listeners exactly once; no writes to replacement root, no rewind to stale start position. Restore captured network ownership mode only on surviving original assembly; rollback acquisitions on partial-start errors. Stop residual dash-aligned velocity without erasing unrelated vertical or knockback motion. Ordinary movement resumes; no WalkSpeed/AutoRotate change needed.
+- SpeedGuard must use peak70, correct bounded allowance, and clear burst window on reset. Guard is defense-in-depth, not proof of collision or displacement correctness. Cancellation must not leave a transferable exemption.
+
+## Chosen visual language (D-305)
+- Original jade slipstream: two short tapered swept ribbons along the hips, thin pale edge, sparse angular motes, short rear crescent on launch; NOT a smoke cloud, damage ring or frost projectile. Character and terrain must remain visible.
+- Anticipation (local, reversible, <=.06s) only tightens an outline; acceptance launches the wind. Travel follows sampled ORIGINAL character motion, not origin+ideal distance through a wall. Brake narrows and breaks ribbons; fade <=.12s. No damage/contact spark or claim that jade means invulnerability.
+- No global camera shake, FOV pumping, full-screen flash, new asset dependency or SFX requirement. At most two ribbons + six motes + one launch arc per active step; low quality keeps directional ribbons and removes motes.
+- Immutable receipt snapshot needs motion duration/distance/brake and original identity. Extend Self metadata explicitly, never repurpose projectile geometry numbers. `CastSchedule.finish` must cover motion and bounded tail; iframes remain a separate server status clock. No fabricated fallback motion when snapshot absent.
+- Receipt-owned owner/observer rendering, once per keyed acceptance. Late arrivals seek current phase, expired receipt does not replay launch. Death/replacement cannot attach to new character. Warning reserve should not render a fake gameplay hazard for Self. No legacy/local/receipt double render at cutover.
+
+## Bounded implementation and rollback (D-306)
+1. b2a pure WindStep policy + tests: immutable validated profile, direction choice, integrated distance/frame cap, legal state predicate and stop semantics. Prepared ONLY; current live tuning untouched.
+2. b2b prepared server motion adapter: ownership/resource preflight + transactional start, volume sweep and cleanup; actual-source mock tests including faults. No input activation yet; split if acceptance seam integration does not fit.
+3. b2c atomic movement activation: server eligibility/payment/status/lifetime/guard + remove AbilityInput push and use movement direction; actual-source accept/reject/duplicate/death tests. Preserve legacy appearance until b3/cutover, never two motion drivers. Update authoritative tuning only here.
+4. b3a pure visual phase plan + offline visual evidence and receipt snapshot/schedule design; b3b original-character renderer/metadata transport and lifetime tests. Then existing c3b2c atomic keyed visual cutover with non-cast hit boundary intact.
+- Each slice must pass check.sh and save separately. Review task sizes before claiming. Rollback movement as ONE revert of b2c (controller stays inactive); rollback visual cutover as ONE revert restoring the previous entire ownership path, never mixed listeners. Do not publish either without explicit owner request.
+- Stop promotion for wall penetration, inherited immunity, force/network ownership leak, double movement/payment, touch direction mismatch, non-Wind changes, or unclear silhouette. Do not hide these by raising SpeedGuard tolerance.
+
+## Regression and acceptance matrix
+| Area | Required evidence before activation/acceptance |
+|---|---|
+| Pure policy | Invalid NaN/inf/negative configs; exact14/.24 integral;30/60/144Hz partitions; hitch no extra catch-up; movement/facing fallbacks; diagonal normalization; immutable config; endpoint/collision/cancel cannot revive |
+| Authorization | Missing Wind, unready generation, low Qi/cooldown, unusable Kith, dead/anchored/seated/swimming/climbing, no ownership capacity => no motion/payment/iframes; duplicate key => no second start/payment |
+| Engine motion | Actual-source mocks for clear path, wall/near-wall/initial overlap/corner/moving obstacle, air gravity, slope/landing; finite bounded force; failed acquisitions unwind; stop residual without killing Y/knockback; replacement never touched |
+| Lifetime | Death/removal/leave/teardown,100 start-stop turnovers, delayed callbacks, start failure/cleanup failure; restore ownership once; clear character immunity and guard window on respawn |
+| Receipt visuals | Owner+observer once, reject/uncertain no accepted gust, late seek/expired no replay, collision shortens observed path, original character unavailable => safe omission, no warnings/hits for Self, bounded pools/teardown |
+| Live feel (future, not headless PASS) | PC forward/strafe/backwards/idle + mobile thumbstick/touch + gamepad;30/60fps,100/200ms delay; wall/stairs/slope/air/respawn; horizontal range14±1stud on flat, no wall passage/vertical launch; readable direction and brake at mobile camera size |
+| Visual evidence (b3a+) | Launch/travel/brake/contact-stop/fade storyboard and bounded prototype preview on light/dark ground, including320px/mobile; clear silhouette/no smoke occlusion/no frost resemblance; offline evidence ≠ Roblox render/device acceptance |
+
+No gameplay, cloud, published build or owner-quality acceptance changed by this design note. Next b2a is safe to implement independently; integration must be tested as the actual source, not a parallel toy implementation.
