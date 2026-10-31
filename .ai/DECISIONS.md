@@ -420,3 +420,8 @@ Split movement into pure policy/prepared engine/activation and visuals into phas
 
 ### D-307 — Prepared pure motion policy (S87, 2026-10-31)
 Shared.WindStep validates/freezes the proposed14/.24/.08 profile, uses travel-intent/facing, allows safe running/jump/fall states, integrates travel and drops old motion after50ms hitches. Collision skin and terminal cancellation are sticky. It grants no authority and is not live-wired; Config remains unchanged.24 pure cases and8 behavioral mutations pass; engine adapter must sweep from actual root and interpret distances as bounded budgets, never CFrame teleports or deferred catch-up.
+
+### D-308 — Bounded original-character slipstream plan (S87, 2026-10-31)
+Prepared WindStepVisual uses sampled original-character speed, phase seeking and sticky observed stop, not ideal-path placement. Two .32stud jade ribbons with dark edge/pale accent, six optional motes and one short arc; .12s maximum fade. Offline actual-plan960/320px boards+GIF inspected; no Roblox visual/feel acceptance. Handoff: research/notes/T-043c0b4c3b2b3a-slipstream.md.
+### D-309 — Explicit versioned Self snapshot contract (S87, 2026-10-31)
+Proposed optional selfMotion(version,distance,duration,brake,fade) must be server-sourced and immutably preserved through accepted receipts; never overload projectile geometry or infer from catalog. Motion and fade finish .36s, independent of .18s immunity. Pure validator exists; transport/schedule/engine integration deferred to b3b/b2c with complete roundtrip/cleanup tests. Missing/invalid snapshot means omission, not a fabricated effect.
