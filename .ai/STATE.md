@@ -67,10 +67,10 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-043 overhaul (a/b/d1/c1/c0a complete; c0b protocol adapter then d2 M1 integration); T-042b live-input verification remains open.
-- **NEXT:** T-043c0b — serialized protocol wiring, size/split before coding (two input senders + server validation/payment + accepted/rejected/terminal adapter). Read c1/c0a1/c0a2 handoffs; preserve live Z/X/M1 timings in c0b. Then T-043d2 original M1 visual integration. Do not skip M1 owner quality review before special-move art.
+- **NEXT:** T-043c0b1 doing — Resume from: unify both input senders; c0b split b1–b4 before coding (two input senders + server validation/payment + accepted/rejected/terminal adapter). Read c1/c0a1/c0a2 handoffs; preserve live Z/X/M1 timings in c0b. Then T-043d2 original M1 visual integration. Do not skip M1 owner quality review before special-move art.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-043c0b protocol wiring (serialize remotes/init/Abilities; split S-sized first) · T-043c0a (done)
+  - T-043c0b1 shared sender → b2 atomic payment → b3/b4 protocol/reconciliation (serialized) · T-043c0a (done)
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
   - T-043h1 truthful Chill state · T-043b + T-043c1 (done) + T-043c0b (coordinate remotes)
   - Unrelated beast/movement/onboarding lanes deferred while owner-priority Rimeshard overhaul is active.
