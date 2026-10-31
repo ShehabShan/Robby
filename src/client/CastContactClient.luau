@@ -12,6 +12,16 @@ local CastContactClient = {}
 local stop: (() -> ())? = nil
 local active: Dispatch.State? = nil
 
+local function release(dispose: () -> ())
+	local ok, err = pcall(function(): any
+		dispose()
+		return nil
+	end)
+	if not ok then
+		pcall(warn, err)
+	end
+end
+
 function CastContactClient.state(): Dispatch.State?
 	return active
 end
@@ -35,20 +45,33 @@ function CastContactClient.start(catalog: CommandMap.Catalog): () -> ()
 		end
 		closed = true
 		if heartbeat then
-			heartbeat:Disconnect()
+			release(function()
+				heartbeat:Disconnect()
+			end)
 		end
-		Dispatch.destroy(state)
+		release(function()
+			Dispatch.destroy(state)
+		end)
 		active, stop = nil, nil
 	end
 	stop = cleanup
-	heartbeat = RunService.Heartbeat:Connect(function()
-		-- Also fail closed if a caller tears down the borrowed receipt owner first.
-		if inbox.acceptances.closed or contacts.closed then
-			cleanup()
-			return
-		end
-		Dispatch.tick(state, os.clock(), workspace:GetServerTimeNow())
+	local ok, err = pcall(function()
+		heartbeat = RunService.Heartbeat:Connect(function()
+			if closed then
+				return
+			end
+			-- Also fail closed if a caller tears down the borrowed receipt owner first.
+			if inbox.acceptances.closed or contacts.closed then
+				cleanup()
+				return
+			end
+			Dispatch.tick(state, os.clock(), workspace:GetServerTimeNow())
+		end)
 	end)
+	if not ok then
+		cleanup()
+		error(err, 0)
+	end
 	return cleanup
 end
 

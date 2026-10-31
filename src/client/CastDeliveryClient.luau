@@ -12,6 +12,15 @@ local Character = require(script.Parent.CastCharacterClient)
 local Receipts = require(script.Parent.CastReceiptClient)
 local Fx = require(script.Parent.CastDeliveryFx)
 local Client = {}
+local function release(dispose: () -> ())
+	local ok, err = pcall(function(): any
+		dispose()
+		return nil
+	end)
+	if not ok then
+		pcall(warn, err)
+	end
+end
 local function burstSample(entry: any, now: number)
 	local metadata = if entry and entry.accepted then entry.accepted.metadata else nil
 	local a = if metadata then metadata.acceptance else nil
@@ -49,35 +58,11 @@ function Client.start(catalog: Map.Catalog): () -> ()
 	end
 	local inbox = Receipts.inbox()
 	assert(inbox and not inbox.acceptances.closed, "start receipts first")
-	local primary = Fx.new(Config.CastWarning.presentation.capacity)
-	local reserve = Fx.new(Config.CastWarning.warning.capacity)
-	-- These flags exist only while the canonical store owns the key; no second receipt cache.
+	local primary: Fx.State? = nil
+	local reserve: Fx.State? = nil
+	local state: Dispatch.State? = nil
 	local seen: { [string]: boolean } = {}
 	local retired: { [string]: boolean } = {}
-	local state = Dispatch.new(inbox, catalog, Config.CastWarning, function(frame, entry)
-		local identity = if entry then entry.identity else nil
-		local pose = nil
-		if identity and not retired[frame.key] then
-			local _, resolved = Character.resolve(identity)
-			pose = resolved
-			if pose then
-				seen[frame.key] = true
-			end
-		end
-		local accepted = if entry then entry.accepted else nil
-		return Fx.primary(
-			primary,
-			frame,
-			if accepted then accepted.metadata else nil,
-			identity,
-			pose,
-			burstSample(entry, frame.now)
-		)
-	end, function(frame, entry)
-		local accepted = if entry then entry.accepted else nil
-		return Fx.warning(reserve, frame, if accepted then accepted.metadata else nil, burstSample(entry, frame.now))
-	end, cursor)
-	active = state
 	local heartbeat: RBXScriptConnection? = nil
 	local closed = false
 	local function cleanup()
@@ -86,50 +71,110 @@ function Client.start(catalog: Map.Catalog): () -> ()
 		end
 		closed = true
 		if heartbeat then
-			heartbeat:Disconnect()
+			release(function()
+				(heartbeat :: RBXScriptConnection):Disconnect()
+			end)
 		end
-		-- Dispatch releases lease-owned trees before pools; retain the suppression cursor.
-		cursor = Dispatch.destroy(state) or cursor
-		Fx.destroy(primary)
-		Fx.destroy(reserve)
+		-- Release leases before pools; an independent cleanup error cannot skip the rest.
+		if state then
+			release(function()
+				cursor = Dispatch.destroy(state :: Dispatch.State) or cursor
+			end)
+		end
+		if primary then
+			release(function()
+				Fx.destroy(primary :: Fx.State)
+			end)
+		end
+		if reserve then
+			release(function()
+				Fx.destroy(reserve :: Fx.State)
+			end)
+		end
 		table.clear(seen)
 		table.clear(retired)
 		active, stop, settle = nil, nil, nil
 	end
+	stop = cleanup
+	local ok, err = pcall(function()
+		primary = Fx.new(Config.CastWarning.presentation.capacity)
+		reserve = Fx.new(Config.CastWarning.warning.capacity)
+		local primaryPool, reservePool = primary :: Fx.State, reserve :: Fx.State
+		state = Dispatch.new(inbox, catalog, Config.CastWarning, function(frame, entry)
+			local identity = if entry then entry.identity else nil
+			local pose = nil
+			if identity and not retired[frame.key] then
+				local _, resolved = Character.resolve(identity)
+				pose = resolved
+				if pose then
+					seen[frame.key] = true
+				end
+			end
+			local accepted = if entry then entry.accepted else nil
+			return Fx.primary(
+				primaryPool,
+				frame,
+				if accepted then accepted.metadata else nil,
+				identity,
+				pose,
+				burstSample(entry, frame.now)
+			)
+		end, function(frame, entry)
+			local accepted = if entry then entry.accepted else nil
+			return Fx.warning(
+				reservePool,
+				frame,
+				if accepted then accepted.metadata else nil,
+				burstSample(entry, frame.now)
+			)
+		end, cursor)
+	end)
+	if not ok then
+		cleanup()
+		error(err, 0)
+	end
+	local dispatch = state :: Dispatch.State
+	active = dispatch
 	local function reconcile(localNow: number, serverNow: number)
-		if state.closed or inbox.acceptances.closed then
+		if dispatch.closed or inbox.acceptances.closed then
 			cleanup()
 			return
 		end
 		-- Missing-before-first-observation can become available later. Once a pose
 		-- has been observed, loss retires it irreversibly without cancelling world work.
 		for key in seen do
-			local entry = state.store.entries[key]
+			local entry = dispatch.store.entries[key]
 			if not entry then
 				seen[key], retired[key] = nil, nil
 			elseif not retired[key] then
 				local _, pose = Character.resolve(entry.identity)
 				if not pose then
 					retired[key] = true
-					Dispatch.retirePose(state, key, localNow, serverNow)
+					Dispatch.retirePose(dispatch, key, localNow, serverNow)
 				end
 			end
 		end
 	end
 	settle, stop = reconcile, cleanup
-	heartbeat = RunService.Heartbeat:Connect(function()
-		if closed then
-			return
-		end
-		if inbox.acceptances.closed then
-			cleanup()
-			return
-		end
-		local localNow, serverNow = os.clock(), workspace:GetServerTimeNow()
-		reconcile(localNow, serverNow)
-		Dispatch.tick(state, localNow, serverNow)
-		reconcile(localNow, serverNow)
+	ok, err = pcall(function()
+		heartbeat = RunService.Heartbeat:Connect(function()
+			if closed then
+				return
+			end
+			if inbox.acceptances.closed then
+				cleanup()
+				return
+			end
+			local localNow, serverNow = os.clock(), workspace:GetServerTimeNow()
+			reconcile(localNow, serverNow)
+			Dispatch.tick(dispatch, localNow, serverNow)
+			reconcile(localNow, serverNow)
+		end)
 	end)
+	if not ok then
+		cleanup()
+		error(err, 0)
+	end
 	return cleanup
 end
 return Client
