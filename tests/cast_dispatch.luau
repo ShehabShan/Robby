@@ -51,6 +51,7 @@ local function harness(step, protocol)
 		qi = { current = 100 },
 		cds = {},
 		deliveries = {},
+		pending = {},
 		acceptedWire = {},
 		dispositionWire = {},
 		strain = 0,
@@ -95,8 +96,9 @@ local function harness(step, protocol)
 		end,
 	}
 	local function delivery(kind)
-		return function(_, _, move)
-			table.insert(h.deliveries, { kind = kind, id = move.id, time = h.now })
+		return function(_, _, move, ...)
+			local args = { ... }
+			table.insert(h.deliveries, { kind = kind, id = move.id, time = h.now, lifetime = args[#args] })
 		end
 	end
 	local guid = 0
@@ -111,7 +113,11 @@ local function harness(step, protocol)
 		CastReceipts = require("../src/shared/CastReceipts"),
 		CastLifetime = Lifetime,
 		lifetimes = Lifetime.new(Config.CastLifetime.capacity),
-		task = { delay = function() end },
+		task = {
+			delay = function(seconds, fn)
+				table.insert(h.pending, { seconds = seconds, fn = fn })
+			end,
+		},
 		CastSchedule = require("../src/shared/CastSchedule"),
 		workspace = {
 			GetServerTimeNow = function()
@@ -322,6 +328,64 @@ local function receipt(h, v)
 	return h.env.CastReceipts.get(h.sessions[h.player].receipts, v.generation .. ":" .. tostring(v.seq), h.now)
 end
 local cases = {
+	["world capacity rejects before atomic payment; free room admits a fresh sequence only"] = function()
+		local h = harness(2)
+		h.env.lifetimes.capacity = 1
+		local full = {
+			castId = "occupied",
+			generation = "old",
+			seq = 1,
+			moveId = "move.test",
+			casterUserId = 9,
+			characterKey = "old",
+			slotRevision = 1,
+			acceptedAt = 1000,
+			releaseAt = 1000,
+			endsAt = 1002,
+			aim = { x = 0, y = 0, z = 1 },
+			origin = { x = 0, y = 0, z = 0 },
+		}
+		local handle = Lifetime.start(h.env.lifetimes, full, h.now, 1, 1)
+		local v = packet(h, 1, "move.rime.shard_fan")
+		h.callback(h.player, v)
+		assert(h.qi.current == 100 and h.strain == 0 and h.stance.chain.step == 2 and next(h.cds) == nil)
+		assert(#h.deliveries == 0 and h.dispositionWire[#h.dispositionWire].reason == "delivery_capacity")
+		Lifetime.finish(h.env.lifetimes, handle, 1, h.now)
+		h.callback(h.player, v)
+		assert(#h.deliveries == 0) -- cached refusal is never repaid on duplicate
+		h.callback(h.player, packet(h, 2, "move.rime.shard_fan"))
+		assert(#h.deliveries == 1 and h.env.lifetimes.count == 1 and h.strain == 1)
+	end,
+	["dispatcher passes original world handle once, retaining acceptance after player cache destruction"] = function()
+		local h = harness()
+		local v = packet(h, 1, "move.rime.fall")
+		h.callback(h.player, v)
+		local handle = h.deliveries[1].lifetime
+		assert(handle == h.env.lifetimes.active[v.generation .. ":1"])
+		assert(handle.acceptance.centre.y == h.acceptedWire[1].value.centre.Y)
+		h.callback(h.player, v)
+		assert(#h.deliveries == 1 and h.env.lifetimes.count == 1)
+		local cache = h.sessions[h.player].receipts
+		h.players.PlayerRemoving:Fire(h.player)
+		assert(cache.closed and next(cache.entries) == nil)
+		assert(Lifetime.isActive(h.env.lifetimes, handle) and handle.acceptance.characterKey ~= "")
+		Lifetime.finish(h.env.lifetimes, handle, 1, h.now + 2)
+		assert(handle.terminal.reason == "completed" and h.env.lifetimes.count == 0)
+	end,
+	["self delivery schedules actual accepted duration and completes once after departure"] = function()
+		local h = harness()
+		local v = packet(h, 1, "move.wind_step")
+		h.callback(h.player, v)
+		local handle = h.env.lifetimes.active[v.generation .. ":1"]
+		assert(#h.pending == 1)
+		assert(math.abs(h.pending[1].seconds - (handle.acceptance.endsAt - handle.acceptance.acceptedAt)) < 1e-8)
+		h.players.PlayerRemoving:Fire(h.player)
+		h.now += h.pending[1].seconds
+		h.pending[1].fn()
+		h.pending[1].fn()
+		assert(handle.terminal.reason == "completed" and h.env.lifetimes.count == 0)
+	end,
+
 	["reliable fresh acceptance broadcasts once; duplicate returns original only to owner"] = function()
 		local h = harness()
 		local v = packet(h, 1, "move.rime.fall")
