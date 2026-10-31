@@ -21,6 +21,8 @@ local Shared = {
 local built = Registry.build(All.content(Config))
 local E, V = rb.Enum, rb.Vector3
 local inputSource = fs.readFile("src/client/KithInput.luau")
+local abilitySource = fs.readFile("src/client/AbilityInput.luau")
+local initSource = fs.readFile("src/client/init.client.luau")
 local fxSource = fs.readFile("src/client/RimeFx.luau")
 local function eq(a, b, label)
 	assert(a == b, `{label or "value"}: expected {tostring(b)}, got {tostring(a)}`)
@@ -37,7 +39,8 @@ local function harness(initial)
 		health = 100,
 	}
 	local signals = {}
-	local root = { Position = V.new(0, 3, 0), CFrame = { LookVector = V.new(0, 0, -1) } }
+	local root =
+		{ AssemblyLinearVelocity = V.zero, Position = V.new(0, 3, 0), CFrame = { LookVector = V.new(0, 0, -1) } }
 	local character = {
 		FindFirstChild = function(_, name)
 			return if name == "HumanoidRootPart" then root else nil
@@ -143,11 +146,46 @@ local function harness(initial)
 		end
 	end
 	local input = luau.load(inputSource, { environment = env, injectGlobals = true })()
-	input.start(function(id, aim, point, seq)
-		table.insert(h.sent, { id = id, aim = aim, point = point, seq = seq })
-	end, function(slot)
+	-- Execute the real init.client sender seam; both real input modules share it.
+	local startAt = assert(initSource:find("local nextCastSeq =", 1, true))
+	local endAt = assert(initSource:find("-- Wind Step stays", startAt, true))
+	assert(not initSource:find("Net.CastRequest.Fire", endAt, true), "extra unshared cast sender")
+	assert(initSource:find("AbilityInput.start(cast,", 1, true))
+	assert(initSource:find("KithInput.start(cast,", 1, true))
+	env.CastRequest = Shared.CastRequest
+	env.Net = {
+		CastRequest = {
+			Fire = function(v)
+				table.insert(h.sent, { id = v.moveId, aim = v.aim, point = v.point, seq = v.seq })
+			end,
+		},
+		Action = {
+			Fire = function(v)
+				h.actionValue = v
+			end,
+		},
+	}
+	local cast =
+		luau.load(initSource:sub(startAt, endAt - 1) .. "\nreturn cast", { environment = env, injectGlobals = true })()
+	local actionStart = assert(initSource:find("local function action(", 1, true))
+	local actionEnd = assert(initSource:find("CombatInput.start(action)", actionStart, true))
+	h.action = luau.load(
+		initSource:sub(actionStart, actionEnd - 1) .. "\nreturn action",
+		{ environment = env, injectGlobals = true }
+	)()
+	local ability = luau.load(abilitySource, { environment = env, injectGlobals = true })()
+	ability.start(
+		cast,
+		fx,
+		built.moves["move.wind_step"],
+		{ name = "WindStep", title = "Step", keys = { E.KeyCode.R } }
+	)
+	input.start(cast, function(slot)
 		table.insert(h.selected, slot)
 	end, fx, built)
+	function h:respawn()
+		player.Character = table.clone(character)
+	end
 	function h:set(name, value)
 		self.attrs[name] = value
 		if signals[name] then
@@ -174,6 +212,41 @@ local function harness(initial)
 end
 
 local cases = {
+	["fixed and slot inputs share identity across slot change and respawn"] = function()
+		local h = harness("kith.rimeshard")
+		h:press(E.KeyCode.R)
+		h:press(E.KeyCode.X)
+		h:set("ActiveKith", "kith.crescent")
+		h:press(E.UserInputType.MouseButton1)
+		h:respawn()
+		h.time += 20
+		h:press(E.KeyCode.R)
+		eq(#h.sent, 4)
+		for i, v in h.sent do
+			eq(v.seq, i)
+		end
+		eq(h.sent[1].id, "move.wind_step")
+		eq(h.sent[1].point, nil)
+		eq(h.sent[2].point, V.new(0, 0, -10))
+		eq(h.sent[3].id, "move.crescent_cut")
+		h.action("Attack", nil, 900)
+		eq(h.actionValue.seq, 900, "Action channel remains caller-owned")
+		h:set("ActiveKith", "kith.rimeshard")
+		h:press(E.KeyCode.C)
+		eq(h.sent[5].seq, 5, "Action did not consume cast identity")
+	end,
+	["blocked fixed input consumes no cast sequence"] = function()
+		local h = harness("kith.rimeshard")
+		h.attrs.Qi = 0
+		h:press(E.KeyCode.R)
+		h.attrs.Qi = 100
+		h:press(E.KeyCode.Z)
+		eq(h.sent[1].seq, 1)
+		h:press(E.KeyCode.R)
+		h:press(E.KeyCode.R)
+		eq(#h.sent, 2)
+		eq(h.sent[2].seq, 2)
+	end,
 	["Z/X/C send correct moves and play their cast effects"] = function()
 		local h = harness("kith.rimeshard")
 		for i, key in { E.KeyCode.Z, E.KeyCode.X, E.KeyCode.C } do

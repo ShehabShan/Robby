@@ -8,7 +8,6 @@ local AimDir = require(script.Parent.AimDir)
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local CastRequest = require(ReplicatedStorage.Shared.CastRequest)
 local Config = require(ReplicatedStorage.Shared.Config)
 local FxRegistry = require(ReplicatedStorage.Shared.FxRegistry)
 local Projectile = require(ReplicatedStorage.Shared.Deliveries.Projectile)
@@ -22,14 +21,13 @@ local AbilityInput = {}
 export type Binding = { name: string, title: string, keys: { Enum.KeyCode } }
 
 function AbilityInput.start(
-	send: (moveId: string, aim: Vector3, seq: number) -> (),
+	send: (moveId: string, aim: Vector3, point: Vector3?) -> (),
 	fx: FxRegistry.Registry,
 	move: any,
 	binding: Binding
 )
 	local player = Players.LocalPlayer
 	local lastCast: number? = nil
-	local seq = 0
 
 	local function onAction(
 		_actionName: string,
@@ -63,7 +61,6 @@ function AbilityInput.start(
 			return Enum.ContextActionResult.Sink
 		end
 		lastCast = now
-		seq = CastRequest.nextSeq(seq)
 		local dir = Vector3.new(x, 0, z)
 		local ctx = {
 			caster = player,
@@ -80,7 +77,7 @@ function AbilityInput.start(
 			root.AssemblyLinearVelocity = dir * (distance / BURST_SECONDS)
 				+ Vector3.new(0, root.AssemblyLinearVelocity.Y, 0)
 		end
-		send(move.id, dir, seq)
+		send(move.id, dir, nil)
 		return Enum.ContextActionResult.Sink
 	end
 

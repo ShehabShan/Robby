@@ -233,3 +233,9 @@ Split c0a into c0a1 request ledger and c0a2 client lifecycle before coding. c0a1
 
 ### D-242 — Bounded reversible presentation ownership (S68, 2026-10-31)
 Unused Shared.CastPresentation owns prediction→accepted→terminal states, immutable accepted centre/time, explicit cleanup outbox, late-phase progress and bounded tombstones. Timeout disposes prediction but permits still-live late acceptance; rejection/cancellation suppresses resurrection. Capacity refuses new cosmetics rather than evicting active tells; unknown-cancel overflow uses a conservative time watermark. Max cast lifetime ≤ tombstone TTL; destroy permanently disables state. c0b must bind identities, server clocks, resource cleanup and essential-warning degradation; local caster death does not cancel accepted X world hazards. Fourteen specs PASS. Handoff: research/notes/T-043c0a2-cast-presentation.md.
+
+### D-243 — One connection-lifetime CastRequest allocator (S69, 2026-10-31)
+- Split c0b into sender, transactional authorization, protocol and presentation steps before implementation; the parent and d2 remain incomplete until all pass.
+- Both AbilityInput and KithInput now send intent through the same init.client closure; no module-local sequence counters. Slot/character changes do not reset it; Action identity remains separate. u16 rollover is tested, but generation/replay protection is NOT shipped by this step.
+- Reference cross-check: [Path of Exile networking explanation](https://www.pathofexile.com/forum/view-thread/889669) motivates server truth with responsive local presentation; [Unreal FPredictionKey](https://dev.epicgames.com/documentation/en-us/unreal-engine/API/Plugins/GameplayAbilities/FPredictionKey) illustrates keyed reconciliation, not code to copy. Robby retains its own c1 contract, no networking model migration.
+- CHECK PASS: 309 pure specs, 7 actual-input mocks, original timing suite. No gameplay timings/FX/protocol schema/publication change.

@@ -28,4 +28,14 @@ function CastRequest.nextSeq(seq: number): number
 	return (seq + 1) % U16
 end
 
+-- One allocator per connection, shared by ALL cast input adapters. Character/slot
+-- changes must not recreate it. Generation negotiation is added by T-043c0b3.
+function CastRequest.allocator(): () -> number
+	local seq = 0
+	return function(): number
+		seq = CastRequest.nextSeq(seq)
+		return seq
+	end
+end
+
 return CastRequest

@@ -6,6 +6,7 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Config = require(ReplicatedStorage.Shared.Config)
+local CastRequest = require(ReplicatedStorage.Shared.CastRequest)
 local All = require(ReplicatedStorage.Shared.Content.All)
 local FxRegistry = require(ReplicatedStorage.Shared.FxRegistry)
 local HitFeel = require(script.HitFeel)
@@ -41,8 +42,9 @@ for _, id in FxRegistry.missingFor(fx, built) do
 	warn("No FX handler for " .. id)
 end
 
-local function cast(moveId: string, aim: Vector3, seq: number)
-	Net.CastRequest.Fire({ moveId = moveId, aim = aim, seq = seq })
+local nextCastSeq = CastRequest.allocator()
+local function cast(moveId: string, aim: Vector3, point: Vector3?)
+	Net.CastRequest.Fire({ moveId = moveId, aim = aim, point = point, seq = nextCastSeq() })
 end
 -- Wind Step stays on R/L2 (owner, D-217). Crescent Cut left E: it is a slot move now (KithInput, T-036a, D-216).
 AbilityInput.start(cast, fx, built.moves["move.wind_step"], {
@@ -57,9 +59,7 @@ end
 CombatInput.start(action)
 -- Slot-selected abilities (T-036a, D-216): keys 1–7 select a core slot; the selected Kith's chain takes left click,
 -- Z / X / C are its specials (or its moves, for a Kith without a chain). `ActiveKith` comes from the loadout.
-KithInput.start(function(moveId: string, aim: Vector3, point: Vector3?, seq: number)
-	Net.CastRequest.Fire({ moveId = moveId, aim = aim, point = point, seq = seq })
-end, function(slot: number)
+KithInput.start(cast, function(slot: number)
 	Hud.select(slot) -- predicted highlight before the server round trip (T-038c, D-223)
 	Net.SelectSlot.Fire({ slot = slot })
 end, fx, built)

@@ -11,7 +11,6 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 
 local AimDir = require(script.Parent.AimDir)
-local CastRequest = require(ReplicatedStorage.Shared.CastRequest)
 local Config = require(ReplicatedStorage.Shared.Config)
 local FxRegistry = require(ReplicatedStorage.Shared.FxRegistry)
 local Projectile = require(ReplicatedStorage.Shared.Deliveries.Projectile)
@@ -30,7 +29,7 @@ local SLOT_KEYS = {
 	Enum.KeyCode.Seven,
 }
 
-export type SendCast = (moveId: string, aim: Vector3, point: Vector3?, seq: number) -> ()
+export type SendCast = (moveId: string, aim: Vector3, point: Vector3?) -> ()
 export type SelectSlot = (slot: number) -> ()
 
 local KithInput = {}
@@ -65,7 +64,6 @@ function KithInput.start(sendCast: SendCast, selectSlot: SelectSlot, fx: FxRegis
 	local kit: Stance.Kit? = nil -- nil = the live Kith has no chain: left click is the light chain
 	local cfg: Stance.Cfg? = nil
 	local state = Stance.new()
-	local seq = 0
 	local lastCast: { [string]: number } = {}
 
 	local function ready(): (Model?, BasePart?, Camera?)
@@ -112,13 +110,12 @@ function KithInput.start(sendCast: SendCast, selectSlot: SelectSlot, fx: FxRegis
 			pos = point :: Vector3
 		end
 		lastCast[moveId] = now
-		seq = CastRequest.nextSeq(seq)
 		local ctx = { caster = player, character = character, pos = pos, dir = dir, point = point }
 		FxRegistry.play(fx, move.fx.cast, ctx)
 		if move.fx.travel then
 			FxRegistry.play(fx, move.fx.travel, ctx)
 		end
-		sendCast(move.id, dir, point, seq)
+		sendCast(move.id, dir, point)
 		return true
 	end
 
