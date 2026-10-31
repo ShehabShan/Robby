@@ -584,6 +584,39 @@ local function castVector(v: Vector3): CastAdmission.Vec
 	return { x = v.X, y = v.Y, z = v.Z }
 end
 
+-- One immutable acceptance representation for fresh broadcasts and duplicate replies.
+local function sendAcceptance(player: Player, a: CastReceipts.Acceptance, broadcast: boolean)
+	local value = {
+		castId = a.castId,
+		generation = a.generation,
+		seq = a.seq,
+		moveId = a.moveId,
+		casterUserId = a.casterUserId,
+		characterKey = a.characterKey,
+		slotRevision = a.slotRevision,
+		acceptedAt = a.acceptedAt,
+		releaseAt = a.releaseAt,
+		endsAt = a.endsAt,
+		aim = Vector3.new(a.aim.x, a.aim.y, a.aim.z),
+		origin = Vector3.new(a.origin.x, a.origin.y, a.origin.z),
+		centre = if a.centre then Vector3.new(a.centre.x, a.centre.y, a.centre.z) else nil,
+	}
+	if broadcast then
+		Net.CastAccepted.FireAll(value)
+	else
+		Net.CastAccepted.Fire(player, value)
+	end
+end
+local function sendDisposition(player: Player, value: any, status: string, reason: string)
+	Net.CastDisposition.Fire(player, {
+		generation = value.generation,
+		seq = value.seq,
+		moveId = value.moveId,
+		status = status,
+		reason = reason,
+	})
+end
+
 function Abilities.start()
 	local function join(player: Player)
 		local session: CastSession = {
@@ -683,6 +716,7 @@ function Abilities.start()
 			return
 		end
 		if session.character == nil or session.character ~= player.Character then
+			sendDisposition(player, value, "rejected", "character")
 			syncCast(player, session)
 			return
 		end
@@ -733,6 +767,17 @@ function Abilities.start()
 		)
 		if result.receipt and result.receipt.reason == "internal_error" then
 			warn("Cast authorization internal_error")
+		end
+		if result.receipt and result.receipt.status == "accepted" then
+			local entry = CastReceipts.get(session.receipts, result.receipt.castId :: string, os.clock())
+			if entry and entry.acceptance then
+				sendAcceptance(player, entry.acceptance, result.kind == "completed")
+			else
+				sendDisposition(player, value, "expired", "receipt_expired")
+			end
+		elseif result.reason ~= "malformed" then
+			local reason = if result.receipt then result.receipt.reason else result.reason
+			sendDisposition(player, value, "rejected", reason or result.kind)
 		end
 		-- Duplicate dispositions never populate accepted; no payment or delivery replay.
 		if result.kind == "completed" and result.receipt and result.receipt.status == "accepted" and accepted then

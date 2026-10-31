@@ -50,6 +50,8 @@ local function harness(step, protocol)
 		qi = { current = 100 },
 		cds = {},
 		deliveries = {},
+		acceptedWire = {},
+		dispositionWire = {},
 		strain = 0,
 		fought = 0,
 		published = 0,
@@ -157,6 +159,21 @@ local function harness(step, protocol)
 		pools = { [player] = h.qi },
 		cooldowns = { [player] = h.cds },
 		Net = {
+			CastAccepted = {
+				FireAll = function(v)
+					table.insert(h.acceptedWire, { audience = "all", value = v })
+				end,
+				Fire = function(to, v)
+					assert(to == player)
+					table.insert(h.acceptedWire, { audience = "owner", value = v })
+				end,
+			},
+			CastDisposition = {
+				Fire = function(to, v)
+					assert(to == player)
+					table.insert(h.dispositionWire, v)
+				end,
+			},
 			CastGeneration = {
 				Fire = function(_, v)
 					h.snapshot = v
@@ -301,6 +318,61 @@ local function receipt(h, v)
 	return h.env.CastReceipts.get(h.sessions[h.player].receipts, v.generation .. ":" .. tostring(v.seq), h.now)
 end
 local cases = {
+	["reliable fresh acceptance broadcasts once; duplicate returns original only to owner"] = function()
+		local h = harness()
+		local v = packet(h, 1, "move.rime.fall")
+		h.callback(h.player, v)
+		assert(#h.acceptedWire == 1 and h.acceptedWire[1].audience == "all" and #h.dispositionWire == 0)
+		local original = h.acceptedWire[1].value
+		h.now += 1
+		h.root.Position = rb.Vector3.new(99, 99, 99)
+		h.callback(h.player, v)
+		assert(#h.acceptedWire == 2 and h.acceptedWire[2].audience == "owner" and #h.deliveries == 1)
+		for key, value in original do
+			assert(h.acceptedWire[2].value[key] == value, key)
+		end
+		assert(original.centre == rb.Vector3.new(0, 0, -10))
+	end,
+	["legitimate rejection is cached owner-only; lost full receipt explicitly expires"] = function()
+		local h = harness()
+		local v = packet(h, 1)
+		h.qi.current = 0
+		h.callback(h.player, v)
+		h.qi.current = 100
+		h.callback(h.player, v)
+		assert(#h.acceptedWire == 0 and #h.dispositionWire == 2 and #h.deliveries == 0)
+		assert(h.dispositionWire[1].reason == "qi" and h.dispositionWire[2].reason == "qi")
+		local paid = packet(h, 2)
+		h.callback(h.player, paid)
+		table.clear(h.sessions[h.player].receipts.entries)
+		h.callback(h.player, paid)
+		assert(#h.deliveries == 1 and #h.acceptedWire == 1)
+		local disposition = h.dispositionWire[3]
+		assert(disposition.status == "expired" and disposition.reason == "receipt_expired" and disposition.seq == 2)
+		h.now += 11
+		h.callback(h.player, paid)
+		assert(#h.deliveries == 1 and #h.acceptedWire == 1 and #h.dispositionWire == 4)
+	end,
+	["old generation and character race reject owner-only; abusive traffic is silent"] = function()
+		local h = harness()
+		local v = packet(h, 1)
+		h.allowed = false
+		h.callback(h.player, v)
+		assert(#h.dispositionWire == 0 and #h.acceptedWire == 0)
+		h.allowed = true
+		v.aim = rb.Vector3.new(0 / 0, 0, 0)
+		h.callback(h.player, v)
+		assert(#h.dispositionWire == 0 and #h.acceptedWire == 0)
+		v = packet(h, 1)
+		h.player.CharacterRemoving:Fire(h.player.Character)
+		h.callback(h.player, v)
+		assert(h.dispositionWire[1].reason == "character")
+		h.player.Character = table.clone(h.player.Character)
+		h.player.CharacterAdded:Fire(h.player.Character)
+		h.callback(h.player, v)
+		assert(h.dispositionWire[2].reason == "generation" and #h.acceptedWire == 0 and #h.deliveries == 0)
+	end,
+
 	["fresh captured receipt uses server clocks, real centre and original immutable geometry"] = function()
 		local h = harness()
 		local v = packet(h, 1, "move.rime.fall")

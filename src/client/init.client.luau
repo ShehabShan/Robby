@@ -43,6 +43,10 @@ for _, id in FxRegistry.missingFor(fx, built) do
 	warn("No FX handler for " .. id)
 end
 
+-- Register bounded reliable receipts before sync or input. No renderer adoption yet.
+local stopCastReceipts = require(script.CastReceiptClient).start()
+script.Destroying:Connect(stopCastReceipts)
+
 -- Cast generation handshake: listener first; never retry a possibly paid cast.
 local castReady = CastReady.new()
 local removingCharacter: Model? = nil
