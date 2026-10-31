@@ -368,3 +368,9 @@ ClockGate/WarningGate cancelMany retire all primary/pending/reserve keys before 
 
 ### D-289 (S81, 2026-10-31) — explicit bounded restart suppression
 Delivery teardown returns an opaque cursor: same-inbox receipt/response serials skip even unpolled retained records; across new inboxes a conservative timestamp watermark suppresses old effects. Include pinned future acceptances and unpolled receipt/terminal timestamps, not only the current admitted clock. Preserve the cursor across engine-owner restarts, stop delivery before borrowed receipts, never destroy the producer from the dispatcher. Conservative suppression can drop unrelated older cosmetics; it never authorizes gameplay. Reserve tombstones continue consuming bounded capacity; refusal remains explicit, not fake successful rendering.
+
+### D-290 — Atomic original-model cosmetic identity (S82, 2026-10-31)
+One bounded server-authored model attribute carries generation/characterKey/user/slot together; observers never infer identity from replacement Character or owner-only handshake. Clear exact old models at lifecycle boundaries; no remote schema or gameplay timing change.
+
+### D-291 — Fresh fail-closed pose lookup (S82, 2026-10-31)
+Resolve independently replicated exact identity and current world/living model each frame, without caches/subscriptions/yields. Eventual replication is not authoritative liveness; missing pose cannot cancel accepted world geometry. Burst release semantics remain separate pending work.

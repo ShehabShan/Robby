@@ -16,6 +16,7 @@ local Effects = require(ReplicatedStorage.Shared.Effects)
 local Moves = require(ReplicatedStorage.Shared.Moves)
 local CastTransaction = require(ReplicatedStorage.Shared.CastTransaction)
 local CastAdmission = require(ReplicatedStorage.Shared.CastAdmission)
+local CastCharacterIdentity = require(ReplicatedStorage.Shared.CastCharacterIdentity)
 local CastLedger = require(ReplicatedStorage.Shared.CastLedger)
 local CastReceipts = require(ReplicatedStorage.Shared.CastReceipts)
 local CastSchedule = require(ReplicatedStorage.Shared.CastSchedule)
@@ -688,7 +689,24 @@ type CastSession = {
 local castSessions: { [Player]: CastSession } = {}
 -- Completed world records survive player departure; eviction never grants admission.
 local terminalReceipts = CastReceipts.new(Config.CastTerminal)
+local function publishCastIdentity(player: Player, session: CastSession)
+	local character = session.character
+	if character then
+		character:SetAttribute(
+			CastCharacterIdentity.attribute,
+			if not session.admission.closed and character == player.Character
+				then CastCharacterIdentity.encode({
+					generation = session.admission.ledger.generation,
+					characterKey = session.characterKey,
+					slotRevision = session.slotRevision,
+					casterUserId = player.UserId,
+				})
+				else nil
+		)
+	end
+end
 local function syncCast(player: Player, session: CastSession)
+	publishCastIdentity(player, session)
 	Net.CastGeneration.Fire(player, {
 		generation = session.admission.ledger.generation,
 		epoch = session.admission.epoch,
@@ -803,11 +821,15 @@ function Abilities.start()
 				else
 					session.slotRevision += 1
 				end
+				publishCastIdentity(player, session)
 			end)
 		)
 		local function characterAdded(character: Model)
 			if session.character == character then
 				return
+			end
+			if session.character then
+				session.character:SetAttribute(CastCharacterIdentity.attribute, nil)
 			end
 			session.character = character
 			session.characterKey = HttpService:GenerateGUID(false)
@@ -823,6 +845,7 @@ function Abilities.start()
 				if session.character ~= character then
 					return
 				end
+				character:SetAttribute(CastCharacterIdentity.attribute, nil)
 				session.character = nil
 				rotateCast(session)
 				stances[player] = Stance.new()
@@ -842,6 +865,7 @@ function Abilities.start()
 		local session = castSessions[player]
 		if session then
 			CastAdmission.destroy(session.admission)
+			publishCastIdentity(player, session)
 			CastReceipts.destroy(session.receipts)
 			for _, connection in session.connections do
 				connection:Disconnect()

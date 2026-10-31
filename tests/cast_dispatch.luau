@@ -69,6 +69,12 @@ local function harness(step, protocol)
 	h.stance.chain.step, h.stance.chain.lastAt = step or 0, if step then 100 else -math.huge
 	local root = { Position = rb.Vector3.new(0, 3, 0) }
 	local character = {
+		GetAttribute = function(self, name)
+			return self[name]
+		end,
+		SetAttribute = function(self, name, value)
+			self[name] = value
+		end,
 		FindFirstChildOfClass = function()
 			return { Health = h.hp or 100 }
 		end,
@@ -112,6 +118,7 @@ local function harness(step, protocol)
 		stances = stances,
 		Qi = require("../src/shared/Qi"),
 		CastAdmission = require("../src/shared/CastAdmission"),
+		CastCharacterIdentity = require("../src/shared/CastCharacterIdentity"),
 		CastLedger = require("../src/shared/CastLedger"),
 		CastReceipts = require("../src/shared/CastReceipts"),
 		CastLifetime = Lifetime,
@@ -348,7 +355,50 @@ end
 local function receipt(h, v)
 	return h.env.CastReceipts.get(h.sessions[h.player].receipts, v.generation .. ":" .. tostring(v.seq), h.now)
 end
+local Identity = require("../src/shared/CastCharacterIdentity")
+local function replica(h)
+	return Identity.decode(h.player.Character:GetAttribute(Identity.attribute))
+end
 local cases = {
+	["observer identity publication matches actual acceptance and slot revisions"] = function()
+		local h = harness()
+		local first = assert(replica(h))
+		assert(first.generation == h.snapshot.generation and first.casterUserId == 42 and first.slotRevision == 0)
+		h:send("move.rime.needle")
+		assert(Identity.matches(first, h.acceptedWire[1].value))
+		h.slotChanged:Fire()
+		local second = assert(replica(h))
+		assert(second.slotRevision == 1 and second.characterKey == first.characterKey)
+		h.slotChanged:Fire()
+		assert(replica(h).slotRevision == 2)
+		h.sync()
+		assert(replica(h).slotRevision == 2)
+		h.sessions[h.player].slotRevision = 4294967295
+		h.slotChanged:Fire()
+		assert(replica(h) == nil and h.sessions[h.player].admission.closed)
+	end,
+	["observer identity clears old models on replacement removal and leave"] = function()
+		local h = harness()
+		local old = h.player.Character
+		local first = assert(replica(h))
+		local new = table.clone(old)
+		h.player.Character = new
+		h.player.CharacterAdded:Fire(new)
+		assert(old:GetAttribute(Identity.attribute) == nil)
+		local second = assert(replica(h))
+		assert(second.characterKey ~= first.characterKey and second.generation ~= first.generation)
+		h.player.CharacterRemoving:Fire(old) -- stale event cannot clear new replica
+		assert(Identity.matches(second, replica(h)))
+		h.player.CharacterAdded:Fire(new) -- duplicate cannot rotate
+		assert(Identity.matches(second, replica(h)))
+		h.player.CharacterRemoving:Fire(new)
+		assert(replica(h) == nil)
+		h.player.CharacterAdded:Fire(new)
+		assert(replica(h))
+		h.players.PlayerRemoving:Fire(h.player)
+		assert(replica(h) == nil)
+	end,
+
 	["woven geometry captured before payment and replayed unchanged on wire and lifetime"] = function()
 		for _, kind in { "Projectile", "Volley", "Zone", "Burst", "Self" } do
 			local base = nil
@@ -770,6 +820,7 @@ local cases = {
 			h.now += 10
 		end
 		assert(#h.deliveries == 4 and h.snapshot.generation ~= original)
+		assert(replica(h).generation == h.snapshot.generation)
 		local epoch, generation = h.snapshot.epoch, h.snapshot.generation
 		local old = packet(h, 2)
 		old.generation = original

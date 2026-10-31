@@ -30,6 +30,7 @@ run rime-timing lune run tests/rime_timing.luau
 run cast-dispatch lune run tests/cast_dispatch.luau
 run cast-lifecycle lune run tests/cast_lifecycle.luau
 run cast-receipt-client lune run tests/cast_receipt_client.luau
+run cast-character-client lune run tests/cast_character_client.luau
 run cast-contact-engine lune run tests/cast_contact_engine.luau
 run cast-world-tree lune run tests/cast_world_tree.luau
 run cast-delivery-engine lune run tests/cast_delivery_engine.luau
