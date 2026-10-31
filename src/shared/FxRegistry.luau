@@ -13,9 +13,22 @@ local MAX_ID = 64
 
 local FxRegistry = {}
 
--- Fx ids look like `fx.<kith>.<slot>` (e.g. `fx.crescent.hit`).
+-- Fx ids have at least three nonempty word/underscore segments, starting with `fx`.
+-- Kits may namespace a move too: `fx.rime.fan.cast` (T-042a, D-229).
 function FxRegistry.isValidId(id: unknown): boolean
-	return typeof(id) == "string" and #id <= MAX_ID and string.match(id, "^fx%.[%w_]+%.[%w_]+$") ~= nil
+	if typeof(id) ~= "string" or #id > MAX_ID then
+		return false
+	end
+	local parts = string.split(id, ".")
+	if #parts < 3 or parts[1] ~= "fx" then
+		return false
+	end
+	for _, part in parts do
+		if string.match(part, "^[%w_]+$") == nil then
+			return false
+		end
+	end
+	return true
 end
 
 function FxRegistry.new(): Registry

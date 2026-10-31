@@ -18,6 +18,49 @@ end
 local function noop(_ctx: any) end
 
 return {
+	["fx: every real content id registers and dispatches (Rimeshard regression)"] = function()
+		local All = require("../src/shared/Content/All")
+		local content = Registry.build(All.content(Config))
+		local reg = FxRegistry.new()
+		local ids = FxRegistry.missingFor(reg, content)
+		local calls = 0
+		for _, id in ids do
+			eq(
+				FxRegistry.register(reg, id, function()
+					calls += 1
+				end),
+				true,
+				id .. " registration"
+			)
+			eq(FxRegistry.play(reg, id, {}), true, id .. " dispatch")
+		end
+		eq(calls, #ids, "every effect played")
+		eq(#FxRegistry.missingFor(reg, content), 0, "all content covered")
+	end,
+	["fx: nested ids keep strict segment and length validation"] = function()
+		for _, id in { "fx.rime.fan.cast", "fx.rime.fall.rain", "fx.a_b.1.cast", "fx.a." .. string.rep("x", 59) } do
+			eq(FxRegistry.isValidId(id), true, id)
+		end
+		for _, id in
+			{
+				"fx",
+				"fx.only",
+				"fx..cast",
+				"fx.rime..cast",
+				"fx.rime.cast.",
+				".fx.rime.cast",
+				"fx.rime.cast!",
+				"fx.rime.cast/extra",
+				"fx.rime.cast extra",
+				"FX.rime.cast",
+				"fx.a." .. string.rep("x", 60),
+			}
+		do
+			eq(FxRegistry.isValidId(id), false, id)
+		end
+		eq(FxRegistry.isValidId(nil), false)
+		eq(FxRegistry.isValidId(123), false)
+	end,
 	["fx: play calls the registered handler with ctx"] = function()
 		local reg = FxRegistry.new()
 		local got = nil

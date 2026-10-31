@@ -190,3 +190,6 @@
 - **D-226 (S61, T-039c):** Screen title is "Inventory"; footer = Unequip (140/180 px) + wrapped select hint beside it + close hint, no overlap; when Kith overflow, the last row becomes "+N more Kith" (scrolling later).
 - **D-227 (S62, T-040):** Development phase (owner 2026-10-31): `Config.Upkeep.devAlwaysReady = true` makes `UpkeepService` refill every owned Kith each tick via `KithCare.devRefill` (full Satiety, Strain 0, not Dormant, not Exhausted). Upkeep rules stay in code and tests; set the flag false before launch.
 - **D-228 (S62, T-041):** Crescent Cut (first move of a selected chainless Kith) fires on **left** click, replacing the basic attack while that Kith is selected (High priority, Sink). Supersedes the right click of D-221 — the owner meant left click.
+
+### D-229 (S63, 2026-10-31) — Nested FX IDs are valid
+FxRegistry accepts `fx` plus at least two nonempty word/underscore segments, still capped at 64 characters. Rimeshard uses four-part IDs (e.g. `fx.rime.fan.cast`); the old three-part validator silently refused every Rimeshard cast handler. Preserve content IDs, fix the validator, and test registration/dispatch of every real Content FX ID. This proves missing effects, not that all live input faults are resolved; owner verification remains T-042b.
