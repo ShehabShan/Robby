@@ -59,6 +59,16 @@ function LoadoutScreen.parseCare(raw: any): { [string]: Care }
 	return out
 end
 
+-- Why a Kith cannot be equipped right now (T-039b, D-225), nil if it can: Dormant needs a meal, Tired needs time.
+function LoadoutScreen.blocked(c: Care?): string?
+	if c and c.state == "Dormant" then
+		return "Feed first"
+	elseif c and c.state == "Exhausted" then
+		return "Wait: tired"
+	end
+	return nil
+end
+
 -- "Ready 80%" / "Tired 40%" for a Kith row, nil without data.
 function LoadoutScreen.careText(c: Care?): string?
 	if not c then
@@ -327,6 +337,10 @@ function LoadoutScreen.build(s: State): { any }
 		if care then
 			tag ..= ` · {care}`
 		end
+		local blocked = LoadoutScreen.blocked(if s.care then s.care[o.uid] else nil)
+		if blocked then
+			tag ..= ` · {blocked}`
+		end
 		local color = if role then (HudLayout.ROLE_COLOR[role] or { 110, 110, 120 }) else { 110, 110, 120 }
 		button(
 			out,
@@ -338,8 +352,8 @@ function LoadoutScreen.build(s: State): { any }
 			color,
 			`{nameOf(o.species)} · {role or "?"}{tag}`,
 			15,
-			{ kind = "pick", uid = o.uid },
-			if equipped[o.uid] then 0.6 else 0.92
+			if blocked then { kind = "blocked", uid = o.uid } else { kind = "pick", uid = o.uid }, -- greyed: no request
+			if blocked then 0.35 elseif equipped[o.uid] then 0.6 else 0.92
 		)
 	end
 	button(

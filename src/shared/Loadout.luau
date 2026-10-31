@@ -5,6 +5,8 @@
 
 export type Loadout = { slots: { string }, weaves: { any } }
 
+local KithCare = require("./KithCare")
+
 local Loadout = {}
 
 -- The six GDD roles. The loadout screen warns about missing roles from `Config.Loadout.warnRoles`.
@@ -74,12 +76,29 @@ function Loadout.sanitize(lo: any, cfg: any, rank: number, owned: any, built: an
 end
 
 -- Puts Kith `uid` into `slot`. Moving an equipped Kith frees its old slot.
-function Loadout.equip(lo: any, cfg: any, rank: number, owned: any, built: any, slot: any, uid: any): (boolean, string?)
+-- With `now` (server), a Dormant or Exhausted Kith is refused: feed or rest it first (T-039b, D-225).
+function Loadout.equip(
+	lo: any,
+	cfg: any,
+	rank: number,
+	owned: any,
+	built: any,
+	slot: any,
+	uid: any,
+	now: number?
+): (boolean, string?)
 	if type(slot) ~= "number" or slot ~= math.floor(slot) or slot < 1 or slot > Loadout.slotCount(cfg, rank) then
 		return false, "bad slot"
 	end
 	if speciesOf(owned, built, uid) == nil then
 		return false, "not owned"
+	end
+	local inst = owned[uid]
+	if now ~= nil and type(inst) == "table" and cfg.Upkeep then
+		KithCare.ensure(inst, cfg)
+		if not KithCare.usable(inst, cfg, now) then
+			return false, "feed first"
+		end
 	end
 	for i, other in lo.slots do
 		if other == uid and i ~= slot then

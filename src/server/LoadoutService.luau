@@ -53,7 +53,7 @@ function LoadoutService.start()
 		if value.uid == "" then
 			ok = Loadout.unequip(data.loadout, value.slot)
 		else
-			ok = Loadout.equip(data.loadout, Config, data.rank or 1, data.kith, built, value.slot, value.uid)
+			ok = Loadout.equip(data.loadout, Config, data.rank or 1, data.kith, built, value.slot, value.uid, os.time())
 		end
 		if ok then
 			LoadoutService.publish(player, data)

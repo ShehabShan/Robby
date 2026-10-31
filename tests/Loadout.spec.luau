@@ -52,6 +52,17 @@ return {
 		eq(Loadout.slotCount(Config, 9), 7, "cap")
 		eq(Loadout.slotCount(Config, 0), 3, "floor")
 	end,
+	["loadout: server refuses a Dormant or Tired Kith (T-039b)"] = function()
+		local lo, own = fresh(), owned()
+		own.u1.satiety, own.u1.strain, own.u1.dormant = 0, 0, true
+		local ok, why = Loadout.equip(lo, Config, 1, own, built, 1, "u1", 100)
+		eq(ok, false, "dormant refused")
+		eq(why, "feed first", "reason")
+		own.u1.dormant, own.u1.satiety = nil, Config.Upkeep.satietyMax
+		own.u1.exhaustedUntil = 200
+		eq(Loadout.equip(lo, Config, 1, own, built, 1, "u1", 100), false, "tired refused")
+		eq(Loadout.equip(lo, Config, 1, own, built, 1, "u1", 300), true, "recovered ok")
+	end,
 	["loadout: equip checks slot range and ownership"] = function()
 		local lo, own = fresh(), owned()
 		eq(Loadout.equip(lo, Config, 1, own, built, 1, "u1"), true, "ok")
