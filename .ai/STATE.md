@@ -1,6 +1,11 @@
 # STATE
 
-## Now (after S79)
+## Now (after S80)
+- S80 merged 40fae24: c2c2a bounded owned primary/reserve delivery renderer and c2c2b1 gate-lifetime immutable metadata registry done (D-283–D-286). CHECK PASS: 535 pure tests/76 specs, 14 actual-source delivery-engine cases including 100 leak-free mocked lease turnovers, all prior gates; 13 deliberate faults detected/restored. No startup cutover, timing changes, cloud/device test or publishing.
+- **NEXT: T-043c0b4c2c2b2** engine receipt/pose lifecycle owner (size/split), then c2c2c truthful moving Burst handling, c3 atomic cutover and d2 M1 visuals. Handoffs: research/notes/T-043c0b4c2c2a-delivery-engine.md and T-043c0b4c2c2b1-metadata.md. Stage Store before gate operations; reuse canonical metadata; prune after. Burst remains explicit unavailable, not a fake fixed warning. No owner action.
+- S80 saving: 38.6 OLU at merge; final STATE saved below45. Claims released. Prototype prediction has no authored pose art yet; engine character lookup/listener wiring deliberately not claimed complete.
+
+### S79 history
 - S79 merged 86b08a6: c2a immutable woven geometry transport, c2b pure seekable frame plan, c2c1 bounded owned world-tree engine primitive done (D-278–D-282). CHECK PASS: 521 pure tests/75 specs, 33 dispatch cases, existing20 contact-engine cases plus4 world-tree groups; 17 temporary faults detected/restored. No startup cutover, timing changes, cloud/device test or publishing.
 - **NEXT: T-043c0b4c2c2** delivery lifecycle orchestration and truthful Burst handling (size/split), then c3 atomic cutover and d2 M1 visuals. Handoffs: research/notes/T-043c0b4c2a-geometry.md, T-043c0b4c2b-seek-plan.md, T-043c0b4c2c1-world-tree.md. Burst samples original living caster position at release; planner explicitly refuses a fake fixed-origin warning. No owner action.
 

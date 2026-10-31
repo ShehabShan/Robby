@@ -4,7 +4,7 @@
 - Bounded primary/reserve delivery trees and pinned immutable gate-lifetime metadata done; original-character/receipt lifecycle and truthful Burst remain separate next tasks. No startup/timing changes.
 - CHECK PASS: 535 pure/76 specs, 14 actual-source delivery engine cases, all existing gates; 13 deliberate behavioral faults detected/restored; 100 one-slot turnover cycles leak-free in mocks.
 - Next c2c2b2 (size/split): engine receipt/pose owner, then c2c2c truthful moving Burst and c3 atomic cutover. Handoffs: research/notes/T-043c0b4c2c2a-delivery-engine.md and T-043c0b4c2c2b1-metadata.md.
-- OLU: 37.7 before close-out; final meter recorded in STATE after merge. No cloud/device test, publication or owner action.
+- OLU: 38.6 at merge; final STATE saving below45. No cloud/device test, publication or owner action.
 
 
 ## S79 — 2026-10-31 — T-043c0b4c2a/b/c1 (D-278–D-282)
