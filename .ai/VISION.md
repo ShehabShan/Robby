@@ -9,6 +9,9 @@ Owner: ShehabShan. The owner is non-technical and delegates technical and design
 4. Order of work: Research → Planning → owner approval → Building.
 5. 3D content: the bot uses Blender in the VM. The owner will also supply 3D models later, in `assets/source/`. Art details are settled in R-015 and P-003, so they don't block starting.
 
+6. **Long-term, one thing at a time (owner, 2026-10-31, D-215):** this is a serious multi-year game, not a quick project; any number of sessions is fine. Build little by little: refine, rework and polish what exists, add only what is absolutely necessary, and expand only when the owner says the current part is good enough. Never build many systems at once to ship fast.
+7. **Endgame-ready backend, no endgame yet (owner, 2026-10-31, D-216):** do not implement endgame (Ascendant, Ranks 6–9) now, but keep server code and data schemas flexible enough to add it later without reworking the backend.
+
 ## Owner ideas
 None yet. R-010 adds an entry for each file in `research/inbox/`:
 date, file name, and the owner's key points in their own words.
