@@ -5,4 +5,3 @@ Never start a task that has a row here. A claim whose branch had no push for 2 h
 
 | Session | Task | Branch | Decisions | Claimed (UTC) | Bot | Note |
 |---|---|---|---|---|---|---|
-| S56 | T-034 | session/S56 | D-211..D-220 | 2026-10-31 13:00 | 45dfa146-834c-435d-b87e-867793eea38f | owner: find + fix Rimeshard ability in UI |
