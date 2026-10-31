@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S67 — 2026-10-31 (36.4 OLU before close-out; final meter in STATE)
+- T-043d1 done (D-235–D-237): original faceted dart family, R15 arm-only 1/2/pair clip source, exports, board and offline motion preview; research/notes/T-043d1-m1-prototype.md.
+- check.sh PASS: 278 gameplay tests + 3 offline export tests + 5 input cases; six FBX/GLB re-imports PASS; cloud pack has no offline dependencies.
+- No src gameplay changes, asset uploads, cloud execution or publication; live remains game v0.0.22 / Roblox v27. Actual R15 blend/fit and device quality unverified.
+- Next T-043c1 timing contract, then d2 integration; owner review still gates specials.
+
 ## S66 — 2026-10-31 (same bot; 42.3 OLU before approval save)
 - T-043b done (D-234): owner approved option A and M1-first prototype; verbatim reply saved.
 - Budget close-out only, no prototype code/assets or publish. Next T-043d1; integration still needs c1.
