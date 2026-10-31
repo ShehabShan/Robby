@@ -1,6 +1,7 @@
 # STATE
 
-## Now (after S49)
+## Now (after S51)
+- S51 (owner asked): T-032 done (D-205): roblox-brain skills (29, MIT) vendored in `.ai/skills/roblox-brain/`; sessions read INDEX.md → SKILL.md before domain work (AGENTS.md §4.6). check.sh PASS. Not published.
 - S50 (same bot, owner asked): published game v0.0.18 = Roblox place v19 (T-027h playtest build: Rimeshard starter, Rime FX, Shatter stagger, F-08). Owner plays on mobile. Waits for feedback in `research/inbox/`.
 - S49 (same bot): F-08 done (D-204): `src/client` scan; Wind Step 0.25 s burst → `Config.Abilities.WindStep.burstSeconds`, shared with the server speed guard. check.sh PASS.
 - S48: `roblox-open-cloud` connected again; cloud smoke on Saved v18 found one stale check (slot 1 is Rimeshard since D-194) → T-030c done (D-203): smoke finds starters by uid. Re-run: specs 266/266, CLOUD ALL: PASS on Saved v18. Not published.
