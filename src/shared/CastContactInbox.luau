@@ -9,6 +9,7 @@ export type State = {
 	policy: Policy,
 	entries: { [string]: Entry },
 	identities: { [string]: string },
+	consumed: { [string]: boolean },
 	count: number,
 	serial: number,
 	lastNow: number,
@@ -39,6 +40,7 @@ function CastContactInbox.new(policy: Policy, retiredThrough: number?): State
 		policy = table.freeze(table.clone(policy)),
 		entries = {},
 		identities = {},
+		consumed = {},
 		count = 0,
 		serial = 0,
 		lastNow = -math.huge,
@@ -50,6 +52,7 @@ local function retire(s: State, key: string, entry: Entry)
 	s.retiredThrough = math.max(s.retiredThrough, entry.value.at)
 	s.identities[entry.identity] = nil
 	s.entries[key] = nil
+	s.consumed[key] = nil
 	s.count -= 1
 end
 function CastContactInbox.prune(s: State, now: number): boolean
@@ -127,6 +130,19 @@ function CastContactInbox.record(s: State, value: CastContacts.Contact, now: num
 end
 function CastContactInbox.get(s: State, castId: string, ordinal: number): Entry?
 	return s.entries[prefix(castId) .. tostring(ordinal)]
+end
+-- One consumer owns each confirmed command even if rendering fails or overflows.
+-- Retain the payload/dedupe identity until normal retirement; do not advance a
+-- global ordinal cursor (a delayed lower ordinal is still a distinct contact).
+function CastContactInbox.take(s: State, key: string, now: number): Entry?
+	if not CastContactInbox.prune(s, now) or s.consumed[key] then
+		return nil
+	end
+	local entry = s.entries[key]
+	if entry then
+		s.consumed[key] = true
+	end
+	return entry
 end
 function CastContactInbox.destroy(s: State)
 	for key, entry in s.entries do

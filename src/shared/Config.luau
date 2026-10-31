@@ -91,6 +91,8 @@ local Config = {
 	-- Per-world-cast notification bound only; full never suppresses damage or legacy FX.
 	CastContact = { capacity = 128 },
 	CastClientContact = { capacity = 512, retentionSeconds = 12, futureSeconds = 1 },
+	-- Independent confirmed-hit cosmetics; local lifetime starts on consumption. Not live-wired.
+	CastContactPresentation = { capacity = 128, perContact = 4, effectSeconds = 0.6 },
 	-- World and client end-of-life retention; covers max cast lifetime + expiry grace.
 	CastTerminal = { capacity = 2048, responseSeconds = 10, tombstoneSeconds = 12, maxLifetimeSeconds = 10 },
 	CastClientReceipt = { capacity = 256, responseSeconds = 10, tombstoneSeconds = 12, maxLifetimeSeconds = 10 },
