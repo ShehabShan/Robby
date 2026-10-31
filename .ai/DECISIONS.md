@@ -356,3 +356,6 @@ CastDeliveryFx has independent bounded primary/reserve pools. One bound world tr
 
 ### D-285 (S80, 2026-10-31) — separate metadata lifetime from engine subscriptions
 Split c2c2b into bounded gate-lifetime metadata registry (b1) and engine receipt/character/lifecycle wiring (b2). The registry pins one immutable command metadata object before gate admission and through future queues or reserve fallback, not just while the receipt inbox retains it. It does not own another clock or authorize effects.
+
+### D-286 (S80, 2026-10-31) — stage metadata before admission; prune against actual gate lifetime
+CastDeliveryStore pins metadata through future queue, active primary or reserve, including failed prediction identity awaiting acceptance. Drop only after all those paths end, not after pose death or receipt eviction. Duplicate mappings of the same receipt preserve the first metadata object; different receipt objects conflict conservatively. Capacity never evicts a live entry. Engine owner must stop admission when staging refuses, and use the stored canonical command.

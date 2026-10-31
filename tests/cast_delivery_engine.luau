@@ -7,6 +7,7 @@ local Plan = require("../src/shared/CastDeliveryPlan")
 local Geometry = require("../src/shared/CastGeometry")
 local Receipts = require("../src/shared/CastReceipts")
 local Map = require("../src/shared/CastCommandMap")
+local Store = require("../src/shared/CastDeliveryStore")
 local function command(kind, seq)
 	local a = {
 		castId = "g:" .. tostring(seq or 1),
@@ -42,7 +43,7 @@ local function command(kind, seq)
 		Map.accepted({ m = { delivery = kind, worldWarning = kind ~= "Self" } }, Receipts.get(r, a.castId, 0))
 	)
 end
-local function fixture(capacity)
+local function fixture(capacity, useStore)
 	local f = { objects = {}, commands = {}, faults = {}, frames = {}, stale = {}, disposers = {} }
 	local function fault(name)
 		if (f.faults[name] or 0) > 0 then
@@ -112,6 +113,7 @@ local function fixture(capacity)
 			environment = env,
 		})()
 	end
+	f.store = if useStore then Store.new(16) else nil
 	f.fx = modules.CastDeliveryFx
 	f.primary, f.reserve = f.fx.new(capacity or 256), f.fx.new(capacity or 64)
 	f.pose = { generation = "g", characterKey = "old", slotRevision = 4, casterUserId = 42, alive = true }
@@ -137,15 +139,26 @@ local function fixture(capacity)
 	end
 	f.gate = Gate.new(Config.CastWarning, function(frame)
 		table.insert(f.frames, { action = frame.action, now = frame.now, key = frame.key })
-		local cmd = f.commands[frame.key]
+		local e = if f.store then Store.get(f.store, frame.key) else nil
+		local cmd = if f.store then (if e then e.accepted else nil) else f.commands[frame.key]
 		return f.fx.primary(f.primary, wrap(frame, false), if cmd then cmd.metadata else nil, f.identity, f.pose)
 	end, function(frame)
-		local cmd = f.commands[frame.key]
+		local e = if f.store then Store.get(f.store, frame.key) else nil
+		local cmd = if f.store then (if e then e.accepted else nil) else f.commands[frame.key]
 		return f.fx.warning(f.reserve, wrap(frame, true), if cmd then cmd.metadata else nil)
 	end)
 	function f:accept(cmd, localNow, serverNow)
+		if self.store then
+			local result = Store.accept(self.store, cmd)
+			assert(result == "stored" or result == "duplicate", result)
+			cmd = assert(Store.get(self.store, cmd.key).accepted)
+		end
 		self.commands[cmd.key] = cmd
-		return Gate.accept(self.gate, cmd.key, cmd.timeline, localNow or 0, serverNow or 100)
+		local outcome = Gate.accept(self.gate, cmd.key, cmd.timeline, localNow or 0, serverNow or 100)
+		if self.store then
+			Store.prune(self.store, self.gate)
+		end
+		return outcome
 	end
 	function f:live(class)
 		local out = {}
@@ -158,6 +171,11 @@ local function fixture(capacity)
 	end
 	function f:stop()
 		Gate.destroy(self.gate)
+		if self.store then
+			Store.prune(self.store, self.gate)
+			assert(self.store.count == 0)
+			Store.destroy(self.store)
+		end
 		self.fx.destroy(self.primary)
 		self.fx.destroy(self.reserve)
 		assert(self.primary.count == 0 and self.reserve.count == 0 and #self:live() == 0, "leaked resources")
@@ -341,6 +359,30 @@ test("old disposers cannot clear reused key; teardown works in either order", fu
 	assert(#f:live() == 0)
 	assert(Gate.tick(f.gate, 1, 101)) -- closed renderer fails safely
 	f:stop()
+	f:stop()
+end)
+test("pinned registry composes future prediction adoption remap and late fallback", function()
+	local f, c = fixture(nil, true), command("Zone")
+	assert(Store.predict(f.store, c.key, f.identity) == "stored")
+	Gate.predict(f.gate, c.key, 0, 99.8)
+	f:accept(c, 0, 99.8)
+	assert(#f.objects == 0 and f.store.count == 1)
+	Gate.tick(f.gate, 0.3, 100.1)
+	Store.prune(f.store, f.gate)
+	local root = f:live("Folder")[1]
+	assert(root and f.primary.count == 1)
+	local remapped = Map.accepted({ m = c.metadata.style }, { acceptance = c.metadata.acceptance })
+	f:accept(remapped, 0.4, 100.2)
+	assert(Store.get(f.store, c.key).accepted == c and not root.dead)
+	table.clear(f.commands) -- renderer must use pinned registry, not the receipt producer
+	f.faults.update = 1
+	Gate.tick(f.gate, 2.2, 102)
+	Store.prune(f.store, f.gate)
+	assert(root.dead and f.primary.count == 0 and f.reserve.count == 1 and f.store.count == 1)
+	assert(f.reserve.entries[c.key].metadata == c.metadata)
+	Gate.cancel(f.gate, c.key, 3.2, 103)
+	Store.prune(f.store, f.gate)
+	assert(f.store.count == 0 and #f:live() == 0)
 	f:stop()
 end)
 print("DELIVERY ENGINE: PASS (" .. count .. " cases)")
