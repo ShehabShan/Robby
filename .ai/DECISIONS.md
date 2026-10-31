@@ -395,3 +395,6 @@ Use faint amber for provisional moving Burst (not a fixed damage footprint). Emp
 
 ### D-298 (S84) — Single keyed send policy
 Both inputs share CastSend allocation/generation and protected optional prediction, OFF until atomic cutover. Gameplay send is independent of delayed cosmetic identity. Uncertain transport consumes the sequence, never retries a potentially paid cast; cosmetic failures never duplicate sends. Handoff: research/notes/T-043c0b4c3a-keyed-sender.md.
+
+### D-299 (S85) — Ordered lifecycle with explicit acquisition boundary
+CastOwner rolls back returned owners in reverse order, isolates cleanup errors, and guards restart/reentrancy. A failed engine start must unwind its own acquisitions before throwing; c3b1b owns that work before live atomic cutover. Handoff: research/notes/T-043c0b4c3b1a-owner-policy.md.
