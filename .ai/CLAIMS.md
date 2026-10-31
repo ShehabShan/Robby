@@ -5,4 +5,3 @@ Never start a task that has a row here. A claim whose branch had no push for 2 h
 
 | Session | Task | Branch | Decisions | Claimed (UTC) | Bot | Note |
 |---|---|---|---|---|---|---|
-| S57 | T-035 | session/S57 | D-213..D-222 | 2026-10-31 13:06 | 45dfa146-834c-435d-b87e-867793eea38f | owner: Tab player list + inventory icon |
