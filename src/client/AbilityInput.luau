@@ -24,7 +24,8 @@ function AbilityInput.start(
 	send: (moveId: string, aim: Vector3, point: Vector3?) -> (),
 	fx: FxRegistry.Registry,
 	move: any,
-	binding: Binding
+	binding: Binding,
+	canRequest: () -> boolean
 )
 	local player = Players.LocalPlayer
 	local lastCast: number? = nil
@@ -36,6 +37,9 @@ function AbilityInput.start(
 	): Enum.ContextActionResult
 		if state ~= Enum.UserInputState.Begin then
 			return Enum.ContextActionResult.Pass
+		end
+		if not canRequest() then
+			return Enum.ContextActionResult.Sink
 		end
 		local character = player.Character
 		local camera = workspace.CurrentCamera

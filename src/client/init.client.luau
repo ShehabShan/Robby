@@ -46,12 +46,16 @@ local nextCastSeq = CastRequest.allocator()
 local function cast(moveId: string, aim: Vector3, point: Vector3?)
 	Net.CastRequest.Fire({ moveId = moveId, aim = aim, point = point, seq = nextCastSeq() })
 end
+-- b3b2 replaces this with current-character generation readiness. No wire gate yet.
+local function canRequestCast(): boolean
+	return true
+end
 -- Wind Step stays on R/L2 (owner, D-217). Crescent Cut left E: it is a slot move now (KithInput, T-036a, D-216).
 AbilityInput.start(cast, fx, built.moves["move.wind_step"], {
 	name = "WindStep",
 	title = "Step",
 	keys = { Enum.KeyCode.R, Enum.KeyCode.ButtonL2 },
-})
+}, canRequestCast)
 
 local function action(kind: string, dir: Vector3?, seq: number)
 	Net.Action.Fire({ kind = kind :: any, dir = dir, seq = seq })
@@ -62,7 +66,7 @@ CombatInput.start(action)
 KithInput.start(cast, function(slot: number)
 	Hud.select(slot) -- predicted highlight before the server round trip (T-038c, D-223)
 	Net.SelectSlot.Fire({ slot = slot })
-end, fx, built)
+end, fx, built, canRequestCast)
 
 Net.CastFx.On(function(v)
 	if v.caster == player then

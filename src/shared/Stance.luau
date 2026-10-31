@@ -20,6 +20,13 @@ function Stance.new(): State
 	return { on = false, chain = Combat.newChain(), finisherAt = -math.huge }
 end
 
+-- Isolated trial state for local input gates and authoritative payment.
+function Stance.copy(s: State): State
+	local copy = table.clone(s)
+	copy.chain = table.clone(s.chain)
+	return copy
+end
+
 -- Builds a Kith's Kit from its Registry entry: the chain move is the one carrying a `chain` table, the finisher
 -- is `<chain id>_finisher` (D-185), every other move is a special. nil when the Kith has no chain move.
 function Stance.kit(kith: any, moves: { [string]: any }): Kit?

@@ -22,8 +22,7 @@ function CastTransaction.pay(
 		if stance == nil or cfg == nil or kit == nil then
 			return false, "stance_config"
 		end
-		local candidate = table.clone(stance)
-		candidate.chain = table.clone(stance.chain)
+		local candidate = Stance.copy(stance)
 		nextStance = candidate
 		if not Stance.verify(candidate, now, cfg, kit, move.id) then
 			return false, "stance"

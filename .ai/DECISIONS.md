@@ -249,3 +249,8 @@ Unused Shared.CastPresentation owns prediction→accepted→terminal states, imm
 - Shared.CastAdmission wraps CastLedger with lossless decoded-vector binary fingerprints, immutable validated requests, server scope/epoch/cast identity, bounded renewal policy and one synchronous authorization call. Config.CastProtocol is prepared, not yet live.
 - Failed authorization is cached too; exceptions/yields fail closed for that request and never retry partial side effects, but cannot roll back engine work. b3b must keep its callback non-yielding/non-throwing and retain world hazards across generation rotation; b3c owns full reliable receipts.
 - Policy and limits, explicit rotation/old-generation rejection, tests and remaining work: research/notes/T-043c0b3a-admission.md. 327 pure specs + full check PASS; no publication.
+
+### D-246 — Reversible local stance selection before readiness (S69, 2026-10-31)
+- Both input modules take a required canRequest callback checked before local FX/send/cooldown. init.client intentionally passes true until b3b2 supplies matching-character generation readiness; no pretend network handshake is shipped here.
+- KithInput now trials chain/special selection on Stance.copy and commits only after local fire passes. Previously failed Qi/cooldown/death/slot checks could consume an uncast finisher or shot-2 cancel and desync the next intent. Accepted timing and controls unchanged. CastTransaction reuses the same deep-copy helper.
+- 11 real input mocks now cover readiness, interleaved senders, unpaid/cooling specials and rejected-finisher retries. CHECK PASS with 327 pure + 6 dispatcher mocks + timing/authoring. Client confirmation/rejection reconciliation still waits b3c/b4.

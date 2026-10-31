@@ -59,7 +59,13 @@ local function groundPoint(camera: Camera, character: Model, root: BasePart, par
 	return p
 end
 
-function KithInput.start(sendCast: SendCast, selectSlot: SelectSlot, fx: FxRegistry.Registry, built: any)
+function KithInput.start(
+	sendCast: SendCast,
+	selectSlot: SelectSlot,
+	fx: FxRegistry.Registry,
+	built: any,
+	canRequest: () -> boolean
+)
 	local player = Players.LocalPlayer
 	local kit: Stance.Kit? = nil -- nil = the live Kith has no chain: left click is the light chain
 	local cfg: Stance.Cfg? = nil
@@ -81,6 +87,9 @@ function KithInput.start(sendCast: SendCast, selectSlot: SelectSlot, fx: FxRegis
 	end
 
 	local function fire(moveId: string, now: number): boolean
+		if not canRequest() then
+			return false
+		end
 		local move = built.moves[moveId]
 		local character, root, camera = ready()
 		if not move or not character or not root or not camera then
@@ -153,9 +162,10 @@ function KithInput.start(sendCast: SendCast, selectSlot: SelectSlot, fx: FxRegis
 				return Enum.ContextActionResult.Pass
 			end
 			local now = os.clock()
-			local id = Stance.press(state, now, c, k)
-			if id then
-				fire(id, now)
+			local candidate = Stance.copy(state)
+			local id = Stance.press(candidate, now, c, k)
+			if id and fire(id, now) then
+				state = candidate
 			end
 			return Enum.ContextActionResult.Sink
 		end,
@@ -187,8 +197,9 @@ function KithInput.start(sendCast: SendCast, selectSlot: SelectSlot, fx: FxRegis
 					return Enum.ContextActionResult.Pass
 				end
 				local now = os.clock()
-				if not k or not c or Stance.special(state, now, c, k, moveId) then
-					fire(moveId, now)
+				local candidate = Stance.copy(state)
+				if (not k or not c or Stance.special(candidate, now, c, k, moveId)) and fire(moveId, now) then
+					state = candidate
 				end
 				return Enum.ContextActionResult.Sink
 			end, true, key)

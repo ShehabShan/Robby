@@ -36,6 +36,7 @@ local function harness(initial)
 		selected = {},
 		played = {},
 		time = 100,
+		ready = true,
 		health = 100,
 	}
 	local signals = {}
@@ -148,7 +149,7 @@ local function harness(initial)
 	local input = luau.load(inputSource, { environment = env, injectGlobals = true })()
 	-- Execute the real init.client sender seam; both real input modules share it.
 	local startAt = assert(initSource:find("local nextCastSeq =", 1, true))
-	local endAt = assert(initSource:find("-- Wind Step stays", startAt, true))
+	local endAt = assert(initSource:find("-- b3b2 replaces", startAt, true))
 	assert(not initSource:find("Net.CastRequest.Fire", endAt, true), "extra unshared cast sender")
 	assert(initSource:find("AbilityInput.start(cast,", 1, true))
 	assert(initSource:find("KithInput.start(cast,", 1, true))
@@ -178,11 +179,22 @@ local function harness(initial)
 		cast,
 		fx,
 		built.moves["move.wind_step"],
-		{ name = "WindStep", title = "Step", keys = { E.KeyCode.R } }
+		{ name = "WindStep", title = "Step", keys = { E.KeyCode.R } },
+		function()
+			return h.ready
+		end
 	)
-	input.start(cast, function(slot)
-		table.insert(h.selected, slot)
-	end, fx, built)
+	input.start(
+		cast,
+		function(slot)
+			table.insert(h.selected, slot)
+		end,
+		fx,
+		built,
+		function()
+			return h.ready
+		end
+	)
 	function h:respawn()
 		player.Character = table.clone(character)
 	end
@@ -212,6 +224,73 @@ local function harness(initial)
 end
 
 local cases = {
+	["readiness blocks both input sources without FX cooldown or chain consumption"] = function()
+		local h = harness("kith.rimeshard")
+		h.ready = false
+		for _, key in { E.KeyCode.R, E.KeyCode.Z, E.KeyCode.X, E.UserInputType.MouseButton1 } do
+			h:press(key)
+		end
+		eq(#h.sent, 0)
+		eq(#h.played, 0)
+		h.ready = true
+		h:press(E.UserInputType.MouseButton1)
+		eq(h.sent[1].id, "move.rime.needle")
+		h:press(E.KeyCode.R)
+		eq(h.sent[2].id, "move.wind_step")
+		h.time += 0.25
+		h:press(E.UserInputType.MouseButton1)
+		eq(h.sent[3].id, "move.rime.needle", "second shot not finisher")
+	end,
+	["unpaid special does not consume local shot2 cancel"] = function()
+		local h = harness("kith.rimeshard")
+		h:press(E.UserInputType.MouseButton1)
+		h.time += 0.25
+		h:press(E.UserInputType.MouseButton1)
+		h.attrs.Qi = 0
+		h:press(E.KeyCode.Z)
+		eq(#h.sent, 2)
+		h.attrs.Qi = 100
+		h.time += 0.25
+		h:press(E.UserInputType.MouseButton1)
+		eq(h.sent[3].id, "move.rime.needle_finisher")
+	end,
+	["failed finisher retains shot2 through readiness Qi death and slot guards"] = function()
+		for _, reason in { "ready", "qi", "dead", "dormant" } do
+			local h = harness("kith.rimeshard")
+			h:press(E.UserInputType.MouseButton1)
+			h.time += 0.25
+			h:press(E.UserInputType.MouseButton1)
+			h.time += 0.25
+			if reason == "ready" then
+				h.ready = false
+			elseif reason == "qi" then
+				h.attrs.Qi = 0
+			elseif reason == "dead" then
+				h.health = 0
+			else
+				h.attrs.Slot1State = "Dormant"
+			end
+			local fx = #h.played
+			h:press(E.UserInputType.MouseButton1)
+			eq(#h.sent, 2)
+			eq(#h.played, fx)
+			h.ready, h.attrs.Qi, h.health, h.attrs.Slot1State = true, 100, 100, "Ready"
+			h:press(E.UserInputType.MouseButton1)
+			eq(h.sent[3].id, "move.rime.needle_finisher", reason)
+		end
+	end,
+	["cooling special cannot consume shot2 cancel"] = function()
+		local h = harness("kith.rimeshard")
+		h:press(E.KeyCode.Z)
+		h:press(E.UserInputType.MouseButton1)
+		h.time += 0.25
+		h:press(E.UserInputType.MouseButton1)
+		h:press(E.KeyCode.Z)
+		eq(#h.sent, 3)
+		h.time += 0.25
+		h:press(E.UserInputType.MouseButton1)
+		eq(h.sent[4].id, "move.rime.needle_finisher")
+	end,
 	["fixed and slot inputs share identity across slot change and respawn"] = function()
 		local h = harness("kith.rimeshard")
 		h:press(E.KeyCode.R)
