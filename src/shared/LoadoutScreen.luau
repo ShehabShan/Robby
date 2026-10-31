@@ -203,7 +203,7 @@ function LoadoutScreen.build(s: State): { any }
 		w = w - 80,
 		h = 28,
 		color = WHITE,
-		text = "Loadout",
+		text = "Inventory", -- owner's name for this screen (T-039c, D-226)
 		textSize = 20,
 		align = "left",
 	})
@@ -319,6 +319,7 @@ function LoadoutScreen.build(s: State): { any }
 		top += 34
 	end
 	local listW = w - 2 * MARGIN
+	local unequipW = math.min(listW, if touch then 140 else 180)
 	local equipped: { [string]: number } = {}
 	for i, uid in s.slotUids do
 		if uid then
@@ -326,9 +327,24 @@ function LoadoutScreen.build(s: State): { any }
 		end
 	end
 	local bottomLimit = y0 + h - MARGIN - rowH - GAP
+	-- Rows that fit; when Kith overflow, the last row slot becomes a "+N more Kith" line (T-039c, D-226).
+	local cap = math.max(0, math.floor((bottomLimit - top + 4) / (rowH + 4)))
+	local shown = if #s.owned > cap then math.max(cap - 1, 0) else #s.owned
 	for i, o in s.owned do
 		local y = top + (i - 1) * (rowH + 4)
-		if y + rowH > bottomLimit then
+		if i > shown then
+			table.insert(out, {
+				id = "more",
+				kind = "text",
+				x = x0 + MARGIN,
+				y = y,
+				w = listW,
+				h = 16,
+				color = { 180, 190, 205 },
+				text = `+{#s.owned - shown} more Kith`,
+				textSize = 12,
+				align = "left",
+			})
 			break -- scrolling comes with more Kith (later task)
 		end
 		local role = s.roles[o.species]
@@ -361,7 +377,7 @@ function LoadoutScreen.build(s: State): { any }
 		"unequip",
 		x0 + MARGIN,
 		y0 + h - MARGIN - rowH,
-		math.min(listW, 200),
+		unequipW,
 		rowH,
 		{ 70, 70, 80 },
 		"Unequip slot",
@@ -372,9 +388,11 @@ function LoadoutScreen.build(s: State): { any }
 	table.insert(out, {
 		id = "selectHint",
 		kind = "text",
-		x = x0 + MARGIN,
+		wrap = true,
+		-- Right of the Unequip button, left of the close hint: no overlap (T-039c, D-226).
+		x = x0 + MARGIN + unequipW + GAP,
 		y = y0 + h - MARGIN - rowH,
-		w = 300,
+		w = listW - unequipW - GAP - (if touch then 0 else 160 + GAP),
 		h = rowH,
 		color = { 180, 190, 205 },
 		text = LoadoutScreen.selectHint(s.platform),

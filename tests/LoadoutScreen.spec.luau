@@ -122,6 +122,26 @@ return {
 			eq(e.x >= 0 and e.y >= 0 and e.x + e.w <= 360 and e.y + e.h <= 640, true, `{e.id} inside`)
 		end
 	end,
+	["inventory: titled Inventory, footer does not overlap, extra Kith counted (T-039c)"] = function()
+		local function hit(a: any, b: any): boolean
+			return a.x < b.x + b.w and b.x < a.x + a.w and a.y < b.y + b.h and b.y < a.y + a.h
+		end
+		for _, p in { { "touch", 360, 640 }, { "pc", 1280, 720 }, { "gamepad", 1280, 720 } } do
+			local s = state(p[1], p[2], p[3], 3)
+			local raw = {}
+			for i = 1, 14 do
+				table.insert(raw, `k{string.format("%02d", i)}=kith.wind`)
+			end
+			s.owned = LoadoutScreen.parseOwned(table.concat(raw, ","))
+			local m = byId(LoadoutScreen.build(s))
+			eq(m.title.text, "Inventory", "title")
+			eq(hit(m.unequip, m.selectHint), false, `{p[1]} unequip vs hint`)
+			if m.hint then
+				eq(hit(m.selectHint, m.hint), false, `{p[1]} hint vs close hint`)
+			end
+			assert(m.more ~= nil and m.more.text:find("more Kith") ~= nil, `{p[1]} more line`)
+		end
+	end,
 	["loadout: Refine hint shows only with a bonus"] = function()
 		assert(LoadoutScreen.refineText(1.5) == "Refine ×1.5", "1.5")
 		assert(LoadoutScreen.refineText(1) == nil and LoadoutScreen.refineText(nil) == nil, "no bonus")
