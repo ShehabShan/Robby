@@ -1,10 +1,11 @@
 # STATE
 
-## Now (after S84 sender slice)
-- S84 merged 6e287aa: shared keyed sender done (D-298), CHECK579 pure/79 specs. Prediction OFF; legacy unchanged. Handoff research/notes/T-043c0b4c3a-keyed-sender.md.
-- S83 merged 0a1736a: truthful moving Burst c1/c2 complete (D-294–D-297). CHECK PASS: 571 pure/78 specs, 7 character-client/29 delivery-engine cases; nine verified mutations restored.
-- **NEXT: T-043c0b4c3b1** prepared coordinated lifecycle, then c3b2 atomic legacy replacement, then d2 M1 visuals. Handoffs: research/notes/T-043c0b4c2c2c1-burst-policy.md and T-043c0b4c2c2c2-burst-engine.md.
-- Burst shows fresh original-caster provisional pre-release cue; at release no inferred exact centre. Startup OFF; pose art incomplete. No publication/cloud/device validation or owner action. S83 continuing below budget.
+## Now (after S85)
+- S83/S84/S85 merged: truthful Burst, shared keyed sender, pure ordered lifecycle. Final code merge 78a9327. CHECK PASS: 586 pure/80 specs, 7 character-client/29 delivery-engine; 15 behavioral mutations detected/restored across the slices.
+- **NEXT: T-043c0b4c3b1b** exception-safe engine starts and prepared coordinated owner; then c3b2 atomic legacy replacement, then d2 M1 visuals. Resume from research/notes/T-043c0b4c3b1a-owner-policy.md; earlier handoffs c3a-keyed-sender and c2c2c1/c2 Burst notes.
+- Pure CastOwner cannot recover resources a failing engine start never returned. Receipt listener and consumer heartbeat acquisition must unwind inside each start before composition. No new framework needed.
+- Startup/prediction remain OFF; legacy unchanged. Burst pre-release cue is provisional, never an inferred exact release centre. No publication/cloud/device validation. No owner action/blocker.
+- Cumulative 42 OLU at final close-out; user's saving deadline 45, hard cap 50. Repo is the continuation record.
 
 ### S81 history
 - S81 merged 8758684: T-043c0b4c2c2b2a bounded borrowed-receipt dispatcher, terminal-batch cancellation and explicit restart suppression done (D-287–D-289). CHECK PASS: 565 pure/77 specs, 17 actual-source delivery engine cases; 10 behavioral mutations detected/restored and 100 leak-free dispatcher turnovers. No startup cutover, gameplay timing changes, cloud/device test or publication.
@@ -111,10 +112,10 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-043 overhaul: c0b4 presentation (delivery Fx/metadata/receipt dispatcher/original-character owner done → truthful Burst → atomic cutover), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-043c0b4c3b1 — prepared coordinated lifecycle, then c3b2 atomic live cutover and d2 M1 visuals. Resume from S82 handoffs above; identity replica/borrowed owner ready but not started. No duplicate legacy/keyed rendering or fake fixed Burst centre.
+- **NEXT:** T-043c0b4c3b1b — exception-safe engine lifecycle, then c3b2 atomic live cutover and d2 M1 visuals. Resume from S82 handoffs above; identity replica/borrowed owner ready but not started. No duplicate legacy/keyed rendering or fake fixed Burst centre.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-043c0b4c3b1 coordinated lifecycle (serialized) · c3a shared sender (done)
+  - T-043c0b4c3b1b exception-safe lifecycle (serialized) · c3a sender/b1a policy (done)
   - T-043c0b4c3 atomic keyed startup/legacy cutover · b4c2
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
   - T-043h1 truthful Chill state · T-043b + T-043c1 (done) + T-043c0b (coordinate remotes)
