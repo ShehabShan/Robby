@@ -257,3 +257,6 @@ Unused Shared.CastPresentation owns prediction→accepted→terminal states, imm
 
 ### D-247 — Explicit live authorization seam (S70, 2026-10-31)
 T-043c0b3b2 split into b2a authorization + b2b generation/replay. Abilities authorizes synchronously with explicit rejection reasons and a captured delivery context; payment/stance/strain stay inside, attributes/combat marker/delivery scheduling outside. Existing successful dispatch timing is preserved. This seam alone does not prevent replay or provide receipts. Actual-source mocks cover rejection matrix and no engine work/yield during acceptance.
+
+### D-248 — Character-bound generation and replay activation (S70, 2026-10-31)
+Server-owned GUID scope + monotonic epoch, reliable CastGeneration and rate-limited CastSync; sync never rotates. Bind readiness to actual character Instance (not attributes), listener first with one-second retries only while unready. Keep one connection-lifetime sequence across epochs; never retry a possibly paid cast. CastAdmission wraps the real synchronous authorizer; only fresh acceptance dispatches effects. Character replacement resets server/client stance; leave disconnects listeners and destroys ledger. Heartbeat prunes. Accepted world zones unchanged; clocks/receipts/reconciliation remain b3c/b4. Full local gate passes; not real-network/device proof.

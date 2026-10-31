@@ -14,9 +14,28 @@ event CastRequest {
 	Call: SingleSync,
 	Data: struct {
 		moveId: string(..64),
+		generation: string(..64),
 		aim: vector,
 		point: vector?, -- ground point for `target = "Point"` moves (Rime Fall, T-027d1); validated server-side
 		seq: u16,
+	},
+}
+
+-- Listener-ready / replication-race sync: never rotates server generation.
+event CastSync {
+	From: Client,
+	Type: Reliable,
+	Call: SingleSync,
+	Data: u8,
+}
+event CastGeneration {
+	From: Server,
+	Type: Reliable,
+	Call: SingleSync,
+	Data: struct {
+		generation: string(..64),
+		epoch: u32,
+		character: Instance(Model)?,
 	},
 }
 

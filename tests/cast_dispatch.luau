@@ -15,10 +15,35 @@ local function slice(first, after)
 	assert(not source:find(first, a + 1, true), "ambiguous source seam")
 	return source:sub(a, b - 1)
 end
-local dispatch = slice("Net.CastRequest.On(function(player: Player, value)", "\n\tRunService.Heartbeat:Connect")
+local dispatch = slice("function Abilities.start()", "\n\tRunService.Heartbeat:Connect") .. "\nend\nAbilities.start()"
 local authorization = slice("-- T-043c0b3b2a: explicit", "function Abilities.start()")
 local kitSource = slice("local function kitFor(", "local function stanceFor(")
-local function harness(step)
+local function signal()
+	local listeners = {}
+	return {
+		Connect = function(_, fn)
+			listeners[fn] = true
+			return {
+				Disconnect = function()
+					listeners[fn] = nil
+				end,
+			}
+		end,
+		Fire = function(_, ...)
+			for fn in listeners do
+				fn(...)
+			end
+		end,
+		count = function()
+			local n = 0
+			for _ in listeners do
+				n += 1
+			end
+			return n
+		end,
+	}
+end
+local function harness(step, protocol)
 	local h = {
 		now = 100.01,
 		qi = { current = 100 },
@@ -40,10 +65,28 @@ local function harness(step)
 			return { Health = h.hp or 100 }
 		end,
 	}
+	local attrs = { ActiveSlot = 1, ActiveKith = "kith.rimeshard" }
+	local changed = signal()
 	local player = {
 		Character = character,
-		GetAttribute = function()
-			return 1
+		CharacterAdded = signal(),
+		CharacterRemoving = signal(),
+		GetAttribute = function(_, name)
+			return attrs[name]
+		end,
+		SetAttribute = function(_, name, value)
+			attrs[name] = value
+		end,
+		GetAttributeChangedSignal = function()
+			return changed
+		end,
+	}
+	local stances = {}
+	local players = {
+		PlayerAdded = signal(),
+		PlayerRemoving = signal(),
+		GetPlayers = function()
+			return { player }
 		end,
 	}
 	local function delivery(kind)
@@ -52,7 +95,23 @@ local function harness(step)
 		end
 	end
 	local env = {
-		Config = Config,
+		Config = if protocol then setmetatable({ CastProtocol = protocol }, { __index = Config }) else Config,
+		Abilities = {},
+		Players = players,
+		stances = stances,
+		Qi = require("../src/shared/Qi"),
+		CastAdmission = require("../src/shared/CastAdmission"),
+		HttpService = {
+			GenerateGUID = function()
+				return "server-test"
+			end,
+		},
+		Status = {
+			clear = function()
+				h.cleared = true
+			end,
+		},
+		statuses = {},
 		built = built,
 		Stance = Stance,
 		CastRequest = require("../src/shared/CastRequest"),
@@ -63,11 +122,25 @@ local function harness(step)
 		CHEST = rb.Vector3.new(0, 0.5, 0),
 		pools = { [player] = h.qi },
 		cooldowns = { [player] = h.cds },
-		Net = { CastRequest = {
-			On = function(fn)
-				h.callback = fn
-			end,
-		} },
+		Net = {
+			CastGeneration = {
+				Fire = function(_, v)
+					h.snapshot = v
+				end,
+			},
+			CastSync = {
+				On = function(fn)
+					h.sync = function()
+						fn(player)
+					end
+				end,
+			},
+			CastRequest = {
+				On = function(fn)
+					h.callback = fn
+				end,
+			},
+		},
 		RemoteGuard = {
 			allow = function()
 				return h.allowed
@@ -115,7 +188,10 @@ local function harness(step)
 			return if h.noRoot then nil else root
 		end,
 		stanceFor = function()
-			return h.stance
+			if not stances[player] then
+				stances[player] = Stance.new()
+			end
+			return stances[player]
 		end,
 		os = {
 			clock = function()
@@ -135,9 +211,20 @@ local function harness(step)
 		fireCast = function() end,
 	}
 	local seam = luau.load(
-		kitSource .. authorization .. dispatch .. "\nreturn { authorize = authorizeCast, deliver = deliverCast }",
+		kitSource
+			.. authorization
+			.. dispatch
+			.. "\nreturn { authorize = authorizeCast, deliver = deliverCast, sessions = castSessions }",
 		{ environment = env, injectGlobals = true }
 	)()
+	h.sessions = seam.sessions
+	h.qi = env.pools[player]
+	h.qi.current = 100
+	h.cds = env.cooldowns[player]
+	h.stance = stances[player]
+	h.stance.chain.step, h.stance.chain.lastAt = step or 0, if step then 100 else -math.huge
+	h.published = 0
+	h.players, h.changed = players, changed
 	h.authorize = function(value)
 		return seam.authorize(player, value)
 	end
@@ -145,11 +232,16 @@ local function harness(step)
 	h.player = player
 	h.env = env
 	h.root = root
+	local seq = 0
 	function h:send(id)
-		self.callback(
-			player,
-			{ moveId = id, seq = 1, aim = rb.Vector3.new(0, 0, -1), point = rb.Vector3.new(0, 0, -10) }
-		)
+		seq += 1
+		self.callback(player, {
+			moveId = id,
+			seq = seq,
+			generation = h.snapshot.generation,
+			aim = rb.Vector3.new(0, 0, -1),
+			point = rb.Vector3.new(0, 0, -10),
+		})
 	end
 	return h
 end
@@ -165,7 +257,91 @@ local function request(id)
 		point = rb.Vector3.new(0, 0, -10),
 	}
 end
+local function packet(h, seq, move)
+	local v = request(move or "move.wind_step")
+	v.seq, v.generation = seq, h.snapshot.generation
+	return v
+end
 local cases = {
+	["live replay blocks duplicate and changed payload; expiry does not reopen payment"] = function()
+		local h = harness()
+		local v = packet(h, 1)
+		h.callback(h.player, v)
+		local qi, cooldown = h.qi.current, h.cds[v.moveId]
+		h.callback(h.player, v)
+		local changed = table.clone(v)
+		changed.aim = rb.Vector3.new(1, 0, 0)
+		h.callback(h.player, changed)
+		h.now += 11
+		h.callback(h.player, v)
+		assert(#h.deliveries == 1 and h.strain == 1 and h.fought == 1 and h.published == 1)
+		assert(h.qi.current == qi and h.cds[v.moveId] == cooldown)
+	end,
+	["failed live authorization cached even after resources recover; new request succeeds"] = function()
+		local h = harness()
+		local v = packet(h, 1)
+		h.qi.current = 0
+		h.callback(h.player, v)
+		h.qi.current = 100
+		h.callback(h.player, v)
+		assert(#h.deliveries == 0 and h.qi.current == 100)
+		h.callback(h.player, packet(h, 2))
+		assert(#h.deliveries == 1 and h.strain == 1)
+	end,
+	["server renewal rejects old inflight traffic; sync never rotates or retries"] = function()
+		local h = harness(nil, { capacity = 4, maxAdvance = 2, responseSeconds = 10, renewDistance = 3 })
+		local original = h.snapshot.generation
+		for seq = 65534, 65537 do
+			h.callback(h.player, packet(h, seq % 65536))
+			h.now += 10
+		end
+		assert(#h.deliveries == 4 and h.snapshot.generation ~= original)
+		local epoch, generation = h.snapshot.epoch, h.snapshot.generation
+		local old = packet(h, 2)
+		old.generation = original
+		h.callback(h.player, old)
+		h.sync()
+		h.sync()
+		assert(#h.deliveries == 4 and h.snapshot.epoch == epoch and h.snapshot.generation == generation)
+		h.callback(h.player, packet(h, 2))
+		assert(#h.deliveries == 5 and h.strain == 5)
+	end,
+	["actual character lifecycle resets stance, binds identity and destroys connections"] = function()
+		local h = harness(2)
+		local old, oldGeneration = h.player.Character, h.snapshot.generation
+		local v = packet(h, 1)
+		-- Property changes ahead of the character event: never authorize under old scope.
+		local new = table.clone(old)
+		h.player.Character = new
+		h.callback(h.player, v)
+		assert(#h.deliveries == 0)
+		h.player.CharacterRemoving:Fire(old)
+		assert(h.snapshot.character == nil)
+		h.player.CharacterAdded:Fire(new)
+		assert(h.snapshot.character == new and h.snapshot.generation ~= oldGeneration)
+		assert(h.env.stances[h.player].chain.step == 0 and h.env.stances[h.player].finisherAt == -math.huge)
+		h.callback(h.player, v)
+		assert(#h.deliveries == 0)
+		h.callback(h.player, packet(h, 2, "move.rime.needle"))
+		assert(#h.deliveries == 1)
+		local session = h.sessions[h.player]
+		h.players.PlayerRemoving:Fire(h.player)
+		assert(session.admission.closed and next(session.admission.ledger.entries) == nil)
+		assert(h.sessions[h.player] == nil and h.env.pools[h.player] == nil and h.env.stances[h.player] == nil)
+		assert(
+			h.player.CharacterAdded.count() == 0 and h.player.CharacterRemoving.count() == 0 and h.changed.count() == 0
+		)
+		h.callback(h.player, packet(h, 3))
+		assert(#h.deliveries == 1 and h.cleared)
+	end,
+	["nonfinite optional point rejected before payment even on non-zone move"] = function()
+		local h = harness()
+		local v = packet(h, 1)
+		v.point = rb.Vector3.new(0, 0 / 0, 0)
+		h.callback(h.player, v)
+		assert(#h.deliveries == 0 and h.strain == 0 and h.qi.current == 100)
+	end,
+
 	["explicit rejection reasons leave payment and delivery untouched"] = function()
 		local rows = {
 			{

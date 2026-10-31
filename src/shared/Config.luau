@@ -88,6 +88,7 @@ local Config = {
 	RemoteRates = {
 		default = { rate = 10, burst = 10 },
 		CastRequest = { rate = 10, burst = 10 },
+		CastSync = { rate = 2, burst = 4 },
 		Action = { rate = 15, burst = 15 },
 		Equip = { rate = 4, burst = 8 },
 		SelectSlot = { rate = 8, burst = 8 },

@@ -7,6 +7,7 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
+local HttpService = game:GetService("HttpService")
 
 local Config = require(ReplicatedStorage.Shared.Config)
 local Qi = require(ReplicatedStorage.Shared.Qi)
@@ -14,6 +15,8 @@ local Tags = require(ReplicatedStorage.Shared.Tags)
 local Effects = require(ReplicatedStorage.Shared.Effects)
 local Moves = require(ReplicatedStorage.Shared.Moves)
 local CastTransaction = require(ReplicatedStorage.Shared.CastTransaction)
+local CastAdmission = require(ReplicatedStorage.Shared.CastAdmission)
+local CastLedger = require(ReplicatedStorage.Shared.CastLedger)
 local Registry = require(ReplicatedStorage.Shared.Registry)
 local DamageMath = require(ReplicatedStorage.Shared.DamageMath)
 local Projectile = require(ReplicatedStorage.Shared.Deliveries.Projectile)
@@ -534,8 +537,27 @@ local function deliverCast(accepted: AcceptedCast)
 	end
 end
 
+type CastSession = { admission: CastAdmission.State, character: Model?, connections: { RBXScriptConnection } }
+local castSessions: { [Player]: CastSession } = {}
+local function syncCast(player: Player, session: CastSession)
+	Net.CastGeneration.Fire(player, {
+		generation = session.admission.ledger.generation,
+		epoch = session.admission.epoch,
+		character = session.character,
+	})
+end
+local function castVector(v: Vector3): CastAdmission.Vec
+	return { x = v.X, y = v.Y, z = v.Z }
+end
+
 function Abilities.start()
 	local function join(player: Player)
+		local session: CastSession = {
+			admission = CastAdmission.new(HttpService:GenerateGUID(false), Config.CastProtocol),
+			character = nil,
+			connections = {},
+		}
+		castSessions[player] = session
 		local pool = Qi.new(Config.Qi.max, Config.Qi.regen)
 		pools[player] = pool
 		cooldowns[player] = {}
@@ -548,27 +570,108 @@ function Abilities.start()
 			local on = Stance.set(stanceFor(player), kith ~= nil and Stance.kit(kith, built.moves) ~= nil)
 			player:SetAttribute("Stance", on)
 		end
-		player:GetAttributeChangedSignal("ActiveKith"):Connect(followSlot)
+		table.insert(session.connections, player:GetAttributeChangedSignal("ActiveKith"):Connect(followSlot))
+		local function characterAdded(character: Model)
+			if session.character == character then
+				return
+			end
+			session.character = character
+			CastAdmission.rotate(session.admission)
+			stances[player] = Stance.new()
+			followSlot()
+			syncCast(player, session)
+		end
+		table.insert(session.connections, player.CharacterAdded:Connect(characterAdded))
+		table.insert(
+			session.connections,
+			player.CharacterRemoving:Connect(function(character: Model)
+				if session.character ~= character then
+					return
+				end
+				session.character = nil
+				CastAdmission.rotate(session.admission)
+				stances[player] = Stance.new()
+				syncCast(player, session)
+			end)
+		)
 		followSlot()
+		if player.Character then
+			characterAdded(player.Character)
+		end
 	end
 	Players.PlayerAdded:Connect(join)
 	for _, p in Players:GetPlayers() do
 		join(p)
 	end
 	Players.PlayerRemoving:Connect(function(player: Player)
+		local session = castSessions[player]
+		if session then
+			CastAdmission.destroy(session.admission)
+			for _, connection in session.connections do
+				connection:Disconnect()
+			end
+			castSessions[player] = nil
+		end
 		pools[player] = nil
 		cooldowns[player] = nil
 		stances[player] = nil
 		Status.clear(statuses, player)
 	end)
 
+	Net.CastSync.On(function(player: Player)
+		local session = castSessions[player]
+		if session and RemoteGuard.allow(player, "CastSync") then
+			syncCast(player, session)
+		end
+	end)
 	Net.CastRequest.On(function(player: Player, value)
 		if not RemoteGuard.allow(player, "CastRequest") then
 			return
 		end
-		local accepted = authorizeCast(player, value)
-		if accepted then
+		local session = castSessions[player]
+		if not session then
+			return
+		end
+		if session.character == nil or session.character ~= player.Character then
+			syncCast(player, session)
+			return
+		end
+		local accepted: AcceptedCast? = nil
+		local result = CastAdmission.dispatch(
+			session.admission,
+			{
+				generation = value.generation,
+				seq = value.seq,
+				moveId = value.moveId,
+				aim = castVector(value.aim),
+				point = if value.point then castVector(value.point) else nil,
+			},
+			os.clock(),
+			function(request, _castId)
+				local context, reason = authorizeCast(player, {
+					moveId = request.moveId,
+					seq = request.seq,
+					aim = Vector3.new(request.aim.x, request.aim.y, request.aim.z),
+					point = if request.point
+						then Vector3.new(request.point.x, request.point.y, request.point.z)
+						else nil,
+				})
+				accepted = context
+				return context ~= nil, reason
+			end
+		)
+		if result.receipt and result.receipt.reason == "internal_error" then
+			warn("Cast authorization internal_error")
+		end
+		-- Duplicate dispositions never populate accepted; no payment or delivery replay.
+		if result.kind == "completed" and result.receipt and result.receipt.status == "accepted" and accepted then
 			deliverCast(accepted)
+		end
+		if result.renew then
+			CastAdmission.rotate(session.admission)
+		end
+		if result.renew or result.reason == "generation" then
+			syncCast(player, session)
 		end
 	end)
 
@@ -578,6 +681,9 @@ function Abilities.start()
 			publishQi(player, pool)
 		end
 		local now = os.clock()
+		for _, session in castSessions do
+			CastLedger.prune(session.admission.ledger, now)
+		end
 		for i = #zones, 1, -1 do
 			local z = zones[i]
 			tickZone(z, now)

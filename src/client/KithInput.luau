@@ -252,6 +252,10 @@ function KithInput.start(
 		bindSpecials()
 	end
 	player:GetAttributeChangedSignal("ActiveKith"):Connect(load)
+	player.CharacterAdded:Connect(function()
+		state = Stance.new()
+		load()
+	end)
 	load()
 end
 

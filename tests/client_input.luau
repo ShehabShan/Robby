@@ -28,6 +28,19 @@ local function eq(a, b, label)
 	assert(a == b, `{label or "value"}: expected {tostring(b)}, got {tostring(a)}`)
 end
 
+local function signal()
+	local listeners = {}
+	return {
+		Connect = function(_, fn)
+			table.insert(listeners, fn)
+		end,
+		Fire = function(_, ...)
+			for _, fn in listeners do
+				fn(...)
+			end
+		end,
+	}
+end
 local function harness(initial)
 	local h = {
 		attrs = { ActiveKith = initial, ActiveSlot = 1, SlotCount = 3, Qi = 100, Slot1State = "Ready" },
@@ -52,6 +65,8 @@ local function harness(initial)
 	}
 	local player = {
 		Character = character,
+		CharacterAdded = signal(),
+		CharacterRemoving = signal(),
 		GetAttribute = function(_, name)
 			return h.attrs[name]
 		end,
@@ -148,16 +163,37 @@ local function harness(initial)
 	end
 	local input = luau.load(inputSource, { environment = env, injectGlobals = true })()
 	-- Execute the real init.client sender seam; both real input modules share it.
-	local startAt = assert(initSource:find("local nextCastSeq =", 1, true))
-	local endAt = assert(initSource:find("-- b3b2 replaces", startAt, true))
+	local startAt = assert(initSource:find("-- Cast generation handshake:", 1, true))
+	local endAt = assert(initSource:find("-- Wind Step stays", startAt, true))
 	assert(not initSource:find("Net.CastRequest.Fire", endAt, true), "extra unshared cast sender")
 	assert(initSource:find("AbilityInput.start(cast,", 1, true))
 	assert(initSource:find("KithInput.start(cast,", 1, true))
 	env.CastRequest = Shared.CastRequest
+	env.CastReady = require("../src/shared/CastReady")
+	env.player = player
+	local asyncTask = env.task
+	env.task = {
+		spawn = function(fn)
+			h.syncLoop = fn
+		end,
+	}
 	env.Net = {
+		CastGeneration = {
+			On = function(fn)
+				h.snapshot = fn
+			end,
+		},
+		CastSync = {
+			Fire = function()
+				h.syncs = (h.syncs or 0) + 1
+			end,
+		},
 		CastRequest = {
 			Fire = function(v)
-				table.insert(h.sent, { id = v.moveId, aim = v.aim, point = v.point, seq = v.seq })
+				table.insert(
+					h.sent,
+					{ id = v.moveId, aim = v.aim, point = v.point, seq = v.seq, generation = v.generation }
+				)
 			end,
 		},
 		Action = {
@@ -166,8 +202,14 @@ local function harness(initial)
 			end,
 		},
 	}
-	local cast =
-		luau.load(initSource:sub(startAt, endAt - 1) .. "\nreturn cast", { environment = env, injectGlobals = true })()
+	local sender = luau.load(
+		initSource:sub(startAt, endAt - 1) .. "\nreturn {cast = cast, ready = canRequestCast}",
+		{ environment = env, injectGlobals = true }
+	)()
+	local cast = sender.cast
+	h.sender, h.player = sender, player
+	h.snapshot({ epoch = 2, generation = "server:2", character = character })
+	env.task = asyncTask
 	local actionStart = assert(initSource:find("local function action(", 1, true))
 	local actionEnd = assert(initSource:find("CombatInput.start(action)", actionStart, true))
 	h.action = luau.load(
@@ -181,7 +223,7 @@ local function harness(initial)
 		built.moves["move.wind_step"],
 		{ name = "WindStep", title = "Step", keys = { E.KeyCode.R } },
 		function()
-			return h.ready
+			return h.ready and sender.ready()
 		end
 	)
 	input.start(
@@ -192,11 +234,16 @@ local function harness(initial)
 		fx,
 		built,
 		function()
-			return h.ready
+			return h.ready and sender.ready()
 		end
 	)
-	function h:respawn()
+	function h:respawn(noSnapshot)
+		player.CharacterRemoving:Fire(player.Character)
 		player.Character = table.clone(character)
+		player.CharacterAdded:Fire(player.Character)
+		if not noSnapshot then
+			h.snapshot({ epoch = 4, generation = "server:4", character = player.Character })
+		end
 	end
 	function h:set(name, value)
 		self.attrs[name] = value
@@ -224,6 +271,40 @@ local function harness(initial)
 end
 
 local cases = {
+	["real sender gates respawn until matching snapshot, no attribute dependency"] = function()
+		local h = harness("kith.rimeshard")
+		local old = h.player.Character
+		h:press(E.KeyCode.R)
+		assert(#h.sent == 1 and h.sent[1].generation == "server:2")
+		h:respawn(true)
+		local sent, fxCount = #h.sent, #h.played
+		h.time += 10
+		h:press(E.KeyCode.R)
+		h:press(E.KeyCode.Z)
+		assert(#h.sent == sent and #h.played == fxCount and not h.sender.ready())
+		h.snapshot({ epoch = 3, generation = "server:3", character = old })
+		assert(not h.sender.ready())
+		h.snapshot({ epoch = 4, generation = "server:4", character = nil })
+		assert(not h.sender.ready())
+		h.snapshot({ epoch = 4, generation = "server:4", character = h.player.Character })
+		assert(h.sender.ready())
+		h:press(E.KeyCode.R)
+		assert(#h.sent == 2 and h.sent[2].seq == 2 and h.sent[2].generation == "server:4")
+		h.snapshot({ epoch = 2, generation = "server:2", character = old })
+		assert(h.sender.ready())
+	end,
+	["renewal snapshot keeps shared sequence, duplicate never resends"] = function()
+		local h = harness("kith.rimeshard")
+		h:press(E.KeyCode.R)
+		local v = { epoch = 3, generation = "server:3", character = h.player.Character }
+		h.snapshot(v)
+		h.snapshot(v)
+		assert(#h.sent == 1)
+		h.time += 10
+		h:press(E.KeyCode.Z)
+		assert(#h.sent == 2 and h.sent[2].seq == 2 and h.sent[2].generation == "server:3")
+	end,
+
 	["readiness blocks both input sources without FX cooldown or chain consumption"] = function()
 		local h = harness("kith.rimeshard")
 		h.ready = false

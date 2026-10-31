@@ -7,6 +7,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Config = require(ReplicatedStorage.Shared.Config)
 local CastRequest = require(ReplicatedStorage.Shared.CastRequest)
+local CastReady = require(ReplicatedStorage.Shared.CastReady)
 local All = require(ReplicatedStorage.Shared.Content.All)
 local FxRegistry = require(ReplicatedStorage.Shared.FxRegistry)
 local HitFeel = require(script.HitFeel)
@@ -42,14 +43,45 @@ for _, id in FxRegistry.missingFor(fx, built) do
 	warn("No FX handler for " .. id)
 end
 
+-- Cast generation handshake: listener first; never retry a possibly paid cast.
+local castReady = CastReady.new()
+local removingCharacter: Model? = nil
+Net.CastGeneration.On(function(value)
+	CastReady.receive(castReady, value.epoch, value.generation, value.character)
+end)
+player.CharacterRemoving:Connect(function(character)
+	removingCharacter = character
+end)
+player.CharacterAdded:Connect(function()
+	removingCharacter = nil
+	Net.CastSync.Fire(0)
+end)
+local function canRequestCast(): boolean
+	return player.Character ~= removingCharacter and CastReady.ready(castReady, player.Character)
+end
 local nextCastSeq = CastRequest.allocator()
 local function cast(moveId: string, aim: Vector3, point: Vector3?)
-	Net.CastRequest.Fire({ moveId = moveId, aim = aim, point = point, seq = nextCastSeq() })
+	if not canRequestCast() then
+		return
+	end
+	Net.CastRequest.Fire({
+		moveId = moveId,
+		aim = aim,
+		point = point,
+		seq = nextCastSeq(),
+		generation = castReady.generation :: string,
+	})
 end
--- b3b2 replaces this with current-character generation readiness. No wire gate yet.
-local function canRequestCast(): boolean
-	return true
-end
+-- Generation sync retries are bounded to one/second while unready, not cast retries.
+Net.CastSync.Fire(0)
+task.spawn(function()
+	while player.Parent do
+		task.wait(1)
+		if not canRequestCast() then
+			Net.CastSync.Fire(0)
+		end
+	end
+end)
 -- Wind Step stays on R/L2 (owner, D-217). Crescent Cut left E: it is a slot move now (KithInput, T-036a, D-216).
 AbilityInput.start(cast, fx, built.moves["move.wind_step"], {
 	name = "WindStep",
