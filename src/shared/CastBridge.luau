@@ -104,6 +104,11 @@ end
 local function emit(s: State, key: string, action: string, now: number, timeline: Presentation.Timeline?): string
 	local lease: Resources.Lease? = s.leases[key]
 	if not lease then
+		-- A failed predicted render retained only reducer identity, not a lease.
+		-- Its later acceptance needs a fresh start, never adoption of missing FX.
+		if action == "adopt" then
+			action = "start"
+		end
 		lease = Resources.open(s.resources, key)
 		if not lease then
 			return fail(s, key, now)

@@ -58,6 +58,30 @@ local function starts(frames)
 	return n
 end
 return {
+	["acceptance after failed prediction starts fresh primary resources"] = function()
+		local actions = {}
+		local cleaned = 0
+		local s = W.new(policy(), function(frame)
+			table.insert(actions, frame.action)
+			if frame.action == "predict" then
+				return false
+			end
+			if frame.action == "start" then
+				frame.bind("new", "world", function()
+					cleaned += 1
+				end)
+			end
+			return true
+		end, function()
+			error("healthy start must not fall back")
+		end)
+		W.predict(s, "a", 0, 100)
+		assert(W.accept(s, "a", timeline(100.1), 0.1, 100.1) == "start")
+		assert(actions[1] == "predict" and actions[2] == "start")
+		assert(s.gate.bridge.resources.count == 1 and s.fallbacks == 0)
+		W.destroy(s)
+		assert(cleaned == 1)
+	end,
 	["failed prediction still admits a later accepted essential cue"] = function()
 		local s, f = setup("fail")
 		assert(W.predict(s, "a", 0, 100) == "failed")

@@ -310,3 +310,12 @@ CastClockGate owns a fresh CastBridge. Finite first server sample anchors time; 
 
 ### D-268 — independent essential world-warning reserve (S76, 2026-10-31)
 T-043c0b4b2b split before work into reserve b2b1 and routing/policy b2b2. CastWarningReserve reuses the tested presentation/resource ownership bridge with a separately capped pool, immutable canonical timelines, explicit refusal/render/cleanup counters, world-only binding and no prediction/contact API. A remaining active world hazard is a warning, never a confirmed hit. Duplicate/terminal retention and allocation failures cannot restart a warning. No live wiring.
+
+### D-269 — keyed degradation from every primary dispatch path (S76, 2026-10-31)
+CastWarningGate exclusively owns the primary clock bridge and independent warning reserve. A keyed bridge callback after partial cleanup covers immediate accept failure, delayed clock queue drainage and later seek failure, plus valid capacity-refused acceptance. Reserve ownership prevents duplicate normal recovery; terminal cancellation suppresses same-key fallback during advancement and cleans both, while local pose loss preserves world hazards. Unknown/healthy-only terminals consume only primary ledger capacity. No contacts inferred; renderer success and overload counters remain explicit.
+
+### D-270 — initial bounded warning policy (S76, 2026-10-31)
+Config.CastWarning provides primary 256 entries/16 resources, pending64/future0.5s/wait2s/sample1s/slew0.25, reserve64 entries/2 world resources. Both lifetime10s/terminal12s, primary prediction1s. Receipt maximum10s+future0.5s fits terminal12s. These are initial cosmetic ceilings, not target-device measurements; terminal entries share pool bounds. Existing warnings are never evicted, saturation is observable and no damage timings change. No live adoption until b4c.
+
+### D-271 — prediction render failure is not authoritative rejection (S76, 2026-10-31)
+A failed predicted renderer keeps a bounded predicted identity but disposes resources; a later accepted receipt creates a fresh start lease instead of adopting nonexistent visuals and can use the reserve. Failed accepted rendering is tombstoned; true server terminals still dominate. Regression suite detects both accidentally rejecting acceptance and adopting missing prediction ownership. Handoff: research/notes/T-043c0b4b2b-essential-warnings.md.
