@@ -1,0 +1,503 @@
+{
+  "schema": 1,
+  "units": "studs; local joint Euler degrees in Roblox XYZ (Rx*Ry*Rz)",
+  "priority": "Action",
+  "loop": false,
+  "authoredJoints": [
+    "LeftUpperArm",
+    "LeftLowerArm",
+    "LeftHand",
+    "RightUpperArm",
+    "RightLowerArm",
+    "RightHand"
+  ],
+  "containerWeights": {
+    "HumanoidRootPart": 0,
+    "LowerTorso": 0,
+    "UpperTorso": 0
+  },
+  "clips": [
+    {
+      "name": "needle_1",
+      "duration": 0.25,
+      "projectiles": 1,
+      "shape": "needle_left",
+      "frames": [
+        {
+          "t": 0,
+          "arms": {
+            "LeftUpperArm": [
+              78,
+              -14,
+              -20
+            ],
+            "LeftLowerArm": [
+              26,
+              0,
+              -12
+            ],
+            "LeftHand": [
+              0,
+              0,
+              18
+            ],
+            "RightUpperArm": [
+              24,
+              18,
+              26
+            ],
+            "RightLowerArm": [
+              74,
+              0,
+              6
+            ],
+            "RightHand": [
+              0,
+              0,
+              -10
+            ]
+          },
+          "marker": "Release"
+        },
+        {
+          "t": 0.045,
+          "arms": {
+            "LeftUpperArm": [
+              84.24,
+              -15.12,
+              -21.6
+            ],
+            "LeftLowerArm": [
+              28.08,
+              0.0,
+              -12.96
+            ],
+            "LeftHand": [
+              0.0,
+              0.0,
+              19.44
+            ],
+            "RightUpperArm": [
+              25.92,
+              19.44,
+              28.08
+            ],
+            "RightLowerArm": [
+              79.92,
+              0.0,
+              6.48
+            ],
+            "RightHand": [
+              0.0,
+              0.0,
+              -10.8
+            ]
+          }
+        },
+        {
+          "t": 0.16,
+          "arms": {
+            "LeftUpperArm": [
+              20.4,
+              -12.0,
+              -21.0
+            ],
+            "LeftLowerArm": [
+              39.0,
+              0.0,
+              -8.4
+            ],
+            "LeftHand": [
+              0.0,
+              0.0,
+              8.4
+            ],
+            "RightUpperArm": [
+              20.4,
+              12.0,
+              21.0
+            ],
+            "RightLowerArm": [
+              39.0,
+              0.0,
+              8.4
+            ],
+            "RightHand": [
+              0.0,
+              0.0,
+              -8.4
+            ]
+          }
+        },
+        {
+          "t": 0.25,
+          "arms": {
+            "LeftUpperArm": [
+              0,
+              0,
+              0
+            ],
+            "LeftLowerArm": [
+              0,
+              0,
+              0
+            ],
+            "LeftHand": [
+              0,
+              0,
+              0
+            ],
+            "RightUpperArm": [
+              0,
+              0,
+              0
+            ],
+            "RightLowerArm": [
+              0,
+              0,
+              0
+            ],
+            "RightHand": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "needle_2",
+      "duration": 0.25,
+      "projectiles": 1,
+      "shape": "needle_right",
+      "frames": [
+        {
+          "t": 0,
+          "arms": {
+            "LeftUpperArm": [
+              24,
+              -18,
+              -26
+            ],
+            "LeftLowerArm": [
+              74,
+              0,
+              -6
+            ],
+            "LeftHand": [
+              0,
+              0,
+              10
+            ],
+            "RightUpperArm": [
+              82,
+              14,
+              20
+            ],
+            "RightLowerArm": [
+              22,
+              0,
+              12
+            ],
+            "RightHand": [
+              0,
+              0,
+              -18
+            ]
+          },
+          "marker": "Release"
+        },
+        {
+          "t": 0.045,
+          "arms": {
+            "LeftUpperArm": [
+              25.92,
+              -19.44,
+              -28.08
+            ],
+            "LeftLowerArm": [
+              79.92,
+              0.0,
+              -6.48
+            ],
+            "LeftHand": [
+              0.0,
+              0.0,
+              10.8
+            ],
+            "RightUpperArm": [
+              88.56,
+              15.12,
+              21.6
+            ],
+            "RightLowerArm": [
+              23.76,
+              0.0,
+              12.96
+            ],
+            "RightHand": [
+              0.0,
+              0.0,
+              -19.44
+            ]
+          }
+        },
+        {
+          "t": 0.16,
+          "arms": {
+            "LeftUpperArm": [
+              20.4,
+              -12.0,
+              -21.0
+            ],
+            "LeftLowerArm": [
+              39.0,
+              0.0,
+              -8.4
+            ],
+            "LeftHand": [
+              0.0,
+              0.0,
+              8.4
+            ],
+            "RightUpperArm": [
+              20.4,
+              12.0,
+              21.0
+            ],
+            "RightLowerArm": [
+              39.0,
+              0.0,
+              8.4
+            ],
+            "RightHand": [
+              0.0,
+              0.0,
+              -8.4
+            ]
+          }
+        },
+        {
+          "t": 0.25,
+          "arms": {
+            "LeftUpperArm": [
+              0,
+              0,
+              0
+            ],
+            "LeftLowerArm": [
+              0,
+              0,
+              0
+            ],
+            "LeftHand": [
+              0,
+              0,
+              0
+            ],
+            "RightUpperArm": [
+              0,
+              0,
+              0
+            ],
+            "RightLowerArm": [
+              0,
+              0,
+              0
+            ],
+            "RightHand": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "needle_pair",
+      "duration": 1.2,
+      "projectiles": 2,
+      "shape": "needle_pair",
+      "frames": [
+        {
+          "t": 0,
+          "arms": {
+            "LeftUpperArm": [
+              86,
+              -12,
+              -24
+            ],
+            "LeftLowerArm": [
+              14,
+              0,
+              -8
+            ],
+            "LeftHand": [
+              0,
+              0,
+              -12
+            ],
+            "RightUpperArm": [
+              86,
+              12,
+              24
+            ],
+            "RightLowerArm": [
+              14,
+              0,
+              8
+            ],
+            "RightHand": [
+              0,
+              0,
+              12
+            ]
+          },
+          "marker": "Release"
+        },
+        {
+          "t": 0.045,
+          "arms": {
+            "LeftUpperArm": [
+              92.88,
+              -12.96,
+              -25.92
+            ],
+            "LeftLowerArm": [
+              15.12,
+              0.0,
+              -8.64
+            ],
+            "LeftHand": [
+              0.0,
+              0.0,
+              -12.96
+            ],
+            "RightUpperArm": [
+              92.88,
+              12.96,
+              25.92
+            ],
+            "RightLowerArm": [
+              15.12,
+              0.0,
+              8.64
+            ],
+            "RightHand": [
+              0.0,
+              0.0,
+              12.96
+            ]
+          }
+        },
+        {
+          "t": 0.22,
+          "arms": {
+            "LeftUpperArm": [
+              34,
+              -20,
+              -35
+            ],
+            "LeftLowerArm": [
+              65,
+              0,
+              -14
+            ],
+            "LeftHand": [
+              0,
+              0,
+              14
+            ],
+            "RightUpperArm": [
+              34,
+              20,
+              35
+            ],
+            "RightLowerArm": [
+              65,
+              0,
+              14
+            ],
+            "RightHand": [
+              0,
+              0,
+              -14
+            ]
+          }
+        },
+        {
+          "t": 0.65,
+          "arms": {
+            "LeftUpperArm": [
+              14.28,
+              -8.4,
+              -14.7
+            ],
+            "LeftLowerArm": [
+              27.3,
+              0.0,
+              -5.88
+            ],
+            "LeftHand": [
+              0.0,
+              0.0,
+              5.88
+            ],
+            "RightUpperArm": [
+              14.28,
+              8.4,
+              14.7
+            ],
+            "RightLowerArm": [
+              27.3,
+              0.0,
+              5.88
+            ],
+            "RightHand": [
+              0.0,
+              0.0,
+              -5.88
+            ]
+          }
+        },
+        {
+          "t": 1.2,
+          "arms": {
+            "LeftUpperArm": [
+              0,
+              0,
+              0
+            ],
+            "LeftLowerArm": [
+              0,
+              0,
+              0
+            ],
+            "LeftHand": [
+              0,
+              0,
+              0
+            ],
+            "RightUpperArm": [
+              0,
+              0,
+              0
+            ],
+            "RightLowerArm": [
+              0,
+              0,
+              0
+            ],
+            "RightHand": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
