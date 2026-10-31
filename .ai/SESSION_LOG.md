@@ -1,9 +1,9 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
-## S63 — 2026-10-31 (≈26 OLU before cloud/close-out)
+## S63 — 2026-10-31 (≈29 OLU at close-out)
 - T-042a done (D-229–D-230): fixed four-part Rimeshard FX IDs silently rejected by the registry; all cast effects were missing.
 - Two regressions fail before / pass after; check.sh PASS (278 pure tests + 5 mocked client wiring cases).
-- T-042b pending: cloud from main next, then owner confirmation in a newly published build. No publish requested; live remains v0.0.21/v25.
+- T-042b CLOUD ALL: PASS on Saved v26 (278/278 + smoke); owner live confirmation pending. Merged/pushed main; not published, live v0.0.21/v25.
 
 ## S62 — 2026-10-31 (same bot, ≈34 OLU)
 - T-040 done (D-227): dev switch keeps all Kith Ready (no feeding). Owner screenshot: red Satiety dot on Rimeshard slot = starving, the likely T-038 cause.

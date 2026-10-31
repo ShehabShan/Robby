@@ -1,7 +1,7 @@
 # STATE
 
 ## Now (after S63)
-- S63: T-042a done (D-229–D-230): fixed FX registry rejecting four-part Rimeshard cast/travel IDs; 278 pure tests + 5 mocked client wiring cases PASS, check.sh PASS. Merged to main. T-042b cloud check next; owner playtest still needed. Not published.
+- S63: T-042a done (D-229–D-230): fixed FX registry rejecting four-part Rimeshard cast/travel IDs; 278 pure tests + 5 mocked client wiring cases PASS, check.sh PASS. Merged to main. T-042b CLOUD ALL: PASS on Saved v26 (278/278 specs); owner playtest still needed. Not published.
 - S62 late: owner playtest of v0.0.21 — Rimeshard Z/X/C still dead → T-042 (next session first). T-041 done (D-228): Crescent Cut moved from right click to left click. check.sh PASS. Not published (live = v0.0.21).
 - S62 publish (owner asked): game v0.0.21 = Roblox place v25 (T-038 + T-039 + T-040), cloud test CLOUD ALL: PASS (276 specs) before publishing.
 - S62: T-040 done (D-227): development switch `Config.Upkeep.devAlwaysReady = true` keeps every owned Kith Ready (full Satiety, no Strain, never Dormant/Tired), so no feeding while testing. Owner's v0.0.20 screenshot showed a red Satiety dot on slot 1 (Rimeshard): it was starving, which explains the dead Z/X/C (T-038). check.sh PASS. Not published.
@@ -62,7 +62,7 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-042b verification (T-042a fixed confirmed missing FX; owner live-input confirmation pending).
-- **NEXT:** T-042b Rimeshard verification: cloud-check main, then publish T-042a + T-041 only if the owner asks and confirm Z/X/C in that build (F9 client errors if still broken). Owner confirmation remains required; then T-022c beast feel. T-026c is already done (S55), then T-026d/T-024. Before launch: set `devAlwaysReady = false`.
+- **NEXT:** T-042b Rimeshard verification: cloud PASS (Saved v26); publish T-042a + T-041 only if the owner asks and confirm Z/X/C in that build (F9 client errors if still broken). Owner confirmation remains required; then T-022c beast feel. T-026c is already done (S55), then T-026d/T-024. Before launch: set `devAlwaysReady = false`.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
@@ -71,6 +71,6 @@
   - T-024 First 10 minutes · all above
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox).
-- **Last cloud test:** CLOUD ALL: PASS on v25 (2026-10-31, S62, 276 specs); live = v25 (game v0.0.21)
+- **Last cloud test:** CLOUD ALL: PASS on Saved v26 (2026-10-31, S63, 278/278 tests + server smoke); live unchanged = v25 (game v0.0.21)
 - **Last check.sh:** CHECK: PASS (2026-10-31, S63; 278 pure tests + 5 mocked client wiring cases)
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
