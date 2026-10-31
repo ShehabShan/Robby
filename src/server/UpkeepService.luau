@@ -64,6 +64,13 @@ local function tick(dt: number)
 	for _, player in Players:GetPlayers() do
 		local data = DataService.get(player)
 		if usableData(data) then
+			if Config.Upkeep.devAlwaysReady then -- development phase: every owned Kith stays Ready (T-040, D-227)
+				for _, inst in data.kith do
+					if type(inst) == "table" then
+						KithCare.devRefill(inst, Config)
+					end
+				end
+			end
 			local fighting = os.clock() - (lastFight[player] or -math.huge) < Config.Upkeep.fightWindow
 			for _, uid in data.loadout.slots do
 				local inst = if type(uid) == "string" then data.kith[uid] else nil

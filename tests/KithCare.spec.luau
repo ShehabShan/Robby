@@ -16,6 +16,23 @@ end
 local U = Config.Upkeep
 
 return {
+	["dev: devAlwaysReady refills a Kith to Ready (T-040, D-227)"] = function()
+		local k = kith()
+		k.satiety, k.strain, k.dormant, k.exhaustedUntil = 0, U.strainMax, true, 1e9
+		local on = table.clone(Config)
+		on.Upkeep = table.clone(U)
+		on.Upkeep.devAlwaysReady = true
+		eq(KithCare.devRefill(k, on), true, "on")
+		eq(KithCare.state(k, on, 10), "Ready", "ready")
+		eq(k.satiety, U.satietyMax, "full")
+		eq(k.strain, 0, "no strain")
+		local off = table.clone(on)
+		off.Upkeep = table.clone(on.Upkeep)
+		off.Upkeep.devAlwaysReady = false
+		k.satiety = 5
+		eq(KithCare.devRefill(k, off), false, "off")
+		eq(k.satiety, 5, "untouched when off")
+	end,
 	["kith care: old saves get full satiety and no strain"] = function()
 		local k = kith()
 		eq(k.satiety, U.satietyMax, "satiety")

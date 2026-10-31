@@ -183,6 +183,9 @@ local Config = {
 		exhaustSeconds = 20,
 		defaultStrain = 15, -- Strain per cast when a move has no `costs.strain` (T-018b)
 		fightWindow = 8, -- seconds after a cast that count as fighting for Satiety drain
+		-- Development phase (owner 2026-10-31, T-040, D-227): every owned Kith is kept Ready (full Satiety, no Strain,
+		-- never Dormant/Tired), so no feeding is needed while testing. Set false before launch.
+		devAlwaysReady = true,
 	},
 	Binding = { -- tug-of-war (T-017a, D-070); tune in playtests
 		start = 0.25, -- bar position at the start (0..1)

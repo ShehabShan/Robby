@@ -150,6 +150,20 @@ function KithCare.feedFrom(data: any, inst: any, cfg: any, food: any, rare: bool
 	return true
 end
 
+-- Development phase (T-040, D-227): with `cfg.Upkeep.devAlwaysReady`, refill a Kith to Ready (full Satiety, no Strain,
+-- not Dormant, not Exhausted). Returns true when the flag is on.
+function KithCare.devRefill(inst: any, cfg: any): boolean
+	if not cfg.Upkeep.devAlwaysReady then
+		return false
+	end
+	KithCare.ensure(inst, cfg)
+	inst.satiety = cfg.Upkeep.satietyMax
+	inst.strain = 0
+	inst.dormant = nil
+	inst.exhaustedUntil = nil
+	return true
+end
+
 -- HUD view: (strain 0..1, satiety 0..1, state).
 function KithCare.view(inst: any, cfg: any, now: number): (number, number, string)
 	KithCare.ensure(inst, cfg)
