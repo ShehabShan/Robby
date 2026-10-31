@@ -1,5 +1,8 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S55 — 2026-10-31 (same bot, ≈6 OLU)
+- T-026c done (D-210): owner connected `roblox-open-cloud`; 5 kit animations uploaded; `Shared.MoveAnims` + spec, client `MoveAnimClient` (default Animate ids + land track). check.sh PASS; cloud test run. Not published.
+
 ## S54 — 2026-10-31 (same bot, ≈4 OLU)
 - T-026c started: `scripts/extract_anims.luau` exports the kit's 7 KeyframeSequences for upload. Blocked: `roblox-open-cloud` not enabled in this PromptQL project; waiting for the owner to connect it. check.sh PASS.
 

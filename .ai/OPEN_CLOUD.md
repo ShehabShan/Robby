@@ -22,6 +22,7 @@ the approval popup). Do not add an `x-api-key` header; the proxy does. API docs:
   specs + `tests/cloud/smoke.luau` in the real engine via a Luau Execution task → print PASS/FAIL. Safe to run any time.
   `python3 scripts/cloud_test.py <version>` reuses an uploaded version.
 - `python3 scripts/publish.py` — uploads a **Published** (live) version. **Only when the owner explicitly asks.**
+- `uv run scripts/upload_anims.py build/anims/<name>.rbxm …` — uploads KeyframeSequence `.rbxm` files (from `lune run scripts/extract_anims.luau <kit.rbxm>`) as Animation assets under the owner; prints `name=assetId` (T-026c).
 - `scripts/cloud_runner.py` — builds the Luau script that the execution task runs.
 
 ## Rules
