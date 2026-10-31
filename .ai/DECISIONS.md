@@ -386,3 +386,9 @@ Split truthful Burst into pure seek policy c1 and original-character engine feed
 
 ### D-295 (S83) — Provisional warning, unknown release
 A fresh original key/user live root may drive only a pre-release provisional warning, independent of pose generation/slot. At release or without a sample, show no area; never infer exact server centre from acceptance or late/current root. Empty plans permit late observer recovery. Evidence: research/notes/T-043c0b4c2c2c1-burst-policy.md.
+
+### D-296 (S83) — Original Burst lookup
+Fresh published original characterKey/user plus live world character/root drives both primary/reserve. Pose generation/slot renewal does not alter original continuity. No root cache, exact-release inference or gameplay change.
+
+### D-297 (S83) — Provisional versus fixed cue
+Use faint amber for provisional moving Burst (not a fixed damage footprint). Empty admitted frames remove stale children on missing/dead/replaced original or release. Final art/live replication not validated; startup remains gated. Evidence: research/notes/T-043c0b4c2c2c2-burst-engine.md.
