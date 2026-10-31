@@ -1,5 +1,12 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S73 — 2026-10-31 (41.5 OLU before close-out)
+- c3b done: reliable once-only cast terminals, ordered replay, bounded client reorder/expiry protection (D-256–D-257).
+- c3c1 done: pure post-damage contact ledger (D-258); c3c2 server transport and c3c3 client ordering remain next.
+- CHECK PASS: 369 pure/65 specs, 31 actual dispatch cases, 5 real-source lifecycle scenarios plus client adapter; no publication/live-network or renderer claim.
+- Handoffs: research/notes/T-043c0b3c3b-terminals.md and T-043c0b3c3c1-contact-ledger.md. Next c3c2 → c3c3 → b4.
+
+
 ## S72 — 2026-10-31 (37.3 OLU before close-out)
 - T-043c0b3c3a done (D-253–D-255): bounded world-owned cast handles; zones/shards survive departure; delayed Shatter never rebinds on respawn.
 - CHECK PASS: 353 pure/64 suites, 27 dispatch, 5 real-source lifecycle scenarios; no cloud/publication or renderer claim.
