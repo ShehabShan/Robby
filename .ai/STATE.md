@@ -68,7 +68,7 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-043 overhaul (a/b/d1/c1/c0a and c0b1/b2/b3a/b3b1 complete; c0b3b2 generation, b3c receipts, b4 presentation then d2); T-042b live-input verification remains open.
-- **NEXT:** T-043c0b3b2 — size/split live generation/replay wiring first. Resume from research/notes/T-043c0b-S69-handoff.md and T-043c0b3a-admission.md; preserve live timings, bind readiness to current character, explicit non-yielding authorization outcomes. Then b3c reliable receipts, b4 reconciliation, d2 M1 visuals; owner M1 review before special art.
+- **NEXT:** T-043c0b3b2a — explicit authorization boundary, then b2b live generation/replay. Parent b3b2 doing; Resume from: real Abilities authorization split. Resume from research/notes/T-043c0b-S69-handoff.md and T-043c0b3a-admission.md; preserve live timings, bind readiness to current character, explicit non-yielding authorization outcomes. Then b3c reliable receipts, b4 reconciliation, d2 M1 visuals; owner M1 review before special art.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-043c0b3b2 generation/replay → b3c receipts → b4 reconciliation (serialized) · T-043c0a (done)
