@@ -96,6 +96,14 @@ function KithInput.start(sendCast: SendCast, selectSlot: SelectSlot, fx: FxRegis
 		if typeof(qi) == "number" and qi < (move.costs.qi or 0) then
 			return false
 		end
+		-- A Dormant / Exhausted live Kith cannot cast (server: KithCare.usable); mirror it so the cast FX do not lie (T-038b, D-222).
+		if move.kith ~= nil and not table.find(Config.Loadout.fixedMoves, move.id) then
+			local slot = tonumber(player:GetAttribute("ActiveSlot")) or 1
+			local st = player:GetAttribute(`Slot{slot}State`)
+			if st == "Dormant" or st == "Exhausted" then
+				return false
+			end
+		end
 		local dir = flatLook(camera) or root.CFrame.LookVector
 		local point: Vector3? = nil
 		local pos = root.Position + dir * (move.delivery.params.spawnOffset or 0) + CHEST
@@ -188,6 +196,23 @@ function KithInput.start(sendCast: SendCast, selectSlot: SelectSlot, fx: FxRegis
 				return Enum.ContextActionResult.Sink
 			end, true, key)
 			ContextActionService:SetTitle(name, tostring(built.moves[moveId].name or moveId))
+		end
+		-- Right click fires the first move of a chainless Kith (Crescent Cut, owner, T-038a, D-221). Pass, not Sink:
+		-- the camera keeps right-drag; with a chain Kith (or an empty slot) right click stays camera only (D-217).
+		local plainFirst = if k == nil then plainMoves[1] else nil
+		if plainFirst ~= nil then
+			table.insert(bound, "KithPlainClick")
+			ContextActionService:BindAction(
+				"KithPlainClick",
+				function(_, st: Enum.UserInputState, _): Enum.ContextActionResult
+					if st == Enum.UserInputState.Begin then
+						fire(plainFirst, os.clock())
+					end
+					return Enum.ContextActionResult.Pass
+				end,
+				false,
+				Enum.UserInputType.MouseButton2
+			)
 		end
 	end
 

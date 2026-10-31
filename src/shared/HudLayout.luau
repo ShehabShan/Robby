@@ -28,6 +28,7 @@ export type SlotState = {
 	strain: number?, -- 0..1, nil = not shown
 	satiety: number?, -- 0..1, nil = not shown
 	cooldown: number?, -- 0..1 remaining
+	state: string?, -- KithCare state; "Dormant" / "Exhausted" are shown on the slot (T-038b, D-222)
 }
 export type State = {
 	width: number,
@@ -92,6 +93,7 @@ function HudLayout.roleCode(role: string?): string
 	if role == nil then
 		return "+"
 	end
+
 	return HudLayout.ROLE_CODE[role] or "?"
 end
 
@@ -166,6 +168,21 @@ local function slot(out: { Element }, i: number, s: SlotState, x: number, y: num
 		alpha = if s.selected then 1 else if filled then 0.92 else 0.55,
 		tap = i,
 	})
+	if s.state == "Dormant" or s.state == "Exhausted" then
+		-- the Kith cannot cast: say so on the slot instead of eating inputs silently (T-038b, D-222)
+		table.insert(out, {
+			id = `slot{i}State`,
+			kind = "text",
+			x = x,
+			y = y - HudLayout.MIN_TEXT - 2,
+			w = size,
+			h = HudLayout.MIN_TEXT,
+			color = { 255, 90, 90 },
+			text = if s.state == "Dormant" then "Dormant" else "Tired",
+			textSize = HudLayout.MIN_TEXT,
+			align = "center",
+		})
+	end
 	if s.selected then
 		table.insert(out, {
 			id = `slot{i}Sel`,
@@ -303,6 +320,27 @@ function HudLayout.build(state: State): { Element }
 		})
 	end
 	return out
+end
+
+-- Cheap fingerprint of everything build() depends on; equal strings mean an identical layout (T-038c, D-223).
+function HudLayout.signature(state: State): string
+	local parts: { string } = {
+		tostring(state.width),
+		tostring(state.height),
+		state.platform,
+		tostring(math.floor(state.health)),
+		tostring(math.floor(state.healthMax)),
+		tostring(math.floor(state.qi)),
+		tostring(math.floor(state.qiMax)),
+		table.concat(state.gaps, ","),
+		state.version or "",
+	}
+	for i, s in state.slots do
+		parts[#parts + 1] = `{i}:{s.role or ""}:{s.name or ""}:{s.key or ""}:{s.selected == true}:{math.floor(
+			(s.strain or -1) * 100
+		)}:{math.floor((s.satiety or -1) * 100)}:{math.floor((s.cooldown or -1) * 100)}:{s.state or ""}`
+	end
+	return table.concat(parts, "|")
 end
 
 return HudLayout

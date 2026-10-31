@@ -25,6 +25,19 @@ local function rgb(c: { number }): Color3
 end
 
 local onTap: ((slot: number) -> ())? = nil -- tap/click on a slot selects it (T-036b, D-219)
+local predicted: number? = nil -- slot the player just picked, shown before the server confirms (T-038c, D-223)
+local predictedAt = -math.huge
+local PREDICT_SECONDS = 1 -- a refused selection falls back to the server slot after this
+local redraw: (() -> ())? = nil
+
+-- Client-side predicted selection: highlights `slot` now; the server's `ActiveSlot` confirms (or reverts) it.
+function Hud.select(slot: number)
+	predicted = slot
+	predictedAt = os.clock()
+	if redraw then
+		redraw()
+	end
+end
 
 local function create(e: HudLayout.Element, parent: Instance): GuiObject
 	local obj: GuiObject
@@ -51,6 +64,7 @@ local function create(e: HudLayout.Element, parent: Instance): GuiObject
 		if slot ~= nil then
 			b.Activated:Connect(function()
 				if onTap then
+					Hud.select(slot)
 					onTap(slot)
 				end
 			end)
@@ -79,7 +93,11 @@ local function readState(player: Player, built: any): HudLayout.State
 		health, healthMax = hum.Health, hum.MaxHealth
 	end
 	local slots: { HudLayout.SlotState } = {}
-	local activeSlot = tonumber(player:GetAttribute("ActiveSlot")) or 1 -- selected core slot (T-036b, D-218)
+	local serverSlot = tonumber(player:GetAttribute("ActiveSlot")) or 1 -- selected core slot (T-036b, D-218)
+	if predicted ~= nil and (predicted == serverSlot or os.clock() - predictedAt > PREDICT_SECONDS) then
+		predicted = nil -- confirmed by the server, or given up on
+	end
+	local activeSlot = predicted or serverSlot
 	for i = 1, tonumber(player:GetAttribute("SlotCount")) or 0 do
 		local species = player:GetAttribute(`Slot{i}`)
 		local k = if type(species) == "string" then built.kith[species] else nil
@@ -91,6 +109,7 @@ local function readState(player: Player, built: any): HudLayout.State
 			selected = i == activeSlot,
 			strain = if typeof(st) == "number" then st else nil,
 			satiety = if typeof(sa) == "number" then sa else nil,
+			state = player:GetAttribute(`Slot{i}State`) :: string?, -- UpkeepService (T-038b, D-222)
 		})
 	end
 	local gaps = {}
@@ -124,10 +143,17 @@ function Hud.start(built: any, selectSlot: ((slot: number) -> ())?)
 	gui.ResetOnSpawn = false
 	gui.IgnoreGuiInset = true
 	local pool: { [string]: GuiObject } = {}
+	local lastSig = ""
 
 	local function draw()
+		local state = readState(player, built)
+		local sig = HudLayout.signature(state)
+		if sig == lastSig then
+			return -- nothing changed: skip the rebuild (T-038c, D-223)
+		end
+		lastSig = sig
 		local used: { [string]: boolean } = {}
-		for i, e in HudLayout.build(readState(player, built)) do
+		for i, e in HudLayout.build(state) do
 			local obj = pool[e.id] or create(e, gui)
 			pool[e.id] = obj
 			used[e.id] = true
@@ -155,6 +181,7 @@ function Hud.start(built: any, selectSlot: ((slot: number) -> ())?)
 		end
 	end
 
+	redraw = draw
 	player.AttributeChanged:Connect(draw)
 	draw()
 	gui.Parent = player:WaitForChild("PlayerGui")

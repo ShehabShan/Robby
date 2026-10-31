@@ -60,6 +60,7 @@ CombatInput.start(action)
 KithInput.start(function(moveId: string, aim: Vector3, point: Vector3?, seq: number)
 	Net.CastRequest.Fire({ moveId = moveId, aim = aim, point = point, seq = seq })
 end, function(slot: number)
+	Hud.select(slot) -- predicted highlight before the server round trip (T-038c, D-223)
 	Net.SelectSlot.Fire({ slot = slot })
 end, fx, built)
 
