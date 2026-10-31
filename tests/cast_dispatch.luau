@@ -1,0 +1,205 @@
+-- T-043c0b2: actual CastRequest callback with engine/data boundaries mocked.
+-- Does not prove Roblox network transport, rendering, hit sweeps or live-device behaviour.
+local fs = require("@lune/fs")
+local luau = require("@lune/luau")
+local rb = require("@lune/roblox")
+local Config = require("../src/shared/Config")
+local Registry = require("../src/shared/Registry")
+local All = require("../src/shared/Content/All")
+local Stance = require("../src/shared/Stance")
+local built = Registry.build(All.content(Config))
+local source = fs.readFile("src/server/Abilities.luau")
+local function slice(first, after)
+	local a = assert(source:find(first, 1, true), first)
+	local b = assert(source:find(after, a + #first, true), after)
+	assert(not source:find(first, a + 1, true), "ambiguous source seam")
+	return source:sub(a, b - 1)
+end
+local dispatch = slice("Net.CastRequest.On(function(player: Player, value)", "\n\tRunService.Heartbeat:Connect")
+local kitSource = slice("local function kitFor(", "local function stanceFor(")
+local function harness(step)
+	local h = {
+		now = 100.01,
+		qi = { current = 100 },
+		cds = {},
+		deliveries = {},
+		strain = 0,
+		fought = 0,
+		published = 0,
+		allowed = true,
+		owns = true,
+		usable = true,
+	}
+	h.stance = Stance.new()
+	Stance.set(h.stance, true)
+	h.stance.chain.step, h.stance.chain.lastAt = step or 0, if step then 100 else -math.huge
+	local root = { Position = rb.Vector3.new(0, 3, 0) }
+	local character = {
+		FindFirstChildOfClass = function()
+			return { Health = 100 }
+		end,
+	}
+	local player = {
+		Character = character,
+		GetAttribute = function()
+			return 1
+		end,
+	}
+	local function delivery(kind)
+		return function(_, _, move)
+			table.insert(h.deliveries, { kind = kind, id = move.id, time = h.now })
+		end
+	end
+	local env = {
+		Config = Config,
+		built = built,
+		Stance = Stance,
+		CastRequest = require("../src/shared/CastRequest"),
+		CastTransaction = require("../src/shared/CastTransaction"),
+		Projectile = require("../src/shared/Deliveries/Projectile"),
+		Zone = require("../src/shared/Deliveries/Zone"),
+		Vector3 = rb.Vector3,
+		CHEST = rb.Vector3.new(0, 0.5, 0),
+		pools = { [player] = h.qi },
+		cooldowns = { [player] = h.cds },
+		Net = { CastRequest = {
+			On = function(fn)
+				h.callback = fn
+			end,
+		} },
+		RemoteGuard = {
+			allow = function()
+				return h.allowed
+			end,
+		},
+		DataService = {
+			get = function()
+				return { loadout = { weaves = {} }, kith = {} }
+			end,
+		},
+		Loadout = {
+			canCastLive = function()
+				return h.owns
+			end,
+		},
+		Loom = {
+			wovenFor = function()
+				return nil
+			end,
+		},
+		KithCare = {
+			casterOf = function()
+				return nil, {}
+			end,
+			ensure = function() end,
+			usable = function()
+				return h.usable
+			end,
+			moveStrain = function()
+				return 1
+			end,
+			addStrain = function()
+				h.strain += 1
+			end,
+		},
+		UpkeepService = {
+			fought = function()
+				h.fought += 1
+			end,
+		},
+		publishQi = function()
+			h.published += 1
+		end,
+		aliveRoot = function()
+			return root
+		end,
+		stanceFor = function()
+			return h.stance
+		end,
+		os = {
+			clock = function()
+				return h.now
+			end,
+			time = function()
+				return 1000
+			end,
+		},
+		selfCast = function(_, move)
+			table.insert(h.deliveries, { kind = "Self", id = move.id, time = h.now })
+		end,
+		burstCast = delivery("Burst"),
+		zoneCast = delivery("Zone"),
+		volleyCast = delivery("Volley"),
+		pushShot = delivery("Projectile"),
+		fireCast = function() end,
+	}
+	luau.load(kitSource .. dispatch, { environment = env, injectGlobals = true })()
+	function h:send(id)
+		self.callback(
+			player,
+			{ moveId = id, seq = 1, aim = rb.Vector3.new(0, 0, -1), point = rb.Vector3.new(0, 0, -10) }
+		)
+	end
+	return h
+end
+local function pristine(h, step)
+	assert(#h.deliveries == 0 and h.strain == 0 and h.fought == 0 and h.published == 0)
+	assert(h.stance.chain.step == step and h.stance.chain.lastAt == 100)
+end
+local cases = {
+	["unpaid shot2 cancel keeps authoritative state; paid retry casts once"] = function()
+		local h = harness(2)
+		h.qi.current = 0
+		h:send("move.rime.shard_fan")
+		pristine(h, 2)
+		assert(next(h.cds) == nil)
+		h.qi.current = 100
+		h:send("move.rime.shard_fan")
+		assert(h.qi.current == 90 and h.stance.chain.step == 0)
+		assert(h.strain == 1 and h.fought == 1 and h.published == 1 and #h.deliveries == 1)
+		assert(h.deliveries[1].kind == "Volley" and h.deliveries[1].time == h.now)
+	end,
+	["cooldown rejection does not consume cancel"] = function()
+		local h = harness(2)
+		h.cds["move.rime.shard_fan"] = 110
+		h:send("move.rime.shard_fan")
+		pristine(h, 2)
+		assert(h.qi.current == 100 and h.cds["move.rime.shard_fan"] == 110)
+	end,
+	["invalid chain order leaves Qi cooldown strain untouched"] = function()
+		local h = harness(1)
+		h:send("move.rime.needle_finisher")
+		pristine(h, 1)
+		assert(h.qi.current == 100 and next(h.cds) == nil)
+	end,
+	["preauthorization rejects before transaction"] = function()
+		for _, field in { "allowed", "owns", "usable" } do
+			local h = harness(2)
+			h[field] = false
+			h:send("move.rime.shard_fan")
+			pristine(h, 2)
+			assert(h.qi.current == 100 and next(h.cds) == nil)
+		end
+	end,
+	["fixed move does not reset an active chain"] = function()
+		local h = harness(2)
+		h:send("move.wind_step")
+		assert(h.stance.chain.step == 2 and #h.deliveries == 1 and h.deliveries[1].kind == "Self")
+	end,
+	["accepted M1 zone and burst retain immediate dispatch"] = function()
+		for _, row in
+			{ { "move.rime.needle", "Projectile" }, { "move.rime.fall", "Zone" }, { "move.rime.shatter", "Burst" } }
+		do
+			local h = harness()
+			h:send(row[1])
+			assert(#h.deliveries == 1 and h.deliveries[1].kind == row[2] and h.deliveries[1].time == h.now)
+		end
+	end,
+}
+local passed = 0
+for name, test in cases do
+	local ok, err = pcall(test)
+	assert(ok, name .. ": " .. tostring(err))
+	passed += 1
+end
+print(`CAST DISPATCH: PASS ({passed} actual-callback cases; mocked engine boundaries)`)

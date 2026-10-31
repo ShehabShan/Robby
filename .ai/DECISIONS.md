@@ -239,3 +239,8 @@ Unused Shared.CastPresentation owns prediction→accepted→terminal states, imm
 - Both AbilityInput and KithInput now send intent through the same init.client closure; no module-local sequence counters. Slot/character changes do not reset it; Action identity remains separate. u16 rollover is tested, but generation/replay protection is NOT shipped by this step.
 - Reference cross-check: [Path of Exile networking explanation](https://www.pathofexile.com/forum/view-thread/889669) motivates server truth with responsive local presentation; [Unreal FPredictionKey](https://dev.epicgames.com/documentation/en-us/unreal-engine/API/Plugins/GameplayAbilities/FPredictionKey) illustrates keyed reconciliation, not code to copy. Robby retains its own c1 contract, no networking model migration.
 - CHECK PASS: 309 pure specs, 7 actual-input mocks, original timing suite. No gameplay timings/FX/protocol schema/publication change.
+
+### D-244 — Commit stance and payment together (S69, 2026-10-31)
+- Abilities now validates Stance.verify and Moves.pay against private nested copies in Shared.CastTransaction; commits the original tables only when both succeed, without yielding. Low Qi/cooldown no longer consumes a chain step, finisher or shot-2 special cancel.
+- Successful cost/cooldown/recovery/finisher timing is unchanged; Wind Step bypasses stance as before. The free Needle test uses cooldown rejection, not a fictitious Qi cost. This is atomic authorization, NOT replay protection; b3 is still required.
+- 8 pure transaction cases plus 6 actual CastRequest dispatcher mocks cover rejects and one-time successful side effects, immediate delivery and fixed moves. CHECK PASS: 317 pure + 7 input + 6 dispatch + timing + authoring. No cloud test/publication.

@@ -27,6 +27,7 @@ run types luau-lsp analyze --definitions=.cache/globalTypes.d.luau --sourcemap=s
 run tests lune run tests/run.luau
 run client-input lune run tests/client_input.luau
 run rime-timing lune run tests/rime_timing.luau
+run cast-dispatch lune run tests/cast_dispatch.luau
 run m1-authoring lune run tests/rime_m1_assets.luau
 mkdir -p build
 run build rojo build default.project.json -o build/Robby.rbxl

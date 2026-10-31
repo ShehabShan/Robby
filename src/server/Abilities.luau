@@ -13,6 +13,7 @@ local Qi = require(ReplicatedStorage.Shared.Qi)
 local Tags = require(ReplicatedStorage.Shared.Tags)
 local Effects = require(ReplicatedStorage.Shared.Effects)
 local Moves = require(ReplicatedStorage.Shared.Moves)
+local CastTransaction = require(ReplicatedStorage.Shared.CastTransaction)
 local Registry = require(ReplicatedStorage.Shared.Registry)
 local DamageMath = require(ReplicatedStorage.Shared.DamageMath)
 local Projectile = require(ReplicatedStorage.Shared.Deliveries.Projectile)
@@ -491,9 +492,6 @@ function Abilities.start()
 			point = rawPoint
 		end
 		local kit, stanceCfg = kitFor(move)
-		if kit and stanceCfg and not Stance.verify(stanceFor(player), os.clock(), stanceCfg, kit, move.id) then
-			return -- chain order, finisher pause or cancel rule broken (Shared.Stance, D-184)
-		end
 		local humanoid = character:FindFirstChildOfClass("Humanoid")
 		local caster: Moves.Caster = {
 			qi = pool.current,
@@ -502,7 +500,10 @@ function Abilities.start()
 			hp = if humanoid then humanoid.Health else 0,
 			cooldowns = cds,
 		}
-		if not Moves.pay(caster, move, os.clock()) then
+		-- Stance and payment commit together; rejected costs cannot consume a chain/cancel.
+		if
+			not CastTransaction.pay(if kit then stanceFor(player) else nil, stanceCfg, kit, caster, move, os.clock())
+		then
 			return
 		end
 		pool.current = caster.qi
