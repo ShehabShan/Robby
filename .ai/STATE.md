@@ -1,8 +1,9 @@
 # STATE
 
-## Now (after S83 Burst slices)
+## Now (after S84 sender slice)
+- S84 merged 6e287aa: shared keyed sender done (D-298), CHECK579 pure/79 specs. Prediction OFF; legacy unchanged. Handoff research/notes/T-043c0b4c3a-keyed-sender.md.
 - S83 merged 0a1736a: truthful moving Burst c1/c2 complete (D-294–D-297). CHECK PASS: 571 pure/78 specs, 7 character-client/29 delivery-engine cases; nine verified mutations restored.
-- **NEXT: T-043c0b4c3a** shared keyed cast sender, then c3b atomic renderer startup/legacy replacement, then d2 M1 visuals. Handoffs: research/notes/T-043c0b4c2c2c1-burst-policy.md and T-043c0b4c2c2c2-burst-engine.md.
+- **NEXT: T-043c0b4c3b1** prepared coordinated lifecycle, then c3b2 atomic legacy replacement, then d2 M1 visuals. Handoffs: research/notes/T-043c0b4c2c2c1-burst-policy.md and T-043c0b4c2c2c2-burst-engine.md.
 - Burst shows fresh original-caster provisional pre-release cue; at release no inferred exact centre. Startup OFF; pose art incomplete. No publication/cloud/device validation or owner action. S83 continuing below budget.
 
 ### S81 history
@@ -110,10 +111,10 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-043 overhaul: c0b4 presentation (delivery Fx/metadata/receipt dispatcher/original-character owner done → truthful Burst → atomic cutover), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-043c0b4c3a — shared keyed cast sender, then c3b atomic live cutover and d2 M1 visuals. Resume from S82 handoffs above; identity replica/borrowed owner ready but not started. No duplicate legacy/keyed rendering or fake fixed Burst centre.
+- **NEXT:** T-043c0b4c3b1 — prepared coordinated lifecycle, then c3b2 atomic live cutover and d2 M1 visuals. Resume from S82 handoffs above; identity replica/borrowed owner ready but not started. No duplicate legacy/keyed rendering or fake fixed Burst centre.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-043c0b4c3a shared keyed sender (serialized) · c2 truthful Burst (done)
+  - T-043c0b4c3b1 coordinated lifecycle (serialized) · c3a shared sender (done)
   - T-043c0b4c3 atomic keyed startup/legacy cutover · b4c2
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
   - T-043h1 truthful Chill state · T-043b + T-043c1 (done) + T-043c0b (coordinate remotes)
