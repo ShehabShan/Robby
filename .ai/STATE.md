@@ -1,7 +1,7 @@
 # STATE
 
 ## Now (after S55)
-- S55 (same bot, owner asked): T-026c done (D-210): kit idle/walk/run/jump/land animations uploaded under the owner and wired (`Shared.MoveAnims`, `MoveAnimClient`). check.sh PASS. Cloud test PASS on place v20 (270/270 specs + smoke; earlier timeouts were an unanswered approval popup). Not published.
+- S55 (same bot, owner asked): T-026c done (D-210): kit idle/walk/run/jump/land animations uploaded under the owner and wired (`Shared.MoveAnims`, `MoveAnimClient`). check.sh PASS. Cloud test PASS on place v20 (270/270 specs + smoke; earlier timeouts were an unanswered approval popup). Published as place v20 (game v0.0.18) for the owner walk playtest (T-026d).
 - S53 (same bot, owner asked): T-033 done (D-209): Studio saves split from live, every save sanitized, early saves after breakthrough/fusion/Binding. check.sh PASS. Not published.
 - S52 (owner inbox 2026-10-31): VISION Direction 6–7 — one thing at a time, refine/polish before expanding (D-206); endgame-ready backend, no endgame build (D-207). roblox-data skill trial found save gaps → T-033 (D-208). check.sh PASS.
 - S51 (owner asked): T-032 done (D-205): roblox-brain skills (29, MIT) vendored in `.ai/skills/roblox-brain/`; sessions read INDEX.md → SKILL.md before domain work (AGENTS.md §4.6). check.sh PASS. Not published.
@@ -48,7 +48,7 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** —
-- **NEXT:** T-026d live walk test (cloud test PASS on v20; Luau execution needs the owner to approve the popup), then owner playtest; T-027h Rimeshard playtest (published v19, waits for owner feedback, then tune); then T-022c beast feel, T-026c R15 animations, T-024 First 10 minutes.
+- **NEXT:** T-026d live walk test (published v20; waits for owner walk feedback in `research/inbox/`), then owner playtest; T-027h Rimeshard playtest (published v19, waits for owner feedback, then tune); then T-022c beast feel, T-026c R15 animations, T-024 First 10 minutes.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
