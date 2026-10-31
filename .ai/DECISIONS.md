@@ -227,3 +227,6 @@ Future c2 adds an explicit Z0.20 server wind-up, freezes aim, releases from curr
 
 ### D-240 — Separate protocol work before presentation integration (S68, 2026-10-31)
 Existing CastFx/HitFx are unreliable and lack identity/time; KithInput and AbilityInput allocate seq independently. Split shared foundation into T-043c0a pure identity/lifecycle policy and T-043c0b serialized wiring before c2/c3/d2/h1, rather than hiding broad networking in art. Preserve M1-first visual priority and owner quality gates. STATE stays untouched on the session branch (AGENTS §9); TASKS carries the first-save Resume note.
+
+### D-241 — Bounded pure request admission ledger (S68, 2026-10-31)
+Split c0a into c0a1 request ledger and c0a2 client lifecycle before coding. c0a1 implements unused Shared.CastLedger: server generation + modular u16 watermark, bounded immutable duplicate receipts, pending reservation capability, TTL/eviction and forward-window validation. Require renewal before cumulative half-ring traversal to prevent ancient sequence reuse. Caller must canonicalize the payload and validate/pay/complete without yielding; production Config limits and renewal/wire adapters belong to c0b. Fifteen pure tests PASS, no live gameplay/network changes. Evidence: research/notes/T-043c0a1-cast-ledger.md.
