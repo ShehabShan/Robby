@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S78 — 2026-10-31 (34 OLU before close-out; saving target below 45)
+- b4c split; b4c1 owned confirmed-impact engine renderer + lifecycle adapter done (D-275–D-277).
+- CHECK PASS: 497 pure tests/73 specs plus 20 actual engine/listener cases; seven deliberate faults detected/restored.
+- Legacy/startup unchanged: no duplicate FX, gameplay timing changes, cloud/device test or publication.
+- Next b4c2 seekable delivery renderer (size/split; audit authoritative geometry), then c3 atomic cutover. Handoff T-043c0b4c1-contact-engine.md; no owner action.
+
 ## S77 — 2026-10-31 (34.7 OLU at merge; final STATE save below 45)
 - b4b3 done via b3a/b3b: once-only confirmed-contact ownership + immutable delivery/receipt mapping (D-272–D-274).
 - CHECK PASS: 497 pure tests/73 specs (33 new), actual receipt-listener composition green; 11 deliberate faults detected/restored.
