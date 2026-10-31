@@ -1,8 +1,9 @@
 # STATE
 
-## Now (after S58)
+## Now (after S59)
+- S59 (owner asked): T-036 split a–c. T-036a done (D-216, D-217): slot-selected abilities core — keys 1–7 / gamepad Y select a core slot (`SelectSlot` → `ActiveSlot`), only the selected Kith's moves are live (server-enforced); Rimeshard stance turns on by itself when selected (left click = chain, Z/X/C = specials); Crescent Cut left E and sits on Z of Crescent's slot; Q stance toggle removed; Wind Step fixed on R. check.sh PASS. Not cloud-tested, not published.
+- NEXT: T-036b slot selection UI (HUD highlights `ActiveSlot`, key hints, touch tap selects), then T-036c cloud smoke + verify the owner's Z/X/C report.
 - S58 (owner asked): T-037 done (D-214, D-215): AGENTS.md §1 lean-reading rule (read only task files); Stone Ward removed completely (move, Kith, Config, FX, V key, Warded status; starters now Rimeshard/Crescent/Wind; dummy + wild Kith = Crescent; loadout only warns on missing Strike). check.sh PASS. Not published.
-- NEXT: T-036 slot-selected abilities (plan approved, see TASKS + research/inbox/2026-10-31-slot-abilities.md). Do it in a fresh session; cloud-test before publishing.
 - S57 (owner asked): T-035 done (D-213): Tab = Roblox player/server list again; loadout opens from a new Inventory icon (🎒) in the top bar right of the chat button, all platforms (gamepad Back still works). Version 0.0.19. check.sh PASS. Published via roblox-open-cloud (owner asked).
 - S56 (owner asked): T-034 done (D-211, D-212): owner could not find the Rimeshard stance. Fix: the gifted Rimeshard is auto-equipped into slot 1 once, so the stance works without the loadout menu; Needle chain gets an on-screen touch button (mobile). check.sh PASS. Not published, not cloud-tested.
 - S55 (same bot, owner asked): T-026c done (D-210): kit idle/walk/run/jump/land animations uploaded under the owner and wired (`Shared.MoveAnims`, `MoveAnimClient`). check.sh PASS. Cloud test PASS on place v20 (270/270 specs + smoke; earlier timeouts were an unanswered approval popup). Published as place v20 (game v0.0.18) for the owner walk playtest (T-026d).
@@ -52,9 +53,11 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** —
-- **NEXT:** T-026d live walk test (published v20; waits for owner walk feedback in `research/inbox/`), then owner playtest; T-027h Rimeshard playtest (published v19, waits for owner feedback, then tune); then T-022c beast feel, T-026c R15 animations, T-024 First 10 minutes.
+- **NEXT:** T-036b slot selection UI, then T-036c cloud smoke; T-026d live walk test (published v20; waits for owner walk feedback in `research/inbox/`), then owner playtest; T-027h Rimeshard playtest (published v19, waits for owner feedback, then tune); then T-022c beast feel, T-026c R15 animations, T-024 First 10 minutes.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
+  - T-036b Slot selection UI · —
+  - T-036c Slot selection cloud test · T-036b
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
   - T-026c R15 animations (kit KeyframeSequences, re-upload) · —
   - T-026d R15 cloud walk check · T-026c
@@ -62,5 +65,5 @@
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox).
 - **Last cloud test:** CLOUD ALL: PASS on Saved v18 (2026-10-31, S48); live = v19 (game v0.0.18)
-- **Last check.sh:** CHECK: PASS (2026-10-31, S49)
-- **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); Q = Kith stance, Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
+- **Last check.sh:** CHECK: PASS (2026-10-31, S59)
+- **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
