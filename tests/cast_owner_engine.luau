@@ -284,4 +284,96 @@ test("stale cleanup and queued callbacks cannot kill or mutate a replacement", f
 	r2()
 	f:closed()
 end)
+test("queued consumer callbacks are inert after consumer-only restart with live receipts", function()
+	local f = fixture()
+	local r = f.receipts.start()
+	local d, c = f.delivery.start({}), f.contact.start({})
+	local delivery, contact = f.delivery.state(), f.contact.state()
+	local old = table.clone(f.callbacks)
+	c()
+	d()
+	local d2, c2 = f.delivery.start({}), f.contact.start({})
+	local deliveryRefusals, contactRefusals = delivery.refusals, contact.refusals
+	for _, callback in old do
+		if callback.label == "heartbeat2" or callback.label == "heartbeat3" then
+			callback.fn()
+		end
+	end
+	assert(
+		delivery.refusals == deliveryRefusals and contact.refusals == contactRefusals,
+		"closed consumer callback executed"
+	)
+	assert(not f.delivery.state().closed and not f.contact.state().closed)
+	c2()
+	d2()
+	r()
+	f:closed()
+end)
+test("prepared coordinator is inert until called and orders consumers before producer teardown", function()
+	local f = fixture()
+	local owner = f:coordinator()
+	assert(f.stage == 0 and next(f.subscriptions) == nil)
+	local catalog = { one = { delivery = "Zone", worldWarning = true } }
+	local stop = owner.start(catalog)
+	assert(f.stage == 13 and owner.start({}) == stop and f.stage == 13)
+	assert(f.delivery.state().catalog == catalog, "duplicate start changed active catalog")
+	local receipt, contact = f.receipts.inbox(), f.receipts.contacts()
+	local deliveryState, contactState = f.delivery.state(), f.contact.state()
+	assert(deliveryState.inbox == receipt and contactState.inbox == contact)
+	stop()
+	stop()
+	f:closed()
+	local positions = {}
+	for i, label in f.log do
+		positions[label] = i
+	end
+	assert(positions["release:contact"] < positions["release:delivery"])
+	assert(positions["release:delivery"] < positions["release:receipt"])
+	assert(positions["release:delivery"] < positions["release:contacts"])
+	local freshCatalog = { two = { delivery = "Zone", worldWarning = true } }
+	local stop2 = owner.start(freshCatalog)
+	assert(stop2 ~= stop and f.delivery.state().catalog == freshCatalog)
+	stop()
+	assert(not f.delivery.state().closed)
+	stop2()
+	f:closed()
+end)
+test("coordinator rolls back each of thirteen acquisition failures and restarts cleanly", function()
+	for failure = 1, 13 do
+		local f = fixture()
+		local owner = f:coordinator()
+		f.fail = failure
+		local ok, problem = pcall(owner.start, {})
+		assert(not ok and tostring(problem):find("injected acquisition", 1, true))
+		f:closed()
+		f.fail = 0
+		local stop = owner.start({})
+		assert(f.receipts.inbox() and f.delivery.state() and f.contact.state())
+		stop()
+		f:closed()
+	end
+end)
+test("coordinated rollback preserves original failure across teardown errors", function()
+	local f = fixture()
+	local owner = f:coordinator()
+	f.fail = 13
+	f.cleanFail = { contact = true, delivery = true, pool = true, receipt = true, contacts = true, CastAccepted = true }
+	local ok, problem = pcall(owner.start, {})
+	assert(not ok and tostring(problem):find("injected acquisition heartbeat3", 1, true))
+	assert(#f.errors == 7)
+	f:closed()
+end)
+test("one hundred coordinated lifetimes leave no subscriptions or published state", function()
+	local f = fixture()
+	local owner = f:coordinator()
+	local old = function() end
+	for _ = 1, 100 do
+		local stop = owner.start({})
+		old()
+		assert(f.receipts.inbox() and f.delivery.state() and f.contact.state())
+		stop()
+		f:closed()
+		old = stop
+	end
+end)
 print("OWNER ENGINE: PASS (" .. count .. " cases)")

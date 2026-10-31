@@ -398,3 +398,9 @@ Both inputs share CastSend allocation/generation and protected optional predicti
 
 ### D-299 (S85) — Ordered lifecycle with explicit acquisition boundary
 CastOwner rolls back returned owners in reverse order, isolates cleanup errors, and guards restart/reentrancy. A failed engine start must unwind its own acquisitions before throwing; c3b1b owns that work before live atomic cutover. Handoff: research/notes/T-043c0b4c3b1a-owner-policy.md.
+
+### D-300 — Engine starts own partial rollback (S86, 2026-10-31)
+Receipt registration and consumer pool/heartbeat acquisition are protected before publication; a failed start releases every returned resource, resets singleton fields and rethrows the original failure. Independent cleanup failures are reported best-effort without skipping later releases. Queued callbacks are inert after stop; borrowed inboxes belong only to receipts. Engine APIs that acquire resources and then throw without returning a handle cannot be recovered by this layer.
+
+### D-301 — Prepared exclusive presentation owner (S86, 2026-10-31)
+CastPresentationClient composes existing CastOwner in receipt → delivery → contact order, reverse teardown. Duplicate starts share the active lifetime, restart uses the new catalog, stale stop handles cannot close replacements. This adapter is deliberately NOT live-wired before atomic legacy replacement (c3b2). No gameplay/prediction startup change or publication.
