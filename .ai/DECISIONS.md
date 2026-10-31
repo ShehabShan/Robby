@@ -269,3 +269,12 @@ Pure CastReceipts stores frozen explicit server identity, character/slot revisio
 - **D-251 (S71, 2026-10-31):** Shared.CastSchedule describes actual live timings (Z immediate, X0.6–1.6s); Abilities captures paired clocks after payment and resolves ground once, reused by zone delivery. Full receipt policy: 128/player, response10s, maximum scheduled lifetime10s (current longest1.6s), monotonic pruning; independently identified characters and monotonically increasing slot revision. Respawn/renewal keep receipts; departure disposal remains c3 hazard-lifetime work. No new Z delay or X ground policy.
 
 - **D-252 (S71, 2026-10-31):** Reliable CastAccepted broadcasts fresh immutable acceptance to all clients (same audience as existing CastFx); duplicate original only to owner. CastDisposition is owner-only: rejected vs expired (missing paid receipt is not cancellation). Rate/malformed abuse may drop silently. CastReceiptClient registers before sync/input, keeps bounded pure CastInbox (128 acceptances +128 responses,10s), no prediction/effects yet; explicit cleanup. c3 owns terminal/contact traffic, b4 adopts renderer.
+
+### D-253 · S72 · 2026-10-31 — staged lifecycle integration
+Split T-043c0b3c3 into c3a world-owned resource lifetime, c3b reliable terminal/tombstone transport and c3c confirmed contacts. Renderer adoption remains b4. Each stage needs actual adapter tests; no claim of full reconciliation before all are complete.
+
+### D-254 · S72 · 2026-10-31 — world resource handles, not replay-cache ownership
+Paid resources retain immutable acceptance independently of player sessions. Global 2048-handle cap fails closed before payment; at most 16 resource IDs per cast, no active eviction. Accepted schedule plus 1 s grace bounds stranded handles; due simulation runs before deadline cleanup. One local terminal after all resources complete; network terminals deferred to c3b.
+
+### D-255 · S72 · 2026-10-31 — delayed burst belongs to its accepted character
+Shatter's delayed callback must find the same alive captured character with player still present; death/departure/replacement cancels instead of rebinding to respawn. Slot switch alone does not cancel. Accepted zones/projectiles remain world-owned and survive departure. Successful move timing unchanged.

@@ -19,6 +19,7 @@ local CastAdmission = require(ReplicatedStorage.Shared.CastAdmission)
 local CastLedger = require(ReplicatedStorage.Shared.CastLedger)
 local CastReceipts = require(ReplicatedStorage.Shared.CastReceipts)
 local CastSchedule = require(ReplicatedStorage.Shared.CastSchedule)
+local CastLifetime = require(ReplicatedStorage.Shared.CastLifetime)
 local Registry = require(ReplicatedStorage.Shared.Registry)
 local DamageMath = require(ReplicatedStorage.Shared.DamageMath)
 local Projectile = require(ReplicatedStorage.Shared.Deliveries.Projectile)
@@ -64,6 +65,8 @@ if #errors > 0 then
 end
 
 type Shot = {
+	lifetime: CastLifetime.Handle,
+	resource: number,
 	caster: Player,
 	character: Model,
 	origin: Vector3,
@@ -72,7 +75,14 @@ type Shot = {
 	state: Projectile.State,
 	register: (targetId: string) -> boolean, -- Projectile or Volley hit rules (per-target cap), T-027d2
 }
-type ZoneCast = { caster: Player, character: Model, center: Vector3, move: any, state: Zone.State }
+type ZoneCast = {
+	caster: Player,
+	character: Model,
+	center: Vector3,
+	move: any,
+	state: Zone.State,
+	lifetime: CastLifetime.Handle,
+}
 
 local Abilities = {}
 
@@ -80,6 +90,7 @@ local pools: { [Player]: Qi.Pool } = {}
 local cooldowns: { [Player]: { [string]: number } } = {}
 local shots: { Shot } = {}
 local zones: { ZoneCast } = {}
+local lifetimes = CastLifetime.new(Config.CastLifetime.capacity)
 local stances: { [Player]: Stance.State } = {}
 -- One Effects holder per hit model (Chill stacks live here, T-027d2, D-187); weak keys drop dead models.
 local holders: { [Instance]: Effects.Holder } = setmetatable({}, { __mode = "k" }) :: any
@@ -257,9 +268,18 @@ local function hitFx(move: any, caster: Player, pos: Vector3, dir: Vector3, targ
 	Net.HitFx.FireAll({ fxId = move.fx.hit, caster = caster, pos = pos, dir = dir, target = model, amount = amount })
 end
 
-local function pushShot(player: Player, character: Model, move: any, origin: Vector3, dir: Vector3)
+local function pushShot(
+	player: Player,
+	character: Model,
+	move: any,
+	origin: Vector3,
+	dir: Vector3,
+	lifetime: CastLifetime.Handle
+)
 	local state = Projectile.new()
 	table.insert(shots, {
+		lifetime = lifetime,
+		resource = 1,
 		caster = player,
 		character = character,
 		origin = origin,
@@ -273,11 +293,20 @@ local function pushShot(player: Player, character: Model, move: any, origin: Vec
 end
 
 -- Volley (Shard Fan, Needle finisher): one Shot per shard, all sharing the volley's per-target cap (T-027d2).
-local function volleyCast(player: Player, character: Model, move: any, origin: Vector3, dir: Vector3)
+local function volleyCast(
+	player: Player,
+	character: Model,
+	move: any,
+	origin: Vector3,
+	dir: Vector3,
+	lifetime: CastLifetime.Handle
+)
 	local p = move.delivery.params
 	local vstate = Volley.new(p)
 	for i, d in Volley.directions(dir.X, dir.Z, p) do
 		table.insert(shots, {
+			lifetime = lifetime,
+			resource = i,
 			caster = player,
 			character = character,
 			origin = origin,
@@ -302,11 +331,23 @@ local function groundCentre(character: Model, point: Vector3): Vector3
 end
 
 -- Geometry and monotonic start are captured once by authorization.
-local function zoneCast(player: Player, character: Model, move: any, center: Vector3, dir: Vector3, startedAt: number)
-	table.insert(
-		zones,
-		{ caster = player, character = character, center = center, move = move, state = Zone.new(startedAt) }
-	)
+local function zoneCast(
+	player: Player,
+	character: Model,
+	move: any,
+	center: Vector3,
+	dir: Vector3,
+	startedAt: number,
+	lifetime: CastLifetime.Handle
+)
+	table.insert(zones, {
+		caster = player,
+		character = character,
+		center = center,
+		move = move,
+		state = Zone.new(startedAt),
+		lifetime = lifetime,
+	})
 	fireCast(move, player, center, dir)
 end
 
@@ -352,16 +393,22 @@ end
 
 -- Burst (Shatter): after the clap wind-up, the Chilled models in radius, nearest first (Burst.select);
 -- candidates come from the holders table, so only targets that still carry Chill are ever considered.
-local function burstCast(player: Player, character: Model, move: any, dir: Vector3)
+local function burstCast(player: Player, character: Model, move: any, dir: Vector3, lifetime: CastLifetime.Handle)
 	local p = move.delivery.params
 	local root = aliveRoot(character)
 	if root then
 		fireCast(move, player, root.Position, dir)
 	end
 	task.delay(move.telegraph or 0, function()
-		local castRoot = aliveRoot(player.Character)
+		if not CastLifetime.isActive(lifetimes, lifetime) then
+			return
+		end
+		local castRoot = if player.Parent == Players and player.Character == character
+			then aliveRoot(character)
+			else nil
 		if not castRoot then
-			return -- the caster died or left during the wind-up
+			CastLifetime.terminate(lifetimes, lifetime, "caster_lost", os.clock())
+			return -- never bind an accepted wind-up to a replacement character
 		end
 		local candidates: { Burst.Candidate } = {}
 		local byId: { [string]: Humanoid } = {}
@@ -389,6 +436,7 @@ local function burstCast(player: Player, character: Model, move: any, dir: Vecto
 			local pos = Vector3.new(c.x, castRoot.Position.Y, c.z)
 			hitFx(move, player, pos, dir, model, applyOnHit(player, move, humanoid))
 		end
+		CastLifetime.finish(lifetimes, lifetime, 1, os.clock())
 	end)
 end
 
@@ -521,6 +569,9 @@ local function authorizeCast(player: Player, value: any): (AcceptedCast?, string
 		acceptedAt = 0,
 		schedule = schedule,
 	}
+	if not CastLifetime.hasRoom(lifetimes) then
+		return nil, "delivery_capacity"
+	end
 	local strain = if kithInst then KithCare.moveStrain(Config, move) else 0
 	local paid, reason =
 		CastTransaction.pay(if kit then stanceFor(player) else nil, stanceCfg, kit, caster, move, os.clock())
@@ -538,7 +589,7 @@ local function authorizeCast(player: Player, value: any): (AcceptedCast?, string
 end
 
 -- Invoke only once for a fresh acceptance, OUTSIDE the admission transaction.
-local function deliverCast(accepted: AcceptedCast)
+local function deliverCast(accepted: AcceptedCast, lifetime: CastLifetime.Handle)
 	local player, character, root, move = accepted.player, accepted.character, accepted.root, accepted.move
 	local dir = accepted.dir
 	UpkeepService.fought(player)
@@ -546,14 +597,17 @@ local function deliverCast(accepted: AcceptedCast)
 	local kind = move.delivery.kind
 	if kind == "Self" then
 		selfCast(player, move, root, dir)
+		task.delay(accepted.schedule.finish, function()
+			CastLifetime.finish(lifetimes, lifetime, 1, os.clock())
+		end)
 	elseif kind == "Burst" then
-		burstCast(player, character, move, dir)
+		burstCast(player, character, move, dir, lifetime)
 	elseif kind == "Zone" then
-		zoneCast(player, character, move, accepted.point :: Vector3, dir, accepted.monotonicAt)
+		zoneCast(player, character, move, accepted.point :: Vector3, dir, accepted.monotonicAt, lifetime)
 	elseif kind == "Volley" then
-		volleyCast(player, character, move, accepted.origin, dir)
+		volleyCast(player, character, move, accepted.origin, dir, lifetime)
 	else
-		pushShot(player, character, move, accepted.origin, dir)
+		pushShot(player, character, move, accepted.origin, dir, lifetime)
 		fireCast(move, player, accepted.origin, dir)
 	end
 end
@@ -721,6 +775,7 @@ function Abilities.start()
 			return
 		end
 		local accepted: AcceptedCast? = nil
+		local lifetime: CastLifetime.Handle? = nil
 		local result = CastAdmission.dispatch(
 			session.admission,
 			{
@@ -742,7 +797,7 @@ function Abilities.start()
 				})
 				if context then
 					local a = context
-					local stored = CastReceipts.put(session.receipts, {
+					local receipt: CastReceipts.Acceptance = {
 						castId = castId,
 						generation = request.generation,
 						seq = request.seq,
@@ -756,7 +811,15 @@ function Abilities.start()
 						aim = castVector(a.dir),
 						origin = castVector(a.origin),
 						centre = if a.point then castVector(a.point) else nil,
-					}, a.monotonicAt)
+					}
+					local stored = CastReceipts.put(session.receipts, receipt, a.monotonicAt)
+					lifetime = CastLifetime.start(
+						lifetimes,
+						receipt,
+						a.monotonicAt,
+						if a.move.delivery.kind == "Volley" then a.move.delivery.params.count else 1,
+						Config.CastLifetime.graceSeconds
+					)
 					if stored ~= "stored" then
 						warn("Paid cast receipt unavailable: " .. stored) -- never suppress paid delivery or re-pay
 					end
@@ -780,8 +843,14 @@ function Abilities.start()
 			sendDisposition(player, value, "rejected", reason or result.kind)
 		end
 		-- Duplicate dispositions never populate accepted; no payment or delivery replay.
-		if result.kind == "completed" and result.receipt and result.receipt.status == "accepted" and accepted then
-			deliverCast(accepted)
+		if
+			result.kind == "completed"
+			and result.receipt
+			and result.receipt.status == "accepted"
+			and accepted
+			and lifetime
+		then
+			deliverCast(accepted, lifetime)
 		end
 		if result.renew then
 			rotateCast(session)
@@ -803,8 +872,13 @@ function Abilities.start()
 		end
 		for i = #zones, 1, -1 do
 			local z = zones[i]
-			tickZone(z, now)
+			if CastLifetime.isActive(lifetimes, z.lifetime) then
+				tickZone(z, now)
+			else
+				z.state.done = true
+			end
 			if z.state.done then
+				CastLifetime.finish(lifetimes, z.lifetime, 1, now)
 				table.remove(zones, i)
 			end
 		end
@@ -815,12 +889,18 @@ function Abilities.start()
 		end
 		for i = #shots, 1, -1 do
 			local shot = shots[i]
-			local from, to = Projectile.step(shot.state, dt, shot.move.delivery.params)
-			sweep(shot, from, to)
+			if CastLifetime.isActive(lifetimes, shot.lifetime) then
+				local from, to = Projectile.step(shot.state, dt, shot.move.delivery.params)
+				sweep(shot, from, to)
+			else
+				shot.state.done = true
+			end
 			if shot.state.done then
+				CastLifetime.finish(lifetimes, shot.lifetime, shot.resource, now)
 				table.remove(shots, i)
 			end
 		end
+		CastLifetime.expire(lifetimes, now)
 	end)
 end
 

@@ -28,6 +28,7 @@ run tests lune run tests/run.luau
 run client-input lune run tests/client_input.luau
 run rime-timing lune run tests/rime_timing.luau
 run cast-dispatch lune run tests/cast_dispatch.luau
+run cast-lifecycle lune run tests/cast_lifecycle.luau
 run cast-receipt-client lune run tests/cast_receipt_client.luau
 run m1-authoring lune run tests/rime_m1_assets.luau
 mkdir -p build

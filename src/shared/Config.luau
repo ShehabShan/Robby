@@ -86,6 +86,8 @@ local Config = {
 	-- T-043c0b3a: replay policy prepared for b3b, not yet connected to live remotes.
 	CastProtocol = { capacity = 128, maxAdvance = 1024, responseSeconds = 10, renewDistance = 30000 },
 	-- Full acceptance cache: longest current cast is X at 1.6s; 10s bounds future content.
+	-- World delivery handles: reject before payment when full, never evict a paid cast.
+	CastLifetime = { capacity = 2048, graceSeconds = 1 },
 	CastReceipt = { capacity = 128, responseSeconds = 10, tombstoneSeconds = 10, maxLifetimeSeconds = 10 },
 	RemoteRates = {
 		default = { rate = 10, burst = 10 },

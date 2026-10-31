@@ -6,6 +6,7 @@ local rb = require("@lune/roblox")
 local Config = require("../src/shared/Config")
 local Registry = require("../src/shared/Registry")
 local All = require("../src/shared/Content/All")
+local Lifetime = require("../src/shared/CastLifetime")
 local Stance = require("../src/shared/Stance")
 local built = Registry.build(All.content(Config))
 local source = fs.readFile("src/server/Abilities.luau")
@@ -108,6 +109,9 @@ local function harness(step, protocol)
 		CastAdmission = require("../src/shared/CastAdmission"),
 		CastLedger = require("../src/shared/CastLedger"),
 		CastReceipts = require("../src/shared/CastReceipts"),
+		CastLifetime = Lifetime,
+		lifetimes = Lifetime.new(Config.CastLifetime.capacity),
+		task = { delay = function() end },
 		CastSchedule = require("../src/shared/CastSchedule"),
 		workspace = {
 			GetServerTimeNow = function()
@@ -470,12 +474,14 @@ local cases = {
 
 	["heartbeat prunes receipts but accepted zones survive renewal respawn and leave"] = function()
 		local h = harness()
-		local v = packet(h, 1)
+		local v = packet(h, 1, "move.rime.fall")
 		h.callback(h.player, v)
 		local admission = h.sessions[h.player].admission
-		local zone = { ticks = 0, state = { done = false } }
+		local lifetime = assert(h.env.lifetimes.active[v.generation .. ":1"])
+		local zone = { ticks = 0, state = { done = false }, lifetime = lifetime }
 		table.insert(h.env.zones, zone)
-		h.now += 11
+		table.clear(admission.ledger.entries) -- replay eviction is not world-resource ownership
+		h.now += 0.1
 		h.heartbeat(0)
 		assert(next(admission.ledger.entries) == nil and zone.ticks == 1)
 		h.callback(h.player, v)
@@ -724,7 +730,7 @@ local cases = {
 		local origin = accepted.origin
 		h.root.Position = rb.Vector3.new(100, 100, 100)
 		assert(accepted.origin == origin and accepted.character == h.player.Character)
-		h.deliver(accepted)
+		h.deliver(accepted, {} :: any)
 		assert(h.qi.current == 90 and h.strain == 1 and h.fought == 1 and h.published == 1)
 		assert(#h.deliveries == 1 and h.deliveries[1].time == h.now)
 	end,
