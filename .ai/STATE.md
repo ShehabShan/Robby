@@ -4,7 +4,8 @@
 - S59 (owner asked): T-036 split a–c. T-036a done (D-216, D-217): slot-selected abilities core — keys 1–7 / gamepad Y select a core slot (`SelectSlot` → `ActiveSlot`), only the selected Kith's moves are live (server-enforced); Rimeshard stance turns on by itself when selected (left click = chain, Z/X/C = specials); Crescent Cut left E and sits on Z of Crescent's slot; Q stance toggle removed; Wind Step fixed on R. check.sh PASS. Not cloud-tested, not published.
 - S59 (cont.): T-036b done (D-218, D-219): HUD brightens the selected slot, ▲ marker, key hints 1–7; HUD slots are buttons (tap/click selects), loadout screen shows a per-platform select hint. check.sh PASS. Not cloud-tested, not published.
 - S59b (new bot): T-036c done (D-220): cloud smoke on Saved v22 covers slot selection (Rimeshard Z/X/C live when selected, refused otherwise); specs 272/272, CLOUD ALL: PASS. Owner's v21 Z/X/C bug does not reproduce server-side; published v0.0.20 (Roblox v23) for the owner playtest. **T-036 done.**
-- NEXT: T-022c beast feel (doing: tuning + real SFX left) or T-026c R15 animations; T-024 after those.
+- Owner playtest of v0.0.20 (inbox 2026-10-31-v20-playtest.md) → T-038 (3 fixes) + B-01 React UI backlog.
+- NEXT: T-038, then T-022c beast feel or T-026c R15 animations; T-024 after those.
 - S58 (owner asked): T-037 done (D-214, D-215): AGENTS.md §1 lean-reading rule (read only task files); Stone Ward removed completely (move, Kith, Config, FX, V key, Warded status; starters now Rimeshard/Crescent/Wind; dummy + wild Kith = Crescent; loadout only warns on missing Strike). check.sh PASS. Not published.
 - S57 (owner asked): T-035 done (D-213): Tab = Roblox player/server list again; loadout opens from a new Inventory icon (🎒) in the top bar right of the chat button, all platforms (gamepad Back still works). Version 0.0.19. check.sh PASS. Published via roblox-open-cloud (owner asked).
 - S56 (owner asked): T-034 done (D-211, D-212): owner could not find the Rimeshard stance. Fix: the gifted Rimeshard is auto-equipped into slot 1 once, so the stance works without the loadout menu; Needle chain gets an on-screen touch button (mobile). check.sh PASS. Not published, not cloud-tested.
@@ -55,7 +56,7 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** —
-- **NEXT:** T-022c beast feel; T-026d live walk test (published v20; waits for owner walk feedback in `research/inbox/`), then owner playtest; T-027h Rimeshard playtest (published v19, waits for owner feedback, then tune); then T-022c beast feel, T-026c R15 animations, T-024 First 10 minutes.
+- **NEXT:** T-038 v0.0.20 playtest fixes (right click = Crescent Z, Rimeshard moves dead when selected, slot-switch lag; see TASKS); then T-022c beast feel; T-026d live walk test (published v20; waits for owner walk feedback in `research/inbox/`), then owner playtest; T-027h Rimeshard playtest (published v19, waits for owner feedback, then tune); then T-022c beast feel, T-026c R15 animations, T-024 First 10 minutes.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
