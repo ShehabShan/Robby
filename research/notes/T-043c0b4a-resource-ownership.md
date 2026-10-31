@@ -10,6 +10,9 @@ retirePose permanently closes pose admission for that lease, removes all pose ti
 ## Evidence
 CHECK: PASS; 391 pure tests/67 specs. Thirteen resource suites: caps/no live eviction, ticket replacement/stale callbacks, pose/world separation and late pose refusal, reentrancy, throwing cleanup, new same-key owner survival, batch pose invalidation, full destruction, forged object identity, invalid inputs. Composition tests execute real CastPresentation with real CastResources for prediction adoption, authoritative expiry, local death/world survival, timeout/late acceptance with new lease, and teardown. No production tuning, engine object cleanup, renderer fallback or live-client quality claimed.
 
+## Cross-layer regression sensitivity check
+S74 temporarily introduced seven behavioural faults, ran the relevant real-source/pure tests, and restored each file in a finally block. All seven were rejected: suppress stored server contacts; reset zone tick identity each heartbeat; discard contact after terminal; remove contact retirement watermark; accept stale ownership lease; accept stale resource ticket; retire world effects with poses. Full CHECK PASS after restoration. These are test-sensitivity checks, not added production features or proof of exhaustive correctness.
+
 ## Next — b4b then b4c
 b4b must size/split before implementation if necessary: command reducer bridge, production policy, bounded skew queue, bounded contact dispatch, essential warning fallback and telemetry. Renderer's callbacks must not retain unbounded retired leases. Define command-to-resource mapping for all delivery kinds; preserve server schedules and accepted world centres. b4c performs the actual source/input/renderer cutover. Until then CastPresentation/CastResources remain unused by the live FX path and unconditional owner echo suppression remains. c2/c3 gameplay timing probes and owner M1 visual review are still outstanding.
 
