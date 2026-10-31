@@ -59,7 +59,22 @@ function Dispatch.destroy(s: State): Cursor?
 	end
 	if not s.closed then
 		s.closed = true
-		s.retiredThrough = math.max(s.retiredThrough, s.gate.gate.now or -math.huge)
+		s.retiredThrough = math.max(s.retiredThrough, s.gate.gate.now or -math.huge, s.inbox.retiredThrough)
+		-- Future admissions and unpolled receipts can be ahead of the gate clock.
+		-- Retire their timestamps too; a fresh inbox must not replay them on restart.
+		for _, entry in s.store.entries do
+			if entry.accepted then
+				s.retiredThrough = math.max(s.retiredThrough, entry.accepted.metadata.acceptance.acceptedAt)
+			end
+		end
+		for _, entry in s.inbox.acceptances.entries do
+			if entry.acceptance then
+				s.retiredThrough = math.max(s.retiredThrough, entry.acceptance.acceptedAt)
+			end
+			if entry.terminal then
+				s.retiredThrough = math.max(s.retiredThrough, entry.terminal.at)
+			end
+		end
 		Gate.destroy(s.gate)
 		Store.destroy(s.store)
 	end
@@ -115,6 +130,7 @@ function Dispatch.tick(s: State, localNow: number, serverNow: number): boolean
 		end -- expired is NOT a refusal; genuine late acceptance can still render
 	end
 	local retired = math.max(s.retiredThrough, s.inbox.retiredThrough)
+	s.retiredThrough = retired
 	for key, entry in s.store.entries do
 		if entry.accepted and entry.accepted.metadata.acceptance.acceptedAt <= retired then
 			cancelled[key] = true

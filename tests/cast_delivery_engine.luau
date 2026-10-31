@@ -8,6 +8,8 @@ local Geometry = require("../src/shared/CastGeometry")
 local Receipts = require("../src/shared/CastReceipts")
 local Map = require("../src/shared/CastCommandMap")
 local Store = require("../src/shared/CastDeliveryStore")
+local Dispatch = require("../src/shared/CastDeliveryDispatch")
+local Inbox = require("../src/shared/CastInbox")
 local function command(kind, seq)
 	local a = {
 		castId = "g:" .. tostring(seq or 1),
@@ -147,6 +149,35 @@ local function fixture(capacity, useStore)
 		local cmd = if f.store then (if e then e.accepted else nil) else f.commands[frame.key]
 		return f.fx.warning(f.reserve, wrap(frame, true), if cmd then cmd.metadata else nil)
 	end)
+	function f:dispatch(cursor, inbox)
+		Gate.destroy(self.gate)
+		if self.store then
+			Store.destroy(self.store)
+		end
+		self.inbox = inbox or Inbox.new(Config.CastClientReceipt)
+		self.dispatcher = Dispatch.new(
+			self.inbox,
+			{ m = { delivery = "Zone", worldWarning = true } },
+			Config.CastWarning,
+			function(frame, entry)
+				table.insert(self.frames, { action = frame.action, key = frame.key, now = frame.now })
+				local c = if entry then entry.accepted else nil
+				return self.fx.primary(
+					self.primary,
+					wrap(frame, false),
+					if c then c.metadata else nil,
+					if entry then entry.identity else nil,
+					self.pose
+				)
+			end,
+			function(frame, entry)
+				local c = if entry then entry.accepted else nil
+				return self.fx.warning(self.reserve, wrap(frame, true), if c then c.metadata else nil)
+			end,
+			cursor
+		)
+		self.gate, self.store = self.dispatcher.gate, self.dispatcher.store
+	end
 	function f:accept(cmd, localNow, serverNow)
 		if self.store then
 			local result = Store.accept(self.store, cmd)
@@ -170,6 +201,9 @@ local function fixture(capacity, useStore)
 		return out
 	end
 	function f:stop()
+		if self.dispatcher then
+			Dispatch.destroy(self.dispatcher)
+		end
 		Gate.destroy(self.gate)
 		if self.store then
 			Store.prune(self.store, self.gate)
@@ -400,6 +434,58 @@ test("repeated accepted lease turnover keeps one bounded tree and no pinned resi
 		Store.prune(f.store, f.gate)
 		assert(f.primary.count == 0 and f.reserve.count == 0 and f.store.count == 0 and #f:live() == 0)
 	end
+	f:stop()
+end)
+test("borrowed dispatcher adopts actual tree, survives death, seeks fallback and cancels", function()
+	local f, c = fixture(1), command("Zone")
+	f:dispatch()
+	assert(Dispatch.predict(f.dispatcher, c.key, f.identity, 0, 100) == "predict")
+	assert(Inbox.accept(f.inbox, c.metadata.acceptance, 0) == "stored")
+	assert(Dispatch.tick(f.dispatcher, 0, 100))
+	assert(f.primary.count == 1 and f.frames[#f.frames].action == "adopt")
+	local root = f:live("Folder")[1]
+	f.pose.alive = false
+	Dispatch.retirePose(f.dispatcher, c.key, 0.1, 100.1)
+	assert(not root.dead and f.primary.count == 1)
+	f.faults.update = 1
+	Dispatch.tick(f.dispatcher, 0.2, 100.2)
+	assert(root.dead and f.primary.count == 0 and f.reserve.count == 1 and f.store.count == 1)
+	Inbox.terminal(f.inbox, c.key, "cancel", 100.3, 0.3)
+	Dispatch.tick(f.dispatcher, 0.3, 100.3)
+	assert(#f:live() == 0 and f.store.count == 0)
+	f:stop()
+end)
+test("borrowed dispatcher cancels two due futures without allocating engine objects", function()
+	local f = fixture()
+	f:dispatch()
+	for i = 1, 2 do
+		local a = table.clone(command("Zone", i).metadata.acceptance)
+		a.acceptedAt, a.releaseAt, a.endsAt = 100.4, 101.4, 105.4
+		assert(Inbox.accept(f.inbox, a, 0) == "stored")
+	end
+	Dispatch.tick(f.dispatcher, 0, 100)
+	assert(f.gate.gate.count == 2 and #f.objects == 0)
+	for i = 1, 2 do
+		Inbox.terminal(f.inbox, "g:" .. i, "cancel", 100.4, 0.4)
+	end
+	Dispatch.tick(f.dispatcher, 0.4, 100.4)
+	assert(#f.objects == 0 and f.store.count == 0)
+	f:stop()
+end)
+test("borrowed dispatcher closes on inbox loss and restart never replays old trees", function()
+	local f, c = fixture(), command("Zone")
+	f:dispatch()
+	Inbox.accept(f.inbox, c.metadata.acceptance, 0)
+	Dispatch.tick(f.dispatcher, 0, 100)
+	assert(#f:live() > 0)
+	Inbox.destroy(f.inbox)
+	assert(not Dispatch.tick(f.dispatcher, 0.1, 100.1))
+	assert(#f:live() == 0)
+	local token = assert(Dispatch.destroy(f.dispatcher))
+	f:dispatch(token)
+	Inbox.accept(f.inbox, c.metadata.acceptance, 0)
+	Dispatch.tick(f.dispatcher, 0, 100)
+	assert(#f:live() == 0 and f.store.count == 0)
 	f:stop()
 end)
 print("DELIVERY ENGINE: PASS (" .. count .. " cases)")

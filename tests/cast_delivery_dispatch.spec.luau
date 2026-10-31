@@ -88,6 +88,110 @@ local function fixture(capacity, cursor, borrowed)
 	return f
 end
 return {
+	["terminal before due time releases future queue capacity immediately"] = function()
+		local f = fixture()
+		f:accept(1, 100.4)
+		f:tick()
+		assert(f.state.gate.gate.count == 1)
+		Inbox.terminal(f.inbox, "g:1", "cancel", 100.4, 0.1)
+		f:tick(0.1, 100.1)
+		assert(f.state.gate.gate.count == 0 and f.state.store.count == 0 and #f.frames == 0)
+		f:stop()
+	end,
+	["duplicate polling never extends rejection retention"] = function()
+		local f = fixture()
+		Inbox.disposition(f.inbox, { generation = "g", seq = 1, moveId = "m", status = "rejected", reason = "cost" }, 0)
+		f:tick()
+		local untilTime = f.state.gate.gate.bridge.presentation.entries["g:1"].untilTime
+		f:tick(1, 101)
+		f:tick(2, 102)
+		assert(f.state.gate.gate.bridge.presentation.entries["g:1"].untilTime == untilTime and f.state.responses == 1)
+		f:stop()
+	end,
+	["future restart watermark survives borrowed inbox destruction"] = function()
+		local f = fixture()
+		f:accept(1, 100.4)
+		f:tick()
+		Inbox.destroy(f.inbox)
+		assert(not f:tick(0.1, 100.1))
+		local cursor = assert(Dispatch.destroy(f.state))
+		assert(cursor.retiredThrough == 100.4)
+		local g = fixture(nil, cursor)
+		g:accept(1, 100.4)
+		g:tick(0.4, 100.4)
+		assert(#g.frames == 0 and g.state.store.count == 0)
+		g:stop()
+	end,
+	["hundred lease turnovers keep dispatcher metadata bounded and release resources"] = function()
+		local f = fixture(1)
+		for i = 1, 100 do
+			local at = 100 + i * 15
+			local a = acceptance(i, at)
+			a.releaseAt, a.endsAt = at, at + 0.5
+			assert(Inbox.accept(f.inbox, a, i * 15) == "stored")
+			f:tick(i * 15, at)
+			assert(f.state.store.count == 1 and f.live == 1)
+			f:tick(i * 15 + 0.5, at + 0.5)
+			assert(f.state.store.count == 0 and f.live == 0)
+		end
+		assert(f.state.receipts == 100)
+		f:stop()
+	end,
+
+	["restart retires future and unpolled timestamps even across a fresh inbox"] = function()
+		local f = fixture()
+		f:accept(1, 100.4)
+		f:tick()
+		f:accept(2, 100.5)
+		local token = f:stop()
+		assert(token.retiredThrough == 100.5)
+		local g = fixture(nil, token)
+		g:accept(1, 100.4)
+		g:accept(2, 100.5)
+		g:tick(0.5, 100.5)
+		assert(#g.frames == 0 and #g.warnings == 0)
+		g:stop()
+	end,
+	["future queue timeout wins over catch-up and never flashes"] = function()
+		local f = fixture()
+		f:accept(1, 100.4)
+		f:tick()
+		f:tick(2, 102)
+		assert(#f.frames == 0 and #f.warnings == 0 and f.state.store.count == 0 and f.state.gate.gate.expired == 1)
+		f:stop()
+	end,
+	["reinserted acceptance never replaces pinned canonical metadata"] = function()
+		local f = fixture()
+		f.inbox.acceptances.policy = table.clone(Config.CastClientReceipt)
+		f.inbox.acceptances.policy.capacity = 1
+		f:accept()
+		f:tick()
+		local canonical = Store.get(f.state.store, "g:1").accepted
+		f:accept(2)
+		f:tick()
+		f:accept(1)
+		f:tick()
+		assert(Store.get(f.state.store, "g:1").accepted == canonical and f.state.refusals == 1)
+		f:stop()
+	end,
+	["reentrant renderer calls cannot consume or close an active dispatch"] = function()
+		local inbox = Inbox.new(Config.CastClientReceipt)
+		local s
+		local calls = 0
+		s = Dispatch.new(inbox, { m = { delivery = "Zone", worldWarning = true } }, Config.CastWarning, function()
+			calls += 1
+			assert(not Dispatch.tick(s, 0, 100) and Dispatch.destroy(s) == nil)
+			return true
+		end, function()
+			return false
+		end)
+		Inbox.accept(inbox, acceptance(), 0)
+		assert(Dispatch.tick(s, 0, 100))
+		assert(calls == 1 and not s.closed)
+		assert(Dispatch.destroy(s))
+		assert(Dispatch.destroy(s))
+	end,
+
 	["stages immutable metadata once and adopts an owned prediction"] = function()
 		local f = fixture()
 		assert(Dispatch.predict(f.state, "g:1", acceptance(), 0, 100) == "predict")
