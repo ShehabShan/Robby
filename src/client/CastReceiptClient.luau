@@ -18,7 +18,7 @@ function CastReceiptClient.start(): () -> ()
 	if stop then
 		return stop
 	end
-	local state = CastInbox.new(Config.CastReceipt)
+	local state = CastInbox.new(Config.CastClientReceipt)
 	active = state
 	local disconnectAccepted = Net.CastAccepted.On(function(v)
 		CastInbox.accept(state, {
@@ -35,7 +35,10 @@ function CastReceiptClient.start(): () -> ()
 			aim = vector(v.aim),
 			origin = vector(v.origin),
 			centre = if v.centre then vector(v.centre) else nil,
-		}, os.clock())
+		}, os.clock(), workspace:GetServerTimeNow(), Config.CastLifetime.graceSeconds)
+	end)
+	local disconnectTerminal = Net.CastTerminal.On(function(v)
+		CastInbox.terminal(state, v.castId, v.reason, v.at, os.clock())
 	end)
 	local disconnectDisposition = Net.CastDisposition.On(function(v)
 		CastInbox.disposition(state, v, os.clock())
@@ -56,6 +59,7 @@ function CastReceiptClient.start(): () -> ()
 		end
 		closed = true
 		disconnectAccepted()
+		disconnectTerminal()
 		disconnectDisposition()
 		heartbeat:Disconnect()
 		CastInbox.destroy(state)

@@ -19,7 +19,9 @@ local function event(name)
 		end,
 	}
 end
-local net = { CastAccepted = event("accepted"), CastDisposition = event("disposition") }
+local net =
+	{ CastAccepted = event("accepted"), CastDisposition = event("disposition"), CastTerminal = event("terminal") }
+local serverNow = 1000000
 local heartbeat
 local services = {
 	ReplicatedStorage = { Shared = { Config = "config", CastInbox = "inbox" } },
@@ -40,6 +42,11 @@ local services = {
 local adapter = luau.load(source, {
 	injectGlobals = true,
 	environment = {
+		workspace = {
+			GetServerTimeNow = function()
+				return serverNow
+			end,
+		},
 		game = {
 			GetService = function(_, name)
 				return services[name]
@@ -84,17 +91,35 @@ listeners.disposition({ generation = "scope:1", seq = 2, moveId = "move.rime.fal
 assert(state.responses["scope:1:2"].value.reason == "qi")
 -- Character absence/respawn is deliberately irrelevant to world-centred receipts.
 assert(state.acceptances.entries[a.castId].acceptance.characterKey == "character-1")
-now += 11
+-- Death/leave never clear this listener: an accepted world hazard ends on server terminal only.
+listeners.terminal({ castId = a.castId, reason = "completed", at = a.endsAt })
+local ended = state.acceptances.entries[a.castId]
+assert(ended.terminal.at == a.endsAt and ended.acceptance.characterKey == "character-1")
+listeners.accepted(a)
+listeners.terminal({ castId = a.castId, reason = "expired", at = a.endsAt + 9 })
+assert(state.acceptances.entries[a.castId] == ended)
+local reordered = table.clone(a)
+reordered.seq, reordered.castId = 3, "scope:1:3"
+listeners.terminal({ castId = reordered.castId, reason = "caster_lost", at = a.acceptedAt + 0.1 })
+listeners.accepted(reordered)
+assert(state.acceptances.entries[reordered.castId].acceptance == nil)
+now += 13
 heartbeat()
 assert(next(state.acceptances.entries) == nil and next(state.responses) == nil)
+listeners.accepted(a) -- TTL retirement must not revive old ended cast
+assert(next(state.acceptances.entries) == nil)
 stop()
 stop()
-assert(disconnected == 3 and adapter.inbox() == nil and next(listeners) == nil)
+assert(disconnected == 4 and adapter.inbox() == nil and next(listeners) == nil)
 callbacks.accepted(a) -- queued callback cannot resurrect destroyed inbox
+callbacks.terminal({ castId = a.castId, reason = "completed", at = a.endsAt })
 assert(next(state.acceptances.entries) == nil)
 local stop2 = adapter.start()
 assert(adapter.inbox() ~= state)
+serverNow = a.endsAt + Config.CastLifetime.graceSeconds
+listeners.accepted(a) -- even a fresh adapter rejects an already expired schedule
+assert(next(adapter.inbox().acceptances.entries) == nil)
 stop2()
 print(
-	"CAST RECEIPT CLIENT: PASS (actual adapter; registration, vectors/clocks, duplicate, disposition, expiry, teardown/restart)"
+	"CAST RECEIPT CLIENT: PASS (actual adapter; registration, vectors/clocks, duplicate, disposition, terminal reorder/expiry, teardown/restart)"
 )
