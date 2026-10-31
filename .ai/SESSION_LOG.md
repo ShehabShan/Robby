@@ -1,5 +1,8 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S51 — 2026-10-31 (≈6 OLU)
+- Owner asked: T-032 done (D-205): vendored roblox-brain v2.3.1 (MIT, 29 skills) into `.ai/skills/roblox-brain/` + INDEX.md; AGENTS.md §4.6 rule (INDEX → SKILL.md before domain work, full.md on demand) + §7 map. check.sh PASS. Not published.
+
 ## S50 — 2026-10-31 (same bot, ≈3 OLU)
 - Owner asked: published game v0.0.18 (Roblox v19) for a mobile playtest of Rimeshard (T-027h). Version PATCH bumped. check.sh PASS.
 

@@ -85,6 +85,7 @@ and moves you to branch `session/S<n>`. Work and save there.
    - Server and client scripts are thin wiring.
    - `bash scripts/check.sh` must print `CHECK: PASS` before saving. `stylua src tests` auto-formats.
 5. **Save after every working step**: `bash scripts/save.sh "R-011: short message"`. It commits, rebases, pushes, and prints the OLU used.
+6. **Skills (T-032, D-205):** before domain work (Luau, networking, data, UI, VFX, publish…), open `.ai/skills/roblox-brain/INDEX.md`, pick the 1–2 matching skills and read their `SKILL.md`. Read `references/full.md` only for the detail you need. Repo rules (this file, DECISIONS, VISION) outrank skill advice; `roblox-collaboration-mode` is already covered by §0 (autonomous mode).
 
 ## 5. Close-out (at 43 OLU, or when the task is done)
 1. `.ai/STATE.md`: phase, NEXT task, blockers, and the last check result.
@@ -132,6 +133,7 @@ and moves you to branch `session/S<n>`. Work and save there.
 - `.ai/GDD.md`: game design (written in P-002)
 - `.ai/ARCHITECTURE.md`: code structure, scripts, tech stack
 - `.ai/OPEN_CLOUD.md`: how to test on Roblox via the `roblox-open-cloud` integration (cloud_test.py, publish.py)
+- `.ai/skills/roblox-brain/`: vendored Roblox dev skills (29, MIT); start at `INDEX.md`
 - `.ai/DECISIONS.md`: decision log
 - `.ai/SESSION_LOG.md`: session history (newest first)
 - `.ai/archive/`: superseded docs (do not use)
