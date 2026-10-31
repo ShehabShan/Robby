@@ -301,3 +301,6 @@ T-043c0b4b becomes b1 owned synchronous command executor, b2 clock admission/ess
 
 ### D-265 — S75: owned, seekable presentation executor (2026-10-31)
 CastBridge composes real CastPresentation and CastResources behind synchronous non-yielding renderer commands. Prediction adoption retains the exact lease; tick-before-event consumes every cleanup, idle ticks seek immutable authoritative centre/time without inferring impacts. Local pose loss does not cancel accepted world hazards. Renderer false/throw cancels cosmetic ownership, exposes failure telemetry, cleans partial allocations, and suppresses replay; a later independent essential-cue layer must handle fallback. Reentrant bridge mutations refuse rather than queue; callers retry teardown after an active command. No gameplay, live renderer, clock correction or contact delivery is changed.
+
+### D-266 — S75: clock admission isolated from essential fallback (2026-10-31)
+b4b2 split before implementation into b2a monotonic clock/future receipt gate and b2b separately bounded essential warning fallback with production policy. The gate takes both local elapsed time and server-time samples; sample correction must not stop idle cleanup or replay phases. No production clock constants or engine clock behavior are claimed by pure tests.
