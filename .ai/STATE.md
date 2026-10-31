@@ -1,9 +1,9 @@
 # STATE
 
-## Now (after S82)
-- S82 merged 167d783: original-character atomic identity publication/fresh resolver and prepared borrowed delivery engine owner complete (D-290–D-293). CHECK PASS: 569 pure/78 specs, 35 dispatch, 5 character-client, 25 delivery-engine cases; 12 verified mutations restored, 100 clean owner restarts.
-- **NEXT: T-043c0b4c2c2c** truthful moving Burst (size/split), then c3 atomic keyed cutover and d2 M1 visuals. Handoffs: research/notes/T-043c0b4c2c2b2b1-character-identity.md and T-043c0b4c2c2b2b2-engine-owner.md. Never substitute replacement Character or acceptance origin for exact original release position.
-- Merged at 42.6 OLU; claims released, final STATE saving below45. Stop delivery before receipts; preserve restart cursor. Startup remains off, pose art incomplete. No publication, cloud/device validation or new owner action.
+## Now (after S83 Burst slices)
+- S83 merged 0a1736a: truthful moving Burst c1/c2 complete (D-294–D-297). CHECK PASS: 571 pure/78 specs, 7 character-client/29 delivery-engine cases; nine verified mutations restored.
+- **NEXT: T-043c0b4c3a** shared keyed cast sender, then c3b atomic renderer startup/legacy replacement, then d2 M1 visuals. Handoffs: research/notes/T-043c0b4c2c2c1-burst-policy.md and T-043c0b4c2c2c2-burst-engine.md.
+- Burst shows fresh original-caster provisional pre-release cue; at release no inferred exact centre. Startup OFF; pose art incomplete. No publication/cloud/device validation or owner action. S83 continuing below budget.
 
 ### S81 history
 - S81 merged 8758684: T-043c0b4c2c2b2a bounded borrowed-receipt dispatcher, terminal-batch cancellation and explicit restart suppression done (D-287–D-289). CHECK PASS: 565 pure/77 specs, 17 actual-source delivery engine cases; 10 behavioral mutations detected/restored and 100 leak-free dispatcher turnovers. No startup cutover, gameplay timing changes, cloud/device test or publication.
@@ -110,10 +110,10 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-043 overhaul: c0b4 presentation (delivery Fx/metadata/receipt dispatcher/original-character owner done → truthful Burst → atomic cutover), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-043c0b4c2c2c — truthful moving Burst (size/split), then c3 atomic live cutover and d2 M1 visuals. Resume from S82 handoffs above; identity replica/borrowed owner ready but not started. No duplicate legacy/keyed rendering or fake fixed Burst centre.
+- **NEXT:** T-043c0b4c3a — shared keyed cast sender, then c3b atomic live cutover and d2 M1 visuals. Resume from S82 handoffs above; identity replica/borrowed owner ready but not started. No duplicate legacy/keyed rendering or fake fixed Burst centre.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-043c0b4c2c2c truthful moving Burst (serialized; size/split) · c2c2b engine lifecycle (done)
+  - T-043c0b4c3a shared keyed sender (serialized) · c2 truthful Burst (done)
   - T-043c0b4c3 atomic keyed startup/legacy cutover · b4c2
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
   - T-043h1 truthful Chill state · T-043b + T-043c1 (done) + T-043c0b (coordinate remotes)
