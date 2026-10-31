@@ -8,7 +8,7 @@ local data = serde.decode("json", fs.readFile("art/poses/rime_m1.json"))
 local function sequenceData()
 	return roblox.deserializeModel(roblox.serializeModel(Export.build(data)))
 end
-return {
+local suite = {
 	["M1 prototype preserves current recovery and projectile counts"] = function()
 		assert(#data.clips == 3)
 		for i, clip in data.clips do
@@ -74,3 +74,10 @@ return {
 		end
 	end,
 }
+
+local passed = 0
+for _, test in suite do
+	test()
+	passed += 1
+end
+print(`M1 authoring: {passed} passed (offline export gate, not a cloud gameplay spec)`)
