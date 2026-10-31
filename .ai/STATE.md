@@ -57,7 +57,7 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-038 (Resume from: cloud smoke of a/b/c, then confirm the Rimeshard cause with the owner — does slot 1 say Dormant/Tired?)
-- **NEXT:** finish T-038 (cloud smoke + owner answer on Rimeshard); then T-022c beast feel; T-026d live walk test (published v20; waits for owner walk feedback in `research/inbox/`), then owner playtest; T-027h Rimeshard playtest (published v19, waits for owner feedback, then tune); then T-022c beast feel, T-026c R15 animations, T-024 First 10 minutes.
+- **NEXT:** T-039 Kith state in the Inventory + Inventory UI (owner asked, 2026-10-31); then finish T-038 (cloud smoke + owner answer on Rimeshard); then T-022c beast feel; T-026d live walk test (published v20; waits for owner walk feedback in `research/inbox/`), then owner playtest; T-027h Rimeshard playtest (published v19, waits for owner feedback, then tune); then T-022c beast feel, T-026c R15 animations, T-024 First 10 minutes.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
