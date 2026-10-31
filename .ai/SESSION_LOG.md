@@ -1,5 +1,9 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S60 — 2026-10-31 (new bot, ≈43 OLU)
+- T-038 doing (D-221–D-223): right click = Crescent Cut when Crescent is selected; Dormant/Tired label on slots + client cast guard (likely cause of the dead Rimeshard); predicted slot highlight + HUD rebuild only on change. check.sh PASS.
+- Left: cloud smoke, then confirm the Rimeshard cause with the owner. Not published.
+
 ## S59b — 2026-10-31 (new bot, ≈33 OLU)
 - T-036b done (D-219): HUD slots are buttons (tap/click selects), loadout screen select hint per platform. check.sh PASS.
 - T-036c done (D-220): cloud smoke on Saved v22 — specs 272/272, Rimeshard Z/X/C live when its slot is selected, refused otherwise; CLOUD ALL: PASS. Owner's v21 Z/X/C bug not reproducible server-side.
