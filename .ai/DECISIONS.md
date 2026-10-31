@@ -292,3 +292,6 @@ Pure CastContacts is a per-world-lifetime notification ledger, not damage eligib
 - **D-260 (S74, 2026-10-31):** Register a temporary CastContact drain in CastReceiptClient until c3c3 owns bounded storage, preventing Blink listener-wait queue growth. No contact renderer/legacy FX switch until b4.
 
 - **D-261 (S74, 2026-10-31):** Confirmed contacts use independent client inbox: 512 immutable records, 12s local retention/server-age window, 1s future tolerance; ordinal and semantic identity dedupe, no terminal/acceptance gate. Eviction/expiry uses conservative server-time watermark; teardown/restart drops pre-reset effects. Possible overload visual loss is explicit, never gameplay loss. No renderer adoption.
+
+- **D-262 (S74, 2026-10-31):** Split b4 before work into b4a pure cleanup ownership, b4b reconciliation command bridge/skew/fallback, b4c actual renderer/input cutover. c0b remains incomplete until all pass; no owner echo suppression removal before complete replacement.
+- **D-263 (S74, 2026-10-31):** CastResources uses unique immutable leases/tickets, fixed owner/per-cast caps, detach-before-dispose and error counting. Refused binds dispose their newly supplied resource; pose retirement never clears world effects. Pure unused runtime foundation only; non-yielding engine cleanup and production tuning belong to b4b/c.

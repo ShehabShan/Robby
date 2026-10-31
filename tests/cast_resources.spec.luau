@@ -1,5 +1,75 @@
 local R = require("../src/shared/CastResources")
+local P = require("../src/shared/CastPresentation")
 return {
+	["real presentation actions keep adoption lease then clear at authoritative expiry"] = function()
+		local p = P.new({ capacity = 4, predictionSeconds = 1, tombstoneSeconds = 12, maxLifetimeSeconds = 10 })
+		local s = R.new(4, 4)
+		local key = "g:1"
+		local poses, worlds = 0, 0
+		assert(P.predict(p, key, 100).action == "predict")
+		local lease = assert(R.open(s, key))
+		local pose = assert(R.bind(s, lease, "animation", "pose", function()
+			poses += 1
+		end))
+		local timeline = { acceptedAt = 100, releaseAt = 100.2, endsAt = 102, x = 1, y = 2, z = 3 }
+		assert(#P.tick(p, 100.1) == 0 and P.accept(p, key, timeline, 100.1).action == "adopt")
+		local world = assert(R.bind(s, lease, "tell", "world", function()
+			worlds += 1
+		end))
+		assert(P.accept(p, key, timeline, 100.2).action == "ignore" and R.isCurrent(s, pose))
+		R.retirePose(s, lease) -- local death while an accepted world effect remains active
+		assert(poses == 1 and worlds == 0 and R.isCurrent(s, world))
+		for _, clear in assert(P.tick(p, 102)) do
+			assert(clear.key == key and clear.action == "clear")
+			R.clear(s, lease)
+		end
+		assert(worlds == 1 and s.count == 0 and s.cleanupFailures == 0)
+		assert(P.cancel(p, key, 102).action == "ignore" and not R.clear(s, lease))
+	end,
+	["prediction timeout and late acceptance create a fresh lease immune to old callbacks"] = function()
+		local p = P.new({ capacity = 4, predictionSeconds = 1, tombstoneSeconds = 12, maxLifetimeSeconds = 10 })
+		local s = R.new(4, 4)
+		local key = "g:1"
+		local cleaned = 0
+		assert(P.predict(p, key, 100).action == "predict")
+		local old = assert(R.open(s, key))
+		local oldTicket = assert(R.bind(s, old, "timer", "world", function()
+			cleaned += 1
+		end))
+		for _ in assert(P.tick(p, 101)) do
+			R.clear(s, old)
+		end
+		assert(cleaned == 1 and not R.isCurrent(s, oldTicket))
+		local timeline = { acceptedAt = 100, releaseAt = 100.2, endsAt = 103, x = 1, y = 2, z = 3 }
+		assert(P.accept(p, key, timeline, 101.5).action == "start")
+		local fresh = assert(R.open(s, key))
+		local ticket = assert(R.bind(s, fresh, "timer", "world", function()
+			cleaned += 1
+		end))
+		assert(not R.release(s, oldTicket) and not R.clear(s, old) and R.isCurrent(s, ticket))
+		for _ in P.destroy(p) do
+			R.clear(s, fresh)
+		end
+		R.destroy(s)
+		assert(cleaned == 2 and s.cleanupFailures == 0 and s.count == 0)
+	end,
+	["retiring a pose may reenter full clear without double disposing any scope"] = function()
+		local s = R.new(1, 3)
+		local lease = assert(R.open(s, "g:1"))
+		local pose, world = 0, 0
+		for i = 1, 2 do
+			assert(R.bind(s, lease, "pose" .. i, "pose", function()
+				pose += 1
+				R.clear(s, lease)
+			end))
+		end
+		assert(R.bind(s, lease, "world", "world", function()
+			world += 1
+		end))
+		assert(R.retirePose(s, lease))
+		assert(pose == 2 and world == 1 and s.count == 0 and s.cleanupFailures == 0)
+	end,
+
 	["owner and resource caps refuse without evicting active world hazards"] = function()
 		local s = R.new(1, 2)
 		local lease = assert(R.open(s, "g:1"))
@@ -75,7 +145,7 @@ return {
 		assert(not R.bind(s, old, "late", "world", function()
 			refused += 1
 		end))
-		assert(refused == 1 and s.count == 1 and table.isfrozen(replacement))
+		assert(refused == 1 and s.count == 1 and table.isfrozen(replacement) and s.cleanupFailures == 0)
 	end,
 	["reentrant resource replacement cannot be overwritten by a caller"] = function()
 		local s = R.new(1, 1)
@@ -94,7 +164,7 @@ return {
 		end))
 		assert(drops == 1 and not R.release(s, first))
 		R.destroy(s)
-		assert(drops == 2)
+		assert(drops == 2 and s.cleanupFailures == 0)
 	end,
 	["pose batch detaches all tickets before first disposer can reenter"] = function()
 		local s = R.new(1, 3)
@@ -113,7 +183,7 @@ return {
 			)
 		end
 		R.retirePose(s, lease)
-		assert(calls == 2 and s.owners[lease.key].count == 0)
+		assert(calls == 2 and s.owners[lease.key].count == 0 and s.cleanupFailures == 0)
 	end,
 	["destroy disables reentrant admission and releases all owners despite failures"] = function()
 		local s = R.new(3, 2)
