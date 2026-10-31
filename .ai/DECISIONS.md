@@ -304,3 +304,6 @@ CastBridge composes real CastPresentation and CastResources behind synchronous n
 
 ### D-266 — S75: clock admission isolated from essential fallback (2026-10-31)
 b4b2 split before implementation into b2a monotonic clock/future receipt gate and b2b separately bounded essential warning fallback with production policy. The gate takes both local elapsed time and server-time samples; sample correction must not stop idle cleanup or replay phases. No production clock constants or engine clock behavior are claimed by pure tests.
+
+### D-267 — S75: monotonic clock admission and bounded future receipt waiting (2026-10-31)
+CastClockGate owns a fresh CastBridge. Finite first server sample anchors time; local elapsed time advances it thereafter, with correction bounded by dt times a configurable rate strictly below 1. Invalid/outlier samples cannot strand cleanup. Small future acceptances wait in a bounded, first-payload-wins queue with fixed local deadline; cancellation removes its pending key before draining. When tombstone capacity refuses cancellation/expiry, one conservative future-time watermark suppresses queued/replayed old starts. Tombstone retention must cover future tolerance plus maximum cast lifetime. Renderer failure telemetry remains on the bridge; production constants, essential fallback, contact dispatch and live identity mapping remain later steps.
