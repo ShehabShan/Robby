@@ -1,5 +1,8 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S50 — 2026-10-31 (same bot, ≈3 OLU)
+- Owner asked: published game v0.0.18 (Roblox v19) for a mobile playtest of Rimeshard (T-027h). Version PATCH bumped. check.sh PASS.
+
 ## S49 — 2026-10-31 (same bot as S48, ≈10 OLU)
 - F-08 done (D-204): `src/client` literal scan; Wind Step 0.25 s burst → `Config.Abilities.WindStep.burstSeconds`, shared with `SpeedGuardService`. check.sh PASS. Not published.
 

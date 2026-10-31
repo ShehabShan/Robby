@@ -1,6 +1,7 @@
 # STATE
 
 ## Now (after S49)
+- S50 (same bot, owner asked): published game v0.0.18 = Roblox place v19 (T-027h playtest build: Rimeshard starter, Rime FX, Shatter stagger, F-08). Owner plays on mobile. Waits for feedback in `research/inbox/`.
 - S49 (same bot): F-08 done (D-204): `src/client` scan; Wind Step 0.25 s burst → `Config.Abilities.WindStep.burstSeconds`, shared with the server speed guard. check.sh PASS.
 - S48: `roblox-open-cloud` connected again; cloud smoke on Saved v18 found one stale check (slot 1 is Rimeshard since D-194) → T-030c done (D-203): smoke finds starters by uid. Re-run: specs 266/266, CLOUD ALL: PASS on Saved v18. Not published.
 - S47 (same bot): F-08 part 2 (D-202): `src/server` literal scan; corpse despawn → `Config.Beasts.corpseSeconds`. F-08 stays doing (Resume from: `src/client` scan).
@@ -39,11 +40,11 @@
 - S18: T-020c Weave content + server Loom (D-090): Piercing Edge support, Blink `WeaveSet` at rest spots, `LoomService`, woven casts.
 - S17: T-019e client CrucibleHud (D-086) → **T-019 done**. Parallel sessions via git branches (D-087: `.ai/CLAIMS.md`, `claim.sh`, `merge.sh`, AGENTS §9). T-020 split a–d; T-020a Loom core (D-088) and T-020b Path Marks (D-089) done.
 - S16: T-018f breakthrough wiring; T-019a–d Crucible core, focus mini-game, server + Recoil, Twin Crescent (D-080–D-085).
-- Last publish: v16 (S39, owner asked). Includes Crucible, Loom, Marks, speed guard, Rank-test credit, Mistmaw tuning, remote guard.
+- Last publish: Roblox v19 = game v0.0.18 (S50, owner asked, for the T-027h mobile playtest). Before that: v16 (S39). Includes Crucible, Loom, Marks, speed guard, Rank-test credit, Mistmaw tuning, remote guard.
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** —
-- **NEXT:** T-027h Rimeshard playtest (cloud smoke done S48; publish only when the owner says so); then T-022c beast feel, T-026c R15 animations, T-024 First 10 minutes.
+- **NEXT:** T-027h Rimeshard playtest (published v19 for the owner, S50; wait for inbox feedback, then tune); then T-022c beast feel, T-026c R15 animations, T-024 First 10 minutes.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
@@ -52,6 +53,6 @@
   - T-024 First 10 minutes · all above
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** T-006: owner playtest of the published build (feedback → inbox).
-- **Last cloud test:** CLOUD ALL: PASS on Saved v18 (2026-10-31, S48); live = v16
+- **Last cloud test:** CLOUD ALL: PASS on Saved v18 (2026-10-31, S48); live = v19 (game v0.0.18)
 - **Last check.sh:** CHECK: PASS (2026-10-31, S49)
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); Q = Kith stance, Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
