@@ -1,5 +1,5 @@
 --!strict
--- CastRequest payload rules (T-002c4, SCHEMAS §9): C→S `moveId: string, aim: vector, point: vector?, seq: u16`.
+-- CastRequest payload rules (T-002c4, SCHEMAS §9): C→S `moveId: string, generation: string, aim: vector, point: vector?, seq: u16`.
 -- `point` is the aimed ground point for `target = "Point"` moves (T-027d1); the server checks it with Zone.isValidPoint.
 -- Pure: the server checks aim (a Vector3) itself; this validates moveId against built Content and seq as u16.
 
@@ -29,7 +29,7 @@ function CastRequest.nextSeq(seq: number): number
 end
 
 -- One allocator per connection, shared by ALL cast input adapters. Character/slot
--- changes must not recreate it. Generation negotiation is added by T-043c0b3.
+-- changes must not recreate it. Generation negotiation lives in init.client (T-043c0b3b).
 function CastRequest.allocator(): () -> number
 	local seq = 0
 	return function(): number

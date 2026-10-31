@@ -260,3 +260,6 @@ T-043c0b3b2 split into b2a authorization + b2b generation/replay. Abilities auth
 
 ### D-248 — Character-bound generation and replay activation (S70, 2026-10-31)
 Server-owned GUID scope + monotonic epoch, reliable CastGeneration and rate-limited CastSync; sync never rotates. Bind readiness to actual character Instance (not attributes), listener first with one-second retries only while unready. Keep one connection-lifetime sequence across epochs; never retry a possibly paid cast. CastAdmission wraps the real synchronous authorizer; only fresh acceptance dispatches effects. Character replacement resets server/client stance; leave disconnects listeners and destroys ledger. Heartbeat prunes. Accepted world zones unchanged; clocks/receipts/reconciliation remain b3c/b4. Full local gate passes; not real-network/device proof.
+
+### D-249 — Full acceptance records separate from admission (S70, 2026-10-31)
+Pure CastReceipts stores frozen explicit server identity, character/slot revision, wall-clock schedule and copied aim/origin/centre; monotonic time governs bounded expiry/eviction, and first terminal wins. A miss never authorizes gameplay: CastAdmission remains the only replay authority. Storage survives generation changes for accepted world hazards. Unused until b3c2; terminal/contact wiring is b3c3. Seven pure regressions, 339 total specs and full CHECK PASS.

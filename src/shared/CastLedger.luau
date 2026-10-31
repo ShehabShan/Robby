@@ -1,5 +1,5 @@
 --!strict
--- T-043c0a1: pure, bounded admission ledger. NOT wired to live CastRequest yet.
+-- T-043c0a1: pure, bounded admission ledger; live adapter is Abilities via CastAdmission.
 -- One server-owned generation per character/connection, shared by BOTH input senders.
 -- Reserve before any yielding/payment; complete exactly once with an immutable response receipt.
 -- Caller validates payload and computes a canonical fingerprint; this module never authorizes gameplay.
