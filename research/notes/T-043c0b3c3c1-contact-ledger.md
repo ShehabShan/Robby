@@ -6,7 +6,7 @@
 **Never use record() to decide or apply damage.** The authoritative projectile/volley per-target caps, zone tick state, target eligibility and original-character burst rules remain the only hit gates. Call notification admission only after actual effects/damage. A full contact ledger drops notification, not a hit. A duplicate result must not re-send. This module alone does not prevent duplicate damage or implement contact transport.
 
 ## Evidence
-Eight pure cases in `tests/cast_contacts.spec.luau`: immutable copies/changed duplicate; distinct casts/shards/ticks/targets; no eviction at cap; closure/late callbacks; status-only zero damage; invalid fields/backward new time; bounded constructor; 192-identity matrix including delimiter-rich target keys with reverse-order duplicates. `check.sh` PASS. No live source or remotes changed by c1.
+Eight pure cases in `tests/cast_contacts.spec.luau`: immutable copies/changed duplicate; distinct casts/shards/ticks/targets; no eviction at cap; closure/late callbacks; status-only zero damage; invalid fields/backward new time; bounded constructor; 192-identity matrix including delimiter-rich target keys with reverse-order duplicates. `check.sh` PASS; full runner confirms 369 tests across 65 specs after verifying all newly added cases are registered at the top-level suite. No live source or remotes changed by c1.
 
 ## Server c2 integration map
 - Own one ledger on each accepted world lifetime; close on the same once-only terminal callback that sends CastTerminal. Choose explicit configured per-cast notification cap (bounded active world capacity already exists).

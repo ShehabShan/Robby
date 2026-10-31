@@ -1,28 +1,6 @@
 local C = require("../src/shared/CastContacts")
 local function input(resource, tick, target)
 	return {
-		["identity matrix preserves every shard tick target and coalesces repeated callbacks"] = function()
-			local s = C.new("g:1", 16, 1000, 256)
-			local originals = {}
-			for resource = 1, 16 do
-				for tick = 1, 3 do
-					for _, target in { "target:1", "target:1:2", "2:target:1", "é" } do
-						local value = input(resource, tick, target)
-						local result, record = C.record(s, value)
-						assert(result == "stored" and record.ordinal == #originals + 1)
-						table.insert(originals, { value = value, record = record })
-					end
-				end
-			end
-			for i = #originals, 1, -1 do
-				local pair = originals[i]
-				local changed = table.clone(pair.value)
-				changed.amount, changed.at = 99, 1001
-				local result, record = C.record(s, changed)
-				assert(result == "duplicate" and record == pair.record and record.amount == 4)
-			end
-			assert(s.count == 192)
-		end,
 
 		resource = resource or 1,
 		tick = tick or 1,
@@ -34,6 +12,29 @@ local function input(resource, tick, target)
 	}
 end
 return {
+	["identity matrix preserves every shard tick target and coalesces repeated callbacks"] = function()
+		local s = C.new("g:1", 16, 1000, 256)
+		local originals = {}
+		for resource = 1, 16 do
+			for tick = 1, 3 do
+				for _, target in { "target:1", "target:1:2", "2:target:1", "é" } do
+					local value = input(resource, tick, target)
+					local result, record = C.record(s, value)
+					assert(result == "stored" and record.ordinal == #originals + 1)
+					table.insert(originals, { value = value, record = record })
+				end
+			end
+		end
+		for i = #originals, 1, -1 do
+			local pair = originals[i]
+			local changed = table.clone(pair.value)
+			changed.amount, changed.at = 99, 1001
+			local result, record = C.record(s, changed)
+			assert(result == "duplicate" and record == pair.record and record.amount == 4)
+		end
+		assert(s.count == 192)
+	end,
+
 	["immutable original per cast resource tick target with monotonic ordinal"] = function()
 		local s, value = C.new("g:1", 3, 1000, 20), input()
 		local result, record = C.record(s, value)

@@ -1,18 +1,7 @@
 local L = require("../src/shared/CastLifetime")
 local function acceptance(id)
 	return {
-		["terminal callback runs only after winning transition and registry release"] = function()
-			local s, count = L.new(2), 0
-			s.onTerminal = function(h, now)
-				count += 1
-				assert(not L.isActive(s, h) and s.count == 0 and h.terminal.at == 10001 and now == 11)
-				assert(not L.finish(s, h, 1, now))
-			end
-			local h = L.start(s, acceptance(), 10, 1, 1)
-			assert(L.finish(s, h, 1, 11))
-			L.expire(s, 99)
-			assert(not L.terminate(s, h, "expired", 99) and count == 1)
-		end,
+
 		castId = id or "g:1",
 		generation = "g",
 		seq = 1,
@@ -28,6 +17,18 @@ local function acceptance(id)
 	}
 end
 return {
+	["terminal callback runs only after winning transition and registry release"] = function()
+		local s, count = L.new(2), 0
+		s.onTerminal = function(h, now)
+			count += 1
+			assert(not L.isActive(s, h) and s.count == 0 and h.terminal.at == 10001 and now == 11)
+			assert(not L.finish(s, h, 1, now))
+		end
+		local h = L.start(s, acceptance(), 10, 1, 1)
+		assert(L.finish(s, h, 1, 11))
+		L.expire(s, 99)
+		assert(not L.terminate(s, h, "expired", 99) and count == 1)
+	end,
 	["copied immutable acceptance survives cache mutation"] = function()
 		local s, a = L.new(2), acceptance()
 		local h = L.start(s, a, 10, 1, 1)
