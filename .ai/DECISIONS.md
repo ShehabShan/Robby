@@ -404,3 +404,6 @@ Receipt registration and consumer pool/heartbeat acquisition are protected befor
 
 ### D-301 — Prepared exclusive presentation owner (S86, 2026-10-31)
 CastPresentationClient composes existing CastOwner in receipt → delivery → contact order, reverse teardown. Duplicate starts share the active lifetime, restart uses the new catalog, stale stop handles cannot close replacements. This adapter is deliberately NOT live-wired before atomic legacy replacement (c3b2). No gameplay/prediction startup change or publication.
+
+### D-302 — Cutover preserves non-cast melee and Self feedback (S86, 2026-10-31)
+Source audit: CombatService emits only legacy fx.combat.hit, while Abilities emits reliable CastContact as well as legacy ability HitFx. Removing all HitFx would erase sword feedback. CastDeliveryFx intentionally renders no world tree for Self, while legacy KithFx renders Wind Step gusts. Split c3b2 into an exact non-cast listener boundary, receipt-owned Self parity, and atomic final wiring; no live partial cutover. Never use blanket legacy fallback for keyed ability effects.
