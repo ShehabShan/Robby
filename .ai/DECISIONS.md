@@ -206,3 +206,6 @@ Recommended, NOT owner-approved: faceted hand-shaped frost (option A), with dedi
 
 ### D-233 (S65, 2026-10-31) — Presentation must tell the truth about combat
 The audit identifies Z's declared 0.2 s telegraph vs immediate server Volley insertion and X's caster-only 0.6 s rain delay despite simultaneous cast/travel broadcasts. These are code findings, not a live reproduction or fix. T-043c1 first specifies/regresses timing and reconciliation; c2/c3 make explicit isolated fixes after direction approval. Chill/target-local Shatter requires authoritative stack/expiry/consumption data. Preserve damage/range/cooldowns unless a named decision justifies change. Mobile caps in the proposal are hypotheses awaiting target-device measurement, not proven budgets.
+
+### D-234 (S66, 2026-10-31) — Owner approves faceted frost and M1-first prototype
+The owner replied "Yes" to "Approve this direction and prototype left-click first?" This approves option A (sharp, hand-shaped ice with deliberate poses) and the left-click prototype, not whole-kit quality acceptance or publication. Verbatim approval: `research/inbox/2026-10-31-rimeshard-direction-approved.md`. T-043b is done; T-043d1 is next. Existing balance/server authority and later owner M1 review gates remain.

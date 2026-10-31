@@ -1,6 +1,6 @@
 # Rimeshard — from floating shards to a deliberate frost technique
 
-T-043a · S65 · 2026-10-31 · **PROPOSAL — owner review required before major rebuilding**
+T-043a · S65 · 2026-10-31 · **OPTION A APPROVED — owner 2026-10-31; M1 prototype first, whole-kit acceptance still pending**
 
 Owner request: [verbatim](../inbox/2026-10-31-rimeshard-quality-direction.md). Evidence and current-code audit: [reference study](T-043a-reference-audit.md). Illustrated short version: [review board](T-043a-review.html). This is a direction, not a claim that the game already looks this way.
 
