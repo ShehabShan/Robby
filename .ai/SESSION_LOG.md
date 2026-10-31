@@ -1,6 +1,6 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
-## S75 — 2026-10-31 (34.8 OLU before close-out)
+## S75 — 2026-10-31 (35.7 OLU at merge; final STATE save below 45)
 - b4b split; b4b1 done: owned seekable command executor, same-lease prediction adoption and isolated cleanup (D-264–D-265).
 - b4b2 split; b2a done: bounded monotonic clock/future queue with terminal/overflow anti-replay (D-266–D-267).
 - CHECK PASS: 429 pure/69 specs (38 new bridge/clock cases), existing dispatch/lifecycle/client/timing/build gates; 6/6 deliberate faults detected/restored.

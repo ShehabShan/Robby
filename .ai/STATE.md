@@ -1,6 +1,10 @@
 # STATE
 
-## Now (after S74)
+## Now (after S75)
+- S75 merged 9137d2c at 35.7 OLU: b4b1 owned presentation executor and b4b2a bounded clock/future receipt gate done (D-264–D-267). CHECK PASS: 429 pure tests/69 specs including 38 new bridge/clock cases, all existing dispatch/lifecycle/client/timing/build gates. Six deliberate behavioral faults detected/restored; full CHECK PASS afterward. Pure modules only: no renderer cutover, cloud test or publication.
+- **NEXT: T-043c0b4b2b** separately bounded essential warning fallback and production policy, then b4b3 confirmed-contact dispatch and b4c live renderer. Handoffs: research/notes/T-043c0b4b1-command-executor.md and T-043c0b4b2a-clock-gate.md. Observe delayed gate-drain renderer failures, not just immediate accept returns. Keep accepted world hazards after local death, late contacts after terminals, and owner echo suppression until complete cutover.
+
+### S74 history
 - S74 merged 81ed434 at 37.4 OLU: c3c2 server confirmed contacts and c3c3 bounded client ordering done (D-259–D-261); b4a pure keyed cosmetic resource ownership done (D-262–D-263). CHECK PASS: 391 pure tests/67 specs, 31 dispatch cases, 13 real-source lifecycle cases plus actual client adapter. Seven deliberate behavioural faults detected and restored; full CHECK PASS afterward. No publication, cloud/live-network or renderer claim.
 - **NEXT: T-043c0b4b** reconciliation command bridge (size/split before work); then b4c actual renderer adoption. Handoffs: research/notes/T-043c0b3c3c2-server-contacts.md, T-043c0b3c3c3-client-contacts.md, T-043c0b4a-resource-ownership.md. Reliable contacts now wired and client inbox active, but CastPresentation/CastResources are NOT runtime-wired. Preserve late contacts after terminals and accepted world hazards after local death/leave. Do not remove owner echo suppression before complete renderer cutover. Five future timing probes still intentionally red for T-043c2/c3. Older bullets below are historical.
 
@@ -74,16 +78,16 @@
 - Last publish: Roblox v27 = game v0.0.22 (S64, owner asked). S65 did not publish.
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
-- **Doing:** T-043 overhaul: c0b4 presentation (b4a done → b4b bridge → b4c live adoption), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-043c0b4b — reconciliation command bridge, bounded clock skew/contact dispatch/essential-cue fallback (size/split before work), then b4c live renderer adoption and d2 M1 visuals. Resume from research/notes/T-043c0b4a-resource-ownership.md. Owner M1 review before special art.
+- **Doing:** T-043 overhaul: c0b4 presentation (b4a/b4b1/b4b2a done → b4b2b fallback → b4b3 contacts → b4c live adoption), then d2 M1 visuals; T-042b live-input verification remains open.
+- **NEXT:** T-043c0b4b2b — essential warning fallback and production policy (size/split before work), then b4b3 confirmed-contact dispatch, b4c live renderer adoption and d2 M1 visuals. Resume from research/notes/T-043c0b4b2a-clock-gate.md and T-043c0b4b1-command-executor.md. Owner M1 review before special art.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-043c0b4b reconciliation bridge → b4c live renderer (serialized) · c3 lifecycle/contact inbox + b4a resource ownership (done)
+  - T-043c0b4b2b essential fallback → b4b3 contacts → b4c live renderer (serialized) · b4b1 owned commands + b4b2a clock gate (done)
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
   - T-043h1 truthful Chill state · T-043b + T-043c1 (done) + T-043c0b (coordinate remotes)
   - Unrelated beast/movement/onboarding lanes deferred while owner-priority Rimeshard overhaul is active.
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** M1 owner quality review before specials; T-042b fresh-server input verification remains open. No publish without explicit request.
 - **Last cloud test:** CLOUD ALL: PASS on Saved v26 (2026-10-31, S63, 278/278 tests + server smoke); live published = v27 (game v0.0.22); publication HTTP 200, player readback pending
-- **Last check.sh:** CHECK: PASS (2026-10-31, S72 merge): 353 pure tests (64 suites), 27 actual-dispatch cases, 5 real-source lifecycle scenarios; input/receipt/timing/authoring/types/build/inspect green. Five future Z/X contract probes intentionally fail. No cloud/device/renderer quality verification or publication.
+- **Last check.sh:** CHECK: PASS (2026-10-31, S75 merge): 429 pure tests (69 suites), existing dispatch/lifecycle/input/receipt/timing/authoring/types/build/inspect green. Six temporary bridge/clock faults rejected and restored. Five future Z/X contract probes intentionally fail. No cloud/device/renderer quality verification or publication.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
