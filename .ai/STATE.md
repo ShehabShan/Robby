@@ -1,6 +1,7 @@
 # STATE
 
-## Now (after S52)
+## Now (after S53)
+- S53 (same bot, owner asked): T-033 done (D-209): Studio saves split from live, every save sanitized, early saves after breakthrough/fusion/Binding. check.sh PASS. Not published.
 - S52 (owner inbox 2026-10-31): VISION Direction 6–7 — one thing at a time, refine/polish before expanding (D-206); endgame-ready backend, no endgame build (D-207). roblox-data skill trial found save gaps → T-033 (D-208). check.sh PASS.
 - S51 (owner asked): T-032 done (D-205): roblox-brain skills (29, MIT) vendored in `.ai/skills/roblox-brain/`; sessions read INDEX.md → SKILL.md before domain work (AGENTS.md §4.6). check.sh PASS. Not published.
 - S50 (same bot, owner asked): published game v0.0.18 = Roblox place v19 (T-027h playtest build: Rimeshard starter, Rime FX, Shatter stagger, F-08). Owner plays on mobile. Waits for feedback in `research/inbox/`.
@@ -46,7 +47,7 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** —
-- **NEXT:** T-033 data hardening (small, unblocked); T-027h Rimeshard playtest (published v19, waits for owner feedback, then tune); then T-022c beast feel, T-026c R15 animations, T-024 First 10 minutes.
+- **NEXT:** T-026c walk animations (needs `roblox-open-cloud`); T-027h Rimeshard playtest (published v19, waits for owner feedback, then tune); then T-022c beast feel, T-026c R15 animations, T-024 First 10 minutes.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-022c Beast feel + playtest (doing: tuning + real SFX left) · —
