@@ -1,9 +1,14 @@
 # STATE
 
+## Owner update — Wind Step rework (2026-10-31)
+- **NEXT: T-043c0b4c3b2b1** — owner rejects Wind Step's current appearance AND function and authorizes autonomous redesign. Prioritize its movement/visual audit and design, then bounded implementation. Do not treat the old gust or velocity behavior as accepted quality to preserve.
+- Verbatim feedback: research/inbox/2026-10-31-wind-step-rework.md. b2b split into design/audit, movement rework and receipt-owned visuals; then atomic c3b2c. Server authority and other moves remain protected; no publication authorization.
+- This follow-up only records/reprioritizes the request: no movement/visual implementation yet. Existing cumulative budget was 41.7 OLU at inspection; no reset, stopping for saving deadline. Last code checks remain PASS.
+
 ## Now (after S86)
 - S86 merged c1479a3: exception-safe Receipt/Delivery/Contact starts, prepared exclusive CastPresentationClient, and exact non-cast CombatContactClient boundary. c3b1b + c3b2a done; D-300–D-303.
-- **NEXT: T-043c0b4c3b2b** receipt-owned Self cosmetic parity, then c3b2c atomic input/legacy cutover, then d2 M1 visuals. Handoffs: research/notes/T-043c0b4c3b1b-safe-owner.md and T-043c0b4c3b2a-legacy-boundary.md.
-- Cutover audit: CombatService sword hits have ONLY legacy fx.combat.hit (preserve exact route); keyed abilities must never use that fallback. Self delivery currently has no world tree, so wholesale removal would erase Wind Step gusts. Preserve local movement velocity.
+- **S86 original next (superseded by owner update above):** Self cosmetic parity, then atomic cutover and d2 M1 visuals. Handoffs: research/notes/T-043c0b4c3b1b-safe-owner.md and T-043c0b4c3b2a-legacy-boundary.md.
+- Cutover audit: CombatService sword hits have ONLY legacy fx.combat.hit (preserve exact route); keyed abilities must never use that fallback. Self delivery currently has no world tree, so wholesale removal would erase Wind Step gusts. Original parity constraint superseded for Wind Step by the owner update above.
 - CHECK PASS: 586 pure/80 specs, existing 14 input/29 delivery groups plus 11 owner/5 combat-contact groups; 15 behavioral mutations detected/restored, 100 coordinated lifetimes + 100 non-cast listener replacements.
 - Prepared adapters are NOT live-wired. Legacy/startup/prediction unchanged; no gameplay timing, cloud/device/visual acceptance or publication. No owner action.
 - Merged at 33.5 OLU; final STATE saving below45; claims released.

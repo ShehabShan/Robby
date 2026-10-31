@@ -1,5 +1,10 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S86 follow-up — 2026-10-31 (same cumulative budget)
+- Owner rejects Wind Step appearance/function; verbatim feedback saved, autonomous redesign authorized.
+- Reprioritized/split b2b into design audit, movement rework and receipt-owned visuals; NEXT b2b1.
+- No code or publication changes. Budget 41.7 OLU at inspection; stopping rather than resetting cap.
+
 ## S86 — 2026-10-31
 - c3b1b done: exception-safe engine starts, prepared exclusive presentation owner; D-300–D-301.
 - c3b2 split: preserve non-cast sword hits + Self parity; b2a exact prepared melee listener done; D-302–D-303.
