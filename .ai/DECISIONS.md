@@ -365,3 +365,6 @@ T-043c0b4c2c2b2a implements a pure bounded CastDeliveryDispatch over the actual 
 
 ### D-288 (S81, 2026-10-31) — cancel a receipt snapshot before any visible advancement
 ClockGate/WarningGate cancelMany retire all primary/pending/reserve keys before seeking or draining. Sequential cancel calls can otherwise render another due key that is also cancelled in the same snapshot. Dispatch observes immutable receipt orders using two scalars, stages canonical metadata before admission, prunes against gate ownership after operations and treats expired responses as non-rejections.
+
+### D-289 (S81, 2026-10-31) — explicit bounded restart suppression
+Delivery teardown returns an opaque cursor: same-inbox receipt/response serials skip even unpolled retained records; across new inboxes a conservative timestamp watermark suppresses old effects. Include pinned future acceptances and unpolled receipt/terminal timestamps, not only the current admitted clock. Preserve the cursor across engine-owner restarts, stop delivery before borrowed receipts, never destroy the producer from the dispatcher. Conservative suppression can drop unrelated older cosmetics; it never authorizes gameplay. Reserve tombstones continue consuming bounded capacity; refusal remains explicit, not fake successful rendering.

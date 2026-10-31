@@ -1,5 +1,12 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S81 — 2026-10-31 — T-043c0b4c2c2b2a (D-287–D-289)
+- Bounded receipt dispatcher, terminal-batch cancellation and restart suppression done; no startup or gameplay timing changes.
+- CHECK PASS: 565 pure/77 specs, 17 actual-source delivery engine cases, all prior gates; 10 deliberate behavioral mutations detected/restored, 100 leak-free dispatcher lease turnovers.
+- Next b2b: size/split original-character engine binding and audit missing observer identity transport; then truthful Burst/cutover. Handoff: research/notes/T-043c0b4c2c2b2a-dispatch.md.
+- OLU 38.3 before close-out; final STATE saving targeted below45. No cloud/device testing, publication or new owner action.
+
+
 ## S80 — 2026-10-31 — T-043c0b4c2c2a/b1 (D-283–D-286)
 - Bounded primary/reserve delivery trees and pinned immutable gate-lifetime metadata done; original-character/receipt lifecycle and truthful Burst remain separate next tasks. No startup/timing changes.
 - CHECK PASS: 535 pure/76 specs, 14 actual-source delivery engine cases, all existing gates; 13 deliberate behavioral faults detected/restored; 100 one-slot turnover cycles leak-free in mocks.

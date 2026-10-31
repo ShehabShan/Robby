@@ -88,6 +88,21 @@ local function fixture(capacity, cursor, borrowed)
 	return f
 end
 return {
+	["reserve tombstone pressure refuses fallback explicitly without reviving cancelled cue"] = function()
+		local f = fixture(1)
+		f:accept(1)
+		f:accept(2)
+		f:tick()
+		assert(f.live == 2)
+		Inbox.terminal(f.inbox, "g:2", "cancel", 100.1, 0.1)
+		f.fail = true
+		f:tick(0.1, 100.1)
+		assert(f.live == 0 and f.state.store.count == 0)
+		assert(f.state.gate.reserve.refusals > 0)
+		assert(f.state.gate.reserve.bridge.presentation.entries["g:2"].kind == "terminal")
+		f:stop()
+	end,
+
 	["terminal before due time releases future queue capacity immediately"] = function()
 		local f = fixture()
 		f:accept(1, 100.4)
