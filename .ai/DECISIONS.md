@@ -263,3 +263,5 @@ Server-owned GUID scope + monotonic epoch, reliable CastGeneration and rate-limi
 
 ### D-249 — Full acceptance records separate from admission (S70, 2026-10-31)
 Pure CastReceipts stores frozen explicit server identity, character/slot revision, wall-clock schedule and copied aim/origin/centre; monotonic time governs bounded expiry/eviction, and first terminal wins. A miss never authorizes gameplay: CastAdmission remains the only replay authority. Storage survives generation changes for accepted world hazards. Unused until b3c2; terminal/contact wiring is b3c3. Seven pure regressions, 339 total specs and full CHECK PASS.
+
+- **D-250 (S71, 2026-10-31):** Split c0b3c2 into c2a live immutable capture/cache and c2b reliable transport/receiver inbox. Preserve current Z/X/M1 timing; later T-043c2/c3 own timing/ground hardening. Follow existing owner-approved high-quality-game anticipation/contact contract; cross-check https://gas.spoked.dev/networking/prediction/ for matching acceptance to prediction without replaying effects, not a framework migration.
