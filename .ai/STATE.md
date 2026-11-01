@@ -1,5 +1,9 @@
 # STATE
 
+## S101 approved release follow-up — 2026-11-01
+- One approved test-only POST returned version2, but history confirmation failed: **UNCERTAIN, consent consumed, NO RETRY**. Production untouched.
+- NEXT T-044c2b1: read-only reconciliation; see research/notes/T-044c2b-release-result.md for canonical journal and portable evidence. No new publication. Owner dynamics still unverified. Older blocks below describe pre-release state.
+
 ## Now — after S101 (2026-11-01)
 - Phase3 building. **NEXT T-044c2b:** approve S101 final-main exact-byte package, then existing one-shot isolated test publication. Owner screenshot requirement is waived; NO new screenshot request or permission scaffolding. Broad test overwrite authority retained.
 - T-044c2a mergedcb2a17e: strict owner-declaration/schema2, unchanged scope/owner/target/time/pin gates, legacy dashboard compatibility. D-350/D-351. Handoff and immutable final package/card pointers: research/notes/T-044c2a-owner-attestation.md. Stage AFTER this last main save; missing version1 artifacts mean incomplete preparation.

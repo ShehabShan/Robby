@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S101 pinned-release follow-up — 2026-11-01
+- Owner exact-package approval10:10:32Z; unchanged-main one-shot transaction dispatched to isolated test only.
+- API acknowledged version2; history not confirmed, terminal UNCERTAIN and consent permanently consumed. NO RETRY.
+- Portable evidence and journal pointer in T-044c2b-release-result.md; NEXT c2b1 read-only reconciliation.
+- No production writes or dynamics acceptance. Follow-up uses original budget,42.3 before save; code unchanged.
+
 ## S101 — 2026-11-01
 - T-044c2a complete: strict truthful owner-attestation/schema2 honors screenshot waiver; legacy dashboard review stays valid. D-350/D-351; exact source/timestamp/owner/target/pin/expiry gates retained.
 - CHECK PASS:22 permission/43 transaction/26 release-intake groups;7 faults detected/restored after direct kind-test improvement. Target-specific stage/reconstruction PASS; read-only private/owner/root observation only.
