@@ -1,6 +1,14 @@
 # STATE
 
-## Now — after S87 (2026-10-31)
+## Now — after S88 (2026-11-01)
+- Phase3 building, approved. **NEXT: T-043c0b4c3b2b2b2d** — real-engine Saved-place terrain/physics validation before movement activation. Claim and size/split before work; explicit probe matrix in research/notes/T-043c0b4c3b2b2b2-driver.md. Then b2c atomic movement/payment/input activation, b3b receipt-owned Self, c3b2c visual cutover, d2 M1.
+- S88 merged21ad243: prepared WindStepDriver with two-phase reservation/commit, exclusive original-root ownership, finite world-XZ Plane force, fresh body sweep, Pre/Post single-use forward budget and independent cleanup; b2b2 and b2b2b2c complete. D-311–D-314. No live caller, Config/payment/input/iframes/visuals unchanged.
+- Starting terrain clearance: complete root OBB enclosing AABB empty voxels certify clearance; otherwise at most8/16stud empty overhead seeds and Terrain-only full-volume descent. Avoids blanket coarse-cell false-refusal; obstruction/no clear seed/error fail closed. Overhangs can still refuse. This is mock-tested query composition, NOT real terrain/solver proof.
+- CHECK PASS:626 pure/83 specs +28 actual-source driver groups/100 clean turnovers + all prior engine/build gates;17 behavioral faults detected/restored. Seven acquisition faults and all prepared property-write faults covered. No cloud/device/feel acceptance or publication; no owner action.
+- Acceptance handoff: lease reservation does not guarantee commit; b2c must include commit failure in payment/cooldown/strain rollback and remove old client impulse atomically. External replacement knockback must stop(true) before its own write. Preserve other moves and server authority.
+- Claims released; merge at38.7 OLU; final STATE save below45. Live published version remains27 (v0.0.22).
+
+## S87 retained design context
 - Phase3 building, approved. **NEXT: T-043c0b4c3b2b2b2** — prepared original-root Wind Step motion driver, actual-source engine tests. Claim before work; size/split acceptance integration if needed. Then b2c atomic movement activation, b3b receipt-owned Self rendering, c3b2c atomic visual cutover, d2 M1 integration.
 - Owner rejects Wind Step appearance AND function; autonomous redesign delegated, not publication. Source: research/inbox/2026-10-31-wind-step-rework.md. Do not preserve old impulse/smoke as accepted quality; other moves/server authority protected.
 - S87 merged8408080: b2b1 audit/design; b2b2a pure motion; b2b2b1 forward simulation budget; b2b3a pure visual plan/offline preview complete. D-304–D-310. CHECK PASS:626 pure/83 specs plus all previous actual-source/engine/build gates;14 behavioral mutations detected/restored. Claims released.
@@ -125,10 +133,10 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-043 overhaul: c0b4 presentation (delivery Fx/metadata/receipt dispatcher/original-character owner done → truthful Burst → atomic cutover), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-043c0b4c3b2b — receipt-owned Self parity, then c3b2c atomic live cutover and d2 M1 visuals. Resume from S86 handoffs above; prepared owners ready but not started. Preserve non-cast sword hits; no duplicate legacy/keyed rendering or fake fixed Burst centre.
+- **NEXT:** T-043c0b4c3b2b2b2d — actual Saved-engine terrain/motion validation; then atomic b2c movement activation, b3b Self renderer and c3b2c keyed cutover. Handoff: research/notes/T-043c0b4c3b2b2b2-driver.md.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-043c0b4c3b2b Self cosmetic parity (serialized) · b1 lifecycle/b2a boundary (done)
+  - T-043c0b4c3b2b2b2d real-engine terrain/motion validation (serialized) · b2b2/b2b2b2c (done); then b2c activation and b3b Self renderer
   - T-043c0b4c3b2c atomic keyed startup/legacy cutover · b2b (pending)
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
   - T-043h1 truthful Chill state · T-043b + T-043c1 (done) + T-043c0b (coordinate remotes)
@@ -136,5 +144,5 @@
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** M1 owner quality review before specials; T-042b fresh-server input verification remains open. No publish without explicit request.
 - **Last cloud test:** CLOUD ALL: PASS on Saved v26 (2026-10-31, S63, 278/278 tests + server smoke); live published = v27 (game v0.0.22); publication HTTP 200, player readback pending
-- **Last check.sh:** CHECK: PASS (2026-10-31, S86 merge): 586 pure/80 suites, 14 client-input, 7 character-client, 29 delivery-engine, 11 owner-engine, 5 combat-contact cases and all prior gates. Fifteen verified behavioral faults detected/restored this session. Five future Z/X probes intentionally red; not changed/re-run in S86. No cloud/device/visual acceptance or publication.
+- **Last check.sh:** CHECK: PASS (2026-11-01, S88 merge):626 pure/83 specs +28 actual-source Wind driver groups and all prior input/lifecycle/renderer/build gates.17 behavioral faults detected/restored;100 leak-free turnovers. Five future Z/X contract probes remain deferred. No cloud/device/feel acceptance or publication.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
