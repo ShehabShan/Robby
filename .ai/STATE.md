@@ -1,7 +1,7 @@
 # STATE
 
 ## Now — after S97 (2026-11-01)
-- Phase3 building, approved. **NEXT T-044b3b2b2b**: durable cross-VM single-use intent journal and one-shot main-only isolated transaction; size/split before work. Then b3a2 running-player delivered-version binding, then c actual authorized publication.
+- Phase3 building, approved. **NEXT T-044b3b2b2b1**: durable cross-VM single-use intent journal and one-shot main-only isolated transaction; size/split before work. Then b3a2 running-player delivered-version binding, then c actual authorized publication.
 - S97 mergedeed0bbf: b3b2b1 bounded GET-only publication-history observer + b3b2b2a independently pinned scoped human permission-review validator complete. Exact history match is historical publication ONLY, never current serving/byte identity/Write permission. Review JSON proves consistency, not authenticated authorship or live permission.
 - CHECK PASS on merged main: prior642pure/85specs and all integration gates +27 new Python groups;21 temporary behavioral faults detected/restored. Synthetic/offline only; no real transport/physics/Sober/mobile evidence.
 - Handoffs: research/notes/T-044b3b2b1-evidence-route.md and T-044b3b2b2a-permission-review.md. Official experimental history GET supports API-key universe.place:read; current-serving endpoint remains unverified. Do not infer first-row/latest/current. Real running-player version report remains separate b3a2 gate.
@@ -199,7 +199,7 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-043 overhaul: c0b4 presentation (delivery Fx/metadata/receipt dispatcher/original-character owner done → truthful Burst → atomic cutover), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-044b3b2b2b — durable single-use isolated publication transaction; size/split first. Then b3a2 exact delivered-release/running-version binding and c actual separate test publication. Handoff: research/notes/T-044b3b2b2a-permission-review.md. Actual d2b2 physics and dependent activation remain gated.
+- **NEXT:** T-044b3b2b2b1 — durable single-use isolated publication transaction; size/split first. Then b3a2 exact delivered-release/running-version binding and c actual separate test publication. Handoff: research/notes/T-044b3b2b2a-permission-review.md. Actual d2b2 physics and dependent activation remain gated.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-044b3b2b2b durable transaction → b3a2 delivered-report binding → c publish (c gated on exact overwrite consent/scoped reviewed grant/fresh target) · b3b1/b3b2a/b3b2b1/b3b2b2a done
