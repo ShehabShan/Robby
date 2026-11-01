@@ -456,3 +456,12 @@ Replace D-313's blanket occupied-cell refusal: exact root OBB AABB empty voxels 
 
 - **D-320 (S90, 2026-11-01):** Studio dynamics first-slice matrix uses106 bounded cases (3 ownership travel modes, wall, falling-Y, stop(true),100 repeat lifetimes). Preliminary explicit tolerances and raw phase/command/displacement samples are documented in d2a-studio.md; investigate failures rather than silently relaxing bounds. No tested-rate or physical PASS claim without actual returned evidence. Death/original-root replacement and rate/final-partial analysis remain d2b blockers.
 - **D-321 (S90, 2026-11-01):** Isolated WindStepTest place is excluded from the normal game, Disabled and manual-opt-in by default, Studio/server/running/one-real-player guarded, with no game startup/data stores/remotes. Build embeds revision+SHA256 sources; partial/error reports persist and independent cleanup is checked. Exact first-slice matrix may pass, but dynamicsAccepted stays false until remaining gates are satisfied. Offline guards/policy/packaging checks do not certify Roblox physics.
+
+### D-322 — S91 (2026-11-01): split blocked dynamics execution from offline intake preparation
+Keep d2b2 actual Player/physics execution and remaining matrix blocked. d2b1 prepares report intake and owner download only; do not skip to dependent activation or unrelated gameplay while waiting.
+
+### D-323 — S91 (2026-11-01): canonical-policy, fail-closed report review
+Use the existing Luau Evidence policy via a fixed Lune adapter, bounded strict JSON and exact source/manifest checks; compare claimed counters and sample aggregates. FIRST_SLICE_REPORTED_PASS never grants dynamics acceptance. Self-reported hashes/results are consistency evidence, not signed proof of execution. Keep raw returns unchanged and retain failure/partial outcomes.
+
+### D-324 — S91 (2026-11-01): isolated reproducible owner bundle
+Deliver a zip containing only disabled WindStepTest.rbxl, its source/place manifest and minimal README. Record the actual delivered manifest/digest in the repo. Keep existing Studio opt-in/server/one-player guards and all activation gates; do not upload or publish the production place.

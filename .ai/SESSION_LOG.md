@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S91 — 2026-11-01 — Wind Step evidence intake and owner bundle
+- d2b1 done: bounded strict JSON/provenance review reuses canonical Luau policy; disabled zip with manifest and owner instructions. No production runtime changes.
+- CHECK PASS:626pure/83specs +28driver +7Python runner +9Studio offline groups;12 new intake/bundle groups,9 behavioral faults detected/restored. No Roblox physics execution/acceptance.
+- d2b2 blocked on owner Studio JSON, then death/replacement and supported-rate/final-partial gates. No activation, upload or publication.
+- D-322–D-324; handoff: research/notes/T-043c0b4c3b2b2b2d2b1-intake.md. Close-out at24 OLU approx; exact final meter in STATE after merge.
+
 ## S90 — 2026-11-01 — running-server gate preparation
 - d2a done: separate disabled Studio Wind Step place,106-case real-scheduler harness; exact production source/hash packaging. No game startup/saves/remotes, no production changes.
 - CHECK PASS:626pure/83specs,28driver groups,7Python runner tests;9 new offline groups,10 detected/restored behavioral faults. Roblox physics NOT executed/accepted.
