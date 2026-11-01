@@ -42,6 +42,11 @@ run m1-authoring lune run tests/rime_m1_assets.luau
 mkdir -p build
 run build rojo build default.project.json -o build/Robby.rbxl
 run inspect lune run tests/inspect_place.luau
+run wind-step-studio-build python3 -B scripts/build_wind_step_test.py
+run wind-step-studio-map rojo sourcemap wind-step-test.project.json -o build/wind-step-sourcemap.json
+run wind-step-studio-types luau-lsp analyze --definitions=.cache/globalTypes.d.luau --sourcemap=build/wind-step-sourcemap.json tests/studio
+run wind-step-studio-lint selene tests/studio
+run wind-step-studio lune run tests/wind_step_studio.luau
 
 if [ $fail -eq 0 ]; then echo "CHECK: PASS"; else echo "CHECK: FAIL"; fi
 exit $fail

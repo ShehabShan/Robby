@@ -1,0 +1,25 @@
+# Wind Step running-server gate — S90 (2026-11-01)
+
+## Status and scope
+- **BLOCKED on actual Studio execution, not dynamics accepted.** S89's Saved30 engine reported IsRunning=false and Players0; repeating that route cannot validate physics or ownership. A web search agreed, but direct documentation links were unavailable; the recorded engine evidence is the basis for this restriction.
+- d2a supplies an isolated, **disabled by default** Studio harness. d2b must execute it, investigate failures and finish death/replacement plus supported-rate/final-partial validation before movement activation. No runtime `src/` changes, Open Cloud upload, live cutover, publishing or feel acceptance in this slice.
+- `wind-step-test.project.json` contains only production WindStepDriver, WindStepClearance and WindStep, the harness/policy, and an anchored spawn. No Robby startup, data stores, remotes or combat. The normal build excludes the harness entirely. Studio/server/running/manual-opt-in/exactly-one-player guards prevent execution elsewhere.
+
+## What is measured (not yet observed)
+- 3 travel cases: original ownership automatic, explicit Player, explicit server. Wall at6stud near face; falling free-space root; cancellation via `stop(true)` before replacement knockback; 100 real repeated lifetimes alternating automatic/Player ownership. Every repetition checks restored mode/owner and removal of the named force/attachment; these are NOT a proof that arbitrary internal connections cannot leak.
+- Real PreSimulation/PostSimulation observers record dt, position, Y velocity, command speed/distance, elapsed wall time and phase/ownership checks. Driver callbacks are registered before observers; unexpected callback ordering fails the phase gate instead of being passed off as correct. No fake Player, invoked callbacks or manually integrated motion in the harness.
+- First six cases retain capped per-step samples; all106 cases retain min/max dt, paired count, summed dt/command distance, final/max displacement, side drift, falling gravity error, cleanup and ownership result. Root must be default R15 2×2×1 and remain the original living character.
+- Preliminary tolerances (D-320): travel14±1stud and max15, command distance13..14.001; wall displacement>=2 and max5 (root half-width1, near face6); falling per-step `|deltaVy+gravity*dt|<=2`; sideways<=0.5; completion<=0.5s; actual dt in(0,0.05]; simulated duration<=0.29. These are conservative test hypotheses, **not a claim of validated feel or supported rates**. Failures are investigated, not hidden by widening tolerances.
+- Bounded player/setup/case waits, independent cleanup of lease/listeners/fixtures/character transform/velocities/humanoid settings/ownership. Original source SHA256s and git revision are embedded by the build script. Report preserves partial cases and errors; no Infinity placeholder that breaks JSON.
+- `matrixPassed` requires exact complete first-slice matrix and cleanup; `dynamicsAccepted` is ALWAYS false because death/replacement and supported-rate/final-partial analysis are outstanding. No guessed 30/60/144Hz support from a single run. A failed or missing report remains blocked.
+
+## Minimal owner instructions
+1. Open **WindStepTest.rbxl**, not the Robby live place, in Roblox Studio. Keep avatar type **R15**. Do not publish. Enable View → Explorer, Properties, Output.
+2. Select ServerScriptService → WindStepTest. Set attribute **RunWindStep=true** and uncheck **Disabled** (or check Enabled). Press **Play (F5)**, not Run. Do not move the character; use one player. Allow up to two minutes. This place has no game saves.
+3. After `WIND_STEP_SUMMARY`, switch Studio to the **Server** view. In the Command Bar run `print(game.ServerStorage.WindStepEvidence.Value)`. Copy the full JSON/output into the next Robby session **before Stop**. If no summary, send the Output error instead. Never treat local offline checks as that result.
+4. Stop Play; do not save over or upload the production place. A fresh Play resets the single-run guard. The separate disabled build can be discarded.
+
+## Developer continuation
+- `python3 scripts/build_wind_step_test.py` → `build/WindStepTest.rbxl` (local only). Normal `scripts/check.sh` also builds it and runs packaging/type/lint/offline regressions. `rojo serve wind-step-test.project.json` is optional; the downloadable generated build includes revision/hashes while bare serve does not.
+- Offline tests exercise exact case validation, guards, malformed evidence, actual disabled-script early returns and byte-for-byte production sources in the packaged place. They do not execute Roblox physics. Keep the evidence and result distinction explicit.
+- Next: run/repair d2b with returned full JSON. Extend isolation to actual death/character replacement and failure cleanup under a real Player; record rate variation without pretending to set dt by invoking events. No Wind Step activation/payment/input changes until that gate is accepted.

@@ -1,0 +1,59 @@
+{
+  "name": "Robby Wind Step isolated test - NOT FOR PUBLISH",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "Shared": {
+        "WindStep": {
+          "$path": "src/shared/WindStep.luau"
+        },
+        "$className": "Folder"
+      }
+    },
+    "ServerScriptService": {
+      "WindStepTest": {
+        "$path": "tests/studio/wind_step.server.luau",
+        "$properties": {
+          "Disabled": true
+        },
+        "$attributes": {
+          "RunWindStep": false
+        },
+        "WindStepDriver": {
+          "$path": "src/server/WindStepDriver.luau"
+        },
+        "WindStepClearance": {
+          "$path": "src/server/WindStepClearance.luau"
+        },
+        "Evidence": {
+          "$path": "tests/studio/WindStepEvidence.luau"
+        }
+      }
+    },
+    "Workspace": {
+      "Spawn": {
+        "$className": "SpawnLocation",
+        "$properties": {
+          "Anchored": true,
+          "Size": [
+            12,
+            1,
+            12
+          ],
+          "Position": [
+            -50,
+            0,
+            0
+          ],
+          "Neutral": true,
+          "Duration": 0
+        }
+      }
+    },
+    "StarterPlayer": {
+      "$properties": {
+        "LoadCharacterAppearance": false
+      }
+    }
+  }
+}
