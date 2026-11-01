@@ -26,3 +26,5 @@
 - Existing complete check.sh suite must pass before merge; exact final staged binary reconstructed by existing verifier after main save. Default candidate remains disabled. No runtime/source/gate code changes.
 - Final target GET (if available) is recorded in the approval artifact with observation timestamp; it expires as authority immediately and is NOT Write permission, empty-content proof or owner consent.
 - Parent T-044c is split: c1 preparation; c2 blocked actual publication. No further generic tooling tasks added. Keep all dependent activation lanes gated.
+
+- S100 target-specific rehearsal: enabled package + exact-binary reconstruction PASS; correct revision/false readiness confirmed; production-universe, production-place, wrong-owner and session-branch publication refusals PASS. Rehearsal pins are intentionally NOT approval inputs; final version-1 artifact pins replace them. Full existing CHECK PASS before both branch saves.
