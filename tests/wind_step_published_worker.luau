@@ -97,6 +97,9 @@ local function worker(mode)
 			end
 			fired = true
 			f.players.PlayerAdded:Fire({}) -- cancel before membership snapshot updates
+			if seam == "commit" or seam == "pre" or seam == "post" then
+				f.synchronousStop = not moving and f.preserved == true
+			end
 		end
 		local function stopMotion(preserve)
 			f.stops += 1
@@ -191,8 +194,17 @@ local function worker(mode)
 					f.now = 602
 					f.run.Heartbeat:Fire()
 				end
-				if mode == "leave" then
+				if mode == "leave" or mode == "rejoin" then
 					f.players.PlayerRemoving:Fire(f.owner)
+					if mode == "rejoin" then
+						f.list = { { UserId = f.owner.UserId } }
+						f.players.PlayerAdded:Fire(f.list[1])
+					end
+				elseif mode == "destroy" then
+					script.Destroying:Fire()
+				elseif mode == "disable" then
+					script.Disabled = true
+					script.changed:Fire()
 				end
 				if mode == "replacement" then
 					f.owner.Character = {}
@@ -311,20 +323,26 @@ test("cancel across waits, reservation, commit and active simulation seams", fun
 		if f.commits > 0 then
 			assert(f.preserved == true, mode)
 		end
+		if mode == "commit" or mode == "pre" or mode == "post" then
+			assert(f.synchronousStop == true, "synchronous stop: " .. mode)
+		end
 		noWorkerLeaks(f)
 		f.stop()
 		f.noLeaks()
 	end
 end)
 test("owner removal, teardown while active, deferred cancellation remain clean", function()
-	local f = worker("leave")
-	assert(f.ok)
-	f.ask("start")
-	f.drain()
-	noWorkerLeaks(f)
-	f.stop()
-	f.noLeaks()
-	f = worker()
+	for _, mode in { "leave", "rejoin", "destroy", "disable" } do
+		local f = worker(mode)
+		assert(f.ok)
+		f.ask("start")
+		f.drain()
+		assert(f.prepared == 1 and f.preserved == true, mode)
+		noWorkerLeaks(f)
+		f.stop()
+		f.noLeaks()
+	end
+	local f = worker()
 	f.ask("start")
 	f.stop()
 	f.drain()
@@ -339,6 +357,18 @@ test("independent cleanup continues after fixture or driver stop errors", functi
 		local r = report(f)
 		assert(not r.cleanup and not r.matrixPassed)
 		assert(f.humanoid.WalkSpeed == 16 and f.humanoid.AutoRotate)
+		f.stop()
+		f.noLeaks()
+	end
+end)
+test("100 independent generated-session lifetimes leave no owned resources", function()
+	for _ = 1, 100 do
+		local f = worker("pre")
+		assert(f.ok)
+		f.ask("start")
+		f.drain()
+		assert(report(f).cleanup)
+		noWorkerLeaks(f)
 		f.stop()
 		f.noLeaks()
 	end

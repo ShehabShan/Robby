@@ -476,3 +476,9 @@ Deliver a zip containing only disabled WindStepTest.rbxl, its source/place manif
 
 - **D-329 (S93, 2026-11-01):** Published test owner channel: original Player object only, 5requests/s, server-clock120s idle/600s running deadline, one successful session per server. Report cap512KiB/12000byte chunks; concatenate before UTF-8/JSON decode. Owner-only PlayerGui channel, no shared broadcast, no datastore/external secret. Terminal completion is not dynamics acceptance.
 - **D-330 (S93, 2026-11-01):** Test cancellation is cooperative: invalidate immediately, nonyielding stop(true), worker must finish independent cleanup before returning report; never task.cancel away cleanup. Adapter downgrades false success and forces dynamicsAccepted=false. b2b2 split into tested engine transport (a) and actual generated-worker/UI integration (b); disabled candidate not enabled by these inert seams.
+
+### D-331 (S94) — separate generated worker from owner-facing report UI
+Split T-044b2b2b into worker lifecycle b1 and UI b2, each independently checkable. Keep candidate disabled and release/intake/publication gated; exact Studio/production sources and canonical106-case acceptance are unchanged.
+
+### D-332 (S94) — cooperative worker cancellation and independent cleanup
+Published worker surrounds yields and active motion seams with controller/original-character checks; cancellation stops active motion synchronously with stop(true), never task.cancel. Replace unbounded alignment wait with bounded signal observation; acquire fixtures inside protected work, return reports after independent cleanup, and own script teardown. Full synthetic mock passes are orchestration tests, not Roblox physics evidence.
