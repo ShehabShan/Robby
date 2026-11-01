@@ -1,5 +1,5 @@
 --!strict
--- Disabled published candidate. Owner UI and intake/release gates remain incomplete.
+-- Disabled published candidate; separate explicit staging/release is required.
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 local HttpService = game:GetService("HttpService")
@@ -52,5 +52,33 @@ if not Policy.guard(target, environment) then
 end
 if script:GetAttribute("HasRun") then
 	warn("WIND_STEP_BLOCKED: this server already ran; use a fresh server")
+	return
+end
+-- Player membership can precede PlayerGui creation. Keep the original owner,
+-- share the admission deadline, and never acquire a transport after invalidation.
+local originalOwner = current[1]
+local function stillAdmitted(): boolean
+	local players = Players:GetPlayers()
+	return #players == 1
+		and players[1] == originalOwner
+		and originalOwner.Parent == Players
+		and originalOwner.UserId == target.ownerUserId
+		and not RunService:IsStudio()
+		and RunService:IsServer()
+		and RunService:IsRunning()
+		and script:GetAttribute("RunWindStep") == true
+		and not script:GetAttribute("HasRun")
+		and game.GameId == target.universeId
+		and game.PlaceId == target.placeId
+end
+while not originalOwner:FindFirstChildOfClass("PlayerGui") do
+	if not stillAdmitted() or os.clock() >= untilPlayer then
+		warn("WIND_STEP_BLOCKED: owner UI unavailable or admission changed; use a fresh server")
+		return
+	end
+	task.wait(0.1)
+end
+if not stillAdmitted() or os.clock() >= untilPlayer then
+	warn("WIND_STEP_BLOCKED: owner UI admission expired or changed")
 	return
 end

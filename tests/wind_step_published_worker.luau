@@ -67,6 +67,10 @@ local function worker(mode)
 		env.version = function()
 			return "MOCK-NOT-PHYSICS"
 		end
+		local waitingGui = type(mode) == "string" and string.sub(mode, 1, 4) == "gui-"
+		if waitingGui then
+			f.gui.Parent = nil
+		end
 		local attrs = {
 			TestUniverseId = 123,
 			TestPlaceId = 456,
@@ -76,6 +80,7 @@ local function worker(mode)
 			SourceHashes = "OFFLINE",
 			GeneratedServerSha256 = "OFFLINE-GENERATED",
 		}
+		f.attrs = attrs
 		local script = f.instance("Script")
 		script.Destroying, script.changed = signal(), signal()
 		script.Evidence, script.PublishedPolicy, script.WindStepDriver = "Evidence", "Policy", "Driver"
@@ -185,6 +190,31 @@ local function worker(mode)
 		env.task.wait = function()
 			f.now += 0.02
 			f.waits += 1
+			if waitingGui then
+				f.now += 1 -- fast deterministic bounded startup clock, no physics
+				if mode == "gui-delayed" and f.waits == 3 then
+					f.gui.Parent = f.owner
+				end
+				if f.waits == 2 then
+					if mode == "gui-left" then
+						f.owner.Parent = nil
+						f.list = {}
+					end
+					if mode == "gui-extra" then
+						table.insert(f.list, {})
+					end
+					if mode == "gui-replaced" then
+						f.list = { { UserId = f.owner.UserId } }
+					end
+					if mode == "gui-target" then
+						f.game.PlaceId = 999
+						f.gui.Parent = f.owner
+					end
+					if mode == "gui-optout" then
+						attrs.RunWindStep = false
+					end
+				end
+			end
 			-- The first wait is header admission, before owner start.
 			if f.waits == 2 then
 				invalidate("settle")
@@ -299,6 +329,22 @@ test("explicit start only; full106-case generated worker returns after cleanup",
 	noWorkerLeaks(f)
 	f.stop()
 	f.noLeaks()
+end)
+test("PlayerGui startup delay acquires once; timeout and invalidation acquire nothing", function()
+	local f = worker("gui-delayed")
+	assert(f.ok and f.folder and f.waits == 3, "PlayerGui may arrive after Player")
+	assert(f.prepared == 0 and #f.jobs == 0 and f.attrs.HasRun == true)
+	assert(f.ask("status").phase == "idle", "owner must reach explicit Start")
+	f.stop()
+	f.noLeaks()
+	for _, mode in { "gui-missing", "gui-left", "gui-extra", "gui-replaced", "gui-target", "gui-optout" } do
+		local blocked = worker(mode)
+		assert(blocked.ok and not blocked.folder, mode)
+		assert(blocked.now <= 122 and blocked.waits <= 120, "unbounded GUI wait")
+		assert(not blocked.attrs.HasRun and blocked.prepared == 0 and #blocked.jobs == 0, mode)
+		blocked.stop()
+		blocked.noLeaks()
+	end
 end)
 test("cancel across waits, reservation, commit and active simulation seams", function()
 	for _, mode in
