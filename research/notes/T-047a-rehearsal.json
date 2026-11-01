@@ -1,0 +1,18 @@
+{
+  "task": "T-047a",
+  "session": "S108",
+  "observedAt": "2026-11-01T17:33:06.298330+00:00",
+  "scope": "OFFLINE REHEARSAL ONLY; not final approval pins",
+  "sourceRevision": "9cbc4b61611c4509283536fa7a2fc70109e4f571",
+  "manifestSha256": "0f2d5e4b9a2e40b53f4c8821287795767d8e0ec8a634215c3f0c781c8ca5a0b7",
+  "placeSha256": "64b0df56c4a01ee832a7e79b01b3bbc37e0e90ad9f78112c7aca6fca26a86356",
+  "verification": {
+    "status": "LOCAL_STAGE_VERIFIED_ONLY",
+    "publishReady": false,
+    "releaseEvidenceAccepted": false,
+    "dynamicsAccepted": false
+  },
+  "checks": "CHECK: PASS (S107 merge); only runtime change vs version4 is D-359 driver clock start",
+  "liveDynamicsAccepted": false,
+  "publicationPerformed": false
+}

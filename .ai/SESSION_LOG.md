@@ -1,3 +1,7 @@
+## S108 — 2026-11-01 — T-047a
+- Corrected package for D-359 driver fix staged/verified with existing tooling; handoff T-047a-corrected-package.md; D-360. No publication.
+- NEXT T-047b blocked on new exact-byte approval. ~19 OLU at close-out (same bot as S107).
+
 ## S107 — 2026-11-01 — T-047
 - Owner version4 report saved verbatim. Root cause: commit latency spent ~1.3 stud of dash travel (commanded 12.70). Fixed: clock starts at first driven step; regression; CHECK PASS. D-359.
 - NEXT T-047a corrected package + new exact-byte approval; no publication. ~14 OLU at close-out.

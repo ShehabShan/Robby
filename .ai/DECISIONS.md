@@ -560,3 +560,6 @@ T-046a delivers existing S105 phase-observation repair as an independently pinne
 
 ### D-359 — S107: dash profile clock starts at first driven step (2026-11-01)
 - Version4 report showed the commit->first-PreSimulation gap counted as dash time (commanded 12.70/14). Profile time now starts at the first driven step; no-catch-up/stall rules, freshness gates and tolerances unchanged. Physics lag/mid-dash drop remain d2b2 unknowns.
+
+### D-360 — S108: split T-047a package prep from T-047b approved publication (2026-11-01)
+- Same bounded pattern as D-358: existing staging only, final pins generated after last main save, publication only after new exact-byte owner approval.
