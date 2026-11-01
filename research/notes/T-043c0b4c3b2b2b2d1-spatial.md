@@ -24,3 +24,5 @@
 - Verify14stud/.24s force-driven travel, final partial interval, real wall/skin/overshoot and falling Y; cancel/death/replacement, network mode restore,100 clean lifetimes, supported frame-rate variation. Repair real failures before b2c activation; device feel remains separate.
 - If no running-server route is available headlessly, prepare a disabled Studio-only harness and give minimal owner instructions rather than promoting based on geometry alone. Never publish merely to obtain test coverage.
 
+
+- Independent repeat on Saved30 from maine617d5d with strict complete-matrix validator:44/44 PASS,32 admission/refusal assertions; full evidence `T-043c0b4c3b2b2b2d1-v30-repeat.json`. No runtime source changes after Saved30 upload.

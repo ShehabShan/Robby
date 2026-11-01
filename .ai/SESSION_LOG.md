@@ -1,5 +1,12 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S89 — 2026-11-01
+- d1 Saved-engine spatial validation DONE; D-315–D-318, merged e617d5d. Fixed ReadVoxels Size iteration and unsafe body-only emptiness via4stud halo.
+- Saved30 PASS twice:32 spatial assertions/44 report rows incl cleanup; CLOUD ALL626/626+packages/smoke. Evidence in research/notes/T-043c0b4c3b2b2b2d1-*.
+- CHECK PASS:626 pure/83 specs,28 driver groups,7 runner test methods; metadata regression and halo mutant detected, repaired/restored.
+- NEXT d2 real running-server motion/ownership: Luau Execution IsRunning=false,0 players. No activation/feel acceptance/publication; published27/game0.0.22 unchanged.
+- Claims released; close-out39.3 OLU, saving before45. No owner action; repository handoff complete.
+
 ## S88 — 2026-11-01
 - Prepared original-root Wind Step driver + bounded empty-seed Terrain clearance done; D-311–D-314, b2b2/b2b2b2c. No live caller.
 - CHECK PASS:626 pure/83 specs +28 actual-source driver groups,100 clean turnovers;17 behavioral faults detected/restored.

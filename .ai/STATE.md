@@ -1,12 +1,13 @@
 # STATE
 
-## Now — after S88 (2026-11-01)
-- Phase3 building, approved. **NEXT: T-043c0b4c3b2b2b2d** — real-engine Saved-place terrain/physics validation before movement activation. Claim and size/split before work; explicit probe matrix in research/notes/T-043c0b4c3b2b2b2-driver.md. Then b2c atomic movement/payment/input activation, b3b receipt-owned Self, c3b2c visual cutover, d2 M1.
-- S88 merged21ad243: prepared WindStepDriver with two-phase reservation/commit, exclusive original-root ownership, finite world-XZ Plane force, fresh body sweep, Pre/Post single-use forward budget and independent cleanup; b2b2 and b2b2b2c complete. D-311–D-314. No live caller, Config/payment/input/iframes/visuals unchanged.
-- Starting terrain clearance: complete root OBB enclosing AABB empty voxels certify clearance; otherwise at most8/16stud empty overhead seeds and Terrain-only full-volume descent. Avoids blanket coarse-cell false-refusal; obstruction/no clear seed/error fail closed. Overhangs can still refuse. This is mock-tested query composition, NOT real terrain/solver proof.
-- CHECK PASS:626 pure/83 specs +28 actual-source driver groups/100 clean turnovers + all prior engine/build gates;17 behavioral faults detected/restored. Seven acquisition faults and all prepared property-write faults covered. No cloud/device/feel acceptance or publication; no owner action.
-- Acceptance handoff: lease reservation does not guarantee commit; b2c must include commit failure in payment/cooldown/strain rollback and remove old client impulse atomically. External replacement knockback must stop(true) before its own write. Preserve other moves and server authority.
-- Claims released; merge at38.7 OLU; final STATE save below45. Live published version remains27 (v0.0.22).
+## Now — after S89 (2026-11-01)
+- Phase3 building, approved. **NEXT: T-043c0b4c3b2b2b2d2** — real running-server Wind Step motion/ownership validation. Claim and size/split first. Start from research/notes/T-043c0b4c3b2b2b2d1-spatial.md; geometry is complete, not solver acceptance. Then b2c atomic movement/payment/input activation, b3b receipt-owned Self, c3b2c visual cutover, M1 integration.
+- S89 merged e617d5d: d1 complete; production WindStepClearance extracted for actual-source Saved testing. Fixed real ReadVoxels Size metadata iteration and shallow penetration admission. Empty certificates now enclose the OBB plus4stud halo on every side, including overhead seeds; otherwise bounded8/16stud full-volume descents. Blocked low overhangs conservatively refuse. D-315–D-318.
+- Saved30 spatial PASS twice:32 admission/refusal assertions,44 total report rows including diagnostics and verified fixture cleanup. Full CLOUD ALL:PASS626/626 (83 specs), packages and smoke. Exact build/probe/task JSON and failure history28/29 saved in d1 evidence files. Latest Saved30, NOT published.
+- CHECK PASS:626 pure/83 specs +28 actual-source driver groups +7 fail-closed Python runner tests and all prior gates. Size-metadata regression failed before fix; removing halo detected/restored.100 headless driver turnovers and100 spatial queries do NOT certify physics lifetimes.
+- Running-server gate unresolved: Luau Execution IsRunning=false, IsServer=true, Players=0. Establish a real running-server/Player route; if no headless route, prepare disabled Studio-only harness and minimal owner instructions. Verify travel/wall-stop/falling-Y/Pre-Post/ownership restoration/cancellation/100 lifetimes before activation. No new owner action now.
+- Driver remains inert; Config/payment/input/iframes/visuals unchanged. Commit failure must roll back payment/cooldown/strain; remove old client impulse atomically; stop(true) before replacement knockback. No feel/device acceptance or publication; published remains27 (game0.0.22).
+- Claims released; close-out began39.3 OLU, saving before45. Repo is the continuation record. Older NEXT bullets below are historical; use this block and canonical NEXT.
 
 ## S87 retained design context
 - Phase3 building, approved. **NEXT: T-043c0b4c3b2b2b2** — prepared original-root Wind Step motion driver, actual-source engine tests. Claim before work; size/split acceptance integration if needed. Then b2c atomic movement activation, b3b receipt-owned Self rendering, c3b2c atomic visual cutover, d2 M1 integration.
@@ -133,16 +134,16 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-043 overhaul: c0b4 presentation (delivery Fx/metadata/receipt dispatcher/original-character owner done → truthful Burst → atomic cutover), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-043c0b4c3b2b2b2d — actual Saved-engine terrain/motion validation; then atomic b2c movement activation, b3b Self renderer and c3b2c keyed cutover. Handoff: research/notes/T-043c0b4c3b2b2b2-driver.md.
+- **NEXT:** T-043c0b4c3b2b2b2d2 — running-server real-player motion/ownership gate, then b2c atomic movement, b3b Self and c3b2c cutover. Handoff: research/notes/T-043c0b4c3b2b2b2d1-spatial.md.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-043c0b4c3b2b2b2d real-engine terrain/motion validation (serialized) · b2b2/b2b2b2c (done); then b2c activation and b3b Self renderer
+  - T-043c0b4c3b2b2b2d2 real-engine terrain/motion validation (serialized) · b2b2/b2b2b2c (done); then b2c activation and b3b Self renderer
   - T-043c0b4c3b2c atomic keyed startup/legacy cutover · b2b (pending)
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
   - T-043h1 truthful Chill state · T-043b + T-043c1 (done) + T-043c0b (coordinate remotes)
   - Unrelated beast/movement/onboarding lanes deferred while owner-priority Rimeshard overhaul is active.
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** M1 owner quality review before specials; T-042b fresh-server input verification remains open. No publish without explicit request.
-- **Last cloud test:** CLOUD ALL: PASS on Saved v26 (2026-10-31, S63, 278/278 tests + server smoke); live published = v27 (game v0.0.22); publication HTTP 200, player readback pending
-- **Last check.sh:** CHECK: PASS (2026-11-01, S88 merge):626 pure/83 specs +28 actual-source Wind driver groups and all prior input/lifecycle/renderer/build gates.17 behavioral faults detected/restored;100 leak-free turnovers. Five future Z/X contract probes remain deferred. No cloud/device/feel acceptance or publication.
+- **Last cloud test:** Saved30 (2026-11-01,S89): spatial44/44 report rows twice,32 admission/refusal assertions; CLOUD ALL:PASS626/626 + packages/smoke. IsRunning=false/Players0, NOT motion/ownership/feel acceptance. Published remains27/game0.0.22.
+- **Last check.sh:** CHECK:PASS (2026-11-01,S89):626 pure/83 specs +28 driver groups +7 Python runner tests and all existing gates. Five future Z/X contract probes still deferred. No publication.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
