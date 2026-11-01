@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S104 approved-release follow-up — 2026-11-01
+- Exact corrected package published once to isolated test: version3 HISTORY_CONFIRMED; production untouched.
+- Canonical terminal verified; exact evidence ZIP round-trip verified with independent pin. Handoff T-045a-release-result.md.
+- Consent consumed/no retry. NEXT real owner Start/report and release-intake binding; serving/UI/physics acceptance unverified.
+- Close-out41.2 OLU before archive/save; no runtime/gate changes.
+
 ## S104 — 2026-11-01 (owner-directed takeover)
 - T-045a: corrected test-package rehearsal and exact reconstruction PASS; full CHECK PASS. D-356; handoff research/notes/T-045a-corrected-package.md.
 - Existing S103 startup repair only; no new runtime or permission code. GET-only target private/owner/root verified; default disabled, production and consumed journal unchanged.

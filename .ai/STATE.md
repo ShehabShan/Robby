@@ -1,5 +1,11 @@
 # STATE
 
+## S104 approved corrected test release — 2026-11-01
+- One authorized test-only publication: **version3, HISTORY_CONFIRMED**; exact S104 bytes from maina1206cf. Production untouched; consent consumed, NO RETRY.
+- **NEXT:** actual owner Start/report on fresh isolated test session, then existing release-intake/version binding and d2b2 dynamics validation. No more package approval needed for version3. Current-serving/UI/physics/Sober acceptance remains unverified.
+- Exact portable evidence archive with independent pin/round-trip verification and canonical terminal: `research/notes/T-045a-release-result.md`. Original S101 journal/recovery remains separate.
+- Full existing CHECK PASS at package creation; no source/gate changes. Close-out began41.2 OLU, original setup included. Older NEXT blocks below are historical.
+
 ## Now — after S104 (2026-11-01)
 - Phase3 building. T-045a corrected isolated-test package prepared using existing staging; target-specific enabled binary reconstruction and full CHECK PASS. S103 startup fixes retained; no new runtime/permission code. Owner-directed takeover; D-356.
 - **NEXT T-044c2b:** authentic approval of the NEW S104 exact package, then existing one-shot test-only transaction on unchanged clean synced main. No screenshot/key/new framework. Generic continuation and consumed S101 consent do not authorize new bytes.
