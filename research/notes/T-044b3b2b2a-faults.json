@@ -1,0 +1,42 @@
+{
+  "syntheticOfflineOnly": true,
+  "faults": [
+    {
+      "fault": "write-overclaim",
+      "detected": true
+    },
+    {
+      "fault": "identity-overclaim",
+      "detected": true
+    },
+    {
+      "fault": "review-pin-bypass",
+      "detected": true
+    },
+    {
+      "fault": "source-pin-bypass",
+      "detected": true
+    },
+    {
+      "fault": "credential-binding-bypass",
+      "detected": true
+    },
+    {
+      "fault": "scope-bypass",
+      "detected": true
+    },
+    {
+      "fault": "target-mismatch-bypass",
+      "detected": true
+    },
+    {
+      "fault": "expiry-bypass",
+      "detected": true
+    },
+    {
+      "fault": "extra-field-bypass",
+      "detected": true
+    }
+  ],
+  "restored": true
+}
