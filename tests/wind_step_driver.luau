@@ -683,6 +683,22 @@ local cases = {
 		assert(f.root.CFrame.X < 14 and not l.active())
 		f:clean()
 	end,
+	["commit-to-first-step latency does not consume dash travel"] = function()
+		-- S106 version4: acceptance preceded the first PreSimulation by about one frame,
+		-- so profile time ran ahead of applied steps and commanded only 12.70 of 14 studs.
+		local f = fixture()
+		local l = f:start()
+		f.now += 0.0185
+		for _ = 1, 40 do
+			if not l.active() then
+				break
+			end
+			f:tick(1 / 60)
+		end
+		assert(not l.active())
+		assert(math.abs(f.root.CFrame.X - 14) < 0.001, `latency spent travel: {f.root.CFrame.X}`)
+		f:clean()
+	end,
 	["reservation timeout and invalid acceptance release without ownership"] = function()
 		local f = fixture()
 		local l = assert(f:prepare())

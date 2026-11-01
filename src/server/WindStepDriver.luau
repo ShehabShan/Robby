@@ -82,6 +82,7 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3, observe: (
 	terrain.IgnoreWater = true
 	terrain.CollisionGroup = collisionGroup
 	local started, covered, lastClock = 0, 0, 0
+	local stepped = false
 	local pending, finishAfter, applied, pendingSpeed = false, false, 0, 0
 	local pendingDt = 0
 	local axis = Vector3.new(dx, 0, dz)
@@ -169,6 +170,11 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3, observe: (
 				return
 			end
 			lastClock = now
+			if not stepped then
+				-- Profile time starts at the first driven step, not at acceptance: the
+				-- commit-to-PreSimulation gap is never simulated, so it must not spend travel.
+				stepped, started = true, now
+			end
 			-- Never re-spend an interval if server time stalls; never catch up when
 			-- wall time runs ahead. Single-use Pre/Post pairing owns simulation time.
 			local elapsed = math.max(covered, now - started)
