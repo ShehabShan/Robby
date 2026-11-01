@@ -1,5 +1,9 @@
 # STATE
 
+## Now — after S109 (2026-11-01)
+- T-047b done, D-361: S108 corrected package (D-359 clock fix) published to isolated test, HISTORY_CONFIRMED version5. Evidence research/notes/T-047b-release-result.md + artifact robby_s108_release_evidence. Both S108 consents consumed; never reuse.
+- **NEXT:** fresh owner Start/report on version5; save verbatim, existing intake binds report to version5, then d2b2. Physics lag ~0.6 stud, mid-dash y drop, death/rates/feel still open.
+
 ## Now — after S108 (2026-11-01)
 - T-047a done (prep), D-360: D-359 corrected isolated test package staged/verified with existing tooling. Handoff research/notes/T-047a-corrected-package.md; final card/ZIP artifacts robby_s108_approval / robby_s108_stage generated AFTER this last main save.
 - **NEXT T-047b BLOCKED on NEW exact-byte S108 approval**; pinned-release exception (no claim/edits before dispatch). Never reuse consumed S106 consent. Then fresh owner report -> d2b2.
