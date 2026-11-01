@@ -465,3 +465,5 @@ Use the existing Luau Evidence policy via a fixed Lune adapter, bounded strict J
 
 ### D-324 — S91 (2026-11-01): isolated reproducible owner bundle
 Deliver a zip containing only disabled WindStepTest.rbxl, its source/place manifest and minimal README. Record the actual delivered manifest/digest in the repo. Keep existing Studio opt-in/server/one-player guards and all activation gates; do not upload or publish the production place.
+
+- **D-325 (S92,2026-11-01):** Owner authorizes a separately published Sober test, not main Robby. Use a distinct PRIVATE owner-owned universe/root place; refuse either production ID and verify remote ownership/root before upload. No documented API-key universe creation route; request an existing empty destination or collaborator-created experience, never account cookies. T-044a preflight is read-only and not publish/physics acceptance.

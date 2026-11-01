@@ -49,6 +49,7 @@ run wind-step-studio-lint selene tests/studio
 run wind-step-studio lune run tests/wind_step_studio.luau
 run wind-step-intake-format stylua --check scripts/wind_step_evidence.luau
 run wind-step-evidence-intake python3 -B tests/wind_step_evidence_intake.py
+run isolated-test-target python3 -B tests/test_target.py
 
 if [ $fail -eq 0 ]; then echo "CHECK: PASS"; else echo "CHECK: FAIL"; fi
 exit $fail
