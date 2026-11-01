@@ -1,7 +1,7 @@
 # STATE
 
 ## Now — after S95 (2026-11-01)
-- Phase3 building, approved. **NEXT T-044b3b**: safe test-only release tooling; size/split before work. Then b3a2 delivered-release/version binding, then c separately authorized test publication. Handoff: research/notes/T-044b3a1-candidate-intake.md.
+- Phase3 building, approved. **NEXT T-044b3b1** (doing): exact local enabled test staging; then b3b2 guarded publication transaction. Resume from: split AC in TASKS.md; disabled default stays intact. Then b3a2 delivered-release/version binding, then c separately authorized test publication. Handoff: research/notes/T-044b3a1-candidate-intake.md.
 - S95 merged6d48155: b3a1 bounded candidate-report intake complete; exact pinned manifest/place/generated/local-source and separate target validation, canonical published policy, strict Studio wrapper. Explicit --candidate-review only; releaseEvidenceAccepted=false, dynamicsAccepted=false. Disabled candidates are NOT released evidence.
 - T-044d owner request complete: main and test Universe/Start Place IDs together in OPEN_CLOUD.md. Test universe6958375460/root121111456135560 owner7738981129 retains S92 GET-confirmed private/exact-root; empty contents/overwrite consent and write grant unverified. Production publish.py remains forbidden for isolated tests.
 - CHECK PASS on merged main:642pure/85specs and prior integration gates +15 new synthetic intake groups and actual-worker generated-hash assertion;13 temporary faults detected/restored. No real physics/ownership/rate/feel or Sober/mobile copy acceptance.
