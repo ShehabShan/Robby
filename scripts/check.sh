@@ -64,6 +64,7 @@ run wind-step-published-intake python3 -B tests/wind_step_published_intake.py
 run wind-step-staging-format stylua --check scripts/stage_wind_step_package.luau tests/wind_step_staging_package.luau
 run wind-step-staging python3 -B tests/wind_step_staging.py
 run wind-step-release-preflight python3 -B tests/wind_step_release_preflight.py
+run wind-step-publication-history python3 -B tests/wind_step_publication_history.py
 run wind-step-published-build python3 -B scripts/build_wind_step_published.py
 run wind-step-published-generated-lint selene build/published-test/wind_step.server.luau
 run wind-step-published-generated-format stylua --check build/published-test/wind_step.server.luau

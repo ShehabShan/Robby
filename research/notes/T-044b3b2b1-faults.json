@@ -1,0 +1,54 @@
+{
+  "syntheticOfflineOnly": true,
+  "faults": [
+    {
+      "fault": "serving-overclaim",
+      "detected": true
+    },
+    {
+      "fault": "write-overclaim",
+      "detected": true
+    },
+    {
+      "fault": "truncated-positive",
+      "detected": true
+    },
+    {
+      "fault": "wrong-version",
+      "detected": true
+    },
+    {
+      "fault": "no-main-check",
+      "detected": true
+    },
+    {
+      "fault": "no-race-check",
+      "detected": true
+    },
+    {
+      "fault": "no-response-bound",
+      "detected": true
+    },
+    {
+      "fault": "published-coercion",
+      "detected": true
+    },
+    {
+      "fault": "no-stale-check",
+      "detected": true
+    },
+    {
+      "fault": "no-cursor-guard",
+      "detected": true
+    },
+    {
+      "fault": "unsafe-readiness-exit",
+      "detected": true
+    },
+    {
+      "fault": "wrong-target",
+      "detected": true
+    }
+  ],
+  "restored": true
+}
