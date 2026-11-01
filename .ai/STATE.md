@@ -1,5 +1,10 @@
 # STATE
 
+## Now — S106 approved release follow-up (2026-11-01)
+- T-046b done: corrected isolated test version4 HISTORY_CONFIRMED; exact portable evidence retained and round-trip verified. Handoff `research/notes/T-046b-release-result.md`. Consent consumed; NEVER retry. Production unchanged.
+- NEXT fresh owner Start/report from version4, existing release-intake binding, then d2b2 physics repair/matrix; UI/current-serving/physics acceptance unverified. Version3 raw failure preserved;13stud minimum unchanged. S101 evidence recovery separate.
+- Last existing CHECK PASS; no runtime/gate edits. Close-out started42.3 OLU, no reset. Older NEXT entries historical.
+
 ## Now — after S106 (2026-11-01)
 - Phase3 building. T-046a corrected test-package preparation complete: existing S105 phase-observation repair, no runtime/tolerance/gate changes. Target-specific enabled rehearsal + exact binary reconstruction and full CHECK PASS; merged bcc6e19, D-358.
 - **NEXT T-046b BLOCKED on NEW exact-byte S106 approval:** final clean-main ZIP/card generated AFTER this LAST main save. Immutable version0 pointers in `research/notes/T-046a-corrected-package.md`; missing artifacts mean incomplete delivery. No new permission machinery or unchanged-version3 rerun.

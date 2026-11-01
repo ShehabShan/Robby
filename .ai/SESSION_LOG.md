@@ -1,3 +1,9 @@
+## S106 approved-release follow-up — 2026-11-01
+- Exact corrected isolated package published once: version4 HISTORY_CONFIRMED; production untouched.
+- Canonical terminal matched; portable exact evidence ZIP integrity/GET round-trip verified. T-046b-release-result.md.
+- Consent consumed/no retry. NEXT fresh owner Start/report and intake; no physics/UI acceptance.
+- Close-out42.3 OLU before evidence/save, original setup included; no runtime/gate edits.
+
 ## S106 — 2026-11-01 — T-046a
 - Existing S105 sampling repair packaged through target-specific enabled rehearsal/exact binary reconstruction; full CHECK PASS. D-358; no runtime/tolerance changes.
 - Final clean-main ZIP/card delivered after last main save; immutable version0 pointers in T-046a-corrected-package.md; absent artifacts mean incomplete delivery.
