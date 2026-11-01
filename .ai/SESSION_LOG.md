@@ -5,7 +5,7 @@
 - T-044b3b2a done: read-only clean-main/pinned explicit overwrite-consent/fresh private-root preflight; always BLOCKED, no inferred write permission (D-337).
 - CHECK PASS:31 new offline Python groups +actual package inspection,14 rehashed hostile packages,25 temporary behavior faults detected/restored; no real physics/device evidence.
 - NEXT T-044b3b2b: credential-safe write authorization + one-shot upload/verified-version receipt, then b3a2 binding and c publication. Handoffs: T-044b3b1-local-staging.md and T-044b3b2a-preflight.md.
-- Close-out began36.6 OLU; no upload/publication, main Saved30/published27/game0.0.22 unchanged; no new owner action. Final save/merge below45.
+- Close-out began36.6 OLU; merged0ae8e52 at37.4; no upload/publication, main Saved30/published27/game0.0.22 unchanged; no new owner action. Final saving below45.
 
 ## S95 — 2026-11-01
 - T-044d done: owner requested test IDs alongside main IDs; both are now in OPEN_CLOUD.md with separate-destination/write safeguards (D-334).

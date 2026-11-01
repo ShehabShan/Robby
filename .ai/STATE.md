@@ -1,5 +1,13 @@
 # STATE
 
+## Now — after S96 (2026-11-01)
+- Phase3 building, approved. **NEXT T-044b3b2b**: resolve credential-safe write authorization and independently observed published-version route, then one-shot main-only test upload/receipt tooling. Size/split before work. Then b3a2 delivered-report binding, then c actual authorized test publication.
+- S96 merged0ae8e52: b3b1 exact locally enabled staging + b3b2a read-only clean-main/pinned overwrite-consent/private-owner/exact-root preflight complete. Default candidate stays DISABLED; explicit local staging can enable separate test bytes only. Neither is publish-ready or delivered evidence; no remote writes.
+- CHECK PASS on merged main: prior642pure/85specs and all integration gates +31 new Python groups, actual package source/enablement checks,14 rehashed hostile packages rejected,25 temporary faults detected/restored. Offline evidence ONLY; actual physics/ownership/rate/feel and Sober/mobile copy/render gates remain open.
+- Handoffs: research/notes/T-044b3b1-local-staging.md and T-044b3b2a-preflight.md. Preflight ALWAYS BLOCKED, exit1; write permission and published version unverified. Official key introspection requires raw key JSON body: do not extract the brokered credential. Saved version/upload response alone are not serving-version proof.
+- Separate test universe6958375460/root121111456135560 owner7738981129 retains S92 prior GET-private/exact-root observation only. Empty-content/explicit overwrite consent and write grant remain unresolved; no new owner action until release tooling ready. Production publish.py forbidden for isolated tests.
+- No upload/publication; main Saved30/published27/game0.0.22 unchanged. Claims released. Close-out36.6, merged37.4 OLU, final saving before45. Older Now blocks are historical.
+
 ## Now — after S95 (2026-11-01)
 - Phase3 building, approved. **NEXT T-044b3b1** (doing): exact local enabled test staging; then b3b2 guarded publication transaction. Resume from: split AC in TASKS.md; disabled default stays intact. Then b3a2 delivered-release/version binding, then c separately authorized test publication. Handoff: research/notes/T-044b3a1-candidate-intake.md.
 - S95 merged6d48155: b3a1 bounded candidate-report intake complete; exact pinned manifest/place/generated/local-source and separate target validation, canonical published policy, strict Studio wrapper. Explicit --candidate-review only; releaseEvidenceAccepted=false, dynamicsAccepted=false. Disabled candidates are NOT released evidence.
