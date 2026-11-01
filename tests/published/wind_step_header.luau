@@ -1,5 +1,5 @@
 --!strict
--- Disabled published candidate. Requires T-044b2b start/report wiring before release.
+-- Disabled published candidate. Owner UI and intake/release gates remain incomplete.
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 local HttpService = game:GetService("HttpService")
@@ -51,4 +51,3 @@ if script:GetAttribute("HasRun") then
 	warn("WIND_STEP_BLOCKED: this server already ran; use a fresh server")
 	return
 end
-script:SetAttribute("HasRun", true)

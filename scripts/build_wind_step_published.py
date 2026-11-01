@@ -15,7 +15,9 @@ POLICY = "tests/published/WindStepPublishedPolicy.luau"
 STUDIO = "tests/studio/wind_step.server.luau"
 FILES = ("src/server/WindStepDriver.luau", "src/server/WindStepClearance.luau", "src/shared/WindStep.luau",
          STUDIO, "tests/studio/WindStepEvidence.luau", HEADER, POLICY, "scripts/build_wind_step_published.py",
-         "scripts/test_target.py", "wind-step-test.project.json")
+         "scripts/test_target.py", "wind-step-test.project.json", "src/shared/OwnerTestSession.luau",
+         "tests/published/OwnerTestAdapter.luau", "tests/published/OwnerTestTransport.luau",
+         "tests/published/wind_step_footer.luau")
 
 
 def replace_once(source, before, after):
@@ -33,7 +35,29 @@ def generated_source(studio, header):
                         "Policy.finish(target, environment, rows, cleanup, Evidence)")
     body = replace_once(body, 'assert(#Players:GetPlayers() == 1 and player.Character == character and humanoid.Health > 0, "player changed")',
                         'assert(\n\t\t#Players:GetPlayers() == 1 and Players:GetPlayers()[1] == player\n\t\t\tand player.UserId == target.ownerUserId and player.Character == character\n\t\t\tand humanoid.Health > 0 and game.GameId == target.universeId\n\t\t\tand game.PlaceId == target.placeId,\n\t\t"player or destination changed"\n\t)')
-    return header.rstrip() + "\n" + body
+    # Reviewed cancellation seams only; the canonical case matrix and driver stay exact.
+    body = replace_once(body, marker, "local player = current[1]\n")
+    body = replace_once(body, 'local fixtures = Instance.new("Folder")\nfixtures.Name = "WindStepFixtures"\nfixtures.Parent = workspace', 'local fixtures: any = nil')
+    body = replace_once(body, 'local function part(name, size, position)', 'local cancelled = false\ncancelActive = function()\n\tcancelled = true\n\tif lease then\n\t\tlease.stop(true)\n\tend\nend\nlocal function checkpoint()\n\tcheck()\n\tassert(not cancelled, "worker cancelled")\n\tif character then\n\t\tassert(player.Character == character and humanoid.Health > 0 and root:IsDescendantOf(workspace), "original character lost")\n\tend\nend\nlocal function part(name, size, position)')
+    body = replace_once(body, '\t\ttask.wait()\n', '\t\tcheckpoint()\n\t\ttask.wait()\n\t\tcheckpoint()\n')
+    body = replace_once(body, '\tRunService.PostSimulation:Wait()', '\tlocal aligned = false\n\ttable.insert(connections, RunService.PostSimulation:Connect(function()\n\t\taligned = true\n\tend))\n\twaitUntil(function() return aligned end, 1)\n\tdisconnect()\n\tcheckpoint()')
+    body = replace_once(body, 'local function runCase(name: string, kind: string, mode: string)', 'local function runCase(name: string, kind: string, mode: string)\n\tcheckpoint()')
+    body = replace_once(body, 'local success, err = pcall(callback, ...)', 'local success, err = pcall(function(...)\n\t\t\t\tcheckpoint()\n\t\t\t\treturn callback(...)\n\t\t\tend, ...)')
+    body = replace_once(body, '\t\t\t\tif lease then\n\t\t\t\t\tlease.stop()\n\t\t\t\tend', '\t\t\t\tcancelActive()')
+    body = replace_once(body, '\tlease = Driver.prepare(player, Motion.PROPOSED, Vector3.xAxis)', '\tcheckpoint()\n\tlease = Driver.prepare(player, Motion.PROPOSED, Vector3.xAxis)\n\tcheckpoint()')
+    body = replace_once(body, '\trow.committed = lease.commit(workspace:GetServerTimeNow())', '\tcheckpoint()\n\trow.committed = lease.commit(workspace:GetServerTimeNow())\n\tcheckpoint()')
+    body = replace_once(body, '\tassert(Evidence.accept(row), "case failed: " .. name)', '\tcheckpoint()\n\tassert(Evidence.accept(row), "case failed: " .. name)\n\tprogress(#rows)')
+    body = replace_once(body, 'local ok, failure = xpcall(function()', 'local ok, failure = xpcall(function()\n\tcheckpoint()\n\tfixtures = Instance.new("Folder")\n\tfixtures.Name = "WindStepFixtures"\n\tfixtures.Parent = workspace')
+    body = replace_once(body, '\t\tlease.stop()\n\tend\nend)', '\t\tlease.stop(true)\n\tend\nend)')
+    body = replace_once(body, '\tfixtures:Destroy()', '\tif fixtures then fixtures:Destroy() end')
+    body = replace_once(body, 'assert(fixtures.Parent == nil and #connections == 0', 'assert((fixtures == nil or fixtures.Parent == nil) and #connections == 0')
+    # Return only after every independent cleanup attempt; transport owns encoding/export.
+    end_marker = 'local result = Instance.new("StringValue")'
+    if body.count(end_marker) != 1:
+        raise ValueError("Studio report boundary drift")
+    body = body.split(end_marker)[0] + "return report, ok, cleanup\n"
+    footer = (ROOT / "tests/published/wind_step_footer.luau").read_text()
+    return header.rstrip() + "\nlocal cancelActive: () -> () = function() end\nlocal function runWorker(check: () -> (), progress: (number) -> ())\n" + body + "end\n" + footer
 
 
 def build(target=None):
@@ -50,6 +74,10 @@ def build(target=None):
                   "RunWindStep": False})
     node["$properties"]["Disabled"] = True
     node["PublishedPolicy"] = {"$path": POLICY}
+    for name, path in {"OwnerTestSession": "src/shared/OwnerTestSession.luau",
+                       "OwnerTestAdapter": "tests/published/OwnerTestAdapter.luau",
+                       "OwnerTestTransport": "tests/published/OwnerTestTransport.luau"}.items():
+        node[name] = {"$path": path}
     source = generated_source((ROOT / STUDIO).read_text(), (ROOT / HEADER).read_text())
     directory = ROOT / "build/published-test"
     directory.mkdir(parents=True, exist_ok=True)

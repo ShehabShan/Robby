@@ -64,6 +64,7 @@ run wind-step-published-generated-lint selene build/published-test/wind_step.ser
 run wind-step-published-generated-format stylua --check build/published-test/wind_step.server.luau
 run wind-step-published-types luau-lsp analyze --definitions=.cache/globalTypes.d.luau --sourcemap=build/published-test/sourcemap.json build/published-test/wind_step.server.luau tests/published/WindStepPublishedPolicy.luau
 run wind-step-published-package lune run tests/wind_step_published_build.luau
+run wind-step-published-worker lune run tests/wind_step_published_worker.luau
 
 if [ $fail -eq 0 ]; then echo "CHECK: PASS"; else echo "CHECK: FAIL"; fi
 exit $fail

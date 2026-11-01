@@ -16,14 +16,21 @@ class BuilderTests(unittest.TestCase):
         self.assertIn('sourceHashes = script:GetAttribute("SourceHashes")', generated)
         for marker in ('local Driver =', 'local ok, failure =', '-- Independent releases;'):
             self.assertEqual(generated.count(marker), 1)
-        # Full execution/cleanup tail is unchanged except final classifier.
-        start = studio.index('local ok, failure =')
-        expected = studio[start:].replace('Evidence.finish(environment, rows, cleanup)', 'Policy.finish(target, environment, rows, cleanup, Evidence)')
-        self.assertTrue(generated.endswith(expected))
+        self.assertIn('local function runWorker', generated)
+        self.assertIn('Transport.start(Session, Adapter, Policy', generated)
+        self.assertIn('return report, ok, cleanup', generated)
+        self.assertNotIn('PostSimulation:Wait()', generated)
+        self.assertNotIn('local result = Instance.new("StringValue")', generated)
+        # Case matrix and canonical acceptance remain unchanged; releases stay independent.
+        start = studio.index('\tfor _, mode in { "auto", "player", "server" }')
+        end = studio.index('end, debug.traceback)', start)
+        self.assertIn(studio[start:end], generated)
+        self.assertEqual(generated.count('release('), studio.count('release('))
+        self.assertIn('lease.stop(true)', generated)
 
     def test_source_drift_refuses(self):
         source = (ROOT / builder.STUDIO).read_text()
-        for marker in ('local player = Players:GetPlayers()[1]\n', 'Evidence.finish(environment, rows, cleanup)', 'assert(#Players:GetPlayers() == 1 and player.Character == character and humanoid.Health > 0, "player changed")'):
+        for marker in ('local player = Players:GetPlayers()[1]\n', 'Evidence.finish(environment, rows, cleanup)', 'assert(#Players:GetPlayers() == 1 and player.Character == character and humanoid.Health > 0, "player changed")', '\t\ttask.wait()\n', '\tRunService.PostSimulation:Wait()', 'local result = Instance.new("StringValue")', 'local success, err = pcall(callback, ...)'):
             for changed in (source.replace(marker, ''), source + marker):
                 with self.assertRaises(ValueError):
                     builder.generated_source(changed, '')
