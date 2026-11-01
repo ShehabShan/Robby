@@ -8,6 +8,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import time
 import urllib.parse
 import urllib.request
@@ -26,6 +27,16 @@ MAX_VERSION = 9007199254740991
 def version_number(value):
     require(type(value) is int and 0 < value <= MAX_VERSION, "invalid exact version number")
     return value
+
+
+def history_version_number(value):
+    # Live history GET (S102) returns decimal strings; upload/caller contracts
+    # remain strict integers. Bound before int() and reject alternate spellings.
+    if type(value) is str:
+        require(re.fullmatch(r"[1-9][0-9]{0,15}", value) is not None,
+                "invalid history version string")
+        value = int(value)
+    return version_number(value)
 
 
 def cursor_value(value):
@@ -69,11 +80,13 @@ def parse_page(raw):
     rows, more, cursor = page["placeVersions"], page["hasMore"], page.get("nextCursor", "")
     require(type(rows) is list and len(rows) <= PAGE_SIZE and type(more) is bool, "bad history rows/pagination")
     cursor_value(cursor)
-    require(bool(cursor) == more and (not more or len(rows) > 0), "inconsistent history cursor")
+    # Live API retains a cursor even on the last page. hasMore is the
+    # pagination authority; validate terminal cursors but never follow them.
+    require(not more or (bool(cursor) and len(rows) > 0), "inconsistent history cursor")
     versions = []
     for row in rows:
         require(type(row) is dict and {"version", "isPublished"} <= set(row), "bad history row")
-        version = version_number(row["version"])
+        version = history_version_number(row["version"])
         require(type(row["isPublished"]) is bool and row["isPublished"] is True,
                 "unpublished/malformed row in published-only history")
         require(version not in versions, "duplicate version within page")

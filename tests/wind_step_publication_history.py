@@ -1,4 +1,4 @@
-"""Synthetic history/transport tests only; no Roblox calls or publication."""
+"""Offline tests with one retained live GET fixture; no network or publication."""
 import copy
 import io
 import json
@@ -94,9 +94,48 @@ class HistoryTests(unittest.TestCase):
         for value in (True, False, 0, -1, 7.0, "7", None, 9007199254740992):
             with self.subTest(value=value), self.assertRaises(ValueError):
                 history.observe(TARGET, value, read_page=self.read)
-            with self.assertRaises(ValueError):
-                history.parse_page(page((value,)))
+            if value != "7":
+                with self.assertRaises(ValueError):
+                    history.parse_page(page((value,)))
         self.assertEqual(self.calls, [])
+
+    def test_canonical_history_decimal_strings_only(self):
+        for value in ("1", "7", str(history.MAX_VERSION)):
+            self.assertEqual(history.parse_page(page((value,)))[0], [int(value)])
+        for value in ("", "0", "00", "07", "-7", "+7", "7.0", "7e0", " 7", "7 ",
+                      "７", "٧", "7\n", "9007199254740992", "9" * 10000):
+            with self.subTest(value=value[:30]), self.assertRaises(ValueError):
+                history.parse_page(page((value,)))
+        for values in ((7, "7"), ("7", 7), ("7", "7")):
+            with self.assertRaises(ValueError):
+                history.parse_page(page(values))
+        self.pages = [page(("7",), True, "next"), page((7,))]
+        with self.assertRaises(ValueError):
+            self.run_observe()
+
+    def test_retained_live_history_terminal_cursor_and_string_versions(self):
+        raw = (ROOT / "tests/fixtures/wind_step_history_s102.json").read_bytes()
+        versions, more, cursor = history.parse_page(raw)
+        self.assertEqual(versions, [2, 1])
+        self.assertIs(more, False)
+        self.assertEqual(cursor, "version_2zwAAAZPvuHn_oTE")
+        self.pages = [raw]
+        result = history.observe(TARGET, 2, inspect=lambda: copy.deepcopy(STATE),
+                                 read_target=lambda _: copy.deepcopy(REMOTE),
+                                 read_page=self.read, clock=self.clock)
+        self.assertEqual(result["status"], "PUBLICATION_HISTORY_OBSERVED")
+        self.assertEqual(len(self.calls), 1)  # terminal cursor MUST NOT cause a second GET
+        self.assertTrue(result["historyComplete"])
+        for field in ("currentServingVersionVerified", "writePermissionVerified", "publishReady",
+                      "releaseEvidenceAccepted", "dynamicsAccepted"):
+            self.assertIs(result[field], False)
+
+    def test_terminal_cursor_still_bounded_and_nonterminal_requires_cursor(self):
+        self.assertEqual(history.parse_page(page((), False, "terminal")), ([], False, "terminal"))
+        for raw in (page((7,), True, ""), page((), True, "next"),
+                    page((7,), False, "x" * 2049), page((7,), False, "bad cursor")):
+            with self.assertRaises(ValueError):
+                history.parse_page(raw)
 
     def test_unsafe_target_refused_before_any_call(self):
         for field, value in (("universeId", "10773761715"), ("placeId", "95587500384127"),
@@ -143,7 +182,7 @@ class HistoryTests(unittest.TestCase):
                              ("placeVersions", [{"version": 7, "isPublished": False}]),
                              ("placeVersions", [{"version": 7, "isPublished": 1}]),
                              ("nextCursor", None), ("nextCursor", "\n"), ("nextCursor", "x" * 2049),
-                             ("nextCursor", "unexpected"), ("hasMore", True), ("extra", True)):
+                             ("hasMore", True), ("extra", True)):
             cases.append(json.dumps({**base, field: value}).encode())
         cases += [page(tuple(range(1, 102))), page((), True, "x")]
         for raw in cases:
