@@ -536,3 +536,9 @@ Implement S100 owner waiver as a distinct strict schema2 permission-attestation 
 
 ## D-351 — final-main restage without invented byte consent (S101, 2026-11-01)
 Owner's broad test-overwrite authority and screenshot waiver are retained. Since schema implementation changes main after S100, use the existing exact-revision rule: new immutable final-main package/card, then authentic approval of that named package before dispatch. No inferred future-byte consent or repeat screenshot requirement; no production changes. Preserve existing <=24h evidence lifetime and original timestamps.
+
+### D-352 — observed history schema compatibility (S102, 2026-11-01)
+Actual test-place GET returns canonical decimal-string versions and a valid nonempty terminal cursor with hasMore=false. Accept those bounded history-only representations; keep upload/caller integer contracts and all malformed/duplicate/pagination/target/time guards. hasMore controls traversal. Exact live fixture + offline regression/fault checks; historical publication is never serving/readiness proof.
+
+### D-353 — uncertain transaction remains immutable (S102, 2026-11-01)
+Independent later GET can confirm historical version2 without changing S101's consumed UNCERTAIN terminal. Preserve it and the no-retry rule. Original archive unavailable through this bot's scoped access; do not reconstruct bytes or manufacture receipt/history/consent. Existing release-intake refusal remains until original evidence recovery and a separately reviewed read-only reconciliation path. No new publication is authorized by generic continuation.
