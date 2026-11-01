@@ -1,5 +1,7 @@
 # STATE
 
+- **S92 owner destination follow-up:** supplied universe6958375460/root place121111456135560. GET-only preflight VERIFIED PRIVATE, owner7738981129, exact root, displayName="thefool700799's Place"; separate from production. Read access confirmed, publish-write permission and empty-content status not verified. Owner authorizes this test destination. No upload; finish T-044b2b/b3 before c. Meter unexpectedly already47.4 OLU on follow-up; emergency save only, no budget reset.
+
 ## Now — after S92 (2026-11-01)
 - **Owner priority:** separately PUBLISHED private test experience to join through Sober on Linux; not another place in main Robby. User explicitly authorizes test publication only. Inputs: research/inbox/2026-11-01-linux-isolated-experience.md and2026-11-01-sober-test-publish.md.
 - Phase3 building. **NEXT T-044b2b**: owner-only explicit start/status/full-report UI + live-adapter lifecycle; then b3 bounded published intake/release path, then c test-only publication. Existing Studio bundle cannot simply be uploaded/enabled. Handoff: research/notes/T-044b2a-published-candidate.md.
