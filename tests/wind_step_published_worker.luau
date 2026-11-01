@@ -99,6 +99,7 @@ local function worker(mode)
 		end
 		local transport
 		local current, frames, moving, originalAuto, originalOwner, force, attachment
+		local phaseObserver
 		local fired = false
 		local function invalidate(seam)
 			if fired or mode ~= seam then
@@ -129,7 +130,8 @@ local function worker(mode)
 			auto, owner = originalAuto, originalOwner
 		end
 		local driver = {
-			prepare = function()
+			prepare = function(_, _, _, observer)
+				phaseObserver = observer
 				f.prepared += 1
 				originalAuto, originalOwner = auto, owner
 				frames, moving = 0, false
@@ -249,6 +251,7 @@ local function worker(mode)
 				invalidate("pre")
 				force.Enabled, force.PlaneVelocity = true, rb.Vector2.new(70, 0)
 				f.run.PreSimulation:Fire(0.02)
+				phaseObserver("pre", 0.02)
 				if moving then
 					frames += 1
 					local wall = false
@@ -266,6 +269,7 @@ local function worker(mode)
 					force.Enabled = false
 					invalidate("post")
 					f.run.PostSimulation:Fire()
+					phaseObserver("post", 0.02)
 					if moving and (frames == 10 or (wall and frames == 3)) then
 						stopMotion(false)
 					end

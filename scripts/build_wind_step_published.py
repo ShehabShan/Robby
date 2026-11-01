@@ -45,7 +45,7 @@ def generated_source(studio, header):
     body = replace_once(body, 'local function runCase(name: string, kind: string, mode: string)', 'local function runCase(name: string, kind: string, mode: string)\n\tcheckpoint()')
     body = replace_once(body, 'local success, err = pcall(callback, ...)', 'local success, err = pcall(function(...)\n\t\t\t\tcheckpoint()\n\t\t\t\treturn callback(...)\n\t\t\tend, ...)')
     body = replace_once(body, '\t\t\t\tif lease then\n\t\t\t\t\tlease.stop()\n\t\t\t\tend', '\t\t\t\tcancelActive()')
-    body = replace_once(body, '\tlease = Driver.prepare(player, Motion.PROPOSED, Vector3.xAxis)', '\tcheckpoint()\n\tlease = Driver.prepare(player, Motion.PROPOSED, Vector3.xAxis)\n\tcheckpoint()')
+    body = replace_once(body, '\tlease = Driver.prepare(player, Motion.PROPOSED, Vector3.xAxis, onPhase)', '\tcheckpoint()\n\tlease = Driver.prepare(player, Motion.PROPOSED, Vector3.xAxis, onPhase)\n\tcheckpoint()')
     body = replace_once(body, '\trow.committed = lease.commit(workspace:GetServerTimeNow())', '\tcheckpoint()\n\trow.committed = lease.commit(workspace:GetServerTimeNow())\n\tcheckpoint()')
     body = replace_once(body, '\tassert(Evidence.accept(row), "case failed: " .. name)', '\tcheckpoint()\n\tassert(Evidence.accept(row), "case failed: " .. name)\n\tprogress(#rows)')
     body = replace_once(body, 'local ok, failure = xpcall(function()', 'local ok, failure = xpcall(function()\n\tcheckpoint()\n\tfixtures = Instance.new("Folder")\n\tfixtures.Name = "WindStepFixtures"\n\tfixtures.Parent = workspace')

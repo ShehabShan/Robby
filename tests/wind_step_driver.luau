@@ -262,6 +262,89 @@ local function fixture()
 	return f
 end
 local cases = {
+	["unordered sibling observation reproduces zero commands despite movement"] = function()
+		local f = fixture()
+		local sampled = 0
+		-- This listener runs before the driver, a legal order the old harness assumed away.
+		local observer = f.run.PreSimulation:Connect(function(dt)
+			if f.force and f.force.Enabled then
+				sampled += f.force.PlaneVelocity.X * dt
+			end
+		end)
+		local l = f:start()
+		for _ = 1, 12 do
+			if l.active() then
+				f:tick(0.02)
+			end
+		end
+		assert(sampled == 0 and f.root.CFrame.X > 10, "ordering failure not reproduced")
+		observer:Disconnect()
+		l.stop()
+		f:clean()
+	end,
+	["phase observer errors release resources and original ownership"] = function()
+		for _, failPhase in { "pre", "post" } do
+			local f = fixture()
+			local l = assert(f.driver.prepare(f.player, Motion.PROPOSED, V.xAxis, function(phase)
+				if phase == failPhase then
+					error("injected observer failure")
+				end
+			end))
+			assert(l.commit(f.now))
+			f:tick(0.02)
+			assert(not l.active() and f.root.auto)
+			f:clean()
+		end
+	end,
+	["terminal phase is observed before automatic ownership restoration"] = function()
+		local f = fixture()
+		local pre, post, distance = 0, 0, 0
+		local l = assert(f.driver.prepare(f.player, Motion.PROPOSED, V.xAxis, function(phase, dt)
+			assert(not f.root.auto and f.root.owner == nil)
+			if phase == "pre" then
+				pre += 1
+				distance += f.force.PlaneVelocity.X * dt
+			else
+				post += 1
+				assert(not f.force.Enabled)
+			end
+		end))
+		assert(l.commit(f.now))
+		for _ = 1, 16 do
+			if l.active() then
+				f:tick(1 / 60)
+			end
+		end
+		assert(pre == post and post > 0 and not l.active() and f.root.auto)
+		near(distance, 14)
+		f:clean()
+	end,
+	["phase observer runs at command/release seam regardless of signal ordering"] = function()
+		for _, reverse in { false, true } do
+			local f = fixture()
+			local phases = {}
+			local l = assert(f.driver.prepare(f.player, Motion.PROPOSED, V.xAxis, function(phase, dt)
+				table.insert(phases, phase)
+				assert(f.force.Enabled == (phase == "pre"))
+				assert(not f.root.auto and f.root.owner == nil)
+				if phase == "pre" then
+					near(dt, 0.02)
+				end
+			end))
+			assert(l.commit(f.now))
+			-- Other listeners may run before or after the driver's callback.
+			local noise = f.run.PreSimulation:Connect(function() end)
+			if reverse then
+				local callbacks = f.run.PreSimulation.callbacks
+				callbacks[1], callbacks[2] = callbacks[2], callbacks[1]
+			end
+			f:tick(0.02)
+			assert(table.concat(phases, ",") == "pre,post", "missing deterministic phase observation")
+			noise:Disconnect()
+			l.stop()
+			f:clean()
+		end
+	end,
 	["reservation is inert; one lease; two-phase commit is single use"] = function()
 		local f = fixture()
 		local l = assert(f:prepare())

@@ -162,73 +162,77 @@ local function runCase(name: string, kind: string, mode: string)
 		end
 	end
 	local began = os.clock()
-	lease = Driver.prepare(player, Motion.PROPOSED, Vector3.xAxis)
+	local onPre = observe(function(dt: number)
+		if not lease.active() then
+			return
+		end
+		if pendingDt then
+			row.phaseOK = false
+		end
+		pendingDt, preY = dt, root.AssemblyLinearVelocity.Y
+		row.minDt, row.maxDt = if row.minDt == 0 then dt else math.min(row.minDt, dt), math.max(row.maxDt, dt)
+		local force = root:FindFirstChild("WindStepVelocity")
+		if force and force.Enabled then
+			row.lastSpeed = force.PlaneVelocity.X
+			row.commandedDistance += row.lastSpeed * dt
+		end
+		forceApplied = force ~= nil and force.Enabled
+		if not forceApplied or root:GetNetworkOwnershipAuto() or root:GetNetworkOwner() ~= nil then
+			row.phaseOK = false
+		end
+	end)
+	local onPost = observe(function()
+		if not pendingDt then
+			return
+		end
+		local dt = pendingDt
+		pendingDt = nil
+		row.pairs += 1
+		row.simulatedSeconds += dt
+		local offset = root.Position - origin
+		row.distance, row.maxX, row.maxSide =
+			offset.X, math.max(row.maxX, offset.X), math.max(row.maxSide, math.abs(offset.Z))
+		row.elapsed = os.clock() - began
+		if kind == "fall" then
+			row.maxYError =
+				math.max(row.maxYError, math.abs(root.AssemblyLinearVelocity.Y - preY + workspace.Gravity * dt))
+		end
+		local force = root:FindFirstChild("WindStepVelocity")
+		if force and force.Enabled then
+			row.phaseOK = false
+		end
+		if not string.match(name, "^lifetime") and #row.samples < 128 then
+			table.insert(row.samples, {
+				dt = dt,
+				t = row.elapsed,
+				x = offset.X,
+				y = offset.Y,
+				vy = root.AssemblyLinearVelocity.Y,
+				applied = forceApplied,
+				commandSpeed = row.lastSpeed,
+			})
+		end
+		if kind == "cancel" and row.pairs == 3 then
+			local velocity = root.AssemblyLinearVelocity
+			lease.stop(true)
+			row.cancelled, row.velocityKept = true, root.AssemblyLinearVelocity == velocity
+		end
+	end)
+	-- Sample within the driver's Pre/Post callback, not unordered sibling listeners.
+	local function onPhase(phase: string, dt: number)
+		if phase == "pre" then
+			onPre(dt)
+		elseif phase == "post" then
+			onPost()
+		else
+			error("unknown motion phase")
+		end
+	end
+	lease = Driver.prepare(player, Motion.PROPOSED, Vector3.xAxis, onPhase)
 	assert(lease, "prepare refused: " .. name .. "; state=" .. humanoid:GetState().Name)
 	assert(not lease.active(), "reservation already active")
 	row.committed = lease.commit(workspace:GetServerTimeNow())
 	assert(row.committed, "commit refused: " .. name)
-	table.insert(
-		connections,
-		RunService.PreSimulation:Connect(observe(function(dt: number)
-			if not lease.active() then
-				return
-			end
-			if pendingDt then
-				row.phaseOK = false
-			end
-			pendingDt, preY = dt, root.AssemblyLinearVelocity.Y
-			row.minDt, row.maxDt = if row.minDt == 0 then dt else math.min(row.minDt, dt), math.max(row.maxDt, dt)
-			local force = root:FindFirstChild("WindStepVelocity")
-			if force and force.Enabled then
-				row.lastSpeed = force.PlaneVelocity.X
-				row.commandedDistance += row.lastSpeed * dt
-			end
-			forceApplied = force ~= nil and force.Enabled
-			if not forceApplied or root:GetNetworkOwnershipAuto() or root:GetNetworkOwner() ~= nil then
-				row.phaseOK = false
-			end
-		end))
-	)
-	table.insert(
-		connections,
-		RunService.PostSimulation:Connect(observe(function()
-			if not pendingDt then
-				return
-			end
-			local dt = pendingDt
-			pendingDt = nil
-			row.pairs += 1
-			row.simulatedSeconds += dt
-			local offset = root.Position - origin
-			row.distance, row.maxX, row.maxSide =
-				offset.X, math.max(row.maxX, offset.X), math.max(row.maxSide, math.abs(offset.Z))
-			row.elapsed = os.clock() - began
-			if kind == "fall" then
-				row.maxYError =
-					math.max(row.maxYError, math.abs(root.AssemblyLinearVelocity.Y - preY + workspace.Gravity * dt))
-			end
-			local force = root:FindFirstChild("WindStepVelocity")
-			if force and force.Enabled then
-				row.phaseOK = false
-			end
-			if not string.match(name, "^lifetime") and #row.samples < 128 then
-				table.insert(row.samples, {
-					dt = dt,
-					t = row.elapsed,
-					x = offset.X,
-					y = offset.Y,
-					vy = root.AssemblyLinearVelocity.Y,
-					applied = forceApplied,
-					commandSpeed = row.lastSpeed,
-				})
-			end
-			if kind == "cancel" and row.pairs == 3 then
-				local velocity = root.AssemblyLinearVelocity
-				lease.stop(true)
-				row.cancelled, row.velocityKept = true, root.AssemblyLinearVelocity == velocity
-			end
-		end))
-	)
 	waitUntil(function()
 		return not lease.active()
 	end, 1)

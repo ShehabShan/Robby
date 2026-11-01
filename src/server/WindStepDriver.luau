@@ -15,7 +15,9 @@ end
 -- Non-yielding resource reservation. No force, velocity or ownership writes before commit.
 -- Caller must stop a reservation if payment fails; commit must be part of rollback-capable
 -- server acceptance. Do not pay/grant iframes from this module.
-function Driver.prepare(player: Player, raw: any, direction: Vector3): Lease?
+-- Optional non-yielding diagnostic observer runs inside the owning scheduler callback.
+-- Separate signal listeners have no ordering contract with force enable/disable.
+function Driver.prepare(player: Player, raw: any, direction: Vector3, observe: ((string, number) -> ())?): Lease?
 	if leases[player] then
 		return nil
 	end
@@ -81,6 +83,7 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3): Lease?
 	terrain.CollisionGroup = collisionGroup
 	local started, covered, lastClock = 0, 0, 0
 	local pending, finishAfter, applied, pendingSpeed = false, false, 0, 0
+	local pendingDt = 0
 	local axis = Vector3.new(dx, 0, dz)
 	local lease: Lease
 	local function stop(keepVelocity: boolean?)
@@ -186,6 +189,10 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3): Lease?
 			actuator.Enabled = true
 			pendingSpeed, pending, finishAfter = speed, true, terminal or blocked
 			covered = elapsed + dt
+			pendingDt = dt
+			if observe then
+				observe("pre", dt)
+			end
 		end)
 		if not ok then
 			stop()
@@ -199,6 +206,9 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3): Lease?
 		applied = pendingSpeed -- only completed simulation may contribute residual dash velocity
 		local ok = pcall(function()
 			(force :: LinearVelocity).Enabled = false
+			if observe then
+				observe("post", pendingDt)
+			end
 			if finishAfter or not eligible() then
 				stop()
 			end
