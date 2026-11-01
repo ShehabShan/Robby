@@ -203,6 +203,15 @@ class AttestationTests(ReviewTests):
         record["attestedAt"] = record.pop("reviewedAt")
         record["attestedByOwnerUserId"] = record.pop("reviewedByOwnerUserId")
         review.validate_review(record, TARGET, NOW)
+        for kind in (review.KIND, "consent", "", None):
+            with self.subTest(kind=kind), self.assertRaises(ValueError):
+                review.validate_review({**record, "kind": kind}, TARGET, NOW)
+        for version in (True, 1, 3, "2"):
+            with self.subTest(version=version), self.assertRaises(ValueError):
+                review.validate_review({**record, "schema": version}, TARGET, NOW)
+        for waiver in (False, 1, "true", None):
+            with self.assertRaises(ValueError):
+                review.validate_review({**record, "dashboardEvidenceWaived": waiver}, TARGET, NOW)
         for field in record:
             with self.subTest(field=field), self.assertRaises(ValueError):
                 review.validate_review({k: v for k, v in record.items() if k != field}, TARGET, NOW)

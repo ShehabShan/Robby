@@ -1,0 +1,35 @@
+{
+  "syntheticOfflineOnly": true,
+  "faults": [
+    {
+      "fault": "waiver-not-required",
+      "detected": true
+    },
+    {
+      "fault": "owner-not-bound",
+      "detected": true
+    },
+    {
+      "fault": "expiry-not-enforced",
+      "detected": true
+    },
+    {
+      "fault": "source-pin-not-bound",
+      "detected": true
+    },
+    {
+      "fault": "wrong-operation-accepted",
+      "detected": true
+    },
+    {
+      "fault": "false-write-verification",
+      "detected": true
+    },
+    {
+      "fault": "kind-confusion",
+      "detected": true
+    }
+  ],
+  "restored": true,
+  "testImprovement": "Initial kind-only mutation escaped; added direct schema2 wrong-kind cases before rerun."
+}
