@@ -2,6 +2,7 @@
 Usage: python3 scripts/wind_step_probe.py [--version N] [--output build/wind-step-probe.json]
 Without --version, build with check.sh first. Never publishes. Nonzero exit on failed/incomplete evidence.
 """
+from collections import Counter
 import argparse
 import hashlib
 import json
@@ -15,16 +16,69 @@ sys.dont_write_bytecode = True
 import cloud_test
 
 
+EXPECTED_CHECKS = {'ReadVoxels metadata': 1,
+ 'empty air': 1,
+ 'flat coarse ground offset 0': 1,
+ 'flat API offset 0': 1,
+ 'penetration offset 0 depth 0.05': 1,
+ 'penetration offset 0 depth 0.2': 1,
+ 'penetration offset 0 depth 0.5': 1,
+ 'flat coarse ground offset 0.5': 1,
+ 'flat API offset 0.5': 1,
+ 'penetration offset 0.5 depth 0.05': 1,
+ 'penetration offset 0.5 depth 0.2': 1,
+ 'penetration offset 0.5 depth 0.5': 1,
+ 'flat coarse ground offset 1.5': 1,
+ 'flat API offset 1.5': 1,
+ 'penetration offset 1.5 depth 0.05': 1,
+ 'penetration offset 1.5 depth 0.2': 1,
+ 'penetration offset 1.5 depth 0.5': 1,
+ 'flat coarse ground offset 3.5': 1,
+ 'flat API offset 3.5': 1,
+ 'penetration offset 3.5 depth 0.05': 1,
+ 'penetration offset 3.5 depth 0.2': 1,
+ 'penetration offset 3.5 depth 0.5': 1,
+ 'sloping terrain with body clearance': 1,
+ 'tilted root above slope': 1,
+ 'air above terrain (no dynamics claim)': 1,
+ 'water ignored': 1,
+ 'fully embedded terrain': 1,
+ 'shallow 0.2stud penetration': 1,
+ 'penetration API': 1,
+ 'high overhang clear seed': 1,
+ 'low overhang no clear seed (conservative)': 1,
+ 'low overhang API': 1,
+ 'initial part overlap': 1,
+ 'noncollidable part ignored': 1,
+ 'collision-group part exclusion': 1,
+ 'collision-group part restored': 1,
+ 'collision-group terrain exclusion': 1,
+ 'near wall not initial overlap': 1,
+ 'moving blocker now overlaps': 1,
+ '100 spatial queries (not lease lifetimes)': 1,
+ 'terrain restored and verified': 1,
+ 'parts cleaned': 1,
+ 'collision group cleaned': 2}
+
+
 def evidence_passed(task):
-    """Execution completion alone is not test success; require the structured probe report."""
-    if task.get("state") != "COMPLETE" or task.get("error"):
+    """Accept only the complete matrix, including independent verified cleanup, not HTTP200."""
+    if not isinstance(task, dict) or task.get("state") != "COMPLETE" or task.get("error"):
         return False
     output = task.get("output", {})
-    # Luau Execution wraps returned values in output.results.
     values = output.get("results", []) if isinstance(output, dict) else []
-    return any(isinstance(value, dict) and value.get("kind") == "WindStep spatial only"
-               and value.get("failed") == 0 and value.get("passed", 0) > 0
-               and value.get("dynamicsAccepted") is False for value in values)
+    if not isinstance(values, list) or len(values) != 1 or not isinstance(values[0], dict):
+        return False
+    report = values[0]
+    rows = report.get("results", [])
+    if (report.get("kind") != "WindStep spatial only" or report.get("dynamicsAccepted") is not False
+            or report.get("isServer") is not True or not isinstance(rows, list)
+            or not all(isinstance(row, dict) and isinstance(row.get("name"), str)
+                       and row.get("ok") is True for row in rows)):
+        return False
+    return (type(report.get("failed")) is int and report["failed"] == 0
+            and type(report.get("passed")) is int and report["passed"] == len(rows)
+            and Counter(row["name"] for row in rows) == EXPECTED_CHECKS)
 
 
 def run(version, output_path):

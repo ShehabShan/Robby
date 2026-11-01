@@ -1,0 +1,284 @@
+{
+  "commit": "9ef311df130f17725b3db70a7d13578f9df4a22f",
+  "probe_sha256": "35b78c8e746d9a43e69e18099e728d785d725b572c3f816152d0d0756451296a",
+  "saved_version": 30,
+  "published": false,
+  "check": "PASS net\nPASS format\nPASS lint\nPASS sourcemap\nPASS types\nPASS tests\nPASS client-input\nPASS rime-timing\nPASS cast-dispatch\nPASS cast-lifecycle\nPASS cast-receipt-client\nPASS cast-character-client\nPASS cast-contact-engine\nPASS cast-world-tree\nPASS cast-delivery-engine\nPASS cast-owner-engine\nPASS combat-contact-client\nPASS wind-step-driver\nPASS m1-authoring\nPASS build\nPASS inspect\nCHECK: PASS\n",
+  "build_sha256": "24a6170b3ff2513fc2467ac3d84b9ee19e828e1f2a23c3ac49d1311a26e6f03e",
+  "upload": {
+    "status": 200,
+    "result": {
+      "versionNumber": 30
+    }
+  },
+  "creation": {
+    "status": 200,
+    "task": {
+      "path": "universes/10773761715/places/95587500384127/versions/30/luau-execution-sessions/d95b563a-0e64-4c7c-ad85-6061462564d0/tasks/d95b563a-0e64-4c7c-ad85-6061462564d0",
+      "createTime": "2026-11-01T05:12:19.156Z",
+      "updateTime": "2026-11-01T05:12:19.156Z",
+      "user": "7738981129",
+      "state": "PROCESSING",
+      "script": "--!nocheck\n-- S89: real spatial APIs + production clearance, NOT a player/physics simulation test.\nlocal Server = game:GetService(\"ServerScriptService\"):WaitForChild(\"Server\", 10)\nlocal Clearance = require(Server:WaitForChild(\"WindStepClearance\", 10))\nlocal RunService = game:GetService(\"RunService\")\nlocal PhysicsService = game:GetService(\"PhysicsService\")\nlocal terrain = workspace.Terrain\nlocal origin = Vector3.new(16384, 2048, 16384)\nlocal extent = Vector3.new(96, 80, 96)\nlocal region = Region3.new(origin - extent / 2, origin + extent / 2):ExpandToGrid(4)\n-- Snapshot BEFORE any mutation. A failed snapshot must leave the world untouched.\nlocal originalMaterials, originalOccupancy = terrain:ReadVoxels(region, 4)\nlocal folder, root, overlap, terrainParams\nlocal groups = {}\nlocal results = {}\nlocal function fill(cf, size, material)\n\tterrain:FillBlock(cf, size, material)\n\t-- Terrain collision meshing may lag the voxel edit; this is fixture setup only.\n\ttask.wait(0.25)\nend\nlocal function record(name, ok, detail)\n\ttable.insert(results, { name = name, ok = ok, detail = tostring(detail or \"\") })\nend\nlocal function reset()\n\tfor _, item in folder:GetChildren() do\n\t\tif item ~= root then\n\t\t\titem:Destroy()\n\t\tend\n\tend\n\tfill(region.CFrame, region.Size, Enum.Material.Air)\n\troot.CFrame = CFrame.new(origin)\n\troot.Size = Vector3.new(2, 2, 1)\n\troot.CollisionGroup = \"Default\"\n\toverlap.CollisionGroup = \"Default\"\n\tterrainParams.CollisionGroup = \"Default\"\nend\nlocal function part(name, position, size)\n\tlocal p = Instance.new(\"Part\")\n\tp.Name, p.Anchored, p.Size, p.CFrame = name, true, size, CFrame.new(position)\n\tp.Parent = folder\n\treturn p\nend\nlocal function surface(x, z)\n\tlocal hit\n\tlocal deadline = os.clock() + 3\n\trepeat\n\t\thit = workspace:Raycast(origin + Vector3.new(x, 25, z), Vector3.new(0, -60, 0), terrainParams)\n\t\tif not hit then\n\t\t\ttask.wait(0.1)\n\t\tend\n\tuntil hit or os.clock() >= deadline\n\tassert(hit, \"fixture has no queryable solid surface after bounded mesh wait\")\n\treturn hit.Position\nend\nlocal function ground(offset)\n\tfill(CFrame.new(origin + Vector3.new(0, -8 + offset, 0)), Vector3.new(64, 16, 64), Enum.Material.Rock)\nend\nlocal function expect(name, expected)\n\tlocal actual = Clearance.occupied(root, root.Size, overlap, terrainParams)\n\trecord(name, actual == expected, \"occupied=\" .. tostring(actual) .. \" expected=\" .. tostring(expected))\nend\nlocal function emptyCertificate(cf)\n\t-- Diagnostics only; never used for the pass/fail decision or production admission.\n\tlocal half = root.Size / 2 + Vector3.new(4, 4, 4)\n\tlocal m, o = terrain:ReadVoxels(Region3.new(cf.Position - half, cf.Position + half):ExpandToGrid(4), 4)\n\tfor x, plane in ipairs(o) do\n\t\tfor y, row in ipairs(plane) do\n\t\t\tfor z, amount in ipairs(row) do\n\t\t\t\tif amount > 0 and m[x][y][z] ~= Enum.Material.Water then\n\t\t\t\t\treturn false\n\t\t\t\tend\n\t\t\tend\n\t\tend\n\tend\n\treturn true\nend\nlocal function diagnostics(name)\n\tlocal descents = {}\n\tfor _, height in { 8, 16 } do\n\t\tlocal cf = root.CFrame + Vector3.new(0, height, 0)\n\t\tlocal hit = workspace:Blockcast(cf, root.Size, Vector3.new(0, -height, 0), terrainParams)\n\t\ttable.insert(\n\t\t\tdescents,\n\t\t\tstring.format(\n\t\t\t\t\"%d:empty=%s,hit=%s\",\n\t\t\t\theight,\n\t\t\t\ttostring(emptyCertificate(cf)),\n\t\t\t\thit and tostring(hit.Distance) or \"none\"\n\t\t\t)\n\t\t)\n\tend\n\trecord(name, true, \"rootEmpty=\" .. tostring(emptyCertificate(root.CFrame)) .. \" \" .. table.concat(descents, \";\"))\nend\nrecord(\"ReadVoxels metadata\", true, \"occupancy.Size=\" .. typeof(originalOccupancy.Size))\nlocal ok, err = xpcall(function()\n\tfolder = Instance.new(\"Folder\")\n\tfolder.Name = \"WindStepSpatialProbe\"\n\tfolder.Parent = workspace\n\troot = part(\"ProbeRoot\", origin, Vector3.new(2, 2, 1))\n\toverlap = OverlapParams.new()\n\toverlap.FilterType = Enum.RaycastFilterType.Exclude\n\toverlap.FilterDescendantsInstances = { root }\n\toverlap.RespectCanCollide = true\n\toverlap.MaxParts = 1\n\tterrainParams = RaycastParams.new()\n\tterrainParams.FilterType = Enum.RaycastFilterType.Include\n\tterrainParams.FilterDescendantsInstances = { terrain }\n\tterrainParams.RespectCanCollide = true\n\tterrainParams.IgnoreWater = true\n\n\treset()\n\texpect(\"empty air\", false)\n\tfor _, offset in { 0, 0.5, 1.5, 3.5 } do\n\t\treset()\n\t\tground(offset)\n\t\troot.CFrame = CFrame.new(surface(0, 0) + Vector3.new(0, 1.2, 0))\n\t\texpect(\"flat coarse ground offset \" .. offset, false)\n\t\tdiagnostics(\"flat API offset \" .. offset)\n\t\tfor _, depth in { 0.05, 0.2, 0.5 } do\n\t\t\troot.CFrame = CFrame.new(surface(0, 0) + Vector3.new(0, 1 - depth, 0))\n\t\t\texpect(\"penetration offset \" .. offset .. \" depth \" .. depth, true)\n\t\tend\n\tend\n\treset()\n\tfill(\n\t\tCFrame.new(origin - Vector3.new(0, 8, 0)) * CFrame.Angles(0, 0, math.rad(15)),\n\t\tVector3.new(64, 16, 64),\n\t\tEnum.Material.Rock\n\t)\n\troot.CFrame = CFrame.new(surface(0, 0) + Vector3.new(0, 1.6, 0))\n\texpect(\"sloping terrain with body clearance\", false)\n\troot.CFrame *= CFrame.Angles(0, math.rad(35), math.rad(10))\n\texpect(\"tilted root above slope\", false)\n\treset()\n\tground(0)\n\troot.CFrame = CFrame.new(origin + Vector3.new(0, 12, 0))\n\texpect(\"air above terrain (no dynamics claim)\", false)\n\treset()\n\tfill(CFrame.new(origin), Vector3.new(32, 32, 32), Enum.Material.Water)\n\texpect(\"water ignored\", false)\n\treset()\n\tground(0)\n\tlocal top = surface(0, 0)\n\troot.CFrame = CFrame.new(top - Vector3.new(0, 3, 0))\n\texpect(\"fully embedded terrain\", true)\n\troot.CFrame = CFrame.new(top + Vector3.new(0, 0.8, 0))\n\texpect(\"shallow 0.2stud penetration\", true)\n\tdiagnostics(\"penetration API\")\n\treset()\n\tground(1.5)\n\troot.CFrame = CFrame.new(surface(0, 0) + Vector3.new(0, 1.2, 0))\n\tfill(CFrame.new(origin + Vector3.new(0, 24, 0)), Vector3.new(64, 4, 64), Enum.Material.Rock)\n\texpect(\"high overhang clear seed\", false)\n\treset()\n\tground(1.5)\n\troot.CFrame = CFrame.new(surface(0, 0) + Vector3.new(0, 1.2, 0))\n\t-- Low ceiling blocks both certified descent routes; conservative refusal is intended.\n\tfill(CFrame.new(origin + Vector3.new(0, 8, 0)), Vector3.new(64, 4, 64), Enum.Material.Rock)\n\texpect(\"low overhang no clear seed (conservative)\", true)\n\tdiagnostics(\"low overhang API\")\n\treset()\n\tpart(\"EmbeddedPart\", origin, Vector3.new(1, 1, 1))\n\texpect(\"initial part overlap\", true)\n\treset()\n\tlocal blocker = part(\"DecorativePart\", origin, Vector3.new(2, 2, 2))\n\tblocker.CanCollide = false\n\texpect(\"noncollidable part ignored\", false)\n\treset()\n\tlocal stamp = tostring(math.floor(os.clock() * 1000000))\n\tlocal a, b = \"WindProbeA\" .. stamp, \"WindProbeB\" .. stamp\n\tfor _, name in { a, b } do\n\t\tPhysicsService:RegisterCollisionGroup(name)\n\t\ttable.insert(groups, name)\n\tend\n\tPhysicsService:CollisionGroupSetCollidable(a, b, false)\n\troot.CollisionGroup, overlap.CollisionGroup, terrainParams.CollisionGroup = a, a, a\n\tpart(\"GroupExcluded\", origin, Vector3.new(2, 2, 2)).CollisionGroup = b\n\texpect(\"collision-group part exclusion\", false)\n\tPhysicsService:CollisionGroupSetCollidable(a, b, true)\n\texpect(\"collision-group part restored\", true)\n\treset()\n\tground(0)\n\troot.CFrame = CFrame.new(surface(0, 0) - Vector3.new(0, 3, 0))\n\tPhysicsService:CollisionGroupSetCollidable(a, terrain.CollisionGroup, false)\n\troot.CollisionGroup, overlap.CollisionGroup, terrainParams.CollisionGroup = a, a, a\n\texpect(\"collision-group terrain exclusion\", false)\n\treset()\n\tlocal wall = part(\"Wall\", origin + Vector3.new(5, 0, 0), Vector3.new(1, 8, 8))\n\texpect(\"near wall not initial overlap\", false)\n\twall.CFrame = CFrame.new(origin + Vector3.new(1.2, 0, 0))\n\texpect(\"moving blocker now overlaps\", true)\n\treset()\n\tfor _ = 1, 100 do\n\t\tassert(not Clearance.occupied(root, root.Size, overlap, terrainParams), \"repeat query changed\")\n\tend\n\trecord(\"100 spatial queries (not lease lifetimes)\", true)\nend, debug.traceback)\nif not ok then\n\trecord(\"probe execution\", false, err)\nend\n-- Every cleanup is independent, including when the probe/assertions fail.\nlocal restored, restoreError = pcall(function()\n\tterrain:WriteVoxels(region, 4, originalMaterials, originalOccupancy)\n\tlocal materials, occupancy = terrain:ReadVoxels(region, 4)\n\tfor x, plane in ipairs(originalOccupancy) do\n\t\tfor y, row in ipairs(plane) do\n\t\t\tfor z, amount in ipairs(row) do\n\t\t\t\tassert(\n\t\t\t\t\tmaterials[x][y][z] == originalMaterials[x][y][z] and math.abs(occupancy[x][y][z] - amount) < 0.0001,\n\t\t\t\t\t\"terrain restore mismatch\"\n\t\t\t\t)\n\t\t\tend\n\t\tend\n\tend\nend)\nrecord(\"terrain restored and verified\", restored, restoreError)\nlocal destroyed, destroyError = pcall(function()\n\tif folder then\n\t\tfolder:Destroy()\n\tend\nend)\nrecord(\"parts cleaned\", destroyed, destroyError)\nfor _, name in groups do\n\tlocal removed, removeError = pcall(function()\n\t\tPhysicsService:UnregisterCollisionGroup(name)\n\tend)\n\trecord(\"collision group cleaned\", removed, removeError)\nend\nlocal passed, failed = 0, 0\nfor _, result in results do\n\tif result.ok then\n\t\tpassed += 1\n\telse\n\t\tfailed += 1\n\tend\nend\nreturn {\n\tkind = \"WindStep spatial only\",\n\tisRunning = RunService:IsRunning(),\n\tisServer = RunService:IsServer(),\n\tplayers = #game:GetService(\"Players\"):GetPlayers(),\n\tpassed = passed,\n\tfailed = failed,\n\tresults = results,\n\tdynamicsAccepted = false,\n}\n",
+      "timeout": "120s",
+      "enableBinaryOutput": false
+    }
+  },
+  "poll_status": 200,
+  "task": {
+    "path": "universes/10773761715/places/95587500384127/versions/30/luau-execution-sessions/d95b563a-0e64-4c7c-ad85-6061462564d0/tasks/d95b563a-0e64-4c7c-ad85-6061462564d0",
+    "createTime": "2026-11-01T05:12:19.156Z",
+    "updateTime": "2026-11-01T05:12:28.2Z",
+    "user": "7738981129",
+    "state": "COMPLETE",
+    "timeout": "120s",
+    "output": {
+      "results": [
+        {
+          "passed": 44,
+          "results": [
+            {
+              "detail": "occupancy.Size=Vector3",
+              "name": "ReadVoxels metadata",
+              "ok": true
+            },
+            {
+              "detail": "occupied=false expected=false",
+              "name": "empty air",
+              "ok": true
+            },
+            {
+              "detail": "occupied=false expected=false",
+              "name": "flat coarse ground offset 0",
+              "ok": true
+            },
+            {
+              "detail": "rootEmpty=false 8:empty=true,hit=none;16:empty=true,hit=none",
+              "name": "flat API offset 0",
+              "ok": true
+            },
+            {
+              "detail": "occupied=true expected=true",
+              "name": "penetration offset 0 depth 0.05",
+              "ok": true
+            },
+            {
+              "detail": "occupied=true expected=true",
+              "name": "penetration offset 0 depth 0.2",
+              "ok": true
+            },
+            {
+              "detail": "occupied=true expected=true",
+              "name": "penetration offset 0 depth 0.5",
+              "ok": true
+            },
+            {
+              "detail": "occupied=false expected=false",
+              "name": "flat coarse ground offset 0.5",
+              "ok": true
+            },
+            {
+              "detail": "rootEmpty=false 8:empty=true,hit=none;16:empty=true,hit=none",
+              "name": "flat API offset 0.5",
+              "ok": true
+            },
+            {
+              "detail": "occupied=true expected=true",
+              "name": "penetration offset 0.5 depth 0.05",
+              "ok": true
+            },
+            {
+              "detail": "occupied=true expected=true",
+              "name": "penetration offset 0.5 depth 0.2",
+              "ok": true
+            },
+            {
+              "detail": "occupied=true expected=true",
+              "name": "penetration offset 0.5 depth 0.5",
+              "ok": true
+            },
+            {
+              "detail": "occupied=false expected=false",
+              "name": "flat coarse ground offset 1.5",
+              "ok": true
+            },
+            {
+              "detail": "rootEmpty=false 8:empty=true,hit=none;16:empty=true,hit=none",
+              "name": "flat API offset 1.5",
+              "ok": true
+            },
+            {
+              "detail": "occupied=true expected=true",
+              "name": "penetration offset 1.5 depth 0.05",
+              "ok": true
+            },
+            {
+              "detail": "occupied=true expected=true",
+              "name": "penetration offset 1.5 depth 0.2",
+              "ok": true
+            },
+            {
+              "detail": "occupied=true expected=true",
+              "name": "penetration offset 1.5 depth 0.5",
+              "ok": true
+            },
+            {
+              "detail": "occupied=false expected=false",
+              "name": "flat coarse ground offset 3.5",
+              "ok": true
+            },
+            {
+              "detail": "rootEmpty=false 8:empty=true,hit=none;16:empty=true,hit=none",
+              "name": "flat API offset 3.5",
+              "ok": true
+            },
+            {
+              "detail": "occupied=true expected=true",
+              "name": "penetration offset 3.5 depth 0.05",
+              "ok": true
+            },
+            {
+              "detail": "occupied=true expected=true",
+              "name": "penetration offset 3.5 depth 0.2",
+              "ok": true
+            },
+            {
+              "detail": "occupied=true expected=true",
+              "name": "penetration offset 3.5 depth 0.5",
+              "ok": true
+            },
+            {
+              "detail": "occupied=false expected=false",
+              "name": "sloping terrain with body clearance",
+              "ok": true
+            },
+            {
+              "detail": "occupied=false expected=false",
+              "name": "tilted root above slope",
+              "ok": true
+            },
+            {
+              "detail": "occupied=false expected=false",
+              "name": "air above terrain (no dynamics claim)",
+              "ok": true
+            },
+            {
+              "detail": "occupied=false expected=false",
+              "name": "water ignored",
+              "ok": true
+            },
+            {
+              "detail": "occupied=true expected=true",
+              "name": "fully embedded terrain",
+              "ok": true
+            },
+            {
+              "detail": "occupied=true expected=true",
+              "name": "shallow 0.2stud penetration",
+              "ok": true
+            },
+            {
+              "detail": "rootEmpty=false 8:empty=true,hit=7.69140625;16:empty=true,hit=15.69140625",
+              "name": "penetration API",
+              "ok": true
+            },
+            {
+              "detail": "occupied=false expected=false",
+              "name": "high overhang clear seed",
+              "ok": true
+            },
+            {
+              "detail": "occupied=true expected=true",
+              "name": "low overhang no clear seed (conservative)",
+              "ok": true
+            },
+            {
+              "detail": "rootEmpty=false 8:empty=false,hit=none;16:empty=true,hit=7.367841720581055",
+              "name": "low overhang API",
+              "ok": true
+            },
+            {
+              "detail": "occupied=true expected=true",
+              "name": "initial part overlap",
+              "ok": true
+            },
+            {
+              "detail": "occupied=false expected=false",
+              "name": "noncollidable part ignored",
+              "ok": true
+            },
+            {
+              "detail": "occupied=false expected=false",
+              "name": "collision-group part exclusion",
+              "ok": true
+            },
+            {
+              "detail": "occupied=true expected=true",
+              "name": "collision-group part restored",
+              "ok": true
+            },
+            {
+              "detail": "occupied=false expected=false",
+              "name": "collision-group terrain exclusion",
+              "ok": true
+            },
+            {
+              "detail": "occupied=false expected=false",
+              "name": "near wall not initial overlap",
+              "ok": true
+            },
+            {
+              "detail": "occupied=true expected=true",
+              "name": "moving blocker now overlaps",
+              "ok": true
+            },
+            {
+              "detail": "",
+              "name": "100 spatial queries (not lease lifetimes)",
+              "ok": true
+            },
+            {
+              "detail": "",
+              "name": "terrain restored and verified",
+              "ok": true
+            },
+            {
+              "detail": "",
+              "name": "parts cleaned",
+              "ok": true
+            },
+            {
+              "detail": "",
+              "name": "collision group cleaned",
+              "ok": true
+            },
+            {
+              "detail": "",
+              "name": "collision group cleaned",
+              "ok": true
+            }
+          ],
+          "failed": 0,
+          "isRunning": false,
+          "isServer": true,
+          "kind": "WindStep spatial only",
+          "dynamicsAccepted": false,
+          "players": 0
+        }
+      ]
+    },
+    "enableBinaryOutput": false
+  },
+  "logs": {
+    "status": 200,
+    "result": {
+      "luauExecutionSessionTaskLogs": [
+        {
+          "path": "universes/10773761715/places/95587500384127/versions/30/luau-execution-sessions/d95b563a-0e64-4c7c-ad85-6061462564d0/tasks/d95b563a-0e64-4c7c-ad85-6061462564d0/logs/1",
+          "messages": []
+        }
+      ]
+    }
+  },
+  "spatial_passed": true
+}

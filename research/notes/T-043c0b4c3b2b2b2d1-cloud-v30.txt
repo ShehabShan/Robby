@@ -1,0 +1,10 @@
+task: 200 universes/10773761715/places/95587500384127/versions/30/luau-execution-sessions/8026b872-c377-47d9-870d-cb2bc028ab98/tasks/8026b872-c377-47d9-870d-cb2bc028ab98
+state: COMPLETE
+output: {
+ "results": [
+  true,
+  "specs 626/626 | PASS Signal, PASS Trove, PASS ProfileStore | PASS manual start of server modules  | PASS dummy exists  | PASS dummy humanoid  | PASS blink remotes (API; instances need a running server)  | PASS manual start of MistvaleTerrain  | PASS terrain ground at spawn 0 | PASS terrain ground at path 0 | PASS terrain ground at zone1 8 | PASS StreamingEnabled  | PASS damageFor(1) == 20 20 | PASS dummy HP -20 200 -> 180 | PASS mock profile v1 (ProfileStore) 1 | PASS loadout gates casts (starter ok, unequipped refused) true | PASS inventory care state + Dormant equip refused (T-039) true | PASS slot-selected Rimeshard Z/X/C cast; other slot refused true"
+ ]
+}
+logs: 200 {'luauExecutionSessionTaskLogs': [{'path': 'universes/10773761715/places/95587500384127/versions/30/luau-execution-sessions/8026b872-c377-47d9-870d-cb2bc028ab98/tasks/8026b872-c377-47d9-870d-cb2bc028ab98/logs/1', 'messages': ['SPECS: 626 passed, 0 failed (83 specs)', 'PACKAGES: PASS Signal, PASS Trove, PASS ProfileStore', 'server scripts auto-ran: false', '[Mistvale] terrain written in 0.21s', 'PASS manual start of server modules ', 'PASS dummy exists ', 'PASS dummy humanoid ', 'PASS blink remotes (API; instances need a running server) ', 'PASS manual start of MistvaleTerrain ', 'PASS terrain ground at spawn 0', 'PASS terrain ground at path 0', 'PASS terrain ground at zone1 8', 'PASS StreamingEnabled ', 'PASS damageFor(1) == 20 20', 'PASS dummy HP -20 200 -> 180', 'PASS mock profile v1 (ProfileStore) 1', 'PASS loadout gates casts (starter ok, unequipped refused) true', 'PASS inventory care state + Dormant equip refused (T-039) true', 'PASS slot-selected Rimeshard Z/X/C cast; other slot refused true', 'CLOUD: PASS', 'CLOUD ALL: PASS']}]}
+VERSION: 30
