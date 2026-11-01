@@ -153,6 +153,7 @@ test("candidate disabled and unconfigured; exact sources and manifest", function
 	for path, hash in manifest.sourceHashes do
 		assert(hash == serde.hash("sha256", fs.readFile(path)), path)
 	end
+	assert(place:GetService("StarterPlayer").StarterPlayerScripts:FindFirstChild("WindStepOwner"))
 	for _, item in place:GetDescendants() do
 		if item:IsA("LocalScript") then
 			assert(item.Name == "WindStepOwner" and item.Disabled)

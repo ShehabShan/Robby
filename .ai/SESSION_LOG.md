@@ -1,5 +1,12 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S94 — 2026-11-01
+- T-044b2b2b1/b2 done: actual generated cancellable worker, owner-only explicit Start/status/copyable full report UI; D-331–D-333.
+- CHECK PASS:642pure/85specs +5worker/5UI integrated groups,100 cancellation +100 UI lifetimes;18 temporary faults detected/restored.
+- Candidate disabled, no upload/publication or real physics/Sober/device acceptance; production Saved30/published27/game0.0.22 unchanged.
+- NEXT T-044b3 bounded published intake/release (size/split), then c separate test publish; no new owner action. Handoffs T-044b2b2b1-worker.md / T-044b2b2b2-owner-ui.md.
+- Close-out began37.2 OLU; saving/merge before45, hard50. Repo is continuation memory.
+
 ## S93 — 2026-11-01
 - T-044b2b1/b2b2a done: bounded explicit owner start/status/report policy, cooperative cancellation and private owner-only test transport; D-328–D-330.
 - CHECK PASS:635pure/84specs +6adapter/8transport groups,100 shutdown cycles each,1000-request saturation;14 temporary faults detected/restored.

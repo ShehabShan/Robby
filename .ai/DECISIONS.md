@@ -482,3 +482,6 @@ Split T-044b2b2b into worker lifecycle b1 and UI b2, each independently checkabl
 
 ### D-332 (S94) — cooperative worker cancellation and independent cleanup
 Published worker surrounds yields and active motion seams with controller/original-character checks; cancellation stops active motion synchronously with stop(true), never task.cancel. Replace unbounded alignment wait with bounded signal observation; acquire fixtures inside protected work, return reports after independent cleanup, and own script teardown. Full synthetic mock passes are orchestration tests, not Roblox physics evidence.
+
+### D-333 (S94) — bounded owner UI with full raw evidence retrieval
+Keep UI in the isolated disabled candidate only. Pure reader binds the original channel, sends1request/s, retries each report page at most3times and bounds lifetime/size. Assemble raw byte chunks before UTF-8/JSON checks, then display selectable6000-byte UTF-8-safe pages. Start is explicit and once; report completion/matrix pass never means dynamics acceptance. Retain completed text after channel shutdown; never rebind or expose partial evidence as a full report. Actual Sober/mobile copy/layout remains a live validation item.

@@ -45,6 +45,7 @@ local function setup(mode)
 	end
 	response.OnClientEvent = f.signal()
 	function request:FireServer(action, page)
+		f.requests = (f.requests or 0) + 1
 		if mode == "request-error" then
 			error("request fault")
 		end
@@ -168,7 +169,9 @@ test("partial acquisition unwinds and original channel replacement never rebinds
 	f.close()
 	f = setup()
 	f.folder.Parent = nil
+	local requests = f.requests or 0
 	f.step()
+	assert((f.requests or 0) == requests, "must not request after original channel loss")
 	assert(f.runs == 0)
 	f.item("TextButton", "Start test").Activated:Fire()
 	f.step()
@@ -181,6 +184,109 @@ test("100 UI lifetimes disconnect and destroy independently", function()
 		assert(f.viewOk)
 		f.step()
 		f.close()
+	end
+end)
+test("actual client launcher waits for replicated children and bounds teardown", function()
+	for _, mode in { "delayed", "missing", "replaced-gui", "acquire-error", "disabled" } do
+		local now, waits, starts, stops = 0, 0, 0, 0
+		local events = {}
+		local function signal()
+			local s = { callbacks = {} }
+			function s:Connect(fn)
+				local c = { Connected = true, callback = fn }
+				function c:Disconnect()
+					self.Connected = false
+				end
+				table.insert(self.callbacks, c)
+				return c
+			end
+			function s:Fire()
+				for _, c in self.callbacks do
+					if c.Connected then
+						c.callback()
+					end
+				end
+			end
+			table.insert(events, s)
+			return s
+		end
+		local channel = {
+			IsA = function()
+				return true
+			end,
+			FindFirstChild = function()
+				return if waits >= 2 then {} else nil
+			end,
+		}
+		local gui = {
+			FindFirstChild = function()
+				return if mode == "missing" then nil else channel
+			end,
+		}
+		local owner = {
+			FindFirstChildOfClass = function()
+				return if mode == "replaced-gui" and waits > 0 then {} else gui
+			end,
+		}
+		local script = { OwnerTestClient = "client", OwnerTestView = "view", Destroying = signal(), changed = signal() }
+		function script:GetPropertyChangedSignal()
+			return self.changed
+		end
+		luau.load(fs.readFile("tests/published/wind_step.client.luau"), {
+			environment = {
+				game = {
+					GetService = function()
+						return { LocalPlayer = owner }
+					end,
+				},
+				script = script,
+				os = {
+					clock = function()
+						return now
+					end,
+				},
+				task = {
+					wait = function()
+						waits += 1
+						now += 1
+					end,
+				},
+				warn = function() end,
+				require = function(name)
+					return if name == "client"
+						then Client
+						else {
+							start = function(_, actualOwner, actualChannel)
+								assert(actualOwner == owner and actualChannel == channel and waits >= 2)
+								starts += 1
+								if mode == "acquire-error" then
+									error("view failed")
+								end
+								return function()
+									stops += 1
+								end
+							end,
+						}
+				end,
+			},
+		})()
+		if mode == "missing" or mode == "replaced-gui" then
+			assert(starts == 0 and now <= 120)
+		else
+			assert(starts == 1)
+			if mode == "disabled" then
+				script.Disabled = true
+				script.changed:Fire()
+			end
+			script.Destroying:Fire()
+			script.Destroying:Fire()
+			assert(stops == (if mode == "acquire-error" then 0 else 1))
+		end
+		for _, e in events do
+			for _, c in e.callbacks do
+				assert(not c.Connected)
+			end
+		end
 	end
 end)
 print(string.format("PASS %d actual-source UI groups (mocked GUI, no device acceptance)", count))
