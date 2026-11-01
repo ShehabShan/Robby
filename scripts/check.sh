@@ -67,6 +67,7 @@ run wind-step-release-preflight python3 -B tests/wind_step_release_preflight.py
 run wind-step-publication-history python3 -B tests/wind_step_publication_history.py
 run wind-step-permission-review python3 -B tests/wind_step_permission_review.py
 run wind-step-intent-journal python3 -B tests/wind_step_intent_journal.py
+run wind-step-publication-transaction python3 -B tests/wind_step_publication_transaction.py
 run wind-step-published-build python3 -B scripts/build_wind_step_published.py
 run wind-step-published-generated-lint selene build/published-test/wind_step.server.luau
 run wind-step-published-generated-format stylua --check build/published-test/wind_step.server.luau
