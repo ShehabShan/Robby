@@ -1,3 +1,7 @@
+## S110 — 2026-11-01 — T-048a
+- Owner full version5 report saved verbatim (untruncated upload). Manual consistency vs remote journal/T-047b pins OK; 106/106, travel-auto 13.53/13.85 PASS, lag ~0.32 stud. D-362.
+- Full intake (T-048b) blocked: S108 evidence dir only on S108 bot VM. Mid-dash Y dip ~0.59 not in maxYError; rates/death open. ~26 OLU.
+
 ## S109 — 2026-11-01 — T-047b
 - S108 package published HISTORY_CONFIRMED version5 after owner-confirmed second attempt (first blocked pre-reservation, missing rokit PATH). Evidence robby_s108_release_evidence. D-361.
 - NEXT owner Start/report on version5 -> d2b2. ~37 OLU at close-out.

@@ -567,3 +567,6 @@ T-046a delivers existing S105 phase-observation repair as an independently pinne
 
 ### D-361 — S109: S108 package published to isolated test as version5 (2026-11-01)
 - First consent blocked pre-reservation (missing rokit PATH); owner explicitly confirmed a second attempt with a new consent record; same pinned bytes. Consent consumed; no retry. Not dynamics acceptance.
+
+### D-362 — S110: version5 report checked manually; full intake deferred (2026-11-01)
+- Report placeVersion/target/sourceRevision match remote journal (HISTORY_CONFIRMED v5) and T-047b pins. Not a full `ingest_wind_step_release.py` binding: retained S108 evidence is only on the S108 bot VM. No dynamics acceptance; no republish. Next: T-048b on the S108 bot, then d2b2 (Y dip metric, rates, death/replacement).
