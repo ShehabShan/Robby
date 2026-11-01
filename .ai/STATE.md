@@ -1,5 +1,13 @@
 # STATE
 
+## Now — after S106 (2026-11-01)
+- Phase3 building. T-046a corrected test-package preparation complete: existing S105 phase-observation repair, no runtime/tolerance/gate changes. Target-specific enabled rehearsal + exact binary reconstruction and full CHECK PASS; merged bcc6e19, D-358.
+- **NEXT T-046b BLOCKED on NEW exact-byte S106 approval:** final clean-main ZIP/card generated AFTER this LAST main save. Immutable version0 pointers in `research/notes/T-046a-corrected-package.md`; missing artifacts mean incomplete delivery. No new permission machinery or unchanged-version3 rerun.
+- Approval continuation: pinned-release exception; no claim/release/docs commits before dispatch. Require unchanged clean synced sourceRevision, no claims/session branches, authentic unexpired consent/review and all existing one-shot transaction gates. Changed main => restage/reapprove, never rewind/replay S104 consent.
+- Target GET-only private/owner/root verified2026-11-01T17:10:26Z (not Write/empty-content/current-serving proof). No upload/publication, real journal reservation or production activation; default candidate disabled. Both prior consumed journals untouched; S101 evidence recovery separate.
+- Raw version3 failure preserved;12.038stud still fails unchanged13stud minimum. Corrected sampling NOT physics repair. After authorized corrected release: fresh owner report, existing release intake, d2b2 travel/ownership/rates/death/replacement/device-feel validation.
+- Claims released; no free dependent build lane until dynamics gate. Close-out13.5, merge14.9 OLU including original setup; final saved/artifact-delivery measurement in card, below45. Older NEXT blocks historical.
+
 ## Now — after S105 (2026-11-01)
 - Phase3 building. Owner-priority T-046 done, merged d5a5325: deterministic driver-owned test phase observation; independent signal ordering defect reproduced offline. Raw owner version3 travel-auto failure retained verbatim; no PASS inferred.
 - **NEXT T-046a:** corrected final-main isolated package using existing tools, NEW exact-byte approval before any publication, then fresh owner report/existing release intake and d2b2 dynamics repair. Do not ask for a rerun of unchanged version3 or reuse consumed S104 consent.
