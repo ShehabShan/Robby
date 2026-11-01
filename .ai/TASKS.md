@@ -430,5 +430,7 @@ Pick one when the next real task won't fit before the 43 OLU wrap-up line. Log f
 
 - **R-010-3d-owner [done; S]** Record owner capability to make 3D models through multiple sites on request. AC: preserve exact owner message and make capability/detail-brief request discoverable in VISION and STATE; no asset work or change to release blocker.
 
-- **T-045 [doing S103; owner priority; S]** Diagnose single-block/no-controls isolated test reported2026-11-01; fix a bounded startup/packaging cause with regression coverage. AC: inspect actual generated bootstrap and owner UI, distinguish screenshot from verified cause, full CHECK PASS, retain handoff; no publication or replay of consumed consent. Original release-evidence recovery T-044c2b2 remains separate.
-- T-045 Resume from: inspect generated isolated-place startup and owner launcher; preserve disabled defaults and no-publication boundary.
+- **T-045 [done S103; owner priority; S]** Diagnose single-block/no-controls isolated test reported2026-11-01; fix a bounded startup/packaging cause with regression coverage. AC: inspect actual generated bootstrap and owner UI, distinguish screenshot from verified cause, full CHECK PASS, retain handoff; no publication or replay of consumed consent. Original release-evidence recovery T-044c2b2 remains separate.
+- T-045 complete: ordinary-Script version API + bounded original-owner PlayerGui startup repair; six worker/ten Studio groups, four restored faults and full CHECK PASS. Handoff `research/notes/T-045-startup.md`; no live verification/publication.
+
+- **T-045a [todo; S]** Prepare corrected isolated-test final-main pinned package with existing tooling and concise approval handoff. AC: new exact bytes verify locally; disabled defaults, prior consumed journal and production untouched; authentic named-package approval remains separate from staging. Resume `research/notes/T-045-startup.md`. No new permission scaffolding.

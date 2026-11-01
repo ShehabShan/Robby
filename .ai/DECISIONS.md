@@ -542,3 +542,9 @@ Actual test-place GET returns canonical decimal-string versions and a valid none
 
 ### D-353 — uncertain transaction remains immutable (S102, 2026-11-01)
 Independent later GET can confirm historical version2 without changing S101's consumed UNCERTAIN terminal. Preserve it and the no-retry rule. Original archive unavailable through this bot's scoped access; do not reconstruct bytes or manufacture receipt/history/consent. Existing release-intake refusal remains until original evidence recovery and a separately reviewed read-only reconciliation path. No new publication is authorized by generic continuation.
+
+### D-354 — ordinary-Script engine provenance (S103, 2026-11-01)
+Use public version() in isolated published/Studio bootstraps: GetRobloxVersion is RobloxScriptSecurity and errors before the owner channel. Ordinary-identity regression doubles must reject privileged calls, not grant them. Public API deprecated status documented; narrow lint allowance only, no authorization or evidence relaxation. Source-level failure reproduced; screenshot is not serving-byte/live-error proof.
+
+### D-355 — bounded original-owner GUI admission (S103, 2026-11-01)
+Published diagnostic startup waits for PlayerGui within the existing120s deadline, preserving original Player identity and continuously rechecking admission. Missing GUI times out; owner/membership/target/opt-in change stops immediately before transport/HasRun. Explicit owner Start remains required. Old consumed release never retried; corrected bytes require newly staged package and authentic approval. See T-045-startup.md.

@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S103 — 2026-11-01
+- T-045 done: fixed restricted version API blocking diagnostic startup and bounded original-owner PlayerGui race; D-354/D-355. Screenshot recorded; no asserted live-error/serving identity.
+- CHECK PASS: six generated-worker/ten Studio groups,106 synthetic cases,100 lifetimes; four temporary faults detected/restored. No real physics/Sober/UI acceptance.
+- No Roblox writes/publication or production changes; consumed UNCERTAIN journal untouched. T-044c2b2 original evidence still blocked separately.
+- NEXT T-045a corrected final-main package/approval handoff, existing gates only. Handoff research/notes/T-045-startup.md. Close-out29.3 OLU; save/merge before45.
+
 ## Owner 3D capability follow-up — 2026-11-01
 - Preserved exact owner offer in inbox and updated VISION: owner can make requested 3D models through multiple sites when given a detailed brief. No asset creation/publication or release-blocker changes.
 

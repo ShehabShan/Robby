@@ -341,6 +341,9 @@ test("PlayerGui startup delay acquires once; timeout and invalidation acquire no
 		local blocked = worker(mode)
 		assert(blocked.ok and not blocked.folder, mode)
 		assert(blocked.now <= 122 and blocked.waits <= 120, "unbounded GUI wait")
+		if mode ~= "gui-missing" then
+			assert(blocked.waits == 2, "admission change must stop the wait immediately: " .. mode)
+		end
 		assert(not blocked.attrs.HasRun and blocked.prepared == 0 and #blocked.jobs == 0, mode)
 		blocked.stop()
 		blocked.noLeaks()

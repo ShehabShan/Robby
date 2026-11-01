@@ -1,0 +1,18 @@
+[
+  {
+    "fault": "published-privileged-api",
+    "detected": true
+  },
+  {
+    "fault": "studio-privileged-api",
+    "detected": true
+  },
+  {
+    "fault": "skip-gui-wait",
+    "detected": true
+  },
+  {
+    "fault": "ignore-wait-admission",
+    "detected": true
+  }
+]
