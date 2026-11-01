@@ -147,13 +147,13 @@ class GitStore:
         self.git("push", "--porcelain", "--force-with-lease=" + ref + ":" + (expected or ""),
                  "origin", commit + ":" + ref)
 
-    def read(self, ref):
-        head = self.head(ref)
-        require(head is not None, "journal ref absent; absence is not permission to retry")
-        self.git("fetch", "--quiet", "--no-tags", "origin", ref)
-        fetched = self.git("rev-parse", "FETCH_HEAD").decode().strip()
-        require(fetched == head and self.head(ref) == head, "journal changed during read")
-        names = self.git("ls-tree", "--name-only", head).decode().splitlines()
+    def tree_records(self, head):
+        entries = self.git("ls-tree", head).decode().splitlines()
+        names = []
+        for entry in entries:
+            match = re.fullmatch(r"100644 blob [a-f0-9]{40}\t(intent|outcome)\.json", entry)
+            require(match is not None, "unexpected journal tree entry")
+            names.append(match[1] + ".json")
         require(names in (["intent.json"], ["intent.json", "outcome.json"]), "unexpected journal tree")
         records = {}
         for name in names:
@@ -166,6 +166,31 @@ class GitStore:
         validate_intent(records["intent.json"])
         if "outcome.json" in records:
             validate_outcome(records["outcome.json"], records["intent.json"])
+        return records
+
+    def parents(self, head):
+        raw = self.git("rev-list", "--parents", "-n", "1", head).decode().split()
+        require(raw and raw[0] == head and len(raw) <= 2, "unexpected journal ancestry")
+        return raw[1:]
+
+    def read(self, ref):
+        require(re.fullmatch(r"refs/heads/publication-intent/[a-f0-9]{64}", ref), "invalid journal ref")
+        self.validate_remote()
+        head = self.head(ref)
+        require(head is not None, "journal ref absent; absence is not permission to retry")
+        self.git("fetch", "--quiet", "--no-tags", "origin", ref)
+        fetched = self.git("rev-parse", "FETCH_HEAD").decode().strip()
+        require(fetched == head and self.head(ref) == head, "journal changed during read")
+        records = self.tree_records(head)
+        require(intent_ref(records["intent.json"]["consentSha256"]) == ref, "journal ref/consent mismatch")
+        parents = self.parents(head)
+        if "outcome.json" in records:
+            require(len(parents) == 1 and not self.parents(parents[0]), "outcome must be one child of root")
+            original = self.tree_records(parents[0])
+            require(original == {"intent.json": records["intent.json"]}, "original intent changed")
+        else:
+            require(not parents, "intent must be a root commit")
+        require(self.head(ref) == head, "journal changed during verification")
         return head, records
 
 

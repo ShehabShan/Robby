@@ -298,6 +298,110 @@ class JournalTests(unittest.TestCase):
         self.assertLess(events.index("intent.json"), events.index("push"))
         self.assertLess(events.index("push"), events.index("reservation.json"))
 
+    def test_real_process_death_after_remote_push_blocks_other_vm(self):
+        child = """
+import os, runpy, sys
+m = runpy.run_path(sys.argv[1])
+j = m['journal']
+store = m['LocalStore'](sys.argv[2])
+real = store.push
+def die(*args):
+    real(*args)
+    os._exit(71)
+store.push = die
+j.reserve(m['intent'](), store, sys.argv[3])
+"""
+        r = subprocess.run([sys.executable, "-B", "-c", child, __file__, str(self.stores[0].repo),
+                            str(self.spools[0])], capture_output=True, timeout=30)
+        self.assertEqual(r.returncode, 71, r.stderr.decode())
+        self.assert_consumed()
+        with self.assertRaises(ValueError):
+            self.reserve(1)
+        self.assertFalse((self.spools[0] / self.record["consentSha256"] / "reservation.json").exists())
+
+    def test_real_process_death_after_intent_fsync_blocks_local_replay(self):
+        child = """
+import os, runpy, sys
+m = runpy.run_path(sys.argv[1])
+j = m['journal']
+real = j.write_once
+def die(path, raw):
+    real(path, raw)
+    if path.name == 'intent.json': os._exit(72)
+j.write_once = die
+j.reserve(m['intent'](), m['LocalStore'](sys.argv[2]), sys.argv[3])
+"""
+        r = subprocess.run([sys.executable, "-B", "-c", child, __file__, str(self.stores[0].repo),
+                            str(self.spools[0])], capture_output=True, timeout=30)
+        self.assertEqual(r.returncode, 72, r.stderr.decode())
+        self.assertTrue((self.spools[0] / self.record["consentSha256"] / "intent.json").is_file())
+        with self.assertRaises(FileExistsError):
+            self.reserve()
+        self.assertIsNone(self.stores[0].head(self.ref))  # no remote write ever began
+
+    def test_rewritten_or_multi_generation_terminal_history_refused(self):
+        ticket = self.reserve()
+        first = journal.finish(ticket, outcome(ticket), self.stores[0])
+        # Even valid JSON cannot change/extend a terminal outcome chain.
+        other = self.stores[0].commit(ticket.intent_raw, journal.encode(outcome(ticket)), parent=first)
+        self.stores[0].push(ticket.ref, other, first)
+        with self.assertRaises(ValueError):
+            self.assert_consumed()
+
+    def test_terminal_cannot_rewrite_original_intent(self):
+        ticket = self.reserve()
+        changed = json.loads(ticket.intent_raw)
+        changed["placeSha256"] = "f" * 64
+        terminal = outcome(ticket)
+        terminal["intentSha256"] = journal.sha(journal.encode(changed))
+        other = self.stores[0].commit(journal.encode(changed), journal.encode(terminal), parent=ticket.head)
+        self.stores[0].push(ticket.ref, other, ticket.head)
+        with self.assertRaises(ValueError):
+            self.assert_consumed()
+
+    def test_terminal_without_prior_intent_root_refused(self):
+        ticket = self.reserve()
+        other = self.stores[0].commit(ticket.intent_raw, journal.encode(outcome(ticket)))
+        self.stores[0].push(ticket.ref, other, ticket.head)
+        with self.assertRaises(ValueError):
+            self.assert_consumed()
+
+    def test_ref_cannot_claim_other_consent(self):
+        raw = journal.validate_intent(dict(self.record, attemptNonce="b" * 64))
+        wrong_ref = journal.intent_ref("f" * 64)
+        head = self.stores[0].commit(raw)
+        self.stores[0].push(wrong_ref, head, None)
+        with self.assertRaises(ValueError):
+            journal.inspect("f" * 64, self.stores[1])
+
+    def test_terminal_compare_and_swap_closes_check_to_push_race(self):
+        ticket = self.reserve()
+        real = self.stores[0].push
+        def concurrent(ref, head, expected):
+            # Another durable terminal appears after finish has read its parent.
+            rival = self.stores[0].commit(ticket.intent_raw, journal.encode(outcome(ticket, "REJECTED")),
+                                          parent=ticket.head)
+            real(ref, rival, ticket.head)
+            real(ref, head, expected)
+        with patch.object(self.stores[0], "push", side_effect=concurrent), self.assertRaises(ValueError):
+            journal.finish(ticket, outcome(ticket), self.stores[0])
+        self.assertEqual(self.assert_consumed()["records"]["outcome.json"]["status"], "REJECTED")
+
+    def test_remote_unavailable_after_accepted_outcome_is_not_retryable(self):
+        ticket = self.reserve()
+        real = self.stores[0].read
+        count = [0]
+        def failed(ref):
+            count[0] += 1
+            if count[0] == 2:
+                raise ValueError("readback unavailable")
+            return real(ref)
+        with patch.object(self.stores[0], "read", side_effect=failed), self.assertRaises(ValueError):
+            journal.finish(ticket, outcome(ticket), self.stores[0])
+        self.assertIn("outcome.json", self.assert_consumed()["records"])
+        with self.assertRaises(FileExistsError):
+            journal.finish(ticket, outcome(ticket), self.stores[0])
+
 
 if __name__ == "__main__":
     unittest.main()
