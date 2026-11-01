@@ -76,6 +76,15 @@ def review(report, manifest, place):
     require(len(json.dumps(report, allow_nan=False).encode()) <= MAX_REPORT, "report exceeds byte limit")
     require(len(json.dumps(manifest, allow_nan=False).encode()) <= MAX_MANIFEST, "manifest exceeds byte limit")
     target = validate_manifest(manifest, place)
+    result = review_report(report, manifest, target)
+    return dict(result, status="OFFLINE_CANDIDATE_REVIEW", releaseEvidenceAccepted=False,
+                warning="Disabled candidate only; not a delivered release. Hash consistency is not signed attestation. "
+                        "No proof of Roblox execution, release version, physics acceptance or permission to activate.")
+
+
+def review_report(report, manifest, target):
+    """Shared bounded report/policy checks; callers must validate their artifact route."""
+    require(len(json.dumps(report, allow_nan=False).encode()) <= MAX_REPORT, "report exceeds byte limit")
     require(type(report) is dict and report.get("kind") == "WindStep isolated published dynamics", "bad report kind")
     missing = common.validate_common_report(report, manifest)
     require(type(report.get("target")) is dict and set(report["target"]) == set(target), "bad report target")
