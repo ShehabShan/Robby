@@ -1,0 +1,71 @@
+[
+  {
+    "fault": "local-source-check",
+    "test": "test_all_source_hashes_and_generated_source_are_bound",
+    "detected": true,
+    "improved_fixture": true
+  },
+  {
+    "fault": "generated-source-check",
+    "test": "test_all_source_hashes_and_generated_source_are_bound",
+    "detected": true
+  },
+  {
+    "fault": "place-bytes-check",
+    "test": "test_exact_place_bytes_required",
+    "detected": true
+  },
+  {
+    "fault": "target-check",
+    "test": "test_target_and_live_identity_binding",
+    "detected": true,
+    "improved_fixture": true
+  },
+  {
+    "fault": "environment-target-check",
+    "test": "test_target_and_live_identity_binding",
+    "detected": true,
+    "improved_fixture": true
+  },
+  {
+    "fault": "report-generated-hash",
+    "test": "test_report_provenance_is_exact",
+    "detected": true
+  },
+  {
+    "fault": "claimed-counters",
+    "test": "test_counters_gates_and_sample_consistency",
+    "detected": true
+  },
+  {
+    "fault": "claimed-matrix",
+    "test": "test_counters_gates_and_sample_consistency",
+    "detected": true
+  },
+  {
+    "fault": "remaining-gates",
+    "test": "test_counters_gates_and_sample_consistency",
+    "detected": true
+  },
+  {
+    "fault": "pinned-manifest",
+    "test": "test_cli_pinned_manifest_explicit_scope_and_readonly",
+    "detected": true
+  },
+  {
+    "fault": "explicit-offline-mode",
+    "test": "test_cli_pinned_manifest_explicit_scope_and_readonly",
+    "detected": true
+  },
+  {
+    "fault": "byte-limit",
+    "test": "test_strict_loading",
+    "detected": true,
+    "improved_fixture": true
+  },
+  {
+    "fault": "false-release-acceptance",
+    "test": "test_offline_pass_is_never_release_evidence",
+    "detected": true
+  }
+]

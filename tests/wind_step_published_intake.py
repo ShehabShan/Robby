@@ -101,6 +101,7 @@ class PublishedIntakeTests(unittest.TestCase):
             for key in fields:
                 for value in (True, "123", 1, None):
                     report = copy.deepcopy(self.good); report[section][key] = value
+                    summarize(report)  # A truthful failing policy still cannot hide a different target.
                     self.invalid(report=report)
         for key, value in (("placeVersion", 0), ("placeVersion", True), ("placeVersion", 2**54),
                            ("jobId", ""), ("jobId", "é" * 65), ("jobId", 12)):
@@ -122,7 +123,9 @@ class PublishedIntakeTests(unittest.TestCase):
     def test_all_source_hashes_and_generated_source_are_bound(self):
         for path in intake.builder.FILES:
             manifest = copy.deepcopy(self.manifest); manifest["sourceHashes"][path] = "0" * 64
-            self.invalid(manifest=manifest)
+            report = copy.deepcopy(self.good)
+            report["environment"]["sourceHashes"] = json.dumps(manifest["sourceHashes"])
+            self.invalid(report=report, manifest=manifest)
         for action in ("missing", "extra"):
             manifest = copy.deepcopy(self.manifest)
             if action == "missing": manifest["sourceHashes"].pop(intake.builder.FILES[0])
@@ -163,7 +166,7 @@ class PublishedIntakeTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "input.json"
             for raw in (b'{"a":1,"a":2}', b'{"a":NaN}', b'{"a":Infinity}', b'\xff',
-                        b'"' + b'x' * intake.MAX_REPORT + b'"'):
+                        b'"' + b'x' * (intake.MAX_REPORT - 1) + b'"'):
                 path.write_bytes(raw)
                 with self.assertRaises((ValueError, UnicodeError)):
                     intake.load(path, intake.MAX_REPORT)
