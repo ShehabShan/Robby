@@ -165,7 +165,7 @@ class IntakeTests(unittest.TestCase):
                 intake.strict_json(text)
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "huge.json"
-            path.write_bytes(b" " * intake.MAX_BYTES + b"{}")
+            path.write_bytes(b"{}" + b" " * (intake.MAX_BYTES - 1))
             with self.assertRaises(ValueError):
                 intake.load(path)
 
