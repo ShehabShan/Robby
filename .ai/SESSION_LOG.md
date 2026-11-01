@@ -4,7 +4,7 @@
 - d2b1 done: bounded strict JSON/provenance review reuses canonical Luau policy; disabled zip with manifest and owner instructions. No production runtime changes.
 - CHECK PASS:626pure/83specs +28driver +7Python runner +9Studio offline groups;12 new intake/bundle groups,9 behavioral faults detected/restored. No Roblox physics execution/acceptance.
 - d2b2 blocked on owner Studio JSON, then death/replacement and supported-rate/final-partial gates. No activation, upload or publication.
-- D-322–D-324; handoff: research/notes/T-043c0b4c3b2b2b2d2b1-intake.md. Close-out at24 OLU approx; exact final meter in STATE after merge.
+- D-322–D-324; handoff: research/notes/T-043c0b4c3b2b2b2d2b1-intake.md. Close-out24.4 OLU; delivered artifact25.5; final repo saving below45. Source/digest retained in handoff and manifest.
 
 ## S90 — 2026-11-01 — running-server gate preparation
 - d2a done: separate disabled Studio Wind Step place,106-case real-scheduler harness; exact production source/hash packaging. No game startup/saves/remotes, no production changes.

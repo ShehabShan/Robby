@@ -21,3 +21,8 @@
 - Tests cover synthetic complete/partial/failed reports, wrong scope/cleanup/completion, counters/gate tampering, hashes/revisions, malformed/nonfinite/duplicate/oversized input, sample contradictions, exact bundle members and CLI exit codes/input preservation.
 - Nine temporary behavioral faults detected and restored: revision comparison, source hashes, matrix flag, premature dynamics acceptance, outstanding gates, sample aggregates, duplicate keys, size limit, run completion. The first size-limit mutation survived because invalid JSON also refused; corrected fixture to oversized syntactically valid JSON, then the mutant failed. Final full CHECK PASS after restoration.
 - Useful implementation commits: c7e4b2f and0d5c416. No open PRs or stale claims at boot. Next: owner report → d2b2. All dependent lanes remain blocked; no speculative movement/presentation cutover.
+
+## Delivered S91 bundle
+- Source revision: `31c870498d5b6aa1203be32096ea77044c100650`. Manifest: `T-043c0b4c3b2b2b2d2b1-S91-manifest.json`.
+- ZIP SHA256: `a526e5840e123d8dd362e09a834fc89f69847679c526dd61213b800f3342d80b`. Bundle artifact: `artifact://thread/bff66ec1-7dec-4859-8f6c-49800c528ded/wind-step-studio-bundle`.
+- Full check rerun on merged main before artifact creation. This is a test input bundle, not an engine result.

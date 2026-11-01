@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "kind": "WindStep disabled Studio bundle",
+  "sourceRevision": "31c870498d5b6aa1203be32096ea77044c100650",
+  "sourceHashes": {
+    "src/server/WindStepClearance.luau": "94291652de78200e2681f945b5db42e29e2f72cb432bd54e1c27f030cb7a2847",
+    "src/server/WindStepDriver.luau": "b3f0065ada3e3de27e5363cab9ac865dea8af7322b2604fd9a6a84be4fa5a719",
+    "src/shared/WindStep.luau": "6cd8339877a9f75a46b88d70946214a2d5f466e212579a09aa085350d998730f",
+    "tests/studio/WindStepEvidence.luau": "fef0bab3256ea44054f794818b615bfaae0e3a216df9b8cc2bca72787b093925",
+    "tests/studio/wind_step.server.luau": "527bb4fa7d4e1ddec57d6143a1633e3ff168b452dc1606560832b1ea3cb1511e"
+  },
+  "placeSha256": "06fbc442b167c30753b40065576675526d7d70dd4bfc068c7c5e025255072aae"
+}
