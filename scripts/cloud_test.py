@@ -51,4 +51,5 @@ def main():
     print("logs:", st, str(logs)[:1500])
     print("VERSION:", v)
 
-main()
+if __name__ == "__main__":
+    main()

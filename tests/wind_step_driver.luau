@@ -3,6 +3,7 @@ local fs, luau, rb = require("@lune/fs"), require("@lune/luau"), require("@lune/
 local Motion = require("../src/shared/WindStep")
 local V, V2, CF = rb.Vector3, rb.Vector2, rb.CFrame
 local source = fs.readFile("src/server/WindStepDriver.luau")
+local clearanceSource = fs.readFile("src/server/WindStepClearance.luau")
 local function near(a, b)
 	assert(math.abs(a - b) < 0.0001, `{a} != {b}`)
 end
@@ -183,48 +184,51 @@ local function fixture()
 		end
 		return obj
 	end
-	local driver = luau.load(source, {
-		injectGlobals = true,
-		environment = {
-			game = {
-				GetService = function(_, name)
-					return assert(services[name])
-				end,
-			},
-			workspace = world,
-			require = function(name)
-				assert(name == "motion")
-				return Motion
+	local environment = {
+		game = {
+			GetService = function(_, name)
+				return assert(services[name])
 			end,
-			Instance = { new = instance },
-			Enum = enum,
-			Vector3 = V,
-			Vector2 = V2,
-			OverlapParams = {
-				new = function()
-					return {}
-				end,
-			},
-			RaycastParams = {
-				new = function()
-					return {}
-				end,
-			},
-			Region3 = {
-				new = function(lo, hi)
-					return {
-						lo = lo,
-						hi = hi,
-						ExpandToGrid = function(self, n)
-							assert(n == 4)
-							self.expanded = true
-							return self
-						end,
-					}
-				end,
-			},
 		},
-	})()
+		workspace = world,
+		script = { Parent = { WindStepClearance = "clearance" } },
+		Instance = { new = instance },
+		Enum = enum,
+		Vector3 = V,
+		Vector2 = V2,
+		OverlapParams = {
+			new = function()
+				return {}
+			end,
+		},
+		RaycastParams = {
+			new = function()
+				return {}
+			end,
+		},
+		Region3 = {
+			new = function(lo, hi)
+				return {
+					lo = lo,
+					hi = hi,
+					ExpandToGrid = function(self, n)
+						assert(n == 4)
+						self.expanded = true
+						return self
+					end,
+				}
+			end,
+		},
+	}
+	local clearance = luau.load(clearanceSource, { injectGlobals = true, environment = environment })()
+	environment.require = function(name)
+		if name == "clearance" then
+			return clearance
+		end
+		assert(name == "motion")
+		return Motion
+	end
+	local driver = luau.load(source, { injectGlobals = true, environment = environment })()
 	f.player, f.root, f.humanoid, f.character, f.run, f.driver = player, root, humanoid, character, run, driver
 	function f:prepare()
 		return self.driver.prepare(player, Motion.PROPOSED, V.xAxis)
