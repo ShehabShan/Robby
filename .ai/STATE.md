@@ -1,5 +1,12 @@
 # STATE
 
+## Now — after S104 (2026-11-01)
+- Phase3 building. T-045a corrected isolated-test package prepared using existing staging; target-specific enabled binary reconstruction and full CHECK PASS. S103 startup fixes retained; no new runtime/permission code. Owner-directed takeover; D-356.
+- **NEXT T-044c2b:** authentic approval of the NEW S104 exact package, then existing one-shot test-only transaction on unchanged clean synced main. No screenshot/key/new framework. Generic continuation and consumed S101 consent do not authorize new bytes.
+- Final package/card generated AFTER this last main save; immutable version0 links and follow-up instructions: `research/notes/T-045a-corrected-package.md`. Missing artifacts mean incomplete delivery; sourceRevision/pins/round-trip verification recorded in card. Do not change main before approved dispatch; changes require restage/reapproval.
+- GET-only target private/owner/root verified; production/default-disabled candidate/prior consumed journal unchanged. No upload/publication or real UI/Sober/physics acceptance. Original-evidence recovery T-044c2b2 remains separately blocked.
+- Claims released; merged45b943c;22.2 OLU before final STATE save and offline artifact delivery (original setup included). No free parallel build lane until existing dynamics/activation gates pass. Older Now blocks are historical.
+
 ## Now — after S103 (2026-11-01)
 - Phase3 building. Owner-priority **T-045 done**: fixed ordinary-Script startup crash (`GetRobloxVersion` is restricted; use public `version()`) and delayed PlayerGui race in the isolated test. Screenshot consistent with absent diagnostic UI; not a verified serving-version/live-log observation. Main merge15a711c.
 - **NEXT T-045a:** prepare corrected clean-main exact-byte test package + concise approval handoff using existing tooling. No new permission framework/screenshots/keys. NEW code requires NEW pinned package/approval; prior consumed consent cannot be replayed. No publication was requested/performed this session.
@@ -249,17 +256,17 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-043 overhaul: c0b4 presentation (delivery Fx/metadata/receipt dispatcher/original-character owner done → truthful Burst → atomic cutover), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-044c2b — owner approval of S101 exact package, then unchanged-main one-shot test transaction. Screenshot waived; schema2 declaration supported. See T-044c2a-owner-attestation.md and immutable final-main artifacts. No more scaffolding; actual d2b2 dynamics and dependent activation remain gated.
+- **NEXT:** T-044c2b — owner approval of NEW S104 exact package, then unchanged-main one-shot test transaction. Existing schema2 declaration supported; screenshot waived. See T-045a-corrected-package.md and immutable artifacts; actual d2b2 dynamics/activation remain gated.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-044c2b authorized isolated test publication · owner approval of S101 exact package; no screenshot. Release-only follow-up on unchanged clean synced main; otherwise restage/reapprove.
+  - T-044c2b authorized isolated test publication · owner approval of NEW S104 exact package; no screenshot. Release-only follow-up on unchanged clean synced main; otherwise restage/reapprove.
   - T-043c0b4c3b2b2b2d2b2 actual dynamics/repair · valid Studio or future validated published report; no dependent activation yet
   - T-043c0b4c3b2c atomic keyed startup/legacy cutover · b2b (pending)
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
   - T-043h1 truthful Chill state · T-043b + T-043c1 (done) + T-043c0b (coordinate remotes)
   - Unrelated beast/movement/onboarding lanes deferred while owner-priority Rimeshard overhaul is active.
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
-- **Blockers:** final S101 package-specific approval pending. Owner declaration/waiver supplied, schema2 implemented; <=24h age and all other release gates remain. Existing broad overwrite authority is not fabricated into consent for newly staged bytes. Sober/device/dynamics unverified; production publication NOT authorized.
+- **Blockers:** NEW S104 package-specific approval pending; S101 consent consumed and never replayable. Owner declaration/waiver supplied, schema2 implemented; <=24h age and all other release gates remain. Existing broad overwrite authority is not fabricated into consent for newly staged bytes. Sober/device/dynamics unverified; production publication NOT authorized.
 - **Last cloud test:** Saved30 (2026-11-01,S89): spatial44/44 report rows twice,32 admission/refusal assertions; CLOUD ALL:PASS626/626 + packages/smoke. IsRunning=false/Players0, NOT motion/ownership/feel acceptance. Published remains27/game0.0.22.
-- **Last check.sh:** CHECK:PASS (2026-11-01,S101 merge): prior full suite including642pure/85specs plus22 permission/43 transaction/26 release-intake groups;7 restored faults and target-specific stage/reconstruction PASS. No gameplay changes or publication.
+- **Last check.sh:** CHECK:PASS (2026-11-01,S104 merge, including S103 startup regressions): prior full suite including642pure/85specs plus22 permission/43 transaction/26 release-intake groups;7 restored faults and target-specific stage/reconstruction PASS. No gameplay changes or publication.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
