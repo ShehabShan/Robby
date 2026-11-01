@@ -1,9 +1,11 @@
 # STATE
 
-## S100 owner follow-up — supersedes screenshot blockers below
-- NEXT T-044c2: owner explicitly waived screenshot and authorized test overwrite; see research/inbox/2026-11-01-owner-permission-waiver.md. No further screenshot request. Permissions are owner-declared, not independently verified.
-- Resume: truthful owner-attestation schema support + focused tests, then final-main restage and existing one-shot test transaction. Preserve unrelated safety gates; old S100 revision is stale after this save.
-- No publication/reservation attempted. Stopped for original OLU budget; no new owner permission evidence needed. Main game unchanged. Last full CHECK PASS at01d6747; this follow-up changes documentation only.
+## Now — after S101 (2026-11-01)
+- Phase3 building. **NEXT T-044c2b:** approve S101 final-main exact-byte package, then existing one-shot isolated test publication. Owner screenshot requirement is waived; NO new screenshot request or permission scaffolding. Broad test overwrite authority retained.
+- T-044c2a mergedcb2a17e: strict owner-declaration/schema2, unchanged scope/owner/target/time/pin gates, legacy dashboard compatibility. D-350/D-351. Handoff and immutable final package/card pointers: research/notes/T-044c2a-owner-attestation.md. Stage AFTER this last main save; missing version1 artifacts mean incomplete preparation.
+- Full CHECK PASS:22 permission/43 transaction/26 release-intake groups and prior suite;7 temporary faults detected/restored, actual-target stage/reconstruction PASS. Read-only target GET private/owner/root observed; no live Write/empty-content/current-serving/physics proof.
+- On explicit exact-package approval: clean synced unchanged main/sourceRevision, no claims/session branches, original consent/declaration sources and independent pins, fresh private-owner/root, <=24h validity, existing one-shot journal. No claim/release/docs commits before dispatch. Changed main => restage/reapprove; no synthesized future-byte approval or timestamp refresh. Schema2 declaration replaces screenshot, NOT the other gates.
+- No upload/publication/real journal reservation; test remains unmodified by S101, main Saved30/published27/game0.0.22 unchanged. Claims released; close-out23.1 OLU at merge; final stage/pins/OLU in version1 card. Older Now blocks below are historical.
 
 ## Now — after S100 (2026-11-01)
 - Phase3 building, approved. **NEXT T-044c2 BLOCKED** on authentic exact-byte test-place overwrite/publication consent and fresh redacted scoped credential review. T-044c1 preparation complete; no more generic scaffolding.
@@ -228,17 +230,17 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-043 overhaul: c0b4 presentation (delivery Fx/metadata/receipt dispatcher/original-character owner done → truthful Burst → atomic cutover), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-044c2 BLOCKED — inspect genuine approval for S100 package and fresh redacted scoped credential grant. See T-044c1-owner-approval.md and its immutable artifacts. No more generic tooling; actual d2b2 dynamics and dependent activation remain gated.
+- **NEXT:** T-044c2b — owner approval of S101 exact package, then unchanged-main one-shot test transaction. Screenshot waived; schema2 declaration supported. See T-044c2a-owner-attestation.md and immutable final-main artifacts. No more scaffolding; actual d2b2 dynamics and dependent activation remain gated.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-044c2 authorized isolated test publication · BLOCKED pending genuine exact-byte consent/scoped review; c1 package prepared S100. Release-only follow-up, unchanged main; otherwise restage/reapprove.
+  - T-044c2b authorized isolated test publication · owner approval of S101 exact package; no screenshot. Release-only follow-up on unchanged clean synced main; otherwise restage/reapprove.
   - T-043c0b4c3b2b2b2d2b2 actual dynamics/repair · valid Studio or future validated published report; no dependent activation yet
   - T-043c0b4c3b2c atomic keyed startup/legacy cutover · b2b (pending)
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
   - T-043h1 truthful Chill state · T-043b + T-043c1 (done) + T-043c0b (coordinate remotes)
   - Unrelated beast/movement/onboarding lanes deferred while owner-priority Rimeshard overhaul is active.
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
-- **Blockers:** final enabled staged-byte consent and authentic scoped credential review absent; old private read is not fresh authority. Release/intake complete offline S99; Sober/device/dynamics unverified. Prior test publication authorization is not exact-byte overwrite consent. Production publication NOT authorized.
+- **Blockers:** final S101 package-specific approval pending. Owner declaration/waiver supplied, schema2 implemented; <=24h age and all other release gates remain. Existing broad overwrite authority is not fabricated into consent for newly staged bytes. Sober/device/dynamics unverified; production publication NOT authorized.
 - **Last cloud test:** Saved30 (2026-11-01,S89): spatial44/44 report rows twice,32 admission/refusal assertions; CLOUD ALL:PASS626/626 + packages/smoke. IsRunning=false/Players0, NOT motion/ownership/feel acceptance. Published remains27/game0.0.22.
-- **Last check.sh:** CHECK:PASS (2026-11-01,S100 merge): existing full suite including642pure/85specs and41 transaction/13 release-intake groups; target-specific stage/reconstruction/refusals PASS. No runtime changes or publication; authentic consent/review gates remain open.
+- **Last check.sh:** CHECK:PASS (2026-11-01,S101 merge): prior full suite including642pure/85specs plus22 permission/43 transaction/26 release-intake groups;7 restored faults and target-specific stage/reconstruction PASS. No gameplay changes or publication.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
