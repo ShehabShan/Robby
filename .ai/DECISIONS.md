@@ -447,3 +447,7 @@ Replace D-313's blanket occupied-cell refusal: exact root OBB AABB empty voxels 
 
 ### D-317 — S89: collision mesh is not the voxel occupancy boundary (2026-11-01)
 - Saved29: body-only voxel emptiness admitted0.2stud terrain penetration while both certified downward Blockcasts hit. Empty voxel cell is not sufficient collision-space clearance. Expand the OBB enclosing AABB by one4stud voxel on every side for both target and seed certificates; retain full-volume descent. Add shallow penetration cases across4 grid offsets and a padding regression. This is bounded conservative geometry validation, not universal solver/feel proof. Terrain fixture edits wait for meshing before assertions (immediate queries on Saved29 saw no surface).
+
+### D-318 — S89: spatial PASS is not running-server acceptance (2026-11-01)
+- Saved30:32 admission/refusal assertions,44 total passing report rows including diagnostics/cleanup; CLOUD ALL626/626. Save exact version/build/probe/task evidence. The runner requires every named assertion and both collision-group cleanups; partial/error/forged-count reports refuse.
+- Actual engine reports IsRunning=false, IsServer=true, zero players. Keep d2 running-server physics/real-player ownership validation as a hard prerequisite for b2c; geometry, mocked players, and100 repeated queries never certify solver behavior. No publication or live movement/visual cutover.
