@@ -1,5 +1,13 @@
 # STATE
 
+## Now — after S93 (2026-11-01)
+- Phase3 building, approved. **NEXT T-044b2b2b**: wire exact generated worker to tested owner-session transport, cancellation at all yield/active-motion seams and independent cleanup, then owner start/status/full-report UI; size/split before work. Then b3 bounded published intake/release, c separate test publication. Handoff: research/notes/T-044b2b1-owner-session.md.
+- S93 merged d7993da: b2b1 pure bounded owner controller + b2b2a test-only engine transport complete. One explicit run per original Player/server, rate/deadline/report bounds, owner-private channel, leave/extra-join cancellation and shutdown. Generated candidate remains unchanged, disabled and NOT playable/release-ready.
+- CHECK PASS:635pure/84specs +6adapter/8transport groups,100 shutdown cycles each,1000-request saturation;14 temporary faults detected/restored. All offline/mock evidence; actual physics/ownership/rate/feel gate still open. No production runtime change or upload/publication.
+- Separate test destination supplied: universe6958375460/root121111456135560, owner7738981129; S92 GET preflight confirmed PRIVATE/exact root, not production. Empty-content status and write grant unverified. No new owner action until worker/UI/intake tooling is ready.
+- Claims released; close-out38.8, merge39.6 OLU, final saving before45. Saved30/published27/game0.0.22 unchanged. Older Now blocks are historical.
+
+
 - **S92 owner destination follow-up:** supplied universe6958375460/root place121111456135560. GET-only preflight VERIFIED PRIVATE, owner7738981129, exact root, displayName="thefool700799's Place"; separate from production. Read access confirmed, publish-write permission and empty-content status not verified. Owner authorizes this test destination. No upload; finish T-044b2b/b3 before c. Meter unexpectedly already47.4 OLU on follow-up; emergency save only, no budget reset.
 
 ## Now — after S92 (2026-11-01)
@@ -160,17 +168,17 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-043 overhaul: c0b4 presentation (delivery Fx/metadata/receipt dispatcher/original-character owner done → truthful Burst → atomic cutover), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-044b2b — owner-only start/status/report UI and lifecycle for separate published test; then b3 live evidence intake/release and c publish. Handoff: research/notes/T-044b2a-published-candidate.md. Actual d2b2 physics and dependent activation remain gated.
+- **NEXT:** T-044b2b2b — actual generated worker + owner UI integration using S93 bounded controller/transport; then b3 intake/release and c test publication. Handoff: research/notes/T-044b2b1-owner-session.md. Actual d2b2 physics and dependent activation remain gated.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-044b2b published test UI/lifecycle → b3 intake/release → c publish (c blocked on empty separate universe/permissions) · a/b1/b2a done
+  - T-044b2b2b generated worker/UI → b3 intake/release → c publish (c gated on verified empty destination/write permissions) · a/b1/b2a/b2b1/b2b2a done
   - T-043c0b4c3b2b2b2d2b2 actual dynamics/repair · valid Studio or future validated published report; no dependent activation yet
   - T-043c0b4c3b2c atomic keyed startup/legacy cutover · b2b (pending)
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
   - T-043h1 truthful Chill state · T-043b + T-043c1 (done) + T-043c0b (coordinate remotes)
   - Unrelated beast/movement/onboarding lanes deferred while owner-priority Rimeshard overhaul is active.
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
-- **Blockers:** no separate test universe/root IDs or resource grants supplied; API-key universe creation not documented. Live start/report adapter and intake/release still incomplete. Actual running-player dynamics remain unexecuted; Saved spatial tests are not dynamics. Test publication authorized, production publication NOT authorized.
+- **Blockers:** destination IDs supplied/private read verified; empty-content and write grant unverified. Actual generated-worker/owner-UI integration and intake/release incomplete. Running-player dynamics unexecuted; offline adapter tests and Saved spatial tests are not dynamics. Test publication authorized, production publication NOT authorized.
 - **Last cloud test:** Saved30 (2026-11-01,S89): spatial44/44 report rows twice,32 admission/refusal assertions; CLOUD ALL:PASS626/626 + packages/smoke. IsRunning=false/Players0, NOT motion/ownership/feel acceptance. Published remains27/game0.0.22.
-- **Last check.sh:** CHECK:PASS (2026-11-01,S92 merge):626pure/83specs +all prior suites +8target/6published policy/3builder/3package groups;7 new faults detected/restored. No upload/publication; candidate disabled and not release-ready.
+- **Last check.sh:** CHECK:PASS (2026-11-01,S93 merge):635pure/84specs +all prior gates +6adapter/8transport groups;14 S93 faults detected/restored. No upload/publication; candidate disabled and not release-ready.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
