@@ -5,7 +5,7 @@
 - CHECK PASS:31 offline journal groups, real two-clone fixed-timestamp race,3 actual process-death boundaries,12 temporary faults detected/restored; all prior gates pass.
 - NEXT T-044b3b2b2b2 one-shot main-only transaction, then b3a2 delivered-report binding and c authorized publication. Handoff: research/notes/T-044b3b2b2b1-intent-journal.md.
 - No real GitHub reservation/Roblox requests/uploads/publication; default candidate disabled, Saved30/published27/game0.0.22 unchanged. No owner action until release/intake ready.
-- Close-out began30.2 OLU; final save/merge meter recorded on main below45.
+- Close-out31.3 OLU; merged8100c18 at31.3; final STATE saving below45.
 
 ## S97 — 2026-11-01
 - T-044b3b2b1 done: bounded main-only GET publication-history observer; exact historical match is not current serving, byte or permission proof (D-338/D-339).

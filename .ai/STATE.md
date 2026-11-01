@@ -1,5 +1,13 @@
 # STATE
 
+## Now — after S98 (2026-11-01)
+- Phase3 building, approved. **NEXT T-044b3b2b2b2**: one-shot main-only isolated HTTP transaction using completed journal; size/split before work. Then b3a2 delivered-release/running-player version binding, then c separately authorized publication.
+- S98 merged8100c18: b3b2b2b1 complete. Consent-only permanent remote Git ref, per-attempt random nonce, fsynced local intent, create-only cross-VM CAS, exact readback, immutable one-child sanitized outcome. No retry/reclaim API. Reservation is NOT release authority; remote writers must never delete/reset journal refs.
+- CHECK PASS on merged main: all prior642pure/85specs/integration gates +31 offline journal groups; two-clone fixed-timestamp race,3 actual child-process crash boundaries,12 temporary faults detected/restored. Synthetic/local-Git only; no real GitHub reservations or Roblox requests.
+- Handoff: research/notes/T-044b3b2b2b1-intent-journal.md. Next caller must independently validate real consent/review, exact enabled bytes, clean synced main, fresh private-owner/root and time gates; snapshot bytes, reserve before one POST, never retry uncertain outcomes. Keep exact evidence durably for b3a2. History is not current-serving or downloaded-byte proof.
+- No authentic permission review or exact-byte overwrite consent exists; no new owner action until release/intake ready. Default candidate disabled, no upload/publication, Saved30/published27/game0.0.22 unchanged; no dynamics/feel/Sober/mobile acceptance.
+- Claims released; close-out31.3, merged31.3 OLU; final saving below45. Older Now blocks are historical.
+
 ## Now — after S97 (2026-11-01)
 - Phase3 building, approved. **NEXT T-044b3b2b2b1**: durable cross-VM single-use intent journal and one-shot main-only isolated transaction; size/split before work. Then b3a2 running-player delivered-version binding, then c actual authorized publication.
 - S97 mergedeed0bbf: b3b2b1 bounded GET-only publication-history observer + b3b2b2a independently pinned scoped human permission-review validator complete. Exact history match is historical publication ONLY, never current serving/byte identity/Write permission. Review JSON proves consistency, not authenticated authorship or live permission.
@@ -199,10 +207,10 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-043 overhaul: c0b4 presentation (delivery Fx/metadata/receipt dispatcher/original-character owner done → truthful Burst → atomic cutover), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-044b3b2b2b1 — durable single-use isolated publication transaction; size/split first. Then b3a2 exact delivered-release/running-version binding and c actual separate test publication. Handoff: research/notes/T-044b3b2b2a-permission-review.md. Actual d2b2 physics and dependent activation remain gated.
+- **NEXT:** T-044b3b2b2b2 — one-shot main-only isolated HTTP transaction; journal complete; size/split first. Then b3a2 exact delivered-release/running-version binding and c actual separate test publication. Handoff: research/notes/T-044b3b2b2b1-intent-journal.md. Actual d2b2 physics and dependent activation remain gated.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-044b3b2b2b durable transaction → b3a2 delivered-report binding → c publish (c gated on exact overwrite consent/scoped reviewed grant/fresh target) · b3b1/b3b2a/b3b2b1/b3b2b2a done
+  - T-044b3b2b2b2 one-shot HTTP transaction → b3a2 delivered-report binding → c publish (c gated on exact overwrite consent/scoped reviewed grant/fresh target) · b3b1/b3b2a/b3b2b1/b3b2b2a/b3b2b2b1 done
   - T-043c0b4c3b2b2b2d2b2 actual dynamics/repair · valid Studio or future validated published report; no dependent activation yet
   - T-043c0b4c3b2c atomic keyed startup/legacy cutover · b2b (pending)
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
@@ -211,5 +219,5 @@
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** destination IDs supplied/private read verified; empty-content and write grant unverified. Generated-worker/owner-UI integration complete offline; intake/release incomplete; Sober/device behavior unverified. Running-player dynamics unexecuted; offline adapter tests and Saved spatial tests are not dynamics. Test publication authorized, production publication NOT authorized.
 - **Last cloud test:** Saved30 (2026-11-01,S89): spatial44/44 report rows twice,32 admission/refusal assertions; CLOUD ALL:PASS626/626 + packages/smoke. IsRunning=false/Players0, NOT motion/ownership/feel acceptance. Published remains27/game0.0.22.
-- **Last check.sh:** CHECK:PASS (2026-11-01,S97 merge):642pure/85specs +all prior gates +27 new Python history/review groups;21 S97 faults detected/restored. No upload/publication; default candidate disabled and not release-ready.
+- **Last check.sh:** CHECK:PASS (2026-11-01,S98 merge):642pure/85specs +all prior gates +31 new Python journal groups;12 S98 faults detected/restored. No upload/publication; default candidate disabled and not release-ready.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
