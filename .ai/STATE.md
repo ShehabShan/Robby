@@ -178,14 +178,14 @@
 - **NEXT:** T-044b3 — bounded published-report intake + exact manifest and safe release tooling; size/split first. Then c separate test publication. Handoff: research/notes/T-044b2b2b2-owner-ui.md. Actual d2b2 physics and dependent activation remain gated.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-044b2b2b generated worker/UI → b3 intake/release → c publish (c gated on verified empty destination/write permissions) · a/b1/b2a/b2b1/b2b2a done
+  - T-044b3 intake/release → c publish (c gated on verified empty destination/write permissions) · a/b1/b2a/b2b1/b2b2a/b2b2b1/b2 done
   - T-043c0b4c3b2b2b2d2b2 actual dynamics/repair · valid Studio or future validated published report; no dependent activation yet
   - T-043c0b4c3b2c atomic keyed startup/legacy cutover · b2b (pending)
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
   - T-043h1 truthful Chill state · T-043b + T-043c1 (done) + T-043c0b (coordinate remotes)
   - Unrelated beast/movement/onboarding lanes deferred while owner-priority Rimeshard overhaul is active.
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
-- **Blockers:** destination IDs supplied/private read verified; empty-content and write grant unverified. Actual generated-worker/owner-UI integration and intake/release incomplete. Running-player dynamics unexecuted; offline adapter tests and Saved spatial tests are not dynamics. Test publication authorized, production publication NOT authorized.
+- **Blockers:** destination IDs supplied/private read verified; empty-content and write grant unverified. Generated-worker/owner-UI integration complete offline; intake/release incomplete; Sober/device behavior unverified. Running-player dynamics unexecuted; offline adapter tests and Saved spatial tests are not dynamics. Test publication authorized, production publication NOT authorized.
 - **Last cloud test:** Saved30 (2026-11-01,S89): spatial44/44 report rows twice,32 admission/refusal assertions; CLOUD ALL:PASS626/626 + packages/smoke. IsRunning=false/Players0, NOT motion/ownership/feel acceptance. Published remains27/game0.0.22.
-- **Last check.sh:** CHECK:PASS (2026-11-01,S93 merge):635pure/84specs +all prior gates +6adapter/8transport groups;14 S93 faults detected/restored. No upload/publication; candidate disabled and not release-ready.
+- **Last check.sh:** CHECK:PASS (2026-11-01,S94 merge):642pure/85specs +all prior gates +5worker/5UI integration groups;18 S94 faults detected/restored. No upload/publication; candidate disabled and not release-ready.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
