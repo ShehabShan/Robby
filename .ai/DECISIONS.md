@@ -451,3 +451,5 @@ Replace D-313's blanket occupied-cell refusal: exact root OBB AABB empty voxels 
 ### D-318 — S89: spatial PASS is not running-server acceptance (2026-11-01)
 - Saved30:32 admission/refusal assertions,44 total passing report rows including diagnostics/cleanup; CLOUD ALL626/626. Save exact version/build/probe/task evidence. The runner requires every named assertion and both collision-group cleanups; partial/error/forged-count reports refuse.
 - Actual engine reports IsRunning=false, IsServer=true, zero players. Keep d2 running-server physics/real-player ownership validation as a hard prerequisite for b2c; geometry, mocked players, and100 repeated queries never certify solver behavior. No publication or live movement/visual cutover.
+
+- **D-319 (S90, 2026-11-01):** Split running-server gate into disabled isolated Studio harness (d2a) and real execution/repair (d2b). Saved30 IsRunning=false/Players0 and official Luau Execution restrictions cannot accept dynamics. No production activation or publication to obtain coverage; harness must be absent from the default place.
