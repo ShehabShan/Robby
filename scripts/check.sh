@@ -65,6 +65,7 @@ run wind-step-published-generated-format stylua --check build/published-test/win
 run wind-step-published-types luau-lsp analyze --definitions=.cache/globalTypes.d.luau --sourcemap=build/published-test/sourcemap.json build/published-test/wind_step.server.luau tests/published/WindStepPublishedPolicy.luau
 run wind-step-published-package lune run tests/wind_step_published_build.luau
 run wind-step-published-worker lune run tests/wind_step_published_worker.luau
+run owner-test-view lune run tests/owner_test_view.luau
 run owner-test-view-lint selene tests/published/OwnerTestView.luau tests/published/wind_step.client.luau
 run owner-test-view-types luau-lsp analyze --definitions=.cache/globalTypes.d.luau --sourcemap=build/published-test/sourcemap.json tests/published/OwnerTestView.luau tests/published/wind_step.client.luau
 

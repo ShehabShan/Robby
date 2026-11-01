@@ -13,7 +13,7 @@ repeat
 		end
 		originalGui = gui
 		local found = gui:FindFirstChild("WindStepTestSession")
-		if found and found:IsA("Folder") then
+		if found and found:IsA("Folder") and found:FindFirstChild("Request") and found:FindFirstChild("Response") then
 			channel = found
 		end
 	end

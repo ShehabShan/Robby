@@ -47,6 +47,7 @@ return {
 		local text = string.rep("a", 524288)
 		local s = transfer(text)
 		assert(s.report == text and Client.next(s, 100) == nil)
+		assert(Client.next(s, 999) == nil and not s.failed)
 	end,
 	boundedRetryAndNoPartialEvidence = function()
 		local s = Client.new(0)
@@ -59,6 +60,8 @@ return {
 	end,
 	duplicateUnrequestedPagesIgnored = function()
 		local s = Client.new(0)
+		Client.receive(s, {})
+		assert(not s.failed)
 		Client.receive(s, status("complete", 24000))
 		Client.next(s, 0)
 		local p = { page = 2, pages = 2, bytes = 24000, data = string.rep("a", 12000) }

@@ -50,6 +50,9 @@ function Client.start(s: State): boolean
 	return true
 end
 function Client.next(s: State, now: number): (string?, number?)
+	if s.report then
+		return nil, nil
+	end
 	if type(now) ~= "number" or now ~= now or now < s.lastNow or now >= s.deadline then
 		fail(s, "Reader expired; keep any copied report and rejoin a fresh test server.")
 	end
@@ -116,7 +119,7 @@ function Client.receive(s: State, message: any)
 		end
 		return
 	end
-	if message.page ~= s.pending then
+	if s.pending == nil or message.page ~= s.pending then
 		return
 	end -- stale/unrequested packets never append
 	local expected = math.min(PAGE, s.bytes - (#s.chunks * PAGE))

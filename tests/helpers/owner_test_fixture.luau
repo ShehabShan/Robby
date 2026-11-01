@@ -155,6 +155,9 @@ local function fixture(mode, configure)
 			return { results = {}, matrixPassed = true }, ok, true
 		end,
 	}
+	if f.worker then
+		options.run = f.worker
+	end
 	if f.entry then
 		f.ok, f.error = pcall(luau.load(f.entry, { environment = environment }))
 	else
