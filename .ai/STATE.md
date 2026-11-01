@@ -1,5 +1,13 @@
 # STATE
 
+## Now — after S99 (2026-11-01)
+- Phase3 building, approved. **NEXT T-044c**: final-clean-main explicit enabled staging and authentic publication inputs, then separately authorized isolated publication. Tooling/intake complete; no more generic transaction scaffolding. Actual owner dynamics/repair follows, then dependent activation.
+- S99 mergedfed09aa: T-044b3b2b2b2 one-shot main-only isolated transaction + T-044b3a2 canonical release/running-version report binding complete; D-344–D-347. Exact private fsynced retained evidence, repeated fresh gates, permanent consent journal, one no-redirect/no-retry POST, bounded history + sanitized terminal; no inferred serving/byte/physics proof.
+- CHECK PASS on merged main: all prior642pure/85specs/integration gates +41 transaction +13 release-intake offline groups;24 temporary faults detected/restored. Actual enabled RBXL/local bare-Git/synthetic reports only; no real Roblox/GitHub reservations.
+- Handoffs: research/notes/T-044b3b2b2b2-transaction.md and T-044b3a2-release-intake.md. Final-main staging sourceRevision must match exact checkout; preserve independently pinned bytes outside build. Canonical journal and receipt are operator evidence, not cryptographic Roblox/report attestation. Never replay consumed consent, even after refusal/uncertainty.
+- Blocked on genuine exact-byte owner overwrite/publication consent and fresh redacted scoped dashboard grant review for stored roblox-open-cloud credential/test target. NEXT session first prepares final pinned stage and concise owner approval package; generic continuation is not consent. Never ask for keys or synthesize review. Existing destination: universe6958375460/root121111456135560 owner7738981129, prior S92 private GET only; recheck freshly.
+- Default candidate disabled; no uploads/publication or real dynamics/Sober/mobile acceptance. Saved30/published27/game0.0.22 unchanged. Claims released; close-out36.0, merged37.0 OLU; final saving below45. Older Now blocks are historical.
+
 ## Now — after S98 (2026-11-01)
 - Phase3 building, approved. **NEXT T-044b3b2b2b2**: one-shot main-only isolated HTTP transaction using completed journal; size/split before work. Then b3a2 delivered-release/running-player version binding, then c separately authorized publication.
 - S98 merged8100c18: b3b2b2b1 complete. Consent-only permanent remote Git ref, per-attempt random nonce, fsynced local intent, create-only cross-VM CAS, exact readback, immutable one-child sanitized outcome. No retry/reclaim API. Reservation is NOT release authority; remote writers must never delete/reset journal refs.
@@ -207,17 +215,17 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-043 overhaul: c0b4 presentation (delivery Fx/metadata/receipt dispatcher/original-character owner done → truthful Burst → atomic cutover), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-044b3b2b2b2 — one-shot main-only isolated HTTP transaction; journal complete; size/split first. Then b3a2 exact delivered-release/running-version binding and c actual separate test publication. Handoff: research/notes/T-044b3b2b2b1-intent-journal.md. Actual d2b2 physics and dependent activation remain gated.
+- **NEXT:** T-044c — prepare final-main exact pinned enabled stage and owner approval/review package, obtain authentic exact-byte overwrite/publication consent + scoped grant, then isolated publication. Transaction/intake tooling complete (S99). Actual d2b2 dynamics and dependent activation remain gated.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-044b3b2b2b2 one-shot HTTP transaction → b3a2 delivered-report binding → c publish (c gated on exact overwrite consent/scoped reviewed grant/fresh target) · b3b1/b3b2a/b3b2b1/b3b2b2a/b3b2b2b1 done
+  - T-044c final pinned staging/owner approval package → authorized test publish (gated on exact overwrite consent/scoped reviewed grant/fresh target) · release/transaction/intake tooling done S99
   - T-043c0b4c3b2b2b2d2b2 actual dynamics/repair · valid Studio or future validated published report; no dependent activation yet
   - T-043c0b4c3b2c atomic keyed startup/legacy cutover · b2b (pending)
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
   - T-043h1 truthful Chill state · T-043b + T-043c1 (done) + T-043c0b (coordinate remotes)
   - Unrelated beast/movement/onboarding lanes deferred while owner-priority Rimeshard overhaul is active.
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
-- **Blockers:** destination IDs supplied/private read verified; empty-content and write grant unverified. Generated-worker/owner-UI integration complete offline; intake/release incomplete; Sober/device behavior unverified. Running-player dynamics unexecuted; offline adapter tests and Saved spatial tests are not dynamics. Test publication authorized, production publication NOT authorized.
+- **Blockers:** final enabled staged-byte consent and authentic scoped credential review absent; old private read is not fresh authority. Release/intake complete offline S99; Sober/device/dynamics unverified. Prior test publication authorization is not exact-byte overwrite consent. Production publication NOT authorized.
 - **Last cloud test:** Saved30 (2026-11-01,S89): spatial44/44 report rows twice,32 admission/refusal assertions; CLOUD ALL:PASS626/626 + packages/smoke. IsRunning=false/Players0, NOT motion/ownership/feel acceptance. Published remains27/game0.0.22.
-- **Last check.sh:** CHECK:PASS (2026-11-01,S98 merge):642pure/85specs +all prior gates +31 new Python journal groups;12 S98 faults detected/restored. No upload/publication; default candidate disabled and not release-ready.
+- **Last check.sh:** CHECK:PASS (2026-11-01,S99 merge):642pure/85specs +all prior gates +41 transaction/13 release-intake groups;24 S99 faults detected/restored. No upload/publication; default candidate disabled, authentic publication gates still open.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.

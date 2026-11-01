@@ -5,7 +5,7 @@
 - CHECK PASS:41 transaction +13 release-intake offline groups, actual enabled RBXL/local-Git composition;24 temporary faults detected/restored, all prior gates pass.
 - NEXT T-044c: final-main staging then genuine exact-byte overwrite/publication consent and reviewed scoped dashboard grant; never manufacture them from continuation. Handoffs: T-044b3b2b2b2-transaction.md and T-044b3a2-release-intake.md.
 - No real GitHub reservation/Roblox requests/uploads/publication; default candidate disabled. No live dynamics/Sober/mobile acceptance. Saved30/published27/game0.0.22 unchanged.
-- Close-out36.0 OLU; saving/merge before45. Repo is continuation record; retained historical publication is not serving/byte/physics proof.
+- Close-out36.0 OLU; mergedfed09aa at37.0; final saving below45. Repo is continuation record; retained historical publication is not serving/byte/physics proof.
 
 ## S98 — 2026-11-01
 - T-044b3b2b2b1 done: durable consent-keyed cross-VM Git journal, generated attempt nonce, immutable intent/terminal chain; D-341–D-343. No HTTP uploader or release permission.
