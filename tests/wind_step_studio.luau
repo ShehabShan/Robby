@@ -185,6 +185,70 @@ test("real harness returns before acquiring fixture or driver when not opted in"
 		assert(ran)
 	end
 end)
+test("Studio bootstrap uses public engine version at ordinary Script identity", function()
+	local source = fs.readFile("tests/studio/wind_step.server.luau")
+	local reachedGuard, calls = false, 0
+	local run = {
+		IsStudio = function()
+			return true
+		end,
+		IsServer = function()
+			return true
+		end,
+		IsRunning = function()
+			return true
+		end,
+		GetRobloxVersion = function()
+			error("RobloxScriptSecurity")
+		end,
+	}
+	local chunk = luau.load(source, {
+		environment = {
+			version = function()
+				calls += 1
+				return "PUBLIC-SYNTHETIC"
+			end,
+			game = {
+				PlaceVersion = 0,
+				GetService = function(_, name)
+					return if name == "RunService"
+						then run
+						else if name == "Players"
+							then {
+								GetPlayers = function()
+									return { {} }
+								end,
+							}
+							else {}
+				end,
+			},
+			script = {
+				Evidence = {},
+				GetAttribute = function(_, name)
+					return name == "RunWindStep"
+				end,
+			},
+			require = function()
+				return {
+					guard = function()
+						reachedGuard = true
+						return false -- stop after environment construction; never run physics here
+					end,
+				}
+			end,
+			workspace = { Gravity = 196.2 },
+			task = { wait = function() end },
+			warn = function() end,
+			Instance = {
+				new = function()
+					error("must not acquire")
+				end,
+			},
+		},
+	})
+	chunk()
+	assert(reachedGuard and calls == 1, "public version must reach ordinary Script admission")
+end)
 test("boolean environment and cleanup gates cannot be truthy strings", function()
 	for _, key in { "studio", "running", "server", "optIn", "players" } do
 		local invalid = table.clone(env)

@@ -65,7 +65,7 @@ test("generated entry refuses before fixture/driver on every unsafe entry", func
 				return mode ~= "not-running"
 			end,
 			GetRobloxVersion = function()
-				return "SYNTHETIC"
+				error("GetRobloxVersion requires RobloxScriptSecurity")
 			end,
 		}
 		local players = {
@@ -79,6 +79,9 @@ test("generated entry refuses before fixture/driver on every unsafe entry", func
 		}
 		local chunk = luau.load(source, {
 			environment = {
+				version = function()
+					return "SYNTHETIC"
+				end,
 				game = {
 					GameId = if mode == "wrong-universe" then 999 else 123,
 					PlaceId = if mode == "wrong-place" then 999 else 456,

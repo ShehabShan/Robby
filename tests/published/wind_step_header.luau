@@ -38,7 +38,9 @@ local environment = {
 	placeId = game.PlaceId,
 	placeVersion = game.PlaceVersion,
 	jobId = game.JobId,
-	engine = RunService:GetRobloxVersion(),
+	-- GetRobloxVersion is RobloxScriptSecurity; ordinary test Scripts must use the public global.
+	-- selene: allow(undefined_variable)
+	engine = version(),
 	gravity = workspace.Gravity,
 	sourceRevision = script:GetAttribute("SourceRevision") or "UNRECORDED",
 	sourceHashes = script:GetAttribute("SourceHashes") or "UNRECORDED",

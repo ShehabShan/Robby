@@ -23,7 +23,9 @@ local environment = {
 	server = RunService:IsServer(),
 	optIn = script:GetAttribute("RunWindStep") == true,
 	players = #Players:GetPlayers(),
-	engine = RunService:GetRobloxVersion(),
+	-- GetRobloxVersion is RobloxScriptSecurity; ordinary test Scripts must use the public global.
+	-- selene: allow(undefined_variable)
+	engine = version(),
 	placeVersion = game.PlaceVersion,
 	gravity = workspace.Gravity,
 	sourceRevision = script:GetAttribute("SourceRevision") or "UNRECORDED",

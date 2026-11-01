@@ -62,6 +62,9 @@ local function worker(mode)
 		f.root, f.humanoid, f.character = root, humanoid, character
 		f.run.PreSimulation, f.run.PostSimulation = signal(), signal()
 		function f.run:GetRobloxVersion()
+			error("GetRobloxVersion requires RobloxScriptSecurity")
+		end
+		env.version = function()
 			return "MOCK-NOT-PHYSICS"
 		end
 		local attrs = {
@@ -289,6 +292,7 @@ test("explicit start only; full106-case generated worker returns after cleanup",
 	local r, status = report(f)
 	assert(r.runCompleted and r.cleanup and r.matrixPassed, serde.encode("json", r))
 	assert(not r.dynamicsAccepted and f.prepared == 106 and status.progress == 106)
+	assert(r.environment.engine == "MOCK-NOT-PHYSICS", "public version provenance lost")
 	assert(r.environment.generatedServerSha256 == "OFFLINE-GENERATED", "generated provenance lost")
 	f.ask("start")
 	assert(#f.jobs == 0)
