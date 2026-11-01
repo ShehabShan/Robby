@@ -42,6 +42,7 @@ local environment = {
 	gravity = workspace.Gravity,
 	sourceRevision = script:GetAttribute("SourceRevision") or "UNRECORDED",
 	sourceHashes = script:GetAttribute("SourceHashes") or "UNRECORDED",
+	generatedServerSha256 = script:GetAttribute("GeneratedServerSha256") or "UNRECORDED",
 }
 if not Policy.guard(target, environment) then
 	warn("WIND_STEP_BLOCKED: requires one owner Player in the exact published test server")

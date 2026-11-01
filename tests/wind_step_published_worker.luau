@@ -71,6 +71,7 @@ local function worker(mode)
 			RunWindStep = true,
 			SourceRevision = "OFFLINE",
 			SourceHashes = "OFFLINE",
+			GeneratedServerSha256 = "OFFLINE-GENERATED",
 		}
 		local script = f.instance("Script")
 		script.Destroying, script.changed = signal(), signal()
@@ -288,6 +289,7 @@ test("explicit start only; full106-case generated worker returns after cleanup",
 	local r, status = report(f)
 	assert(r.runCompleted and r.cleanup and r.matrixPassed, serde.encode("json", r))
 	assert(not r.dynamicsAccepted and f.prepared == 106 and status.progress == 106)
+	assert(r.environment.generatedServerSha256 == "OFFLINE-GENERATED", "generated provenance lost")
 	f.ask("start")
 	assert(#f.jobs == 0)
 	noWorkerLeaks(f)

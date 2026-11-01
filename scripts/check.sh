@@ -59,6 +59,8 @@ run owner-test-adapter-types luau-lsp analyze --definitions=.cache/globalTypes.d
 run wind-step-published-policy lune run tests/wind_step_published.luau
 run wind-step-published-lint selene tests/published/WindStepPublishedPolicy.luau
 run wind-step-published-builder python3 -B tests/wind_step_published_builder.py
+run wind-step-published-intake-format stylua --check scripts/wind_step_published_evidence.luau
+run wind-step-published-intake python3 -B tests/wind_step_published_intake.py
 run wind-step-published-build python3 -B scripts/build_wind_step_published.py
 run wind-step-published-generated-lint selene build/published-test/wind_step.server.luau
 run wind-step-published-generated-format stylua --check build/published-test/wind_step.server.luau

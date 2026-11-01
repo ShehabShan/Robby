@@ -70,8 +70,13 @@ def validate_manifest(manifest):
 
 
 def validate_report(report, manifest):
+    require(type(report) is dict and report.get("kind") == "WindStep isolated Studio dynamics", "bad report kind")
+    return validate_common_report(report, manifest)
+
+
+def validate_common_report(report, manifest):
+    """Shared structural/sample checks only; each entry point enforces its own scope."""
     require(type(report) is dict and type(report.get("schema")) is int and report["schema"] == 1, "bad report schema")
-    require(report.get("kind") == "WindStep isolated Studio dynamics", "bad report kind")
     boolean_fields(report, ("cleanup", "matrixPassed", "dynamicsAccepted", "runCompleted"))
     require(report["dynamicsAccepted"] is False, "premature dynamics acceptance")
     require(report.get("error") is None or isinstance(report["error"], str), "invalid error")
