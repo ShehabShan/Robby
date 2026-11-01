@@ -177,6 +177,25 @@ class PreflightTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     preflight.read_universe("123456")
 
+    def test_checkout_adapter_queries_current_remote_not_cached_ref(self):
+        responses = iter(["main\n", HEAD+"\n", "", HEAD+"\trefs/heads/main\n"])
+        calls = []
+        def git(args, **kwargs):
+            calls.append(args)
+            return next(responses)
+        with patch.object(preflight.subprocess, "check_output", side_effect=git):
+            self.assertEqual(preflight.checkout(), self.checkout)
+        self.assertEqual(calls[-1], ["git", "ls-remote", "origin", "refs/heads/main"])
+
+    def test_cli_cannot_exit_success_even_after_valid_observation(self):
+        args = ["preflight", "--manifest", "m", "--manifest-sha256", "p", "--place", "b",
+                "--consent", "c", "--consent-sha256", "d"]
+        with patch.object(sys, "argv", args), patch.object(preflight, "preflight", return_value={"status":"BLOCKED"}), \
+             patch("sys.stdout", new_callable=io.StringIO), patch("sys.stderr", new_callable=io.StringIO):
+            with self.assertRaises(SystemExit) as exit_result:
+                preflight.main()
+            self.assertEqual(exit_result.exception.code, 1)
+
     def test_actual_http_adapter_is_bounded_get_only(self):
         calls = []
         class Response(io.BytesIO):

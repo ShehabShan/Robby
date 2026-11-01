@@ -1,0 +1,75 @@
+{
+  "scope": "offline temporary behavior faults, restored after each test",
+  "results": [
+    {
+      "fault": "main-only",
+      "detected": true,
+      "test": "test_main_clean_and_synced_required_before_get"
+    },
+    {
+      "fault": "clean-tree",
+      "detected": true,
+      "test": "test_main_clean_and_synced_required_before_get"
+    },
+    {
+      "fault": "remote-sync",
+      "detected": true,
+      "test": "test_main_clean_and_synced_required_before_get"
+    },
+    {
+      "fault": "checkout-race",
+      "detected": true,
+      "test": "test_checkout_change_during_get"
+    },
+    {
+      "fault": "consent-pin",
+      "detected": true,
+      "test": "test_consent_pin_bounds_and_strict_json"
+    },
+    {
+      "fault": "consent-bytes",
+      "detected": true,
+      "test": "test_no_inferred_or_forged_authorization"
+    },
+    {
+      "fault": "overwrite-consent",
+      "detected": true,
+      "test": "test_no_inferred_or_forged_authorization"
+    },
+    {
+      "fault": "expiry-postflight",
+      "detected": true,
+      "test": "test_consent_expires_during_preflight"
+    },
+    {
+      "fault": "freshness",
+      "detected": true,
+      "test": "test_preflight_age_and_clock_reversal"
+    },
+    {
+      "fault": "stage-verify",
+      "detected": true,
+      "test": "test_stage_verification_precedes_get"
+    },
+    {
+      "fault": "remote-safety",
+      "detected": true,
+      "test": "test_unsafe_remote_observations"
+    },
+    {
+      "fault": "false-permission",
+      "detected": true,
+      "test": "test_fresh_get_remains_blocked_and_truthful"
+    },
+    {
+      "fault": "http-status",
+      "detected": true,
+      "test": "test_http_adapter_refuses_oversize_duplicate_and_wrong_status"
+    },
+    {
+      "fault": "get-only",
+      "detected": true,
+      "test": "test_actual_http_adapter_is_bounded_get_only"
+    }
+  ]
+}
