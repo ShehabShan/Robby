@@ -50,6 +50,9 @@ run wind-step-studio lune run tests/wind_step_studio.luau
 run wind-step-intake-format stylua --check scripts/wind_step_evidence.luau
 run wind-step-evidence-intake python3 -B tests/wind_step_evidence_intake.py
 run isolated-test-target python3 -B tests/test_target.py
+run owner-test-transport lune run tests/owner_test_transport.luau
+run owner-test-transport-lint selene tests/published/OwnerTestTransport.luau
+run owner-test-transport-types luau-lsp analyze --definitions=.cache/globalTypes.d.luau tests/published/OwnerTestTransport.luau
 run owner-test-adapter lune run tests/owner_test_adapter.luau
 run owner-test-adapter-lint selene tests/published/OwnerTestAdapter.luau
 run owner-test-adapter-types luau-lsp analyze --definitions=.cache/globalTypes.d.luau tests/published/OwnerTestAdapter.luau
