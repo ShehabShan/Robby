@@ -51,7 +51,13 @@ run wind-step-intake-format stylua --check scripts/wind_step_evidence.luau
 run wind-step-evidence-intake python3 -B tests/wind_step_evidence_intake.py
 run isolated-test-target python3 -B tests/test_target.py
 run wind-step-published-policy lune run tests/wind_step_published.luau
-run wind-step-published-lint selene tests/published
+run wind-step-published-lint selene tests/published/WindStepPublishedPolicy.luau
+run wind-step-published-builder python3 -B tests/wind_step_published_builder.py
+run wind-step-published-build python3 -B scripts/build_wind_step_published.py
+run wind-step-published-generated-lint selene build/published-test/wind_step.server.luau
+run wind-step-published-generated-format stylua --check build/published-test/wind_step.server.luau
+run wind-step-published-types luau-lsp analyze --definitions=.cache/globalTypes.d.luau --sourcemap=build/published-test/sourcemap.json build/published-test/wind_step.server.luau tests/published/WindStepPublishedPolicy.luau
+run wind-step-published-package lune run tests/wind_step_published_build.luau
 
 if [ $fail -eq 0 ]; then echo "CHECK: PASS"; else echo "CHECK: FAIL"; fi
 exit $fail
