@@ -4,8 +4,16 @@ The owner connected a PromptQL **custom integration** named `roblox-open-cloud` 
 for the Robby experience. Any session may use it to test on Roblox (confirmed again by S43, D-191). The key never
 enters the VM or the repo: PromptQL injects it when a request goes through the integration proxy.
 
-## IDs
-- Universe `10773761715`, place `95587500384127` (private experience "Robby").
+## IDs — main and separate test experiences
+| Destination | Universe ID | Start Place ID (root place) |
+|---|---|---|
+| Main Robby experience — production | `10773761715` | `95587500384127` |
+| Separate private Wind Step test — Sober testing only | `6958375460` | `121111456135560` |
+
+Both destinations belong to Roblox owner `7738981129`. Keep them separate: never upload the isolated test harness to the main Robby place.
+- Test IDs were supplied by the owner in `research/inbox/2026-11-01-test-destination.md`; S92 confirmed PRIVATE visibility, owner and exact root with a GET-only preflight on 2026-11-01. Empty-content status and publish-write permission remain unverified.
+- Test publication was authorized separately, but still requires completed release tooling, fresh preflight, verified empty/owner-consented contents and write permissions. Use the test-only release path when ready, **not `scripts/publish.py`** (production).
+- The ready-made `cloud_test.py` and `publish.py` commands below target **main Robby**, not the test experience. Recording these IDs authorizes no additional upload or publication.
 
 ## How to call it (from the VM, any language)
 Base URL (the proxy prefixes the real `https://apis.roblox.com`):

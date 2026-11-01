@@ -485,3 +485,5 @@ Published worker surrounds yields and active motion seams with controller/origin
 
 ### D-333 (S94) — bounded owner UI with full raw evidence retrieval
 Keep UI in the isolated disabled candidate only. Pure reader binds the original channel, sends1request/s, retries each report page at most3times and bounds lifetime/size. Assemble raw byte chunks before UTF-8/JSON checks, then display selectable6000-byte UTF-8-safe pages. Start is explicit and once; report completion/matrix pass never means dynamics acceptance. Retain completed text after channel shutdown; never rebind or expose partial evidence as a full report. Actual Sober/mobile copy/layout remains a live validation item.
+
+- **D-334 (S95, owner 2026-11-01):** Keep main and separate test Universe/Start Place IDs together in OPEN_CLOUD.md for session discovery. Label production vs test; preserve original owner inbox and pending test overwrite/write verification. Documentation only, no new publication authorization.
