@@ -162,6 +162,7 @@ The owner may run several sessions at once with the same start message. Git bran
   start build work; claim a research/check task if one is listed, otherwise report "no free task" and stop (≈5 OLU).
 - **STATE.md on a branch:** leave it alone. After `merge.sh`, edit STATE.md (Now, NEXT, Parallel lanes) on main and `save.sh`.
   merge.sh keeps main's STATE.md/CLAIMS.md on conflict. **Publish / cloud tests only from main**, after merging.
+- **Pinned-release follow-up (T-044c2, D-348):** a reply approving an already delivered final-main exact-byte package is a read-only release continuation, not a new coding session. On unchanged clean synced main, check CLAIMS is empty and there are no session branches; do not claim/release/edit files before dispatch, since that changes the consented sourceRevision. Use only the existing single-consent transaction/journal after authentic consent and scoped review. If main changed or other work is active, STOP, restage and obtain new exact-byte approval; never rewind main or relax validation. Save the sanitized result/status afterward. This exception permits no code changes, inferred consent, retries or production publication.
 - **STATE.md NEXT** = the next unclaimed task. SESSION_LOG/DECISIONS/RESEARCH merge by union (`.gitattributes`).
 - **Cut-off sessions (D-134).** At boot, on main: `bash scripts/release.sh`. It frees any claim whose branch had no
   push for 2 h (the branch is kept). Then `git ls-remote --heads origin 'session/*'`: a branch with **no row** in

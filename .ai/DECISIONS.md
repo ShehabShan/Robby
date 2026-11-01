@@ -521,3 +521,12 @@ Only exact positive upload version plus independent complete bounded published-h
 
 ### D-347 (S99) — canonical release-bound report intake
 Separate read-only release intake pins the receipt independently, reads the canonical journal terminal twice, checks retained enabled package/source/consent/review/history/upload version, then binds the raw running-player report to that exact target/source/version and recomputes canonical Luau policy. Disabled candidate intake stays separate and strict. Output RELEASE_REPORT_BOUND_ONLY is a consistency finding, not signed report authenticity, current-serving/downloaded bytes or completed dynamics/device/feel acceptance. Expired records may be checked at their historical intent time for intake, never reused as new upload authorization.
+
+### D-348 — pinned-release follow-up does not invalidate its own consent (S100, 2026-11-01)
+- Existing strict transaction requires staged sourceRevision == current clean remote main. Ordinary claim/release/close-out commits therefore invalidate a delivered package even if no runtime code changes.
+- A follow-up explicitly approving the delivered package is release-only: check empty claims/no session branches and unchanged clean synced main, then use existing single-consent journal/transaction; record results afterward. Any concurrent/main change refuses and requires restaging plus new approval. No gate weakening, code work, production permission or automatic retry.
+- Narrow AGENTS §9 exception; keeps the exact revision rule intact instead of silently accepting documentation/claim drift.
+
+### D-349 — portable exact-stage approval evidence (S100, 2026-11-01)
+- Stage only after final main documentation save; retain enabled bytes outside build and deliver a version-pinned archive plus separate approval-card pins. Repo handoff links those immutable artifacts; cannot commit the containing commit's own hash. No new generic release scaffolding.
+- Owner authorizes complete test-place overwrite and one time-bounded exact-byte attempt, separately supplies redacted scoped grant review. Unknown existing test contents are explicitly disclosed; original private sources never enter public repo. History/consistency remains distinct from real player/physics acceptance.
