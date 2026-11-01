@@ -1,0 +1,24 @@
+{
+  "task": "T-046a",
+  "session": "S106",
+  "observedAt": "2026-11-01T17:07:42.246821+00:00",
+  "scope": "OFFLINE REHEARSAL ONLY; not final approval pins",
+  "sourceRevision": "a77148f49c6c813117366967063bb8b12122a090",
+  "manifestSha256": "36b16d5a81c4f378f5d210331e958f8a52e4bb8855575d7bd89f15dcb68d75a8",
+  "placeSha256": "ef242277104162e54d17556085dfc95c7752b76ce1eaa49bf55df31908581b04",
+  "verification": {
+    "status": "LOCAL_STAGE_VERIFIED_ONLY",
+    "manifestSha256": "36b16d5a81c4f378f5d210331e958f8a52e4bb8855575d7bd89f15dcb68d75a8",
+    "placeSha256": "ef242277104162e54d17556085dfc95c7752b76ce1eaa49bf55df31908581b04",
+    "publishReady": false,
+    "releaseEvidenceAccepted": false,
+    "dynamicsAccepted": false
+  },
+  "checks": "CHECK: PASS; full existing suite, no runtime or tolerance changes",
+  "liveDynamicsAccepted": false,
+  "publicationPerformed": false,
+  "journalRefsBefore": [
+    "f95a797f0b4b8cfe57cc3b6e903d10381e57e2a9\trefs/heads/publication-intent/aa2ebec89eaedaed2a1a3f3ca0a29f6c4c92498c709f9ce46715abb5ae50eb05",
+    "c53a0ae8c74769be38e00ce3c33e8642b201ad02\trefs/heads/publication-intent/eb8fa8776ff5e4a934a4b699249c4a6fa7d52f018aa346d06c77ab5cb85ef2a2"
+  ]
+}

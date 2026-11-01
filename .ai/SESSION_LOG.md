@@ -1,3 +1,10 @@
+## S106 — 2026-11-01 — T-046a
+- Existing S105 sampling repair packaged through target-specific enabled rehearsal/exact binary reconstruction; full CHECK PASS. D-358; no runtime/tolerance changes.
+- Final clean-main ZIP/card delivered after last main save; immutable version0 pointers in T-046a-corrected-package.md; absent artifacts mean incomplete delivery.
+- No Roblox publication or consent consumption; raw version3 short travel still fails. No dynamics/feel acceptance; production unchanged.
+- NEXT T-046b authentic NEW exact-byte approval, then existing one-shot transaction and fresh owner report/intake; S101 recovery separate.
+- Close-out began13.5 OLU including original GitHub setup; no reset. Final measured usage in approval card; saving before45.
+
 ## S105 — 2026-11-01 — T-046
 - Retained owner version3 failure; repaired demonstrable independent-listener phase sampling defect, D-357.
 -32 actual-driver groups,6 generated-worker groups; two restored faults detected; full CHECK PASS before save and on merge d5a5325.
