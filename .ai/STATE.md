@@ -1,6 +1,7 @@
 # STATE
 
 ## Now — after S91 (2026-11-01)
+- **Owner follow-up priority:** prefers direct roblox-open-cloud upload instead of downloading the isolated test. See research/inbox/2026-11-01-S91-cloud-delivery-request.md. OPEN_CLOUD.md confirms Saved uploads supported; only documented destination is the Robby place. No upload performed. Resolve safe test destination/delivery next; uploading the disabled Studio-only harness does not supply running Player/physics evidence. Do not replace the live game with this isolated harness. Follow-up reached43.3 OLU; stopped new work for close-out.
 - Phase3 building, approved. **NEXT: T-043c0b4c3b2b2b2d2b2** — BLOCKED on owner single-player Studio report; do not activate Wind Step or dependent lanes.
 - S91 merged31c8704: d2b1 complete. Strict bounded JSON/provenance intake reuses canonical Luau policy; disabled owner zip includes source/place manifest and instructions. No production runtime changes.
 - CHECK PASS on merged main:626pure/83specs +28driver +7Python runner +9Studio offline;12 new intake/bundle groups;9 temporary behavioral faults detected/restored. No actual physics, ownership, supported-rate or feel acceptance.
