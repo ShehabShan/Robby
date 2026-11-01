@@ -1,5 +1,12 @@
 # STATE
 
+## Now — after S103 (2026-11-01)
+- Phase3 building. Owner-priority **T-045 done**: fixed ordinary-Script startup crash (`GetRobloxVersion` is restricted; use public `version()`) and delayed PlayerGui race in the isolated test. Screenshot consistent with absent diagnostic UI; not a verified serving-version/live-log observation. Main merge15a711c.
+- **NEXT T-045a:** prepare corrected clean-main exact-byte test package + concise approval handoff using existing tooling. No new permission framework/screenshots/keys. NEW code requires NEW pinned package/approval; prior consumed consent cannot be replayed. No publication was requested/performed this session.
+- CHECK PASS: six generated-worker/ten Studio groups,106 synthetic cases,100 lifetimes; four restored faults detected. Actual Roblox/Sober UI, physics and owner feel remain unverified. Default candidate disabled; production unchanged.
+- Handoff: `research/notes/T-045-startup.md`; D-354/D-355. Owner screenshot/report saved verbatim in inbox. No asset request needed; isolated spawn platform is intentional, missing controls are not.
+- T-044c2b2 original S101 evidence recovery remains blocked separately; original UNCERTAIN terminal immutable/no retry. This source repair does not recover original bytes or satisfy release intake. Claims released; close-out29.3, merged30.6 OLU; final main saving below45.
+
 ## Now — after S102 (2026-11-01)
 - **Owner asset capability (2026-11-01):** the owner can create 3D models using multiple sites; when an asset is needed, provide a detailed description and ask them to make it. Recorded in VISION item5 and `research/inbox/2026-11-01-owner-3d-model-capability.md`. No new asset task committed; release blocker/NEXT unchanged.
 - Phase3 building. T-044c2b1 done: **version2 historically published**, independently confirmed by bounded GET-only observer at13:12Z on clean synced main7cb7a5f. Fixed observed decimal-string versions + terminal-cursor API shape. No new publication; production untouched.
