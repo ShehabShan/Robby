@@ -1,6 +1,7 @@
 # STATE
 
 ## Now — after S102 (2026-11-01)
+- **Owner asset capability (2026-11-01):** the owner can create 3D models using multiple sites; when an asset is needed, provide a detailed description and ask them to make it. Recorded in VISION item5 and `research/inbox/2026-11-01-owner-3d-model-capability.md`. No new asset task committed; release blocker/NEXT unchanged.
 - Phase3 building. T-044c2b1 done: **version2 historically published**, independently confirmed by bounded GET-only observer at13:12Z on clean synced main7cb7a5f. Fixed observed decimal-string versions + terminal-cursor API shape. No new publication; production untouched.
 - **NEXT T-044c2b2 BLOCKED:** recover S101 original exact release-evidence/package archive via authorized access or owner attachment. Prior pointer returns404 here; scoped listings empty (not proof of deletion). Never reconstruct new bytes as originals, retry consent or overwrite the immutable UNCERTAIN terminal.
 - Original consent remains consumed; canonical terminalc53a0ae unchanged before/after observation. Existing release intake still requires HISTORY_CONFIRMED and exact retained inputs; independent later history is NOT a replacement original receipt. No serving/byte/dynamics/Sober/mobile acceptance.
