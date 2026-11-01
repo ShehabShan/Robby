@@ -13,6 +13,11 @@ local originalMaterials, originalOccupancy = terrain:ReadVoxels(region, 4)
 local folder, root, overlap, terrainParams
 local groups = {}
 local results = {}
+local function fill(cf, size, material)
+	terrain:FillBlock(cf, size, material)
+	-- Terrain collision meshing may lag the voxel edit; this is fixture setup only.
+	task.wait(0.25)
+end
 local function record(name, ok, detail)
 	table.insert(results, { name = name, ok = ok, detail = tostring(detail or "") })
 end
@@ -22,7 +27,7 @@ local function reset()
 			item:Destroy()
 		end
 	end
-	terrain:FillBlock(region.CFrame, region.Size, Enum.Material.Air)
+	fill(region.CFrame, region.Size, Enum.Material.Air)
 	root.CFrame = CFrame.new(origin)
 	root.Size = Vector3.new(2, 2, 1)
 	root.CollisionGroup = "Default"
@@ -36,12 +41,19 @@ local function part(name, position, size)
 	return p
 end
 local function surface(x, z)
-	local hit = workspace:Raycast(origin + Vector3.new(x, 25, z), Vector3.new(0, -60, 0), terrainParams)
-	assert(hit, "fixture has no solid surface")
+	local hit
+	local deadline = os.clock() + 3
+	repeat
+		hit = workspace:Raycast(origin + Vector3.new(x, 25, z), Vector3.new(0, -60, 0), terrainParams)
+		if not hit then
+			task.wait(0.1)
+		end
+	until hit or os.clock() >= deadline
+	assert(hit, "fixture has no queryable solid surface after bounded mesh wait")
 	return hit.Position
 end
 local function ground(offset)
-	terrain:FillBlock(CFrame.new(origin + Vector3.new(0, -8 + offset, 0)), Vector3.new(64, 16, 64), Enum.Material.Rock)
+	fill(CFrame.new(origin + Vector3.new(0, -8 + offset, 0)), Vector3.new(64, 16, 64), Enum.Material.Rock)
 end
 local function expect(name, expected)
 	local actual = Clearance.occupied(root, root.Size, overlap, terrainParams)
@@ -106,7 +118,7 @@ local ok, err = xpcall(function()
 		diagnostics("flat API offset " .. offset)
 	end
 	reset()
-	terrain:FillBlock(
+	fill(
 		CFrame.new(origin - Vector3.new(0, 8, 0)) * CFrame.Angles(0, 0, math.rad(15)),
 		Vector3.new(64, 16, 64),
 		Enum.Material.Rock
@@ -120,7 +132,7 @@ local ok, err = xpcall(function()
 	root.CFrame = CFrame.new(origin + Vector3.new(0, 12, 0))
 	expect("air above terrain (no dynamics claim)", false)
 	reset()
-	terrain:FillBlock(CFrame.new(origin), Vector3.new(32, 32, 32), Enum.Material.Water)
+	fill(CFrame.new(origin), Vector3.new(32, 32, 32), Enum.Material.Water)
 	expect("water ignored", false)
 	reset()
 	ground(0)
@@ -133,13 +145,13 @@ local ok, err = xpcall(function()
 	reset()
 	ground(1.5)
 	root.CFrame = CFrame.new(surface(0, 0) + Vector3.new(0, 1.2, 0))
-	terrain:FillBlock(CFrame.new(origin + Vector3.new(0, 24, 0)), Vector3.new(64, 4, 64), Enum.Material.Rock)
+	fill(CFrame.new(origin + Vector3.new(0, 24, 0)), Vector3.new(64, 4, 64), Enum.Material.Rock)
 	expect("high overhang clear seed", false)
 	reset()
 	ground(1.5)
 	root.CFrame = CFrame.new(surface(0, 0) + Vector3.new(0, 1.2, 0))
 	-- Low ceiling blocks both certified descent routes; conservative refusal is intended.
-	terrain:FillBlock(CFrame.new(origin + Vector3.new(0, 8, 0)), Vector3.new(64, 4, 64), Enum.Material.Rock)
+	fill(CFrame.new(origin + Vector3.new(0, 8, 0)), Vector3.new(64, 4, 64), Enum.Material.Rock)
 	expect("low overhang no clear seed (conservative)", true)
 	diagnostics("low overhang API")
 	reset()
