@@ -1,5 +1,9 @@
 # STATE
 
+## Now — after S109 owner report (2026-11-01)
+- Owner version5 report saved verbatim (research/inbox/2026-11-01-s109-version5-test-report.md) but TRUNCATED in travel-player. Summary: runCompleted, 106/106 passed, matrixPassed; travel-auto 13.533/13.851 vs 14±1 (D-359 fix effective). dynamicsAccepted false.
+- **NEXT:** get untruncated report (file upload), existing intake binds it to version5, then d2b2 (death/replacement, rates/final-partial, mid-dash y drop). No republish.
+
 ## Now — after S109 (2026-11-01)
 - T-047b done, D-361: S108 corrected package (D-359 clock fix) published to isolated test, HISTORY_CONFIRMED version5. Evidence research/notes/T-047b-release-result.md + artifact robby_s108_release_evidence. Both S108 consents consumed; never reuse.
 - **NEXT:** fresh owner Start/report on version5; save verbatim, existing intake binds report to version5, then d2b2. Physics lag ~0.6 stud, mid-dash y drop, death/rates/feel still open.
