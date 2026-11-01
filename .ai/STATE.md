@@ -1,5 +1,10 @@
 # STATE
 
+## Now — after S107 (2026-11-01)
+- Phase3 building. Owner version4 report saved verbatim (research/inbox/2026-11-01-s106-version4-test-report.md): travel-auto 12.090 actual/12.699 commanded vs 14±1 FAIL.
+- T-047 done, merged b643bb8, D-359: commit->first-PreSimulation latency spent ~1.3 stud of dash; profile clock now starts at first driven step. Regression + CHECK PASS. Handoff research/notes/T-047-commit-latency.md.
+- **NEXT T-047a:** corrected final-main package via EXISTING staging tooling, NEW exact-byte approval, one-shot test publication, fresh owner report -> d2b2. Never reuse consumed S106 consent. Physics lag (~0.6 stud) and mid-dash y drop unverified.
+
 ## Now — S106 approved release follow-up (2026-11-01)
 - T-046b done: corrected isolated test version4 HISTORY_CONFIRMED; exact portable evidence retained and round-trip verified. Handoff `research/notes/T-046b-release-result.md`. Consent consumed; NEVER retry. Production unchanged.
 - NEXT fresh owner Start/report from version4, existing release-intake binding, then d2b2 physics repair/matrix; UI/current-serving/physics acceptance unverified. Version3 raw failure preserved;13stud minimum unchanged. S101 evidence recovery separate.
