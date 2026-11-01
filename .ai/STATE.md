@@ -1,5 +1,13 @@
 # STATE
 
+## Now — after S92 (2026-11-01)
+- **Owner priority:** separately PUBLISHED private test experience to join through Sober on Linux; not another place in main Robby. User explicitly authorizes test publication only. Inputs: research/inbox/2026-11-01-linux-isolated-experience.md and2026-11-01-sober-test-publish.md.
+- Phase3 building. **NEXT T-044b2b**: owner-only explicit start/status/full-report UI + live-adapter lifecycle; then b3 bounded published intake/release path, then c test-only publication. Existing Studio bundle cannot simply be uploaded/enabled. Handoff: research/notes/T-044b2a-published-candidate.md.
+- S92 merged2c77ff1: T-044a/b1/b2a complete: read-only strict separate/private/owner/root destination checks, truthful published policy using unchanged canonical row tolerances, disabled exact-source candidate. No production runtime changes.
+- CHECK PASS: all prior gates +8 target/6 policy/3 builder/3 packaging groups,530 matrix parity checks,15 unsafe generated entry cases;7 temporary faults detected/restored. Candidate NOT release-ready/playable; no Roblox dynamics/ownership/rate/feel acceptance.
+- **Owner action:** supply an EMPTY separate PRIVATE owner-owned experience (universe/root-place links) and extend stored Open Cloud permissions to that test universe. Existing blank experience or trusted collaborator Studio creation; no supported API-key creation endpoint documented. Never request keys/account cookies in chat. Main production IDs are forbidden for test publishing.
+- No upload/publication; Saved30 and published27/game0.0.22 unchanged. Actual running-player evidence d2b2 and dependent activation remain gated. Claims released; close-out38.9, merged39.8 OLU; final saving before45. Older Now blocks are historical.
+
 ## Now — after S91 (2026-11-01)
 - **Owner follow-up priority:** prefers direct roblox-open-cloud upload instead of downloading the isolated test. See research/inbox/2026-11-01-S91-cloud-delivery-request.md. OPEN_CLOUD.md confirms Saved uploads supported; only documented destination is the Robby place. No upload performed. Resolve safe test destination/delivery next; uploading the disabled Studio-only harness does not supply running Player/physics evidence. Do not replace the live game with this isolated harness. Follow-up reached43.3 OLU; stopped new work for close-out.
 - Phase3 building, approved. **NEXT: T-043c0b4c3b2b2b2d2b2** — BLOCKED on owner single-player Studio report; do not activate Wind Step or dependent lanes.
@@ -150,16 +158,17 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-043 overhaul: c0b4 presentation (delivery Fx/metadata/receipt dispatcher/original-character owner done → truthful Burst → atomic cutover), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-043c0b4c3b2b2b2d2b2 — BLOCKED: owner Studio JSON+manifest; use d2b1 intake then repair and complete remaining death/replacement/rate gates. Handoff: research/notes/T-043c0b4c3b2b2b2d2b1-intake.md. No dependent activation before acceptance.
+- **NEXT:** T-044b2b — owner-only start/status/report UI and lifecycle for separate published test; then b3 live evidence intake/release and c publish. Handoff: research/notes/T-044b2a-published-candidate.md. Actual d2b2 physics and dependent activation remain gated.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-043c0b4c3b2b2b2d2b2 real-player dynamics execution/repair (serialized; blocked on Studio JSON+manifest) · d2a + d2b1 (done); then b2c activation and b3b Self renderer
+  - T-044b2b published test UI/lifecycle → b3 intake/release → c publish (c blocked on empty separate universe/permissions) · a/b1/b2a done
+  - T-043c0b4c3b2b2b2d2b2 actual dynamics/repair · valid Studio or future validated published report; no dependent activation yet
   - T-043c0b4c3b2c atomic keyed startup/legacy cutover · b2b (pending)
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
   - T-043h1 truthful Chill state · T-043b + T-043c1 (done) + T-043c0b (coordinate remotes)
   - Unrelated beast/movement/onboarding lanes deferred while owner-priority Rimeshard overhaul is active.
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
-- **Blockers:** d2b needs actual single-player Studio evidence (isolated bundle prepared); do not repeat Saved spatial tests as dynamics. M1 owner quality review before specials; T-042b fresh-server input verification remains open. No publish without explicit request.
+- **Blockers:** no separate test universe/root IDs or resource grants supplied; API-key universe creation not documented. Live start/report adapter and intake/release still incomplete. Actual running-player dynamics remain unexecuted; Saved spatial tests are not dynamics. Test publication authorized, production publication NOT authorized.
 - **Last cloud test:** Saved30 (2026-11-01,S89): spatial44/44 report rows twice,32 admission/refusal assertions; CLOUD ALL:PASS626/626 + packages/smoke. IsRunning=false/Players0, NOT motion/ownership/feel acceptance. Published remains27/game0.0.22.
-- **Last check.sh:** CHECK:PASS (2026-11-01,S91,merged main):626 pure/83 specs +28 driver +7 Python runner +9 Studio offline +12 new intake/bundle groups,9 new temporary faults detected/restored; all existing gates. Five future Z/X contract probes still deferred. No publication.
+- **Last check.sh:** CHECK:PASS (2026-11-01,S92 merge):626pure/83specs +all prior suites +8target/6published policy/3builder/3package groups;7 new faults detected/restored. No upload/publication; candidate disabled and not release-ready.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
