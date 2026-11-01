@@ -1,5 +1,13 @@
 # STATE
 
+## Now — after S90 (2026-11-01)
+- Phase3 building, approved. **NEXT: T-043c0b4c3b2b2b2d2b** — BLOCKED on actual single-player Studio test report. d2a complete; do not activate Wind Step or skip this gate.
+- S90 merged974c6cf: separate disabled WindStepTest place uses exact production Driver/Clearance/Motion,106-case first-slice real-scheduler harness, source hashes/revision, partial reports and independent cleanup. No production runtime changes.
+- CHECK PASS:626pure/83specs +28driver groups +7Python runner tests +9 new offline Studio guard/evidence/packaging groups;10 temporary faults detected/restored. Physics/ownership acceptance NOT executed.
+- Owner action: run the isolated Studio bundle and return full WindStepEvidence JSON (instructions in research/notes/T-043c0b4c3b2b2b2d2a-studio.md). First-slice PASS alone does not accept death/replacement or supported-rate/final-partial behavior. dynamicsAccepted remains false.
+- No cloud upload or publication; latest Saved30, published27/game0.0.22 unchanged. Activation/payment/input/visuals unchanged. Next d2b repair/remaining matrix → b2c movement activation → b3b Self → visual cutover → M1.
+- Claims released; close-out began30 OLU, merge30.8; final STATE saving below45. Historical NEXT bullets below are not current.
+
 ## Now — after S89 (2026-11-01)
 - Phase3 building, approved. **NEXT: T-043c0b4c3b2b2b2d2** — real running-server Wind Step motion/ownership validation. Claim and size/split first. Start from research/notes/T-043c0b4c3b2b2b2d1-spatial.md; geometry is complete, not solver acceptance. Then b2c atomic movement/payment/input activation, b3b receipt-owned Self, c3b2c visual cutover, M1 integration.
 - S89 merged e617d5d: d1 complete; production WindStepClearance extracted for actual-source Saved testing. Fixed real ReadVoxels Size metadata iteration and shallow penetration admission. Empty certificates now enclose the OBB plus4stud halo on every side, including overhead seeds; otherwise bounded8/16stud full-volume descents. Blocked low overhangs conservatively refuse. D-315–D-318.
@@ -134,16 +142,16 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-043 overhaul: c0b4 presentation (delivery Fx/metadata/receipt dispatcher/original-character owner done → truthful Burst → atomic cutover), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-043c0b4c3b2b2b2d2 — running-server real-player motion/ownership gate, then b2c atomic movement, b3b Self and c3b2c cutover. Handoff: research/notes/T-043c0b4c3b2b2b2d1-spatial.md.
+- **NEXT:** T-043c0b4c3b2b2b2d2b — BLOCKED: owner Studio report, repair and complete remaining death/replacement/rate gates. Handoff: research/notes/T-043c0b4c3b2b2b2d2a-studio.md. No dependent activation before acceptance.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-043c0b4c3b2b2b2d2 real-engine terrain/motion validation (serialized) · b2b2/b2b2b2c (done); then b2c activation and b3b Self renderer
+  - T-043c0b4c3b2b2b2d2b real-player dynamics execution/repair (serialized; blocked on Studio report) · d2a (done); then b2c activation and b3b Self renderer
   - T-043c0b4c3b2c atomic keyed startup/legacy cutover · b2b (pending)
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
   - T-043h1 truthful Chill state · T-043b + T-043c1 (done) + T-043c0b (coordinate remotes)
   - Unrelated beast/movement/onboarding lanes deferred while owner-priority Rimeshard overhaul is active.
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
-- **Blockers:** M1 owner quality review before specials; T-042b fresh-server input verification remains open. No publish without explicit request.
+- **Blockers:** d2b needs actual single-player Studio evidence (isolated bundle prepared); do not repeat Saved spatial tests as dynamics. M1 owner quality review before specials; T-042b fresh-server input verification remains open. No publish without explicit request.
 - **Last cloud test:** Saved30 (2026-11-01,S89): spatial44/44 report rows twice,32 admission/refusal assertions; CLOUD ALL:PASS626/626 + packages/smoke. IsRunning=false/Players0, NOT motion/ownership/feel acceptance. Published remains27/game0.0.22.
-- **Last check.sh:** CHECK:PASS (2026-11-01,S89):626 pure/83 specs +28 driver groups +7 Python runner tests and all existing gates. Five future Z/X contract probes still deferred. No publication.
+- **Last check.sh:** CHECK:PASS (2026-11-01,S90):626 pure/83 specs +28 driver groups +7 Python runner tests +9 Studio offline groups, isolated build/type/lint/source packaging;10 behavioral faults detected/restored and all existing gates. Five future Z/X contract probes still deferred. No publication.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
