@@ -12,9 +12,11 @@ local function solidVoxels(cf: CFrame, size: Vector3): boolean
 	) / 2
 	local region = Region3.new(cf.Position - half, cf.Position + half):ExpandToGrid(4)
 	local materials, occupancy = workspace.Terrain:ReadVoxels(region, 4)
-	for ix, plane in occupancy do
-		for iy, row in plane do
-			for iz, amount in row do
+	-- ReadVoxels arrays include a Size Vector3 dictionary entry in the real engine.
+	-- Iterate only numeric voxel cells, never dictionary metadata.
+	for ix, plane in ipairs(occupancy) do
+		for iy, row in ipairs(plane) do
+			for iz, amount in ipairs(row) do
 				if amount > 0 and materials[ix][iy][iz] ~= Enum.Material.Water then
 					return true
 				end

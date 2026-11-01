@@ -441,3 +441,6 @@ Replace D-313's blanket occupied-cell refusal: exact root OBB AABB empty voxels 
 
 ### D-315 — S89: split engine validation, keep activation gated (2026-11-01)
 - Separate actual Saved-engine spatial query validation (d1) from running-server solver/player ownership validation (d2). Luau Execution previously reports IsRunning=false; never substitute geometry or mocked players for dynamics evidence. Extract unchanged clearance adapter so the probe calls production logic. No live activation or publication.
+
+### D-316 — S89: real ReadVoxels metadata regression (2026-11-01)
+- Saved28 exposed generalized iteration traversing a Vector3 dictionary entry in the returned voxel arrays; geometry admission throws and the driver fails closed. Numeric ipairs iteration replaces generic iteration in production clearance and probe restoration. Engine-shaped doubles now include Size metadata, reproducing the failure before the fix. Python bytecode is ignored/untracked so probe imports cannot dirty main.

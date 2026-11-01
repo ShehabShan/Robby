@@ -7,3 +7,5 @@ roblox.yml
 .cache/
 *.rbxl.lock
 *.rbxlx.lock
+__pycache__/
+*.py[cod]

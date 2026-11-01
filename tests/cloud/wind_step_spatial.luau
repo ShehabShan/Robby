@@ -51,9 +51,9 @@ local function emptyCertificate(cf)
 	-- Diagnostics only; never used for the pass/fail decision or production admission.
 	local half = root.Size / 2
 	local m, o = terrain:ReadVoxels(Region3.new(cf.Position - half, cf.Position + half):ExpandToGrid(4), 4)
-	for x, plane in o do
-		for y, row in plane do
-			for z, amount in row do
+	for x, plane in ipairs(o) do
+		for y, row in ipairs(plane) do
+			for z, amount in ipairs(row) do
 				if amount > 0 and m[x][y][z] ~= Enum.Material.Water then
 					return false
 				end
@@ -79,6 +79,7 @@ local function diagnostics(name)
 	end
 	record(name, true, "rootEmpty=" .. tostring(emptyCertificate(root.CFrame)) .. " " .. table.concat(descents, ";"))
 end
+record("ReadVoxels metadata", true, "occupancy.Size=" .. typeof(originalOccupancy.Size))
 local ok, err = xpcall(function()
 	folder = Instance.new("Folder")
 	folder.Name = "WindStepSpatialProbe"
@@ -185,9 +186,9 @@ end
 local restored, restoreError = pcall(function()
 	terrain:WriteVoxels(region, 4, originalMaterials, originalOccupancy)
 	local materials, occupancy = terrain:ReadVoxels(region, 4)
-	for x, plane in originalOccupancy do
-		for y, row in plane do
-			for z, amount in row do
+	for x, plane in ipairs(originalOccupancy) do
+		for y, row in ipairs(plane) do
+			for z, amount in ipairs(row) do
 				assert(
 					materials[x][y][z] == originalMaterials[x][y][z] and math.abs(occupancy[x][y][z] - amount) < 0.0001,
 					"terrain restore mismatch"

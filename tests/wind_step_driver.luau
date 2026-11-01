@@ -122,7 +122,8 @@ local function fixture()
 		ReadVoxels = function(_, region, resolution)
 			assert(resolution == 4 and region.expanded)
 			f.lastRegion = region
-			return { { { if f.water then "Water" else "Rock" } } }, {
+			return { Size = V.new(1, 1, 1), { { if f.water then "Water" else "Rock" } } }, {
+				Size = V.new(1, 1, 1),
 				{ { if f.terrain and not (f.seedClear and region.lo.Y > 8) then 0.2 else 0 } },
 			}
 		end,

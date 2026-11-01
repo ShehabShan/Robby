@@ -8,7 +8,10 @@ import json
 from pathlib import Path
 import subprocess
 import time
+import sys
 
+# Importing the runner must not dirty a clean checkout with bytecode.
+sys.dont_write_bytecode = True
 import cloud_test
 
 
