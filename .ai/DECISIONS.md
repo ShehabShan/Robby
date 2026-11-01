@@ -438,3 +438,6 @@ Part overlap + forward Blockcast do not cover initial Terrain penetration. Prepa
 
 ### D-314 — Certified empty seed and full-body Terrain descent (S88, 2026-11-01)
 Replace D-313's blanket occupied-cell refusal: exact root OBB AABB empty voxels certify a clear start; otherwise bounded8/16stud overhead empty seeds plus Terrain-only full-volume descent certify it headlessly. Never estimate surface height from occupancy or rely on a point ray; obstruction/no seed/error refuse. Overhang false-refusal remains possible.28 actual-source groups/17 restored behavioral faults and explicit Saved-engine matrix; b2b2b2d still blocks live movement promotion until actual geometry/physics evidence.
+
+### D-315 — S89: split engine validation, keep activation gated (2026-11-01)
+- Separate actual Saved-engine spatial query validation (d1) from running-server solver/player ownership validation (d2). Luau Execution previously reports IsRunning=false; never substitute geometry or mocked players for dynamics evidence. Extract unchanged clearance adapter so the probe calls production logic. No live activation or publication.
