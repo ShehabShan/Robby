@@ -21,6 +21,8 @@ class ReleaseIntakeTests(unittest.TestCase):
     def setUp(self):
         self.fx = fixture.TransactionTests()
         self.fx.setUp()
+        if getattr(self, "attestation", False):
+            self.fx.use_attestation()
         self.addCleanup(self.fx.doCleanups)
         self.receipt = self.fx.run_tx()
         self.evidence = self.fx.evidence
@@ -164,6 +166,11 @@ class ReleaseIntakeTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 self.bind()
             verify.assert_called_once()
+
+
+class AttestationReleaseIntakeTests(ReleaseIntakeTests):
+    """The complete release-intake hostile suite also applies to owner declarations."""
+    attestation = True
 
 
 if __name__ == '__main__':

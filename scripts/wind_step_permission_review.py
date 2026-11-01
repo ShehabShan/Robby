@@ -1,7 +1,7 @@
-"""Offline, independently pinned HUMAN permission review; not key introspection.
+"""Offline, independently pinned owner permission evidence; not key introspection.
 
-The operator must independently review the authentic redacted source and confirm
-it concerns the credential configured behind roblox-open-cloud. This validates
+The operator must inspect an authentic dashboard review OR explicit owner
+attestation/waiver for the credential behind roblox-open-cloud. This validates
 consistency only. No network, key material, permission probe or upload permit.
 """
 import hashlib
@@ -14,9 +14,24 @@ from test_target import validate_config
 MAX_REVIEW = 8192
 MAX_AGE = 86400
 KIND = "Owner dashboard review of isolated test API permissions"
+ATTESTATION_KIND = "Owner declaration of isolated test API permissions; dashboard evidence waived"
 FIELDS = {"schema", "kind", "integrationId", "target", "reviewedByOwnerUserId",
           "credentialBindingConfirmed", "publicationScope", "publicationOperation",
           "historyScope", "reviewedAt", "expiresAt", "sourceReference", "sourceSha256"}
+
+ATTESTATION_FIELDS = (FIELDS - {"reviewedByOwnerUserId", "reviewedAt"}) | {
+    "attestedByOwnerUserId", "attestedAt", "dashboardEvidenceWaived"}
+
+
+def evidence_fields(review):
+    require(type(review) is dict and type(review.get("schema")) is int, "invalid permission evidence schema")
+    if review["schema"] == 1:
+        require(set(review) == FIELDS and review["kind"] == KIND, "invalid dashboard-review fields/kind")
+        return "reviewedByOwnerUserId", "reviewedAt", "DASHBOARD_REVIEW"
+    require(review["schema"] == 2 and set(review) == ATTESTATION_FIELDS
+            and review["kind"] == ATTESTATION_KIND and review["dashboardEvidenceWaived"] is True,
+            "explicit owner attestation and dashboard waiver required")
+    return "attestedByOwnerUserId", "attestedAt", "OWNER_ATTESTATION"
 
 
 def digest(value):
@@ -26,18 +41,16 @@ def digest(value):
 
 def validate_review(review, target, now):
     validate_config(target)
-    require(type(review) is dict and set(review) == FIELDS, "unexpected permission-review fields")
-    require(type(review["schema"]) is int and review["schema"] == 1 and review["kind"] == KIND,
-            "invalid permission-review kind/schema")
+    owner_field, time_field, _ = evidence_fields(review)
     validate_config(review["target"])
     require(review["target"] == target, "permission-review target mismatch")
-    require(review["reviewedByOwnerUserId"] == target["ownerUserId"], "owner review required")
+    require(review[owner_field] == target["ownerUserId"], "owner review required")
     require(review["integrationId"] == "roblox-open-cloud"
             and review["credentialBindingConfirmed"] is True, "exact broker credential review required")
     require(review["publicationScope"] == "universe-places"
             and review["publicationOperation"] == "Write"
             and review["historyScope"] == "universe.place:read", "exact publication/history scopes required")
-    reviewed, expires = review["reviewedAt"], review["expiresAt"]
+    reviewed, expires = review[time_field], review["expiresAt"]
     require(type(now) in (int, float) and 0 < now < float("inf"), "invalid review clock")
     require(type(reviewed) is int and type(expires) is int and 0 < reviewed <= now < expires
             and 0 < expires - reviewed <= MAX_AGE, "review expired, future-dated or too long-lived")
@@ -59,12 +72,14 @@ def load_review(path, independent_pin, target, now, *, reviewed_source_pin):
     review = strict_json(raw.decode("utf-8"))
     validate_review(review, target, now)
     require(review["sourceSha256"] == reviewed_source_pin, "independently reviewed source mismatch")
+    _, time_field, basis = evidence_fields(review)
     # Do not propagate the human free-text source or content into receipts/logs.
-    return {"schema": 1, "kind": "WindStep scoped permission-review validation",
-            "status": "REVIEW_CONSISTENT_ONLY", "target": dict(target),
+    return {"schema": review["schema"], "kind": "WindStep scoped permission-review validation",
+            "status": "OWNER_ATTESTATION_CONSISTENT_ONLY" if basis == "OWNER_ATTESTATION" else "REVIEW_CONSISTENT_ONLY",
+            "permissionEvidenceType": basis, "target": dict(target),
             "integrationId": "roblox-open-cloud", "reviewSha256": independent_pin,
             "reviewedSourceSha256": reviewed_source_pin,
-            "reviewedAt": review["reviewedAt"], "expiresAt": review["expiresAt"],
+            time_field: review[time_field], "expiresAt": review["expiresAt"],
             "reviewRecordConsistent": True, "reviewerIdentityVerified": False,
             "writePermissionVerified": False, "publishReady": False,
             "releaseEvidenceAccepted": False, "dynamicsAccepted": False}

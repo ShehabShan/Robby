@@ -72,6 +72,35 @@ class TransactionTests(unittest.TestCase):
         self.targets = []
         self.pages = []
 
+    def use_attestation(self):
+        self.put('source', b'SYNTHETIC OWNER DECLARATION AND SCREENSHOT WAIVER; NO DASHBOARD INSPECTION')
+        self.review.update(schema=2, kind=tx.review.ATTESTATION_KIND, dashboardEvidenceWaived=True,
+                           sourceReference='SYNTHETIC OWNER ATTESTATION', sourceSha256=self.inputs['source'][1])
+        self.review['attestedAt'] = self.review.pop('reviewedAt')
+        self.review['attestedByOwnerUserId'] = self.review.pop('reviewedByOwnerUserId')
+        self.put('review', json.dumps(self.review).encode())
+
+    def test_owner_attestation_preserved_through_one_shot_transaction(self):
+        self.use_attestation()
+        receipt = self.run_tx()
+        self.assertEqual(receipt['status'], 'HISTORY_CONFIRMED')
+        self.assertEqual(len(self.posts), 1)
+        self.assertIs(receipt['writePermissionVerified'], False)
+        record = json.loads((self.evidence / 'review').read_bytes())
+        self.assertEqual(record['kind'], tx.review.ATTESTATION_KIND)
+        self.assertNotIn('reviewedAt', record)
+        with self.assertRaises((ValueError, FileExistsError)):
+            self.run_tx()
+        self.assertEqual(len(self.posts), 1)
+
+    def test_attestation_expiry_after_reservation_refuses_post(self):
+        self.use_attestation()
+        with self.after_reserve(lambda _: setattr(self, 'now', self.review['expiresAt'])):
+            receipt = self.run_tx()
+        self.assertEqual(receipt['status'], 'REJECTED')
+        self.assertFalse(self.posts)
+        self.assertTrue(journal.inspect(self.inputs['consent'][1], self.store)['consumed'])
+
     def put(self, name, raw):
         path = self.root / (name + '.input')
         path.write_bytes(raw)

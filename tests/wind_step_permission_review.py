@@ -135,5 +135,81 @@ class ReviewTests(unittest.TestCase):
             self.load()
 
 
+class AttestationTests(ReviewTests):
+    """Run the same hostile legacy suite after a truthful conversion, not relabeling."""
+    def load(self, **kwargs):
+        # Conversion is test-fixture-only; production has no auto-upgrade path.
+        record = self.record
+        self.record = copy.deepcopy(record)
+        if self.record.get("schema") == 1 and type(self.record["schema"]) is int:
+            self.record["schema"] = 2
+        if self.record.get("kind") == review.KIND:
+            self.record["kind"] = review.ATTESTATION_KIND
+        for old, new in (("reviewedByOwnerUserId", "attestedByOwnerUserId"), ("reviewedAt", "attestedAt")):
+            if old in self.record:
+                self.record[new] = self.record.pop(old)
+        self.record.setdefault("dashboardEvidenceWaived", True)
+        try:
+            return super().load(**kwargs)
+        finally:
+            self.record = record
+
+    def test_valid_consistency_is_not_authority(self):
+        r = self.load()
+        self.assertEqual(r["status"], "OWNER_ATTESTATION_CONSISTENT_ONLY")
+        self.assertEqual(r["permissionEvidenceType"], "OWNER_ATTESTATION")
+        self.assertEqual(r["attestedAt"], NOW - 1)
+        self.assertNotIn("reviewedAt", r)
+        self.assertNotIn("sourceReference", r)
+        for f in ("reviewerIdentityVerified", "writePermissionVerified", "publishReady",
+                  "releaseEvidenceAccepted", "dynamicsAccepted"):
+            self.assertIs(r[f], False)
+
+    def test_binding_owner_and_scopes_never_inferred(self):
+        # 2 is this format's valid version; all other inherited invalid inputs stay invalid.
+        for value in (True, 0, 3, "2"):
+            self.record["schema"] = value
+            with self.assertRaises(ValueError):
+                self.load()
+        self.record["schema"] = 1
+        for field, values in {"integrationId": ["other-key", "", None],
+                              "credentialBindingConfirmed": [1, False, "true"],
+                              "reviewedByOwnerUserId": [1, "123", None],
+                              "publicationScope": ["*", "universe.place:read"],
+                              "publicationOperation": ["Read", "write", "*"],
+                              "historyScope": ["*", "universe-places"]}.items():
+            old = self.record[field]
+            for value in values:
+                self.record[field] = value
+                with self.subTest(field=field, value=value), self.assertRaises(ValueError):
+                    self.load()
+            self.record[field] = old
+
+    def test_explicit_waiver_and_no_dashboard_impersonation(self):
+        for value in (False, 1, "true", None):
+            self.record["dashboardEvidenceWaived"] = value
+            with self.assertRaises(ValueError):
+                self.load()
+        self.record["dashboardEvidenceWaived"] = True
+        # Wrong kind/version cannot silently turn a declaration into a dashboard review.
+        self.record["schema"] = 2
+        raw = json.dumps(self.record).encode()
+        with self.assertRaises(ValueError):
+            super(AttestationTests, self).load(raw=raw)
+
+    def test_attestation_required_fields_and_strict_schema(self):
+        record = {**self.record, "schema": 2, "kind": review.ATTESTATION_KIND,
+                  "dashboardEvidenceWaived": True}
+        record["attestedAt"] = record.pop("reviewedAt")
+        record["attestedByOwnerUserId"] = record.pop("reviewedByOwnerUserId")
+        review.validate_review(record, TARGET, NOW)
+        for field in record:
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                review.validate_review({k: v for k, v in record.items() if k != field}, TARGET, NOW)
+        for field in ("reviewedAt", "reviewedByOwnerUserId", "dashboardInspected", "apiKey"):
+            with self.assertRaises(ValueError):
+                review.validate_review({**record, field: True}, TARGET, NOW)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -530,3 +530,6 @@ Separate read-only release intake pins the receipt independently, reads the cano
 ### D-349 — portable exact-stage approval evidence (S100, 2026-11-01)
 - Stage only after final main documentation save; retain enabled bytes outside build and deliver a version-pinned archive plus separate approval-card pins. Repo handoff links those immutable artifacts; cannot commit the containing commit's own hash. No new generic release scaffolding.
 - Owner authorizes complete test-place overwrite and one time-bounded exact-byte attempt, separately supplies redacted scoped grant review. Unknown existing test contents are explicitly disclosed; original private sources never enter public repo. History/consistency remains distinct from real player/physics acceptance.
+
+## D-350 — truthful owner declaration instead of screenshot (S101, 2026-11-01)
+Implement S100 owner waiver as a distinct strict schema2 permission-attestation record, not a fake dashboard review. Preserve original owner timestamp/source and all independent pins, target/owner/scope/expiry gates. Legacy dashboard schema1 remains valid. Transaction/intake keep actual evidence bytes; permissions and reviewer identity remain unverified. No screenshot request; all unrelated exact-byte and no-retry gates stay unchanged.
