@@ -1,5 +1,9 @@
 # STATE
 
+## Now — after S110 (2026-11-01)
+- T-048a done, D-362: owner's full version5 report saved verbatim (research/inbox/2026-11-01-s108-version5-test-report-full.md); manual consistency vs remote journal (HISTORY_CONFIRMED v5) and T-047b pins OK. 106/106, travel-auto 13.53/13.85 PASS, lag ~0.32 stud. Handoff research/notes/T-048-version5-intake.md.
+- **NEXT T-048b (blocked):** full `ingest_wind_step_release.py` binding needs the S108 evidence dir, which exists only on S108 bot ebeb0204 VM (its artifact is unreadable from other bots). Run it there. Meanwhile d2b2 offline prep: mid-dash Y dip ~0.59 stud not caught by maxYError; rate variation/final-partial; death/replacement. No republish.
+
 ## Now — after S109 owner report (2026-11-01)
 - Owner version5 report saved verbatim (research/inbox/2026-11-01-s109-version5-test-report.md) but TRUNCATED in travel-player. Summary: runCompleted, 106/106 passed, matrixPassed; travel-auto 13.533/13.851 vs 14±1 (D-359 fix effective). dynamicsAccepted false.
 - **NEXT:** get untruncated report (file upload), existing intake binds it to version5, then d2b2 (death/replacement, rates/final-partial, mid-dash y drop). No republish.
