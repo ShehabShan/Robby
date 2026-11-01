@@ -11,14 +11,9 @@ local function finite(n: number): boolean
 	return n == n and math.abs(n) < math.huge
 end
 
--- Bounds are fixed for this lease. Huge/custom roots are rejected, not costly queries.
--- Spatial overlap excludes Terrain; conservative solid voxel refusal closes that hole.
--- This can refuse near rough terrain: live activation must validate terrain usability.
-local function occupied(root: BasePart, size: Vector3, overlap: OverlapParams): boolean
-	if #workspace:GetPartBoundsInBox(root.CFrame, size, overlap) > 0 then
-		return true
-	end
-	local cf = root.CFrame
+-- Empty-voxel seed certification avoids Blockcast's initial-overlap blind spot.
+-- Voxel occupancy is only an emptiness certificate, NEVER an estimated surface height.
+local function solidVoxels(cf: CFrame, size: Vector3): boolean
 	local x, y, z = cf.RightVector, cf.UpVector, cf.LookVector
 	local half = Vector3.new(
 		math.abs(x.X) * size.X + math.abs(y.X) * size.Y + math.abs(z.X) * size.Z,
@@ -37,6 +32,24 @@ local function occupied(root: BasePart, size: Vector3, overlap: OverlapParams): 
 		end
 	end
 	return false
+end
+local function occupied(root: BasePart, size: Vector3, overlap: OverlapParams, terrain: RaycastParams): boolean
+	if #workspace:GetPartBoundsInBox(root.CFrame, size, overlap) > 0 then
+		return true
+	end
+	if not solidVoxels(root.CFrame, size) then
+		return false
+	end
+	-- A proven-empty seed and unobstructed full-volume descent certify the endpoint.
+	-- Two fixed probes bound work; caves/overhangs with no clear path still refuse.
+	for _, height in { 8, 16 } do
+		local offset = Vector3.new(0, height, 0)
+		local seed = root.CFrame + offset
+		if not solidVoxels(seed, size) and not workspace:Blockcast(seed, size, -offset, terrain) then
+			return false
+		end
+	end
+	return true
 end
 
 -- Non-yielding resource reservation. No force, velocity or ownership writes before commit.
@@ -100,6 +113,12 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3): Lease?
 	ray.IgnoreWater = true
 	ray.CollisionGroup = root.CollisionGroup
 	local preparedAt = workspace:GetServerTimeNow()
+	local terrain = RaycastParams.new()
+	terrain.FilterType = Enum.RaycastFilterType.Include
+	terrain.FilterDescendantsInstances = { workspace.Terrain }
+	terrain.RespectCanCollide = true
+	terrain.IgnoreWater = true
+	terrain.CollisionGroup = collisionGroup
 	local started, covered, lastClock = 0, 0, 0
 	local pending, finishAfter, applied, pendingSpeed = false, false, 0, 0
 	local axis = Vector3.new(dx, 0, dz)
@@ -191,7 +210,7 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3): Lease?
 			-- wall time runs ahead. Single-use Pre/Post pairing owns simulation time.
 			local elapsed = math.max(covered, now - started)
 			local distance, _, terminal = Motion.forward(profile, elapsed, dt, nil)
-			if distance <= 0 or occupied(root, size, overlap) then
+			if distance <= 0 or occupied(root, size, overlap, terrain) then
 				stop()
 				return
 			end
@@ -252,7 +271,7 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3): Lease?
 				if
 					not eligible()
 					or not root:CanSetNetworkOwnership()
-					or occupied(root, size, overlap)
+					or occupied(root, size, overlap, terrain)
 					or (force :: LinearVelocity).Parent ~= root
 					or (attachment :: Attachment).Parent ~= root
 				then
@@ -274,7 +293,7 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3): Lease?
 	}
 	leases[player] = lease
 	local ok = pcall(function()
-		if not eligible() or not root:CanSetNetworkOwnership() or occupied(root, size, overlap) then
+		if not eligible() or not root:CanSetNetworkOwnership() or occupied(root, size, overlap, terrain) then
 			error("ineligible Wind Step root")
 		end
 		if not finite(mass) or mass <= 0 or mass > 1000 then

@@ -120,10 +120,25 @@ local function fixture()
 	world.Terrain = {
 		ReadVoxels = function(_, region, resolution)
 			assert(resolution == 4 and region.expanded)
-			return { { { if f.water then "Water" else "Rock" } } }, { { { if f.terrain then 0.2 else 0 } } }
+			f.lastRegion = region
+			return { { { if f.water then "Water" else "Rock" } } }, {
+				{ { if f.terrain and not (f.seedClear and region.lo.Y > 8) then 0.2 else 0 } },
+			}
 		end,
 	}
 	function world:Blockcast(cf, size, direction, params)
+		if params.FilterType == "Include" then
+			assert(
+				params.FilterDescendantsInstances[1] == self.Terrain and params.RespectCanCollide and params.IgnoreWater
+			)
+			assert(params.CollisionGroup == "Players" and size == root.Size)
+			f.terrainSweeps = (f.terrainSweeps or 0) + 1
+			assert(direction.X == 0 and direction.Z == 0 and (direction.Y == -8 or direction.Y == -16))
+			if f.failTerrainSweep then
+				error("terrain sweep failed")
+			end
+			return if f.terrainHit then { Distance = f.terrainHit } else nil
+		end
 		if f.failCast then
 			error("sweep failed")
 		end
@@ -134,7 +149,7 @@ local function fixture()
 	local services = { Players = players, RunService = run, ReplicatedStorage = { Shared = { WindStep = "motion" } } }
 	local enum = {
 		Material = { Water = "Water" },
-		RaycastFilterType = { Exclude = "Exclude" },
+		RaycastFilterType = { Exclude = "Exclude", Include = "Include" },
 		ActuatorRelativeTo = { World = "World" },
 		VelocityConstraintMode = { Plane = "Plane" },
 		ForceLimitMode = { PerAxis = "PerAxis" },
@@ -682,6 +697,77 @@ local cases = {
 			f:clean()
 			assert(#f.ownership == 0)
 		end
+	end,
+
+	["coarse occupied ground cell allowed only by certified empty full-volume descent"] = function()
+		local f = fixture()
+		f.terrain, f.seedClear = true, true
+		local l = f:start()
+		assert(f.terrainSweeps == 2)
+		f:tick(0.02)
+		assert(l.active() and f.terrainSweeps == 3)
+		l.stop()
+		f:clean()
+	end,
+	["buried terrain blocked descent missing empty seed and query failure refuse"] = function()
+		for _, change in
+			{
+				function(f)
+					f.terrainHit = 1
+				end,
+				function(f)
+					f.terrainHit = 8
+				end,
+				function(f)
+					f.seedClear = false
+				end,
+				function(f)
+					f.failTerrainSweep = true
+				end,
+			}
+		do
+			local f = fixture()
+			f.terrain, f.seedClear = true, true
+			change(f)
+			assert(f:prepare() == nil)
+			assert((f.terrainSweeps or 0) <= 2)
+			f:clean()
+		end
+	end,
+
+	["tilted root voxel certificate encloses all body corners"] = function()
+		local f = fixture()
+		f.root.CFrame = CF.new(7, 8, 9) * CF.Angles(0.3, 0.7, 0.2)
+		local l = assert(f:prepare())
+		local region = f.lastRegion
+		for _, x in { -1, 1 } do
+			for _, y in { -1, 1 } do
+				for _, z in { -1, 1 } do
+					local corner = f.root.CFrame:PointToWorldSpace(V.new(x, y, z) * f.root.Size / 2)
+					assert(corner.X >= region.lo.X - 0.0001 and corner.X <= region.hi.X + 0.0001)
+					assert(corner.Y >= region.lo.Y - 0.0001 and corner.Y <= region.hi.Y + 0.0001)
+					assert(corner.Z >= region.lo.Z - 0.0001 and corner.Z <= region.hi.Z + 0.0001)
+				end
+			end
+		end
+		l.stop()
+		f:clean()
+	end,
+	["terrain clearance is fresh at commit and every frame not a cached start"] = function()
+		local f = fixture()
+		f.terrain, f.seedClear = true, true
+		local l = assert(f:prepare())
+		f.terrainHit = 2
+		assert(not l.commit(f.now))
+		f:clean()
+		f = fixture()
+		f.terrain, f.seedClear = true, true
+		l = f:start()
+		f:tick(0.02)
+		f.terrainHit = 2
+		f:tick(0.02)
+		assert(not l.active())
+		f:clean()
 	end,
 
 	["100 turnovers leave no listeners forces or duplicate ownership writes"] = function()
