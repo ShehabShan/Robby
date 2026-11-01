@@ -17,7 +17,8 @@ FILES = ("src/server/WindStepDriver.luau", "src/server/WindStepClearance.luau", 
          STUDIO, "tests/studio/WindStepEvidence.luau", HEADER, POLICY, "scripts/build_wind_step_published.py",
          "scripts/test_target.py", "wind-step-test.project.json", "src/shared/OwnerTestSession.luau",
          "tests/published/OwnerTestAdapter.luau", "tests/published/OwnerTestTransport.luau",
-         "tests/published/wind_step_footer.luau")
+         "tests/published/wind_step_footer.luau", "src/shared/OwnerTestClient.luau",
+         "tests/published/OwnerTestView.luau", "tests/published/wind_step.client.luau")
 
 
 def replace_once(source, before, after):
@@ -78,6 +79,11 @@ def build(target=None):
                        "OwnerTestAdapter": "tests/published/OwnerTestAdapter.luau",
                        "OwnerTestTransport": "tests/published/OwnerTestTransport.luau"}.items():
         node[name] = {"$path": path}
+    project["tree"]["StarterPlayer"]["StarterPlayerScripts"] = {
+        "$className": "StarterPlayerScripts", "WindStepOwner": {
+            "$path": "tests/published/wind_step.client.luau", "$properties": {"Disabled": True},
+            "OwnerTestClient": {"$path": "src/shared/OwnerTestClient.luau"},
+            "OwnerTestView": {"$path": "tests/published/OwnerTestView.luau"}}}
     source = generated_source((ROOT / STUDIO).read_text(), (ROOT / HEADER).read_text())
     directory = ROOT / "build/published-test"
     directory.mkdir(parents=True, exist_ok=True)
@@ -116,7 +122,7 @@ def build(target=None):
                 "dynamicsAccepted": False, "target": target, "sourceRevision": attrs["SourceRevision"],
                 "sourceHashes": hashes, "generatedServerSha256": attrs["GeneratedServerSha256"],
                 "placeSha256": hashlib.sha256(place.read_bytes()).hexdigest(),
-                "remaining": ["owner start/status/report UI and lifecycle", "published evidence intake and release checks",
+                "remaining": ["published evidence intake and release checks",
                               "configured private destination permissions", "actual player dynamics evidence"]}
     (directory / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     print("DISABLED candidate built; NOT publish-ready; " + ("target bound" if target else "target unconfigured"))

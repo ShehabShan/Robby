@@ -154,8 +154,13 @@ test("candidate disabled and unconfigured; exact sources and manifest", function
 		assert(hash == serde.hash("sha256", fs.readFile(path)), path)
 	end
 	for _, item in place:GetDescendants() do
-		assert(not item:IsA("LocalScript"))
-		if item:IsA("Script") then
+		if item:IsA("LocalScript") then
+			assert(item.Name == "WindStepOwner" and item.Disabled)
+			assert(item.Source == fs.readFile("tests/published/wind_step.client.luau"))
+			assert(item.OwnerTestView.Source == fs.readFile("tests/published/OwnerTestView.luau"))
+			assert(item.OwnerTestClient.Source == fs.readFile("src/shared/OwnerTestClient.luau"))
+		end
+		if item.ClassName == "Script" then
 			assert(item == script)
 		end
 	end
