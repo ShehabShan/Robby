@@ -1,5 +1,14 @@
 # STATE
 
+## Now — after S97 (2026-11-01)
+- Phase3 building, approved. **NEXT T-044b3b2b2b**: durable cross-VM single-use intent journal and one-shot main-only isolated transaction; size/split before work. Then b3a2 running-player delivered-version binding, then c actual authorized publication.
+- S97 mergedeed0bbf: b3b2b1 bounded GET-only publication-history observer + b3b2b2a independently pinned scoped human permission-review validator complete. Exact history match is historical publication ONLY, never current serving/byte identity/Write permission. Review JSON proves consistency, not authenticated authorship or live permission.
+- CHECK PASS on merged main: prior642pure/85specs and all integration gates +27 new Python groups;21 temporary behavioral faults detected/restored. Synthetic/offline only; no real transport/physics/Sober/mobile evidence.
+- Handoffs: research/notes/T-044b3b2b1-evidence-route.md and T-044b3b2b2a-permission-review.md. Official experimental history GET supports API-key universe.place:read; current-serving endpoint remains unverified. Do not infer first-row/latest/current. Real running-player version report remains separate b3a2 gate.
+- Credential-safe route: independently reviewed redacted dashboard grant for exact roblox-open-cloud credential/test target, universe-places Write and history read; <=24h and independent record/source pins. No actual permission review or exact-byte overwrite consent exists. Never extract brokered key for introspection or synthesize consent from continuation.
+- Next transaction must coordinate consent consumption across VMs, persist intent before POST and never auto-retry uncertain outcomes. Existing local staging/preflight/observer are NOT upload-ready; default candidate remains DISABLED. No new owner action until release/intake tooling ready.
+- No Roblox requests/uploads/publication; main Saved30/published27/game0.0.22 unchanged. Claims released. Close-out34.1, merged35.0 OLU, final saving before45. Older Now blocks are historical.
+
 ## Now — after S96 (2026-11-01)
 - Phase3 building, approved. **NEXT T-044b3b2b**: resolve credential-safe write authorization and independently observed published-version route, then one-shot main-only test upload/receipt tooling. Size/split before work. Then b3a2 delivered-report binding, then c actual authorized test publication.
 - S96 merged0ae8e52: b3b1 exact locally enabled staging + b3b2a read-only clean-main/pinned overwrite-consent/private-owner/exact-root preflight complete. Default candidate stays DISABLED; explicit local staging can enable separate test bytes only. Neither is publish-ready or delivered evidence; no remote writes.
@@ -190,10 +199,10 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-043 overhaul: c0b4 presentation (delivery Fx/metadata/receipt dispatcher/original-character owner done → truthful Burst → atomic cutover), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-044b3b — safe test-only release tooling; size/split first. Then b3a2 exact delivered-release/version binding, then c separate test publication. Handoff: research/notes/T-044b3a1-candidate-intake.md. Actual d2b2 physics and dependent activation remain gated.
+- **NEXT:** T-044b3b2b2b — durable single-use isolated publication transaction; size/split first. Then b3a2 exact delivered-release/running-version binding and c actual separate test publication. Handoff: research/notes/T-044b3b2b2a-permission-review.md. Actual d2b2 physics and dependent activation remain gated.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-044b3b safe release tooling → b3a2 delivered-report binding → c publish (c gated on verified empty destination/overwrite consent/write permissions) · a/b1/b2a/b2b1/b2b2a/b2b2b1/b2/b3a1 done
+  - T-044b3b2b2b durable transaction → b3a2 delivered-report binding → c publish (c gated on exact overwrite consent/scoped reviewed grant/fresh target) · b3b1/b3b2a/b3b2b1/b3b2b2a done
   - T-043c0b4c3b2b2b2d2b2 actual dynamics/repair · valid Studio or future validated published report; no dependent activation yet
   - T-043c0b4c3b2c atomic keyed startup/legacy cutover · b2b (pending)
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
@@ -202,5 +211,5 @@
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** destination IDs supplied/private read verified; empty-content and write grant unverified. Generated-worker/owner-UI integration complete offline; intake/release incomplete; Sober/device behavior unverified. Running-player dynamics unexecuted; offline adapter tests and Saved spatial tests are not dynamics. Test publication authorized, production publication NOT authorized.
 - **Last cloud test:** Saved30 (2026-11-01,S89): spatial44/44 report rows twice,32 admission/refusal assertions; CLOUD ALL:PASS626/626 + packages/smoke. IsRunning=false/Players0, NOT motion/ownership/feel acceptance. Published remains27/game0.0.22.
-- **Last check.sh:** CHECK:PASS (2026-11-01,S94 merge):642pure/85specs +all prior gates +5worker/5UI integration groups;18 S94 faults detected/restored. No upload/publication; candidate disabled and not release-ready.
+- **Last check.sh:** CHECK:PASS (2026-11-01,S97 merge):642pure/85specs +all prior gates +27 new Python history/review groups;21 S97 faults detected/restored. No upload/publication; default candidate disabled and not release-ready.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.

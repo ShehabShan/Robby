@@ -5,7 +5,7 @@
 - T-044b3b2b2a done: independently pinned scoped human dashboard-review input; consistency only, no forged authorization/secret extraction (D-340).
 - CHECK PASS:27 new synthetic Python groups,21 temporary behavioral faults detected/restored; prior full integration gates pass. No actual Roblox/Sober/physics tests.
 - NEXT b3b2b2b durable cross-VM single-use intent + one-shot transaction (size/split), then b3a2 running-report binding and c publication. Handoffs: T-044b3b2b1-evidence-route.md and T-044b3b2b2a-permission-review.md.
-- Close-out began34.1 OLU; no Roblox requests/uploads/publication, main Saved30/published27/game0.0.22 unchanged; no owner action until tools ready. Final saving target below45.
+- Close-out began34.1 OLU; mergedeed0bbf at35.0; no Roblox requests/uploads/publication, main Saved30/published27/game0.0.22 unchanged. No owner action until tools ready; final saving below45.
 
 ## S96 — 2026-11-01
 - T-044b3b1 done: exact locally enabled isolated staging, pinned manifest/place/source/tooling verification; default remains disabled (D-336).
