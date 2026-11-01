@@ -1,3 +1,7 @@
+## S107 — 2026-11-01 — T-047
+- Owner version4 report saved verbatim. Root cause: commit latency spent ~1.3 stud of dash travel (commanded 12.70). Fixed: clock starts at first driven step; regression; CHECK PASS. D-359.
+- NEXT T-047a corrected package + new exact-byte approval; no publication. ~14 OLU at close-out.
+
 ## S106 approved-release follow-up — 2026-11-01
 - Exact corrected isolated package published once: version4 HISTORY_CONFIRMED; production untouched.
 - Canonical terminal matched; portable exact evidence ZIP integrity/GET round-trip verified. T-046b-release-result.md.

@@ -557,3 +557,6 @@ The version3 owner report has nonzero travel but zero observed commands and phas
 
 ### D-358 — S106: bounded corrected-package preparation (2026-11-01)
 T-046a delivers existing S105 phase-observation repair as an independently pinned final-main test package. Separate T-046b owns the already implemented one-shot publication, gated on NEW exact-byte approval; no runtime/gate framework changes. Preserve raw version3 failure and unchanged13stud minimum; sampling success cannot establish physics acceptance. Final artifacts are generated after last main save; unchanged-main pinned-release exception applies.
+
+### D-359 — S107: dash profile clock starts at first driven step (2026-11-01)
+- Version4 report showed the commit->first-PreSimulation gap counted as dash time (commanded 12.70/14). Profile time now starts at the first driven step; no-catch-up/stall rules, freshness gates and tolerances unchanged. Physics lag/mid-dash drop remain d2b2 unknowns.
