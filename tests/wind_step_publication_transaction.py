@@ -162,6 +162,47 @@ class TransactionTests(unittest.TestCase):
                       'currentServingVersionVerified', 'writePermissionVerified', 'reviewerIdentityVerified'):
             self.assertIs(receipt[field], False)
 
+    def test_observed_history_shape_through_transaction(self):
+        raw = (ROOT / 'tests/fixtures/wind_step_history_s102.json').read_bytes()
+        def post_two(target, data):
+            self.post(target, data)
+            return b'{"versionNumber":2}'
+        reads = []
+        def read_page(target, cursor):
+            reads.append(cursor)
+            return raw
+        receipt = self.run_tx(post=post_two, read_page=read_page)
+        self.assertEqual(receipt['status'], 'HISTORY_CONFIRMED')
+        self.assertEqual(receipt['version'], 2)
+        self.assertEqual(reads, [''])
+        self.assertEqual(len(self.posts), 1)
+        for field in ('retryAllowed', 'publishReady', 'releaseEvidenceAccepted',
+                      'dynamicsAccepted', 'currentServingVersionVerified'):
+            self.assertIs(receipt[field], False)
+
+    def test_upload_version_string_still_refused(self):
+        def bad(target, data):
+            self.post(target, data)
+            return b'{"versionNumber":"7"}'
+        receipt = self.run_tx(post=bad)
+        self.assertEqual(receipt['status'], 'UNCERTAIN')
+        self.assertEqual(len(self.posts), 1)
+        self.assertFalse(self.pages)
+        self.assertIsNone(receipt['version'])
+
+    def test_later_readable_history_never_reopens_uncertain_consent(self):
+        def fail(*_):
+            raise ValueError('old history parser refused')
+        receipt = self.run_tx(read_page=fail)
+        before = journal.inspect(self.inputs['consent'][1], self.store)
+        self.assertEqual(receipt['status'], 'UNCERTAIN')
+        self.assertEqual(tx.history.parse_page(b'{"placeVersions":[{"version":"7","isPublished":true}],'
+                                              b'"hasMore":false,"nextCursor":"terminal"}')[0], [7])
+        with self.assertRaises((ValueError, FileExistsError)):
+            self.run_tx()
+        self.assertEqual(journal.inspect(self.inputs['consent'][1], self.store), before)
+        self.assertEqual(len(self.posts), 1)
+
     def test_explicit_operator_ack_required(self):
         with self.assertRaises(ValueError):
             self.run_tx(owner_sources_reviewed=False)
