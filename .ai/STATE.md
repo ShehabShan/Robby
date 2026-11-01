@@ -1,5 +1,8 @@
 # STATE
 
+## Current preparation
+- NEXT: T-043c0b4c3b2b2b2d2b1 — evidence intake and downloadable disabled Studio handoff, an unblocked prep slice. d2b2 actual dynamics remains blocked; all dependent activation lanes remain gated. No production changes or publication.
+
 ## Now — after S90 (2026-11-01)
 - Phase3 building, approved. **NEXT: T-043c0b4c3b2b2b2d2b** — BLOCKED on actual single-player Studio test report. d2a complete; do not activate Wind Step or skip this gate.
 - S90 merged974c6cf: separate disabled WindStepTest place uses exact production Driver/Clearance/Motion,106-case first-slice real-scheduler harness, source hashes/revision, partial reports and independent cleanup. No production runtime changes.
