@@ -1,5 +1,13 @@
 # STATE
 
+## Now — after S100 (2026-11-01)
+- Phase3 building, approved. **NEXT T-044c2 BLOCKED** on authentic exact-byte test-place overwrite/publication consent and fresh redacted scoped credential review. T-044c1 preparation complete; no more generic scaffolding.
+- S100 merged354dac3: concrete target/owner approval handoff, portable final-main stage/artifact pointers, D-348/D-349. Handoff: research/notes/T-044c1-owner-approval.md; final pins/revision are in its immutable version-1 approval/archive artifacts, generated AFTER this final main save. Missing artifacts mean incomplete delivery.
+- CHECK PASS on merged main; actual-target enabled stage/reconstruction and production/owner/session-branch refusals PASS. Final retained package must verify separately; default candidate remains disabled. No physics/Sober/mobile acceptance.
+- Exact-revision follow-up: do NOT create claim/release/STATE commits before dispatch. Require no active claims/session branches and unchanged clean synced main, authentic sources and all existing fresh transaction gates. If main changed, restage and obtain new explicit consent; never rewind or relax gates.
+- Owner reviews complete replacement of test universe6958375460/root121111456135560 contents, one exact-byte attempt <=24h, and redacted grant for same roblox-open-cloud credential (universe-places Write, universe.place:read). Never keys; never synthesized consent or review. Production untouched.
+- No upload/publication or real journal reservations. Main Saved30/published27/game0.0.22 unchanged. Claims released. Close-out17.5 OLU at merge; final STATE save and artifact delivery before45. Older blocks historical.
+
 ## Now — after S99 (2026-11-01)
 - Phase3 building, approved. **NEXT T-044c**: final-clean-main explicit enabled staging and authentic publication inputs, then separately authorized isolated publication. Tooling/intake complete; no more generic transaction scaffolding. Actual owner dynamics/repair follows, then dependent activation.
 - S99 mergedfed09aa: T-044b3b2b2b2 one-shot main-only isolated transaction + T-044b3a2 canonical release/running-version report binding complete; D-344–D-347. Exact private fsynced retained evidence, repeated fresh gates, permanent consent journal, one no-redirect/no-retry POST, bounded history + sanitized terminal; no inferred serving/byte/physics proof.
@@ -215,10 +223,10 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-043 overhaul: c0b4 presentation (delivery Fx/metadata/receipt dispatcher/original-character owner done → truthful Burst → atomic cutover), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-044c — prepare final-main exact pinned enabled stage and owner approval/review package, obtain authentic exact-byte overwrite/publication consent + scoped grant, then isolated publication. Transaction/intake tooling complete (S99). Actual d2b2 dynamics and dependent activation remain gated.
+- **NEXT:** T-044c2 BLOCKED — inspect genuine approval for S100 package and fresh redacted scoped credential grant. See T-044c1-owner-approval.md and its immutable artifacts. No more generic tooling; actual d2b2 dynamics and dependent activation remain gated.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-044c final pinned staging/owner approval package → authorized test publish (gated on exact overwrite consent/scoped reviewed grant/fresh target) · release/transaction/intake tooling done S99
+  - T-044c2 authorized isolated test publication · BLOCKED pending genuine exact-byte consent/scoped review; c1 package prepared S100. Release-only follow-up, unchanged main; otherwise restage/reapprove.
   - T-043c0b4c3b2b2b2d2b2 actual dynamics/repair · valid Studio or future validated published report; no dependent activation yet
   - T-043c0b4c3b2c atomic keyed startup/legacy cutover · b2b (pending)
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
@@ -227,5 +235,5 @@
 - **Budget:** 50 OLU hard cap per session. Wrap up at 43; close-out by 45 (AGENTS.md §1).
 - **Blockers:** final enabled staged-byte consent and authentic scoped credential review absent; old private read is not fresh authority. Release/intake complete offline S99; Sober/device/dynamics unverified. Prior test publication authorization is not exact-byte overwrite consent. Production publication NOT authorized.
 - **Last cloud test:** Saved30 (2026-11-01,S89): spatial44/44 report rows twice,32 admission/refusal assertions; CLOUD ALL:PASS626/626 + packages/smoke. IsRunning=false/Players0, NOT motion/ownership/feel acceptance. Published remains27/game0.0.22.
-- **Last check.sh:** CHECK:PASS (2026-11-01,S99 merge):642pure/85specs +all prior gates +41 transaction/13 release-intake groups;24 S99 faults detected/restored. No upload/publication; default candidate disabled, authentic publication gates still open.
+- **Last check.sh:** CHECK:PASS (2026-11-01,S100 merge): existing full suite including642pure/85specs and41 transaction/13 release-intake groups; target-specific stage/reconstruction/refusals PASS. No runtime changes or publication; authentic consent/review gates remain open.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
