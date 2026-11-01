@@ -61,7 +61,7 @@ local function expect(name, expected)
 end
 local function emptyCertificate(cf)
 	-- Diagnostics only; never used for the pass/fail decision or production admission.
-	local half = root.Size / 2
+	local half = root.Size / 2 + Vector3.new(4, 4, 4)
 	local m, o = terrain:ReadVoxels(Region3.new(cf.Position - half, cf.Position + half):ExpandToGrid(4), 4)
 	for x, plane in ipairs(o) do
 		for y, row in ipairs(plane) do
@@ -116,6 +116,10 @@ local ok, err = xpcall(function()
 		root.CFrame = CFrame.new(surface(0, 0) + Vector3.new(0, 1.2, 0))
 		expect("flat coarse ground offset " .. offset, false)
 		diagnostics("flat API offset " .. offset)
+		for _, depth in { 0.05, 0.2, 0.5 } do
+			root.CFrame = CFrame.new(surface(0, 0) + Vector3.new(0, 1 - depth, 0))
+			expect("penetration offset " .. offset .. " depth " .. depth, true)
+		end
 	end
 	reset()
 	fill(

@@ -444,3 +444,6 @@ Replace D-313's blanket occupied-cell refusal: exact root OBB AABB empty voxels 
 
 ### D-316 — S89: real ReadVoxels metadata regression (2026-11-01)
 - Saved28 exposed generalized iteration traversing a Vector3 dictionary entry in the returned voxel arrays; geometry admission throws and the driver fails closed. Numeric ipairs iteration replaces generic iteration in production clearance and probe restoration. Engine-shaped doubles now include Size metadata, reproducing the failure before the fix. Python bytecode is ignored/untracked so probe imports cannot dirty main.
+
+### D-317 — S89: collision mesh is not the voxel occupancy boundary (2026-11-01)
+- Saved29: body-only voxel emptiness admitted0.2stud terrain penetration while both certified downward Blockcasts hit. Empty voxel cell is not sufficient collision-space clearance. Expand the OBB enclosing AABB by one4stud voxel on every side for both target and seed certificates; retain full-volume descent. Add shallow penetration cases across4 grid offsets and a padding regression. This is bounded conservative geometry validation, not universal solver/feel proof. Terrain fixture edits wait for meshing before assertions (immediate queries on Saved29 saw no surface).

@@ -10,7 +10,10 @@ local function solidVoxels(cf: CFrame, size: Vector3): boolean
 		math.abs(x.Y) * size.X + math.abs(y.Y) * size.Y + math.abs(z.Y) * size.Z,
 		math.abs(x.Z) * size.X + math.abs(y.Z) * size.Y + math.abs(z.Z) * size.Z
 	) / 2
-	local region = Region3.new(cf.Position - half, cf.Position + half):ExpandToGrid(4)
+	-- Terrain collision surfaces can extend into adjacent zero-occupancy cells
+	-- (Saved29 shallow penetration). Require a full voxel halo for emptiness.
+	local halo = half + Vector3.new(4, 4, 4)
+	local region = Region3.new(cf.Position - halo, cf.Position + halo):ExpandToGrid(4)
 	local materials, occupancy = workspace.Terrain:ReadVoxels(region, 4)
 	-- ReadVoxels arrays include a Size Vector3 dictionary entry in the real engine.
 	-- Iterate only numeric voxel cells, never dictionary metadata.

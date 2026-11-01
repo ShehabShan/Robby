@@ -749,9 +749,9 @@ local cases = {
 			for _, y in { -1, 1 } do
 				for _, z in { -1, 1 } do
 					local corner = f.root.CFrame:PointToWorldSpace(V.new(x, y, z) * f.root.Size / 2)
-					assert(corner.X >= region.lo.X - 0.0001 and corner.X <= region.hi.X + 0.0001)
-					assert(corner.Y >= region.lo.Y - 0.0001 and corner.Y <= region.hi.Y + 0.0001)
-					assert(corner.Z >= region.lo.Z - 0.0001 and corner.Z <= region.hi.Z + 0.0001)
+					assert(corner.X - 4 >= region.lo.X - 0.0001 and corner.X + 4 <= region.hi.X + 0.0001)
+					assert(corner.Y - 4 >= region.lo.Y - 0.0001 and corner.Y + 4 <= region.hi.Y + 0.0001)
+					assert(corner.Z - 4 >= region.lo.Z - 0.0001 and corner.Z + 4 <= region.hi.Z + 0.0001)
 				end
 			end
 		end
