@@ -1,5 +1,12 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S93 — 2026-11-01
+- T-044b2b1/b2b2a done: bounded explicit owner start/status/report policy, cooperative cancellation and private owner-only test transport; D-328–D-330.
+- CHECK PASS:635pure/84specs +6adapter/8transport groups,100 shutdown cycles each,1000-request saturation;14 temporary faults detected/restored.
+- Candidate still disabled/unwired; NEXT b2b2b generated-worker cancellation + owner UI, then b3 intake/release, c test publication. No actual physics/device acceptance or upload; production unchanged.
+- Close-out began38.8 OLU (original setup included); save/merge before45. Handoff research/notes/T-044b2b1-owner-session.md.
+
+
 ## S92 — 2026-11-01 — separate Sober test preparation
 - T-044a/b1/b2a done: strict private test-target preflight, published admission/evidence policy, disabled exact-source candidate. D-325–D-327; no production runtime changes.
 - CHECK PASS: all prior gates +8 target/6 policy/3 builder/3 package groups,530 parity checks,15 unsafe entries;7 faults detected/restored. No actual Roblox physics evidence.
