@@ -1,5 +1,10 @@
 # STATE
 
+## S100 owner follow-up — supersedes screenshot blockers below
+- NEXT T-044c2: owner explicitly waived screenshot and authorized test overwrite; see research/inbox/2026-11-01-owner-permission-waiver.md. No further screenshot request. Permissions are owner-declared, not independently verified.
+- Resume: truthful owner-attestation schema support + focused tests, then final-main restage and existing one-shot test transaction. Preserve unrelated safety gates; old S100 revision is stale after this save.
+- No publication/reservation attempted. Stopped for original OLU budget; no new owner permission evidence needed. Main game unchanged. Last full CHECK PASS at01d6747; this follow-up changes documentation only.
+
 ## Now — after S100 (2026-11-01)
 - Phase3 building, approved. **NEXT T-044c2 BLOCKED** on authentic exact-byte test-place overwrite/publication consent and fresh redacted scoped credential review. T-044c1 preparation complete; no more generic scaffolding.
 - S100 merged354dac3: concrete target/owner approval handoff, portable final-main stage/artifact pointers, D-348/D-349. Handoff: research/notes/T-044c1-owner-approval.md; final pins/revision are in its immutable version-1 approval/archive artifacts, generated AFTER this final main save. Missing artifacts mean incomplete delivery.
