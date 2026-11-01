@@ -1,5 +1,12 @@
 # STATE
 
+## Now — after S95 (2026-11-01)
+- Phase3 building, approved. **NEXT T-044b3b**: safe test-only release tooling; size/split before work. Then b3a2 delivered-release/version binding, then c separately authorized test publication. Handoff: research/notes/T-044b3a1-candidate-intake.md.
+- S95 merged6d48155: b3a1 bounded candidate-report intake complete; exact pinned manifest/place/generated/local-source and separate target validation, canonical published policy, strict Studio wrapper. Explicit --candidate-review only; releaseEvidenceAccepted=false, dynamicsAccepted=false. Disabled candidates are NOT released evidence.
+- T-044d owner request complete: main and test Universe/Start Place IDs together in OPEN_CLOUD.md. Test universe6958375460/root121111456135560 owner7738981129 retains S92 GET-confirmed private/exact-root; empty contents/overwrite consent and write grant unverified. Production publish.py remains forbidden for isolated tests.
+- CHECK PASS on merged main:642pure/85specs and prior integration gates +15 new synthetic intake groups and actual-worker generated-hash assertion;13 temporary faults detected/restored. No real physics/ownership/rate/feel or Sober/mobile copy acceptance.
+- Server/client DISABLED, RunWindStep=false, publishReady=false; no upload/publication; main Saved30/published27/game0.0.22 unchanged. No new owner action. Claims released; close-out32.9, merged33.9 OLU, final saving before45. Older Now blocks are historical.
+
 ## Now — after S94 (2026-11-01)
 - Phase3 building, approved. **NEXT T-044b3**: bounded published-report intake + exact manifest validation and safe test-only release tooling; size/split before work. Then c separate authorized test publication. Handoffs: research/notes/T-044b2b2b1-worker.md and T-044b2b2b2-owner-ui.md.
 - S94 merged892e8fb: generated worker now uses tested owner transport, cooperative cancellation at yields/active-motion seams and independent cleanup; owner explicit Start/status/full copyable paged JSON UI wired in isolated candidate. Server/client remain DISABLED, RunWindStep=false, publishReady=false. NOT yet playable/release-ready.
@@ -175,10 +182,10 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-043 overhaul: c0b4 presentation (delivery Fx/metadata/receipt dispatcher/original-character owner done → truthful Burst → atomic cutover), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-044b3 — bounded published-report intake + exact manifest and safe release tooling; size/split first. Then c separate test publication. Handoff: research/notes/T-044b2b2b2-owner-ui.md. Actual d2b2 physics and dependent activation remain gated.
+- **NEXT:** T-044b3b — safe test-only release tooling; size/split first. Then b3a2 exact delivered-release/version binding, then c separate test publication. Handoff: research/notes/T-044b3a1-candidate-intake.md. Actual d2b2 physics and dependent activation remain gated.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
-  - T-044b3 intake/release → c publish (c gated on verified empty destination/write permissions) · a/b1/b2a/b2b1/b2b2a/b2b2b1/b2 done
+  - T-044b3b safe release tooling → b3a2 delivered-report binding → c publish (c gated on verified empty destination/overwrite consent/write permissions) · a/b1/b2a/b2b1/b2b2a/b2b2b1/b2/b3a1 done
   - T-043c0b4c3b2b2b2d2b2 actual dynamics/repair · valid Studio or future validated published report; no dependent activation yet
   - T-043c0b4c3b2c atomic keyed startup/legacy cutover · b2b (pending)
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b

@@ -5,7 +5,7 @@
 - T-044b3a1 done: bounded pinned-manifest/place/generated-source candidate intake; canonical published policy, strict Studio separation; D-335.
 - CHECK PASS:642pure/85specs +15 new synthetic intake groups and actual-worker provenance;13 temporary faults detected/restored. No real-engine evidence claimed.
 - NEXT T-044b3b safe test-only release tooling (size/split), then b3a2 delivered-version binding and c publication; candidate remains disabled, no upload, Saved30/published27/game0.0.22 unchanged.
-- Close-out began32.9 OLU; all work saved before45. Repo continuation: research/notes/T-044b3a1-candidate-intake.md; no new owner action.
+- Close-out began32.9 OLU; merged6d48155 at33.9; final saving before45. Repo continuation: research/notes/T-044b3a1-candidate-intake.md; no new owner action.
 
 ## S94 — 2026-11-01
 - T-044b2b2b1/b2 done: actual generated cancellable worker, owner-only explicit Start/status/copyable full report UI; D-331–D-333.
