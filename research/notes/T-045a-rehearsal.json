@@ -1,0 +1,32 @@
+{
+  "task": "T-045a",
+  "session": "S104",
+  "observedAt": "2026-11-01T16:40:28.761101+00:00",
+  "scope": "OFFLINE REHEARSAL ONLY; not final approval pins",
+  "sourceRevision": "f8caf085910d2be80af5134ef4b929dfc000020e",
+  "manifestSha256": "f947736929f8fe4dd15dd3e67da924384b95b6ff15c3ca0d61911f3726d622ae",
+  "placeSha256": "51c11494f792e301cd54ad22e08f15506ad9cd88e804e224d593083aabced610",
+  "verification": {
+    "dynamicsAccepted": false,
+    "manifestSha256": "f947736929f8fe4dd15dd3e67da924384b95b6ff15c3ca0d61911f3726d622ae",
+    "placeSha256": "51c11494f792e301cd54ad22e08f15506ad9cd88e804e224d593083aabced610",
+    "publishReady": false,
+    "releaseEvidenceAccepted": false,
+    "status": "LOCAL_STAGE_VERIFIED_ONLY"
+  },
+  "targetObservation": {
+    "status": "TARGET_VERIFIED_ONLY",
+    "universeId": "6958375460",
+    "placeId": "121111456135560",
+    "ownerUserId": "7738981129",
+    "displayName": "thefool700799's Place",
+    "publishReady": false,
+    "dynamicsAccepted": false
+  },
+  "checks": "CHECK: PASS; full existing suite, no test or gameplay code changes",
+  "liveDynamicsAccepted": false,
+  "publicationPerformed": false,
+  "journalRefsBefore": [
+    "c53a0ae8c74769be38e00ce3c33e8642b201ad02\trefs/heads/publication-intent/eb8fa8776ff5e4a934a4b699249c4a6fa7d52f018aa346d06c77ab5cb85ef2a2"
+  ]
+}

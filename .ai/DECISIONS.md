@@ -548,3 +548,6 @@ Use public version() in isolated published/Studio bootstraps: GetRobloxVersion i
 
 ### D-355 — bounded original-owner GUI admission (S103, 2026-11-01)
 Published diagnostic startup waits for PlayerGui within the existing120s deadline, preserving original Player identity and continuously rechecking admission. Missing GUI times out; owner/membership/target/opt-in change stops immediately before transport/HasRun. Explicit owner Start remains required. Old consumed release never retried; corrected bytes require newly staged package and authentic approval. See T-045-startup.md.
+
+### D-356 — S104 corrected package delivery (2026-11-01)
+Owner explicitly delegated stopped S104 to bot953ec4ef-54a2-4e4a-b27d-893644300d0a. Adopt/reclaim its task; use existing staging/transaction only. Final S104 bytes/pins live in immutable artifacts generated after the last main commit, with repo handoff pointers; no circular self-pinning commit. Named-package approval is separate; original S101 consumed consent/evidence is never rewritten or replayed. No new permission framework or screenshot/key request.
