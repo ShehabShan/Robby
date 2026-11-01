@@ -1,0 +1,60 @@
+{
+  "scope": "offline injected behavioral faults; restored after each test",
+  "results": [
+    {
+      "fault": "opt-in",
+      "detected": true,
+      "test": "test_explicit_enablement_before_build"
+    },
+    {
+      "fault": "pin",
+      "detected": true,
+      "test": "test_pinned_manifest_required"
+    },
+    {
+      "fault": "false-readiness",
+      "detected": true,
+      "test": "test_schema_readiness_and_open_gates"
+    },
+    {
+      "fault": "gates",
+      "detected": true,
+      "test": "test_schema_readiness_and_open_gates"
+    },
+    {
+      "fault": "tool-hashes",
+      "detected": true,
+      "test": "test_source_and_tooling_provenance"
+    },
+    {
+      "fault": "source-hashes",
+      "detected": true,
+      "test": "test_source_and_tooling_provenance"
+    },
+    {
+      "fault": "exact-package",
+      "detected": true,
+      "test": "test_rehashed_hostile_packages_still_fail_exact_rebuild"
+    },
+    {
+      "fault": "manifest-bound",
+      "detected": true,
+      "test": "test_valid_json_over_manifest_bound_is_refused"
+    },
+    {
+      "fault": "place-bound",
+      "detected": true,
+      "test": "test_oversized_place_with_matching_digest_is_refused"
+    },
+    {
+      "fault": "acceptance",
+      "detected": true,
+      "test": "test_staging_is_never_release_or_dynamics_acceptance"
+    },
+    {
+      "fault": "stale-output",
+      "detected": true,
+      "test": "test_failed_build_leaves_no_old_staging_pair"
+    }
+  ]
+}
