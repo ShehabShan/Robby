@@ -12,6 +12,6 @@ Report: `research/inbox/2026-11-01-s108-version5-test-report-full.md` (owner upl
 - travel-auto 13.533 actual / 13.851 commanded (14±1 PASS; D-359 fix effective). travel-player/server 13.682 / 14.000.
 - Actual-vs-commanded lag ≈0.32 stud on every travel case (was ~0.6 in version4).
 - 100 lifetimes: all clean/restored/phaseOK; min actual 13.352, min commanded 13.679.
-- **Mid-dash Y drop persists:** travel samples dip to y ≈ −0.589 stud, end ≈ −0.505; reported maxYError = 0, so the harness Y metric does not capture the dip. Needs a d2b2 look.
+- **Mid-dash Y drop persists:** travel samples dip to y ≈ −0.589 stud, end ≈ −0.505; reported maxYError = 0 because it measures vertical-velocity vs gravity consistency (tests/studio/wind_step.server.luau:197), not position. No harness metric bounds the position dip; d2b2 should add one before acceptance.
 - Every frame dt = 1/60 exactly: no rate variation covered.
 - Still open (report `remaining`): death/original-root replacement; supported rate variation + final-partial analysis; device/owner feel.
