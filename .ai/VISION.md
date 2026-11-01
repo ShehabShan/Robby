@@ -7,7 +7,7 @@ Owner: ShehabShan. The owner is non-technical and delegates technical and design
 2. The quality bar is **Rell Seas**, a Roblox game.
 3. It is developed headlessly by AI sessions with 50 OLU each (AGENTS.md).
 4. Order of work: Research → Planning → owner approval → Building.
-5. 3D content: the bot uses Blender in the VM. The owner will also supply 3D models later, in `assets/source/`. Art details are settled in R-015 and P-003, so they don't block starting.
+5. 3D content: the bot uses Blender in the VM. The owner can create 3D assets using multiple sites and offers to make needed models when given a detailed description (owner, 2026-11-01; verbatim: `research/inbox/2026-11-01-owner-3d-model-capability.md`). Future asset planning can request models from the owner with a detailed brief. Owner-provided files go in `assets/source/`. Art details are settled in R-015 and P-003, so they don't block starting.
 
 6. **Long-term, one thing at a time (owner, 2026-10-31, D-206):** this is a serious multi-year game, not a quick project; any number of sessions is fine. Build little by little: refine, rework and polish what exists, add only what is absolutely necessary, and expand only when the owner says the current part is good enough. Never build many systems at once to ship fast.
 7. **Endgame-ready backend, no endgame yet (owner, 2026-10-31, D-207):** do not implement endgame (Ascendant, Ranks 6–9) now, but keep server code and data schemas flexible enough to add it later without reworking the backend.

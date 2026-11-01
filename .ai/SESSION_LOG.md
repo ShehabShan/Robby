@@ -1,5 +1,8 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## Owner 3D capability follow-up — 2026-11-01
+- Preserved exact owner offer in inbox and updated VISION: owner can make requested 3D models through multiple sites when given a detailed brief. No asset creation/publication or release-blocker changes.
+
 ## S102 — 2026-11-01
 - T-044c2b1: live GET confirms historical published test version2; fixed decimal-string/terminal-cursor parser mismatch. D-352/D-353; clean-main bounded observer and unchanged canonical journal verified.
 - CHECK PASS:20 history/46 transaction/26 intake groups;7 temporary faults detected/restored. No serving/byte/dynamics or device acceptance.
