@@ -563,3 +563,7 @@ T-046a delivers existing S105 phase-observation repair as an independently pinne
 
 ### D-360 — S108: split T-047a package prep from T-047b approved publication (2026-11-01)
 - Same bounded pattern as D-358: existing staging only, final pins generated after last main save, publication only after new exact-byte owner approval.
+
+
+### D-361 — S109: S108 package published to isolated test as version5 (2026-11-01)
+- First consent blocked pre-reservation (missing rokit PATH); owner explicitly confirmed a second attempt with a new consent record; same pinned bytes. Consent consumed; no retry. Not dynamics acceptance.

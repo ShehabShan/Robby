@@ -445,4 +445,4 @@ Pick one when the next real task won't fit before the 43 OLU wrap-up line. Log f
 
 - **T-047a [done S108 (prep); D-360; S]** Corrected final-main isolated test package via EXISTING staging/approval tooling (as T-046a), then NEW exact-byte owner approval and one-shot test publication (as T-046b), then fresh owner report -> d2b2. AC: target-specific enabled rehearsal + exact binary verification, CHECK PASS, immutable pins/card; never reuse consumed consent; production untouched. Completed: rehearsal + exact verification, handoff `research/notes/T-047a-corrected-package.md`; final package/card generated after last main save.
 
-- **T-047b [blocked on NEW exact-byte S108 approval; S]** One authorized corrected isolated-test publication via EXISTING single-consent transaction (as T-046b), retained evidence, fresh owner report -> d2b2. Never reuse consumed consent; production untouched.
+- **T-047b [done S109; D-361; HISTORY_CONFIRMED version5; S]** One authorized corrected isolated-test publication via EXISTING single-consent transaction (as T-046b), retained evidence, fresh owner report -> d2b2. Never reuse consumed consent; production untouched.

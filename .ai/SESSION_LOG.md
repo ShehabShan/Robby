@@ -1,3 +1,7 @@
+## S109 — 2026-11-01 — T-047b
+- S108 package published HISTORY_CONFIRMED version5 after owner-confirmed second attempt (first blocked pre-reservation, missing rokit PATH). Evidence robby_s108_release_evidence. D-361.
+- NEXT owner Start/report on version5 -> d2b2. ~37 OLU at close-out.
+
 ## S108 — 2026-11-01 — T-047a
 - Corrected package for D-359 driver fix staged/verified with existing tooling; handoff T-047a-corrected-package.md; D-360. No publication.
 - NEXT T-047b blocked on new exact-byte approval. ~19 OLU at close-out (same bot as S107).
