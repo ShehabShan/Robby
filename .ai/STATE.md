@@ -1,5 +1,9 @@
 # STATE
 
+## Now — after S108 (2026-11-01)
+- T-047a done (prep), D-360: D-359 corrected isolated test package staged/verified with existing tooling. Handoff research/notes/T-047a-corrected-package.md; final card/ZIP artifacts robby_s108_approval / robby_s108_stage generated AFTER this last main save.
+- **NEXT T-047b BLOCKED on NEW exact-byte S108 approval**; pinned-release exception (no claim/edits before dispatch). Never reuse consumed S106 consent. Then fresh owner report -> d2b2.
+
 ## Now — after S107 (2026-11-01)
 - Phase3 building. Owner version4 report saved verbatim (research/inbox/2026-11-01-s106-version4-test-report.md): travel-auto 12.090 actual/12.699 commanded vs 14±1 FAIL.
 - T-047 done, merged b643bb8, D-359: commit->first-PreSimulation latency spent ~1.3 stud of dash; profile clock now starts at first driven step. Regression + CHECK PASS. Handoff research/notes/T-047-commit-latency.md.
