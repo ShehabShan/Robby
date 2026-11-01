@@ -1,5 +1,12 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S101 — 2026-11-01
+- T-044c2a complete: strict truthful owner-attestation/schema2 honors screenshot waiver; legacy dashboard review stays valid. D-350/D-351; exact source/timestamp/owner/target/pin/expiry gates retained.
+- CHECK PASS:22 permission/43 transaction/26 release-intake groups;7 faults detected/restored after direct kind-test improvement. Target-specific stage/reconstruction PASS; read-only private/owner/root observation only.
+- T-044c2b final-main version1 package/card linked from T-044c2a-owner-attestation.md; stage AFTER final main save. NEXT exact-package one-attempt approval, then unchanged-main transaction. No screenshot; missing artifacts mean incomplete delivery.
+- No uploads/publication/real journal reservation or physics/Sober/mobile acceptance; main Saved30/published27/game0.0.22 unchanged. Owner declaration is not inspected/verified permission.
+- Close-out started21.9 OLU; final delivery meter and exact pins in immutable approval artifact. Claims released by merge; final saving below45.
+
 ## S100 — 2026-11-01
 - T-044c1 owner approval preparation complete; exact-target enabled stage/portable archive and independent pins referenced from T-044c1-owner-approval.md. D-348/D-349; no new transaction scaffolding.
 - CHECK PASS; target-specific stage/reconstruction and production/owner/branch refusals PASS. Final enabled bytes created only after final main save; immutable artifact links carry exact revision/pins (missing artifacts mean incomplete delivery).

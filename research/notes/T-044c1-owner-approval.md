@@ -1,5 +1,7 @@
 # T-044c1 — concrete S100 approval package (2026-11-01)
 
+> Superseded by S101: see `T-044c2a-owner-attestation.md` for new final-main package and distinct owner-declaration schema. S100 owner explicitly waived the screenshot in `research/inbox/2026-11-01-owner-permission-waiver.md`; do not request one. Old revision/pins below are historical, not dispatch authority.
+
 ## Owner decision: NOT READY TO PUBLISH
 - This is an isolated Wind Step diagnostic, NOT a Robby gameplay update. Publishing replaces the entire test start place (including any existing contents), not the main game. No backup or empty-content proof exists; do not approve if anything there needs preserving.
 - Test universe `6958375460`, start place `121111456135560`, owner `7738981129`; production universe `10773761715` / place `95587500384127` are forbidden. Privacy/ownership/root must be checked again immediately before publication.

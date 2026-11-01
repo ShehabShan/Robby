@@ -533,3 +533,6 @@ Separate read-only release intake pins the receipt independently, reads the cano
 
 ## D-350 — truthful owner declaration instead of screenshot (S101, 2026-11-01)
 Implement S100 owner waiver as a distinct strict schema2 permission-attestation record, not a fake dashboard review. Preserve original owner timestamp/source and all independent pins, target/owner/scope/expiry gates. Legacy dashboard schema1 remains valid. Transaction/intake keep actual evidence bytes; permissions and reviewer identity remain unverified. No screenshot request; all unrelated exact-byte and no-retry gates stay unchanged.
+
+## D-351 — final-main restage without invented byte consent (S101, 2026-11-01)
+Owner's broad test-overwrite authority and screenshot waiver are retained. Since schema implementation changes main after S100, use the existing exact-revision rule: new immutable final-main package/card, then authentic approval of that named package before dispatch. No inferred future-byte consent or repeat screenshot requirement; no production changes. Preserve existing <=24h evidence lifetime and original timestamps.
