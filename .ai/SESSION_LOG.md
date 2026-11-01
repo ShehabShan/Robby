@@ -1,9 +1,9 @@
 ## S105 — 2026-11-01 — T-046
 - Retained owner version3 failure; repaired demonstrable independent-listener phase sampling defect, D-357.
--32 actual-driver groups,6 generated-worker groups; two restored faults detected; full CHECK before save/merge.
+-32 actual-driver groups,6 generated-worker groups; two restored faults detected; full CHECK PASS before save and on merge d5a5325.
 - Physical12.038stud short travel remains unaccepted; no tolerance relaxation, production change or publication.
 - NEXT T-046a corrected package/new approval, then real report/intake and remaining dynamics. Handoff T-046-phase-observation.md.
-- Close-out started35.7 OLU including failed GitHub setup; no budget reset; save/merge below45 target.
+- Close-out started35.7 OLU including failed GitHub setup; no budget reset; merged37.6 OLU; final main save below45.
 
 # SESSION LOG (newest first, ≤6 lines each)
 

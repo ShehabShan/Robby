@@ -1,5 +1,12 @@
 # STATE
 
+## Now — after S105 (2026-11-01)
+- Phase3 building. Owner-priority T-046 done, merged d5a5325: deterministic driver-owned test phase observation; independent signal ordering defect reproduced offline. Raw owner version3 travel-auto failure retained verbatim; no PASS inferred.
+- **NEXT T-046a:** corrected final-main isolated package using existing tools, NEW exact-byte approval before any publication, then fresh owner report/existing release intake and d2b2 dynamics repair. Do not ask for a rerun of unchanged version3 or reuse consumed S104 consent.
+- CHECK PASS before save and on merge:32 actual-source driver groups,6 generated-worker groups/106 synthetic cases/100 mock lifetimes;2 restored faults detected. No new Roblox execution/publication or production activation. Physics/ownership/rates/death/replacement/device feel still gated.
+- Reported12.038stud travel independently fails unchanged13stud minimum. Sampling repair is NOT demonstrated physics repair; release binding not completed this session. Handoff: `research/notes/T-046-phase-observation.md`; D-357. Original S101 evidence recovery remains separately blocked.
+- Claims released;37.6 OLU at merge including original GitHub setup, no reset; final main save before45. No free dependent build lane until dynamics gate. Older NEXT blocks below are historical.
+
 ## S104 approved corrected test release — 2026-11-01
 - One authorized test-only publication: **version3, HISTORY_CONFIRMED**; exact S104 bytes from maina1206cf. Production untouched; consent consumed, NO RETRY.
 - **NEXT:** actual owner Start/report on fresh isolated test session, then existing release-intake/version binding and d2b2 dynamics validation. No more package approval needed for version3. Current-serving/UI/physics/Sober acceptance remains unverified.
