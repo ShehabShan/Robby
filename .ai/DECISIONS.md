@@ -509,3 +509,12 @@ Validate a bounded exact-field record against independently retained record/sour
 
 - **D-342 (S98, 2026-11-01):** Every journal attempt generates a fresh random 256-bit nonce before persistence. Git may treat an identical concurrent commit as already up-to-date rather than enforce its create-only lease; per-attempt identity avoids two execution tickets for identical consent inputs. Consent digest alone still chooses the one permanent remote ref.
 - **D-343 (S98, 2026-11-01):** Remote journal is an intent-only root and at most one exact-parent terminal child preserving byte-identical intent. Require canonical bounded JSON, strict tree modes/ancestry/ref binding and exact readback. Terminal summaries never certify current serving, bytes or physics. Actual HTTP transaction and report binding remain separate gates.
+
+### D-344 (S99) — exact evidence before isolated publication
+The test-only transaction retains independently pinned manifest/place/consent/review/redacted-source bytes in a private exclusive fsynced directory outside repo/build/temp and uploads only its immutable in-memory place snapshot. Staged sourceRevision must equal clean remotely synchronized main. Revalidate package, target owner/private/root, consent/review clocks, source pins, checkout and unchanged journal after reservation. Genuine source review is a trusted operator responsibility; an explicit flag and matching JSON do not authenticate an owner or prove live permission.
+
+### D-345 (S99) — one dispatch, uncertainty consumes consent
+The isolated integration transport has one fixed Published POST, no redirects/retries, bounded response and 600s timeout. Every error after dispatch may have begun is UNCERTAIN, including HTTP refusals; never infer safe retry. Pre-dispatch rejection after reservation also consumes consent. Fsync sanitized evidence/outcome and append-only remote terminal; an incomplete terminal/receipt never authorizes replay.
+
+### D-346 (S99) — retained publication is not serving acceptance
+Only exact positive upload version plus independent complete bounded published-history observation can produce HISTORY_CONFIRMED. Retain exact sanitized version response and observer report with hashes for later delivered-report binding. Serving identity, downloaded-byte identity, reviewer authentication, dynamics and device acceptance remain unverified; release readiness stays false. Local durability requires preserving the spool/VM and remote ref protection by repository operators.

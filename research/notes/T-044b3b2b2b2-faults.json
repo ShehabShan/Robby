@@ -1,0 +1,72 @@
+{
+  "offlineOnly": true,
+  "sourceRestored": true,
+  "faults": [
+    {
+      "fault": "operator review bypass",
+      "detected": true
+    },
+    {
+      "fault": "independent pin bypass",
+      "detected": true
+    },
+    {
+      "fault": "source revision bypass",
+      "detected": true
+    },
+    {
+      "fault": "snapshot size bypass",
+      "detected": true,
+      "initiallyEscaped": true,
+      "repair": "Added direct empty/exact/over-limit snapshot read test"
+    },
+    {
+      "fault": "post-reservation gates skipped",
+      "detected": true
+    },
+    {
+      "fault": "deadline bypass",
+      "detected": true
+    },
+    {
+      "fault": "reversed clock allowed",
+      "detected": true
+    },
+    {
+      "fault": "last branch check removed",
+      "detected": true
+    },
+    {
+      "fault": "last files check removed",
+      "detected": true
+    },
+    {
+      "fault": "journal readback bypass",
+      "detected": true
+    },
+    {
+      "fault": "post-dispatch uncertainty mislabeled",
+      "detected": true
+    },
+    {
+      "fault": "history mismatch confirmed",
+      "detected": true
+    },
+    {
+      "fault": "non200 accepted",
+      "detected": true
+    },
+    {
+      "fault": "response cap bypass",
+      "detected": true
+    },
+    {
+      "fault": "post bytes changed",
+      "detected": true
+    },
+    {
+      "fault": "serving overclaim",
+      "detected": true
+    }
+  ]
+}

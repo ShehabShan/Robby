@@ -329,6 +329,100 @@ class TransactionTests(unittest.TestCase):
                 tx.snapshot(self.inputs, spool)
         self.assertFalse(self.posts)
 
+    def test_expiry_during_reservation_rejects(self):
+        self.consent['expiresAt'] = NOW + 12
+        self.put('consent', json.dumps(self.consent).encode())
+        with self.after_reserve(lambda _: setattr(self, 'now', NOW + 15)):
+            result = self.run_tx()
+        self.assertEqual(result['status'], 'REJECTED')
+        self.assertFalse(self.posts)
+
+    def test_review_expiry_during_reservation_rejects(self):
+        self.review['expiresAt'] = NOW + 12
+        self.put('review', json.dumps(self.review).encode())
+        with self.after_reserve(lambda _: setattr(self, 'now', NOW + 15)):
+            result = self.run_tx()
+        self.assertEqual(result['status'], 'REJECTED')
+        self.assertFalse(self.posts)
+
+    def test_last_checkout_change_refuses_dispatch(self):
+        original = journal.write_once
+        def write(path, raw):
+            original(path, raw)
+            if path.name == 'pre-dispatch.json':
+                self.state['dirty'] = True
+        with patch.object(journal, 'write_once', side_effect=write):
+            result = self.run_tx()
+        self.assertEqual(result['status'], 'REJECTED')
+        self.assertFalse(self.posts)
+
+    def test_last_artifact_change_refuses_dispatch(self):
+        original = journal.write_once
+        def write(path, raw):
+            original(path, raw)
+            if path.name == 'pre-dispatch.json':
+                self.inputs['source'][0].write_bytes(b'replaced')
+        with patch.object(journal, 'write_once', side_effect=write):
+            result = self.run_tx()
+        self.assertEqual(result['status'], 'REJECTED')
+        self.assertFalse(self.posts)
+
+    def test_final_journal_readback_refuses_dispatch(self):
+        original = self.store.read
+        calls = []
+        def read(ref):
+            calls.append(ref)
+            value = original(ref)
+            if len(calls) == 2:
+                return ('f'*40, value[1])
+            return value
+        with patch.object(self.store, 'read', side_effect=read):
+            result = self.run_tx()
+        self.assertEqual(result['status'], 'REJECTED')
+        self.assertFalse(self.posts)
+
+    def test_mutation_during_post_cannot_confirm_history(self):
+        def post(target, data):
+            response = self.post(target, data)
+            (self.evidence / 'source').write_bytes(b'changed')
+            return response
+        result = self.run_tx(post=post)
+        self.assertEqual(result['status'], 'UNCERTAIN')
+        self.assertIsNone(result['historySha256'])
+
+    def test_snapshot_read_limits_empty_and_oversize(self):
+        path = self.root / 'bounded-evidence'
+        for raw in (b'', b'12345'):
+            path.write_bytes(raw)
+            with self.subTest(raw=raw), self.assertRaises(ValueError):
+                tx.read_bytes(path, 4)
+        path.write_bytes(b'1234')
+        self.assertEqual(tx.read_bytes(path, 4), b'1234')
+
+    def test_exact_snapshot_package_validation_not_only_hashes(self):
+        manifest = json.loads(self.manifest)
+        manifest['publishReady'] = True
+        self.put('manifest', json.dumps(manifest).encode())
+        self.consent['manifestSha256'] = self.inputs['manifest'][1]
+        self.put('consent', json.dumps(self.consent).encode())
+        with self.assertRaises(ValueError):
+            self.run_tx()
+        self.assertFalse(self.posts or self.targets)
+
+    def test_crash_after_dispatched_post_leaves_consumed_intent(self):
+        def crash(target, data):
+            self.post(target, data)
+            raise SystemExit(73)  # deliberately not caught as a normal transport failure
+        with self.assertRaises(SystemExit):
+            self.run_tx(post=crash)
+        self.assertTrue(journal.inspect(self.inputs['consent'][1], self.store)['consumed'])
+        self.assertFalse((self.evidence / 'receipt.json').exists())
+        self.spool = self.root / 'new-vm-durable'
+        self.spool.mkdir()
+        with self.assertRaises(ValueError):
+            self.run_tx()
+        self.assertEqual(len(self.posts), 1)
+
     def test_retained_snapshot_is_private_directory(self):
         self.run_tx()
         self.assertEqual(self.evidence.stat().st_mode & 0o777, 0o700)
