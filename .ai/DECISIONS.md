@@ -428,3 +428,10 @@ Proposed optional selfMotion(version,distance,duration,brake,fade) must be serve
 
 ### D-310 — Prospective physics-step budget (S87, 2026-10-31)
 WindStep.forward integrates upcoming elapsed→elapsed+dt, divides partial endpoint travel by FULL dt, caps by swept skin clearance and rejects >50ms physics hitches. Engine releases at PostSimulation when finishAfter is true; never feed past-interval average velocity into an extra future frame. Six pure tests; actual-source engine driver remains b2b2. No live wiring.
+
+### D-311 — Prepared transactional original-root Wind Step driver (S88, 2026-11-01)
+Reserve disabled resources before payment; commit revalidates original body/geometry/resources then acquires manual server ownership. Lease is exclusive, one-use, expires if not committed within50ms, and releases independent resources safely. No live caller. Acceptance/payment rollback belongs to b2c. Handoff: research/notes/T-043c0b4c3b2b2b2-driver.md.
+### D-312 — Single-use forward physics ownership (S88, 2026-11-01)
+World-XZ Plane LinearVelocity with finite mass-scaled force, prospective current-body sweep, max(simulation-covered,server elapsed) budget and Pre/Post pairing; expired/hitched/duplicate callbacks fail closed. Final partial movement releases after simulation. Cleanup touches surviving original assembly only; preserves Y/perpendicular/additive excess/reverse velocity. External replacement knockback must stop(true) before its own write; no invented provenance or stale velocity rewind.
+### D-313 — Terrain false-refusal blocks motion promotion (S88, 2026-11-01)
+Part overlap + forward Blockcast do not cover initial Terrain penetration. Prepared driver conservatively refuses occupied solid4stud terrain voxels; safe over-refusal is NOT accepted gameplay on ordinary terrain. Added b2b2b2c clearance gate before activation.24 actual-source mock groups and14 behavioral faults are headless regression evidence, not Roblox solver/terrain/device acceptance.

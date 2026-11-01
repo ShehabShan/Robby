@@ -64,7 +64,7 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3): Lease?
 		return nil
 	end
 	local assembly = root.AssemblyRootPart
-	local size = root.Size
+	local size, collisionGroup, mass = root.Size, root.CollisionGroup, root.AssemblyMass
 	if not assembly or size.X < 0.5 or size.Y < 0.5 or size.Z < 0.5 or size.X > 4 or size.Y > 4 or size.Z > 4 then
 		return nil
 	end
@@ -78,6 +78,8 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3): Lease?
 			and character:FindFirstChildOfClass("Humanoid") == humanoid
 			and original()
 			and root.Size == size
+			and root.CollisionGroup == collisionGroup
+			and root.AssemblyMass == mass
 			and Motion.eligible(humanoid.Health, root.Anchored, humanoid.Sit, humanoid:GetState().Name)
 	end
 	local attachment: Attachment? = nil
@@ -99,7 +101,7 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3): Lease?
 	ray.CollisionGroup = root.CollisionGroup
 	local preparedAt = workspace:GetServerTimeNow()
 	local started, covered, lastClock = 0, 0, 0
-	local pending, finishAfter, applied = false, false, 0
+	local pending, finishAfter, applied, pendingSpeed = false, false, 0, 0
 	local axis = Vector3.new(dx, 0, dz)
 	local lease: Lease
 	local function stop(keepVelocity: boolean?)
@@ -128,7 +130,13 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3): Lease?
 			end)
 		end
 		pcall(function()
-			if applied > 0 and not keepVelocity and original() then
+			if
+				applied > 0
+				and not keepVelocity
+				and original()
+				and not root:GetNetworkOwnershipAuto()
+				and root:GetNetworkOwner() == nil
+			then
 				local velocity = root.AssemblyLinearVelocity
 				-- Remove only positive dash-axis contribution; retain Y, perpendicular
 				-- and additive excess/reverse knockback. Explicit stop(true) before a
@@ -197,7 +205,7 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3): Lease?
 			local actuator = force :: LinearVelocity
 			actuator.PlaneVelocity = Vector2.new(dx * speed, dz * speed)
 			actuator.Enabled = true
-			applied, pending, finishAfter = speed, true, terminal or blocked
+			pendingSpeed, pending, finishAfter = speed, true, terminal or blocked
 			covered = elapsed + dt
 		end)
 		if not ok then
@@ -209,6 +217,7 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3): Lease?
 			return
 		end
 		pending = false
+		applied = pendingSpeed -- only completed simulation may contribute residual dash velocity
 		local ok = pcall(function()
 			(force :: LinearVelocity).Enabled = false
 			if finishAfter or not eligible() then
@@ -235,10 +244,18 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3): Lease?
 					or not finite(now)
 					or acceptedAt > now
 					or now - acceptedAt > profile.maxFrame
+					or now < preparedAt
+					or now - preparedAt > profile.maxFrame
 				then
 					return false
 				end
-				if not eligible() or not root:CanSetNetworkOwnership() or occupied(root, size, overlap) then
+				if
+					not eligible()
+					or not root:CanSetNetworkOwnership()
+					or occupied(root, size, overlap)
+					or (force :: LinearVelocity).Parent ~= root
+					or (attachment :: Attachment).Parent ~= root
+				then
 					return false
 				end
 				automatic, previousOwner = root:GetNetworkOwnershipAuto(), root:GetNetworkOwner()
@@ -260,7 +277,6 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3): Lease?
 		if not eligible() or not root:CanSetNetworkOwnership() or occupied(root, size, overlap) then
 			error("ineligible Wind Step root")
 		end
-		local mass = root.AssemblyMass
 		if not finite(mass) or mass <= 0 or mass > 1000 then
 			error("unsupported Wind Step mass")
 		end

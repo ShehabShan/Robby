@@ -141,7 +141,19 @@ local function fixture()
 	}
 	local function instance(kind)
 		acquire(kind)
-		local obj = { kind = kind }
+		local values = { kind = kind }
+		local obj = setmetatable({}, {
+			__index = values,
+			__newindex = function(_, key, value)
+				if key ~= "Destroy" and key ~= "destroyed" then
+					f.setStage = (f.setStage or 0) + 1
+					if f.failSet == f.setStage then
+						error("injected property " .. key)
+					end
+				end
+				values[key] = value
+			end,
+		})
 		function obj:Destroy()
 			self.destroyed, self.Parent = true, nil
 			if f.failDestroy then
@@ -596,6 +608,82 @@ local cases = {
 			f:clean()
 		end
 	end,
+	["every preparation property fault unwinds acquired resources"] = function()
+		local probe = fixture()
+		local l = assert(probe:prepare())
+		local count = probe.setStage
+		l.stop()
+		for i = 1, count do
+			local f = fixture()
+			f.failSet = i
+			assert(f:prepare() == nil, `property fault {i} missed`)
+			f:clean()
+			assert(#f.ownership == 0)
+		end
+	end,
+	["runtime force-write failure stops cleanly"] = function()
+		for _, offset in { 1, 2, 3 } do
+			local f = fixture()
+			local l = f:start()
+			f.failSet = f.setStage + offset
+			f:tick(0.02)
+			assert(not l.active())
+			f:clean()
+		end
+	end,
+	["unconsumed first command and new authority never erase unrelated velocity"] = function()
+		local f = fixture()
+		local l = f:start()
+		f.root.AssemblyLinearVelocity = V.new(12, -4, 3)
+		f.run.PreSimulation:Fire(0.02)
+		l.stop()
+		assert(f.root.AssemblyLinearVelocity == V.new(12, -4, 3))
+		f:clean()
+		f = fixture()
+		l = f:start()
+		f:tick(0.02)
+		f.root.owner = {}
+		f.root.AssemblyLinearVelocity = V.new(31, 7, 2)
+		l.stop()
+		assert(f.root.AssemblyLinearVelocity == V.new(31, 7, 2))
+		assert(#f.ownership == 1)
+		f:clean()
+	end,
+	["expired reservation refuses commit even before next physics callback"] = function()
+		local f = fixture()
+		local l = assert(f:prepare())
+		f.now += 0.06
+		assert(not l.commit(f.now))
+		assert(#f.ownership == 0)
+		f:clean()
+	end,
+
+	["prepared resources mass and collision group must survive until commit"] = function()
+		for _, change in
+			{
+				function(f)
+					f.force.Parent = nil
+				end,
+				function(f)
+					f.attachment.Parent = nil
+				end,
+				function(f)
+					f.root.AssemblyMass = 12
+				end,
+				function(f)
+					f.root.CollisionGroup = "Other"
+				end,
+			}
+		do
+			local f = fixture()
+			local l = assert(f:prepare())
+			change(f)
+			assert(not l.commit(f.now))
+			f:clean()
+			assert(#f.ownership == 0)
+		end
+	end,
+
 	["100 turnovers leave no listeners forces or duplicate ownership writes"] = function()
 		local f = fixture()
 		for _ = 1, 100 do
