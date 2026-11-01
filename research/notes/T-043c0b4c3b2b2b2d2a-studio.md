@@ -16,7 +16,7 @@
 ## Minimal owner instructions
 1. Open **WindStepTest.rbxl**, not the Robby live place, in Roblox Studio. Keep avatar type **R15**. Do not publish. Enable View → Explorer, Properties, Output.
 2. Select ServerScriptService → WindStepTest. Set attribute **RunWindStep=true** and uncheck **Disabled** (or check Enabled). Press **Play (F5)**, not Run. Do not move the character; use one player. Allow up to two minutes. This place has no game saves.
-3. After `WIND_STEP_SUMMARY`, switch Studio to the **Server** view. In the Command Bar run `print(game.ServerStorage.WindStepEvidence.Value)`. Copy the full JSON/output into the next Robby session **before Stop**. If no summary, send the Output error instead. Never treat local offline checks as that result.
+3. After `WIND_STEP_SUMMARY`, switch Studio to the **Server** view. Select ServerStorage → WindStepEvidence and copy its **Value** (the full JSON) into a text file, then upload it to the next Robby session **before Stop**. If copying the Value is awkward, run this in the server Command Bar and send all numbered chunks: `local s=game.ServerStorage.WindStepEvidence.Value; for i=1,#s,3000 do print("WIND_STEP_JSON_CHUNK "..i.." "..s:sub(i,i+2999)) end`. If no summary, send the Output error instead. Never treat local offline checks as that result.
 4. Stop Play; do not save over or upload the production place. A fresh Play resets the single-run guard. The separate disabled build can be discarded.
 
 ## Developer continuation

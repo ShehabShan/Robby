@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S90 — 2026-11-01 — running-server gate preparation
+- d2a done: separate disabled Studio Wind Step place,106-case real-scheduler harness; exact production source/hash packaging. No game startup/saves/remotes, no production changes.
+- CHECK PASS:626pure/83specs,28driver groups,7Python runner tests;9 new offline groups,10 detected/restored behavioral faults. Roblox physics NOT executed/accepted.
+- d2b blocked on one-player Studio report; then death/replacement and supported-rate/final-partial gates. Driver activation and publication still OFF.
+- D-319–D-321; handoff/instructions: research/notes/T-043c0b4c3b2b2b2d2a-studio.md. OLU30 at close-out start; final total recorded in STATE after merge.
+
 ## S89 — 2026-11-01
 - d1 Saved-engine spatial validation DONE; D-315–D-318, merged e617d5d. Fixed ReadVoxels Size iteration and unsafe body-only emptiness via4stud halo.
 - Saved30 PASS twice:32 spatial assertions/44 report rows incl cleanup; CLOUD ALL626/626+packages/smoke. Evidence in research/notes/T-043c0b4c3b2b2b2d1-*.
