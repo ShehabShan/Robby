@@ -1,6 +1,8 @@
 -- Offline checks of policy, disabled guards and packaged boundaries. NOT engine evidence.
 local fs = require("@lune/fs")
 local roblox = require("@lune/roblox")
+local serde = require("@lune/serde")
+local process = require("@lune/process")
 local luau = require("@lune/luau")
 local Evidence = require("./studio/WindStepEvidence")
 local count = 0
@@ -183,11 +185,27 @@ test("real harness returns before acquiring fixture or driver when not opted in"
 		assert(ran)
 	end
 end)
+test("boolean environment and cleanup gates cannot be truthy strings", function()
+	for _, key in { "studio", "running", "server", "optIn", "players" } do
+		local invalid = table.clone(env)
+		invalid[key] = "true"
+		assert(not Evidence.finish(invalid, rows(), true).matrixPassed)
+	end
+	assert(not Evidence.finish(env, rows(), "true").matrixPassed)
+end)
 local isolated = roblox.deserializePlace(fs.readFile("build/WindStepTest.rbxl"))
 local default = roblox.deserializePlace(fs.readFile("build/Robby.rbxl"))
 test("isolated build disabled, actual source exact; no gameplay startup or client", function()
 	local script = isolated:GetService("ServerScriptService"):FindFirstChild("WindStepTest")
 	assert(script and script.Disabled and script:GetAttribute("RunWindStep") == false)
+	local hashes = serde.decode("json", script:GetAttribute("SourceHashes"))
+	for path, hash in hashes do
+		assert(serde.hash("sha256", fs.readFile(path)) == hash, path)
+	end
+	assert(hashes["src/server/WindStepDriver.luau"] and hashes["tests/studio/wind_step.server.luau"])
+	local revision = process.exec("git", { "rev-parse", "HEAD" }).stdout:gsub("%s+$", "")
+	assert(script:GetAttribute("SourceRevision") == revision)
+
 	assert(script.Source == fs.readFile("tests/studio/wind_step.server.luau"))
 	assert(script.WindStepDriver.Source == fs.readFile("src/server/WindStepDriver.luau"))
 	assert(script.WindStepClearance.Source == fs.readFile("src/server/WindStepClearance.luau"))

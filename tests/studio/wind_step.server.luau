@@ -62,10 +62,17 @@ local function part(name, size, position)
 	return p
 end
 local function disconnect()
+	local failed = false
 	for _, connection in connections do
-		connection:Disconnect()
+		local disconnected = pcall(function()
+			connection:Disconnect()
+		end)
+		if not disconnected or connection.Connected then
+			failed = true
+		end
 	end
 	table.clear(connections)
+	assert(not failed, "observer disconnect failed")
 end
 local function cleanRoot()
 	return root:FindFirstChild("WindStepVelocity") == nil and root:FindFirstChild("WindStepAttachment") == nil
@@ -140,6 +147,18 @@ local function runCase(name: string, kind: string, mode: string)
 	table.insert(rows, row) -- preserve failing/partial cases on every error path
 	local preY, forceApplied = 0, false
 	local pendingDt: number? = nil
+	local function observe(callback)
+		return function(...)
+			local success, err = pcall(callback, ...)
+			if not success then
+				row.phaseOK = false
+				row.observerError = tostring(err)
+				if lease then
+					lease.stop()
+				end
+			end
+		end
+	end
 	local began = os.clock()
 	lease = Driver.prepare(player, Motion.PROPOSED, Vector3.xAxis)
 	assert(lease, "prepare refused: " .. name .. "; state=" .. humanoid:GetState().Name)
@@ -148,7 +167,7 @@ local function runCase(name: string, kind: string, mode: string)
 	assert(row.committed, "commit refused: " .. name)
 	table.insert(
 		connections,
-		RunService.PreSimulation:Connect(function(dt: number)
+		RunService.PreSimulation:Connect(observe(function(dt: number)
 			if not lease.active() then
 				return
 			end
@@ -166,11 +185,11 @@ local function runCase(name: string, kind: string, mode: string)
 			if not forceApplied or root:GetNetworkOwnershipAuto() or root:GetNetworkOwner() ~= nil then
 				row.phaseOK = false
 			end
-		end)
+		end))
 	)
 	table.insert(
 		connections,
-		RunService.PostSimulation:Connect(function()
+		RunService.PostSimulation:Connect(observe(function()
 			if not pendingDt then
 				return
 			end
@@ -206,7 +225,7 @@ local function runCase(name: string, kind: string, mode: string)
 				lease.stop(true)
 				row.cancelled, row.velocityKept = true, root.AssemblyLinearVelocity == velocity
 			end
-		end)
+		end))
 	)
 	waitUntil(function()
 		return not lease.active()
@@ -229,7 +248,10 @@ local ok, failure = xpcall(function()
 	character = player.Character
 	root = character:FindFirstChild("HumanoidRootPart")
 	humanoid = character:FindFirstChildOfClass("Humanoid")
-	assert(humanoid and root.Size == Vector3.new(2, 2, 1), "requires default R15 root (2,2,1)")
+	assert(
+		humanoid and humanoid.RigType == Enum.HumanoidRigType.R15 and root.Size == Vector3.new(2, 2, 1),
+		"requires default R15 root (2,2,1)"
+	)
 	assert(root:CanSetNetworkOwnership(), "root ownership unavailable")
 	saved = {
 		pivot = character:GetPivot(),

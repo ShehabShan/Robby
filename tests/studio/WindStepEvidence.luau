@@ -39,6 +39,9 @@ function Evidence.accept(row: any): boolean
 	if
 		row.elapsed <= 0
 		or row.elapsed > 0.5
+		or row.maxSide < 0
+		or row.maxYError < 0
+		or row.maxX < row.distance
 		or row.maxSide > 0.5
 		or row.commandedDistance < 0
 		or row.commandedDistance > 14.001
@@ -106,7 +109,7 @@ function Evidence.finish(environment: any, rows: { any }, cleanup: boolean): any
 		passed = passed,
 		expected = 106,
 		cleanup = cleanup,
-		matrixPassed = valid and cleanup and #rows == 106,
+		matrixPassed = valid and cleanup == true and #rows == 106,
 		-- First slice does NOT cover death/replacement or deliberate frame-rate variation.
 		dynamicsAccepted = false,
 		remaining = {
