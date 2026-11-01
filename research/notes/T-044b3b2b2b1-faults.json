@@ -1,0 +1,57 @@
+{
+  "kind": "Offline synthetic faults, restored after each run",
+  "results": [
+    {
+      "mutation": "omit remote consent existence check",
+      "detected": true
+    },
+    {
+      "mutation": "reuse identical nonce",
+      "detected": true
+    },
+    {
+      "mutation": "omit intent fsync",
+      "detected": true
+    },
+    {
+      "mutation": "omit intent write",
+      "detected": true
+    },
+    {
+      "mutation": "omit reservation readback equality",
+      "detected": true
+    },
+    {
+      "mutation": "omit outcome time ordering",
+      "detected": true
+    },
+    {
+      "mutation": "omit outcome pin binding",
+      "detected": true
+    },
+    {
+      "mutation": "omit immutable original comparison",
+      "detected": true
+    },
+    {
+      "mutation": "omit ref binding",
+      "detected": true,
+      "initiallyDetected": false,
+      "addedTest": "direct seam refusal regression"
+    },
+    {
+      "mutation": "omit remote read size bound",
+      "detected": true,
+      "initiallyDetected": false,
+      "addedTest": "direct seam refusal regression"
+    },
+    {
+      "mutation": "lie about retry",
+      "detected": true
+    },
+    {
+      "mutation": "omit source digest validation",
+      "detected": true
+    }
+  ]
+}

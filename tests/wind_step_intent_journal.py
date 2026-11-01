@@ -5,6 +5,7 @@ All records are synthetic; no owner consent, GitHub journal or Roblox requests.
 import copy
 from concurrent.futures import ThreadPoolExecutor
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -114,7 +115,9 @@ class JournalTests(unittest.TestCase):
                 return self.reserve(vm)
             except ValueError:
                 return None
-        with ThreadPoolExecutor(max_workers=2) as executor:
+        # Force identical Git dates so only the generated nonce distinguishes intents.
+        dates = {"GIT_AUTHOR_DATE": "2000000000 +0000", "GIT_COMMITTER_DATE": "2000000000 +0000"}
+        with patch.dict(os.environ, dates), ThreadPoolExecutor(max_workers=2) as executor:
             tickets = list(executor.map(attempt, (0, 1)))
         self.assertEqual(sum(t is not None for t in tickets), 1)
         # Even with identical inputs and commit timestamp, nonces prevent equal OIDs.
@@ -372,6 +375,8 @@ j.reserve(m['intent'](), m['LocalStore'](sys.argv[2]), sys.argv[3])
         head = self.stores[0].commit(raw)
         self.stores[0].push(wrong_ref, head, None)
         with self.assertRaises(ValueError):
+            self.stores[1].read(wrong_ref)
+        with self.assertRaises(ValueError):
             journal.inspect("f" * 64, self.stores[1])
 
     def test_terminal_compare_and_swap_closes_check_to_push_race(self):
@@ -401,6 +406,57 @@ j.reserve(m['intent'](), m['LocalStore'](sys.argv[2]), sys.argv[3])
         self.assertIn("outcome.json", self.assert_consumed()["records"])
         with self.assertRaises(FileExistsError):
             journal.finish(ticket, outcome(ticket), self.stores[0])
+
+    def test_oversized_object_not_materialized(self):
+        self.reserve()
+        real = self.stores[1].git
+        reads = []
+        def inflated(*args, **kwargs):
+            reads.append(args)
+            if args[:2] == ("cat-file", "-s"):
+                return str(journal.MAX_RECORD + 1).encode()
+            return real(*args, **kwargs)
+        with patch.object(self.stores[1], "git", side_effect=inflated), self.assertRaises(ValueError):
+            self.stores[1].read(self.ref)
+        self.assertFalse(any(args[0] == "show" for args in reads))
+
+    def test_real_process_death_after_terminal_fsync_keeps_reservation(self):
+        child = """
+import os, runpy, sys
+m = runpy.run_path(sys.argv[1])
+j = m['journal']
+store = m['LocalStore'](sys.argv[2])
+ticket = j.reserve(m['intent'](), store, sys.argv[3])
+real = j.write_once
+def die(path, raw):
+    real(path, raw)
+    if path.name == 'outcome.json': os._exit(73)
+j.write_once = die
+j.finish(ticket, m['outcome'](ticket), store)
+"""
+        r = subprocess.run([sys.executable, "-B", "-c", child, __file__, str(self.stores[0].repo),
+                            str(self.spools[0])], capture_output=True, timeout=30)
+        self.assertEqual(r.returncode, 73, r.stderr.decode())
+        self.assertEqual(set(self.assert_consumed()["records"]), {"intent.json"})
+        self.assertTrue((self.spools[0] / self.record["consentSha256"] / "outcome.json").is_file())
+        with self.assertRaises(ValueError):
+            self.reserve(1)
+
+    def test_missing_spool_never_creates_remote_intent(self):
+        with self.assertRaises(ValueError):
+            journal.reserve(self.record, self.stores[0], self.root / "missing")
+        self.assertIsNone(self.stores[0].head(self.ref))
+
+    def test_remote_target_switch_during_reservation_refused(self):
+        # The production implementation rechecks its configured remote at push time.
+        repo = self.stores[0].repo
+        self.cmd("-C", str(repo), "config", "remote.origin.url", "https://github.com/ShehabShan/Robby.git")
+        store = journal.GitStore(repo)
+        self.cmd("-C", str(repo), "config", "remote.origin.url", "https://github.com/someone/else.git")
+        with self.assertRaises(ValueError):
+            store.push(self.ref, "a" * 40, None)
+        with self.assertRaises(ValueError):
+            store.read(self.ref)
 
 
 if __name__ == "__main__":
