@@ -5,4 +5,3 @@ Never start a task that has a row here. A claim whose branch had no push for 2 h
 
 | Session | Task | Branch | Decisions | Claimed (UTC) | Bot | Note |
 |---|---|---|---|---|---|---|
-| S100 | T-044c | session/S100 | D-348..D-357 | 2026-11-01 09:29 | e887fc9d-57ac-49e8-b7ae-c091dce8530c |  |
