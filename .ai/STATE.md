@@ -1,5 +1,12 @@
 # STATE
 
+## Now — after S94 (2026-11-01)
+- Phase3 building, approved. **NEXT T-044b3**: bounded published-report intake + exact manifest validation and safe test-only release tooling; size/split before work. Then c separate authorized test publication. Handoffs: research/notes/T-044b2b2b1-worker.md and T-044b2b2b2-owner-ui.md.
+- S94 merged892e8fb: generated worker now uses tested owner transport, cooperative cancellation at yields/active-motion seams and independent cleanup; owner explicit Start/status/full copyable paged JSON UI wired in isolated candidate. Server/client remain DISABLED, RunWindStep=false, publishReady=false. NOT yet playable/release-ready.
+- CHECK PASS:642pure/85specs +5worker/5UI actual-source integration groups,106-case mocked traversal,100 cancel and100 UI lifetimes;18 temporary faults detected/restored. Offline mock evidence ONLY; real physics/ownership/rate/feel and Sober/mobile rendering/copy gates remain open.
+- Separate test destination universe6958375460/root121111456135560 owner7738981129 is GET-confirmed private/exact-root (S92); empty-content status/write grant unverified. No new owner action until intake/release ready. Main-only publication after fresh safe preflight; never production publish.py.
+- No upload/publication; Saved30/published27/game0.0.22 unchanged. Claims released. Close-out37.2, merge38.6 OLU; final saving before45. Older Now blocks are historical.
+
 ## Now — after S93 (2026-11-01)
 - Phase3 building, approved. **NEXT T-044b2b2b**: wire exact generated worker to tested owner-session transport, cancellation at all yield/active-motion seams and independent cleanup, then owner start/status/full-report UI; size/split before work. Then b3 bounded published intake/release, c separate test publication. Handoff: research/notes/T-044b2b1-owner-session.md.
 - S93 merged d7993da: b2b1 pure bounded owner controller + b2b2a test-only engine transport complete. One explicit run per original Player/server, rate/deadline/report bounds, owner-private channel, leave/extra-join cancellation and shutdown. Generated candidate remains unchanged, disabled and NOT playable/release-ready.
@@ -168,7 +175,7 @@
 
 - **Phase:** 3 — Building (P-006 approved, D-049).
 - **Doing:** T-043 overhaul: c0b4 presentation (delivery Fx/metadata/receipt dispatcher/original-character owner done → truthful Burst → atomic cutover), then d2 M1 visuals; T-042b live-input verification remains open.
-- **NEXT:** T-044b2b2b — actual generated worker + owner UI integration using S93 bounded controller/transport; then b3 intake/release and c test publication. Handoff: research/notes/T-044b2b1-owner-session.md. Actual d2b2 physics and dependent activation remain gated.
+- **NEXT:** T-044b3 — bounded published-report intake + exact manifest and safe release tooling; size/split first. Then c separate test publication. Handoff: research/notes/T-044b2b2b2-owner-ui.md. Actual d2b2 physics and dependent activation remain gated.
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-044b2b2b generated worker/UI → b3 intake/release → c publish (c gated on verified empty destination/write permissions) · a/b1/b2a/b2b1/b2b2a done
