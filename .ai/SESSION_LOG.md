@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S92 — 2026-11-01 — separate Sober test preparation
+- T-044a/b1/b2a done: strict private test-target preflight, published admission/evidence policy, disabled exact-source candidate. D-325–D-327; no production runtime changes.
+- CHECK PASS: all prior gates +8 target/6 policy/3 builder/3 package groups,530 parity checks,15 unsafe entries;7 faults detected/restored. No actual Roblox physics evidence.
+- NEXT T-044b2b owner start/status/report UI, then b3 intake/release and c publish. Owner must supply empty separate PRIVATE experience and test-universe API permissions; supported API-key creation not documented.
+- No upload/publication; main Saved30/published27/game0.0.22 unchanged. Candidate NOT playable/release-ready. Handoff research/notes/T-044b2a-published-candidate.md; close-out38.9 OLU, save before45.
+
 ## S91 — 2026-11-01 — Wind Step evidence intake and owner bundle
 - d2b1 done: bounded strict JSON/provenance review reuses canonical Luau policy; disabled zip with manifest and owner instructions. No production runtime changes.
 - CHECK PASS:626pure/83specs +28driver +7Python runner +9Studio offline groups;12 new intake/bundle groups,9 behavioral faults detected/restored. No Roblox physics execution/acceptance.
