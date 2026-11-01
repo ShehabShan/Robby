@@ -1,5 +1,11 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
+## S104 — 2026-11-01 (owner-directed takeover)
+- T-045a: corrected test-package rehearsal and exact reconstruction PASS; full CHECK PASS. D-356; handoff research/notes/T-045a-corrected-package.md.
+- Existing S103 startup repair only; no new runtime or permission code. GET-only target private/owner/root verified; default disabled, production and consumed journal unchanged.
+- Final clean-main package/card staged after last main save; immutable version0 pointers in handoff, missing artifacts mean incomplete delivery. No upload/publication or live UI/physics acceptance.
+- NEXT T-044c2b awaits authentic S104 exact-package approval; original-evidence recovery remains blocked separately. Original budget includes setup:21.4 OLU at close-out start; final measured usage in approval card.
+
 ## S103 — 2026-11-01
 - T-045 done: fixed restricted version API blocking diagnostic startup and bounded original-owner PlayerGui race; D-354/D-355. Screenshot recorded; no asserted live-error/serving identity.
 - CHECK PASS: six generated-worker/ten Studio groups,106 synthetic cases,100 lifetimes; four temporary faults detected/restored. No real physics/Sober/UI acceptance.
