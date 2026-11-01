@@ -1,0 +1,38 @@
+{
+  "offlineOnly": true,
+  "sourceRestored": true,
+  "faults": [
+    {
+      "fault": "receipt independent pin bypass",
+      "detected": true
+    },
+    {
+      "fault": "canonical receipt bypass",
+      "detected": true
+    },
+    {
+      "fault": "retained hash bypass",
+      "detected": true
+    },
+    {
+      "fault": "enabled package check bypass",
+      "detected": true
+    },
+    {
+      "fault": "published version binding bypass",
+      "detected": true
+    },
+    {
+      "fault": "final journal reread bypass",
+      "detected": true
+    },
+    {
+      "fault": "snapshot race check bypass",
+      "detected": true
+    },
+    {
+      "fault": "dynamics overclaim",
+      "detected": true
+    }
+  ]
+}

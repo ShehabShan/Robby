@@ -518,3 +518,6 @@ The isolated integration transport has one fixed Published POST, no redirects/re
 
 ### D-346 (S99) — retained publication is not serving acceptance
 Only exact positive upload version plus independent complete bounded published-history observation can produce HISTORY_CONFIRMED. Retain exact sanitized version response and observer report with hashes for later delivered-report binding. Serving identity, downloaded-byte identity, reviewer authentication, dynamics and device acceptance remain unverified; release readiness stays false. Local durability requires preserving the spool/VM and remote ref protection by repository operators.
+
+### D-347 (S99) — canonical release-bound report intake
+Separate read-only release intake pins the receipt independently, reads the canonical journal terminal twice, checks retained enabled package/source/consent/review/history/upload version, then binds the raw running-player report to that exact target/source/version and recomputes canonical Luau policy. Disabled candidate intake stays separate and strict. Output RELEASE_REPORT_BOUND_ONLY is a consistency finding, not signed report authenticity, current-serving/downloaded bytes or completed dynamics/device/feel acceptance. Expired records may be checked at their historical intent time for intake, never reused as new upload authorization.
