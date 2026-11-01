@@ -1,5 +1,12 @@
 # STATE
 
+## Now — after S102 (2026-11-01)
+- Phase3 building. T-044c2b1 done: **version2 historically published**, independently confirmed by bounded GET-only observer at13:12Z on clean synced main7cb7a5f. Fixed observed decimal-string versions + terminal-cursor API shape. No new publication; production untouched.
+- **NEXT T-044c2b2 BLOCKED:** recover S101 original exact release-evidence/package archive via authorized access or owner attachment. Prior pointer returns404 here; scoped listings empty (not proof of deletion). Never reconstruct new bytes as originals, retry consent or overwrite the immutable UNCERTAIN terminal.
+- Original consent remains consumed; canonical terminalc53a0ae unchanged before/after observation. Existing release intake still requires HISTORY_CONFIRMED and exact retained inputs; independent later history is NOT a replacement original receipt. No serving/byte/dynamics/Sober/mobile acceptance.
+- CHECK PASS:20 history/46 transaction/26 intake groups;7 temporary faults detected/restored. Claims released. Handoff and round-trip-verified version0 evidence ZIP/pin: research/notes/T-044c2b1-reconciliation.md. Close-out28.1 OLU before final main save.
+- Next owner action: make the previous session's original release-evidence ZIP available here. No screenshot/key/new-publication request. Older blocks below are historical and do not override this state.
+
 ## S101 approved release follow-up — 2026-11-01
 - One approved test-only POST returned version2, but history confirmation failed: **UNCERTAIN, consent consumed, NO RETRY**. Production untouched.
 - NEXT T-044c2b1: read-only reconciliation; see research/notes/T-044c2b-release-result.md for canonical journal and portable evidence. No new publication. Owner dynamics still unverified. Older blocks below describe pre-release state.

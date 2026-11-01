@@ -1,10 +1,10 @@
 # SESSION LOG (newest first, ≤6 lines each)
 
 ## S102 — 2026-11-01
-- T-044c2b1: live GET confirms historical published test version2; fixed decimal-string/terminal-cursor parser mismatch. D-352/D-353; main-only observer final handoff follows merge.
+- T-044c2b1: live GET confirms historical published test version2; fixed decimal-string/terminal-cursor parser mismatch. D-352/D-353; clean-main bounded observer and unchanged canonical journal verified.
 - CHECK PASS:20 history/46 transaction/26 intake groups;7 temporary faults detected/restored. No serving/byte/dynamics or device acceptance.
 - Original consumed UNCERTAIN journal unchanged; no retry, uploads or production changes. S101 archive inaccessible here; NEXT c2b2 original evidence recovery, not new publication.
-- Handoff: research/notes/T-044c2b1-reconciliation.md. Close-out started25.0 OLU; final meter/evidence in main handoff.
+- Handoff: research/notes/T-044c2b1-reconciliation.md. Close-out started25.0; evidence saved/read-back28.1 OLU; final main handoff saved below45.
 
 ## S101 pinned-release follow-up — 2026-11-01
 - Owner exact-package approval10:10:32Z; unchanged-main one-shot transaction dispatched to isolated test only.

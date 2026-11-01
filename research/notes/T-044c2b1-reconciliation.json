@@ -1,0 +1,92 @@
+{
+  "canonicalJournal": {
+    "consumed": true,
+    "dynamicsAccepted": false,
+    "head": "c53a0ae8c74769be38e00ce3c33e8642b201ad02",
+    "publishReady": false,
+    "records": {
+      "intent.json": {
+        "attemptNonce": "1cab0560dbadbfc9c05bba216a66365792b7b4e44c4c4dee63f299916bfc83d5",
+        "consentSha256": "eb8fa8776ff5e4a934a4b699249c4a6fa7d52f018aa346d06c77ab5cb85ef2a2",
+        "createdAt": 1793527875,
+        "kind": "WindStep isolated publication intent",
+        "mainCommit": "7004eed5f711a02b860ac46e492cf56fd75e0654",
+        "manifestSha256": "4a20932d0f1c41483395c7f709db46be598a422ab5a4b41c5a3243c0a737c376",
+        "placeSha256": "3c3db6af6c87528c8ca31f9a94ea443a04cf3d0708fae738bc632cc001801f12",
+        "reviewSha256": "fbad1a26e4ef7a719bfe540e776d1a5c9c6bd1e97b2caac3bfb223f6a25c1b81",
+        "reviewedSourceSha256": "48685fe88547a3e6e2c25d527c2cbe7769213b506712d2f8c31277177646d7cd",
+        "schema": 1,
+        "target": {
+          "kind": "Robby isolated published test",
+          "ownerUserId": "7738981129",
+          "placeId": "121111456135560",
+          "schema": 1,
+          "universeId": "6958375460"
+        }
+      },
+      "outcome.json": {
+        "historySha256": null,
+        "intentSha256": "8529a09419019bff18a3b1d8c52edd4df5837b6ffa31293dbe49315f761715e8",
+        "kind": "WindStep isolated publication outcome",
+        "recordedAt": 1793528214,
+        "responseSha256": "9517a49f50241f8e40af1ba4f395e799c838d8a72bd74b671c4e9e0b38a0d96f",
+        "schema": 1,
+        "status": "UNCERTAIN",
+        "version": null
+      }
+    },
+    "releaseEvidenceAccepted": false,
+    "retryAllowed": false
+  },
+  "dynamicsAccepted": false,
+  "journalUnchangedBeforeAfter": true,
+  "kind": "S102 independent read-only reconciliation; NOT original release evidence",
+  "newPublicationPerformed": false,
+  "notes": [
+    "Raw observer remaining[] is generic, not permission for another one-shot upload. S101 consent remains consumed.",
+    "Historical publication only; no serving, downloaded-byte, actual physics or device proof."
+  ],
+  "observation": {
+    "currentServingVersionVerified": false,
+    "dynamicsAccepted": false,
+    "expectedVersion": 2,
+    "historicalPublicationObserved": true,
+    "historyComplete": true,
+    "kind": "WindStep publication history observation",
+    "mainRevision": "7cb7a5f786a09f1de6c293213153040b7d540724",
+    "observedAt": 1793538720.1405556,
+    "pageSha256": [
+      "d2330fdc968ebaff51ca0ea6c54f5b26c3093ed0ff8fd5be22a972b55dea6491"
+    ],
+    "pagesRead": 1,
+    "publishReady": false,
+    "releaseEvidenceAccepted": false,
+    "remaining": [
+      "one-shot authorized transaction and exact-byte receipt",
+      "running-player report bound to delivered release/version",
+      "actual dynamics and device evidence"
+    ],
+    "schema": 1,
+    "startedAt": 1793538718.9048457,
+    "status": "PUBLICATION_HISTORY_OBSERVED",
+    "target": {
+      "kind": "Robby isolated published test",
+      "ownerUserId": "7738981129",
+      "placeId": "121111456135560",
+      "schema": 1,
+      "universeId": "6958375460"
+    },
+    "targetObservationSha256": [
+      "f8c74fba891a4dd9948d455f52aaa6b6a813a62f226387017e8e409ef6f99ab7",
+      "f8c74fba891a4dd9948d455f52aaa6b6a813a62f226387017e8e409ef6f99ab7"
+    ],
+    "versionsInspected": 2,
+    "writePermissionVerified": false
+  },
+  "originalArchiveAvailable": false,
+  "originalArchiveLookup": "Named artifact GET404; scoped listing and GraphQL lookup empty. Not proof of deletion.",
+  "originalTransactionOutcomeSuperseded": false,
+  "releaseEvidenceAccepted": false,
+  "retryAllowed": false,
+  "schema": 1
+}
