@@ -103,10 +103,19 @@ Owner request 2026-11-02 (`research/inbox/2026-11-02-crescent-ranks-and-kith-sca
 | T-053a5 | Hit sprite burst, pierce dim, world impact + `HitFx kind` | a2, a3 |
 | T-053a6 | Owner playtest build (Studio via Rojo or TEST place), tuning pass from feedback | a1–a5 |
 
-## 10. Open questions for the owner
+## 10. Open questions for the owner (answered in §11)
 1. **Walls and ground:** should the blade stop when it hits a wall or the ground? Recommend **yes**. Without it, a down-shot sinks into the floor.
 2. **Pitch limit:** recommend **±70°** (no straight-down shot at your own feet). OK?
 3. **Kith model:** should the Rank 1 Crescent Kith model be visible (for example floating at the shoulder, with the blade launching from it)? Recommend a **separate later task**; it touches every Kith.
 4. **Sounds:** may we use Roblox's free licensed sounds from the Creator Store, or will you provide or generate sounds?
 5. **Playtest:** Studio through Rojo, or the private TEST place like Wind Step?
 6. **Speed and range** (90 studs/s, 60 studs) count as *feel*, not damage. May the playtest pass tune them?
+
+## 11. Owner answers (2026-11-03 00:11 +06, D-380)
+Owner: "I go with your recommendations. But want to add for point 4. I think promptql has in-build access of few good audio model which we can use for better sound effect. But you decide which to use for now."
+1. Blade **stops on walls/ground** (`stopOnWorld = true`) with an impact FX.
+2. Pitch clamp **±70°**.
+3. Kith model visible beside the player: **later, separate task** (all Kith).
+4. **Sounds (bot decision):** primary = **AI-generated SFX through PromptQL's managed Higgsfield integration** (`__higgsfield`, image/video/audio generation; reachable from the VM, S120 probe got an API 404 for a dummy request id, so it is provisioned). Each submit costs OLU and needs approval; always poll to a terminal status; never blind-retry a submit. Generate 2–3 variants per sound (cast whoosh+moon ring, travel hum, target hit slice/chime, ground thud), pick the best, trim and normalise them (ffmpeg), store originals in `assets/source/sfx-crescent-*.ogg`, and upload them as Roblox Audio through Open Cloud. **Fallback** if the model or terms don't fit or upload is refused: free Roblox Creator Store sounds. Check the output licence terms before shipping. The work moves into T-053a4, with a first step to read the Higgsfield API reference for the audio model path and parameters.
+5. Playtest in the **private TEST place** (like Wind Step).
+6. The playtest **may tune speed and range**.

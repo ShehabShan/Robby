@@ -44,3 +44,6 @@ For rank 2 and rank 3 kith ability, i choose the one you pick.
 
 ## Message 4 (23:56 +06)
 We will build rank-up conditions, the power scalling system later. For now the next session should start working on Crescent R1 then R2 and the R3. I told you all this rank up, power scale system etc so you can records it in repo so when we start building it, we follow this requirement
+
+## Message 6 (2026-11-03 00:11 +06, reply to T-053a plan questions)
+I go with your recommendations. But want to add for point 4. I think promptql has in-build access of few good audio model which we can use for better sound effect. But you decide which to use for now.
