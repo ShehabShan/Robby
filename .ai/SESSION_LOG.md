@@ -1,3 +1,8 @@
+## S122 — 2026-11-03 — T-053a4b, T-053a4c (bot eaad9032)
+- Crescent Cut sounds: Lyria tone layers + synthesised whoosh/slice/thud (`scripts/make_sfx.py`), 3 variants each in `assets/sfx/`, variant 1 uploaded as Audio and wired (cast, travel hum, hit, wall thud), D-388/D-389. Owner preview: this bot's `crescent_sfx_preview`.
+- Blade now spawns at the hand and blends into the server path in ~2 frames (D-391). rokit 403 fix: `scripts/tools_fallback.sh` (D-390).
+- CHECK PASS; merged a99a021; cloud test CLOUD ALL: PASS on Saved version 32. NEXT: T-053a6 owner playtest + sound pick. ~21 OLU.
+
 ## S121 — 2026-11-03 — T-053a1–a5 (bot d0d13a30)
 - Crescent Cut rework, code side: free 3D aim (±70°, blade stops on walls, D-383); art uploaded to Roblox + `Shared.AssetIds` (D-384); textured additive art blade with Classic fallback (D-385); hit sprite, pierce dim, world impact (D-386); cast feel minus sounds (D-387, a4 partial).
 - All CHECK PASS; nothing seen in-engine yet (no cloud test). NEXT: cloud test from main, a4 sounds, then a6 owner playtest. ~32 OLU.
