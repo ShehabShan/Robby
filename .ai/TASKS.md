@@ -464,5 +464,5 @@ Pick one when the next real task won't fit before the 43 OLU wrap-up line. Log f
   - Touches only `assets/PROMPTS.md`, `assets/source/INDEX.md`, `scripts/glb_check.py` and this entry. No code, no publishing.
   - The owner generates, the bot never does. Most of the session is waiting for the owner, so keep chat short.
   - AC per session: at least one asset checked and indexed, or the prompt sheet updated, saved.
-  - Resume from: PROMPTS.md status table (1b and 3 done S114; next: 4 Crescent hit texture, then 5; 6 on hold).
+  - Resume from: PROMPTS.md status table (1b, 3, 4 done S114; next: 5; 6 on hold).
   - Owner ask (2026-11-02, research/inbox/2026-11-02-asset-prompt-guide.md): after a few more assets, turn PROMPTS.md "Prompt lessons" into `assets/PROMPT_GUIDE.md` (how a new session writes prompts that work). Not yet; keep adding lessons each asset.

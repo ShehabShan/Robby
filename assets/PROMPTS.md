@@ -9,8 +9,8 @@ The owner generates assets on third-party sites. The bot writes the prompts, che
 | 1b | Crescent Kith creature v2 (3D) | `creature-crescent-kith-v2.glb` | done 04d2c31, indexed dd63535 (4.9k tris) |
 | 2 | Twin Crescent Kith v2 (3D) | `creature-twin-crescent-kith.glb` | done ae6fa83, indexed 04edb83 (4.9k tris) |
 | 3 | Crescent Cut slash texture | `vfx-crescent-slash.png` | done 563f6cd, checked S114 (1024², opaque black bg, centered) |
-| 4 | Crescent hit texture | `vfx-crescent-hit.png` | **next** |
-| 5 | Ability icons x3 | `icon-crescent-cut.png`, `icon-twin-crescent.png`, `icon-piercing-edge.png` | todo |
+| 4 | Crescent hit texture | `vfx-crescent-hit.png` | done f96dc57, checked S114 (1024², opaque black bg, centered) |
+| 5 | Ability icons x3 | `icon-crescent-cut.png`, `icon-twin-crescent.png`, `icon-piercing-edge.png` | **next** |
 | 6 | Cultivator base character (3D, rigged) | `character-cultivator-base.fbx` | on hold: ART.md §4 uses the Roblox avatar + code-built robe in the slice. Only if the owner asks. |
 
 ## Rules for every asset
@@ -64,3 +64,5 @@ Shared style: square game skill icon, ink-wash xianxia painting style, dark ink 
 - Always add a **Negative** line listing what the last try got wrong (butterfly wings, tail, streamers...).
 - Reuse the same sentence pattern across a family (1b matches 2) so assets read as one set.
 - VFX: "pure black background" + "centered, nothing else in the image" gave a clean, usable texture on the first try (3, Ludo.ai).
+- Reference images: using `vfx-crescent-slash.png` as a reference for 4 made busy spiky starbursts and lost the crescent; the text prompt + negative alone gave the best result (option 4 of 4). Don't add a reference unless the shape itself should be copied.
+- Negative "full-circle ring" matters: one no-reference try still drew a full ring (reads as a sun, not a moon).
