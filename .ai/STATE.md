@@ -1,7 +1,7 @@
 # STATE
 
 ## Now — after S122 (2026-11-03, bot eaad9032)
-- **T-053a code all done (a1–a5). NEXT: T-053a6 owner playtest + tuning (plan §8)** in-engine; owner also picks sound variants 1–3 from bot eaad9032 artifact `crescent_sfx_preview` (order cast1-3, hit1-3, hum1-2, thud1-3). Then T-053b, T-053c.
+- **T-053a code all done (a1–a5). NEXT: T-053a6 owner playtest + tuning (plan §8)** in-engine. Sounds picked by owner S123: cast 3, hit 1, hum 1, thud 2 (D-392, live in `AssetIds.sounds` on main). Then T-053b, T-053c.
 - S122: sounds uploaded + wired (`AssetIds.sounds`, volumes `Config.Fx.CrescentCut.sound`, D-389); blade-from-hand blend (D-391); VM tool install fallback (D-390). Merged a99a021; CHECK PASS; cloud test PASS on Saved version 32. Sounds and hand blend not yet heard/seen by a person.
 
 ## Now — after S121 (2026-11-03, bot d0d13a30)
