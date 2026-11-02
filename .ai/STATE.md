@@ -1,5 +1,8 @@
 # STATE
 
+## Now — owner decision 2026-11-02T16:43:40Z
+- **Owner paused remaining Wind Step tests (T-051, T-051b). NEXT: owner picks a non-Wind-Step, non-asset task** (candidates: T-043 Rimeshard quality overhaul, next open leaf; T-038 v0.0.20 playtest fixes; T-021 Mistvale terrain). Asset tasks are other sessions' work.
+
 ## Now — after S119 (2026-11-02, bot 065f4ba4)
 - **Phase3 building; owner accepted play-mode feel on TEST version8. NEXT T-051** (Wind Step remaining gates) **or T-051b** (per-build distance/cooldown) if owner picks it.
 
