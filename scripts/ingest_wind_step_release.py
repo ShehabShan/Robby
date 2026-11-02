@@ -1,6 +1,7 @@
 """Read-only retained-release/report binding. Never publish or accept dynamics from consistency."""
 import argparse
 import json
+import math
 from pathlib import Path
 
 import ingest_wind_step_published as candidate
@@ -77,7 +78,8 @@ def bind(report_path, evidence, receipt_pin, consent_pin, *, store=None):
     for key in ('currentServingVersionVerified', 'writePermissionVerified', 'publishReady',
                 'releaseEvidenceAccepted', 'dynamicsAccepted'):
         require(observation.get(key) is False, 'history cannot claim readiness/serving')
-    require(intent['createdAt'] <= observation['startedAt'] <= observation['observedAt'] <= outcome['recordedAt']
+    require(intent['createdAt'] <= observation['startedAt'] <= observation['observedAt']
+            and math.floor(observation['observedAt']) <= outcome['recordedAt']  # journal stores floored seconds (D-372)
             and observation['observedAt'] - observation['startedAt'] <= history.MAX_SECONDS,
             'history timing mismatch')
     report, report_raw = candidate.load(report_path, candidate.MAX_REPORT)

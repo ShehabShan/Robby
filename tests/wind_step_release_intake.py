@@ -23,6 +23,13 @@ class ReleaseIntakeTests(unittest.TestCase):
         self.fx.setUp()
         if getattr(self, "attestation", False):
             self.fx.use_attestation()
+        if getattr(self, "fractional_clock", False):
+            # Real time.time() is fractional and fast; journal recordedAt is floored (S115 version7 case).
+            self.fx.now = fixture.NOW + 0.25
+            def fine_clock(fx=self.fx):
+                fx.now += 0.01
+                return fx.now
+            self.fx.clock = fine_clock
         self.addCleanup(self.fx.doCleanups)
         self.receipt = self.fx.run_tx()
         self.evidence = self.fx.evidence
@@ -172,6 +179,10 @@ class AttestationReleaseIntakeTests(ReleaseIntakeTests):
     """The complete release-intake hostile suite also applies to owner declarations."""
     attestation = True
 
+
+class FractionalClockReleaseIntakeTests(ReleaseIntakeTests):
+    """Real clocks are fractional; the floored journal second must not reject a genuine release."""
+    fractional_clock = True
 
 if __name__ == '__main__':
     unittest.main()
