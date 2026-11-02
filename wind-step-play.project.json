@@ -1,0 +1,102 @@
+{
+  "name": "Robby Wind Step PLAY mode - TEST place only",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "Shared": {
+        "$className": "Folder",
+        "WindStep": {
+          "$path": "src/shared/WindStep.luau"
+        },
+        "WindStepPlay": {
+          "$path": "src/shared/WindStepPlay.luau"
+        }
+      }
+    },
+    "ServerScriptService": {
+      "WindStepPlay": {
+        "$path": "tests/play/wind_step_play.server.luau",
+        "$attributes": {
+          "TestUniverseId": 0,
+          "TestPlaceId": 0,
+          "Cooldown": 1.2
+        },
+        "WindStepDriver": {
+          "$path": "src/server/WindStepDriver.luau"
+        },
+        "WindStepClearance": {
+          "$path": "src/server/WindStepClearance.luau"
+        }
+      }
+    },
+    "StarterPlayer": {
+      "$properties": {
+        "LoadCharacterAppearance": false
+      },
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "WindStepPlayInput": {
+          "$path": "tests/play/wind_step_play.client.luau"
+        }
+      }
+    },
+    "Workspace": {
+      "Ground": {
+        "$className": "Part",
+        "$properties": {
+          "Anchored": true,
+          "Size": [200, 2, 200],
+          "Position": [0, -1, 0],
+          "Material": "Grass",
+          "Color": [0.36, 0.55, 0.3]
+        }
+      },
+      "Spawn": {
+        "$className": "SpawnLocation",
+        "$properties": {
+          "Anchored": true,
+          "Size": [12, 1, 12],
+          "Position": [0, 0.5, 0],
+          "Neutral": true,
+          "Duration": 0
+        }
+      },
+      "WallNorth": {
+        "$className": "Part",
+        "$properties": {
+          "Anchored": true,
+          "Size": [40, 8, 2],
+          "Position": [0, 4, -30],
+          "Material": "Slate"
+        }
+      },
+      "WallEast": {
+        "$className": "Part",
+        "$properties": {
+          "Anchored": true,
+          "Size": [2, 8, 40],
+          "Position": [30, 4, 0],
+          "Material": "Slate"
+        }
+      },
+      "Pillar": {
+        "$className": "Part",
+        "$properties": {
+          "Anchored": true,
+          "Size": [4, 10, 4],
+          "Position": [-20, 5, 15],
+          "Material": "Slate"
+        }
+      },
+      "Ramp": {
+        "$className": "WedgePart",
+        "$properties": {
+          "Anchored": true,
+          "Size": [12, 4, 16],
+          "Position": [-25, 2, -15],
+          "Material": "Concrete"
+        }
+      }
+    }
+  }
+}

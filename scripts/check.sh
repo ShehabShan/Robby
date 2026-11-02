@@ -47,6 +47,11 @@ run wind-step-studio-map rojo sourcemap wind-step-test.project.json -o build/win
 run wind-step-studio-types luau-lsp analyze --definitions=.cache/globalTypes.d.luau --sourcemap=build/wind-step-sourcemap.json tests/studio
 run wind-step-studio-lint selene tests/studio
 run wind-step-studio lune run tests/wind_step_studio.luau
+run wind-step-play-build python3 -B scripts/build_wind_step_play.py
+run wind-step-play-map rojo sourcemap wind-step-play.project.json -o build/wind-step-play-sourcemap.json
+run wind-step-play-types luau-lsp analyze --definitions=.cache/globalTypes.d.luau --sourcemap=build/wind-step-play-sourcemap.json tests/play
+run wind-step-play-lint selene tests/play
+run wind-step-play-place lune run tests/wind_step_play_place.luau
 run wind-step-intake-format stylua --check scripts/wind_step_evidence.luau
 run wind-step-evidence-intake python3 -B tests/wind_step_evidence_intake.py
 run isolated-test-target python3 -B tests/test_target.py
