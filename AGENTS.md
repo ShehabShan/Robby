@@ -11,6 +11,7 @@ the Roblox game *Rell Seas*. It is built **headlessly** (no Roblox Studio) by AI
 - **Start without waiting.** The owner sends the same generic message every session (SESSIONS.md). Find where the last session left off and continue on your own.
 - **Finding where we left off:**
   0. Skip every task listed in `.ai/CLAIMS.md`: another session has it (§9).
+     Also skip A-001 (owner asset lane) unless the owner's message names it.
   1. Any task marked `doing` in `.ai/TASKS.md`: resume it from its "Resume from:" note.
   2. Otherwise, take NEXT in `.ai/STATE.md`.
   3. If STATE looks stale, `git log --oneline -5` is the truth.

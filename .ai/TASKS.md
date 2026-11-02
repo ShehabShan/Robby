@@ -457,3 +457,11 @@ Pick one when the next real task won't fit before the 43 OLU wrap-up line. Log f
 - **T-048 [done S111: a+b; S; after T-047b]** Bind owner's full version5 report (research/inbox/2026-11-01-s108-version5-test-report-full.md) to retained S108 release evidence with EXISTING read-only `ingest_wind_step_release.py`; record bounded result and remaining d2b2 gaps. AC: intake run on exact retained evidence/pins, result + report summary in research/notes/T-048-version5-intake.md; no publication, no dynamics acceptance inferred from consistency.
   - **T-048a [done S110; D-362; S]** Manual read-only consistency of version5 report vs remote journal/T-047b pins + bounded results summary. Handoff research/notes/T-048-version5-intake.md. Not a full intake.
   - **T-048b [done S111 by substitute; D-363; S]** S108 bot unusable, so exact-byte rebuild from ca074efc reproduced journal manifest/place pins + GET history confirms version5; ingest tool not runnable (receipt/response/history bytes lost). Handoff research/notes/T-048-version5-intake.md. NEXT d2b2 (mid-dash Y dip ~0.59 not caught by maxYError, rates, death/replacement).
+
+## Owner lane — asset generation (secondary, owner 2026-11-02)
+- **A-001 [todo, owner lane] [S per session] Asset generation with the owner:** run ONLY when the owner's start message names A-001. Main-lane bots skip it (AGENTS.md §0) and never edit its files.
+  - Work: give the owner the next prompt from `assets/PROMPTS.md`; check every file they add to `assets/source/` (`python3 scripts/glb_check.py <file>` for GLB); add its `source/INDEX.md` row; update the status table in PROMPTS.md.
+  - Touches only `assets/PROMPTS.md`, `assets/source/INDEX.md`, `scripts/glb_check.py` and this entry. No code, no publishing.
+  - The owner generates, the bot never does. Most of the session is waiting for the owner, so keep chat short.
+  - AC per session: at least one asset checked and indexed, or the prompt sheet updated, saved.
+  - Resume from: PROMPTS.md status table (next: 1b Crescent Kith v2, then 3, 4, 5; 6 on hold).

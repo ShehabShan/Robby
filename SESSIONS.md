@@ -33,6 +33,13 @@ Any of these works:
 Your ideas are the highest authority. The research and design work around them, and the bot tells you
 if an idea conflicts with copyright or Roblox rules.
 
+## Asset sessions (secondary lane)
+To work on asset generation instead of the main task, add one line to the start message, before "Hard limit":
+
+> Task: A-001 (asset generation lane) only. Do not work on the main task.
+
+The bot gives you the next prompt from `assets/PROMPTS.md`, checks what you upload and records it. It can run while a main session runs.
+
 ## Give the bot 3D models, images or sounds
 Upload them to the bot's chat and say "add these to assets/source". You can also add them to `assets/source/` on GitHub. Tell the bot where they came from (made by you, bought, free), because licenses matter on Roblox. The bot can also create 3D models itself with Blender.
 
