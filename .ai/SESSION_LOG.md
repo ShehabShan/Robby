@@ -1,3 +1,6 @@
+## S111 — 2026-11-02 — T-048b
+- S108 bot unusable; version5 binding done by exact-byte rebuild (pins match) + GET history v5. D-363. NEXT d2b2. ~5 OLU.
+
 ## S110 — 2026-11-01 — T-048a
 - Owner full version5 report saved verbatim (untruncated upload). Manual consistency vs remote journal/T-047b pins OK; 106/106, travel-auto 13.53/13.85 PASS, lag ~0.32 stud. D-362.
 - Full intake (T-048b) blocked: S108 evidence dir only on S108 bot VM. Mid-dash Y dip ~0.59 not in maxYError; rates/death open. ~26 OLU.

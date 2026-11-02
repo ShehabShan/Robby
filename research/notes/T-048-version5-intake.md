@@ -15,3 +15,11 @@ Report: `research/inbox/2026-11-01-s108-version5-test-report-full.md` (owner upl
 - **Mid-dash Y drop persists:** travel samples dip to y ≈ −0.589 stud, end ≈ −0.505; reported maxYError = 0 because it measures vertical-velocity vs gravity consistency (tests/studio/wind_step.server.luau:197), not position. No harness metric bounds the position dip; d2b2 should add one before acceptance.
 - Every frame dt = 1/60 exactly: no rate variation covered.
 - Still open (report `remaining`): death/original-root replacement; supported rate variation + final-partial analysis; device/owner feel.
+
+## T-048b — binding without the S108 bot (S111, 2026-11-02)
+The owner can no longer use the S108 bot, so its retained evidence directory is unavailable. Alternative used instead (read-only, no upload):
+- **Exact-byte reconstruction:** clean detached checkout of `ca074efc…` (journal `mainCommit`) + existing `stage_wind_step_published.py --stage --target research/releases/S100-wind-step-target.json --enable-local-test` reproduced manifestSha256 `03a56c69…7058` and placeSha256 `d48f4712…28a8`, identical to the remote journal intent pins. Staging is deterministic, so the published bytes are known exactly.
+- **Live history:** `observe_wind_step_publication.py --expected-version 5` (GET-only): historicalPublicationObserved true, historyComplete true.
+- Report placeVersion 5 / target / sourceRevision match (T-048a).
+- **Not reconstructable:** receipt, upload response (`e3ab5b97…`), history snapshot (`647ea9b6…`) and review bytes — so `ingest_wind_step_release.py` itself cannot run. Binding is accepted as consistent by this substitute (D-363); still consistency only: not report authenticity, current-serving or dynamics acceptance.
+- Future releases: also store the evidence ZIP in the repo-reachable place (see D-363) so another bot can run the intake.
