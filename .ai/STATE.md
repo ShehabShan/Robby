@@ -1,5 +1,9 @@
 # STATE
 
+## Now — after S111 (2026-11-02)
+- T-048 done (D-362, D-363): version5 report bound to the release by exact-byte rebuild from ca074efc (manifest/place pins match journal) + GET history v5. S108 bot unusable; its evidence is lost. Handoff research/notes/T-048-version5-intake.md.
+- **NEXT d2b2 (T-043c0b4c3b2b2b2d2b2) offline prep:** add a position-dip metric (mid-dash Y dip ~0.59 stud not bounded; maxYError is velocity-only), rate variation/final-partial, death/replacement. No republish. Future releases: keep evidence ZIP repo-readable (D-363).
+
 - 2026-11-01 18:16Z: T-048b NOT started (OLU 45/50 budget stop on S108 bot ebeb0204, which holds the evidence at /workspace/robby-publication-evidence-s108b + /workspace/robby-S108-publication + /workspace/robby-S108-stage). Next session on THIS bot: claim and run T-048b.
 
 ## Now — after S110 (2026-11-01)
