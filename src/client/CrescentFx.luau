@@ -23,7 +23,13 @@ local SEGMENTS = 7
 local RADIUS = 3
 local ARC = math.rad(120)
 local SPARK_TEXTURE = "rbxasset://textures/particles/sparkles_main.dds"
-local CAST_SOUND = "rbxasset://sounds/swordslash.wav" -- placeholder
+-- Uploaded Crescent sounds (T-053a4b, D-389); built-in sounds are the fallback when an id is missing.
+local SFX = {
+	cast = AssetIds.sound("crescentCast") or "rbxasset://sounds/swordslash.wav",
+	hit = AssetIds.sound("crescentHit") or "rbxasset://sounds/swordlunge.wav",
+	thud = AssetIds.sound("crescentThud") or "rbxasset://sounds/hit.wav",
+	hum = AssetIds.sound("crescentHum"),
+}
 
 local CrescentFx = {}
 
@@ -36,6 +42,15 @@ local function sound(id: string, parent: Instance, volume: number)
 	s.Parent = parent
 	s:Play()
 	Debris:AddItem(s, 3)
+end
+
+-- One-shot sound at a world point (an Attachment on Terrain carries it, so it is positional).
+local function soundAt(id: string, pos: Vector3, volume: number)
+	local at = Instance.new("Attachment")
+	at.WorldPosition = pos
+	at.Parent = workspace.Terrain
+	sound(id, at, volume)
+	Debris:AddItem(at, 3)
 end
 
 local function fxPart(size: Vector3): Part
@@ -296,6 +311,20 @@ local function artCrescent(texture: string, origin: Vector3, dir: Vector3, chara
 	local impactNormal: Vector3? = nil
 	model:PivotTo(CFrame.lookAt(origin, origin + dir))
 	model.Parent = workspace
+	local hum = model.PrimaryPart and model.PrimaryPart:FindFirstChild("Hum")
+	if SFX.hum and model.PrimaryPart and not hum then
+		local h = Instance.new("Sound") -- quiet travel hum on the blade, kept with the pooled model
+		h.Name = "Hum"
+		h.SoundId = SFX.hum
+		h.Looped = true
+		h.Volume = look.sound.hum
+		h.RollOffMaxDistance = look.sound.humRange
+		h.Parent = model.PrimaryPart
+		hum = h
+	end
+	if hum and hum:IsA("Sound") then
+		hum:Play()
+	end
 	local traveled, age = 0, 0
 	local range = cfg.range
 	local dissolving: number? = nil
@@ -324,9 +353,13 @@ local function artCrescent(texture: string, origin: Vector3, dir: Vector3, chara
 				dissolving = 0
 				if impactNormal and range < cfg.range then
 					sprite(pos, impactNormal, look.impactBurst, look.impactBurst.dust) -- world impact
+					soundAt(SFX.thud, pos, look.sound.thud)
 				end
 				if dust and dust:IsA("ParticleEmitter") then
 					dust.Enabled = false
+				end
+				if hum and hum:IsA("Sound") then
+					hum:Stop()
 				end
 			end
 		else
@@ -463,7 +496,7 @@ function CrescentFx.swipe(character: Model, dir: Vector3?, isCaster: boolean?)
 	end
 	local root = character:FindFirstChild("HumanoidRootPart")
 	if root then
-		sound(CAST_SOUND, root, 0.6)
+		sound(SFX.cast, root, look.sound.cast)
 	end
 end
 
@@ -471,6 +504,7 @@ function CrescentFx.hit(caster: Player, target: Model?, amount: number, position
 	HitFeel.play(caster, target, amount, position)
 	if position then
 		sprite(position, nil, look.hitBurst, nil) -- hit sprite burst on top of HitFeel (T-053a5)
+		soundAt(SFX.hit, position, look.sound.hit)
 	end
 	local blade = if caster and caster.Character then bladeOf[caster.Character] else nil
 	if blade and hitsOn[blade] then

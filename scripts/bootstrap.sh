@@ -7,7 +7,7 @@ if ! command -v rokit >/dev/null 2>&1 && [ ! -x "$HOME/.rokit/bin/rokit" ]; then
 	curl -sSf https://raw.githubusercontent.com/rojo-rbx/rokit/main/scripts/install.sh | bash >/dev/null 2>&1
 fi
 export PATH="$HOME/.rokit/bin:$PATH"
-rokit install --no-trust-check >/dev/null 2>&1
+rokit install --no-trust-check >/dev/null 2>&1 || bash scripts/tools_fallback.sh >/dev/null 2>&1 # 403 on VM: D-390
 
 # Roblox API type definitions for luau-lsp
 mkdir -p .cache
@@ -21,6 +21,7 @@ if sed -n '/^\[dependencies\]/,$p' wally.toml | grep -qE '^[A-Za-z_]+ *= *"'; th
 	# The VM's global git config routes github.com through the PromptQL proxy, which wally's
 	# libgit2 cannot authenticate to; run wally with a clean HOME (public index, no auth needed).
 	WALLY_BIN=$(find "$HOME/.rokit/tool-storage" -type f -name wally 2>/dev/null | head -1)
+	[ -n "$WALLY_BIN" ] || WALLY_BIN=$(command -v wally || true)
 	WALLY_HOME=$(mktemp -d)
 	HOME="$WALLY_HOME" "${WALLY_BIN:-wally}" install >/dev/null
 	rm -rf "$WALLY_HOME"
