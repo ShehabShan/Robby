@@ -138,6 +138,7 @@ local function runCase(name: string, kind: string, mode: string)
 		maxDt = 0,
 		pairs = 0,
 		maxYError = 0,
+		maxYDip = 0,
 		commandedDistance = 0,
 		lastSpeed = 0,
 		simulatedSeconds = 0,
@@ -193,6 +194,9 @@ local function runCase(name: string, kind: string, mode: string)
 		row.distance, row.maxX, row.maxSide =
 			offset.X, math.max(row.maxX, offset.X), math.max(row.maxSide, math.abs(offset.Z))
 		row.elapsed = os.clock() - began
+		if kind ~= "fall" then -- position dip below start height (D-364); maxYError is velocity-only
+			row.maxYDip = math.max(row.maxYDip, -offset.Y)
+		end
 		if kind == "fall" then
 			row.maxYError =
 				math.max(row.maxYError, math.abs(root.AssemblyLinearVelocity.Y - preY + workspace.Gravity * dt))

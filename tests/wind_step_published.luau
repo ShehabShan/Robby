@@ -39,6 +39,7 @@ local function rows()
 			maxDt = 0.02,
 			pairs = 12,
 			maxYError = 0,
+			maxYDip = 0,
 			maxSide = 0,
 			commandedDistance = distance,
 			lastSpeed = 0,

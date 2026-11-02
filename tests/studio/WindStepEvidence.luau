@@ -20,6 +20,7 @@ function Evidence.accept(row: any): boolean
 			"maxDt",
 			"pairs",
 			"maxYError",
+			"maxYDip",
 			"maxSide",
 			"commandedDistance",
 			"lastSpeed",
@@ -41,6 +42,8 @@ function Evidence.accept(row: any): boolean
 		or row.elapsed > 0.5
 		or row.maxSide < 0
 		or row.maxYError < 0
+		or row.maxYDip < 0
+		or (row.kind ~= "fall" and row.maxYDip > 0.2)
 		or row.maxX < row.distance
 		or row.maxSide > 0.5
 		or row.commandedDistance < 0

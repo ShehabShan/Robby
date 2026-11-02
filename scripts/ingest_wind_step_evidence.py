@@ -15,7 +15,7 @@ FILES = ("src/server/WindStepDriver.luau", "src/server/WindStepClearance.luau",
 KINDS = {**{f"travel-{mode}": "travel" for mode in ("auto", "player", "server")},
          "wall": "wall", "fall": "fall", "cancel": "cancel",
          **{f"lifetime-{i}": "travel" for i in range(1, 101)}}
-METRICS = ("distance", "maxX", "elapsed", "minDt", "maxDt", "pairs", "maxYError",
+METRICS = ("distance", "maxX", "elapsed", "minDt", "maxDt", "pairs", "maxYError", "maxYDip",
            "maxSide", "commandedDistance", "lastSpeed", "simulatedSeconds")
 
 

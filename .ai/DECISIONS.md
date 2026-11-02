@@ -573,3 +573,4 @@ T-046a delivers existing S105 phase-observation repair as an independently pinne
 
 ### D-363 — S111: version5 binding completed by exact-byte reconstruction (2026-11-02)
 - S108 bot is no longer usable (owner), so its retained evidence is lost. Rebuilding the staged package from journal mainCommit ca074efc reproduced both intent pins exactly; GET history confirms version5. Accepted as release/report consistency for version5 (not authenticity, serving or dynamics). Future publications must also save their evidence ZIP where any later bot can read it (e.g. a release branch/ref in the repo), not only as a bot artifact.
+- **D-364 (S112):** Wind Step evidence adds `maxYDip` (position drop below start height, non-fall). Travel/wall/cancel rows with dip >0.2 stud are rejected; maxYError stays velocity-only for fall. Reason: version5 reported maxYError 0 while travel dipped ~0.59 stud.

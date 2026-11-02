@@ -26,6 +26,7 @@ local function row(name, kind)
 		maxDt = 1 / 60,
 		pairs = 15,
 		maxYError = 0,
+		maxYDip = 0,
 		maxSide = 0,
 		commandedDistance = 14,
 		lastSpeed = 1,
@@ -121,6 +122,7 @@ test("bad intervals, nonfinite metrics, missing physics and incorrect displaceme
 			"maxDt",
 			"pairs",
 			"maxYError",
+			"maxYDip",
 			"maxSide",
 			"commandedDistance",
 			"lastSpeed",
@@ -139,6 +141,14 @@ test("bad intervals, nonfinite metrics, missing physics and incorrect displaceme
 	r = row("fall", "fall")
 	r.maxYError = 2.1
 	assert(not Evidence.accept(r))
+	for _, kind in { "travel", "wall", "cancel" } do
+		r = row(kind, kind)
+		r.maxYDip = 0.59 -- version5 mid-dash dip must be caught (D-364)
+		assert(not Evidence.accept(r), kind)
+	end
+	r = row("fall", "fall")
+	r.maxYDip = 3
+	assert(Evidence.accept(r))
 end)
 test("real harness returns before acquiring fixture or driver when not opted in", function()
 	local source = fs.readFile("tests/studio/wind_step.server.luau")

@@ -32,7 +32,7 @@ def synthetic():
         row = {"name": name, "kind": kind, "committed": True, "clean": True,
                "restored": True, "phaseOK": True, "distance": distance, "maxX": distance,
                "elapsed": .24, "minDt": .02, "maxDt": .02, "pairs": 12,
-               "maxYError": 0, "maxSide": 0, "commandedDistance": distance,
+               "maxYError": 0, "maxYDip": 0, "maxSide": 0, "commandedDistance": distance,
                "lastSpeed": distance / .24, "simulatedSeconds": .24,
                "cancelled": kind == "cancel", "velocityKept": kind == "cancel", "samples": []}
         if not name.startswith("lifetime-"):
