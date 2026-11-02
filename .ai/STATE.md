@@ -1,5 +1,9 @@
 # STATE
 
+## Now — after S112 (2026-11-02)
+- d2b2a/b1/b2a done, merged 679dfc4 (D-364..D-366): `maxYDip` catches the version5 ~0.59 stud mid-dash dip (>0.2 rejected); rate-variation/final-partial regressions; `Evidence.replacement` death/replacement probe policy outside the 106 matrix. CHECK PASS. No publication.
+- **NEXT T-043c0b4c3b2b2b2d2b2b2b:** wire the replacement probe into tests/studio/wind_step.server.luau (LoadCharacter mid-dash, frames-to-stop, old/new root force) + intake acceptance; then d2b2c repair the dip in the driver, then new package/approval cycle.
+
 ## Now — after S111 (2026-11-02)
 - T-048 done (D-362, D-363): version5 report bound to the release by exact-byte rebuild from ca074efc (manifest/place pins match journal) + GET history v5. S108 bot unusable; its evidence is lost. Handoff research/notes/T-048-version5-intake.md.
 - **NEXT d2b2 (T-043c0b4c3b2b2b2d2b2) offline prep:** add a position-dip metric (mid-dash Y dip ~0.59 stud not bounded; maxYError is velocity-only), rate variation/final-partial, death/replacement. No republish. Future releases: keep evidence ZIP repo-readable (D-363).
@@ -313,7 +317,7 @@
 - **Parallel sessions:** check `.ai/CLAIMS.md` first (AGENTS §9).
 - **Parallel lanes** (task · after):
   - T-044c2b authorized isolated test publication · owner approval of NEW S104 exact package; no screenshot. Release-only follow-up on unchanged clean synced main; otherwise restage/reapprove.
-  - T-043c0b4c3b2b2b2d2b2 actual dynamics/repair · valid Studio or future validated published report; no dependent activation yet
+  - T-043c0b4c3b2b2b2d2b2b2b replacement-probe wiring, then d2b2c dip repair (S112) · d2b2 actual dynamics/repair · valid Studio or future validated published report; no dependent activation yet
   - T-043c0b4c3b2c atomic keyed startup/legacy cutover · b2b (pending)
   - T-043d2 integrated M1 visual slice · T-043d1 + T-043c1 (done) + T-043c0b
   - T-043h1 truthful Chill state · T-043b + T-043c1 (done) + T-043c0b (coordinate remotes)
