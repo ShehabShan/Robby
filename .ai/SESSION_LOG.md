@@ -1,3 +1,8 @@
+## S113 — 2026-11-02 — T-043c0b4c3b2b2b2d2b2b2b, T-043c0b4c3b2b2b2d2b2c
+- d2b2b2b: replacement probe wired into Studio harness + intake (published build gates it out). D-367.
+- d2b2c: grounded Wind Step holds Y while ground within leg reach; mock regressions. D-368.
+- NEXT owner Studio rerun to confirm dip/replacement, then package/approval cycle. CHECK PASS. ~30 OLU.
+
 ## S112 — 2026-11-02 — T-043c0b4c3b2b2b2d2b2 (a, b1, b2a)
 - d2b2a: `maxYDip` position-dip metric; travel/wall/cancel dip >0.2 stud rejected (version5 0.59 now caught). D-364.
 - d2b2b1: rate-variation/final-partial evidence regressions pin existing bounds. D-365.

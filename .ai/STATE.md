@@ -1,5 +1,10 @@
 # STATE
 
+## Now — after S113 (2026-11-02)
+- d2b2b2b done (D-367): Studio-only death/replacement probe (`runReplacement`, LoadCharacter mid-dash, frames-to-stop, old/new root force) + `Evidence.attach`; gate leaves `remaining` only on a passing probe; published build strips the probe and its intake rejects replacement fields. 106 counts unchanged.
+- d2b2c code done (D-368): grounded dashes zero downward root velocity while ground is within leg reach (no hold past ledges or from air); mock regressions. NOT yet verified in real Roblox physics. CHECK PASS. No publication.
+- **NEXT:** owner Studio Play run of tests/studio/wind_step.server.luau to confirm `maxYDip` <=0.2 and `replacementPassed`; then new package/approval cycle for the isolated test place.
+
 ## Now — after S112 (2026-11-02)
 - d2b2a/b1/b2a done, merged 679dfc4 (D-364..D-366): `maxYDip` catches the version5 ~0.59 stud mid-dash dip (>0.2 rejected); rate-variation/final-partial regressions; `Evidence.replacement` death/replacement probe policy outside the 106 matrix. CHECK PASS. No publication.
 - **NEXT T-043c0b4c3b2b2b2d2b2b2b:** wire the replacement probe into tests/studio/wind_step.server.luau (LoadCharacter mid-dash, frames-to-stop, old/new root force) + intake acceptance; then d2b2c repair the dip in the driver, then new package/approval cycle.
