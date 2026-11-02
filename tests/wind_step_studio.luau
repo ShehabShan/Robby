@@ -149,6 +149,26 @@ test("bad intervals, nonfinite metrics, missing physics and incorrect displaceme
 	r = row("fall", "fall")
 	r.maxYDip = 3
 	assert(Evidence.accept(r))
+	-- Rate variation / final partial step (D-365): supported rates accepted, unsupported or inconsistent rejected.
+	for _, rate in { { 1 / 240, 1 / 240, 60 }, { 1 / 30, 1 / 30, 8 }, { 1 / 240, 1 / 30, 20 } } do
+		r = row()
+		r.minDt, r.maxDt, r.pairs = rate[1], rate[2], rate[3]
+		assert(Evidence.accept(r), "rate " .. rate[3])
+	end
+	r = row()
+	r.maxDt = 0.06
+	assert(not Evidence.accept(r))
+	r = row()
+	r.minDt, r.maxDt = 1 / 30, 1 / 60
+	assert(not Evidence.accept(r))
+	r = row()
+	r.distance, r.maxX, r.commandedDistance, r.simulatedSeconds = 13.2, 13.2, 13.1, 0.29
+	assert(Evidence.accept(r), "final partial within tolerance")
+	r.commandedDistance = 12.9 -- version3/4-sized deficit stays a failure
+	assert(not Evidence.accept(r))
+	r = row()
+	r.simulatedSeconds = 0.3
+	assert(not Evidence.accept(r))
 end)
 test("real harness returns before acquiring fixture or driver when not opted in", function()
 	local source = fs.readFile("tests/studio/wind_step.server.luau")
