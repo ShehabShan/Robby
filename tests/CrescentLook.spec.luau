@@ -32,6 +32,18 @@ return {
 		assert(mid > 0.8 and mid < 1, "ease-out mid")
 		near(CrescentLook.scaleAt(T, 0 / 0), 1, "nan")
 	end,
+	["look: blade blends from the hand within 2 frames (T-053a4c)"] = function()
+		near(CrescentLook.handWeight(T, 0, 2), 1)
+		assert(T.handBlend :: number <= 2 / 60 + 1e-6, "at most 2 frames at 60 fps")
+		near(CrescentLook.handWeight(T, T.handBlend :: number, 2), 0)
+		near(CrescentLook.handWeight(T, 1, 2), 0)
+		local mid = CrescentLook.handWeight(T, (T.handBlend :: number) / 2, 2)
+		assert(mid > 0 and mid < 0.5, "eases out")
+		near(CrescentLook.handWeight(T, 0, (T.handMaxDist :: number) + 1), 0, "too far")
+		near(CrescentLook.handWeight(T, 0, nil), 0, "no hand")
+		near(CrescentLook.handWeight(T, 0 / 0, 2), 0, "nan age")
+		near(CrescentLook.handWeight({ handBlend = 0 } :: any, 0, 2), 0, "off")
+	end,
 	["look: roll grows with travel"] = function()
 		near(CrescentLook.rollAt(T, 0, 60), 0)
 		near(CrescentLook.rollAt(T, 60, 60), math.rad(T.rollDeg))

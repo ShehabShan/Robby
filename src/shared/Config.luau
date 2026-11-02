@@ -161,6 +161,8 @@ local Config = {
 			pierceDim = 0.7, -- blade visibility after its first target (T-053a5)
 			hitBurst = { from = 2, to = 6, time = 0.18 }, -- camera-facing hit sprite, studs
 			impactBurst = { from = 1.5, to = 4, time = 0.22, dust = 8 }, -- world stop sprite on the surface
+			handBlend = 0.033, -- blade spawns at the hand, joins the server origin in ~2 frames (T-053a4c)
+			handMaxDist = 6, -- studs; a farther hand (odd rig, lag) skips the blend
 			sound = { cast = 0.7, hit = 0.6, thud = 0.65, hum = 0.18, humRange = 40 }, -- volumes (T-053a4b, D-389)
 		},
 	},

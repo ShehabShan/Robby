@@ -10,6 +10,8 @@ export type Tunables = {
 	dissolveWiden: number, -- extra width at the end of the dissolve (1 = none)
 	rollDeg: number, -- forward roll over the blade's life
 	maxLive: number, -- pooled blades per client
+	handBlend: number?, -- seconds the blade takes to move from the hand to the server origin (T-053a4c)
+	handMaxDist: number?, -- hand farther than this from the origin: no blend (studs)
 }
 export type Pool = { live: number, free: number, max: number }
 
@@ -60,6 +62,27 @@ function CrescentLook.stopDistance(range: number, worldHit: number?): number
 		return worldHit
 	end
 	return range
+end
+
+-- Weight of the hand offset at blade age `age` (T-053a4c, D-391): 1 at spawn (blade at the hand), eased to 0
+-- by `handBlend` seconds (about 2 frames), so the blade starts at the hand and joins the server path at once.
+-- 0 when the hand is missing, too far (`handDist` > `handMaxDist`) or any input is bad.
+function CrescentLook.handWeight(t: Tunables, age: number, handDist: number?): number
+	local blend, maxDist = t.handBlend, t.handMaxDist
+	if type(blend) ~= "number" or not finite(blend) or blend <= 0 then
+		return 0
+	end
+	if type(handDist) ~= "number" or not finite(handDist) or handDist < 0 then
+		return 0
+	end
+	if type(maxDist) == "number" and finite(maxDist) and handDist > maxDist then
+		return 0
+	end
+	if type(age) ~= "number" or not finite(age) then
+		return 0
+	end
+	local a = math.clamp(age / blend, 0, 1)
+	return (1 - a) * (1 - a)
 end
 
 -- Blade visibility after `hits` targets: full before the first, `dim` after (a pierce reads as a pierce).

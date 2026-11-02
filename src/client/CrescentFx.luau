@@ -309,7 +309,12 @@ local function artCrescent(texture: string, origin: Vector3, dir: Vector3, chara
 		bladeOf[character] = model
 	end
 	local impactNormal: Vector3? = nil
-	model:PivotTo(CFrame.lookAt(origin, origin + dir))
+	-- Spawn at the caster's hand and blend into the server path within ~2 frames (T-053a4c, D-391).
+	local hand = if character then character:FindFirstChild("RightHand") else nil
+	local handOffset = if hand and hand:IsA("BasePart") then hand.Position - origin else Vector3.zero
+	local handDist = if hand and hand:IsA("BasePart") then handOffset.Magnitude else nil
+	local start = origin + handOffset * CrescentLook.handWeight(look, 0, handDist)
+	model:PivotTo(CFrame.lookAt(start, start + dir))
 	model.Parent = workspace
 	local hum = model.PrimaryPart and model.PrimaryPart:FindFirstChild("Hum")
 	if SFX.hum and model.PrimaryPart and not hum then
@@ -345,8 +350,9 @@ local function artCrescent(texture: string, origin: Vector3, dir: Vector3, chara
 			)
 			traveled = math.min(nextT, range)
 			local pos = origin + dir * traveled
+			local drawPos = pos + handOffset * CrescentLook.handWeight(look, age, handDist)
 			local roll = CrescentLook.rollAt(look, traveled, cfg.range)
-			model:PivotTo(CFrame.lookAt(pos, pos + dir) * CFrame.Angles(0, 0, roll))
+			model:PivotTo(CFrame.lookAt(drawPos, drawPos + dir) * CFrame.Angles(0, 0, roll))
 			local vis = CrescentLook.pierceVis(hitsOn[model] or 0, look.pierceDim)
 			setArt(model, CrescentLook.scaleAt(look, age), vis, 1)
 			if traveled >= range then
