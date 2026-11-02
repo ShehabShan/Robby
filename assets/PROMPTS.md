@@ -12,7 +12,7 @@ The owner generates assets on third-party sites. The bot writes the prompts, che
 | 2 | Twin Crescent Kith v2 (3D) | `creature-twin-crescent-kith.glb` | done ae6fa83, indexed 04edb83 (4.9k tris) |
 | 3 | Crescent Cut slash texture | `vfx-crescent-slash.png` | done 563f6cd, checked S114 (1024², opaque black bg, centered) |
 | 4 | Crescent hit texture | `vfx-crescent-hit.png` | done f96dc57, checked S114 (1024², opaque black bg, centered) |
-| 5 | Ability icons x3 | `icon-crescent-cut.png`, `icon-twin-crescent.png`, `icon-piercing-edge.png` | done (S114, Gemini try 2), checked 1024² PNG |
+| 5 | Ability icons x3 | `icon-crescent-cut.png`, `icon-twin-crescent.png`, `icon-piercing-edge.png` | 5a done S114 (Ludo.ai), 5b done S114 (Gemini try 2, 1024² PNG); **next: 5c** |
 | 6 | Cultivator base character (3D, rigged) | `character-cultivator-base.fbx` | on hold: ART.md §4 uses the Roblox avatar + code-built robe in the slice. Only if the owner asks. |
 
 ## Rules for every asset
