@@ -1,3 +1,9 @@
+## S112 — 2026-11-02 — T-043c0b4c3b2b2b2d2b2 (a, b1, b2a)
+- d2b2a: `maxYDip` position-dip metric; travel/wall/cancel dip >0.2 stud rejected (version5 0.59 now caught). D-364.
+- d2b2b1: rate-variation/final-partial evidence regressions pin existing bounds. D-365.
+- d2b2b2a: `Evidence.replacement` death/replacement probe policy, outside the 106 matrix. D-366.
+- NEXT d2b2b2b harness wiring (LoadCharacter mid-dash), then d2b2c dip repair. No publication. CHECK PASS. ~30 OLU.
+
 ## S111 — 2026-11-02 — T-048b
 - S108 bot unusable; version5 binding done by exact-byte rebuild (pins match) + GET history v5. D-363. NEXT d2b2. ~5 OLU.
 
