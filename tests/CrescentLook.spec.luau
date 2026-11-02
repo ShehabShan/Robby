@@ -61,6 +61,11 @@ return {
 		eq(CrescentLook.pierceVis(3, 1.5), 1, "clamped")
 		eq(CrescentLook.pierceVis(0 / 0, 0.5), 1, "nan")
 	end,
+	["look: cast feel timings follow the plan"] = function()
+		near(T.swing.pull + T.swing.release + T.swing.follow, 0.27, "swing total")
+		near(T.turnTime, 0.08)
+		assert(T.fovKick < 0 and T.fovKick >= -4, "small FOV kick")
+	end,
 	["look: pool caps live blades and reuses"] = function()
 		local p = CrescentLook.newPool(2)
 		eq(CrescentLook.acquire(p), "new")

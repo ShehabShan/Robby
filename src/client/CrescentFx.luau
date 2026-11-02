@@ -5,6 +5,7 @@
 
 local Debris = game:GetService("Debris")
 
+local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
@@ -380,23 +381,78 @@ function CrescentFx.classic(origin: Vector3, dir: Vector3)
 end
 
 -- Arm swipe (tweened shoulder joint, no animation asset), palm glow and cast sound.
-function CrescentFx.swipe(character: Model)
+-- Caster only (T-053a4, D-387): snap to the aim yaw (unless shift-locked) and a tiny FOV kick.
+local function casterFeel(character: Model, dir: Vector3?)
+	local root = character:FindFirstChild("HumanoidRootPart")
+	if dir and root and root:IsA("BasePart") and Players.LocalPlayer:GetAttribute("ShiftLock") ~= true then
+		local flat = Vector3.new(dir.X, 0, dir.Z)
+		if flat.Magnitude > 1e-3 then
+			local from = root.CFrame
+			local to = CFrame.lookAt(from.Position, from.Position + flat.Unit)
+			local t = 0
+			local conn: RBXScriptConnection? = nil
+			conn = RunService.RenderStepped:Connect(function(dt: number)
+				t = math.min(look.turnTime, t + dt)
+				local a = if look.turnTime > 0 then t / look.turnTime else 1
+				local now = root.CFrame
+				root.CFrame = CFrame.new(now.Position) * (from.Rotation:Lerp(to.Rotation, a))
+				if a >= 1 and conn then
+					conn:Disconnect()
+				end
+			end)
+		end
+	end
+	local camera = workspace.CurrentCamera
+	if camera and look.fovKick ~= 0 and Players.LocalPlayer:GetAttribute("FovKick") ~= false then
+		local base = camera.FieldOfView
+		local half = look.fovKickTime / 2
+		local kick = TweenService:Create(camera, TweenInfo.new(half), { FieldOfView = base + look.fovKick })
+		kick.Completed:Once(function()
+			TweenService:Create(camera, TweenInfo.new(half), { FieldOfView = base }):Play()
+		end)
+		kick:Play()
+	end
+end
+
+-- 3-phase arm swing (T-053a4): anticipation pull-back, release, follow-through. Tweened Motor6D, no upload.
+function CrescentFx.swipe(character: Model, dir: Vector3?, isCaster: boolean?)
+	if isCaster then
+		casterFeel(character, dir)
+	end
 	local arm = character:FindFirstChild("RightUpperArm")
 	local shoulder = if arm then arm:FindFirstChild("RightShoulder") else nil
 	if shoulder and shoulder:IsA("Motor6D") then
 		local base = originals[shoulder] or shoulder.C0
 		originals[shoulder] = base
-		local out = TweenService:Create(
+		local pull = TweenService:Create(
 			shoulder,
-			TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+			TweenInfo.new(look.swing.pull, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+			{ C0 = base * CFrame.Angles(0, math.rad(30), math.rad(-25)) }
+		)
+		local release = TweenService:Create(
+			shoulder,
+			TweenInfo.new(look.swing.release, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
 			{ C0 = base * CFrame.Angles(0, math.rad(-70), math.rad(80)) }
 		)
-		out.Completed:Once(function()
-			TweenService:Create(shoulder, TweenInfo.new(0.15), { C0 = base }):Play()
+		local follow = TweenService:Create(
+			shoulder,
+			TweenInfo.new(look.swing.follow, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut),
+			{ C0 = base }
+		)
+		pull.Completed:Once(function()
+			release:Play()
 		end)
-		out:Play()
+		release.Completed:Once(function()
+			follow:Play()
+		end)
+		pull:Play()
 	end
 	local hand = character:FindFirstChild("RightHand")
+	if hand and hand:IsA("BasePart") then
+		task.delay(look.swing.pull, function()
+			sprite(hand.Position, nil, look.handFlash, nil) -- small hand flash at release
+		end)
+	end
 	if hand then
 		local glow = Instance.new("PointLight")
 		glow.Color = BLUE
@@ -426,7 +482,7 @@ end
 function CrescentFx.register(reg: FxRegistry.Registry)
 	FxRegistry.register(reg, "fx.crescent.cast", function(ctx: any)
 		if ctx.character then
-			CrescentFx.swipe(ctx.character)
+			CrescentFx.swipe(ctx.character, ctx.dir, ctx.caster ~= nil and ctx.caster == Players.LocalPlayer)
 		end
 	end)
 	FxRegistry.register(reg, "fx.crescent.travel", function(ctx: any)

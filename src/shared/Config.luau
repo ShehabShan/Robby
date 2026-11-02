@@ -153,6 +153,11 @@ local Config = {
 			dustRate = 18, -- particles/s; skipped on low graphics quality
 			lightBrightness = 2,
 			maxLive = 8,
+			swing = { pull = 0.05, release = 0.07, follow = 0.15 }, -- 3-phase arm swing, seconds (T-053a4)
+			turnTime = 0.08, -- caster snaps to the aim yaw (not under shift lock)
+			fovKick = -2, -- degrees for fovKickTime; player attribute FovKick = false turns it off
+			fovKickTime = 0.1,
+			handFlash = { from = 0.6, to = 1.8, time = 0.12 },
 			pierceDim = 0.7, -- blade visibility after its first target (T-053a5)
 			hitBurst = { from = 2, to = 6, time = 0.18 }, -- camera-facing hit sprite, studs
 			impactBurst = { from = 1.5, to = 4, time = 0.22, dust = 8 }, -- world stop sprite on the surface
