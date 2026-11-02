@@ -53,3 +53,6 @@ Not higgsfield but gimini. Check, i want to  use gemini model for it.
 
 ## Message 8 (2026-11-03 00:19 +06)
 Can higgsfield audio model create sound effect. Check is higgsfield actually work, if work, then we can definitely use higgsfield.
+
+## Message 9 (2026-11-03 00:22 +06)
+Leave higgsfield out of it for now. We will use gemini as you suggested for now. For future, we will think of a way.
