@@ -1,5 +1,10 @@
 # STATE
 
+## Now — after S115 (2026-11-02, bot ed1828b3)
+- **Phase3 building; NEXT T-050e: owner fresh Start/full report on TEST version7** (https://www.roblox.com/games/121111456135560/), save verbatim, existing intake binds it to version7, then accept travel/dip or diagnose/repair. Do NOT republish unchanged version7; consent 6662e92e consumed, never reuse.
+- T-050d done (D-371): owner exact-byte Yes 15:21Z; existing one-shot transaction HISTORY_CONFIRMED **version7** from main 66fcf98; production untouched. Handoff research/notes/T-050-release-result.md; evidence artifact robby_t050_release_evidence (bot ed1828b3) + ref release-evidence/t050-s115-version7.
+- D-369/D-370 travel/dip fixes remain unverified in real Roblox physics. CHECK PASS. Older NEXT blocks below are historical.
+
 ## Now — T-050 / S114 (2026-11-02, bot6b1039ec)
 - **Phase3 building; NEXT T-050: NEW exact-byte owner approval, then existing one-shot isolated TEST publication and fresh full report/intake.** Start `research/notes/T-050-staged-package.md`; only final card pins count. No publication this session. Do NOT rerun unchanged version6 or reuse its consumed consent.
 - T-050a/b merged1fc58b7: latched6.105ms wall lead reproduced0.427stud command deficit; profile now simulation-dt owned with wall freshness watchdog. Grounded candidate uses bounded solver-time Y support with endpoint/air/ledge/upward release; new pre/support trace. Diagnosis `T-050-version6-diagnosis.md`.
