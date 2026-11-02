@@ -133,3 +133,9 @@ Owner: "I go with your recommendations. But want to add for point 4. I think pro
    - Cost: each Lyria call costs OLU and goes through approval.
 5. Playtest in the **private TEST place** (like Wind Step).
 6. The playtest **may tune speed and range**.
+
+## 12. Higgsfield audio check (S120, 2026-11-03 00:19 +06, owner asked)
+- The Higgsfield integration (`__higgsfield`) is provisioned: the API answers through the integration. Its full docs are at `https://docs.higgsfield.ai/llms-full.txt`.
+- **No audio-only or sound-effect model is listed.** The catalogue covers image and video models (Kling, Seedance, Wan, Hailuo, PixVerse, LTX, Grok Imagine, Soul, Recraft, Ideogram and others). Audio appears only as *native sound in video models* (for example Kling 2.6/3.0 text-to-video `"sound": "on"`, 5 or 10 s, 16:9/9:16/1:1) and as audio *reference* inputs.
+- **Possible route (untested):** generate a 5 s Kling text-to-video of the slash with `sound: on`, then extract the audio with ffmpeg. That is a video-priced job (several OLU per try, needs approval) and the sound quality is unknown. A test was not run in S120 because of the session OLU limit (~38/50).
+- **Next step (T-053a4):** run one Kling test and compare it with Gemini Lyria (§11.4). The owner prefers Higgsfield if the result is good.

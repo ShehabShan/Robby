@@ -50,3 +50,6 @@ I go with your recommendations. But want to add for point 4. I think promptql ha
 
 ## Message 7 (2026-11-03 00:14 +06)
 Not higgsfield but gimini. Check, i want to  use gemini model for it.
+
+## Message 8 (2026-11-03 00:19 +06)
+Can higgsfield audio model create sound effect. Check is higgsfield actually work, if work, then we can definitely use higgsfield.
