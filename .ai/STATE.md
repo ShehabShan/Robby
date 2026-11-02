@@ -1,5 +1,9 @@
 # STATE
 
+## Now — after S118 (2026-11-02, bot 065f4ba4)
+- **Phase3 building; NEXT T-051a3: owner plays TEST version8 (https://www.roblox.com/games/121111456135560/), presses R / Dash, reports feel; then T-051** (Wind Step remaining gates).
+- T-051a2 done: play build HISTORY_CONFIRMED version8 from main d67ff30; consent ad2ccaec… consumed, no retry. Details `research/notes/T-051a2-release-result.md`. Not feel/serving acceptance. CHECK PASS.
+
 ## Now — after S117 (2026-11-02, bot 065f4ba4)
 - **Phase3 building; NEXT T-051a2: owner exact-byte Yes on the play-mode card, then existing one-shot TEST publish, then owner presses R by hand and reports feel. Then T-051** (Wind Step remaining gates: death/root replacement, rate variation/final partial, device/owner feel).
 - T-051a1 done (D-373): play build `wind-step-play.project.json` — R / ButtonX / touch Dash -> server gate WindStepPlay (1.2 s cooldown, 4 req/s) -> WindStepDriver; no test panel. Staging + transaction wiring done (D-374). Steps: `research/notes/T-051a-play-stage.md`.
