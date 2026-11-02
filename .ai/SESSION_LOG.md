@@ -1,3 +1,7 @@
+## S120 — 2026-11-02 — planning only (bot d039233e)
+- Owner set new priority: Kith rank-up + scaling system and Crescent Kith Rank 1–3. Saved verbatim to `research/inbox/2026-11-02-crescent-ranks-and-kith-scaling.md`.
+- Added T-052 (rank-up rule, conditions, power scaling, build plan) and T-053 (Crescent R1 rework + free aim, R2 Scissor, R3 Full Moon Ring). D-375–D-378. No code. ~11 OLU.
+
 ## S119 — 2026-11-02 — T-051a3 (bot 065f4ba4)
 - Owner: TEST version8 play mode "working perfectly fine". Queued T-051b (tunable distance/cooldown per build). ~41 OLU.
 
