@@ -1,3 +1,6 @@
+## S119 — 2026-11-02 — T-051a3 (bot 065f4ba4)
+- Owner: TEST version8 play mode "working perfectly fine". Queued T-051b (tunable distance/cooldown per build). ~41 OLU.
+
 ## S118 — 2026-11-02 — T-051a2 (bot 065f4ba4)
 - Owner Yes on exact play bytes -> one-shot TEST publish HISTORY_CONFIRMED version8. Consent consumed, no retry. Evidence ZIP + ref release-evidence/t051a-s117-version8.
 - NEXT T-051a3: owner presses R in TEST place and reports feel. ~38 OLU (S117+S118 one bot).

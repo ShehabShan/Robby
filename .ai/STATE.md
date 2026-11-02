@@ -1,5 +1,8 @@
 # STATE
 
+## Now — after S119 (2026-11-02, bot 065f4ba4)
+- **Phase3 building; owner accepted play-mode feel on TEST version8. NEXT T-051** (Wind Step remaining gates) **or T-051b** (per-build distance/cooldown) if owner picks it.
+
 ## Now — after S118 (2026-11-02, bot 065f4ba4)
 - **Phase3 building; NEXT T-051a3: owner plays TEST version8 (https://www.roblox.com/games/121111456135560/), presses R / Dash, reports feel; then T-051** (Wind Step remaining gates).
 - T-051a2 done: play build HISTORY_CONFIRMED version8 from main d67ff30; consent ad2ccaec… consumed, no retry. Details `research/notes/T-051a2-release-result.md`. Not feel/serving acceptance. CHECK PASS.
