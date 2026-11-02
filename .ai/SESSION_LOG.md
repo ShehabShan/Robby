@@ -1,3 +1,8 @@
+## S117 — 2026-11-02 — T-051a (bot 065f4ba4)
+- T-051a1 done: Wind Step play-mode TEST build — press R / touch Dash, server cooldown + rate gate -> WindStepDriver; plain ground, walls, ramp; no test panel (D-373).
+- T-051a2 part: exact-byte play staging + transaction accepts play kind (D-374). 48 transaction tests OK. CHECK PASS.
+- NEXT T-051a2: stage on main, owner exact-byte Yes, one-shot TEST publish, owner feel. ~30 OLU.
+
 ## S116 — 2026-11-02 — T-050e (bot ed1828b3)
 - Owner version7 report: 106/106 pass in published server (travel 13.39/14 studs, dip ~0.0008). Saved verbatim.
 - Intake false-rejected on fractional observedAt vs floored recordedAt; fixed + whole-suite fractional-clock regression (D-372). Rerun RELEASE_REPORT_BOUND_ONLY.
