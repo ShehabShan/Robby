@@ -1,0 +1,21 @@
+{
+  "kind": "REHEARSAL ONLY; never approval pins",
+  "stage": {
+    "dynamicsAccepted": false,
+    "manifest": "/workspace/Robby/build/published-stage/manifest.json",
+    "manifestSha256": "b66eab1c85d77af5714759fcfc3e049e96f1c1426481911a37f66277757ebd42",
+    "place": "/workspace/Robby/build/published-stage/WindStepPublishedStage.rbxl",
+    "placeSha256": "d3eeac786a5e8ad0bacf6c53fc7338124b51109583518207cda76496501cf823",
+    "publishReady": false,
+    "releaseEvidenceAccepted": false,
+    "status": "LOCAL_STAGE_ONLY"
+  },
+  "verify": {
+    "dynamicsAccepted": false,
+    "manifestSha256": "b66eab1c85d77af5714759fcfc3e049e96f1c1426481911a37f66277757ebd42",
+    "placeSha256": "d3eeac786a5e8ad0bacf6c53fc7338124b51109583518207cda76496501cf823",
+    "publishReady": false,
+    "releaseEvidenceAccepted": false,
+    "status": "LOCAL_STAGE_VERIFIED_ONLY"
+  }
+}
