@@ -6,10 +6,10 @@ The owner generates assets on third-party sites. The bot writes the prompts, che
 | # | Asset | File | Status |
 |---|---|---|---|
 | 1 | Crescent Kith creature v1 (3D) | `creature-crescent-kith.glb` | done ffc8830; superseded by 1b (came out with butterfly wings and a tail) |
-| 1b | Crescent Kith creature v2 (3D) | `creature-crescent-kith-v2.glb` | **next** |
+| 1b | Crescent Kith creature v2 (3D) | `creature-crescent-kith-v2.glb` | done 04d2c31, indexed dd63535 (4.9k tris) |
 | 2 | Twin Crescent Kith v2 (3D) | `creature-twin-crescent-kith.glb` | done ae6fa83, indexed 04edb83 (4.9k tris) |
-| 3 | Crescent Cut slash texture | `vfx-crescent-slash.png` | todo |
-| 4 | Crescent hit texture | `vfx-crescent-hit.png` | todo |
+| 3 | Crescent Cut slash texture | `vfx-crescent-slash.png` | done 563f6cd, checked S114 (1024², opaque black bg, centered) |
+| 4 | Crescent hit texture | `vfx-crescent-hit.png` | **next** |
 | 5 | Ability icons x3 | `icon-crescent-cut.png`, `icon-twin-crescent.png`, `icon-piercing-edge.png` | todo |
 | 6 | Cultivator base character (3D, rigged) | `character-cultivator-base.fbx` | on hold: ART.md §4 uses the Roblox avatar + code-built robe in the slice. Only if the owner asks. |
 
