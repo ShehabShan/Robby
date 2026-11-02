@@ -62,6 +62,14 @@ function CrescentLook.stopDistance(range: number, worldHit: number?): number
 	return range
 end
 
+-- Blade visibility after `hits` targets: full before the first, `dim` after (a pierce reads as a pierce).
+function CrescentLook.pierceVis(hits: number, dim: number): number
+	if type(hits) ~= "number" or hits ~= hits or hits <= 0 then
+		return 1
+	end
+	return math.clamp(dim, 0, 1)
+end
+
 function CrescentLook.newPool(max: number): Pool
 	return { live = 0, free = 0, max = math.max(1, math.floor(max)) }
 end

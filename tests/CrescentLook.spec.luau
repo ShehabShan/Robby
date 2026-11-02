@@ -55,6 +55,12 @@ return {
 		eq(CrescentLook.stopDistance(60, 80), 60)
 		eq(CrescentLook.stopDistance(60, 0 / 0), 60)
 	end,
+	["look: pierce dims the blade after the first target"] = function()
+		eq(CrescentLook.pierceVis(0, T.pierceDim), 1)
+		eq(CrescentLook.pierceVis(1, T.pierceDim), T.pierceDim)
+		eq(CrescentLook.pierceVis(3, 1.5), 1, "clamped")
+		eq(CrescentLook.pierceVis(0 / 0, 0.5), 1, "nan")
+	end,
 	["look: pool caps live blades and reuses"] = function()
 		local p = CrescentLook.newPool(2)
 		eq(CrescentLook.acquire(p), "new")

@@ -324,7 +324,7 @@ local function sweep(shot: Shot, from: number, to: number)
 				and not humanoid
 				and (inst:IsA("Terrain") or (inst:IsA("BasePart") and inst.Anchored and inst.CanCollide))
 			then
-				shot.state.done = true -- the blade ends on walls/ground (T-053a1, D-380); impact FX is T-053a5
+				shot.state.done = true -- the blade ends on walls/ground (T-053a1, D-380); clients draw the impact from their own travel FX raycast (T-053a5, D-386)
 				return
 			end
 			-- other scenery does not stop the projectile; skip it

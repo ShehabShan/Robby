@@ -153,6 +153,9 @@ local Config = {
 			dustRate = 18, -- particles/s; skipped on low graphics quality
 			lightBrightness = 2,
 			maxLive = 8,
+			pierceDim = 0.7, -- blade visibility after its first target (T-053a5)
+			hitBurst = { from = 2, to = 6, time = 0.18 }, -- camera-facing hit sprite, studs
+			impactBurst = { from = 1.5, to = 4, time = 0.22, dust = 8 }, -- world stop sprite on the surface
 		},
 	},
 	HitFeel = {

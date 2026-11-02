@@ -211,7 +211,7 @@ local function setArt(model: Model, scale: number, vis: number, widen: number)
 	end
 end
 
-local function worldStop(from: Vector3, to: Vector3, character: Model?): number?
+local function worldStop(from: Vector3, to: Vector3, character: Model?): (number?, Vector3?)
 	local rp = RaycastParams.new()
 	rp.FilterType = Enum.RaycastFilterType.Exclude
 	rp.FilterDescendantsInstances = if character then { character } else {}
@@ -228,10 +228,54 @@ local function worldStop(from: Vector3, to: Vector3, character: Model?): number?
 	end
 	local m = inst:FindFirstAncestorOfClass("Model")
 	if inst:IsA("BasePart") and inst.Anchored and m and not m:FindFirstChildOfClass("Humanoid") then
-		return hit.Distance
+		return hit.Distance, hit.Normal
 	end
 	return nil
 end
+
+-- Hit and impact sprites (T-053a5, D-386): one additive particle from the uploaded hit art, grown over its life.
+local function sprite(pos: Vector3, normal: Vector3?, burst: { from: number, to: number, time: number }, dust: number?)
+	local texture = AssetIds.image("crescentHitAdd")
+	if not texture then
+		return -- no art: HitFeel alone (Classic look)
+	end
+	local holder = fxPart(Vector3.new(0.2, 0.2, 0.2))
+	holder.Transparency = 1
+	holder.CFrame = if normal
+		then CFrame.lookAt(pos, pos + normal) * CFrame.Angles(math.rad(-90), 0, 0)
+		else CFrame.new(pos)
+	holder.Parent = workspace
+	local e = Instance.new("ParticleEmitter")
+	e.Texture = texture
+	e.LightEmission = 1
+	e.LightInfluence = 0
+	e.Rate = 0
+	e.Speed = NumberRange.new(if normal then 0.01 else 0)
+	e.Lifetime = NumberRange.new(burst.time)
+	e.Size = NumberSequence.new(burst.from, burst.to)
+	e.Transparency = NumberSequence.new(0, 1)
+	e.Rotation = NumberRange.new(0, 360)
+	e.EmissionDirection = Enum.NormalId.Top
+	if normal then
+		e.Orientation = Enum.ParticleOrientation.VelocityPerpendicular -- flat on the surface
+	end
+	e.Parent = holder
+	e:Emit(1)
+	if normal and dust and dust > 0 and not lowGraphics() then
+		local d = emitter(0)
+		d.Lifetime = NumberRange.new(0.2, 0.5)
+		d.Speed = NumberRange.new(4, 9)
+		d.SpreadAngle = Vector2.new(70, 70)
+		d.Acceleration = Vector3.new(0, -workspace.Gravity * 0.15, 0)
+		d.EmissionDirection = Enum.NormalId.Top
+		d.Parent = holder
+		d:Emit(dust)
+	end
+	Debris:AddItem(holder, burst.time + 0.6)
+end
+
+local hitsOn: { [Model]: number } = {} -- live art blade → targets hit (pierce dim)
+local bladeOf: { [Model]: Model } = {} -- caster character → its newest live art blade
 
 local function artCrescent(texture: string, origin: Vector3, dir: Vector3, character: Model?): boolean
 	local took = CrescentLook.acquire(pool)
@@ -244,6 +288,11 @@ local function artCrescent(texture: string, origin: Vector3, dir: Vector3, chara
 		dust.Enabled = not lowGraphics()
 	end
 	setArt(model, look.growFrom, 1, 1)
+	hitsOn[model] = 0
+	if character then
+		bladeOf[character] = model
+	end
+	local impactNormal: Vector3? = nil
 	model:PivotTo(CFrame.lookAt(origin, origin + dir))
 	model.Parent = workspace
 	local traveled, age = 0, 0
@@ -257,7 +306,10 @@ local function artCrescent(texture: string, origin: Vector3, dir: Vector3, chara
 			range = CrescentLook.stopDistance(
 				range,
 				(function()
-					local d = worldStop(origin + dir * traveled, origin + dir * nextT, character)
+					local d, n = worldStop(origin + dir * traveled, origin + dir * nextT, character)
+					if d then
+						impactNormal = n
+					end
 					return if d then traveled + d else nil
 				end)()
 			)
@@ -265,9 +317,13 @@ local function artCrescent(texture: string, origin: Vector3, dir: Vector3, chara
 			local pos = origin + dir * traveled
 			local roll = CrescentLook.rollAt(look, traveled, cfg.range)
 			model:PivotTo(CFrame.lookAt(pos, pos + dir) * CFrame.Angles(0, 0, roll))
-			setArt(model, CrescentLook.scaleAt(look, age), 1, 1)
+			local vis = CrescentLook.pierceVis(hitsOn[model] or 0, look.pierceDim)
+			setArt(model, CrescentLook.scaleAt(look, age), vis, 1)
 			if traveled >= range then
 				dissolving = 0
+				if impactNormal and range < cfg.range then
+					sprite(pos, impactNormal, look.impactBurst, look.impactBurst.dust) -- world impact
+				end
 				if dust and dust:IsA("ParticleEmitter") then
 					dust.Enabled = false
 				end
@@ -275,12 +331,16 @@ local function artCrescent(texture: string, origin: Vector3, dir: Vector3, chara
 		else
 			dissolving += dt
 			local vis, widen, done = CrescentLook.dissolveAt(look, dissolving :: number)
-			setArt(model, 1, vis, widen)
+			setArt(model, 1, vis * CrescentLook.pierceVis(hitsOn[model] or 0, look.pierceDim), widen)
 			if done then
 				if conn then
 					conn:Disconnect()
 				end
 				model.Parent = nil
+				hitsOn[model] = nil
+				if character and bladeOf[character] == model then
+					bladeOf[character] = nil
+				end
 				table.insert(freeBlades, model)
 				CrescentLook.release(pool)
 			end
@@ -353,6 +413,13 @@ end
 
 function CrescentFx.hit(caster: Player, target: Model?, amount: number, position: Vector3)
 	HitFeel.play(caster, target, amount, position)
+	if position then
+		sprite(position, nil, look.hitBurst, nil) -- hit sprite burst on top of HitFeel (T-053a5)
+	end
+	local blade = if caster and caster.Character then bladeOf[caster.Character] else nil
+	if blade and hitsOn[blade] then
+		hitsOn[blade] += 1 -- dims the blade: a pierce reads as a pierce
+	end
 end
 
 -- Registers the Crescent handlers under the fx ids its Content names (T-002c4).

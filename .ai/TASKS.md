@@ -394,7 +394,7 @@ Owner order (2026-11-02 23:56, D-379): build Crescent first — **T-053a → T-0
     - **T-053a2 [done S121, D-384] [S] Assets to Roblox:** process slash/hit PNGs (`assets/processed/`), Open Cloud image upload script, `src/shared/AssetIds.luau`, INDEX. AC: ids recorded, fallback to code look if missing.
     - **T-053a3 [done S121, D-385] [S] Art blade:** textured additive Beam blade + core + grow-in + dissolve + dust, pooled; `Config.Fx.CrescentCut` with `look="Art"|"Classic"`. AC: check PASS.
     - **T-053a4 [todo] [S] Cast feel:** turn-to-aim, 3-phase swing, hand flash, FOV kick, sounds (owner: Gemini. Lyria tonal layers via `__gemini-web-search` + synthesised whoosh/thud, Creator Store fallback; plan §11.4, D-381; Higgsfield parked by owner D-382). AC: check PASS.
-    - **T-053a5 [todo] [S] Hit/impact:** hit-sprite burst, pierce dim, world impact (`HitFx kind="world"`). AC: check PASS.
+    - **T-053a5 [done S121, D-386] [S] Hit/impact:** hit-sprite burst, pierce dim, world impact (`HitFx kind="world"`). AC: check PASS.
     - **T-053a6 [todo] [S] Owner playtest + tuning:** checklist plan §8. AC: owner OK.
   - **T-053b [todo] [S] Twin Crescent (Rank 2, Z) = "Scissor":** blue + gold blades launch from left/right, curve inward, cross at the aim point in an X + white flash (`icon-twin-crescent.png`). Rank 2 model `creature-twin-crescent-kith.glb`; keeps Crescent Cut on left click. AC: check PASS + owner playtest.
   - **T-053c [todo] [S] Rank 3 (X) = "Full Moon Ring":** four crescents form a ring around the player, then burst outward (area hit). Same model as Rank 2 until the owner changes it. Kith name TBD (working: "Full Moon Kith"). AC: check PASS + owner playtest.
