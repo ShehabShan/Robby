@@ -397,7 +397,7 @@ Owner order (2026-11-02 23:56, D-379): build Crescent first — **T-053a → T-0
       - **T-053a4b [done S122, D-389] [S] Sounds:** cast whoosh+ring, travel hum, hit chime/slice, ground thud (Lyria tone + synthesised layers), 2–3 variants, `assets/sfx/`, upload as Audio, `AssetIds.sounds`, wired in CrescentFx with rbxasset fallback. AC: check PASS. Variant 1 uploaded; preview for owner: bot eaad9032 artifact `crescent_sfx_preview`.
       - **T-053a4c [done S122, D-391] [S] Blade-from-hand blend:** blade spawns at the hand and blends into the server origin within 2 frames (plan §6). AC: check PASS.
     - **T-053a5 [done S121, D-386] [S] Hit/impact:** hit-sprite burst, pierce dim, world impact (`HitFx kind="world"`). AC: check PASS.
-    - **T-053a6 [todo, NEXT] [S] Owner playtest + tuning:** checklist plan §8; owner also picks sound variants 1–3 (preview: bot eaad9032 artifact `crescent_sfx_preview`; order cast1-3, hit1-3, hum1-2, thud1-3). AC: owner OK.
+    - **T-053a6 [todo, NEXT] [S] Owner playtest + tuning:** checklist plan §8; sound variants picked by owner S123 (cast 3, hit 1, hum 1, thud 2; D-392). AC: owner OK.
   - **T-053b [todo] [S] Twin Crescent (Rank 2, Z) = "Scissor":** blue + gold blades launch from left/right, curve inward, cross at the aim point in an X + white flash (`icon-twin-crescent.png`). Rank 2 model `creature-twin-crescent-kith.glb`; keeps Crescent Cut on left click. AC: check PASS + owner playtest.
   - **T-053c [todo] [S] Rank 3 (X) = "Full Moon Ring":** four crescents form a ring around the player, then burst outward (area hit). Same model as Rank 2 until the owner changes it. Kith name TBD (working: "Full Moon Kith"). AC: check PASS + owner playtest.
 

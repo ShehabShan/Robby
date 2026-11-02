@@ -1,3 +1,6 @@
+## S123 — 2026-11-03 — T-053a6 sound pick (bot eaad9032)
+- Owner picked Crescent sounds cast 3, hit 1, hum 1, thud 2 (D-392); cast-3 + thud-2 uploaded and set in `AssetIds.sounds`. CHECK PASS. NEXT: T-053a6 owner playtest. ~3 OLU.
+
 ## S122 — 2026-11-03 — T-053a4b, T-053a4c (bot eaad9032)
 - Crescent Cut sounds: Lyria tone layers + synthesised whoosh/slice/thud (`scripts/make_sfx.py`), 3 variants each in `assets/sfx/`, variant 1 uploaded as Audio and wired (cast, travel hum, hit, wall thud), D-388/D-389. Owner preview: this bot's `crescent_sfx_preview`.
 - Blade now spawns at the hand and blends into the server path in ~2 frames (D-391). rokit 403 fix: `scripts/tools_fallback.sh` (D-390).

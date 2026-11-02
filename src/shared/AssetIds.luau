@@ -15,13 +15,13 @@ AssetIds.images = {
 	iconCrescentCut = 92123394268450,
 } :: { [string]: number }
 
--- Crescent Cut sounds (T-053a4b, D-389): variant 1 of each, made by `uv run scripts/make_sfx.py` (Lyria tone +
+-- Crescent Cut sounds (T-053a4b, D-389): made by `uv run scripts/make_sfx.py` (Lyria tone +
 -- synthesised layers) and uploaded as Audio with `uv run scripts/upload_sounds.py` (owner user 7738981129, 2026-11-03).
--- Variants 2-3 stay in `assets/sfx/` for the owner's pick (T-053a6). UNVERIFIED until heard in-engine.
+-- Owner picked cast 3, hit 1, hum 1, thud 2 (D-392, research/inbox/2026-11-03-crescent-sound-pick.md).
 AssetIds.sounds = {
-	crescentCast = 116721154231507,
+	crescentCast = 87079460123178, -- cast-3 (owner pick, D-392)
 	crescentHit = 106802928512060,
-	crescentThud = 138148861355851,
+	crescentThud = 87225410328230, -- thud-2 (owner pick, D-392)
 	crescentHum = 111656096434014,
 } :: { [string]: number }
 
