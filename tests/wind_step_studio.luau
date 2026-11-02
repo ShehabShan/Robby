@@ -287,6 +287,33 @@ test("boolean environment and cleanup gates cannot be truthy strings", function(
 	end
 	assert(not Evidence.finish(env, rows(), "true").matrixPassed)
 end)
+test("death/replacement probe policy (D-366)", function()
+	local function probe()
+		return { committed = true, stopped = true, framesToStop = 1, oldRootForce = false, newRootClean = true }
+	end
+	assert(Evidence.replacement(probe()))
+	local p = probe()
+	p.framesToStop = 0
+	assert(Evidence.replacement(p))
+	assert(not Evidence.replacement(nil))
+	for key, bad in
+		{
+			committed = false,
+			stopped = false,
+			oldRootForce = true,
+			newRootClean = false,
+		}
+	do
+		p = probe()
+		p[key] = bad
+		assert(not Evidence.replacement(p), key)
+	end
+	for _, frames in { 2, -1, 0.5, 0 / 0, math.huge, "1" } do
+		p = probe()
+		p.framesToStop = frames
+		assert(not Evidence.replacement(p), tostring(frames))
+	end
+end)
 local isolated = roblox.deserializePlace(fs.readFile("build/WindStepTest.rbxl"))
 local default = roblox.deserializePlace(fs.readFile("build/Robby.rbxl"))
 test("isolated build disabled, actual source exact; no gameplay startup or client", function()

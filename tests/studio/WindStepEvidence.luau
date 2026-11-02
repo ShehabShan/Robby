@@ -67,6 +67,23 @@ function Evidence.accept(row: any): boolean
 	end
 	return false
 end
+-- Death/replacement probe (D-366): the lease must stop within one frame of character removal and
+-- leave no WindStep force on the old root or the replacement root. Not counted in the 106-case matrix.
+function Evidence.replacement(probe: any): boolean
+	if type(probe) ~= "table" then
+		return false
+	end
+	local frames = probe.framesToStop
+	return probe.committed == true
+		and probe.stopped == true
+		and type(frames) == "number"
+		and frames == frames
+		and frames % 1 == 0
+		and frames >= 0
+		and frames <= 1
+		and probe.oldRootForce == false
+		and probe.newRootClean == true
+end
 function Evidence.finish(environment: any, rows: { any }, cleanup: boolean): any
 	local expected = {
 		["travel-auto"] = "travel",
