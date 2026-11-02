@@ -1,3 +1,7 @@
+## S118 — 2026-11-02 — T-051a2 (bot 065f4ba4)
+- Owner Yes on exact play bytes -> one-shot TEST publish HISTORY_CONFIRMED version8. Consent consumed, no retry. Evidence ZIP + ref release-evidence/t051a-s117-version8.
+- NEXT T-051a3: owner presses R in TEST place and reports feel. ~38 OLU (S117+S118 one bot).
+
 ## S117 — 2026-11-02 — T-051a (bot 065f4ba4)
 - T-051a1 done: Wind Step play-mode TEST build — press R / touch Dash, server cooldown + rate gate -> WindStepDriver; plain ground, walls, ramp; no test panel (D-373).
 - T-051a2 part: exact-byte play staging + transaction accepts play kind (D-374). 48 transaction tests OK. CHECK PASS.
