@@ -52,6 +52,8 @@ Same technique as the Twin Crescent v2 so the two read as one family (rank 1 and
 ## 5. Ability icons (2D)
 Match the existing Kith icons (`icon-crescent-kith.png` etc.): use the same tool (ForgeGUI `generation_image`, `icon_gfx`) if possible. Square 1024x1024 PNG.
 Shared style: square game skill icon, ink-wash xianxia painting style, dark ink background (#141A24) with soft swirling mist and a subtle frame, one bold silhouette readable at small size, centered, no text.
+**Shared negative** (all three icons; on Ludo.ai paste as the last line `Negative prompt: ...`): text, letters, numbers, watermark, signature, photorealistic, 3D render, glossy plastic, flat vector, cartoon, bright or white background, busy scenery, characters, hands, blood, gore, fire, red or orange tones (except gold on 5b), cropped or off-center silhouette, thick ornate frame, UI buttons.
+Per-icon extra negative: (a) more than one blade, sword hilt, full moon; (b) more than two blades, full circle; (c) more than one blade, broken ring.
 - **(a) `icon-crescent-cut.png`:** a single pale-blue crescent-moon blade slicing diagonally, with a white-hot edge and a short motion streak.
 - **(b) `icon-twin-crescent.png`:** two crescent blades crossing like an eclipse, one pale blue and one pale gold.
 - **(c) `icon-piercing-edge.png`:** a pale-blue crescent blade with a sharp spear point thrusting straight forward through a thin ink ring.
@@ -66,3 +68,4 @@ Shared style: square game skill icon, ink-wash xianxia painting style, dark ink 
 - VFX: "pure black background" + "centered, nothing else in the image" gave a clean, usable texture on the first try (3, Ludo.ai).
 - Reference images: using `vfx-crescent-slash.png` as a reference for 4 made busy spiky starbursts and lost the crescent; the text prompt + negative alone gave the best result (option 4 of 4). Don't add a reference unless the shape itself should be copied.
 - Negative "full-circle ring" matters: one no-reference try still drew a full ring (reads as a sun, not a moon).
+- Ludo.ai has no negative-prompt field. Append the negative as the last line of the main prompt: `Negative prompt: ...` (owner's method, used from #4 on).
