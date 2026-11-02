@@ -14,6 +14,7 @@ import urllib.request
 
 import preflight_wind_step_release as gates
 import stage_wind_step_published as staging
+import stage_wind_step_play as play_staging
 import wind_step_permission_review as review
 import wind_step_intent_journal as journal
 import observe_wind_step_publication as history
@@ -108,6 +109,9 @@ def transact(inputs, spool, *, owner_sources_reviewed=False, inspect=gates.check
     require(manifest.get('sourceRevision') == head, 'staged source revision must equal current main')
     target = manifest.get('target')
     validate_config(target)
+    # T-051a2 (D-374): exactly two staged kinds; each re-verified by its own exact-byte stager.
+    verifier = {staging.KIND: staging.verify, play_staging.KIND: play_staging.verify}.get(manifest.get('kind'))
+    require(verifier is not None, 'unknown staged manifest kind')
 
     def validate_records(now):
         gates.validate_consent(consent, manifest, inputs['manifest'][1], now)
@@ -125,7 +129,7 @@ def transact(inputs, spool, *, owner_sources_reviewed=False, inspect=gates.check
         store.validate_remote()
         validate_files()
         # Validate exact retained snapshot with actual source and enabled-package checks.
-        staging.verify(directory / 'manifest', inputs['manifest'][1], directory / 'place')
+        verifier(directory / 'manifest', inputs['manifest'][1], directory / 'place')
         tick()
         remote = read_target(target['universeId'])
         validate_remote(target, remote)

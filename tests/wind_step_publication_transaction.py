@@ -16,6 +16,7 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 import transact_wind_step_publication as tx
 import wind_step_intent_journal as journal
 import stage_wind_step_published as staging
+import stage_wind_step_play as play_staging
 class LocalStore(journal.GitStore):
     def validate_remote(self):
         url = self.git('config', '--get', 'remote.origin.url').decode().strip()
@@ -542,6 +543,42 @@ class UploadTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 tx.upload(target, b'bytes')
             build.assert_not_called()
+
+
+
+class PlayTransactionTests(unittest.TestCase):
+    """T-051a2: the play build rides the same one-shot transaction."""
+    @classmethod
+    def setUpClass(cls):
+        built = play_staging.stage(TARGET, enable_local_test=True)
+        cls.manifest = Path(built['manifest']).read_bytes()
+        cls.place = Path(built['place']).read_bytes()
+        cls.head = json.loads(cls.manifest)['sourceRevision']
+
+    setUp = TransactionTests.setUp
+    put, clock, target, post, page, run_tx = (TransactionTests.put, TransactionTests.clock, TransactionTests.target,
+                                              TransactionTests.post, TransactionTests.page, TransactionTests.run_tx)
+    evidence = TransactionTests.evidence
+
+    def test_play_build_one_shot(self):
+        receipt = self.run_tx()
+        self.assertEqual(receipt['status'], 'HISTORY_CONFIRMED')
+        self.assertEqual(len(self.posts), 1)
+        self.assertEqual(self.posts[0][1], self.place)
+        with self.assertRaises((ValueError, FileExistsError)):
+            self.run_tx()
+        self.assertEqual(len(self.posts), 1)
+
+    def test_unknown_kind_refused_before_post(self):
+        data = json.loads(self.manifest)
+        data['kind'] = 'something else'
+        raw = (json.dumps(data, sort_keys=True, indent=2) + '\n').encode()
+        self.put('manifest', raw)
+        self.consent['manifestSha256'] = self.inputs['manifest'][1]
+        self.put('consent', json.dumps(self.consent).encode())
+        with self.assertRaises(ValueError):
+            self.run_tx()
+        self.assertFalse(self.posts)
 
 
 if __name__ == '__main__':
