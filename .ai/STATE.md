@@ -4,6 +4,7 @@
 - d2b2b2b done (D-367): Studio-only death/replacement probe (`runReplacement`, LoadCharacter mid-dash, frames-to-stop, old/new root force) + `Evidence.attach`; gate leaves `remaining` only on a passing probe; published build strips the probe and its intake rejects replacement fields. 106 counts unchanged.
 - d2b2c code done (D-368): grounded dashes zero downward root velocity while ground is within leg reach (no hold past ledges or from air); mock regressions. NOT yet verified in real Roblox physics. CHECK PASS. No publication.
 - **Owner approval (2026-11-02 13:04 +06):** publish rev c2b9d8f (d2b2b2b+d2b2c) to the private TEST experience only (not main Robby). Not done in S113 (OLU cap). Next session, from clean main: stage_wind_step_published.py --stage, preflight, publish via the test-only release path, then owner joins and returns the report.
+- **Owner (2026-11-02 13:15 +06):** not familiar with Studio settings -> skip the Studio zip route; next fresh session does the test-experience publish FIRST. The published build strips the respawn probe (D-367), so the respawn check stays open unless a later task adds it to the published build (needs LoadCharacter mocks in tests/wind_step_published_worker.luau).
 - **NEXT:** owner Studio Play run of tests/studio/wind_step.server.luau to confirm `maxYDip` <=0.2 and `replacementPassed`; then new package/approval cycle for the isolated test place.
 
 ## Now — after S112 (2026-11-02)
