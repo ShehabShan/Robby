@@ -1,2 +1,0 @@
-std = "roblox"
-exclude = ["src/server/Net.luau", "src/client/Net.luau"]
