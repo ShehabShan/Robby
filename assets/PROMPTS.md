@@ -47,6 +47,8 @@ Same technique as the Twin Crescent v2 so the two read as one family (rank 1 and
 ## 4. Crescent hit texture
 > A single impact burst on a pure black background: a bright white flash at the center, a thin crescent-shaped shockwave arc around it, and sharp pale-blue light shards radiating outward. Game VFX texture, centered, nothing else in the image, no blood, no text, 1024x1024.
 
+**Negative:** blood, gore, red or orange tones, fire, smoke, explosion debris, more than one burst, full-circle ring, background scenery, characters, weapons, frame or border, gradient or grey background, transparent checkerboard, text, watermark.
+
 ## 5. Ability icons (2D)
 Match the existing Kith icons (`icon-crescent-kith.png` etc.): use the same tool (ForgeGUI `generation_image`, `icon_gfx`) if possible. Square 1024x1024 PNG.
 Shared style: square game skill icon, ink-wash xianxia painting style, dark ink background (#141A24) with soft swirling mist and a subtle frame, one bold silhouette readable at small size, centered, no text.
@@ -56,3 +58,9 @@ Shared style: square game skill icon, ink-wash xianxia painting style, dark ink 
 
 ## 6. Player base character (3D), on hold
 > A young martial cultivator in original eastern-fantasy robes: layered dark-blue and off-white cloth, wide sleeves, a sash belt, and simple boots. A neutral expression and short tied-back hair. Stylized anime proportions (slightly large head, slim build), hand-painted textures, low-poly, rigged humanoid in T-pose (R15-compatible if the site supports it).
+
+## Prompt lessons so far (raw notes for the future prompt guide)
+- Name the exact shape, not the theme: "crescent wings" gave butterfly wings + tail (1 v1); "a thin, sharp crescent moon: a sickle-shaped curve with two pointed tips and a hollow inner curve" fixed it (1b, 2).
+- Always add a **Negative** line listing what the last try got wrong (butterfly wings, tail, streamers...).
+- Reuse the same sentence pattern across a family (1b matches 2) so assets read as one set.
+- VFX: "pure black background" + "centered, nothing else in the image" gave a clean, usable texture on the first try (3, Ludo.ai).
