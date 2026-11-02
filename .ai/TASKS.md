@@ -465,5 +465,6 @@ Pick one when the next real task won't fit before the 43 OLU wrap-up line. Log f
   - The owner generates, the bot never does. Most of the session is waiting for the owner, so keep chat short.
   - AC per session: at least one asset checked and indexed, or the prompt sheet updated, saved.
   - Resume from: PROMPTS.md status table (1b, 3, 4, 5a, 5b done S114; next: 5c; 6 on hold).
+  - Capability probe S114: assets/tools/GENERATORS.md (images in use; textures/Lyria music/TTS untested; no AI 3D, animation or video). Next: 5c `icon-piercing-edge.png` via Gemini.
   - Image tool: PromptQL built-in `gemini-3-pro-image` (owner decision 2026-11-02, see PROMPTS.md top + assets/tools/gemini_image.py).
   - Owner ask (2026-11-02, research/inbox/2026-11-02-asset-prompt-guide.md): after a few more assets, turn PROMPTS.md "Prompt lessons" into `assets/PROMPT_GUIDE.md` (how a new session writes prompts that work). Not yet; keep adding lessons each asset.
