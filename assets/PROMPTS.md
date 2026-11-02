@@ -2,6 +2,8 @@
 
 The owner generates assets on third-party sites. The bot writes the prompts, checks each file and indexes it. Task: `.ai/TASKS.md` A-001.
 
+> **Image tool (owner decision, 2026-11-02):** generate images (icons, VFX textures, concept art, anything it can make) with PromptQL's built-in Gemini model `gemini-3-pro-image` (integration `__gemini-web-search`, no setup), not Ludo.ai. The bot generates, checks and saves; the owner only picks. How: `assets/tools/gemini_image.py` (program runtime). Output is JPEG: convert to 1024² PNG before saving.
+
 ## Status
 | # | Asset | File | Status |
 |---|---|---|---|
@@ -10,7 +12,7 @@ The owner generates assets on third-party sites. The bot writes the prompts, che
 | 2 | Twin Crescent Kith v2 (3D) | `creature-twin-crescent-kith.glb` | done ae6fa83, indexed 04edb83 (4.9k tris) |
 | 3 | Crescent Cut slash texture | `vfx-crescent-slash.png` | done 563f6cd, checked S114 (1024², opaque black bg, centered) |
 | 4 | Crescent hit texture | `vfx-crescent-hit.png` | done f96dc57, checked S114 (1024², opaque black bg, centered) |
-| 5 | Ability icons x3 | `icon-crescent-cut.png`, `icon-twin-crescent.png`, `icon-piercing-edge.png` | (a) done S114; next (b) `icon-twin-crescent.png` |
+| 5 | Ability icons x3 | `icon-crescent-cut.png`, `icon-twin-crescent.png`, `icon-piercing-edge.png` | done (S114, Gemini try 2), checked 1024² PNG |
 | 6 | Cultivator base character (3D, rigged) | `character-cultivator-base.fbx` | on hold: ART.md §4 uses the Roblox avatar + code-built robe in the slice. Only if the owner asks. |
 
 ## Rules for every asset
@@ -70,3 +72,5 @@ Per-icon extra negative: (a) more than one blade, sword hilt, full moon; (b) mor
 - Negative "full-circle ring" matters: one no-reference try still drew a full ring (reads as a sun, not a moon).
 - Ludo.ai has no negative-prompt field. Append the negative as the last line of the main prompt: `Negative prompt: ...` (owner's method, used from #4 on).
 - Icons (5a, Ludo.ai, Kith icon as style reference): of 2 tries, the brushy ink-wash one matched the Kith set; the other came out crisp digital glow with an odd sword-tail shape. For icons a style reference helps (unlike VFX #4). Kith icons use a light grey mist background; ability icons use the dark #141A24 background on purpose, so the two sets stay distinct.
+- 5b on Gemini (`gemini-3-pro-image`): owner rated Ludo.ai much worse. Two Kith + crescent-cut refs made a near copy of the Kith crescent plus a flame-like gold blade (try 1). Try 2 (only `icon-crescent-cut.png` as ref, "Do not copy its blade shape", "thin, sharp ... sickle-shaped curve with two pointed tips", "dark background clearly visible between the blades", negative + flames, waves, wings, glowing orb) won. Watch: mirrored blades with cutouts can read as a butterfly.
+- 5b winning prompt (Gemini try 2): Square game skill icon, ink-wash xianxia painting style, dark ink background (#141A24) with soft swirling mist and a subtle frame, one bold silhouette readable at small size, centered, no text. Two thin, sharp crescent-moon blades crossing in an X at the center, each a slim sickle-shaped curve with two pointed tips and a hollow inner curve; the left blade pale blue, the right blade pale gold; a small white flash where they cross; dark background clearly visible between and around the blades; painted with loose brushy ink strokes. 1024x1024.

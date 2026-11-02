@@ -7,3 +7,9 @@ Note: you don't need to write it right now. You can write it after we do some as
 # Owner message (verbatim), 2026-11-02 17:19 +06
 
 Where is the negative prompt? Don't we need one? https://app.ludo.ai/ doesn't have any option for a negative prompt. I just paste the negative prompt line with "negative prompt: <put negative prompt text here>" like this at the bottom of the main prompt.
+
+# Owner message (verbatim), 2026-11-02 08:52 EST
+
+It's good enough. Ludo.ai is very worse.
+
+"add in repo that for image, we will use promptql build-in gemini-3-pro-image model to generate image or anything that it can generate."
