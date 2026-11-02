@@ -1,0 +1,1 @@
+S115 re-delivery 2026-11-02: original artifacts on bot 6b1039ec returned 404. Same exact ZIP (sha256 2680c3dd...2b45, round-trip verified) re-hosted as artifact://thread/ed1828b3-108b-4a9b-a6ae-9d7776920c76/robby_t050_stage (v0) and card robby_t050_approval (v0). main unchanged at 66fcf98. No claim, no publication. Awaiting owner Yes.
