@@ -86,6 +86,18 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3, observe: (
 	local pending, finishAfter, applied, pendingSpeed = false, false, 0, 0
 	local pendingDt = 0
 	local axis = Vector3.new(dx, 0, dz)
+	-- Grounded dashes hold height (D-368): at dash speed the Humanoid briefly loses footing and the root
+	-- dipped ~0.6 studs. Hold only while ground is within leg reach, so ledges and airborne dashes fall.
+	local holdY = false
+	local function holdVertical()
+		pcall(function()
+			local velocity = root.AssemblyLinearVelocity
+			local reach = Vector3.new(0, -(size.Y / 2 + humanoid.HipHeight + 0.6), 0)
+			if velocity.Y < 0 and workspace:Raycast(root.CFrame.Position, reach, ray) then
+				root.AssemblyLinearVelocity = Vector3.new(velocity.X, 0, velocity.Z)
+			end
+		end)
+	end
 	local lease: Lease
 	local function stop(keepVelocity: boolean?)
 		if closed then
@@ -174,6 +186,10 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3, observe: (
 				-- Profile time starts at the first driven step, not at acceptance: the
 				-- commit-to-PreSimulation gap is never simulated, so it must not spend travel.
 				stepped, started = true, now
+				local sampled, grounded = pcall(function()
+					return humanoid.FloorMaterial ~= Enum.Material.Air
+				end)
+				holdY = sampled and grounded == true
 			end
 			-- Never re-spend an interval if server time stalls; never catch up when
 			-- wall time runs ahead. Single-use Pre/Post pairing owns simulation time.
@@ -193,6 +209,9 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3, observe: (
 			local actuator = force :: LinearVelocity
 			actuator.PlaneVelocity = Vector2.new(dx * speed, dz * speed)
 			actuator.Enabled = true
+			if holdY then
+				holdVertical()
+			end
 			pendingSpeed, pending, finishAfter = speed, true, terminal or blocked
 			covered = elapsed + dt
 			pendingDt = dt

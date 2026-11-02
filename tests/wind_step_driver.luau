@@ -147,10 +147,15 @@ local function fixture()
 		table.insert(f.casts, { cf = cf, size = size, direction = direction, params = params })
 		return if f.clearance then { Distance = f.clearance } else nil
 	end
+	function world:Raycast(_origin, direction, params)
+		f.groundCasts = (f.groundCasts or 0) + 1
+		assert(direction.X == 0 and direction.Z == 0 and direction.Y < 0 and params.FilterType == "Exclude")
+		return if f.ground then { Distance = f.ground } else nil
+	end
 	local run = { PreSimulation = signal("pre"), PostSimulation = signal("post") }
 	local services = { Players = players, RunService = run, ReplicatedStorage = { Shared = { WindStep = "motion" } } }
 	local enum = {
-		Material = { Water = "Water" },
+		Material = { Water = "Water", Air = "Air" },
 		RaycastFilterType = { Exclude = "Exclude", Include = "Include" },
 		ActuatorRelativeTo = { World = "World" },
 		VelocityConstraintMode = { Plane = "Plane" },
@@ -883,6 +888,19 @@ local cases = {
 			f:clean()
 		end
 		assert(#f.ownership == 200)
+	end,
+	["grounded dash holds Y on floor, not past a ledge or from air (D-368)"] = function()
+		for _, entry in { { "Plastic", 3, 0 }, { "Plastic", nil, -9 }, { "Air", 3, -9 } } do
+			local f = fixture()
+			f.humanoid.FloorMaterial, f.humanoid.HipHeight = entry[1], 2
+			f.ground = entry[2]
+			local l = f:start()
+			f.root.AssemblyLinearVelocity = V.new(0, -9, 0)
+			f:tick(0.02)
+			near(f.root.AssemblyLinearVelocity.Y, entry[3])
+			l.stop()
+			f:clean()
+		end
 	end,
 }
 local count = 0
