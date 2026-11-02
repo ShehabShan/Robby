@@ -13,6 +13,7 @@ local Shared = {
 	CastRequest = require("../src/shared/CastRequest"),
 	Stance = require("../src/shared/Stance"),
 	RimeFxPlan = require("../src/shared/RimeFxPlan"),
+	Aim = require("../src/shared/Aim"),
 	Deliveries = {
 		Projectile = require("../src/shared/Deliveries/Projectile"),
 		Zone = require("../src/shared/Deliveries/Zone"),
@@ -117,11 +118,19 @@ local function harness(initial)
 				return services[name]
 			end,
 		},
-		script = { Parent = { AimDir = {
-			look = function()
-				return V.new(0, 0, -1)
-			end,
-		}, HitFeel = {} } },
+		script = {
+			Parent = {
+				AimDir = {
+					look = function()
+						return V.new(0, 0, -1)
+					end,
+					free = function(_, _, _, flat)
+						return flat
+					end,
+				},
+				HitFeel = {},
+			},
+		},
 		require = function(module)
 			assert(type(module) == "table")
 			return module

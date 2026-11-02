@@ -37,6 +37,9 @@ function Crescent.content(cfg: any): any
 						maxHits = c.maxHits,
 						hitbox = c.hitboxSize,
 						spawnOffset = c.spawnOffset,
+						aim = "Free", -- free 3D aim (T-053a1, D-383)
+						maxPitch = c.maxPitchDeg,
+						stopOnWorld = true, -- blade ends on walls/ground (owner D-380)
 					},
 				},
 				costs = { qi = c.cost },
@@ -58,6 +61,9 @@ function Crescent.content(cfg: any): any
 						maxHits = t.maxHits,
 						hitbox = t.hitboxSize,
 						spawnOffset = t.spawnOffset,
+						aim = "Flat", -- Twin Crescent keeps flat aim until T-053b
+						maxPitch = 0,
+						stopOnWorld = false,
 					},
 				},
 				costs = { qi = t.cost },

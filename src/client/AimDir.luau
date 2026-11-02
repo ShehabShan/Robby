@@ -7,7 +7,11 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 
+local Aim = require(ReplicatedStorage.Shared.Aim)
 local ShiftLock = require(ReplicatedStorage.Shared.ShiftLock)
+
+local AIM_MAX = 500 -- studs the aim ray searches the world
+local MIN_AIM_DIST = 4 -- closer aim points fall back to flat aim
 
 local MOUSE_INPUTS = {
 	[Enum.UserInputType.MouseMovement] = true,
@@ -56,6 +60,36 @@ function AimDir.look(camera: Camera): Vector3
 		return fallback
 	end
 	return flat.Unit
+end
+
+-- Free 3D aim (T-053a1, D-383): direction from the blade origin to the world point under the mouse
+-- (screen centre under shift lock / LockCenter, gamepad and touch). Removes camera-vs-shoulder parallax.
+-- Falls back to the flat direction when the point is too close or behind. The server re-clamps the pitch.
+function AimDir.free(camera: Camera, character: Model, origin: Vector3, flat: Vector3, maxPitchDeg: number): Vector3
+	local useMouse = UserInputService.MouseEnabled
+		and MOUSE_INPUTS[UserInputService:GetLastInputType()] == true
+		and Players.LocalPlayer:GetAttribute("ShiftLock") ~= true
+		and UserInputService.MouseBehavior ~= Enum.MouseBehavior.LockCenter
+	local ray: Ray
+	if useMouse then
+		local m = UserInputService:GetMouseLocation()
+		ray = camera:ViewportPointToRay(m.X, m.Y)
+	else
+		local s = camera.ViewportSize
+		ray = camera:ViewportPointToRay(s.X / 2, s.Y / 2)
+	end
+	local rp = RaycastParams.new()
+	rp.FilterType = Enum.RaycastFilterType.Exclude
+	rp.FilterDescendantsInstances = { character }
+	rp.RespectCanCollide = true -- FX parts are non-collidable
+	local hit = workspace:Raycast(ray.Origin, ray.Direction.Unit * AIM_MAX, rp)
+	local p = if hit then hit.Position else ray.Origin + ray.Direction.Unit * AIM_MAX
+	local dx, dy, dz, ok = Aim.toPoint(origin.X, origin.Y, origin.Z, p.X, p.Y, p.Z, flat.X, flat.Z, MIN_AIM_DIST)
+	if not ok then
+		return flat
+	end
+	local x, y, z, okClamp = Aim.clampPitch(dx, dy, dz, maxPitchDeg)
+	return if okClamp then Vector3.new(x, y, z) else flat
 end
 
 return AimDir

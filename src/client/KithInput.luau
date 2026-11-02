@@ -14,6 +14,7 @@ local AimDir = require(script.Parent.AimDir)
 local Config = require(ReplicatedStorage.Shared.Config)
 local FxRegistry = require(ReplicatedStorage.Shared.FxRegistry)
 local Projectile = require(ReplicatedStorage.Shared.Deliveries.Projectile)
+local Aim = require(ReplicatedStorage.Shared.Aim)
 local Stance = require(ReplicatedStorage.Shared.Stance)
 local Zone = require(ReplicatedStorage.Shared.Deliveries.Zone)
 
@@ -111,9 +112,13 @@ function KithInput.start(
 				return false
 			end
 		end
-		local dir = flatLook(camera) or root.CFrame.LookVector
+		local flatDir = flatLook(camera) or root.CFrame.LookVector
+		local dir = flatDir
 		local point: Vector3? = nil
-		local pos = root.Position + dir * (move.delivery.params.spawnOffset or 0) + CHEST
+		local pos = root.Position + flatDir * (move.delivery.params.spawnOffset or 0) + CHEST
+		if Aim.isFree(move.delivery.params) then
+			dir = AimDir.free(camera, character, pos, flatDir, move.delivery.params.maxPitch or 70) -- T-053a1
+		end
 		if move.target == "Point" then
 			point = groundPoint(camera, character, root, move.delivery.params)
 			pos = point :: Vector3

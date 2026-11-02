@@ -26,6 +26,7 @@ local CastContacts = require(ReplicatedStorage.Shared.CastContacts)
 local Registry = require(ReplicatedStorage.Shared.Registry)
 local DamageMath = require(ReplicatedStorage.Shared.DamageMath)
 local Projectile = require(ReplicatedStorage.Shared.Deliveries.Projectile)
+local Aim = require(ReplicatedStorage.Shared.Aim)
 local Volley = require(ReplicatedStorage.Shared.Deliveries.Volley)
 local Zone = require(ReplicatedStorage.Shared.Deliveries.Zone)
 local Burst = require(ReplicatedStorage.Shared.Deliveries.Burst)
@@ -118,6 +119,24 @@ local function publishQi(player: Player, pool: Qi.Pool)
 	if player:GetAttribute("Qi") ~= shown then
 		player:SetAttribute("Qi", shown)
 	end
+end
+
+-- Blade origin from the FLAT forward, so pitching never spawns it in the floor. With wallCheck, a wall
+-- between the root and the origin pulls the origin back (no shooting through a hugged wall, T-053a1).
+local function bladeOrigin(character: Model, root: BasePart, flat: Vector3, offset: number, wallCheck: boolean): Vector3
+	local base = root.Position + CHEST
+	if not wallCheck or offset <= 0 then
+		return base + flat * offset
+	end
+	local rp = RaycastParams.new()
+	rp.FilterType = Enum.RaycastFilterType.Exclude
+	rp.FilterDescendantsInstances = { character }
+	rp.RespectCanCollide = true
+	local hit = workspace:Raycast(base, flat * offset, rp)
+	if hit then
+		return base + flat * math.max(0, hit.Distance - 0.5)
+	end
+	return base + flat * offset
 end
 
 local function aliveRoot(character: Model?): BasePart?
@@ -299,8 +318,17 @@ local function sweep(shot: Shot, from: number, to: number)
 				})
 			end
 		else
-			-- walls and scenery do not stop the projectile in the spike; skip them
-			table.insert(exclude, result.Instance)
+			local inst = result.Instance
+			if
+				p.stopOnWorld
+				and not humanoid
+				and (inst:IsA("Terrain") or (inst:IsA("BasePart") and inst.Anchored and inst.CanCollide))
+			then
+				shot.state.done = true -- the blade ends on walls/ground (T-053a1, D-380); impact FX is T-053a5
+				return
+			end
+			-- other scenery does not stop the projectile; skip it
+			table.insert(exclude, inst)
 		end
 	end
 end
@@ -618,7 +646,17 @@ local function authorizeCast(player: Player, value: any): (AcceptedCast?, string
 	}
 	-- Capture engine-facing values before committing payment. No effects, scheduling,
 	-- attribute publication or remote sends occur inside authorization.
-	local dir = Vector3.new(x, 0, z)
+	local flatDir = Vector3.new(x, 0, z)
+	local dir = flatDir
+	local freeAim = move.delivery.kind == "Projectile" and Aim.isFree(move.delivery.params)
+	if freeAim then
+		-- Free 3D aim (T-053a1, D-383): keep the client's pitch, clamped server-side.
+		local ax, ay, az, okAim = Aim.clampPitch(v.X, v.Y, v.Z, move.delivery.params.maxPitch or 70)
+		if not okAim then
+			return nil, "aim"
+		end
+		dir = Vector3.new(ax, ay, az)
+	end
 	local accepted: AcceptedCast = {
 		player = player,
 		character = character,
@@ -629,7 +667,7 @@ local function authorizeCast(player: Player, value: any): (AcceptedCast?, string
 		point = point,
 		origin = if move.delivery.kind == "Self" or move.delivery.kind == "Burst"
 			then root.Position
-			else root.Position + dir * (move.delivery.params.spawnOffset or 0) + CHEST,
+			else bladeOrigin(character, root, flatDir, move.delivery.params.spawnOffset or 0, freeAim),
 		monotonicAt = 0,
 		acceptedAt = 0,
 		schedule = schedule,

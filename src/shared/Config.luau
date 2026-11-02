@@ -16,8 +16,9 @@ local Config = {
 			speed = 90, -- studs/s
 			range = 60, -- studs
 			maxHits = 2, -- pierces up to 2 targets
-			hitboxSize = { x = 6, y = 1.5, z = 2 }, -- studs
+			hitboxSize = { x = 6, y = 2.5, z = 2 }, -- studs (y 1.5 -> 2.5: vertical forgiveness for free aim, T-053a1)
 			spawnOffset = 3, -- studs in front of the caster
+			maxPitchDeg = 70, -- free 3D aim pitch clamp (owner D-380)
 		},
 		TwinCrescent = { -- rank 2 Crucible result (T-019d, D-084): two blades' worth in one wider cut
 			cost = 14,
