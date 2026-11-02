@@ -1,5 +1,12 @@
 # STATE
 
+## Now — T-050 / S114 (2026-11-02, bot6b1039ec)
+- **Phase3 building; NEXT T-050: NEW exact-byte owner approval, then existing one-shot isolated TEST publication and fresh full report/intake.** Start `research/notes/T-050-staged-package.md`; only final card pins count. No publication this session. Do NOT rerun unchanged version6 or reuse its consumed consent.
+- T-050a/b merged1fc58b7: latched6.105ms wall lead reproduced0.427stud command deficit; profile now simulation-dt owned with wall freshness watchdog. Grounded candidate uses bounded solver-time Y support with endpoint/air/ledge/upward release; new pre/support trace. Diagnosis `T-050-version6-diagnosis.md`.
+- CHECK PASS,39 driver groups + full suite; original15 samples retained. Predicted14 command/13.39 after observed lag is mock-only; exact vertical trigger and real physics/device/feel remain UNVERIFIED. No tolerance widening or production activation.
+- T-050c existing staging/reconstruction rehearsal PASS; final clean-main package/card generated AFTER this LAST main save. Missing artifacts mean incomplete preparation. Exact archive also mirrored on separate release-evidence/t050-s114 ref; independent card hash required.
+- Claims released; no other task started. Saved/merged32 OLU; final package meter in card, saving deadline45. Review declaration expires2026-11-02T17:15:39Z; renewal if expired. Older NEXT blocks below are historical.
+
 ## Now — after S113 (2026-11-02)
 - **NEXT = T-050** (fresh session, owner 2026-11-02): diagnose/repair version6 travel-auto failure. Start with research/notes/T-050-version6-handoff.md.
 - **Version6 owner report (2026-11-02 14:26Z, research/inbox/2026-11-02-version6-test-report.md):** FAIL 0/106, stopped at first case travel-auto: 12.963 actual / 13.573 commanded (<13 minimum); maxYDip 0.510 (vy ~-7.7 from x~7.5). Version5 passed 106/106 (13.533). Likely cause: d2b2c grounded-dash change (only runtime change since version5) did not remove the dip and cost distance. NEXT: diagnose d2b2c offline vs these samples, no republish until fixed + new exact-byte approval.
