@@ -1,6 +1,8 @@
 # STATE
 
 ## Now — after S113 (2026-11-02)
+- **T-049 (2026-11-02 14:16Z):** isolated test place published, HISTORY_CONFIRMED **version6** from main ea5e7e8 (owner exact-byte Yes 14:12:09Z). Consent consumed, no retry; production untouched. Evidence: research/notes/T-049-release-result.md.
+- **NEXT:** owner fresh Start/report on version6 (https://www.roblox.com/games/121111456135560/); save verbatim, existing intake binds it to version6, then d2b2 (dip/death/rates). Do not republish unchanged version6. Supersedes older version4/5 NEXT lines below.
 - d2b2b2b done (D-367): Studio-only death/replacement probe (`runReplacement`, LoadCharacter mid-dash, frames-to-stop, old/new root force) + `Evidence.attach`; gate leaves `remaining` only on a passing probe; published build strips the probe and its intake rejects replacement fields. 106 counts unchanged.
 - d2b2c code done (D-368): grounded dashes zero downward root velocity while ground is within leg reach (no hold past ledges or from air); mock regressions. NOT yet verified in real Roblox physics. CHECK PASS. No publication.
 - **Owner approval (2026-11-02 13:04 +06):** publish rev c2b9d8f (d2b2b2b+d2b2c) to the private TEST experience only (not main Robby). Not done in S113 (OLU cap). Next session, from clean main: stage_wind_step_published.py --stage, preflight, publish via the test-only release path, then owner joins and returns the report.
