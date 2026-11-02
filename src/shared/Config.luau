@@ -138,6 +138,23 @@ local Config = {
 		rate = { perSecond = 12, burst = 6 }, -- Action remote token bucket
 	},
 	-- Hit feel for every hit (T-014, ART §5 items 2 and 5). Seconds unless noted.
+	Fx = {
+		CrescentCut = { -- art blade tunables (T-053a3, D-385); look = "Classic" restores the code-built blade
+			look = "Art",
+			bladeWidth = 6, -- studs tip to tip
+			bladeDepth = 3.2, -- studs of the textured Beam along the flight path
+			coreScale = 0.7, -- thinner neon inner arc
+			growFrom = 0.6,
+			growTime = 0.06,
+			dissolveTime = 0.12,
+			dissolveWiden = 1.5,
+			rollDeg = 12,
+			trailLife = 0.12,
+			dustRate = 18, -- particles/s; skipped on low graphics quality
+			lightBrightness = 2,
+			maxLive = 8,
+		},
+	},
 	HitFeel = {
 		hitStopFrames = 3, -- clamped to 2–4
 		shakeSeconds = 0.15,

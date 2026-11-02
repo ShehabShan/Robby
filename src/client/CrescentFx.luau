@@ -1,5 +1,6 @@
 --!strict
--- Crescent Cut visuals and sounds (.ai/SPIKE.md §2). Code-built only, no uploaded assets.
+-- Crescent Cut visuals and sounds (.ai/SPIKE.md §2). Art blade (T-053a3, D-385): uploaded slash texture on an
+-- additive Beam, falling back to the code-built "Classic" blade when the setting or the texture id is missing.
 -- Cosmetic only: nothing here decides hits.
 
 local Debris = game:GetService("Debris")
@@ -8,11 +9,14 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 
+local AssetIds = require(ReplicatedStorage.Shared.AssetIds)
 local Config = require(ReplicatedStorage.Shared.Config)
+local CrescentLook = require(ReplicatedStorage.Shared.CrescentLook)
 local FxRegistry = require(ReplicatedStorage.Shared.FxRegistry)
 local HitFeel = require(script.Parent.HitFeel)
 
 local cfg = Config.Abilities.CrescentCut
+local look = Config.Fx.CrescentCut
 local BLUE = Color3.fromRGB(150, 205, 255)
 local SEGMENTS = 7
 local RADIUS = 3
@@ -105,8 +109,198 @@ local function fade(model: Model, parts: { BasePart })
 	Debris:AddItem(model, 0.3)
 end
 
--- Flies a crescent from origin along dir to the ability's range, then fades it.
-function CrescentFx.crescent(origin: Vector3, dir: Vector3)
+-- Art blade (T-053a3): textured additive Beam across the blade, thinner neon core arc, tip trail, light, moon dust.
+local pool = CrescentLook.newPool(look.maxLive)
+local freeBlades: { Model } = {}
+
+local function lowGraphics(): boolean
+	local ok, level = pcall(function()
+		return UserSettings():GetService("UserGameSettings").SavedQualityLevel.Value
+	end)
+	return ok and type(level) == "number" and level > 0 and level <= 3
+end
+
+local function buildArt(texture: string): Model
+	local model = Instance.new("Model")
+	model.Name = "CrescentCutArt"
+	local pivot = fxPart(Vector3.new(0.2, 0.2, 0.2))
+	pivot.Transparency = 1
+	pivot.Parent = model
+	model.PrimaryPart = pivot
+	-- Beam runs tail (+Z) to front (-Z) in the blade plane; width spans tip to tip (X). Follows pitch with the pivot.
+	local back = Instance.new("Attachment")
+	back.Name = "Back"
+	back.CFrame = CFrame.new(0, 0, look.bladeDepth / 2) * CFrame.Angles(0, 0, math.rad(90)) -- X axis up: beam lies flat in the blade plane
+	back.Parent = pivot
+	local front = Instance.new("Attachment")
+	front.Name = "Front"
+	front.CFrame = CFrame.new(0, 0, -look.bladeDepth / 2) * CFrame.Angles(0, 0, math.rad(90)) -- X axis up: beam lies flat in the blade plane
+	front.Parent = pivot
+	local beam = Instance.new("Beam")
+	beam.Attachment0 = back
+	beam.Attachment1 = front
+	beam.Texture = texture
+	beam.TextureMode = Enum.TextureMode.Stretch
+	beam.TextureLength = 1
+	beam.TextureSpeed = 0
+	beam.FaceCamera = false
+	beam.LightEmission = 1
+	beam.LightInfluence = 0
+	beam.Segments = 1
+	beam.Width0 = look.bladeWidth
+	beam.Width1 = look.bladeWidth
+	beam.Color = ColorSequence.new(Color3.new(1, 1, 1))
+	beam.Parent = pivot
+	for i = 1, 5 do
+		local a = -ARC / 2 + ARC * (i - 1) / 4
+		local r = RADIUS * look.coreScale
+		local seg = fxPart(Vector3.new(1.1 * look.coreScale, 0.08, 0.15))
+		seg.Name = "Core"
+		seg.CFrame = CFrame.new(math.sin(a) * r, 0, r * (1 - math.cos(a))) * CFrame.Angles(0, -a, 0)
+		seg.Parent = model
+		if i == 1 or i == 5 then
+			local tip = Instance.new("Attachment")
+			tip.Name = if i == 1 then "TipA" else "TipB"
+			tip.Parent = seg
+		end
+	end
+	local trail = Instance.new("Trail")
+	trail.Color = ColorSequence.new(BLUE)
+	trail.Transparency = NumberSequence.new(0.4, 1)
+	trail.Lifetime = look.trailLife
+	trail.LightEmission = 1
+	trail.Parent = pivot
+	local light = Instance.new("PointLight")
+	light.Color = BLUE
+	light.Brightness = look.lightBrightness
+	light.Range = 10
+	light.Parent = pivot
+	local dust = Instance.new("ParticleEmitter")
+	dust.Name = "Dust"
+	dust.Texture = AssetIds.image("crescentSlashAlpha") or SPARK_TEXTURE
+	dust.Color = ColorSequence.new(BLUE)
+	dust.LightEmission = 1
+	dust.Rate = look.dustRate
+	dust.Lifetime = NumberRange.new(0.25, 0.45)
+	dust.Speed = NumberRange.new(0.5, 1.5)
+	dust.Size = NumberSequence.new(0.35, 0)
+	dust.Rotation = NumberRange.new(0, 360)
+	dust.Parent = pivot
+	local tips: { Attachment } = {}
+	for _, d in model:GetDescendants() do
+		if d:IsA("Attachment") and (d.Name == "TipA" or d.Name == "TipB") then
+			table.insert(tips, d)
+		end
+	end
+	trail.Attachment0 = tips[1]
+	trail.Attachment1 = tips[2]
+	return model
+end
+
+local function setArt(model: Model, scale: number, vis: number, widen: number)
+	for _, d in model:GetDescendants() do
+		if d:IsA("Beam") then
+			d.Width0 = look.bladeWidth * scale * widen
+			d.Width1 = look.bladeWidth * scale * widen
+			d.Transparency = NumberSequence.new(1 - vis)
+		elseif d:IsA("BasePart") and d.Name == "Core" then
+			d.Transparency = 1 - vis
+		elseif d:IsA("PointLight") then
+			d.Brightness = look.lightBrightness * vis
+		end
+	end
+end
+
+local function worldStop(from: Vector3, to: Vector3, character: Model?): number?
+	local rp = RaycastParams.new()
+	rp.FilterType = Enum.RaycastFilterType.Exclude
+	rp.FilterDescendantsInstances = if character then { character } else {}
+	rp.RespectCanCollide = true
+	local hit = workspace:Raycast(from, to - from, rp)
+	if not hit then
+		return nil
+	end
+	local inst = hit.Instance
+	if
+		inst:IsA("Terrain") or (inst:IsA("BasePart") and inst.Anchored and not inst:FindFirstAncestorOfClass("Model"))
+	then
+		return hit.Distance
+	end
+	local m = inst:FindFirstAncestorOfClass("Model")
+	if inst:IsA("BasePart") and inst.Anchored and m and not m:FindFirstChildOfClass("Humanoid") then
+		return hit.Distance
+	end
+	return nil
+end
+
+local function artCrescent(texture: string, origin: Vector3, dir: Vector3, character: Model?): boolean
+	local took = CrescentLook.acquire(pool)
+	if took == "full" then
+		return false
+	end
+	local model = if took == "reuse" then table.remove(freeBlades) :: Model else buildArt(texture)
+	local dust = model.PrimaryPart and model.PrimaryPart:FindFirstChild("Dust")
+	if dust and dust:IsA("ParticleEmitter") then
+		dust.Enabled = not lowGraphics()
+	end
+	setArt(model, look.growFrom, 1, 1)
+	model:PivotTo(CFrame.lookAt(origin, origin + dir))
+	model.Parent = workspace
+	local traveled, age = 0, 0
+	local range = cfg.range
+	local dissolving: number? = nil
+	local conn: RBXScriptConnection? = nil
+	conn = RunService.RenderStepped:Connect(function(dt: number)
+		age += dt
+		if dissolving == nil then
+			local nextT = math.min(range, traveled + cfg.speed * dt)
+			range = CrescentLook.stopDistance(
+				range,
+				(function()
+					local d = worldStop(origin + dir * traveled, origin + dir * nextT, character)
+					return if d then traveled + d else nil
+				end)()
+			)
+			traveled = math.min(nextT, range)
+			local pos = origin + dir * traveled
+			local roll = CrescentLook.rollAt(look, traveled, cfg.range)
+			model:PivotTo(CFrame.lookAt(pos, pos + dir) * CFrame.Angles(0, 0, roll))
+			setArt(model, CrescentLook.scaleAt(look, age), 1, 1)
+			if traveled >= range then
+				dissolving = 0
+				if dust and dust:IsA("ParticleEmitter") then
+					dust.Enabled = false
+				end
+			end
+		else
+			dissolving += dt
+			local vis, widen, done = CrescentLook.dissolveAt(look, dissolving :: number)
+			setArt(model, 1, vis, widen)
+			if done then
+				if conn then
+					conn:Disconnect()
+				end
+				model.Parent = nil
+				table.insert(freeBlades, model)
+				CrescentLook.release(pool)
+			end
+		end
+	end)
+	return true
+end
+
+-- Flies a crescent from origin along dir to the ability's range (or a wall in Art look), then fades it.
+function CrescentFx.crescent(origin: Vector3, dir: Vector3, character: Model?)
+	local texture = AssetIds.image("crescentSlashAdd")
+	if CrescentLook.choose(look, texture) == "Art" then
+		artCrescent(texture :: string, origin, dir, character)
+		return
+	end
+	CrescentFx.classic(origin, dir)
+end
+
+-- The code-built blade (look = "Classic", or no uploaded texture).
+function CrescentFx.classic(origin: Vector3, dir: Vector3)
 	local model, parts = buildCrescent()
 	model:PivotTo(CFrame.lookAt(origin, origin + dir))
 	model.Parent = workspace
@@ -169,7 +363,8 @@ function CrescentFx.register(reg: FxRegistry.Registry)
 		end
 	end)
 	FxRegistry.register(reg, "fx.crescent.travel", function(ctx: any)
-		CrescentFx.crescent(ctx.pos, ctx.dir)
+		local character = ctx.character or (if ctx.caster then ctx.caster.Character else nil)
+		CrescentFx.crescent(ctx.pos, ctx.dir, character)
 	end)
 	FxRegistry.register(reg, "fx.crescent.hit", function(ctx: any)
 		CrescentFx.hit(ctx.caster, ctx.target, ctx.amount or 0, ctx.pos)

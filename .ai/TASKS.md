@@ -392,7 +392,7 @@ Owner order (2026-11-02 23:56, D-379): build Crescent first — **T-053a → T-0
   - **T-053a [planned S120, owner approved plan + §11 answers D-380; NEXT: T-053a1] [M] Crescent Cut feel/look rework (Rank 1, left click) + free 3D aim.** Full plan: `research/notes/T-053a-plan.md`. Damage/cost/cooldown/button unchanged. Subtasks (each S):
     - **T-053a1 [done S121, D-383] [S] Free 3D aim:** pure `Shared.Aim` (pitch clamp ±70° proposal) + tests; client `AimDir.free` (world raycast aim point, dir from server-formula origin); server opt-in `delivery.params.aim="Free"` (other moves stay Flat), origin wall-check, `stopOnWorld`, hitbox height knob. AC: check PASS.
     - **T-053a2 [done S121, D-384] [S] Assets to Roblox:** process slash/hit PNGs (`assets/processed/`), Open Cloud image upload script, `src/shared/AssetIds.luau`, INDEX. AC: ids recorded, fallback to code look if missing.
-    - **T-053a3 [todo] [S] Art blade:** textured additive Beam blade + core + grow-in + dissolve + dust, pooled; `Config.Fx.CrescentCut` with `look="Art"|"Classic"`. AC: check PASS.
+    - **T-053a3 [done S121, D-385] [S] Art blade:** textured additive Beam blade + core + grow-in + dissolve + dust, pooled; `Config.Fx.CrescentCut` with `look="Art"|"Classic"`. AC: check PASS.
     - **T-053a4 [todo] [S] Cast feel:** turn-to-aim, 3-phase swing, hand flash, FOV kick, sounds (owner: Gemini. Lyria tonal layers via `__gemini-web-search` + synthesised whoosh/thud, Creator Store fallback; plan §11.4, D-381; Higgsfield parked by owner D-382). AC: check PASS.
     - **T-053a5 [todo] [S] Hit/impact:** hit-sprite burst, pierce dim, world impact (`HitFx kind="world"`). AC: check PASS.
     - **T-053a6 [todo] [S] Owner playtest + tuning:** checklist plan §8. AC: owner OK.
