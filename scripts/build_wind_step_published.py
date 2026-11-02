@@ -52,6 +52,13 @@ def generated_source(studio, header):
     body = replace_once(body, '\t\tlease.stop()\n\tend\nend)', '\t\tlease.stop(true)\n\tend\nend)')
     body = replace_once(body, '\tfixtures:Destroy()', '\tif fixtures then fixtures:Destroy() end')
     body = replace_once(body, 'assert(fixtures.Parent == nil and #connections == 0', 'assert((fixtures == nil or fixtures.Parent == nil) and #connections == 0')
+    # The death/replacement probe stays Studio-only (D-367): published mocks/counts are unchanged.
+    probe_start = "-- Death/replacement probe (D-367)"
+    probe_end = "local replacement: any = runReplacement(ok)\n"
+    if body.count(probe_start) != 1 or body.count(probe_end) != 1:
+        raise ValueError("Studio replacement probe boundary drift")
+    body = (body.split(probe_start)[0] + "local replacement: any = nil -- published build gates the probe out (D-367)\n"
+            + body.split(probe_end)[1])
     # Return only after every independent cleanup attempt; transport owns encoding/export.
     end_marker = 'local result = Instance.new("StringValue")'
     if body.count(end_marker) != 1:

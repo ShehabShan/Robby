@@ -73,6 +73,22 @@ class IntakeTests(unittest.TestCase):
         self.assertEqual(result["passed"], 106)
         self.assertIn("death/original-root replacement", result["remaining"])
 
+    def test_replacement_probe_clears_gate_only_when_passing(self):
+        self.report["replacement"] = {"committed": True, "stopped": True, "framesToStop": 0,
+                                      "oldRootForce": False, "newRootClean": True}
+        self.report["replacementPassed"] = True
+        summarize(self.report)
+        result = intake.review(self.report, self.bundle)
+        self.assertNotIn("death/original-root replacement", result["remaining"])
+        self.assertFalse(result["dynamicsAccepted"])
+        self.report["replacementPassed"] = False
+        self.invalid()
+        self.report["replacement"]["framesToStop"] = 2
+        self.report["replacementPassed"] = True
+        self.invalid()
+        del self.report["replacementPassed"]
+        self.invalid()
+
     def test_missing_case_does_not_hide_behind_pass_counters(self):
         self.report["results"].pop()
         self.invalid()

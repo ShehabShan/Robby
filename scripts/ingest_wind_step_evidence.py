@@ -149,6 +149,9 @@ def review(report, manifest):
     for key in ("passed", "expected"):
         require(type(report.get(key)) is int and report[key] == computed[key], f"claimed {key} differs from policy")
     require(report["matrixPassed"] == computed["matrixPassed"], "claimed matrixPassed differs from policy")
+    require(("replacement" in report) == ("replacementPassed" in report), "replacement probe/verdict pairing")
+    require(report.get("replacementPassed") == computed.get("replacementPassed"),
+            "claimed replacementPassed differs from policy")
     require(report.get("remaining") == computed["remaining"], "missing/changed outstanding gates")
     require(computed["dynamicsAccepted"] is False, "policy unexpectedly accepted dynamics")
     return {"status": "FIRST_SLICE_REPORTED_PASS" if computed["matrixPassed"] else "BLOCKED_OR_FAILED",

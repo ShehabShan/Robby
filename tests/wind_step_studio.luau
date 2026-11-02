@@ -314,6 +314,26 @@ test("death/replacement probe policy (D-366)", function()
 		assert(not Evidence.replacement(p), tostring(frames))
 	end
 end)
+test("replacement probe attaches without touching the 106 matrix (D-367)", function()
+	local function report()
+		return {
+			passed = 106,
+			expected = 106,
+			matrixPassed = true,
+			remaining = { "death/original-root replacement", "x" },
+		}
+	end
+	local r = Evidence.attach(report(), nil)
+	assert(r.replacement == nil and r.replacementPassed == nil and #r.remaining == 2)
+	local good = { committed = true, stopped = true, framesToStop = 0, oldRootForce = false, newRootClean = true }
+	r = Evidence.attach(report(), good)
+	assert(r.replacementPassed == true and #r.remaining == 1 and r.remaining[1] == "x")
+	assert(r.passed == 106 and r.expected == 106 and r.matrixPassed == true)
+	local bad = table.clone(good)
+	bad.oldRootForce = true
+	r = Evidence.attach(report(), bad)
+	assert(r.replacementPassed == false and #r.remaining == 2)
+end)
 local isolated = roblox.deserializePlace(fs.readFile("build/WindStepTest.rbxl"))
 local default = roblox.deserializePlace(fs.readFile("build/Robby.rbxl"))
 test("isolated build disabled, actual source exact; no gameplay startup or client", function()

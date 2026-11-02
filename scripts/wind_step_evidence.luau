@@ -6,6 +6,7 @@ local Evidence = require("../tests/studio/WindStepEvidence")
 local report = serde.decode("json", fs.readFile(process.args[1]))
 local calculated = Evidence.finish(report.environment, report.results, report.cleanup)
 calculated.matrixPassed = calculated.matrixPassed and report.runCompleted == true
+Evidence.attach(calculated, report.replacement)
 local failed = {}
 for _, row in report.results do
 	if not Evidence.accept(row) then
@@ -18,5 +19,6 @@ print(serde.encode("json", {
 	matrixPassed = calculated.matrixPassed,
 	dynamicsAccepted = calculated.dynamicsAccepted,
 	remaining = calculated.remaining,
+	replacementPassed = calculated.replacementPassed,
 	failed = failed,
 }))

@@ -139,4 +139,23 @@ function Evidence.finish(environment: any, rows: { any }, cleanup: boolean): any
 		},
 	}
 end
+-- Attach the death/replacement probe (D-367) to a finished report. No probe (the published build gates it
+-- out): report unchanged. The gate leaves `remaining` only when the probe passes; 106-case counts untouched.
+function Evidence.attach(report: any, probe: any): any
+	if probe == nil then
+		return report
+	end
+	report.replacement = probe
+	report.replacementPassed = Evidence.replacement(probe)
+	if report.replacementPassed then
+		local kept = {}
+		for _, gate in report.remaining do
+			if gate ~= "death/original-root replacement" then
+				table.insert(kept, gate)
+			end
+		end
+		report.remaining = kept
+	end
+	return report
+end
 return Evidence

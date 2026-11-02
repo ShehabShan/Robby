@@ -285,6 +285,80 @@ local ok, failure = xpcall(function()
 		runCase("lifetime-" .. i, "travel", if i % 2 == 0 then "auto" else "player")
 	end
 end, debug.traceback)
+-- Death/replacement probe (D-367), outside the 106-case matrix: replace the character mid-dash, count
+-- simulation frames until the lease stops, and check both roots for leftover WindStep force.
+local function runReplacement(matrixOk: boolean): any
+	if not matrixOk then
+		return nil
+	end
+	local probe: any = {
+		committed = false,
+		stopped = false,
+		framesToStop = -1,
+		oldRootForce = true,
+		newRootClean = false,
+	}
+	local done, err = pcall(function()
+		disconnect()
+		root:SetNetworkOwner(nil)
+		character:PivotTo(CFrame.new(0, 8, 0))
+		root.AssemblyLinearVelocity, root.AssemblyAngularVelocity = Vector3.zero, Vector3.zero
+		waitUntil(function()
+			return humanoid.FloorMaterial ~= Enum.Material.Air and math.abs(root.AssemblyLinearVelocity.Y) < 0.5
+		end, 3)
+		lease = Driver.prepare(player, Motion.PROPOSED, Vector3.xAxis, function(_phase: string, _dt: number) end)
+		assert(lease, "replacement prepare refused")
+		probe.committed = lease.commit(workspace:GetServerTimeNow()) == true
+		assert(probe.committed, "replacement commit refused")
+		waitUntil(function()
+			return root:FindFirstChild("WindStepVelocity") ~= nil
+		end, 1)
+		local oldCharacter, oldRoot = character, root
+		local removing, frames, oldForce = false, 0, nil
+		table.insert(
+			connections,
+			player.CharacterRemoving:Connect(function()
+				removing = true
+			end)
+		)
+		table.insert(
+			connections,
+			RunService.PostSimulation:Connect(function()
+				if not removing then
+					return
+				elseif lease.active() then
+					frames += 1
+				elseif oldForce == nil then
+					oldForce = oldRoot:FindFirstChild("WindStepVelocity") ~= nil
+				end
+			end)
+		)
+		player:LoadCharacter()
+		waitUntil(function()
+			local next = player.Character
+			return next ~= nil and next ~= oldCharacter and next:FindFirstChild("HumanoidRootPart") ~= nil
+		end, 5)
+		waitUntil(function()
+			return not lease.active() and oldForce ~= nil
+		end, 1)
+		probe.stopped, probe.framesToStop = not lease.active(), frames
+		probe.oldRootForce = oldForce == true or oldRoot:FindFirstChild("WindStepVelocity") ~= nil
+		probe.oldRootRemoved = not oldRoot:IsDescendantOf(workspace)
+		character = player.Character
+		root = character:FindFirstChild("HumanoidRootPart")
+		humanoid = character:FindFirstChildOfClass("Humanoid")
+		probe.newRootClean = cleanRoot()
+		disconnect()
+		lease.stop()
+		lease = nil
+	end)
+	if not done then
+		probe.error = tostring(err)
+	end
+	print("WIND_STEP_REPLACEMENT " .. HttpService:JSONEncode(probe))
+	return probe
+end
+local replacement: any = runReplacement(ok)
 -- Independent releases; failure in one must not skip another.
 local cleanup = true
 local function release(fn)
@@ -331,6 +405,7 @@ local report = Evidence.finish(environment, rows, cleanup)
 report.matrixPassed = report.matrixPassed and ok
 report.runCompleted = ok
 report.error = if ok then nil else tostring(failure)
+Evidence.attach(report, replacement)
 local result = Instance.new("StringValue")
 result.Name = "WindStepEvidence"
 result.Value = HttpService:JSONEncode(report)

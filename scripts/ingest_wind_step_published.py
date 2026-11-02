@@ -86,6 +86,8 @@ def review_report(report, manifest, target):
     """Shared bounded report/policy checks; callers must validate their artifact route."""
     require(len(json.dumps(report, allow_nan=False).encode()) <= MAX_REPORT, "report exceeds byte limit")
     require(type(report) is dict and report.get("kind") == "WindStep isolated published dynamics", "bad report kind")
+    require("replacement" not in report and "replacementPassed" not in report,
+            "published build has no replacement probe (D-367)")
     missing = common.validate_common_report(report, manifest)
     require(type(report.get("target")) is dict and set(report["target"]) == set(target), "bad report target")
     for key, value in target.items():
