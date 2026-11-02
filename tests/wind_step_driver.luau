@@ -53,7 +53,8 @@ local function fixture()
 	end
 	local players, world = {}, {}
 	local player = { Parent = players, CharacterRemoving = signal("remove") }
-	local humanoid = { Health = 100, Sit = false, state = "Running", Died = signal("death") }
+	local humanoid =
+		{ Health = 100, Sit = false, state = "Running", Died = signal("death"), FloorMaterial = "Air", HipHeight = 2 }
 	function humanoid:GetState()
 		return { Name = self.state }
 	end
@@ -147,10 +148,17 @@ local function fixture()
 		table.insert(f.casts, { cf = cf, size = size, direction = direction, params = params })
 		return if f.clearance then { Distance = f.clearance } else nil
 	end
-	function world:Raycast(_origin, direction, params)
+	function world:Raycast(origin, direction, params)
 		f.groundCasts = (f.groundCasts or 0) + 1
 		assert(direction.X == 0 and direction.Z == 0 and direction.Y < 0 and params.FilterType == "Exclude")
-		return if f.ground then { Distance = f.ground } else nil
+		if f.failGround then
+			error("ground query failed")
+		end
+		return if f.ground
+				and f.ground <= -direction.Y
+				and (not f.edge or origin.X < f.edge)
+			then { Distance = f.ground, Normal = f.normal or V.yAxis }
+			else nil
 	end
 	local run = { PreSimulation = signal("pre"), PostSimulation = signal("post") }
 	local services = { Players = players, RunService = run, ReplicatedStorage = { Shared = { WindStep = "motion" } } }
@@ -158,7 +166,7 @@ local function fixture()
 		Material = { Water = "Water", Air = "Air" },
 		RaycastFilterType = { Exclude = "Exclude", Include = "Include" },
 		ActuatorRelativeTo = { World = "World" },
-		VelocityConstraintMode = { Plane = "Plane" },
+		VelocityConstraintMode = { Plane = "Plane", Vector = "Vector" },
 		ForceLimitMode = { PerAxis = "PerAxis" },
 	}
 	local function instance(kind)
@@ -250,7 +258,13 @@ local function fixture()
 		if self.force and self.force.Enabled then
 			-- Ideal target velocity integration only: not real friction, acceleration or collision.
 			local v = self.force.PlaneVelocity
-			root.AssemblyLinearVelocity = V.new(v.X, root.AssemblyLinearVelocity.Y, v.Y)
+			local vy = root.AssemblyLinearVelocity.Y
+			if self.force.VelocityConstraintMode == "Vector" then
+				local target = self.force.VectorVelocity.Y
+				local limit = self.force.MaxAxesForce.Y / root.AssemblyMass * dt
+				vy += math.clamp(target - vy, -limit, limit)
+			end
+			root.AssemblyLinearVelocity = V.new(v.X, vy, v.Y)
 			root.CFrame += V.new(v.X * dt, 0, v.Y * dt)
 		end
 		self.now += clockDt or dt
@@ -939,6 +953,99 @@ local cases = {
 			f:clean()
 		end
 		assert(#f.ownership == 200)
+	end,
+	["version6 synthetic within-step disturbance needs solver-time support"] = function()
+		local row =
+			require("@lune/serde").decode("json", fs.readFile("tests/fixtures/wind-step-version6-travel.json")).row
+		for _, useSupport in { false, true } do
+			local f = fixture()
+			f.humanoid.FloorMaterial, f.humanoid.HipHeight, f.ground = "Plastic", 2, 3
+			local l = f:start()
+			local dip, simulated = 0, 0
+			for _, sample in row.samples do
+				if not l.active() then
+					break
+				end
+				f.now = 100 + simulated
+				f.run.PreSimulation:Fire(sample.dt)
+				-- Inject measured post-step Y velocity as an external disturbance after Pre.
+				-- Deliberately synthetic; NOT a reconstruction of Humanoid/contact dynamics.
+				local vy = sample.vy
+				if useSupport and f.force.VelocityConstraintMode == "Vector" then
+					local limit = f.force.MaxAxesForce.Y / f.root.AssemblyMass * sample.dt
+					vy += math.clamp(-vy, -limit, limit)
+				end
+				f.root.AssemblyLinearVelocity = V.new(f.force.PlaneVelocity.X, vy, 0)
+				f.root.CFrame += f.root.AssemblyLinearVelocity * sample.dt
+				dip = math.max(dip, 5 - f.root.CFrame.Y)
+				simulated += sample.dt
+				f.now = 100 + simulated
+				f.run.PostSimulation:Fire(sample.dt)
+			end
+			if useSupport then
+				assert(dip <= 0.2 and f.root.CFrame.X >= 13)
+			else
+				assert(dip > 0.2, "one-shot Pre reset cannot bound post-step dip")
+			end
+			l.stop()
+			f:clean()
+		end
+	end,
+	["support releases for endpoint ledges upward launches steep or missing ground and query failure"] = function()
+		for _, mode in { "edge", "up", "steep", "far", "error" } do
+			local f = fixture()
+			f.humanoid.FloorMaterial, f.humanoid.HipHeight, f.ground = "Plastic", 2, 3
+			local l = f:start()
+			f:tick(0.02)
+			assert(f.force.VelocityConstraintMode == "Vector")
+			if mode == "edge" then
+				f.edge = f.root.CFrame.X + 0.5
+			elseif mode == "up" then
+				f.root.AssemblyLinearVelocity = V.new(70, 8, 0)
+			elseif mode == "steep" then
+				f.normal = V.new(1, 0.5, 0)
+			elseif mode == "far" then
+				f.ground = 4
+			else
+				f.failGround = true
+			end
+			f:tick(0.02)
+			if mode == "error" then
+				assert(not l.active())
+			else
+				assert(f.force.VelocityConstraintMode == "Plane")
+				if mode == "up" then
+					near(f.root.AssemblyLinearVelocity.Y, 8)
+				end
+				f.edge, f.normal, f.ground = nil, nil, 3
+				f:tick(0.02)
+				assert(f.force.VelocityConstraintMode == "Plane", "must not recapture airborne Y")
+			end
+			l.stop(true)
+			f:clean()
+		end
+	end,
+	["supported force remains bounded and cleans up on death replacement and 100 turnovers"] = function()
+		for _, mode in { "death", "replace", "cancel" } do
+			local f = fixture()
+			f.humanoid.FloorMaterial, f.humanoid.HipHeight, f.ground = "Plastic", 2, 3
+			for _ = 1, (if mode == "cancel" then 100 else 1) do
+				local l = f:start()
+				f:tick(1 / 60)
+				assert(f.force.VelocityConstraintMode == "Vector")
+				assert(f.force.MaxAxesForce == V.new(60000, 12000, 60000))
+				assert(f.force.VectorVelocity.Y == 0 and f.force.ForceLimitsEnabled)
+				if mode == "death" then
+					f.humanoid.Died:Fire()
+				elseif mode == "replace" then
+					f.player.CharacterRemoving:Fire(f.character)
+				else
+					l.stop(true)
+				end
+				assert(not l.active())
+				f:clean()
+			end
+		end
 	end,
 	["grounded dash holds Y on floor, not past a ledge or from air (D-368)"] = function()
 		for _, entry in { { "Plastic", 3, 0 }, { "Plastic", nil, -9 }, { "Air", 3, -9 } } do

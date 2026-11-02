@@ -86,17 +86,29 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3, observe: (
 	local pending, finishAfter, applied, pendingSpeed = false, false, 0, 0
 	local pendingDt = 0
 	local axis = Vector3.new(dx, 0, dz)
-	-- Grounded dashes hold height (D-368): at dash speed the Humanoid briefly loses footing and the root
-	-- dipped ~0.6 studs. Hold only while ground is within leg reach, so ledges and airborne dashes fall.
+	-- Solver-time support, not a one-shot velocity reset (D-370). Restrict to
+	-- initially grounded dashes with walkable ground under BOTH ends of this step.
+	-- A ledge, upward launch or lost support releases Y for the rest of the dash.
 	local holdY = false
-	local function holdVertical()
-		pcall(function()
-			local velocity = root.AssemblyLinearVelocity
-			local reach = Vector3.new(0, -(size.Y / 2 + humanoid.HipHeight + 0.6), 0)
-			if velocity.Y < 0 and workspace:Raycast(root.CFrame.Position, reach, ray) then
-				root.AssemblyLinearVelocity = Vector3.new(velocity.X, 0, velocity.Z)
+	local function supported(distance: number): boolean
+		if not holdY then
+			return false
+		end
+		local velocity = root.AssemblyLinearVelocity
+		local height = humanoid.HipHeight
+		if not finite(height) or height < 0 or velocity.Y > 0.5 then
+			holdY = false
+			return false
+		end
+		local reach = Vector3.new(0, -(size.Y / 2 + height + 0.6), 0)
+		for _, position in { root.CFrame.Position, root.CFrame.Position + axis * distance } do
+			local hit = workspace:Raycast(position, reach, ray)
+			if not hit or hit.Normal.Y < 0.7 then
+				holdY = false
+				return false
 			end
-		end)
+		end
+		return true
 	end
 	local lease: Lease
 	local function stop(keepVelocity: boolean?)
@@ -213,10 +225,13 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3, observe: (
 			end
 			local actuator = force :: LinearVelocity
 			actuator.PlaneVelocity = Vector2.new(dx * speed, dz * speed)
-			actuator.Enabled = true
-			if holdY then
-				holdVertical()
+			if supported(allowed) then
+				actuator.VelocityConstraintMode = Enum.VelocityConstraintMode.Vector
+				actuator.VectorVelocity = axis * speed
+			else
+				actuator.VelocityConstraintMode = Enum.VelocityConstraintMode.Plane
 			end
+			actuator.Enabled = true
 			pendingSpeed, pending, finishAfter = speed, true, terminal or blocked
 			covered = elapsed + dt
 			pendingDt = dt
@@ -315,6 +330,7 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3, observe: (
 		v.ForceLimitsEnabled = true
 		v.ForceLimitMode = Enum.ForceLimitMode.PerAxis
 		v.MaxPlanarAxesForce = Vector2.new(mass * 6000, mass * 6000)
+		v.MaxAxesForce = Vector3.new(mass * 6000, mass * 1200, mass * 6000)
 		v.PlaneVelocity = Vector2.zero
 		v.Parent = root
 		table.insert(connections, RunService.PreSimulation:Connect(before))

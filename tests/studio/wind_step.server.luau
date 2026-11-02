@@ -149,6 +149,7 @@ local function runCase(name: string, kind: string, mode: string)
 	}
 	table.insert(rows, row) -- preserve failing/partial cases on every error path
 	local preY, forceApplied = 0, false
+	local supportApplied, preFloor, preState, preClock = false, "", "", 0
 	local pendingDt: number? = nil
 	local function observe(callback)
 		return function(...)
@@ -171,10 +172,13 @@ local function runCase(name: string, kind: string, mode: string)
 			row.phaseOK = false
 		end
 		pendingDt, preY = dt, root.AssemblyLinearVelocity.Y
+		preFloor, preState = tostring(humanoid.FloorMaterial), humanoid:GetState().Name
+		preClock = workspace:GetServerTimeNow()
 		row.minDt, row.maxDt = if row.minDt == 0 then dt else math.min(row.minDt, dt), math.max(row.maxDt, dt)
 		local force = root:FindFirstChild("WindStepVelocity")
 		if force and force.Enabled then
-			row.lastSpeed = force.PlaneVelocity.X
+			supportApplied = force.VelocityConstraintMode == Enum.VelocityConstraintMode.Vector
+			row.lastSpeed = if supportApplied then force.VectorVelocity.X else force.PlaneVelocity.X
 			row.commandedDistance += row.lastSpeed * dt
 		end
 		forceApplied = force ~= nil and force.Enabled
@@ -214,6 +218,11 @@ local function runCase(name: string, kind: string, mode: string)
 				vy = root.AssemblyLinearVelocity.Y,
 				applied = forceApplied,
 				commandSpeed = row.lastSpeed,
+				supportApplied = supportApplied,
+				preVy = preY,
+				preFloor = preFloor,
+				preState = preState,
+				preClock = preClock,
 			})
 		end
 		if kind == "cancel" and row.pairs == 3 then

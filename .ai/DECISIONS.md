@@ -583,3 +583,6 @@ T-046a delivers existing S105 phase-observation repair as an independently pinne
 
 ### D-369 — T-050a simulation-owned profile, wall freshness only (S114, 2026-11-02)
 - Owner v6 braking speeds imply a latched6.105ms lead: old max clock skips0.427stud. Pair-owned simulation dt now drives profile; >50ms wall lead stops instead of catching up. Reversal/gap/duplicate protections remain. Original samples + red/green regression retained; no physical/vertical acceptance inferred. See research/notes/T-050-version6-diagnosis.md.
+
+### D-370 — T-050b grounded solver-time support, not Pre velocity reset (S114, 2026-11-02)
+- Existing actuator switches to bounded Vector Y0 only for initially grounded, current+endpoint walkable support. Upward launch, ledge or lost/steep support releases Y for rest of dash; ray errors stop. No position snap or airborne Y control.39 driver groups + synthetic owner disturbance; optional support/pre-state/timestamp trace. Exact version6 vertical trigger remains unknown; this candidate requires fresh Roblox test, no tolerance relaxation. See T-050-version6-diagnosis.md.
