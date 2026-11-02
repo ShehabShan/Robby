@@ -1,5 +1,9 @@
 # STATE
 
+## Now — after S121 (2026-11-03, bot d0d13a30)
+- **Crescent Cut rework (T-053a) code done except sounds: a1 free 3D aim (D-383), a2 art uploaded + `Shared.AssetIds` (D-384), a3 art blade (D-385), a5 hit/impact (D-386) done; a4 cast feel partial (D-387, sounds + blade-from-hand blend open). NEXT: T-053a4 sounds (D-381 Gemini plan), then T-053a6 owner playtest (plan §8)**, then T-053b, T-053c.
+- Merged to main (529debf). CHECK PASS; cloud test PASS on Saved version 31 (665/665 specs). Art, aim and feel are not yet seen by a person in-engine; watch turn-to-aim vs AutoRotate and Decal ids as textures (`look = "Classic"` in `Config.Fx.CrescentCut` is the fallback).
+
 ## Now — after S120 (2026-11-02, bot d039233e)
 - **Owner priority: Crescent Kith Rank 1–3. T-053a PLANNED + APPROVED (`research/notes/T-053a-plan.md`, D-380, D-381 sounds via Gemini Lyria); NEXT: build T-053a1 (free 3D aim) → a2…a6**, then T-053b (Twin Crescent "Scissor", Z), then T-053c (Full Moon Ring, X). T-052 (rank-up conditions + power scaling) is DEFERRED — requirements only, build later when the owner asks (D-379). Rimeshard (T-043) and Wind Step (T-051) wait.
 - Owner messages verbatim: `research/inbox/2026-11-02-crescent-ranks-and-kith-scaling.md`. Decisions D-375–D-378. No code changed. CHECK not run (docs only).
