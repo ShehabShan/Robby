@@ -688,6 +688,57 @@ local cases = {
 		assert(f.root.CFrame.X < 14 and not l.active())
 		f:clean()
 	end,
+	["version6 observed command deficit is reproduced by latched 6.105ms clock lead"] = function()
+		local report =
+			require("@lune/serde").decode("json", fs.readFile("tests/fixtures/wind-step-version6-travel.json")).row
+		local f = fixture()
+		local l = f:start()
+		local simulated, commanded = 0, 0
+		-- The report lacks PreSimulation timestamps. Infer phase from braking speed, not post t.
+		-- This is one compatible clock schedule, NOT a claim to recover unsampled engine events.
+		local brake = report.samples[11]
+		local phase = 0.16 + (70 - brake.commandSpeed) / 875 - brake.dt / 2
+		local lead = phase - 10 / 60
+		local oldCovered, oldTotal = 0, 0
+		local profile = assert(Motion.profile(Motion.PROPOSED))
+		for i, sample in report.samples do
+			local now = simulated + (if i >= 3 then lead else 0)
+			local elapsed = math.max(oldCovered, now)
+			oldTotal += Motion.forward(profile, elapsed, sample.dt, nil)
+			oldCovered = elapsed + sample.dt
+			if l.active() then
+				f.now = 100 + now
+				f:tick(sample.dt)
+			end
+			simulated += sample.dt
+		end
+		near(oldTotal, report.commandedDistance)
+		commanded = f.root.CFrame.X
+		near(commanded, 14)
+		local measuredStartLoss = report.samples[1].commandSpeed * report.samples[1].dt - report.samples[1].x
+		assert(commanded - measuredStartLoss >= 13, "observed launch lag still exceeds unchanged travel margin")
+		assert(not l.active())
+		f:clean()
+	end,
+	["bounded wall jitter neither skips nor replays the simulation budget"] = function()
+		for _, offset in { -0.0062, 0.0062 } do
+			local f = fixture()
+			local l = f:start()
+			local simulated = 0
+			for i = 1, 30 do
+				if not l.active() then
+					break
+				end
+				local dt = if i % 2 == 0 then 1 / 80 else 1 / 48
+				f.now = 100 + simulated + (if i % 2 == 0 then offset else 0)
+				f:tick(dt)
+				simulated += dt
+			end
+			near(f.root.CFrame.X, 14)
+			assert(not l.active())
+			f:clean()
+		end
+	end,
 	["commit-to-first-step latency does not consume dash travel"] = function()
 		-- S106 version4: acceptance preceded the first PreSimulation by about one frame,
 		-- so profile time ran ahead of applied steps and commanded only 12.70 of 14 studs.

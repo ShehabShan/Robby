@@ -580,3 +580,6 @@ T-046a delivers existing S105 phase-observation repair as an independently pinne
 - **D-368 (S113):** Mid-dash Y dip fix: if the Humanoid was grounded at the first driven step, each PreSimulation zeroes negative root Y velocity while a downward raycast finds ground within root half-height + HipHeight + 0.6. Ledges and airborne dashes keep gravity. Needs real Studio confirmation.
 
 - 2026-11-02 (A-001, S114): images are generated with PromptQL's built-in Gemini `gemini-3-pro-image` (owner: Ludo.ai much worse). See assets/PROMPTS.md.
+
+### D-369 — T-050a simulation-owned profile, wall freshness only (S114, 2026-11-02)
+- Owner v6 braking speeds imply a latched6.105ms lead: old max clock skips0.427stud. Pair-owned simulation dt now drives profile; >50ms wall lead stops instead of catching up. Reversal/gap/duplicate protections remain. Original samples + red/green regression retained; no physical/vertical acceptance inferred. See research/notes/T-050-version6-diagnosis.md.

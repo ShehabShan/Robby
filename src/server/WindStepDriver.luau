@@ -191,9 +191,14 @@ function Driver.prepare(player: Player, raw: any, direction: Vector3, observe: (
 				end)
 				holdY = sampled and grounded == true
 			end
-			-- Never re-spend an interval if server time stalls; never catch up when
-			-- wall time runs ahead. Single-use Pre/Post pairing owns simulation time.
-			local elapsed = math.max(covered, now - started)
+			-- Simulation dt owns profile progress; a transient wall-clock lead must not
+			-- become a permanent skipped interval (version6: 6.105ms cost 0.427 studs).
+			-- Wall time remains a freshness watchdog, never a catch-up movement budget.
+			if now - started - covered > profile.maxFrame then
+				stop()
+				return
+			end
+			local elapsed = covered
 			local distance, _, terminal = Motion.forward(profile, elapsed, dt, nil)
 			if distance <= 0 or Clearance.occupied(root, size, overlap, terrain) then
 				stop()
