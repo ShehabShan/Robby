@@ -26,7 +26,9 @@ Start here in the fresh diagnosis session. Owner report, verbatim: `research/inb
 - Export `PATH="$HOME/.rokit/bin:$PATH"` before the transaction or staging.
 - Precheck without `--execute-reviewed-owner-publication`. `main()` hides the error text, so call `transact()` directly to see it.
 - The review attestation from the S106 declaration expires 2026-11-02T17:15:39Z. A later publish needs a fresh owner permission declaration.
-- Parallel art sessions (assets/ only) do not block a release (owner, 2026-11-02).## d2b2c commits / files (auto)
+- Parallel art sessions (assets/ only) do not block a release (owner, 2026-11-02).
+
+## d2b2c commits / files (auto)
 - 6f78705 T-043c0b4c3b2b2b2d2b2c: grounded Wind Step holds Y while ground within leg reach (D-368)
      src/server/WindStepDriver.luau | 19 +++++++++++++++++++
      1 file changed, 19 insertions(+)
