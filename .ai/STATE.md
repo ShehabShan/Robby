@@ -1,7 +1,7 @@
 # STATE
 
 ## Now — after S116 (2026-11-02, bot ed1828b3)
-- **Phase3 building; NEXT T-051a FIRST (owner request): Wind Step play-mode TEST build (no blocking panel, R dash via WindStepDriver), then T-051 (S-sized): Wind Step remaining gates** — death/original-root replacement, supported rate variation + final-partial analysis, device/owner feel (separate). Resume research/notes/T-050e-version7-intake.md.
+- **Phase3 building; NEXT T-051a FIRST (owner request, confirmed Yes 2026-11-02 15:58Z): Wind Step play-mode TEST build (no blocking panel, R dash via WindStepDriver), then T-051 (S-sized): Wind Step remaining gates** — death/original-root replacement, supported rate variation + final-partial analysis, device/owner feel (separate). Resume research/notes/T-050e-version7-intake.md.
 - T-050 done: TEST version7 (main 66fcf98) owner report 106/106 in published server, bound RELEASE_REPORT_BOUND_ONLY (receipt e569f5c7…) after intake floored-second fix D-372. Not serving/byte/feel acceptance; dynamicsAccepted stays false. Consent 6662e92e consumed; do not republish unchanged version7.
 - CHECK PASS. Older NEXT blocks below are historical.
 
