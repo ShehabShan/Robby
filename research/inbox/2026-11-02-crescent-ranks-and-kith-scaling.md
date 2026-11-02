@@ -41,3 +41,6 @@ For rank 2 and rank 3 kith ability, i choose the one you pick.
 - Rank 2 Twin Crescent ability = "Scissor": a blue and a gold blade launch from the left and right, curve inward and cross at the target in an X with a white flash (matches icon-twin-crescent.png).
 - Rank 3 ability = "Full Moon Ring": four crescents join into a ring around the player, then burst outward (area hit). Working Kith name "Full Moon Kith" (not final).
 - Bot finding (code check): the server flattens every Projectile aim to Y = 0 (`src/server/Abilities.luau` ~line 621 `Vector3.new(x, 0, z)`), so blades always fly level; free 3D aim is possible with server validation.
+
+## Message 4 (23:56 +06)
+We will build rank-up conditions, the power scalling system later. For now the next session should start working on Crescent R1 then R2 and the R3. I told you all this rank up, power scale system etc so you can records it in repo so when we start building it, we follow this requirement

@@ -1,7 +1,7 @@
 # STATE
 
 ## Now — after S120 (2026-11-02, bot d039233e)
-- **Owner priority changed: Kith rank-up system + Crescent Kith Rank 1–3. NEXT T-052a** (rank-up rule design), then T-052b/c (conditions, power scaling), owner approval, then T-053a (Crescent Cut rework + free 3D aim). Rimeshard (T-043) and Wind Step (T-051) wait.
+- **Owner priority: Crescent Kith Rank 1–3. NEXT T-053a** (Crescent Cut feel/look rework + free 3D aim), then T-053b (Twin Crescent "Scissor", Z), then T-053c (Full Moon Ring, X). T-052 (rank-up conditions + power scaling) is DEFERRED — requirements only, build later when the owner asks (D-379). Rimeshard (T-043) and Wind Step (T-051) wait.
 - Owner messages verbatim: `research/inbox/2026-11-02-crescent-ranks-and-kith-scaling.md`. Decisions D-375–D-378. No code changed. CHECK not run (docs only).
 
 ## Now — owner decision 2026-11-02T16:43:40Z
