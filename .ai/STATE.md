@@ -1,5 +1,10 @@
 # STATE
 
+## Now — after S117 (2026-11-02, bot 065f4ba4)
+- **Phase3 building; NEXT T-051a2: owner exact-byte Yes on the play-mode card, then existing one-shot TEST publish, then owner presses R by hand and reports feel. Then T-051** (Wind Step remaining gates: death/root replacement, rate variation/final partial, device/owner feel).
+- T-051a1 done (D-373): play build `wind-step-play.project.json` — R / ButtonX / touch Dash -> server gate WindStepPlay (1.2 s cooldown, 4 req/s) -> WindStepDriver; no test panel. Staging + transaction wiring done (D-374). Steps: `research/notes/T-051a-play-stage.md`.
+- Exact-byte card is generated AFTER this last main save and hosted on bot 065f4ba4; only its pins count. CHECK PASS.
+
 ## Now — after S116 (2026-11-02, bot ed1828b3)
 - **Phase3 building; NEXT T-051a FIRST (owner request, confirmed Yes 2026-11-02 15:58Z): Wind Step play-mode TEST build (no blocking panel, R dash via WindStepDriver), then T-051 (S-sized): Wind Step remaining gates** — death/original-root replacement, supported rate variation + final-partial analysis, device/owner feel (separate). Resume research/notes/T-050e-version7-intake.md.
 - T-050 done: TEST version7 (main 66fcf98) owner report 106/106 in published server, bound RELEASE_REPORT_BOUND_ONLY (receipt e569f5c7…) after intake floored-second fix D-372. Not serving/byte/feel acceptance; dynamicsAccepted stays false. Consent 6662e92e consumed; do not republish unchanged version7.
