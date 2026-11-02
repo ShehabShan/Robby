@@ -116,6 +116,20 @@ Owner: "I go with your recommendations. But want to add for point 4. I think pro
 1. Blade **stops on walls/ground** (`stopOnWorld = true`) with an impact FX.
 2. Pitch clamp **±70°**.
 3. Kith model visible beside the player: **later, separate task** (all Kith).
-4. **Sounds (bot decision):** primary = **AI-generated SFX through PromptQL's managed Higgsfield integration** (`__higgsfield`, image/video/audio generation; reachable from the VM, S120 probe got an API 404 for a dummy request id, so it is provisioned). Each submit costs OLU and needs approval; always poll to a terminal status; never blind-retry a submit. Generate 2–3 variants per sound (cast whoosh+moon ring, travel hum, target hit slice/chime, ground thud), pick the best, trim and normalise them (ffmpeg), store originals in `assets/source/sfx-crescent-*.ogg`, and upload them as Roblox Audio through Open Cloud. **Fallback** if the model or terms don't fit or upload is refused: free Roblox Creator Store sounds. Check the output licence terms before shipping. The work moves into T-053a4, with a first step to read the Higgsfield API reference for the audio model path and parameters.
+4. **Sounds: owner wants Google Gemini models (2026-11-03 00:14 +06, D-381; replaces the Higgsfield idea).** Access goes through the managed integration `__gemini-web-search` (a general Gemini API key; `__gemini` and `__gemini-search` are not enabled). Models probed in S120 with `GET generativelanguage.googleapis.com/v1beta/models`:
+   - **Lyria** (music): `lyria-3-clip-preview` (30 s clips), `lyria-3-pro-preview`, `lyria-3.5`, all through `generateContent`. Also `lyria-realtime-exp` (bidi stream).
+   - **TTS** (speech only): `gemini-3.8-flash-tts` and others.
+   - **Native-audio and live** models (bidi conversation).
+   - None of them is a dedicated sound-effect model.
+
+   **S120 test:** a whoosh prompt to `lyria-3-clip-preview` returned a 30.5 s `audio/mpeg` clip. It is *musical* and quiet for the first ~1 s, with a part labelled `<instrumental>`. The bot artifacts `lyria_whoosh` and `lyria_whoosh_first3s` (in bot d039233e) hold it for the owner to listen to.
+
+   **Approach for T-053a4:**
+   - **Lyria makes the tonal "moon" layers:** a cast ring/shimmer, a hit chime, a rank-flavour stinger. Prompt for very short, sparse, single-hit tones, then cut the best 0.2–1.0 s slice with ffmpeg (trim, fade, loudness-normalise).
+   - **Non-tonal layers** (air whoosh, slice transient, ground thud) are synthesised with ffmpeg or numpy (filtered noise sweeps, pitch envelopes), then layered with the Lyria tone.
+   - Make 2–3 variants per sound for the owner to pick.
+   - Store under `assets/source/sfx-crescent-*.ogg` and upload to Roblox as Audio through Open Cloud.
+   - Creator Store remains the last-resort fallback.
+   - Cost: each Lyria call costs OLU and goes through approval.
 5. Playtest in the **private TEST place** (like Wind Step).
 6. The playtest **may tune speed and range**.

@@ -47,3 +47,6 @@ We will build rank-up conditions, the power scalling system later. For now the n
 
 ## Message 6 (2026-11-03 00:11 +06, reply to T-053a plan questions)
 I go with your recommendations. But want to add for point 4. I think promptql has in-build access of few good audio model which we can use for better sound effect. But you decide which to use for now.
+
+## Message 7 (2026-11-03 00:14 +06)
+Not higgsfield but gimini. Check, i want to  use gemini model for it.
