@@ -1,6 +1,7 @@
 # STATE
 
 ## Now — after S113 (2026-11-02)
+- **NEXT = T-050** (fresh session, owner 2026-11-02): diagnose/repair version6 travel-auto failure. Start with research/notes/T-050-version6-handoff.md.
 - **Version6 owner report (2026-11-02 14:26Z, research/inbox/2026-11-02-version6-test-report.md):** FAIL 0/106, stopped at first case travel-auto: 12.963 actual / 13.573 commanded (<13 minimum); maxYDip 0.510 (vy ~-7.7 from x~7.5). Version5 passed 106/106 (13.533). Likely cause: d2b2c grounded-dash change (only runtime change since version5) did not remove the dip and cost distance. NEXT: diagnose d2b2c offline vs these samples, no republish until fixed + new exact-byte approval.
 - **T-049 (2026-11-02 14:16Z):** isolated test place published, HISTORY_CONFIRMED **version6** from main ea5e7e8 (owner exact-byte Yes 14:12:09Z). Consent consumed, no retry; production untouched. Evidence: research/notes/T-049-release-result.md.
 - **NEXT:** owner fresh Start/report on version6 (https://www.roblox.com/games/121111456135560/); save verbatim, existing intake binds it to version6, then d2b2 (dip/death/rates). Do not republish unchanged version6. Supersedes older version4/5 NEXT lines below.
