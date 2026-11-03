@@ -21,6 +21,10 @@ export type Tuning = {
 	staminaRegen: number,
 	regenDelay: number,
 	exhaustedResume: number,
+	landMinFall: number,
+	landRecoverPerSpeed: number,
+	landRecoverMax: number,
+	landSpeedMult: number,
 }
 
 export type State = {
@@ -29,6 +33,7 @@ export type State = {
 	stamina: number,
 	regenWait: number,
 	exhausted: boolean,
+	recover: number?, -- seconds of landing recovery left (T-058g)
 }
 
 export type Input = {
@@ -37,6 +42,7 @@ export type Input = {
 	moving: boolean,
 	grounded: boolean,
 	turnAngle: number, -- degrees between wanted direction and current velocity (0..180)
+	landedFall: number?, -- downward speed (studs/s) at touchdown this frame (T-058g)
 }
 
 function Movement.new(t: Tuning): State
@@ -88,6 +94,15 @@ function Movement.turnRate(t: Tuning, speed: number): number
 	return t.turnRateJog + (t.turnRateSprint - t.turnRateJog) * k
 end
 
+-- Landing recovery (T-058g, D-430): seconds of slowed movement after touching down at `fallSpeed`.
+-- Small hops give none; harder falls give more, capped at landRecoverMax.
+function Movement.landRecovery(t: Tuning, fallSpeed: number): number
+	if fallSpeed ~= fallSpeed or fallSpeed < t.landMinFall then
+		return 0
+	end
+	return math.min((fallSpeed - t.landMinFall) * t.landRecoverPerSpeed + 0.1, t.landRecoverMax)
+end
+
 -- Distance (studs) to stop from `speed` with brake `decel`.
 function Movement.stopDistance(speed: number, decel: number): number
 	if decel <= 0 then
@@ -99,8 +114,14 @@ end
 -- One frame. Returns a new State; never mutates `s`.
 function Movement.step(t: Tuning, s: State, i: Input, dt: number): State
 	dt = math.max(dt, 0)
-	local sprinting = Movement.canSprint(t, s, i)
+	local recover = math.max((s.recover or 0) - dt, 0)
+	local landing = if i.landedFall then Movement.landRecovery(t, i.landedFall) else 0
+	recover = math.max(recover, landing)
+	local sprinting = Movement.canSprint(t, s, i) and recover <= 0
 	local target = Movement.targetSpeed(t, s, i)
+	if recover > 0 then
+		target = math.min(target, t.walk * t.landSpeedMult)
+	end
 	-- Sharp reversal: brake through zero first (no instant flip / ice skating); the caller's velocity
 	-- direction then follows the input and turnAngle drops, so speed builds again.
 	if i.moving and i.turnAngle >= t.turnDecelAngle then
@@ -109,6 +130,9 @@ function Movement.step(t: Tuning, s: State, i: Input, dt: number): State
 	local speed = approach(s.speed, target, Movement.rate(t, s.speed, target, i), dt)
 	-- A sharp reversal drops the ramp (momentum is lost); otherwise it builds while sprinting.
 	local sprintTime = if sprinting and i.turnAngle < t.turnDecelAngle then s.sprintTime + dt else 0
+	if landing > 0 then
+		speed = math.min(speed, t.walk * t.landSpeedMult) -- a hard landing kills momentum at once
+	end
 
 	local stamina, regenWait, exhausted = s.stamina, s.regenWait, s.exhausted
 	if sprinting then
@@ -126,7 +150,14 @@ function Movement.step(t: Tuning, s: State, i: Input, dt: number): State
 			exhausted = false
 		end
 	end
-	return { speed = speed, sprintTime = sprintTime, stamina = stamina, regenWait = regenWait, exhausted = exhausted }
+	return {
+		speed = speed,
+		sprintTime = sprintTime,
+		stamina = stamina,
+		regenWait = regenWait,
+		exhausted = exhausted,
+		recover = recover,
+	}
 end
 
 return Movement

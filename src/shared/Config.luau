@@ -127,6 +127,11 @@ local Config = {
 		staminaRegen = 20,
 		regenDelay = 0.8,
 		exhaustedResume = 30,
+		-- Landing recovery (T-058g, D-430): falls ≥ landMinFall studs/s slow you to walk × landSpeedMult.
+		landMinFall = 40,
+		landRecoverPerSpeed = 0.006,
+		landRecoverMax = 0.45,
+		landSpeedMult = 0.5,
 	},
 	-- Sprint FOV (T-058b, D-429): tweened on sprint start/stop only.
 	MovementCamera = { fovBase = 70, fovSprint = 78, fovTween = 0.25 },

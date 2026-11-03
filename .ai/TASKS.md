@@ -19,7 +19,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
   - **T-058b [done S140, D-429; owner feel test open] [S]** Client wiring: SprintClient → `Shared.Movement` (speed, stamina, turn rate), lean via `RootJoint.Transform` (replaces MoveFeelClient C0 lean), sprint FOV 70→78; SpeedGuard retuned to new max (×1.25+4, 3 strikes). AC: check PASS; owner feel test.
   - **T-058c [todo] [S]** Own walk/jog/run animations blended by speed + `AdjustSpeed(v/authored)` foot sync; replace kit `FootstepSounds` ids with own sounds. AC: check PASS; no foot sliding on robot + default rig.
   - **T-058d [todo] [S]** Dodge (sideways i-frames 0.08–0.28 s, 0.35 s, cd 0.9 s, −20 stamina), server-validated. AC: spec + check PASS.
-  - **T-058e [todo] [S]** Slide from sprint + slide-jump. **T-058f [todo] [S]** Vault/ledge (double ray). **T-058g [todo] [S]** Jump/land recovery. Each: spec + check PASS.
+  - **T-058e [todo] [S]** Slide from sprint + slide-jump. **T-058f [todo] [S]** Vault/ledge (double ray). **T-058g [done S140, D-430; owner feel test open] [S]** Jump/land recovery. Each: spec + check PASS.
 - **R-010 [todo] [S] Process owner inbox** (repeat whenever there are new files; S135: all 47 files through 2026-11-03 listed, D-421):
   - For each file in `research/inbox/` not yet listed in VISION.md "Owner ideas", add an entry with the date, file name and the owner's key points in their own words.
   - Flag conflicts with D-014 (IP) or Roblox policy to the owner. Don't silently drop anything.

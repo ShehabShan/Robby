@@ -84,6 +84,20 @@ return {
 		near(Movement.turnRate(T, T.sprintMax), T.turnRateSprint, "sprint")
 		eq(Movement.turnRate(T, 0), T.turnRateJog, "clamped low")
 	end,
+	["land: small hops give no recovery, hard falls do (capped)"] = function()
+		eq(Movement.landRecovery(T, T.landMinFall - 1), 0, "hop")
+		eq(Movement.landRecovery(T, T.landMinFall) > 0, true, "hard")
+		eq(Movement.landRecovery(T, 1000), T.landRecoverMax, "cap")
+		eq(Movement.landRecovery(T, 0 / 0), 0, "nan")
+	end,
+	["land: hard landing slows, blocks sprint, then recovers"] = function()
+		local s = run(Movement.new(T), input({ sprint = true }), 2)
+		s = Movement.step(T, s, input({ sprint = true, landedFall = 120 }), 1 / 60)
+		eq(s.speed <= T.walk * T.landSpeedMult, true, "momentum cut")
+		eq(s.sprintTime, 0, "ramp reset")
+		s = run(s, input({ sprint = true }), T.landRecoverMax + 0.5)
+		eq(s.speed >= T.sprint, true, "sprinting again")
+	end,
 	["step: does not mutate state and ignores negative dt"] = function()
 		local s = Movement.new(T)
 		local n = Movement.step(T, s, input(), -1)

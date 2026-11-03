@@ -21,6 +21,7 @@ local held = false
 local state: Movement.State = Movement.new(tune)
 local sprintingFov = false
 local lastCharacter: Model? = nil
+local wasAir, fallSpeed = false, 0
 
 local function setFov(sprinting: boolean)
 	if sprinting == sprintingFov then
@@ -61,14 +62,25 @@ function SprintClient.start()
 		if character ~= lastCharacter then
 			lastCharacter = character
 			state = Movement.new(tune) -- respawn: full stamina, standing start
+			wasAir, fallSpeed = false, 0
 		end
 		local move = hum.MoveDirection
+		local grounded = hum.FloorMaterial ~= Enum.Material.Air
+		local landedFall: number? = nil -- landing recovery (T-058g, D-430)
+		if not grounded then
+			fallSpeed = math.max(fallSpeed, -root.AssemblyLinearVelocity.Y)
+		elseif wasAir then
+			landedFall = fallSpeed
+			fallSpeed = 0
+		end
+		wasAir = not grounded
 		local input: Movement.Input = {
 			sprint = held,
 			walk = false,
 			moving = move.Magnitude > 0.1,
-			grounded = hum.FloorMaterial ~= Enum.Material.Air,
+			grounded = grounded,
 			turnAngle = turnAngle(move, root.AssemblyLinearVelocity),
+			landedFall = landedFall,
 		}
 		local sprinting = Movement.canSprint(tune, state, input)
 		state = Movement.step(tune, state, input, dt)
