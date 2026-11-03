@@ -69,3 +69,35 @@ Same combat clip (HUD keybinds as chunk a). Second ability set appears from ~0:3
 - **Dodge → attack instantly** is the core loop: dodge to the side of the attacker and hit them (0:34). Supports keeping dash recovery short (0.15 s) and allowing M1 during dash recovery.
 - Lock-on camera keeps the target centred while dashing away; strafing circles look smooth because the body faces the target.
 - Gold "counter" flash at 0:36 = a parry/counter reward. Robby has F = Parry: borrow a big gold flash + ground ring for a perfect parry.
+
+## R-031c — 1:00–1:30 (S144)
+From ~0:59.5 the bar under HP is **on fire (orange flames)** for the whole chunk = a rage / awakened mode is active. 1:13.5–1:15 overlay "RELL Games … THANK YOU AGAIN, 1M MEMBERS" → the clip is a **RELL Games** game (makers of Rell Seas), fits the owner's "like Rell Seas" ask (D-434).
+
+| Time | Move | Timing (est.) | Distance / direction (est.) | VFX / camera |
+|---|---|---|---|---|
+| 1:00.0–1:02 | run, mode active | — | normal run | flaming bar on HUD |
+| 1:02.5 / 1:05.5 / 1:05.67 | **impact frames**: screen turns flat light-blue, character + enemy drawn black with a spiky black star | 1–2 frames (~0.03–0.05 s) each | — | classic anime "impact frame"; used on the heaviest hits only |
+| 1:03.5–1:04.2 | run past pillar, dust at feet | — | — | footstep dust |
+| 1:04.33–1:05.0 | **multi-dash flurry** | ~0.15 s per dash, 4–5 dashes in ~1 s | ~6–8 studs each, zig-zag around the enemy | white vertical "afterimage pillars" (ghost streaks) left at each stop, blue slash |
+| 1:05.83–1:06.83 | more flurry dashes | same | same | white ghost pillars, sun flare |
+| 1:07–1:07.5 | strafe | — | — | — |
+| 1:08.0–1:08.5 | uppercut launch | — | enemy launched ~10 studs up | white vertical streak |
+| 1:08.33–1:08.67 | landing slam | ~0.2 s | in place | big white flash, white ground rings (wind), dust |
+| 1:09.0 | ground burst | 2 frames | in place | orange spark + white rings |
+| 1:10–1:11 | red-cape lightning combo | ~4 hits | small steps | blue sparks, enemy red |
+| 1:12.5 | **aerial spin**: camera zooms out, swirl rings in the sky | ~0.5 s | both in the air | big circular wind swirl around both |
+| 1:15–1:19.5 | **air combo**: both float in the sky, player hits repeatedly | ~4 s hang time | — | sky background, sword streaks; gravity off during the combo |
+| 1:20–1:21.5 | land, run, circle | — | — | dust ring on landing |
+| 1:22.0–1:22.33 | black shadow-dash / teleport behind | ~0.2 s | ~10 studs | black ink smear |
+| 1:22.5–1:23.0 | close-up camera on purple-orb heavy | — | — | camera cuts close behind the shoulder |
+| 1:23.33–1:23.67 | spin dash in the air | ~0.3 s | — | white ring around body |
+| 1:23.67 | ground slam | 1–2 frames | — | **blue light pillars** from the ground + white rings |
+| 1:24.0–1:24.8 | after-slam | — | — | swirling white wind lines fade over ~0.8 s |
+| 1:25.3–1:25.8 | jump/vault onto ledge | ~0.3 s | ~5 studs up | sun flare |
+| 1:26–1:30 | run around pillars, one side dash at 1:29 | ~0.3 s | ~8 studs | white swirl ring, smoke |
+
+### → Implications (chunk c)
+- **Impact frames** (1–2 frame flat-colour flash with black silhouettes) only on finishers: a cheap screen effect that hits very hard. Good candidate for Robby's heavy/finisher hits.
+- **Afterimage pillars** on rapid multi-dash = a "mode" skill, not the basic Q dash. Basic dash keeps the plain smoke puff.
+- **Air combos** with long hang time exist in the reference game; out of scope for basic movement (combat task).
+- Landing / slam = white ground ring + dust: reuse the same ring for landing from big jumps (Robby has landing recovery from T-058a).
