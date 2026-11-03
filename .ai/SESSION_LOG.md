@@ -1,3 +1,8 @@
+## S143 (2026-11-03) — R-031a movement video 0:00–0:30
+- Frames at 2/6/30 fps (D-438), log in research/video/movement/log.md: cinematic run with footstep dust, then combat clip (Q dash, C slide, Shift = walk, lock-on default).
+- Dodges look ~0.25–0.35 s, ~10 studs; dash chains into M1; VFX: wind arcs, dust ring, smoke puff. No code change.
+- Next: R-031b (0:30–1:00). ~9 OLU.
+
 ## S142 (2026-11-03, bot ee08ce6b) — T-058d basic dash
 - Owner asked again (inbox 2026-11-03-dash-vs-wind-step): answered from R-030 — Wind Step is a fast velocity dash, not a teleport.
 - T-058d split (D-436). d1: pure `Shared.Dash` + `Config.Dash` + spec (D-435). d2: Q dash wired client + server, side i-frames, speed guard window (D-437).

@@ -10,3 +10,4 @@ roblox.yml
 __pycache__/
 *.py[cod]
 research/video/**/*.mp4
+research/video/**/*.jpg
