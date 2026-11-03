@@ -29,6 +29,7 @@ local Projectile = require(ReplicatedStorage.Shared.Deliveries.Projectile)
 local Aim = require(ReplicatedStorage.Shared.Aim)
 local Volley = require(ReplicatedStorage.Shared.Deliveries.Volley)
 local Scissor = require(ReplicatedStorage.Shared.Deliveries.Scissor)
+local Ring = require(ReplicatedStorage.Shared.Deliveries.Ring)
 local Zone = require(ReplicatedStorage.Shared.Deliveries.Zone)
 local Burst = require(ReplicatedStorage.Shared.Deliveries.Burst)
 local Frost = require(ReplicatedStorage.Shared.Frost)
@@ -464,8 +465,14 @@ local function volleyCast(
 			Net.CastFx.FireAll({ fxId = p.thirdFx, caster = player, pos = at, dir = dir })
 		end
 	end
-	for i, d in Volley.directions(dir.X, dir.Z, p) do
+	local ring = Ring.isRing(p) -- Full Moon Ring (T-053c, D-407): blades fan out round the caster
+	local dirs: { { x: number, z: number } } = Volley.directions(dir.X, dir.Z, p)
+	if ring then
+		dirs = Ring.directions(dir.X, dir.Z, p)
+	end
+	for i, d in ipairs(dirs) do
 		local side = Scissor.side(i)
+		local out = Vector3.new(d.x, 0, d.z)
 		table.insert(shots, {
 			cross = if crossState
 				then { state = crossState, index = i, at = p.crossAt, closed = closed, spawn = spawnThird }
@@ -474,13 +481,16 @@ local function volleyCast(
 				then function(dist: number): Vector3
 					return origin + dir * dist + right * Scissor.lateral(side, dist, p)
 				end
+				elseif ring then function(dist: number): Vector3
+					return origin + out * (p.radius + dist)
+				end
 				else nil,
 			lifetime = lifetime,
 			resource = i,
 			caster = player,
 			character = character,
 			origin = origin,
-			dir = Vector3.new(d.x, 0, d.z),
+			dir = out,
 			move = move,
 			state = vstate.shards[i],
 			register = function(key: string): boolean
@@ -763,7 +773,9 @@ local function authorizeCast(player: Player, value: any): (AcceptedCast?, string
 		pool = pool,
 		dir = dir,
 		point = point,
-		origin = if move.delivery.kind == "Self" or move.delivery.kind == "Burst"
+		origin = if move.delivery.kind == "Self"
+				or move.delivery.kind == "Burst"
+				or Ring.isRing(move.delivery.params)
 			then root.Position
 			else bladeOrigin(character, root, flatDir, move.delivery.params.spawnOffset or 0, freeAim),
 		monotonicAt = 0,

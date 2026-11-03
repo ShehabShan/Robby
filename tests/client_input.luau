@@ -16,6 +16,7 @@ local Shared = {
 	Aim = require("../src/shared/Aim"),
 	Deliveries = {
 		Projectile = require("../src/shared/Deliveries/Projectile"),
+		Ring = require("../src/shared/Deliveries/Ring"),
 		Zone = require("../src/shared/Deliveries/Zone"),
 	},
 }

@@ -64,6 +64,7 @@ local function server(c, accepted)
 		zones = zones,
 		GROUND_PROBE = 50,
 		Projectile = require("../src/shared/Deliveries/Projectile"),
+		Ring = require("../src/shared/Deliveries/Ring"),
 		Volley = require("../src/shared/Deliveries/Volley"),
 		Scissor = require("../src/shared/Deliveries/Scissor"),
 		Zone = Zone,

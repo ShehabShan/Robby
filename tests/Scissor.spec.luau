@@ -4,6 +4,7 @@ local Volley = require("../src/shared/Deliveries/Volley")
 local All = require("../src/shared/Content/All")
 local Registry = require("../src/shared/Registry")
 local CastSchedule = require("../src/shared/CastSchedule")
+local Ring = require("../src/shared/Deliveries/Ring")
 
 local P = { curve = "Scissor", width = 4, crossAt = 20, range = 60, count = 2 }
 
@@ -113,5 +114,27 @@ return {
 		eq(o ~= nil, true, "schedule fits the lifetime cap")
 		local p = m.delivery.params
 		near((o :: any).finish, (p.crossAt + p.range * 2) / p.speed, "finish covers the 3rd blade")
+	end,
+	["full moon ring: 4 blades 90 degrees apart, blade 1 on the aim, flying straight outward"] = function()
+		local built = Registry.build(All.content(Config))
+		local m = built.moves["move.full_moon_ring"]
+		local p = m.delivery.params
+		eq(Ring.validParams(p), true, "valid ring")
+		eq(m.kith, "kith.full_moon", "rank 3 kith")
+		eq(built.kith["kith.full_moon"].moves[3], "move.full_moon_ring", "X slot")
+		local d = Ring.directions(0, 1, p)
+		eq(#d, 4, "4 blades")
+		near(d[1].x, 0, "blade 1 x")
+		near(d[1].z, 1, "blade 1 on the aim")
+		for i = 1, 4 do
+			local j = i % 4 + 1
+			near(d[i].x * d[j].x + d[i].z * d[j].z, 0, "90 degrees apart")
+		end
+		local x0, z0 = Ring.point(0, p, 10, 20, d[2].x, d[2].z)
+		local x1, z1 = Ring.point(5, p, 10, 20, d[2].x, d[2].z)
+		near(math.sqrt((x0 - 10) ^ 2 + (z0 - 20) ^ 2), p.radius, "forms at the ring radius")
+		near(math.sqrt((x1 - x0) ^ 2 + (z1 - z0) ^ 2), 5, "straight outward")
+		eq(Ring.validParams({ curve = "Ring", count = 1, radius = 3, range = 40 }), false, "needs 2+ blades")
+		eq(CastSchedule.resources(m), 4, "one lifetime resource per blade")
 	end,
 }

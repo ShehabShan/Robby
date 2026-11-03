@@ -34,6 +34,18 @@ local Config = {
 			hitboxSize = { x = 5, y = 2.5, z = 2 },
 			spawnOffset = 3,
 		},
+		FullMoonRing = { -- rank 3 "Full Moon Ring" on X (T-053c, D-407): 4 blades round the caster burst outward
+			cost = 22,
+			cooldown = 4,
+			baseDamage = 24, -- per blade; each target is hit once per cast
+			count = 4,
+			radius = 3, -- studs from the caster where the ring forms
+			speed = 70,
+			range = 40, -- studs each blade flies outward from the ring
+			maxHits = 3, -- each blade cuts through up to 3 enemies (area hit)
+			perTargetCap = 1,
+			hitboxSize = { x = 6, y = 3, z = 2 },
+		},
 		-- M1 Kith moves (T-015a). Initial tuning; tune in playtest.
 		WindStep = { cost = 8, cooldown = 3, distance = 14, iframes = 0.3, burstSeconds = 0.25 }, -- burstSeconds: client covers `distance` in this time; server speed guard mirrors it (F-08, D-204)
 		-- Rimeshard Kith (T-027c, R-028 §2, D-180): Chill sets up (R1/Z/X), Shatter pays off (C). Tune in playtest.

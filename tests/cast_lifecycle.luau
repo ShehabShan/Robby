@@ -50,6 +50,7 @@ local function harness()
 		Projectile = require("../src/shared/Deliveries/Projectile"),
 		Volley = require("../src/shared/Deliveries/Volley"),
 		Scissor = require("../src/shared/Deliveries/Scissor"),
+		Ring = require("../src/shared/Deliveries/Ring"),
 		Zone = require("../src/shared/Deliveries/Zone"),
 		Burst = require("../src/shared/Deliveries/Burst"),
 		shots = {},

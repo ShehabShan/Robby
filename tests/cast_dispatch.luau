@@ -176,6 +176,7 @@ local function harness(step, protocol)
 		CastRequest = require("../src/shared/CastRequest"),
 		CastTransaction = require("../src/shared/CastTransaction"),
 		Projectile = require("../src/shared/Deliveries/Projectile"),
+		Ring = require("../src/shared/Deliveries/Ring"),
 		Aim = require("../src/shared/Aim"),
 		bladeOrigin = function(_, r, flat, offset)
 			return r.Position + flat * offset + rb.Vector3.new(0, 0.5, 0)

@@ -7,6 +7,7 @@ local Crescent = {}
 function Crescent.content(cfg: any): any
 	local c = cfg.Abilities.CrescentCut
 	local t = cfg.Abilities.TwinCrescent
+	local r = cfg.Abilities.FullMoonRing
 	local pierce = cfg.Loom.supports.Piercing
 	return {
 		effects = {
@@ -27,6 +28,12 @@ function Crescent.content(cfg: any): any
 				duration = "Inst",
 				ops = { { kind = "Dmg", params = { base = t.baseDamage * t.third.damageMult } } },
 				fx = "fx.twin.hit",
+			},
+			{
+				id = "effect.full_moon_ring.hit", -- Full Moon Ring blade (T-053c, D-407)
+				duration = "Inst",
+				ops = { { kind = "Dmg", params = { base = r.baseDamage } } },
+				fx = "fx.fullmoon.hit",
 			},
 		},
 		moves = {
@@ -85,6 +92,33 @@ function Crescent.content(cfg: any): any
 				tags = { "Path.Moon", "Role.Strike", "Delivery.Proj" },
 				fx = { cast = "fx.twin.cast", travel = "fx.twin.travel", hit = "fx.twin.hit" },
 			},
+			{
+				id = "move.full_moon_ring", -- rank 3 on X (T-053c, D-407): 4 blades form a ring, then burst outward
+				name = "Full Moon Ring",
+				kith = "kith.full_moon",
+				trigger = "Press",
+				target = "Aim",
+				delivery = {
+					kind = "Volley",
+					params = {
+						count = r.count,
+						spreadDeg = 0,
+						perTargetCap = r.perTargetCap,
+						curve = "Ring",
+						radius = r.radius,
+						speed = r.speed,
+						range = r.range,
+						maxHits = r.maxHits,
+						hitbox = r.hitboxSize,
+						stopOnWorld = true,
+					},
+				} :: any,
+				costs = { qi = r.cost },
+				cooldown = r.cooldown,
+				effects = { onHit = { "effect.full_moon_ring.hit" } },
+				tags = { "Path.Moon", "Role.Strike", "Delivery.Proj" },
+				fx = { cast = "fx.twin.cast", travel = "fx.fullmoon.travel", hit = "fx.fullmoon.hit" },
+			},
 		},
 		supports = { -- Weave Loom supports (T-020c, D-090): modify a core move that has all requireTags
 			{
@@ -96,6 +130,16 @@ function Crescent.content(cfg: any): any
 			},
 		},
 		kith = {
+			{
+				id = "kith.full_moon", -- rank 3, working name; admin panel only until the owner picks name + recipe (T-053c)
+				rank = 3,
+				path = "path.moon",
+				role = "Strike",
+				tags = { "Path.Moon" },
+				moves = { "move.crescent_cut", "move.twin_crescent", "move.full_moon_ring" }, -- left click / Z / X (D-396)
+				food = "food.moonleaf",
+				rarity = "Rare",
+			},
 			{
 				id = "kith.crescent",
 				rank = 1,
