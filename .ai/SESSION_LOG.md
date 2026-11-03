@@ -1,3 +1,6 @@
+## S127 — 2026-11-03 — T-055 C0 error spam (bot 4c2cc191)
+- Owner: Studio spammed "Unable to assign property C0. Property is read only" every frame (MoveFeelClient:54, body lean). Fix: lean write wrapped in pcall; on the first failure lean turns off, camera bob/landing dip keep working (D-403). CHECK PASS. NEXT: owner confirms no spam, then T-054d playtest. ~35 OLU.
+
 ## S126 — 2026-11-03 — T-054 Admin panel (bot 4c2cc191)
 - Built the owner-only admin panel (F2). Only allowlisted Roblox IDs (`Config.Admin.userIds`, owner 7738981129) get `IsAdmin`; the server re-checks and validates every `AdminRequest` and logs it (server print + `data.adminLog`).
 - Panel: give any Kith at any rank (e.g. Twin Crescent), remove owned Kith, refill Qi + reset cooldowns, add shards / food (common or rare), spawn Mistfang/Stonehide in front at a set distance (no respawn), hitbox/blade-path draw toggle, "Clean up test grants".

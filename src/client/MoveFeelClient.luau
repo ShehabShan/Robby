@@ -30,6 +30,7 @@ local function attach(character: Model)
 	local baseC0 = motor.C0
 	local pitch, roll, phase, dip, fallSpeed = 0, 0, 0, 0, 0
 	local wasAir = false
+	local canLean = true
 
 	-- Bound just before the camera update; HitFeel's shake (RenderStepped) overrides CameraOffset while it runs.
 	local bindName = "RobbyMoveFeel"
@@ -51,7 +52,12 @@ local function attach(character: Model)
 		end
 		pitch = Feel.approach(pitch, tp, P.leanRate, dt)
 		roll = Feel.approach(roll, tr, P.leanRate, dt)
-		motor.C0 = baseC0 * CFrame.Angles(pitch, 0, roll)
+		-- New avatar joints can make Root.C0 read-only (T-055): try once, then stop leaning; bob/dip keep running.
+		if canLean then
+			canLean = pcall(function()
+				motor.C0 = baseC0 * CFrame.Angles(pitch, 0, roll)
+			end)
+		end
 
 		if inAir then
 			fallSpeed = math.max(fallSpeed, -v.Y)
