@@ -368,21 +368,23 @@ function TwinCrescentFx.guard(character: Model?, dir: Vector3)
 	local state = GuardRing.new(p, os.clock())
 	local aim = math.atan2(dir.Z, dir.X)
 	local blades: { Blade } = {}
-	for i = 1, p.count do
+	local ringArt = AssetIds.image("crescentRingAlpha")
+	-- With the ring art: ONE full circle round the player (owner, D-417); blades only as the no-art fallback.
+	for i = 1, if ringArt then 0 else p.count do
 		local b = buildBlade(if i % 2 == 1 then -1 else 1)
 		setBlade(b, look.growFrom, 1)
 		b.model.Parent = workspace
 		table.insert(blades, b)
 	end
 	local disc: Part? = nil
-	local ringArt = AssetIds.image("crescentRingAlpha")
-	if ringArt and not lowGraphics() then
+	if ringArt then
 		local d = fxPart(Vector3.new(p.radius * 2 + 3, 0.05, p.radius * 2 + 3), WHITE)
 		d.Transparency = 1
 		local decal = Instance.new("Decal")
 		decal.Face = Enum.NormalId.Top
 		decal.Texture = ringArt
-		decal.Transparency = 0.15
+		decal.Transparency = 0
+		decal.Color3 = Color3.fromRGB(255, 244, 214)
 		decal.Parent = d
 		d.Parent = workspace
 		disc = d
@@ -402,7 +404,10 @@ function TwinCrescentFx.guard(character: Model?, dir: Vector3)
 		end
 		if rp then
 			local y = rp.Y - 1
-			for i, at in GuardRing.blades(state, p, rp.X, rp.Z, aim, now) do
+			local spots: { { x: number, z: number, angle: number } } = if #blades > 0
+				then GuardRing.blades(state, p, rp.X, rp.Z, aim, now)
+				else {}
+			for i, at in spots do
 				local pos = Vector3.new(at.x, y, at.z)
 				local tangent = Vector3.new(math.cos(at.angle), 0, math.sin(at.angle))
 				blades[i].model:PivotTo(CFrame.lookAt(pos, pos + tangent))

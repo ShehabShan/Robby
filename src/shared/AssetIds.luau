@@ -3,26 +3,27 @@
 -- Uploaded with `uv run scripts/upload_images.py` (Open Cloud, assetType Decal, owner user 7738981129, 2026-11-03)
 -- from `assets/processed/` (made by `uv run scripts/process_vfx.py`). "-add" = opaque on black, use with
 -- LightEmission = 1; "-alpha" = luminance alpha. A missing id means: keep the code-built look (fallback).
--- UNVERIFIED until the first in-engine load (T-053a3): whether each id is directly usable as a texture.
+-- Ids are the IMAGE ids behind each uploaded Decal (D-417): the Decal id itself fails as a texture
+-- ("Asset type does not match"). Resolve new uploads with `uv run scripts/resolve_image_ids.py <decalId>...`.
 
 local AssetIds = {}
 
 AssetIds.images = {
-	crescentSlashAdd = 122235202607884,
-	crescentSlashAlpha = 86498794245239,
-	crescentHitAdd = 128970868556906,
-	crescentHitAlpha = 135269368271025,
-	iconCrescentCut = 92123394268450,
+	crescentSlashAdd = 113531543035566, -- decal 122235202607884
+	crescentSlashAlpha = 86251494874208, -- decal 86498794245239
+	crescentHitAdd = 97551277839503, -- decal 128970868556906
+	crescentHitAlpha = 96136754629983, -- decal 135269368271025
+	iconCrescentCut = 84897737636320, -- decal 92123394268450
 	-- Gemini crescent art, owner pick (T-057a, D-412): blue = Cut + Twin blue blade, gold = Twin gold blade.
-	crescentBlueAdd = 94571439842906,
-	crescentBlueAlpha = 91368494264023,
-	crescentGoldAdd = 94658976800732,
-	crescentGoldAlpha = 92988498925568,
+	crescentBlueAdd = 112520420285931, -- decal 94571439842906
+	crescentBlueAlpha = 94594488192175, -- decal 91368494264023
+	crescentGoldAdd = 137504342329285, -- decal 94658976800732
+	crescentGoldAlpha = 130906558698643, -- decal 92988498925568
 	-- Owner picks B (T-057a, D-413): third = Twin Crescent 3rd blade, ring = Guard Ring (spins round the caster, T-057c2).
-	crescentThirdAdd = 79961768707078,
-	crescentThirdAlpha = 113592701046536,
-	crescentRingAdd = 127585819676333,
-	crescentRingAlpha = 80871456119148,
+	crescentThirdAdd = 79749478829931, -- decal 79961768707078
+	crescentThirdAlpha = 105215089368711, -- decal 113592701046536
+	crescentRingAdd = 120784852109435, -- decal 127585819676333
+	crescentRingAlpha = 130172371386091, -- decal 80871456119148
 } :: { [string]: number }
 
 -- Crescent Cut sounds (T-053a4b, D-389): made by `uv run scripts/make_sfx.py` (Lyria tone +

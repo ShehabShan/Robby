@@ -1,3 +1,8 @@
+## S133 — 2026-11-03 — T-057d texture ids fix + full-circle ring (bot c375ef08)
+- Owner playtest: slashes were rectangles, ring = 4 blocks. Studio log: every crescent texture id "Asset type does not match".
+- D-417: AssetIds now hold the Image ids behind the uploaded Decals (`scripts/resolve_image_ids.py`); Full Moon Ring = one full ring2 circle. CHECK PASS.
+- NEXT: owner retests (T-057c3). ~42 OLU (S132+S133)
+
 ## S132 — 2026-11-03 — T-057a done + T-057c2 Guard ring wiring (bot c375ef08)
 - T-057a done (D-414): Twin blades use their own art (blue / gold / third2); third2 + ring2 processed, uploaded, in AssetIds.
 - T-057c2 done (D-415): new delivery kind `Guard`; Full Moon Ring = ring of crescents that follows the caster 3 s, shatters on first enemy touch (Cut dmg, tiny stun, beast knockback). Client FX orbits + spinning ring2 decal.

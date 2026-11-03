@@ -10,7 +10,7 @@ end
 
 return {
 	["asset ids: known keys give rbxassetid urls"] = function()
-		eq(AssetIds.image("crescentSlashAdd"), "rbxassetid://122235202607884")
+		eq(AssetIds.image("crescentSlashAdd"), "rbxassetid://113531543035566")
 		for key in AssetIds.images do
 			local url = AssetIds.image(key)
 			assert(url and url:match("^rbxassetid://%d+$"), key)
