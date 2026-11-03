@@ -1,5 +1,8 @@
 # STATE
 
+## Now — after S128 (2026-11-03, bot 1ada4a40)
+- **T-056 Twin Crescent 3rd blade built (D-404–D-406), merged to main; cloud test CLOUD ALL: PASS 682/682 on **Saved version 38** (also includes T-055 fix), not published. NEXT: owner playtest** in Studio or Saved v38: F2 → give Twin Crescent → Z. Check: blades end on first enemy/wall; if both reach the X a big silver blade flies straight on (2× size, travel, damage); one blade blocked → no 3rd. Also re-check T-055 (no C0 spam) and T-054d items. Then T-053c Full Moon Ring.
+
 ## Now — after S127 (2026-11-03, bot 4c2cc191)
 - **T-055 fixed on main (D-403): no more "C0 read only" spam from MoveFeelClient (lean disables itself if blocked). Not in a Saved version yet. NEXT: owner re-runs Studio to confirm, then T-054d admin panel playtest (see S126 below), then **T-056 Twin Crescent 3rd blade (owner spec in TASKS)**, then T-053c.**
 
