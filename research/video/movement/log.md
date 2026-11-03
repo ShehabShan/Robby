@@ -127,3 +127,11 @@ Sheets 4 fps (0:01–0:19) + 20 fps crop (0:10–0:11).
 - **Speed lines:** thin white streaks across the air now and then (0:05.0, 0:09.5, 0:12.25, 0:16.75), ~1 per 3–4 s; not attached to the player.
 - **Boulders / rubble passing:** mossy boulders, broken floor slabs and rubble line both sides of the path (0:01–0:03 big mossy boulder left, 0:04–0:06 dark rocks, 0:10.6–0:11 runs straight over a mossy rock with no slow-down). Close objects sweeping past the camera are what sells the speed (parallax), plus torches/pillars every ~15–20 studs.
 - → Robby: footstep dust only on footfalls (~0.3 s cadence at sprint), rare ambient speed streaks while sprinting, camera follow-lag on turns; **map dressing** (boulders/rubble near paths, repeating pillars) is a level-design follow-up, not movement code.
+
+## R-031 extra — 2:01–2:06 ship deck detail (S146, owner ask)
+Sheets 6 fps (2:00.8–2:06.2) + 20 fps crop (2:03.4–2:04.9) + full frame 2:01.5.
+- **Source:** full frame shows a YouTube player titled **"RELL Seas The Movie"** (player time 1:50:23 / 3:12:03), so this clip is **Rell Seas itself**, the game the owner wants to be like (D-434). HUD: compass strip at the top (SW · W), "Neutral" tag top right, "Progression" tab on the left, hotbar 1–5 bottom centre, thin HP (red) + stamina (blue) bar with an anchor ornament.
+- **Camera:** far and high, ~15–20 studs behind and ~8–10 studs up, looking down ~30°, so the character is small on screen. Follows smoothly with no bob. When the player turns (2:04.9–2:05.8) the camera swings round gently over ~0.8 s. At 2:04.3–2:04.45 a beam comes **between camera and player and fills the screen for ~0.3 s**, so Rell Seas does not zoom the camera in to avoid walls here (or does so late). Robby's camera should pop in faster than this.
+- **Run:** steady jog, slight forward lean, arms low; no footstep dust or speed lines (calm exploration). Turns are tight around the mast block (2:02.4–2:02.9), no slide.
+- **Stairs:** 2:03.4–2:03.65 down a ~8-step ship stair in ~0.25 s with no slow-down or hop. Speed on stairs = flat speed (matches chunk d).
+- → Robby: exploration needs a calm far camera (bigger distance than combat); stairs at full speed; camera should not let walls block the view for long (pop-in on occlusion). Fits T-058j (camera) / T-058k.

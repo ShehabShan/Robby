@@ -1,5 +1,9 @@
 # STATE
 
+## Now — after S146 (2026-11-03)
+- Video 2:01–2:06 checked (D-441): it is **Rell Seas itself**. Far high calm exploration camera, stairs at full speed, compass + thin HP/stamina HUD. Logged; T-058k widened. No code change.
+- **NEXT:** owner looks at T-058i VFX in Studio; owner to confirm T-058h, T-058j, T-058k, T-058d3. Else T-058c animations. Last check: CHECK: PASS.
+
 ## Now — after S145 (2026-11-03)
 - **T-058i done (D-440), merged:** movement VFX — footstep dust, sprint speed streaks, dash dust ring + smoke puff, wind arcs on side dash (`MoveFxClient`, `Shared.MoveFxPlan`, `Config.MoveFx`). Video 0:01–0:19 run detail in log.md. **Owner: look in Studio.**
 - **NEXT:** owner to confirm T-058h dash tune, T-058j lock-on camera, T-058k camera lag + map dressing, T-058d3 Wind Step. Else T-058c animations. Last check: CHECK: PASS.

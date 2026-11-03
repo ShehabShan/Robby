@@ -1,3 +1,7 @@
+## S146 (2026-11-03) — video 2:01–2:06 detail (owner ask)
+- Clip is **Rell Seas itself** (YouTube 'RELL Seas The Movie'). Far high calm camera, stairs at full speed, beam blocks camera ~0.3 s. HUD: compass strip, hotbar 1–5, thin HP/stamina bar.
+- log.md extra section; T-058k widened (exploration camera, occlusion pop-in, stairs). D-441. No code change.
+
 ## S145 (2026-11-03) — T-058i movement VFX + video 0:01–0:19 run detail
 - log.md extra section: ~3 steps/s, dust only on footfalls, rare speed streaks, camera lag on turns, boulders/rubble passing = parallax.
 - New `Shared.MoveFxPlan` (pure, tested) + `MoveFxClient`: footstep dust (run ≥18), sprint speed streaks every 2.5–4 s, dash dust ring + smoke puff, wind arcs on side dash. SprintClient sets `Sprinting` attribute. Config.MoveFx. CHECK: PASS.
