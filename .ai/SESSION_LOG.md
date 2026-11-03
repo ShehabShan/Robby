@@ -1,3 +1,7 @@
+## S141 — 2026-11-03 — R-030 dash vs Wind Step (bot 32c2f9b5)
+- Owner wants a basic dash like Rell Seas / PS2 / battlegrounds (D-434 overrides D-189). Wind Step = 14-stud velocity dash, not teleport.
+- Note research/notes/R-030-dash.md: Q+WASD dash (side i-frames), Wind Step → long stun-breaking special. NEXT T-058d. No code change. ~36 OLU total.
+
 ## S140 — 2026-11-03 — R-029 + new movement system T-058a/b/e/f/g (bot 32c2f9b5)
 - R-029 done (D-426): research note research/notes/R-029-movement.md; T-058 split a–g (D-427).
 - T-058a/b/g/e/f (D-428–D-432): R15 kit removed; pure `Shared.Movement` (jog 18, Shift sprint 24→27, stamina, turn brake, landing recovery, Q slide + slide-jump); `Shared.Vault` (Space vault / ledge climb); sprint FOV; guard on sprintMax.

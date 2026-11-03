@@ -430,3 +430,6 @@ Draft model, curve table and 10 sources: `research/notes/R-022-stat-damage-math.
 **→ Implications for Robby** — T-058 targets (accel 120, decel 160, sprint 24→27 ramp, dodge i-frames sideways, slide, vault double-ray, guard ×1.25+4) and a 7-part split: see [research/notes/R-029-movement.md](../research/notes/R-029-movement.md). D-426: keep Humanoid, own pure `Shared.Movement` step; no AccelerationTime.
 **Unknowns** — Rell Seas/PS2 exact speeds; Deepwoken stamina costs; jog/run animation assets.
 **Sources** — in the note.
+
+### R-030 Dash vs Wind Step (done 2026-11-03)
+Wind Step is a 14-stud, 0.25 s velocity dash (not a teleport), Kith-only. Reference games give everyone a short 4-way dash (side = i-frames, fwd/back = positioning, cd + stamina). → T-058d basic dash; Wind Step becomes the long, stun-breaking special. See [research/notes/R-030-dash.md](../research/notes/R-030-dash.md), D-434.
