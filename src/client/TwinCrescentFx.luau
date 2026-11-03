@@ -12,7 +12,7 @@ local AssetIds = require(ReplicatedStorage.Shared.AssetIds)
 local Config = require(ReplicatedStorage.Shared.Config)
 local FxRegistry = require(ReplicatedStorage.Shared.FxRegistry)
 local Scissor = require(ReplicatedStorage.Shared.Deliveries.Scissor)
-local Ring = require(ReplicatedStorage.Shared.Deliveries.Ring)
+local GuardRing = require(ReplicatedStorage.Shared.Deliveries.GuardRing)
 local CrescentFx = require(script.Parent.CrescentFx)
 
 local cfg = Config.Abilities.TwinCrescent
@@ -353,78 +353,91 @@ function TwinCrescentFx.third(origin: Vector3, dir: Vector3, character: Model?)
 	end)
 end
 
--- Full Moon Ring (T-053c2, D-408): blue and gold blades (alternating) form a ring round the caster, then fly
--- straight outward for `range`; each dissolves early on walls / solid parts. Visual only (hits are server-side).
-function TwinCrescentFx.ring(origin: Vector3, dir: Vector3, character: Model?)
-	if live >= look.maxLive then
+-- Full Moon Ring guard (T-057c2, D-415): blue and gold blades (alternating) orbit the caster at the GuardRing
+-- radius for `duration`, following the character, over a spinning ring decal (owner-picked ring2 art, D-413).
+-- Shatters (burst + dissolve) when the server's hit fx for this caster arrives. Visual only (hits are server-side).
+local shattered: { [Model]: boolean } = setmetatable({}, { __mode = "k" }) :: any
+function TwinCrescentFx.guard(character: Model?, dir: Vector3)
+	local root = if character then character:FindFirstChild("HumanoidRootPart") else nil
+	if not character or not root or not root:IsA("BasePart") or live >= look.maxLive then
 		return
 	end
 	live += 1
-	local p = Config.Abilities.FullMoonRing :: any
-	local params = { curve = "Ring", count = p.count, radius = p.radius, range = p.range }
-	local ray = RaycastParams.new()
-	ray.FilterType = Enum.RaycastFilterType.Exclude
-	ray.FilterDescendantsInstances = if character then { character } else {}
-	type RingBlade = { b: Blade, out: Vector3, traveled: number, stopped: boolean }
-	local blades: { RingBlade } = {}
-	for i, d in Ring.directions(dir.X, dir.Z, params) do
+	shattered[character] = nil
+	local p = Config.Abilities.GuardRing :: any
+	local state = GuardRing.new(p, os.clock())
+	local aim = math.atan2(dir.Z, dir.X)
+	local blades: { Blade } = {}
+	for i = 1, p.count do
 		local b = buildBlade(if i % 2 == 1 then -1 else 1)
-		local out = Vector3.new(d.x, 0, d.z)
-		local pos = origin + out * p.radius
 		setBlade(b, look.growFrom, 1)
-		b.model:PivotTo(CFrame.lookAt(pos, pos + out))
 		b.model.Parent = workspace
-		table.insert(blades, { b = b, out = out, traveled = 0, stopped = false })
+		table.insert(blades, b)
 	end
-	local age = 0
+	local disc: Part? = nil
+	local ringArt = AssetIds.image("crescentRingAlpha")
+	if ringArt and not lowGraphics() then
+		local d = fxPart(Vector3.new(p.radius * 2 + 3, 0.05, p.radius * 2 + 3), WHITE)
+		d.Transparency = 1
+		local decal = Instance.new("Decal")
+		decal.Face = Enum.NormalId.Top
+		decal.Texture = ringArt
+		decal.Transparency = 0.15
+		decal.Parent = d
+		d.Parent = workspace
+		disc = d
+	end
 	local dissolving: number? = nil
 	local conn: RBXScriptConnection? = nil
 	conn = RunService.RenderStepped:Connect(function(dt: number)
-		age += dt
-		if dissolving == nil then
-			local grow = math.min(1, look.growFrom + (1 - look.growFrom) * age / look.growTime)
-			local moving = false
-			for _, r in blades do
-				if not r.stopped then
-					local from = origin + r.out * (p.radius + r.traveled)
-					local step = math.min(p.range - r.traveled, p.speed * dt)
-					local hit = workspace:Raycast(from, r.out * step, ray)
-					local wall = hit
-						and (
-							hit.Instance:IsA("Terrain")
-							or (hit.Instance:IsA("BasePart") and hit.Instance.Anchored and hit.Instance.CanCollide)
-						)
-					r.traveled += step
-					local pos = if wall and hit then hit.Position else origin + r.out * (p.radius + r.traveled)
-					r.b.model:PivotTo(CFrame.lookAt(pos, pos + r.out))
-					if wall or r.traveled >= p.range then
-						r.stopped = true
-					else
-						moving = true
-					end
+		local now = os.clock()
+		local rp = if root.Parent then root.Position else nil
+		if dissolving == nil and (rp == nil or shattered[character] or now >= state.endsAt) then
+			dissolving = 0
+			for _, b in blades do
+				if b.sparks then
+					b.sparks.Enabled = false
 				end
-				setBlade(r.b, grow, if r.stopped then 0.5 else 1)
 			end
-			if not moving then
-				dissolving = 0
-				for _, r in blades do
-					if r.b.sparks then
-						r.b.sparks.Enabled = false
-					end
-				end
+		end
+		if rp then
+			local y = rp.Y - 1
+			for i, at in GuardRing.blades(state, p, rp.X, rp.Z, aim, now) do
+				local pos = Vector3.new(at.x, y, at.z)
+				local tangent = Vector3.new(math.cos(at.angle), 0, math.sin(at.angle))
+				blades[i].model:PivotTo(CFrame.lookAt(pos, pos + tangent))
+			end
+			if disc then
+				local spin = p.spin * (now - state.startedAt)
+				disc.CFrame = CFrame.new(rp.X, rp.Y - 2.6, rp.Z) * CFrame.Angles(0, -spin, 0)
+			end
+		end
+		if dissolving == nil then
+			local grow = math.min(1, look.growFrom + (1 - look.growFrom) * (now - state.startedAt) / look.growTime)
+			for _, b in blades do
+				setBlade(b, grow, 1)
 			end
 		else
 			dissolving += dt
 			local k = math.clamp(1 - (dissolving :: number) / look.dissolveTime, 0, 1)
-			for _, r in blades do
-				setBlade(r.b, 1 + (1 - k) * 0.5, k)
+			for _, b in blades do
+				setBlade(b, 1 + (1 - k) * 0.5, k)
+			end
+			if disc then
+				local decal = disc:FindFirstChildOfClass("Decal")
+				if decal then
+					decal.Transparency = 1 - 0.85 * k
+				end
 			end
 			if k <= 0 then
 				if conn then
 					conn:Disconnect()
 				end
-				for _, r in blades do
-					r.b.model:Destroy()
+				for _, b in blades do
+					b.model:Destroy()
+				end
+				if disc then
+					disc:Destroy()
 				end
 				live -= 1
 			end
@@ -448,9 +461,13 @@ function TwinCrescentFx.register(reg: FxRegistry.Registry)
 	end)
 	FxRegistry.register(reg, "fx.fullmoon.travel", function(ctx: any)
 		local character = ctx.character or (if ctx.caster then ctx.caster.Character else nil)
-		TwinCrescentFx.ring(ctx.pos, ctx.dir, character)
+		TwinCrescentFx.guard(character, ctx.dir)
 	end)
 	FxRegistry.register(reg, "fx.fullmoon.hit", function(ctx: any)
+		local by = if ctx.caster then ctx.caster.Character else nil
+		if by then
+			shattered[by] = true -- the guard ring shatters on its one touch (T-057c2)
+		end
 		CrescentFx.hit(ctx.caster, ctx.target, ctx.amount or 0, ctx.pos)
 	end)
 	FxRegistry.register(reg, "fx.twin.hit", function(ctx: any)
