@@ -126,6 +126,7 @@ function SprintClient.start(onDash: ((dir: Vector3) -> ())?)
 			root.AssemblyLinearVelocity = dashDir * v + Vector3.new(0, root.AssemblyLinearVelocity.Y, 0)
 		end
 		character:SetAttribute("Dashing", dashState.kind) -- for T-058c dash animations
+		character:SetAttribute("Sprinting", sprinting or nil) -- for MoveFxClient speed streaks (T-058i)
 		character:SetAttribute("Sliding", (state.slide or 0) > 0 or nil) -- for T-058c slide animation
 		local speed = state.speed
 		local boostEnd = character:GetAttribute("SpeedBoostEnd")

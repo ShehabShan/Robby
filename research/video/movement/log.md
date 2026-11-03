@@ -118,3 +118,12 @@ Three clips: the end of the RELL combat clip, then two other games.
 - **Sprint feel = footstep dust + wind lines + forward lean + low close camera.** Our sprint has FOV + lean (T-058b) but no footstep dust or wind lines: cheapest big win.
 - Stairs do not slow the run; Robby should keep speed on stairs (check `Shared.Movement` has no slope slow-down on steps).
 - Exploration camera (ship clip) sits far out; combat camera sits close. Two camera distances is a design choice for the owner.
+
+## R-031 extra — 0:01–0:19 walk/run detail (S145, owner ask)
+Sheets 4 fps (0:01–0:19) + 20 fps crop (0:10–0:11).
+- **Run cycle:** ~3 steps/s (one footfall every ~0.3 s), strong arm swing, sword held low in the right hand, hip lantern glows; slight forward lean, body tilts into turns (0:02.5–0:03).
+- **Camera:** behind and a little above (~8–10 studs), follows with a small lag: on turns the character drifts off-centre (0:02.75 near the right edge) then re-centres in ~0.5 s. Gentle sway, no hard bob.
+- **Footstep dust:** small pale-grey puff at the back foot on each footfall (0:10.30, 0:10.40, 0:10.65), ~1 stud wide, lifts a little and fades in ~0.2–0.3 s. Not on every frame — only footfalls.
+- **Speed lines:** thin white streaks across the air now and then (0:05.0, 0:09.5, 0:12.25, 0:16.75), ~1 per 3–4 s; not attached to the player.
+- **Boulders / rubble passing:** mossy boulders, broken floor slabs and rubble line both sides of the path (0:01–0:03 big mossy boulder left, 0:04–0:06 dark rocks, 0:10.6–0:11 runs straight over a mossy rock with no slow-down). Close objects sweeping past the camera are what sells the speed (parallax), plus torches/pillars every ~15–20 studs.
+- → Robby: footstep dust only on footfalls (~0.3 s cadence at sprint), rare ambient speed streaks while sprinting, camera follow-lag on turns; **map dressing** (boulders/rubble near paths, repeating pillars) is a level-design follow-up, not movement code.

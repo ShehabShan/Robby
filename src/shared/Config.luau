@@ -166,6 +166,8 @@ local Config = {
 	},
 	-- Sprint FOV (T-058b, D-429): tweened on sprint start/stop only.
 	MovementCamera = { fovBase = 70, fovSprint = 78, fovTween = 0.25 },
+	-- Movement VFX (T-058i, D-440): footstep dust when running, rare sprint speed streaks (studs/s, seconds).
+	MoveFx = { dustMinSpeed = 18, streakMinSpeed = 22, streakEveryMin = 2.5, streakEveryMax = 4 },
 	-- Sprint speed guard (T-026b3b, D-166): server planar speed check; slack in studs per 0.25 s sample.
 	-- Remote rate limits per client→server event (F-02, D-171): tokens per second + burst.
 	-- T-043c0b3a: replay policy prepared for b3b, not yet connected to live remotes.

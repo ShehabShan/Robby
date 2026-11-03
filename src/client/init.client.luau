@@ -19,6 +19,7 @@ local KithFx = require(script.KithFx)
 local RimeFx = require(script.RimeFx)
 local MoveFeelClient = require(script.MoveFeelClient)
 local FootstepClient = require(script.FootstepClient)
+local MoveFxClient = require(script.MoveFxClient)
 local SprintClient = require(script.SprintClient)
 local VaultClient = require(script.VaultClient)
 local KnockbackClient = require(script.KnockbackClient)
@@ -132,6 +133,7 @@ Hud.start(
 LoadoutUi.start(built, Net) -- equip/unequip screen (T-016d, D-069)
 MoveFeelClient.start() -- body lean, camera bob, landing dip (T-026b1, D-161)
 FootstepClient.start() -- surface footsteps (T-026b2, D-162)
+MoveFxClient.start() -- footstep dust, speed streaks, dash dust/arcs/smoke (T-058i, D-440)
 local dashSeq = 0
 SprintClient.start(function(dir: Vector3)
 	dashSeq = (dashSeq + 1) % 65536
