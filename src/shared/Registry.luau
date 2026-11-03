@@ -22,6 +22,7 @@ Registry.DELIVERIES = {
 	Zone = true,
 	Volley = true, -- T-027b: fan of projectiles with a per-target hit cap
 	Burst = true, -- T-027b: instant pick of targets in a radius around the caster
+	Guard = true, -- T-057c2: ring that follows the caster and shatters on the first enemy touch (GuardRing)
 	Summon = true,
 	Self = true,
 	System = true,

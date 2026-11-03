@@ -60,6 +60,8 @@ function CastGeometry.valid(g: any): boolean
 		return g.centreMode == "Fixed" and g.radius > 0 and g.range > 0
 	elseif g.kind == "Burst" then
 		return g.centreMode == "CasterAtRelease" and g.radius > 0 and g.range == 0
+	elseif g.kind == "Guard" then
+		return g.centreMode == "FollowCaster" and g.radius > 0 and g.range == 0
 	end
 	return g.kind == "Self" and g.centreMode == "None" and g.radius == 0 and g.range == 0
 end
@@ -112,6 +114,8 @@ function CastGeometry.capture(move: any, defaultHitbox: any): Snapshot?
 		g.centreMode, g.radius, g.range = "Fixed", p.radius, p.range
 	elseif d.kind == "Burst" then
 		g.centreMode, g.radius = "CasterAtRelease", p.radius
+	elseif d.kind == "Guard" then
+		g.centreMode, g.radius = "FollowCaster", p.radius -- moves with the caster (T-057c2)
 	end
 	return if CastGeometry.valid(g) then CastGeometry.copy(g) else nil
 end

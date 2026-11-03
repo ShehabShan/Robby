@@ -30,6 +30,7 @@ local Aim = require(ReplicatedStorage.Shared.Aim)
 local Volley = require(ReplicatedStorage.Shared.Deliveries.Volley)
 local Scissor = require(ReplicatedStorage.Shared.Deliveries.Scissor)
 local Ring = require(ReplicatedStorage.Shared.Deliveries.Ring)
+local GuardRing = require(ReplicatedStorage.Shared.Deliveries.GuardRing)
 local Zone = require(ReplicatedStorage.Shared.Deliveries.Zone)
 local Burst = require(ReplicatedStorage.Shared.Deliveries.Burst)
 local Frost = require(ReplicatedStorage.Shared.Frost)
@@ -629,6 +630,98 @@ local function burstCast(player: Player, character: Model, move: any, dir: Vecto
 	end)
 end
 
+-- Guard delivery (T-057c2, D-415): Full Moon Ring. The ring follows the caster's CURRENT root each Heartbeat for
+-- `duration`; the first enemy (player or beast) inside radius + touchRadius shatters it once (pure `GuardRing.touch`):
+-- onHit effects (Dmg = 1 Cut hit, Stagger = tiny stun that also interrupts beast/boss attacks) and a small
+-- knockback away from the caster. Knockback moves server-owned roots (beasts); a player's own client owns their root.
+-- Caster speed boost (`speedMult`) is T-057c3.
+local function guardCast(player: Player, character: Model, move: any, dir: Vector3, lifetime: CastLifetime.Handle)
+	local p = move.delivery.params
+	local root = aliveRoot(character)
+	if not root then
+		CastLifetime.terminate(lifetimes, lifetime, "caster_lost", os.clock())
+		return
+	end
+	fireCast(move, player, root.Position, dir)
+	local state = GuardRing.new(p, os.clock())
+	local overlap = OverlapParams.new()
+	overlap.FilterType = Enum.RaycastFilterType.Exclude
+	overlap.FilterDescendantsInstances = { character }
+	local conn: RBXScriptConnection? = nil
+	conn = RunService.Heartbeat:Connect(function()
+		local now = os.clock()
+		local function stop(reason: string?)
+			if conn then
+				conn:Disconnect()
+				conn = nil
+			end
+			if reason then
+				CastLifetime.terminate(lifetimes, lifetime, reason, now)
+			else
+				CastLifetime.finish(lifetimes, lifetime, 1, now)
+			end
+		end
+		if not CastLifetime.isActive(lifetimes, lifetime) then
+			if conn then
+				conn:Disconnect()
+				conn = nil
+			end
+			return
+		end
+		local castRoot = if player.Parent == Players and player.Character == character
+			then aliveRoot(character)
+			else nil
+		if not castRoot then
+			stop("caster_lost")
+			return
+		end
+		if not GuardRing.isOpen(state, now) or now >= lifetime.deadline then
+			stop(nil)
+			return
+		end
+		local targets: { GuardRing.Target } = {}
+		local byKey: { [string]: Model } = {}
+		local seen: { [Instance]: boolean } = {}
+		for _, part in workspace:GetPartBoundsInRadius(castRoot.Position, p.radius + p.touchRadius + 3, overlap) do
+			local model = part:FindFirstAncestorOfClass("Model")
+			if model == nil or seen[model] then
+				continue
+			end
+			seen[model] = true
+			local humanoid = model:FindFirstChildOfClass("Humanoid")
+			local mroot = model:FindFirstChild("HumanoidRootPart")
+			if humanoid and humanoid.Health > 0 and mroot and mroot:IsA("BasePart") then
+				local victim = Players:GetPlayerFromCharacter(model)
+				if victim and Status.blocksHit(statuses, victim, now) then
+					continue
+				end
+				local key = hitKey(model)
+				byKey[key] = model
+				table.insert(targets, { key = key, x = mroot.Position.X, z = mroot.Position.Z })
+			end
+		end
+		local c = castRoot.Position
+		local shatter = GuardRing.touch(state, p, c.X, c.Z, targets, now)
+		if not shatter then
+			return
+		end
+		local model = byKey[shatter.key]
+		local humanoid = model:FindFirstChildOfClass("Humanoid") :: Humanoid
+		local mroot = model:FindFirstChild("HumanoidRootPart") :: BasePart
+		local amount = applyOnHit(player, move, humanoid)
+		if not Players:GetPlayerFromCharacter(model) and not mroot.Anchored then
+			local v = mroot.AssemblyLinearVelocity
+			mroot.AssemblyLinearVelocity = Vector3.new(shatter.pushX, v.Y, shatter.pushZ)
+		end
+		local pos = mroot.Position
+		local away = Vector3.new(shatter.pushX, 0, shatter.pushZ)
+		local hitDir = if away.Magnitude > 1e-6 then away.Unit else dir
+		confirmedContact(lifetime, 1, 1, model, pos, hitDir, amount)
+		hitFx(move, player, pos, hitDir, model, amount)
+		stop(nil)
+	end)
+end
+
 -- The Kith's Kit and stance timing (chain move + `_finisher`), or nil for Kith without a left-click chain.
 local function kitFor(move: any): (Stance.Kit?, Stance.Cfg?)
 	local kith = if move.kith then built.kith[move.kith] else nil
@@ -775,6 +868,7 @@ local function authorizeCast(player: Player, value: any): (AcceptedCast?, string
 		point = point,
 		origin = if move.delivery.kind == "Self"
 				or move.delivery.kind == "Burst"
+				or move.delivery.kind == "Guard"
 				or Ring.isRing(move.delivery.params)
 			then root.Position
 			else bladeOrigin(character, root, flatDir, move.delivery.params.spawnOffset or 0, freeAim),
@@ -816,6 +910,8 @@ local function deliverCast(accepted: AcceptedCast, lifetime: CastLifetime.Handle
 		end)
 	elseif kind == "Burst" then
 		burstCast(player, character, move, dir, lifetime)
+	elseif kind == "Guard" then
+		guardCast(player, character, move, dir, lifetime)
 	elseif kind == "Zone" then
 		zoneCast(player, character, move, accepted.point :: Vector3, dir, accepted.monotonicAt, lifetime)
 	elseif kind == "Volley" then

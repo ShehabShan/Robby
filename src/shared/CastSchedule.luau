@@ -1,6 +1,7 @@
 --!strict
 -- Current live deadlines, not the future Z wind-up contract. No engine clocks.
 local Zone = require("./Deliveries/Zone")
+local GuardRing = require("./Deliveries/GuardRing")
 local CastSchedule = {}
 export type Offsets = { release: number, finish: number }
 local function finite(n: any): boolean
@@ -27,6 +28,11 @@ function CastSchedule.offsets(move: any, effects: any, maxLifetime: number): Off
 	elseif kind == "Burst" then
 		release = move.telegraph or 0
 		finish = release
+	elseif kind == "Guard" then
+		if not GuardRing.validParams(p) then
+			return nil
+		end
+		finish = p.duration -- open at once; lasts until shattered or `duration` (T-057c2, D-415)
 	elseif kind == "Self" then
 		for _, id in move.effects.onSelf or {} do
 			local effect = effects[id]

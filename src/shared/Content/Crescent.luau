@@ -8,6 +8,7 @@ function Crescent.content(cfg: any): any
 	local c = cfg.Abilities.CrescentCut
 	local t = cfg.Abilities.TwinCrescent
 	local r = cfg.Abilities.FullMoonRing
+	local g = cfg.Abilities.GuardRing
 	local pierce = cfg.Loom.supports.Piercing
 	return {
 		effects = {
@@ -32,7 +33,10 @@ function Crescent.content(cfg: any): any
 			{
 				id = "effect.full_moon_ring.hit", -- Full Moon Ring blade (T-053c, D-407)
 				duration = "Inst",
-				ops = { { kind = "Dmg", params = { base = r.baseDamage } } },
+				ops = { -- guard ring shatter (T-057c2, D-415): 1 Cut hit + very small stun
+					{ kind = "Dmg", params = { base = g.damage } },
+					{ kind = "Stagger", params = { seconds = g.stunSeconds } },
+				},
 				fx = "fx.fullmoon.hit",
 			},
 		},
@@ -93,30 +97,30 @@ function Crescent.content(cfg: any): any
 				fx = { cast = "fx.twin.cast", travel = "fx.twin.travel", hit = "fx.twin.hit" },
 			},
 			{
-				id = "move.full_moon_ring", -- rank 3 on X (T-053c, D-407): 4 blades form a ring, then burst outward
+				id = "move.full_moon_ring", -- rank 3 on X (T-053c, D-407; guard ring T-057c, D-411)
 				name = "Full Moon Ring",
 				kith = "kith.full_moon",
 				trigger = "Press",
 				target = "Aim",
 				delivery = {
-					kind = "Volley",
+					kind = "Guard", -- defensive ring that follows the caster (T-057c2, D-415)
 					params = {
-						count = r.count,
-						spreadDeg = 0,
-						perTargetCap = r.perTargetCap,
-						curve = "Ring",
-						radius = r.radius,
-						speed = r.speed,
-						range = r.range,
-						maxHits = r.maxHits,
-						hitbox = r.hitboxSize,
-						stopOnWorld = true,
+						count = g.count,
+						radius = g.radius,
+						duration = g.duration,
+						spin = g.spin,
+						touchRadius = g.touchRadius,
+						damage = g.damage,
+						stunSeconds = g.stunSeconds,
+						knockback = g.knockback,
+						speedMult = g.speedMult,
+						speedSeconds = g.speedSeconds,
 					},
 				} :: any,
 				costs = { qi = r.cost },
 				cooldown = r.cooldown,
 				effects = { onHit = { "effect.full_moon_ring.hit" } },
-				tags = { "Path.Moon", "Role.Strike", "Delivery.Proj" },
+				tags = { "Path.Moon", "Role.Guard", "Delivery.Self" },
 				fx = { cast = "fx.twin.cast", travel = "fx.fullmoon.travel", hit = "fx.fullmoon.hit" },
 			},
 		},

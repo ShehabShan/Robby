@@ -10,7 +10,8 @@ export type Catalog = { [string]: Style }
 export type Metadata = { acceptance: Receipts.Acceptance, style: Style }
 export type Accepted = { key: string, timeline: Presentation.Timeline, metadata: Metadata }
 export type Contact = { action: string, receipt: Contacts.Contact, metadata: Metadata?, delivery: string, fx: string? }
-local SUPPORTED = table.freeze({ Projectile = true, Volley = true, Zone = true, Burst = true, Self = true })
+local SUPPORTED =
+	table.freeze({ Projectile = true, Volley = true, Zone = true, Burst = true, Guard = true, Self = true })
 local function fx(value: any): string?
 	return if type(value) == "string" and #value > 0 and #value <= 128 then value else nil
 end
