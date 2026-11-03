@@ -1,6 +1,6 @@
 ## S125 — 2026-11-03 — T-053b Twin Crescent "Scissor" (bot e900b82c)
 - Built Rank 2 Twin Crescent: blue blade (left) + gold blade (right) curve inward on a shared pure path (`Deliveries/Scissor`), cross 22 studs ahead in a white X flash, fly on. 18 dmg per blade, 36 at the cross (D-394–D-397).
-- Twin Crescent Kith now has Crescent Cut on left click and Scissor on Z. CHECK PASS. Cloud test of merged main started at close-out (see STATE). NEXT: owner playtest (Twin Crescent + T-053a7 aim). ~33 OLU.
+- Twin Crescent Kith now has Crescent Cut on left click and Scissor on Z. CHECK PASS. Cloud test CLOUD ALL: PASS on Saved version 34. NEXT: owner playtest (Twin Crescent + T-053a7 aim). ~33 OLU.
 
 ## S124 — 2026-11-03 — T-053a7 aim bug (bot eaad9032)
 - Owner: Crescent always flies at one downward angle, over Mistfang. Cause found: aim ray ignored non-collidable beast/player parts. Fix: aim snaps to the target under the cursor (D-393). CHECK PASS. Not cloud-tested (OLU). NEXT: owner retest, then T-053a6. ~7 OLU.
