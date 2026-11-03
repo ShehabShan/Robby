@@ -1,8 +1,8 @@
 # STATE
 
 ## Now — after S142 (2026-11-03, bot ee08ce6b)
-- **T-058d1/d2 done (D-435–D-437), merged to main; cloud test CLOUD ALL: PASS 712/712 on Saved version 49 (not published).** Everyone now has a Q dash: Q + WASD (no direction = back-step); side dash dodges (short i-frames, cd 1.5 s), forward/back = repositioning (cd 3 s); 15 stamina; Q while sprinting forward still slides. Tune in `Config.Dash`.
-- **Owner:** feel-test Saved v49 / Studio. Confirm **T-058d3** Wind Step rework (long ~20-stud dodge, full i-frames, works while stunned = combo breaker).
+- **T-058d1/d2 done (D-435–D-437), merged to main; cloud test CLOUD ALL: PASS 712/712 on version 49; **PUBLISHED live as game v0.0.22 (place v49) on owner request, 2026-11-03.** Everyone now has a Q dash: Q + WASD (no direction = back-step); side dash dodges (short i-frames, cd 1.5 s), forward/back = repositioning (cd 3 s); 15 stamina; Q while sprinting forward still slides. Tune in `Config.Dash`.
+- **Owner:** feel-test live game (Sober): Q+WASD dash, R = Wind Step (Wind Kith is a starter, fixed move). Confirm **T-058d3** Wind Step rework (long ~20-stud dodge, full i-frames, works while stunned = combo breaker).
 - **NEXT: T-058d3** (after owner Yes), else T-058c anims (needs assets). Blockers: none. Last check: CHECK: PASS.
 
 ## Now — after S141 (2026-11-03, bot 32c2f9b5)
