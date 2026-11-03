@@ -1,5 +1,9 @@
 # STATE
 
+## Now — after S134 (2026-11-03, bot 15cd70f4)
+- **T-057e done (D-418):** crescent image ids were fine (Approved/Active, real-engine preload Success via `scripts/texture_probe.py`); S133 blanks = Roblox still processing. **T-057c3 code (D-419):** ring shatter knocks back enemy players (KnockbackClient) and interrupts/blocks their casts while staggered. **F-04 part (D-420).** Merged to main; cloud test CLOUD ALL: PASS 695/695 on **Saved version 47** (not published).
+- **NEXT: owner playtest T-057c3** in Saved v47 or Studio (Test → 2 players): crescent textures visible at rank 1/2; Full Moon Ring shatter pushes/interrupts the other player. Blockers: none. Last check: CHECK: PASS.
+
 ## Now — after S133 (2026-11-03, bot c375ef08)
 - **T-057d fixed (D-417), merged to main:** crescent textures failed in Studio because AssetIds held Decal ids; now the Image ids. Full Moon Ring = one full spinning ring2 circle. Cloud test CLOUD ALL: PASS 691/691 on **Saved version 44** (not published). **NEXT: T-057e (rank 1/2 textures: 'representation is being generated' — likely transient; owner retests first), then T-057c3 owner retests Saved v44** (close Studio play first: a playing session makes uploads fail 409 "Server is busy"), then player knockback/interrupt.
 - Blockers: none. Last check: CHECK: PASS.
