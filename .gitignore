@@ -9,3 +9,4 @@ roblox.yml
 *.rbxlx.lock
 __pycache__/
 *.py[cod]
+research/video/**/*.mp4
