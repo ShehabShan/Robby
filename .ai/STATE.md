@@ -1,7 +1,7 @@
 # STATE
 
-## Now — owner feedback after S129 (2026-11-03)
-- **NEXT: T-057** (TASKS.md): a) real crescent slash art via Gemini for all Crescent blades, b) fix invisible Twin Crescent 3rd blade (damage works), c) rework Full Moon Ring into a defensive ring that follows the player ~3 s and shatters on touch (tiny stun + interrupt + 1 Cut damage + caster speed boost).
+## Now — after S130 (2026-11-03, bot 43b400b6)
+- **NEXT: owner picks crescent art 1–4** (sheet in bot 43b400b6, files `research/notes/T-057a/cand1-4.jpg`; T-057a doing, Resume note in TASKS) → process/upload → use for all Crescent blades (3rd blade bigger). **Then T-057c2** (wire defensive ring; rule `Shared.Deliveries.GuardRing` done). T-057b 3rd-blade visibility fixed on main (D-410), not in a Saved version yet. CHECK PASS 690.
 
 ## Now — after S129 (2026-11-03, bot 1ada4a40)
 - **T-053c Full Moon Ring built (D-407, D-408), merged to main; cloud test CLOUD ALL: PASS 683/683 on **Saved version 39** (includes T-056 + T-055), not published. NEXT: owner playtest** in Studio or Saved v39: F2 → give `kith.full_moon` (rank 3, working name) → left click Cut, Z Scissor (check 3rd blade), X Full Moon Ring (4 blades burst outward). Owner to pick: rank-3 Kith name, Crucible recipe, tuning (`Config.Abilities.FullMoonRing`). Crescent R1–R3 code complete after this.

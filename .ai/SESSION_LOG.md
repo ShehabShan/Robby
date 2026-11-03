@@ -1,3 +1,9 @@
+## S130 — 2026-11-03 — T-057 crescent art + 3rd blade fix + guard ring rule (bot 43b400b6)
+- T-057a: `scripts/gemini_image.sh` (gemini-3-pro-image); 4 crescent slash candidates in `research/notes/T-057a/` (D-409). Waiting owner pick 1–4 (rec 4).
+- T-057b fixed (D-410): client dropped all its own CastFx echoes, but the 3rd blade is server-only → caster never saw it. `FxRegistry.serverOnlyFor/skipEcho` + spec.
+- T-057c split; c1 done (D-411): pure `Shared.Deliveries.GuardRing` + `Config.Abilities.GuardRing` + spec. c2 (wiring) todo.
+- CHECK PASS (690 tests). NEXT: owner picks image; T-057c2. ~24 OLU
+
 ## S129 — 2026-11-03 — T-053c Full Moon Ring (bot 1ada4a40)
 - Split T-053c into c1/c2 and built both (D-407, D-408). New rank-3 Kith `kith.full_moon` (working name): left click Crescent Cut, Z Scissor, X Full Moon Ring.
 - Full Moon Ring: 4 blades (blue/gold) form a ring 3 studs round the player, then fly straight outward 40 studs, 24 dmg each, cut through up to 3 enemies, stop on walls. Pure rule `Shared.Deliveries.Ring` + spec.
