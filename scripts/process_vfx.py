@@ -11,7 +11,7 @@ from PIL import Image, ImageChops
 
 SRC = pathlib.Path("assets/source")
 OUT = pathlib.Path("assets/processed")
-VFX = ["vfx-crescent-slash", "vfx-crescent-hit"]
+VFX = ["vfx-crescent-slash", "vfx-crescent-hit", "vfx-crescent-blue", "vfx-crescent-gold"]  # blue/gold: owner picks 4/3 (T-057a, D-412)
 ICONS = ["icon-crescent-cut"]
 SIZE = 512
 

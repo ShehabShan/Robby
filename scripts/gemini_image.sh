@@ -5,11 +5,16 @@
 set -euo pipefail
 out=$1; prompt=$2; model=${3:-gemini-3-pro-image}
 mkdir -p "$(dirname "$out")"
-body=$(python3 -c 'import json,sys;print(json.dumps({"contents":[{"parts":[{"text":sys.argv[1]}]}],"generationConfig":{"responseModalities":["IMAGE"]}}))' "$prompt")
+REFS="${REFS:-}" python3 -c '
+import base64, json, os, sys
+parts = [{"inlineData": {"mimeType": "image/png" if f.endswith(".png") else "image/jpeg",
+          "data": base64.b64encode(open(f, "rb").read()).decode()}} for f in os.environ["REFS"].split()]
+parts.append({"text": sys.argv[1]})
+print(json.dumps({"contents": [{"parts": parts}], "generationConfig": {"responseModalities": ["IMAGE"]}}))' "$prompt" > "$out.req" 
 code=$(curl -sS --max-time 280 -o "$out.json" -w "%{http_code}" \
   "$PROMPTQL_PLATFORM_API_URL/v1/integration/__gemini-web-search/generativelanguage.googleapis.com/v1beta/models/$model:generateContent" \
   -H "Authorization: Bearer $PROMPTQL_USER_JWT" -H "Content-Type: application/json" \
-  -H "X-PromptQL-Description: Robby T-057a: Gemini image $(basename "$out")" -d "$body")
+  -H "X-PromptQL-Description: Robby T-057a: Gemini image $(basename "$out")" --data-binary @"$out.req"); rm -f "$out.req"
 [ "$code" = 200 ] || { echo "FAIL HTTP $code $(head -c 200 "$out.json")"; exit 1; }
 python3 - "$out" <<'EOF'
 import base64, json, sys
