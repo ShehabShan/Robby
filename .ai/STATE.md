@@ -1,5 +1,9 @@
 # STATE
 
+## Now — after S141 (2026-11-03, bot 32c2f9b5)
+- **R-030 done (D-434):** owner wants a basic dash for everyone (Q + WASD, side dash dodges). Wind Step is a velocity dash, not a teleport; proposed as the long, stun-breaking special. Plan + numbers: `research/notes/R-030-dash.md`.
+- **NEXT: T-058d basic dash** (owner to confirm the Wind Step rework first). Then T-058c anims. Blockers: none. Last check: CHECK: PASS.
+
 ## Now — after S140 (2026-11-03, bot 32c2f9b5)
 - **R-029 done + T-058a/b/e/f/g done (D-426–D-432), merged to main; cloud test CLOUD ALL: PASS 711/711 on Saved version 48 (not published).** New movement: R15 kit gone, default Roblox anims for now; jog 18 by default, hold Shift to sprint 24→27 with stamina, sprint FOV, Q slide (+ jump = slide-jump), Space near a low wall vaults / ledge climbs, hard landings slow you briefly.
 - **Owner:** feel-test in Studio or Saved v48 (tune numbers in `Config.Movement` / `Config.Vault`). Question: T-058d dodge would re-add a free dash that D-189 removed — build it or drop it? (D-433)
