@@ -1,3 +1,9 @@
+## S128 — 2026-11-03 — T-056 Twin Crescent 3rd blade (bot 1ada4a40)
+- Split T-056 into a/b/c and built all three (D-404–D-406). Scissor blades now stop on the first enemy hit (no pierce) and on walls.
+- If BOTH blades reach the cross (22 studs) alive, a silver-white 3rd blade flies straight on: 2× hit box, 2× travel (130 studs from the cross), 2× damage (36). One blade blocked → no 3rd blade (spec).
+- Pure rule in `Shared.Deliveries.Scissor`; server split at the cross in `Abilities`; cast lifetime 3 resources (`CastSchedule.resources`); client `TwinCrescentFx.third`.
+- CHECK PASS. NEXT: owner playtest via F2 (give Twin Crescent, press Z), cloud test from main, then T-053c. ~17 OLU
+
 ## S127 — 2026-11-03 — T-055 C0 error spam (bot 4c2cc191)
 - Owner: Studio spammed "Unable to assign property C0. Property is read only" every frame (MoveFeelClient:54, body lean). Fix: lean write wrapped in pcall; on the first failure lean turns off, camera bob/landing dip keep working (D-403). CHECK PASS. NEXT: owner confirms no spam, then T-054d playtest. ~35 OLU.
 
