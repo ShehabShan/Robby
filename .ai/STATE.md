@@ -1,5 +1,8 @@
 # STATE
 
+## Now — after S129 (2026-11-03, bot 1ada4a40)
+- **T-053c Full Moon Ring built (D-407, D-408), merged to main; cloud test CLOUD ALL: PASS 683/683 on **Saved version 39** (includes T-056 + T-055), not published. NEXT: owner playtest** in Studio or Saved v39: F2 → give `kith.full_moon` (rank 3, working name) → left click Cut, Z Scissor (check 3rd blade), X Full Moon Ring (4 blades burst outward). Owner to pick: rank-3 Kith name, Crucible recipe, tuning (`Config.Abilities.FullMoonRing`). Crescent R1–R3 code complete after this.
+
 ## Now — after S128 (2026-11-03, bot 1ada4a40)
 - **T-056 Twin Crescent 3rd blade built (D-404–D-406), merged to main; cloud test CLOUD ALL: PASS 682/682 on **Saved version 38** (also includes T-055 fix), not published. NEXT: owner playtest** in Studio or Saved v38: F2 → give Twin Crescent → Z. Check: blades end on first enemy/wall; if both reach the X a big silver blade flies straight on (2× size, travel, damage); one blade blocked → no 3rd. Also re-check T-055 (no C0 spam) and T-054d items. Then T-053c Full Moon Ring.
 
