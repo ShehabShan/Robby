@@ -1,5 +1,9 @@
 # STATE
 
+## Now — after S132 (2026-11-03, bot c375ef08)
+- **T-057a done (D-414) + T-057c2 Full Moon Ring guard ring wired (D-415, D-416), merged to main; cloud test CLOUD ALL: PASS 691/691 on **Saved version 41**, not published. NEXT: T-057c3 owner playtest** in Studio or Saved v41: Twin Crescent blade art (blue/gold/3rd) and Full Moon Ring (X): ring follows you 3 s, shatters on first enemy touch, you get a short speed boost. Then player-side knockback/interrupt (T-057c3).
+- Blockers: none. Last check: CHECK: PASS.
+
 ## Now — after S131 (2026-11-03, bot 43b400b6)
 - **NEXT: T-057a finish** — blue/gold art uploaded + in AssetIds (Crescent Cut already uses blue); swap TwinCrescentFx textures per blade (blue/gold); process + upload third2 (3rd blade) and ring2 (ring). Owner picked 3rd blade B (`research/notes/T-057a/third2.jpg`) and Ring B (`ring2.jpg`, must spin round the player for the 3 s) — process + upload them too. Then T-057c2. Resume note in TASKS.
 
