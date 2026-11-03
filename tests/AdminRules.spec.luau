@@ -52,6 +52,9 @@ return {
 		local r =
 			AdminRules.validate(Config, built, { action = "spawnBeast", kind = "beast.mistfang", distance = 1e6 }) :: any
 		eq(r.distance, Config.Admin.spawnDistance.max, "distance clamped")
+		local d = AdminRules.validate(Config, built, { action = "debugDraw" }) :: any
+		eq(d.action, "debugDraw", "debug toggle allowed")
+		eq(select(2, AdminRules.apply(profile(), d)), "server", "debug is a live action")
 	end,
 	["admin: any species at any rank can be given, marked test-only"] = function()
 		local data = profile()

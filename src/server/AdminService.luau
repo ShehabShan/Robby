@@ -46,6 +46,11 @@ local function report(player: Player, data: any, req: any, ok: boolean, detail: 
 end
 
 local function live(player: Player, req: any): (boolean, string)
+	if req.action == "debugDraw" then
+		local on = player:GetAttribute("AdminDebugDraw") ~= true
+		player:SetAttribute("AdminDebugDraw", on)
+		return true, `hitbox draw {if on then "on" else "off"}`
+	end
 	if req.action == "refill" then
 		local pool = Abilities.pool(player)
 		if pool then
@@ -93,7 +98,7 @@ function AdminService.start()
 			return
 		end
 		local ok, detail
-		if req.action == "refill" or req.action == "spawnBeast" then
+		if req.action == "refill" or req.action == "spawnBeast" or req.action == "debugDraw" then
 			ok, detail = live(player, req)
 		else
 			ok, detail = AdminRules.apply(data, req)

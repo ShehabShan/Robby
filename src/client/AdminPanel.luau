@@ -141,6 +141,10 @@ function AdminPanel.start(built: any, net: any)
 		end)
 	end
 
+	button(frame, "Toggle hitbox / blade-path draw", nextOrder(), function()
+		send({ action = "debugDraw" })
+	end)
+
 	button(frame, "Clean up test grants", nextOrder(), function()
 		send({ action = "cleanup" })
 	end)

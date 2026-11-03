@@ -279,6 +279,24 @@ local function confirmedContact(
 end
 
 -- Sweeps the projectile from `from` to `to` studs along its path; may hit several targets in one step.
+-- Admin hitbox / blade-path debug draw (T-054d, D-402): when the caster has `AdminDebugDraw` (set only by
+-- AdminService for allowlisted admins), each swept hit box is drawn briefly. Never queried or touched.
+local function drawSweep(caster: Player, start: Vector3, dir: Vector3, len: number, size: Vector3)
+	if typeof(caster) ~= "Instance" or caster:GetAttribute("AdminDebugDraw") ~= true then
+		return
+	end
+	local part = Instance.new("Part")
+	part.Name = "AdminHitbox"
+	part.Anchored, part.CanCollide, part.CanQuery, part.CanTouch = true, false, false, false
+	part.Material = Enum.Material.ForceField
+	part.Color = Color3.fromRGB(255, 60, 60)
+	part.Transparency = 0.3
+	part.Size = Vector3.new(size.X, size.Y, size.Z + len)
+	part.CFrame = CFrame.lookAt(start + dir * (len / 2), start + dir * (len / 2 + 1))
+	part.Parent = workspace
+	game:GetService("Debris"):AddItem(part, 0.5)
+end
+
 local function sweep(shot: Shot, from: number, to: number)
 	if to <= from then
 		return
@@ -299,6 +317,7 @@ local function sweep(shot: Shot, from: number, to: number)
 			segDir, segLen = seg.Unit, seg.Magnitude
 		end
 	end
+	drawSweep(shot.caster, start, segDir, segLen, size)
 	for _ = 1, p.maxHits + 4 do
 		if shot.state.done and shot.state.hitCount >= p.maxHits then
 			return

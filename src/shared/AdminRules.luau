@@ -2,8 +2,8 @@
 -- Admin panel rules (T-054a, D-398/D-399). Pure: no game services. The server re-checks the allowlist and
 -- re-validates every request with these functions (never trust the client). Every Kith/food/shard an admin
 -- grants is marked test-only (`data.adminGrants`) so `cleanup` can remove it again.
--- Actions: giveKith, removeKith, refill, addShards, addFood, spawnBeast, cleanup.
--- Profile actions are applied by `apply`; refill and spawnBeast change the live world and are done by the server.
+-- Actions: giveKith, removeKith, refill, addShards, addFood, spawnBeast, cleanup, debugDraw (toggle).
+-- Profile actions are applied by `apply`; refill, spawnBeast and debugDraw change the live world and are done by the server.
 
 local AdminRules = {}
 
@@ -26,6 +26,7 @@ local ACTIONS = {
 	addFood = true,
 	spawnBeast = true,
 	cleanup = true,
+	debugDraw = true,
 }
 
 function AdminRules.isAdmin(cfg: any, userId: any): boolean
@@ -145,7 +146,7 @@ local function dropKith(data: any, uid: string)
 	grants(data).kith[uid] = nil
 end
 
--- Applies a validated profile action. Returns (ok, detail). refill/spawnBeast return (true, "server").
+-- Applies a validated profile action. Returns (ok, detail). refill/spawnBeast/debugDraw return (true, "server").
 function AdminRules.apply(data: any, req: Request): (boolean, string)
 	local a = req.action
 	local g = grants(data)
