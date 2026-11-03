@@ -1,5 +1,10 @@
 # STATE
 
+## Now — after S142 (2026-11-03, bot ee08ce6b)
+- **T-058d1/d2 done (D-435–D-437), merged to main; cloud test CLOUD ALL: PASS 712/712 on Saved version 49 (not published).** Everyone now has a Q dash: Q + WASD (no direction = back-step); side dash dodges (short i-frames, cd 1.5 s), forward/back = repositioning (cd 3 s); 15 stamina; Q while sprinting forward still slides. Tune in `Config.Dash`.
+- **Owner:** feel-test Saved v49 / Studio. Confirm **T-058d3** Wind Step rework (long ~20-stud dodge, full i-frames, works while stunned = combo breaker).
+- **NEXT: T-058d3** (after owner Yes), else T-058c anims (needs assets). Blockers: none. Last check: CHECK: PASS.
+
 ## Now — after S141 (2026-11-03, bot 32c2f9b5)
 - **R-030 done (D-434):** owner wants a basic dash for everyone (Q + WASD, side dash dodges). Wind Step is a velocity dash, not a teleport; proposed as the long, stun-breaking special. Plan + numbers: `research/notes/R-030-dash.md`.
 - **NEXT: T-058d basic dash** (owner to confirm the Wind Step rework first). Then T-058c anims. Blockers: none. Last check: CHECK: PASS.
