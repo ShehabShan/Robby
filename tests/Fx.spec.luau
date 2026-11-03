@@ -18,6 +18,16 @@ end
 local function noop(_ctx: any) end
 
 return {
+	["fx: caster sees its own server-only 3rd blade, other echoes still skipped (T-057b)"] = function()
+		local All = require("../src/shared/Content/All")
+		local content = Registry.build(All.content(Config))
+		local so = FxRegistry.serverOnlyFor(content)
+		eq(so["fx.twin.third"], true, "3rd blade is server-only")
+		eq(FxRegistry.skipEcho(so, "fx.twin.third", true), false, "caster plays 3rd blade")
+		eq(FxRegistry.skipEcho(so, "fx.twin.cast", true), true, "caster skips its predicted cast")
+		eq(FxRegistry.skipEcho(so, "fx.twin.cast", false), false, "others play the cast")
+		eq(FxRegistry.skipEcho(so, 42, true), true, "junk id skipped for caster")
+	end,
 	["fx: every real content id registers and dispatches (Rimeshard regression)"] = function()
 		local All = require("../src/shared/Content/All")
 		local content = Registry.build(All.content(Config))

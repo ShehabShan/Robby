@@ -110,8 +110,9 @@ KithInput.start(cast, function(slot: number)
 	Net.SelectSlot.Fire({ slot = slot })
 end, fx, built, canRequestCast)
 
+local serverOnlyFx = FxRegistry.serverOnlyFor(built) -- e.g. Twin Crescent 3rd blade (T-057b, D-410)
 Net.CastFx.On(function(v)
-	if v.caster == player then
+	if FxRegistry.skipEcho(serverOnlyFx, v.fxId, v.caster == player) then
 		return -- the caster already played it locally
 	end
 	FxRegistry.play(fx, v.fxId, { caster = v.caster, character = v.caster.Character, pos = v.pos, dir = v.dir })

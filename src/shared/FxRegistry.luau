@@ -83,4 +83,23 @@ function FxRegistry.missingFor(reg: Registry, built: any): { string }
 	return out
 end
 
+-- Fx ids only the server can start (T-057b, D-410): the caster never predicts them locally, so the client must not
+-- drop the server echo for its own casts. Today: Volley `thirdFx` (Twin Crescent 3rd blade, spawned at the cross).
+function FxRegistry.serverOnlyFor(built: any): { [string]: boolean }
+	local out: { [string]: boolean } = {}
+	for _, move in built.moves or {} do
+		local params = move.delivery and move.delivery.params
+		local id = if type(params) == "table" then params.thirdFx else nil
+		if FxRegistry.isValidId(id) then
+			out[id] = true
+		end
+	end
+	return out
+end
+
+-- True when the client should skip a CastFx echo: the caster already played it locally, unless it is server-only.
+function FxRegistry.skipEcho(serverOnly: { [string]: boolean }?, id: unknown, isCaster: boolean): boolean
+	return isCaster and not (serverOnly ~= nil and typeof(id) == "string" and serverOnly[id] == true)
+end
+
 return FxRegistry
