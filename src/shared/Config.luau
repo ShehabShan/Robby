@@ -356,6 +356,13 @@ local Config = {
 		lotusYield = 0.5, -- Mist Lotus: +50 % Stage points per Shard while equipped
 		maxYield = 1, -- cap on the bonus (best equipped Kith only, no stacking)
 	},
+	Admin = { -- owner-only dev panel (T-054, D-399); every request re-checked on the server
+		userIds = { 7738981129 }, -- owner Roblox account; add tester user ids here
+		maxShards = 1000, -- per request
+		maxFood = 50, -- per request
+		spawnDistance = { min = 4, max = 60 }, -- studs in front of the admin
+		logCap = 50, -- admin log entries kept per profile
+	},
 	Loadout = {
 		baseSlots = 3, -- Core slots at Rank 1 (GDD)
 		slotsPerRank = 1,
