@@ -1,5 +1,9 @@
 # STATE
 
+## Now — after S125 (2026-11-03, bot e900b82c)
+- **T-053b Twin Crescent "Scissor" built (D-394–D-397), merged to main. NEXT: owner playtest** of Twin Crescent (Rank 2 Kith: Crescent Cut on left click, Scissor on Z; get one via Crucible `recipe.twin_crescent` or a test grant) together with the T-053a7 aim retest. Check: both blades curve in and cross in a white X; tune `Config.Fx.TwinCrescent` / `Abilities.TwinCrescent` (width, crossAt). Then T-053c Full Moon Ring (X).
+- Notes: Crescent Cut cast from a Twin Crescent Kith gets no Kith strain (KithCare.casterOf matches move.kith = kith.crescent); client Scissor FX does not stop on walls (server blades pass scenery too).
+
 ## Now — after S124 (2026-11-03, bot eaad9032)
 - **NEXT: owner retests aim (T-053a7, D-393)**: blade should now aim at the beast/player under the cursor (Mistfang, jumpers). Fix is on main but NOT in a Saved version yet (Saved v33 predates it): next session run `cloud_test.py` from main first to give the owner a fresh copy. If aim still wrong: check server stopOnWorld ground clip and sky-aim fallback. Then T-053a6 playtest.
 

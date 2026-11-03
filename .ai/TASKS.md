@@ -399,7 +399,7 @@ Owner order (2026-11-02 23:56, D-379): build Crescent first — **T-053a → T-0
     - **T-053a5 [done S121, D-386] [S] Hit/impact:** hit-sprite burst, pierce dim, world impact (`HitFx kind="world"`). AC: check PASS.
     - **T-053a6 [todo, NEXT] [S] Owner playtest + tuning:** checklist plan §8; sound variants picked by owner S123 (cast 3, hit 1, hum 1, thud 2; D-392). AC: owner OK.
     - **T-053a7 [partial S124, D-393] [S] Aim bug (owner):** blade always flies at one downward angle, over Mistfang, cannot hit jumpers. Done: aim snaps to the Humanoid under the cursor. Remaining: owner retest; if still wrong, check server stopOnWorld ground clip + sky-aim fallback. AC: owner can hit Mistfang and a jumping player.
-  - **T-053b [todo] [S] Twin Crescent (Rank 2, Z) = "Scissor":** blue + gold blades launch from left/right, curve inward, cross at the aim point in an X + white flash (`icon-twin-crescent.png`). Rank 2 model `creature-twin-crescent-kith.glb`; keeps Crescent Cut on left click. AC: check PASS + owner playtest.
+  - **T-053b [built S125, awaiting owner playtest] [S] Twin Crescent (Rank 2, Z) = "Scissor":** blue + gold blades launch from left/right, curve inward, cross at the aim point in an X + white flash (`icon-twin-crescent.png`). Rank 2 model `creature-twin-crescent-kith.glb`; keeps Crescent Cut on left click. AC: check PASS + owner playtest.
   - **T-053c [todo] [S] Rank 3 (X) = "Full Moon Ring":** four crescents form a ring around the player, then burst outward (area hit). Same model as Rank 2 until the owner changes it. Kith name TBD (working: "Full Moon Kith"). AC: check PASS + owner playtest.
 
 ## Owner-priority isolated Sober testing (2026-11-01)
