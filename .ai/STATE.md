@@ -1,5 +1,9 @@
 # STATE
 
+## Now — after S145 (2026-11-03)
+- **T-058i done (D-440), merged:** movement VFX — footstep dust, sprint speed streaks, dash dust ring + smoke puff, wind arcs on side dash (`MoveFxClient`, `Shared.MoveFxPlan`, `Config.MoveFx`). Video 0:01–0:19 run detail in log.md. **Owner: look in Studio.**
+- **NEXT:** owner to confirm T-058h dash tune, T-058j lock-on camera, T-058k camera lag + map dressing, T-058d3 Wind Step. Else T-058c animations. Last check: CHECK: PASS.
+
 ## Now — after S144 (2026-11-03)
 - **R-031 done (D-439), merged to main:** whole movement video logged (`research/video/movement/log.md`), summary `research/notes/R-031-movement-video.md`. Reference = RELL Games combat clip + 2 other games. Dodges ~0.3 s, 6–12 studs, dodge→M1; sprint feel = footstep dust + wind lines. No code change.
 - **NEXT:** T-058i dash/sprint VFX (no owner gate). Owner to confirm: T-058h dash tune (~0.28 s, 8-stud back-step), T-058j lock-on camera, T-058d3 Wind Step rework. Last check: CHECK: PASS.
