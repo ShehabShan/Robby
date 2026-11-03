@@ -1,3 +1,8 @@
+## S144 (2026-11-03) — R-031b/c/d movement video 0:30–2:06 (owner: whole video in one go)
+- log.md chunks b–d + note research/notes/R-031-movement-video.md (D-439). R-031 done.
+- Clip is a RELL Games game; dodges ~0.3 s, 6–12 studs, dodge→M1; sprint feel = footstep dust + wind lines.
+- New tasks T-058h (dash tune, owner confirm), T-058i (dash/sprint VFX), T-058j (lock-on camera, owner confirm). No code change.
+
 ## S143 (2026-11-03) — R-031a movement video 0:00–0:30
 - Frames at 2/6/30 fps (D-438), log in research/video/movement/log.md: cinematic run with footstep dust, then combat clip (Q dash, C slide, Shift = walk, lock-on default).
 - Dodges look ~0.25–0.35 s, ~10 studs; dash chains into M1; VFX: wind arcs, dust ring, smoke puff. No code change.

@@ -101,3 +101,20 @@ From ~0:59.5 the bar under HP is **on fire (orange flames)** for the whole chunk
 - **Afterimage pillars** on rapid multi-dash = a "mode" skill, not the basic Q dash. Basic dash keeps the plain smoke puff.
 - **Air combos** with long hang time exist in the reference game; out of scope for basic movement (combat task).
 - Landing / slam = white ground ring + dust: reuse the same ring for landing from big jumps (Robby has landing recovery from T-058a).
+
+## R-031d — 1:30–2:06 (S144)
+Three clips: the end of the RELL combat clip, then two other games.
+
+| Time | Move | Timing (est.) | Distance / direction (est.) | VFX / camera |
+|---|---|---|---|---|
+| 1:30–1:41.5 | combat clip ends: run, strafe, 2 hits (red flash 1:32, 1:37), side dash with smoke 1:39 | dash ~0.3 s | ~8 studs | flaming bar still on; smoke puff |
+| 1:42.0 | **cut to a 2nd game** (bright cartoon style, grass, character in red cape) | — | — | no HUD bars |
+| 1:42–1:45 | run on grass, enemy NPC passes | — | — | camera close behind |
+| 1:45.5–2:00.5 | **long sprint up stone stairs** (10 fps checked 1:47–1:50) | steady pace, no slow-down on steps | ~20+ studs/s (unverified) | **white dust puff at every footstep** (~every 0.2–0.3 s, alternate feet) + thin white wind lines trailing the legs; body leans forward; camera low and close (~6–8 studs), slight roll on turns |
+| 2:00.5 | **cut to a 3rd game**: ship deck, camera far out (~20+ studs), small hotbar HUD | — | — | — |
+| 2:01–2:06 | walk/run across the deck, around the mast, down a ladder/stairs (2:04) | — | normal speed | no VFX; camera zoomed out, follows smoothly |
+
+### → Implications (chunk d)
+- **Sprint feel = footstep dust + wind lines + forward lean + low close camera.** Our sprint has FOV + lean (T-058b) but no footstep dust or wind lines: cheapest big win.
+- Stairs do not slow the run; Robby should keep speed on stairs (check `Shared.Movement` has no slope slow-down on steps).
+- Exploration camera (ship clip) sits far out; combat camera sits close. Two camera distances is a design choice for the owner.
