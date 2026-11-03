@@ -2,7 +2,7 @@
 
 ## Now — after S122 (2026-11-03, bot eaad9032)
 - **T-053a code all done (a1–a5). NEXT: T-053a6 owner playtest + tuning (plan §8)** in-engine. Sounds picked by owner S123: cast 3, hit 1, hum 1, thud 2 (D-392, live in `AssetIds.sounds` on main). Then T-053b, T-053c.
-- S122: sounds uploaded + wired (`AssetIds.sounds`, volumes `Config.Fx.CrescentCut.sound`, D-389); blade-from-hand blend (D-391); VM tool install fallback (D-390). Merged a99a021; CHECK PASS; cloud test PASS on Saved version 32. Sounds and hand blend not yet heard/seen by a person.
+- S122: sounds uploaded + wired (`AssetIds.sounds`, volumes `Config.Fx.CrescentCut.sound`, D-389); blade-from-hand blend (D-391); VM tool install fallback (D-390). Merged a99a021; CHECK PASS; cloud test PASS on Saved version 32. S123: fresh Saved version 33 from main 28286e0 (picked sounds), CLOUD ALL: PASS 667/667, ready for owner playtest; nothing published. Sounds and hand blend not yet heard/seen by a person.
 
 ## Now — after S121 (2026-11-03, bot d0d13a30)
 - **Crescent Cut rework (T-053a) code done except sounds: a1 free 3D aim (D-383), a2 art uploaded + `Shared.AssetIds` (D-384), a3 art blade (D-385), a5 hit/impact (D-386) done; a4 cast feel partial (D-387, sounds + blade-from-hand blend open). NEXT: T-053a4 sounds (D-381 Gemini plan), then T-053a6 owner playtest (plan §8)**, then T-053b, T-053c.
