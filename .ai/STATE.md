@@ -1,7 +1,7 @@
 # STATE
 
 ## Now — after S125 (2026-11-03, bot e900b82c)
-- **T-053b Twin Crescent "Scissor" built (D-394–D-397), merged to main (9386da7); cloud test CLOUD ALL: PASS 672/672 on **Saved version 34** (includes T-053a7 aim fix), not published. NEXT: owner playtest** of Twin Crescent (Rank 2 Kith: Crescent Cut on left click, Scissor on Z; get one via Crucible `recipe.twin_crescent` or a test grant) together with the T-053a7 aim retest. Check: both blades curve in and cross in a white X; tune `Config.Fx.TwinCrescent` / `Abilities.TwinCrescent` (width, crossAt). Then T-053c Full Moon Ring (X).
+- **T-053b Twin Crescent "Scissor" built (D-394–D-397), merged to main (9386da7); cloud test CLOUD ALL: PASS 672/672 on **Saved version 34** (includes T-053a7 aim fix), not published. NEXT: owner playtest** of Twin Crescent (Rank 2 Kith: Crescent Cut on left click, Scissor on Z; get one via Crucible `recipe.twin_crescent` or a test grant) together with the T-053a7 aim retest. Check: both blades curve in and cross in a white X; tune `Config.Fx.TwinCrescent` / `Abilities.TwinCrescent` (width, crossAt). Published live 2026-11-03 as v0.0.22 (place version 34). Owner has no Twin Crescent (only via Crucible) → **next build task T-054 Admin panel (owner order, before T-053c)**, then T-053c Full Moon Ring (X).
 - Notes: Crescent Cut cast from a Twin Crescent Kith gets no Kith strain (KithCare.casterOf matches move.kith = kith.crescent); client Scissor FX does not stop on walls (server blades pass scenery too).
 
 ## Now — after S124 (2026-11-03, bot eaad9032)
