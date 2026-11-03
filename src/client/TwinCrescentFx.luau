@@ -80,7 +80,9 @@ local function buildBlade(side: number): Blade
 	pivot.Parent = model
 	model.PrimaryPart = pivot
 	local beams: { Beam } = {}
-	local texture = AssetIds.image("crescentSlashAdd")
+	-- Per-blade owner art (T-057a, D-412/D-413): blue left, gold right, third2 for the 3rd blade.
+	local art = if side < 0 then "crescentBlueAdd" elseif side == 0 then "crescentThirdAdd" else "crescentGoldAdd"
+	local texture = AssetIds.image(art) or AssetIds.image("crescentSlashAdd")
 	if texture then
 		local back = Instance.new("Attachment")
 		back.CFrame = CFrame.new(0, 0, look.bladeDepth / 2) * CFrame.Angles(0, 0, math.rad(90))

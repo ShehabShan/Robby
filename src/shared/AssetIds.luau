@@ -18,6 +18,11 @@ AssetIds.images = {
 	crescentBlueAlpha = 91368494264023,
 	crescentGoldAdd = 94658976800732,
 	crescentGoldAlpha = 92988498925568,
+	-- Owner picks B (T-057a, D-413): third = Twin Crescent 3rd blade, ring = Guard Ring (spins round the caster, T-057c2).
+	crescentThirdAdd = 79961768707078,
+	crescentThirdAlpha = 113592701046536,
+	crescentRingAdd = 127585819676333,
+	crescentRingAlpha = 80871456119148,
 } :: { [string]: number }
 
 -- Crescent Cut sounds (T-053a4b, D-389): made by `uv run scripts/make_sfx.py` (Lyria tone +
