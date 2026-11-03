@@ -419,3 +419,14 @@ Draft model, curve table and 10 sources: `research/notes/R-022-stat-damage-math.
 **Unknowns**
 - Live Roblox transport/rendering/device quality not measured. Reliable terminal/contact transport and renderer adoption remain separate tasks; no publication.
 **Sources**: linked community discussion, repo code and real-source mocks in the S72 notes; no claims about Rell Seas internals.
+
+### R-029 Movement research (done 2026-11-03)
+**Findings**
+- Deepwoken: sprint builds momentum over ~3 s to ~1.15x run; Ctrl slide + slide-jump; Space vault; wall jump x2 then climb (deepwoken.fandom.com/wiki/Movement). Q roll with i-frames, roll-cancel adds 0.5 s cd (Combat_Mechanics).
+- Rell Seas: X dash; only left/right dashes give i-frames, forward/back are positioning (rellseaswiki.com combat-mechanics).
+- Project Slayers: hold Shift sprint (no stamina drain), Q dash, Ctrl wall climb limited by stamina (progameguides.com).
+- Roblox: accel via ControlModule speed-ratio lerp or velocity steering (devforum); GroundController.AccelerationTime makes turns sluggish (devforum bug thread); lean via RootJoint.Transform; foot sync via AdjustSpeed(v/authored); Avatar Settings "Consistent Gameplay" = one height + box collider (create.roblox.com).
+- Game feel: time-to-max 50–200 ms; separate brake and turn-decel (gamedeveloper.com).
+**→ Implications for Robby** — T-058 targets (accel 120, decel 160, sprint 24→27 ramp, dodge i-frames sideways, slide, vault double-ray, guard ×1.25+4) and a 7-part split: see [research/notes/R-029-movement.md](../research/notes/R-029-movement.md). D-426: keep Humanoid, own pure `Shared.Movement` step; no AccelerationTime.
+**Unknowns** — Rell Seas/PS2 exact speeds; Deepwoken stamina costs; jog/run animation assets.
+**Sources** — in the note.
