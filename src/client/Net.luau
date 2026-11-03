@@ -603,6 +603,70 @@ function SerdesFunctions.WriteEVENT_WeaveSet(Value: { core: string, support: str
 	buffer.writestring(SendBuffer, SendOffset, Value.support, Length)
 end
 
+function SerdesFunctions.WriteEVENT_AdminRequest(Value: { action: string, speciesId: string?, uid: string?, amount: number?, foodId: string?, rare: boolean?, kind: string?, distance: number? }): ()
+	-- Allocate BLOCK: 9 bytes
+	local BLOCK_START = Allocate(9)
+	buffer.writeu8(SendBuffer, BLOCK_START + 0, 20)
+	local Length = #Value.action
+	buffer.writeu8(SendBuffer, BLOCK_START + 1, Length)
+	Allocate(Length)
+	buffer.writestring(SendBuffer, SendOffset, Value.action, Length)
+	buffer.writeu8(SendBuffer, BLOCK_START + 2, Value.speciesId ~= nil and 1 or 0)
+	if Value.speciesId ~= nil then
+		-- Allocate BLOCK: 1 bytes
+		local BLOCK_START = Allocate(1)
+		local Length = #Value.speciesId
+		buffer.writeu8(SendBuffer, BLOCK_START + 0, Length)
+		Allocate(Length)
+		buffer.writestring(SendBuffer, SendOffset, Value.speciesId, Length)
+	end
+	buffer.writeu8(SendBuffer, BLOCK_START + 3, Value.uid ~= nil and 1 or 0)
+	if Value.uid ~= nil then
+		-- Allocate BLOCK: 1 bytes
+		local BLOCK_START = Allocate(1)
+		local Length = #Value.uid
+		buffer.writeu8(SendBuffer, BLOCK_START + 0, Length)
+		Allocate(Length)
+		buffer.writestring(SendBuffer, SendOffset, Value.uid, Length)
+	end
+	buffer.writeu8(SendBuffer, BLOCK_START + 4, Value.amount ~= nil and 1 or 0)
+	if Value.amount ~= nil then
+		-- Allocate BLOCK: 8 bytes
+		local BLOCK_START = Allocate(8)
+		buffer.writef64(SendBuffer, BLOCK_START + 0, Value.amount)
+	end
+	buffer.writeu8(SendBuffer, BLOCK_START + 5, Value.foodId ~= nil and 1 or 0)
+	if Value.foodId ~= nil then
+		-- Allocate BLOCK: 1 bytes
+		local BLOCK_START = Allocate(1)
+		local Length = #Value.foodId
+		buffer.writeu8(SendBuffer, BLOCK_START + 0, Length)
+		Allocate(Length)
+		buffer.writestring(SendBuffer, SendOffset, Value.foodId, Length)
+	end
+	buffer.writeu8(SendBuffer, BLOCK_START + 6, Value.rare ~= nil and 1 or 0)
+	if Value.rare ~= nil then
+		-- Allocate BLOCK: 1 bytes
+		local BLOCK_START = Allocate(1)
+		buffer.writeu8(SendBuffer, BLOCK_START + 0, Value.rare and 1 or 0)
+	end
+	buffer.writeu8(SendBuffer, BLOCK_START + 7, Value.kind ~= nil and 1 or 0)
+	if Value.kind ~= nil then
+		-- Allocate BLOCK: 1 bytes
+		local BLOCK_START = Allocate(1)
+		local Length = #Value.kind
+		buffer.writeu8(SendBuffer, BLOCK_START + 0, Length)
+		Allocate(Length)
+		buffer.writestring(SendBuffer, SendOffset, Value.kind, Length)
+	end
+	buffer.writeu8(SendBuffer, BLOCK_START + 8, Value.distance ~= nil and 1 or 0)
+	if Value.distance ~= nil then
+		-- Allocate BLOCK: 8 bytes
+		local BLOCK_START = Allocate(8)
+		buffer.writef64(SendBuffer, BLOCK_START + 0, Value.distance)
+	end
+end
+
 if not RunService:IsRunning() then
 	local NOOP = function() end
 	local Returns = table.freeze({
@@ -673,6 +737,9 @@ if not RunService:IsRunning() then
 		Fire = NOOP
 	},
 	WeaveSet = {
+		Fire = NOOP
+	},
+	AdminRequest = {
 		Fire = NOOP
 	},
 	})
@@ -1024,6 +1091,11 @@ local Returns = table.freeze({
 	WeaveSet = {
 		Fire = function(Value: { core: string, support: string }): ()
 			SerdesFunctions.WriteEVENT_WeaveSet(Value)
+		end
+	},
+	AdminRequest = {
+		Fire = function(Value: { action: string, speciesId: string?, uid: string?, amount: number?, foodId: string?, rare: boolean?, kind: string?, distance: number? }): ()
+			SerdesFunctions.WriteEVENT_AdminRequest(Value)
 		end
 	},
 })

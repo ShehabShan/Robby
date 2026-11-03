@@ -260,3 +260,20 @@ event WeaveSet {
 		support: string(..64),
 	},
 }
+
+-- C→S: owner-only admin panel request (T-054b). The server re-checks the allowlist and validates every field.
+event AdminRequest {
+	From: Client,
+	Type: Reliable,
+	Call: SingleSync,
+	Data: struct {
+		action: string(..16),
+		speciesId: string(..64)?,
+		uid: string(..80)?,
+		amount: f64?,
+		foodId: string(..64)?,
+		rare: boolean?,
+		kind: string(..64)?,
+		distance: f64?,
+	},
+}

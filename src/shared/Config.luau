@@ -131,6 +131,7 @@ local Config = {
 		CrucibleStart = { rate = 2, burst = 4 },
 		CruciblePress = { rate = 15, burst = 15 },
 		WeaveSet = { rate = 4, burst = 8 },
+		AdminRequest = { rate = 4, burst = 8 },
 	},
 	SpeedGuard = { tolerance = 1.25, slack = 2, burstSeconds = 0.6, strikes = 3 },
 	-- Combat core (T-013a, GDD §5): initial tuning, seconds unless noted.

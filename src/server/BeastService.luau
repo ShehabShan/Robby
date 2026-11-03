@@ -48,6 +48,7 @@ type Beast = {
 	color: Color3,
 	faced: boolean,
 	gone: boolean,
+	test: boolean?, -- admin-spawned (T-054b): never respawns
 }
 
 local beasts: { Beast } = {}
@@ -73,6 +74,9 @@ local function drop(b: Beast)
 	local i = table.find(beasts, b)
 	if i then
 		table.remove(beasts, i)
+	end
+	if b.test then
+		return
 	end
 	task.delay(B.respawn, function()
 		spawnBeast(b.kindId, b.home)
@@ -234,6 +238,15 @@ local function tick(b: Beast, now: number)
 	if out.heal then
 		b.humanoid.Health = b.humanoid.MaxHealth
 		b.model:SetAttribute("LastHitBy", nil)
+	end
+end
+
+-- Admin panel (T-054b): one extra beast at `pos` that does not respawn after it dies.
+function BeastService.spawnTest(kindId: string, pos: Vector3)
+	spawnBeast(kindId, pos)
+	local b = beasts[#beasts]
+	if b and b.kindId == kindId then
+		b.test = true
 	end
 end
 

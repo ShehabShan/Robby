@@ -575,6 +575,13 @@ function Abilities.toggleStance(player: Player): boolean
 	return on
 end
 
+-- Clears every move cooldown for `player` (admin refill, T-054b).
+function Abilities.resetCooldowns(player: Player)
+	if cooldowns[player] then
+		cooldowns[player] = {}
+	end
+end
+
 -- The server Qi pool for `player` (BindingService spends from it, T-017b).
 function Abilities.pool(player: Player): Qi.Pool?
 	return pools[player]

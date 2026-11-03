@@ -175,6 +175,7 @@ Queue.Reliable[16] = table.create(256)
 Queue.Reliable[17] = table.create(256)
 Queue.Reliable[18] = table.create(256)
 Queue.Reliable[19] = table.create(256)
+Queue.Reliable[20] = table.create(256)
 export type ActionKind = ("Attack" | "Parry" | "Guard" | "Stance")
 function SerdesFunctions.ReadEVENT_CastRequest(): ({ moveId: string, generation: string, aim: Vector3, point: Vector3?, seq: number })
 	-- Read BLOCK: 17 bytes
@@ -587,6 +588,64 @@ function SerdesFunctions.ReadEVENT_WeaveSet(): ({ core: string, support: string 
 	return Value
 end
 
+function SerdesFunctions.ReadEVENT_AdminRequest(): ({ action: string, speciesId: string?, uid: string?, amount: number?, foodId: string?, rare: boolean?, kind: string?, distance: number? })
+	-- Read BLOCK: 8 bytes
+	local BLOCK_START = Read(8)
+	local Value = {} :: any
+	local Length = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+	Value.action = buffer.readstring(RecieveBuffer, Read(Length), Length)
+	if #Value.action < 0 then error(`Expected length of "Value.action" to be larger than or equal to 0, got {#Value.action} instead.`) end
+	if #Value.action > 16 then error(`Expected length of "Value.action" to be smaller than or equal to  16, got {#Value.action} instead.`) end
+	if buffer.readu8(RecieveBuffer, BLOCK_START + 1) == 1 then
+		-- Read BLOCK: 1 bytes
+		local BLOCK_START = Read(1)
+		Length = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+		Value.speciesId = buffer.readstring(RecieveBuffer, Read(Length), Length)
+		if #Value.speciesId < 0 then error(`Expected length of "Value.speciesId" to be larger than or equal to 0, got {#Value.speciesId} instead.`) end
+		if #Value.speciesId > 64 then error(`Expected length of "Value.speciesId" to be smaller than or equal to  64, got {#Value.speciesId} instead.`) end
+	end
+	if buffer.readu8(RecieveBuffer, BLOCK_START + 2) == 1 then
+		-- Read BLOCK: 1 bytes
+		local BLOCK_START = Read(1)
+		Length = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+		Value.uid = buffer.readstring(RecieveBuffer, Read(Length), Length)
+		if #Value.uid < 0 then error(`Expected length of "Value.uid" to be larger than or equal to 0, got {#Value.uid} instead.`) end
+		if #Value.uid > 80 then error(`Expected length of "Value.uid" to be smaller than or equal to  80, got {#Value.uid} instead.`) end
+	end
+	if buffer.readu8(RecieveBuffer, BLOCK_START + 3) == 1 then
+		-- Read BLOCK: 8 bytes
+		local BLOCK_START = Read(8)
+		Value.amount = buffer.readf64(RecieveBuffer, BLOCK_START + 0)
+	end
+	if buffer.readu8(RecieveBuffer, BLOCK_START + 4) == 1 then
+		-- Read BLOCK: 1 bytes
+		local BLOCK_START = Read(1)
+		Length = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+		Value.foodId = buffer.readstring(RecieveBuffer, Read(Length), Length)
+		if #Value.foodId < 0 then error(`Expected length of "Value.foodId" to be larger than or equal to 0, got {#Value.foodId} instead.`) end
+		if #Value.foodId > 64 then error(`Expected length of "Value.foodId" to be smaller than or equal to  64, got {#Value.foodId} instead.`) end
+	end
+	if buffer.readu8(RecieveBuffer, BLOCK_START + 5) == 1 then
+		-- Read BLOCK: 1 bytes
+		local BLOCK_START = Read(1)
+		Value.rare = (buffer.readu8(RecieveBuffer, BLOCK_START + 0) == 1)
+	end
+	if buffer.readu8(RecieveBuffer, BLOCK_START + 6) == 1 then
+		-- Read BLOCK: 1 bytes
+		local BLOCK_START = Read(1)
+		Length = buffer.readu8(RecieveBuffer, BLOCK_START + 0)
+		Value.kind = buffer.readstring(RecieveBuffer, Read(Length), Length)
+		if #Value.kind < 0 then error(`Expected length of "Value.kind" to be larger than or equal to 0, got {#Value.kind} instead.`) end
+		if #Value.kind > 64 then error(`Expected length of "Value.kind" to be smaller than or equal to  64, got {#Value.kind} instead.`) end
+	end
+	if buffer.readu8(RecieveBuffer, BLOCK_START + 7) == 1 then
+		-- Read BLOCK: 8 bytes
+		local BLOCK_START = Read(8)
+		Value.distance = buffer.readf64(RecieveBuffer, BLOCK_START + 0)
+	end
+	return Value
+end
+
 if not RunService:IsRunning() then
 	local NOOP = function() end
 	local Returns = table.freeze({
@@ -684,6 +743,9 @@ if not RunService:IsRunning() then
 		On = NOOP
 	},
 	WeaveSet = {
+		On = NOOP
+	},
+	AdminRequest = {
 		On = NOOP
 	},
 	})
@@ -890,6 +952,17 @@ Reliable.OnServerEvent:Connect(function(Player: Player, Buffer: buffer, Instance
 					warn("[Blink]: Event queue of \"WeaveSet\" exceeded 256, did you forget to implement a listener?")
 				end
 				table.insert(Queue.Reliable[19], {Player, Value} :: {any})
+			end
+		elseif Index == 20 then
+			local Value: { action: string, speciesId: string?, uid: string?, amount: number?, foodId: string?, rare: boolean?, kind: string?, distance: number? } = SerdesFunctions.ReadEVENT_AdminRequest()
+			if Events.Reliable[20] ~= nil then
+				SerdesEvent = "AdminRequest"
+				Events.Reliable[20](Player, Value)
+			else
+				if #Queue.Reliable[20] > 256 then
+					warn("[Blink]: Event queue of \"AdminRequest\" exceeded 256, did you forget to implement a listener?")
+				end
+				table.insert(Queue.Reliable[20], {Player, Value} :: {any})
 			end
 		end
 	end
@@ -1507,6 +1580,20 @@ local Returns = table.freeze({
 			return function (): ()
 				if Events.Reliable[19] == Listener then
 					Events.Reliable[19] = nil
+				end
+			end
+		end
+	},
+	AdminRequest = {
+		On = function(Listener: (Player: Player, Value: { action: string, speciesId: string?, uid: string?, amount: number?, foodId: string?, rare: boolean?, kind: string?, distance: number? }) -> ()): () -> ()
+			Events.Reliable[20] = Listener
+			for Index, Arguments in Queue.Reliable[20] do
+				Listener(table.unpack(Arguments))
+			end
+			Queue.Reliable[20] = {}
+			return function (): ()
+				if Events.Reliable[20] == Listener then
+					Events.Reliable[20] = nil
 				end
 			end
 		end
