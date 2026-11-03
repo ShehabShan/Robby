@@ -189,7 +189,12 @@ function KithInput.start(
 		end
 		table.clear(bound)
 		local k, c = kit, cfg
-		local ids: { string } = if k then k.specials else plainMoves
+		-- A chainless Kith with two or more moves keeps the first on left click and puts the rest on Z / X / C
+		-- (Twin Crescent: Crescent Cut + Scissor, T-053b, D-396); a one-move Kith keeps it on Z too (D-216).
+		local ids: { string } = if k
+			then k.specials
+			elseif #plainMoves >= 2 then table.move(plainMoves, 2, #plainMoves, 1, {})
+			else plainMoves
 		for i, key in SPECIAL_KEYS do
 			local moveId = ids[i]
 			if moveId == nil then

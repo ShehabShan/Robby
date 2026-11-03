@@ -20,7 +20,7 @@ function Crescent.content(cfg: any): any
 				id = "effect.twin_crescent.hit",
 				duration = "Inst",
 				ops = { { kind = "Dmg", params = { base = t.baseDamage } } },
-				fx = "fx.crescent.hit",
+				fx = "fx.twin.hit",
 			},
 		},
 		moves = {
@@ -54,23 +54,26 @@ function Crescent.content(cfg: any): any
 				trigger = "Press",
 				target = "Aim",
 				delivery = {
-					kind = "Projectile",
+					kind = "Volley", -- two blades on a Scissor path (T-053b, D-394)
 					params = {
+						count = 2,
+						spreadDeg = 0,
+						perTargetCap = t.perTargetCap,
+						curve = "Scissor",
+						width = t.width,
+						crossAt = t.crossAt,
 						speed = t.speed,
 						range = t.range,
 						maxHits = t.maxHits,
 						hitbox = t.hitboxSize,
 						spawnOffset = t.spawnOffset,
-						aim = "Flat", -- Twin Crescent keeps flat aim until T-053b
-						maxPitch = 0,
-						stopOnWorld = false,
 					},
-				},
+				} :: any, -- Volley params differ from Crescent Cut's Projectile ones (sibling literal type)
 				costs = { qi = t.cost },
 				cooldown = t.cooldown,
 				effects = { onHit = { "effect.twin_crescent.hit" } },
 				tags = { "Path.Moon", "Role.Strike", "Delivery.Proj" },
-				fx = { cast = "fx.crescent.cast", travel = "fx.crescent.travel", hit = "fx.crescent.hit" },
+				fx = { cast = "fx.twin.cast", travel = "fx.twin.travel", hit = "fx.twin.hit" },
 			},
 		},
 		supports = { -- Weave Loom supports (T-020c, D-090): modify a core move that has all requireTags
@@ -99,7 +102,7 @@ function Crescent.content(cfg: any): any
 				path = "path.moon",
 				role = "Strike",
 				tags = { "Path.Moon" },
-				moves = { "move.twin_crescent" },
+				moves = { "move.crescent_cut", "move.twin_crescent" }, -- left click Crescent Cut, Z Scissor (T-053b)
 				food = "food.moonleaf",
 				rarity = "Uncommon",
 			},

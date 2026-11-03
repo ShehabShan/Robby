@@ -102,10 +102,13 @@ return {
 		local b = built()
 		local reg = FxRegistry.new()
 		local missing = FxRegistry.missingFor(reg, b)
-		eq(#missing, 3, "count")
+		eq(#missing, 6, "count")
 		eq(missing[1], "fx.crescent.cast")
 		eq(missing[2], "fx.crescent.hit")
 		eq(missing[3], "fx.crescent.travel")
+		eq(missing[4], "fx.twin.cast") -- Twin Crescent Scissor (T-053b)
+		eq(missing[5], "fx.twin.hit")
+		eq(missing[6], "fx.twin.travel")
 		for _, id in missing do
 			FxRegistry.register(reg, id, noop)
 		end

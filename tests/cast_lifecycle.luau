@@ -49,6 +49,7 @@ local function harness()
 		lifetimes = L.new(64),
 		Projectile = require("../src/shared/Deliveries/Projectile"),
 		Volley = require("../src/shared/Deliveries/Volley"),
+		Scissor = require("../src/shared/Deliveries/Scissor"),
 		Zone = require("../src/shared/Deliveries/Zone"),
 		Burst = require("../src/shared/Deliveries/Burst"),
 		shots = {},

@@ -20,14 +20,17 @@ local Config = {
 			spawnOffset = 3, -- studs in front of the caster
 			maxPitchDeg = 70, -- free 3D aim pitch clamp (owner D-380)
 		},
-		TwinCrescent = { -- rank 2 Crucible result (T-019d, D-084): two blades' worth in one wider cut
+		TwinCrescent = { -- rank 2 "Scissor" on Z (T-053b, D-394): a blue + a gold blade curve inward and cross in an X
 			cost = 14,
 			cooldown = 1.4,
-			baseDamage = 34,
+			baseDamage = 18, -- per blade; a target at the cross takes both (36)
 			speed = 95,
 			range = 65,
-			maxHits = 3,
-			hitboxSize = { x = 9, y = 1.5, z = 2 },
+			maxHits = 3, -- per blade
+			perTargetCap = 2, -- both blades may hit the same target once each
+			width = 4.5, -- studs each blade launches to its side of the aim line
+			crossAt = 22, -- studs ahead where the blades cross (the X)
+			hitboxSize = { x = 5, y = 2.5, z = 2 },
 			spawnOffset = 3,
 		},
 		-- M1 Kith moves (T-015a). Initial tuning; tune in playtest.
@@ -164,6 +167,24 @@ local Config = {
 			handBlend = 0.033, -- blade spawns at the hand, joins the server origin in ~2 frames (T-053a4c)
 			handMaxDist = 6, -- studs; a farther hand (odd rig, lag) skips the blend
 			sound = { cast = 0.7, hit = 0.6, thud = 0.65, hum = 0.18, humRange = 40 }, -- volumes (T-053a4b, D-389)
+		},
+		TwinCrescent = { -- Scissor blades (T-053b, D-397); path shape is Abilities.TwinCrescent width / crossAt
+			blue = { 120, 190, 255 },
+			blueCore = { 210, 235, 255 },
+			gold = { 255, 196, 80 },
+			goldCore = { 255, 240, 200 },
+			bladeWidth = 4.5, -- studs tip to tip per blade (Crescent Cut is 6)
+			bladeDepth = 2.6,
+			growFrom = 0.5,
+			growTime = 0.08,
+			dissolveTime = 0.14,
+			rollDeg = 20, -- each blade tilts toward the aim line
+			trailLife = 0.16,
+			sparkRate = 16,
+			lightBrightness = 2.2,
+			maxLive = 6,
+			flash = { size = 7, time = 0.22, light = 6, sparks = 24 }, -- the white X at the cross
+			sound = { cross = 0.55, crossPitch = 1.25 },
 		},
 	},
 	HitFeel = {

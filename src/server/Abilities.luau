@@ -28,6 +28,7 @@ local DamageMath = require(ReplicatedStorage.Shared.DamageMath)
 local Projectile = require(ReplicatedStorage.Shared.Deliveries.Projectile)
 local Aim = require(ReplicatedStorage.Shared.Aim)
 local Volley = require(ReplicatedStorage.Shared.Deliveries.Volley)
+local Scissor = require(ReplicatedStorage.Shared.Deliveries.Scissor)
 local Zone = require(ReplicatedStorage.Shared.Deliveries.Zone)
 local Burst = require(ReplicatedStorage.Shared.Deliveries.Burst)
 local Frost = require(ReplicatedStorage.Shared.Frost)
@@ -78,6 +79,7 @@ type Shot = {
 	move: any,
 	state: Projectile.State,
 	register: (targetId: string) -> boolean, -- Projectile or Volley hit rules (per-target cap), T-027d2
+	path: ((d: number) -> Vector3)?, -- curved blade (Scissor, T-053b, D-395); nil = straight along dir
 }
 type ZoneCast = {
 	caster: Player,
@@ -288,12 +290,21 @@ local function sweep(shot: Shot, from: number, to: number)
 	local hb = p.hitbox or DEFAULT_HITBOX
 	local size = Vector3.new(hb.x, hb.y, hb.z)
 	local start = shot.origin + shot.dir * from
+	local segDir, segLen = shot.dir, to - from
+	if shot.path then
+		-- Scissor blade: sweep the chord of its curve over this step (D-395)
+		start = shot.path(from)
+		local seg = shot.path(to) - start
+		if seg.Magnitude > 1e-4 then
+			segDir, segLen = seg.Unit, seg.Magnitude
+		end
+	end
 	for _ = 1, p.maxHits + 4 do
 		if shot.state.done and shot.state.hitCount >= p.maxHits then
 			return
 		end
 		params.FilterDescendantsInstances = exclude
-		local result = workspace:Blockcast(CFrame.lookAt(start, start + shot.dir), size, shot.dir * (to - from), params)
+		local result = workspace:Blockcast(CFrame.lookAt(start, start + segDir), size, segDir * segLen, params)
 		if not result then
 			return
 		end
@@ -382,8 +393,16 @@ local function volleyCast(
 )
 	local p = move.delivery.params
 	local vstate = Volley.new(p)
+	local scissor = Scissor.isScissor(p)
+	local right = Vector3.new(-dir.Z, 0, dir.X)
 	for i, d in Volley.directions(dir.X, dir.Z, p) do
+		local side = Scissor.side(i)
 		table.insert(shots, {
+			path = if scissor
+				then function(dist: number): Vector3
+					return origin + dir * dist + right * Scissor.lateral(side, dist, p)
+				end
+				else nil,
 			lifetime = lifetime,
 			resource = i,
 			caster = player,

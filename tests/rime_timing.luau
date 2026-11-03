@@ -65,6 +65,7 @@ local function server(c, accepted)
 		GROUND_PROBE = 50,
 		Projectile = require("../src/shared/Deliveries/Projectile"),
 		Volley = require("../src/shared/Deliveries/Volley"),
+		Scissor = require("../src/shared/Deliveries/Scissor"),
 		Zone = Zone,
 		Net = {
 			CastFx = {
