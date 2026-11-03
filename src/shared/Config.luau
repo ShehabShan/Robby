@@ -46,6 +46,18 @@ local Config = {
 			perTargetCap = 1,
 			hitboxSize = { x = 6, y = 3, z = 2 },
 		},
+		GuardRing = { -- Full Moon Ring rework (T-057c, D-411): defensive ring that follows the caster, shatters on touch
+			count = 4,
+			radius = 5, -- studs (owner: farther out than the old 3)
+			duration = 3,
+			spin = math.pi, -- radians/s orbit
+			touchRadius = 1.5,
+			damage = 20, -- = CrescentCut.baseDamage (owner: damage = 1 Cut hit; spec keeps them equal)
+			stunSeconds = 0.3, -- very small stun
+			knockback = 30, -- studs/s, small
+			speedMult = 1.3, -- caster speed boost to retreat or counter
+			speedSeconds = 1.5,
+		},
 		-- M1 Kith moves (T-015a). Initial tuning; tune in playtest.
 		WindStep = { cost = 8, cooldown = 3, distance = 14, iframes = 0.3, burstSeconds = 0.25 }, -- burstSeconds: client covers `distance` in this time; server speed guard mirrors it (F-08, D-204)
 		-- Rimeshard Kith (T-027c, R-028 §2, D-180): Chill sets up (R1/Z/X), Shatter pays off (C). Tune in playtest.
