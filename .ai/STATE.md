@@ -1,5 +1,10 @@
 # STATE
 
+## Owner direction (2026-11-03, after S147) — READ FIRST
+- Owner wants **several deep research sessions on the movement video** before building more movement. Scope = **movement only, no fighting**.
+- Study how Rell Seas movement works: smooth sideways movement/strafing, the upward jump, **1–2 air dashes**, the **forceful slam down to the ground**, the slide, and how moves chain together. Owner: Rell Seas took pro devs months; we have a stronger model, so spending many sessions is fine.
+- Order: (1) more R-031 video research sessions (new sub-tasks R-031e+), (2) one **planning session** using all the research, (3) then build/integration. T-058l (wind lines) is approved but the owner will start it; research comes first.
+
 ## Now — after S147 (2026-11-03)
 - Rell Seas slide (2:03.45) + jump-up (2:04.95) checked (D-442): clean look = thin flickering white+black wind streaks, no smoke. New **T-058l** (no owner gate). No code change.
 - **NEXT:** T-058l wind lines; owner looks at T-058i VFX in Studio; owner to confirm T-058h, T-058j, T-058k, T-058d3. Last check: CHECK: PASS.
