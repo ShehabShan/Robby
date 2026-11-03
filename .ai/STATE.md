@@ -1,5 +1,10 @@
 # STATE
 
+## Now — after S140 (2026-11-03, bot 32c2f9b5)
+- **R-029 done + T-058a/b/e/f/g done (D-426–D-432), merged to main; cloud test CLOUD ALL: PASS 711/711 on Saved version 48 (not published).** New movement: R15 kit gone, default Roblox anims for now; jog 18 by default, hold Shift to sprint 24→27 with stamina, sprint FOV, Q slide (+ jump = slide-jump), Space near a low wall vaults / ledge climbs, hard landings slow you briefly.
+- **Owner:** feel-test in Studio or Saved v48 (tune numbers in `Config.Movement` / `Config.Vault`). Question: T-058d dodge would re-add a free dash that D-189 removed — build it or drop it? (D-433)
+- **NEXT: T-058c** own walk/jog/run/slide/vault animations + own footstep sounds (needs assets). T-057c3 owner playtest still open. Blockers: none. Last check: CHECK: PASS.
+
 ## Now — after S134 (2026-11-03, bot 15cd70f4)
 - **T-057e done (D-418):** crescent image ids were fine (Approved/Active, real-engine preload Success via `scripts/texture_probe.py`); S133 blanks = Roblox still processing. **T-057c3 code (D-419):** ring shatter knocks back enemy players (KnockbackClient) and interrupts/blocks their casts while staggered. **F-04 part (D-420).** S135: R-010 inbox backfill (D-421). S136: F-01 attribute scan, no code change (D-422). S137: F-10 content scan clean (D-423). S138: F-04 closed (D-424). Merged to main; cloud test CLOUD ALL: PASS 695/695 on **Saved version 47** (not published).
 - **NEXT (owner 2026-11-03, D-425): R-029 movement research, then T-058 new movement system (removes the R15 kit).** Owner playtests (T-057c3 etc.) still open in parallel.
