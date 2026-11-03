@@ -1,3 +1,8 @@
+## S129 — 2026-11-03 — T-053c Full Moon Ring (bot 1ada4a40)
+- Split T-053c into c1/c2 and built both (D-407, D-408). New rank-3 Kith `kith.full_moon` (working name): left click Crescent Cut, Z Scissor, X Full Moon Ring.
+- Full Moon Ring: 4 blades (blue/gold) form a ring 3 studs round the player, then fly straight outward 40 studs, 24 dmg each, cut through up to 3 enemies, stop on walls. Pure rule `Shared.Deliveries.Ring` + spec.
+- No Crucible recipe yet: get it via F2. CHECK PASS. NEXT: owner playtest + pick name/recipe/tuning. ~33 OLU
+
 ## S128 — 2026-11-03 — T-056 Twin Crescent 3rd blade (bot 1ada4a40)
 - Split T-056 into a/b/c and built all three (D-404–D-406). Scissor blades now stop on the first enemy hit (no pierce) and on walls.
 - If BOTH blades reach the cross (22 studs) alive, a silver-white 3rd blade flies straight on: 2× hit box, 2× travel (130 studs from the cross), 2× damage (36). One blade blocked → no 3rd blade (spec).

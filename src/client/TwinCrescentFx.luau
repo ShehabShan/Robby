@@ -12,6 +12,7 @@ local AssetIds = require(ReplicatedStorage.Shared.AssetIds)
 local Config = require(ReplicatedStorage.Shared.Config)
 local FxRegistry = require(ReplicatedStorage.Shared.FxRegistry)
 local Scissor = require(ReplicatedStorage.Shared.Deliveries.Scissor)
+local Ring = require(ReplicatedStorage.Shared.Deliveries.Ring)
 local CrescentFx = require(script.Parent.CrescentFx)
 
 local cfg = Config.Abilities.TwinCrescent
@@ -350,6 +351,85 @@ function TwinCrescentFx.third(origin: Vector3, dir: Vector3, character: Model?)
 	end)
 end
 
+-- Full Moon Ring (T-053c2, D-408): blue and gold blades (alternating) form a ring round the caster, then fly
+-- straight outward for `range`; each dissolves early on walls / solid parts. Visual only (hits are server-side).
+function TwinCrescentFx.ring(origin: Vector3, dir: Vector3, character: Model?)
+	if live >= look.maxLive then
+		return
+	end
+	live += 1
+	local p = Config.Abilities.FullMoonRing :: any
+	local params = { curve = "Ring", count = p.count, radius = p.radius, range = p.range }
+	local ray = RaycastParams.new()
+	ray.FilterType = Enum.RaycastFilterType.Exclude
+	ray.FilterDescendantsInstances = if character then { character } else {}
+	type RingBlade = { b: Blade, out: Vector3, traveled: number, stopped: boolean }
+	local blades: { RingBlade } = {}
+	for i, d in Ring.directions(dir.X, dir.Z, params) do
+		local b = buildBlade(if i % 2 == 1 then -1 else 1)
+		local out = Vector3.new(d.x, 0, d.z)
+		local pos = origin + out * p.radius
+		setBlade(b, look.growFrom, 1)
+		b.model:PivotTo(CFrame.lookAt(pos, pos + out))
+		b.model.Parent = workspace
+		table.insert(blades, { b = b, out = out, traveled = 0, stopped = false })
+	end
+	local age = 0
+	local dissolving: number? = nil
+	local conn: RBXScriptConnection? = nil
+	conn = RunService.RenderStepped:Connect(function(dt: number)
+		age += dt
+		if dissolving == nil then
+			local grow = math.min(1, look.growFrom + (1 - look.growFrom) * age / look.growTime)
+			local moving = false
+			for _, r in blades do
+				if not r.stopped then
+					local from = origin + r.out * (p.radius + r.traveled)
+					local step = math.min(p.range - r.traveled, p.speed * dt)
+					local hit = workspace:Raycast(from, r.out * step, ray)
+					local wall = hit
+						and (
+							hit.Instance:IsA("Terrain")
+							or (hit.Instance:IsA("BasePart") and hit.Instance.Anchored and hit.Instance.CanCollide)
+						)
+					r.traveled += step
+					local pos = if wall and hit then hit.Position else origin + r.out * (p.radius + r.traveled)
+					r.b.model:PivotTo(CFrame.lookAt(pos, pos + r.out))
+					if wall or r.traveled >= p.range then
+						r.stopped = true
+					else
+						moving = true
+					end
+				end
+				setBlade(r.b, grow, if r.stopped then 0.5 else 1)
+			end
+			if not moving then
+				dissolving = 0
+				for _, r in blades do
+					if r.b.sparks then
+						r.b.sparks.Enabled = false
+					end
+				end
+			end
+		else
+			dissolving += dt
+			local k = math.clamp(1 - (dissolving :: number) / look.dissolveTime, 0, 1)
+			for _, r in blades do
+				setBlade(r.b, 1 + (1 - k) * 0.5, k)
+			end
+			if k <= 0 then
+				if conn then
+					conn:Disconnect()
+				end
+				for _, r in blades do
+					r.b.model:Destroy()
+				end
+				live -= 1
+			end
+		end
+	end)
+end
+
 function TwinCrescentFx.register(reg: FxRegistry.Registry)
 	FxRegistry.register(reg, "fx.twin.cast", function(ctx: any)
 		if ctx.character then
@@ -363,6 +443,13 @@ function TwinCrescentFx.register(reg: FxRegistry.Registry)
 	FxRegistry.register(reg, "fx.twin.third", function(ctx: any)
 		local character = ctx.character or (if ctx.caster then ctx.caster.Character else nil)
 		TwinCrescentFx.third(ctx.pos, ctx.dir, character)
+	end)
+	FxRegistry.register(reg, "fx.fullmoon.travel", function(ctx: any)
+		local character = ctx.character or (if ctx.caster then ctx.caster.Character else nil)
+		TwinCrescentFx.ring(ctx.pos, ctx.dir, character)
+	end)
+	FxRegistry.register(reg, "fx.fullmoon.hit", function(ctx: any)
+		CrescentFx.hit(ctx.caster, ctx.target, ctx.amount or 0, ctx.pos)
 	end)
 	FxRegistry.register(reg, "fx.twin.hit", function(ctx: any)
 		CrescentFx.hit(ctx.caster, ctx.target, ctx.amount or 0, ctx.pos)
