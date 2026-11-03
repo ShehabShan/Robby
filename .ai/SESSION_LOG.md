@@ -1,3 +1,8 @@
+## S126 — 2026-11-03 — T-054 Admin panel (bot 4c2cc191)
+- Built the owner-only admin panel (F2). Only allowlisted Roblox IDs (`Config.Admin.userIds`, owner 7738981129) get `IsAdmin`; the server re-checks and validates every `AdminRequest` and logs it (server print + `data.adminLog`).
+- Panel: give any Kith at any rank (e.g. Twin Crescent), remove owned Kith, refill Qi + reset cooldowns, add shards / food (common or rare), spawn Mistfang/Stonehide in front at a set distance (no respawn), hitbox/blade-path draw toggle, "Clean up test grants".
+- All grants are test-only (`data.adminGrants`, `testOnly`) and removed by cleanup. 6 new specs, CHECK PASS. NEXT: owner playtest (T-054d), then T-053c. ~26 OLU.
+
 ## S125 — 2026-11-03 — T-053b Twin Crescent "Scissor" (bot e900b82c)
 - Built Rank 2 Twin Crescent: blue blade (left) + gold blade (right) curve inward on a shared pure path (`Deliveries/Scissor`), cross 22 studs ahead in a white X flash, fly on. 18 dmg per blade, 36 at the cross (D-394–D-397).
 - Twin Crescent Kith now has Crescent Cut on left click and Scissor on Z. CHECK PASS. Cloud test CLOUD ALL: PASS on Saved version 34. NEXT: owner playtest (Twin Crescent + T-053a7 aim). ~33 OLU.
