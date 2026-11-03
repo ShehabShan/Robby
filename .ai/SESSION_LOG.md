@@ -1,3 +1,8 @@
+## S142 (2026-11-03, bot ee08ce6b) — T-058d basic dash
+- Owner asked again (inbox 2026-11-03-dash-vs-wind-step): answered from R-030 — Wind Step is a fast velocity dash, not a teleport.
+- T-058d split (D-436). d1: pure `Shared.Dash` + `Config.Dash` + spec (D-435). d2: Q dash wired client + server, side i-frames, speed guard window (D-437).
+- Next: cloud test from main, owner feel-test; T-058d3 Wind Step rework waits for owner Yes. CHECK PASS.
+
 ## S141 — 2026-11-03 — R-030 dash vs Wind Step (bot 32c2f9b5)
 - Owner wants a basic dash like Rell Seas / PS2 / battlegrounds (D-434 overrides D-189). Wind Step = 14-stud velocity dash, not teleport.
 - Note research/notes/R-030-dash.md: Q+WASD dash (side i-frames), Wind Step → long stun-breaking special. NEXT T-058d. No code change. ~36 OLU total.
