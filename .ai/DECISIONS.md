@@ -640,3 +640,4 @@ T-046a delivers existing S105 phase-observation repair as an independently pinne
 - **D-421 (S135, R-010):** VISION.md 'Owner ideas' now lists every `research/inbox/` file (47 up to 2026-11-03). The 46 backfilled entries quote each file's opening lines (auto-extracted, ≤220 chars); the inbox file stays the source of truth. No new D-014/policy conflicts seen.
 - **D-422 (S136, F-01):** Attribute contract scan: no broken pairs. Server-only attributes (BossKind, RankTestPassed, TrialResult, Stance) stay as server state/debug; `FovKick` is an opt-out read with nil = on. No code change.
 - **D-423 (S137, F-10):** Content check clean for IP (D-014/D-023) and rating in src; palette check deferred because no palette is defined. No code change.
+- **D-424 (S138, F-04):** Tagged NPC models (Beast, Boss, WildKith) are destroyed after death, which clears their CollectionService tags and instance connections; no extra cleanup needed. F-04 closed.
