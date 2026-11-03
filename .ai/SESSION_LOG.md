@@ -1,3 +1,9 @@
+## S134 — 2026-11-03 — T-057e textures, T-057c3 player ring effects, F-04 part (bot 15cd70f4)
+- T-057e done (D-418): all 13 crescent image ids Approved/Active; real-engine preload Success (`scripts/texture_probe.py`) → S133 blanks were Roblox still processing. Ids unchanged.
+- T-057c3 code (D-419): ring shatter on a player → knock attrs + `KnockbackClient`; stagger interrupts their wind-up casts and refuses new casts.
+- F-04 part (D-420): Status table weak keys + clear on CharacterRemoving. CHECK PASS.
+- NEXT: owner 2-player playtest of the ring (T-057c3) + texture retest. ~22 OLU
+
 ## S133 — 2026-11-03 — T-057d texture ids fix + full-circle ring (bot c375ef08)
 - Owner playtest: slashes were rectangles, ring = 4 blocks. Studio log: every crescent texture id "Asset type does not match".
 - D-417: AssetIds now hold the Image ids behind the uploaded Decals (`scripts/resolve_image_ids.py`); Full Moon Ring = one full ring2 circle. CHECK PASS.
