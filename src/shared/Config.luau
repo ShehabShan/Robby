@@ -139,6 +139,19 @@ local Config = {
 		slideCooldown = 1,
 		slideCost = 15,
 	},
+	-- Basic dash (T-058d, D-435): Q + WASD for everyone. Studs, seconds, stamina. Targets: research/notes/R-030-dash.md.
+	-- Side = dodge (i-frames, own cd); forward/back = positioning (no i-frames, shared cd). Playtest numbers.
+	Dash = {
+		side = { distance = 10, seconds = 0.2, iframeFrom = 0.04, iframeTo = 0.18, cooldown = 1.5 },
+		forward = { distance = 12, seconds = 0.22, iframeFrom = 0, iframeTo = 0, cooldown = 3 },
+		back = { distance = 12, seconds = 0.22, iframeFrom = 0, iframeTo = 0, cooldown = 3 },
+		cost = 15,
+		recovery = 0.15,
+		sideAngle = 45,
+		slideMinSpeed = 22,
+		serverSlack = 0.15,
+		guardSlack = 1.25,
+	},
 	-- Vault / ledge climb (T-058f, D-432): studs, studs/s; Space near a low wall vaults, a taller ledge climbs.
 	Vault = {
 		reach = 3,
