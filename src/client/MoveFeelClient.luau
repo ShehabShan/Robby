@@ -1,7 +1,7 @@
 --!strict
 -- Client movement feel (T-026b1, D-161): body lean into movement, camera bob while walking and a
 -- small camera dip on hard landings. Applies the pure `Shared.MoveFeel` numbers each frame.
--- Cosmetic only: lean edits the local LowerTorso.Root C0, bob/dip use Humanoid.CameraOffset.
+-- Cosmetic only: lean edits the local LowerTorso.Root C0 (or its Transform when C0 is locked), bob/dip use Humanoid.CameraOffset.
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -31,6 +31,7 @@ local function attach(character: Model)
 	local pitch, roll, phase, dip, fallSpeed = 0, 0, 0, 0, 0
 	local wasAir = false
 	local canLean = true
+	local leanBase, lastSet = CFrame.identity, nil :: CFrame?
 
 	-- Bound just before the camera update; HitFeel's shake (RenderStepped) overrides CameraOffset while it runs.
 	local bindName = "RobbyMoveFeel"
@@ -56,6 +57,18 @@ local function attach(character: Model)
 		if canLean then
 			canLean = pcall(function()
 				motor.C0 = baseC0 * CFrame.Angles(pitch, 0, roll)
+			end)
+		end
+		if not canLean then
+			-- Fallback (T-058b, D-429): lean on top of the animated pose. If the Animator did not rewrite
+			-- Transform since our last write, reuse the old base so the lean never accumulates.
+			pcall(function()
+				local current = motor.Transform
+				if lastSet == nil or current ~= lastSet then
+					leanBase = current
+				end
+				lastSet = leanBase * CFrame.Angles(pitch, 0, roll)
+				motor.Transform = lastSet :: CFrame
 			end)
 		end
 

@@ -110,7 +110,6 @@ local Config = {
 	},
 	-- Movement (T-026b3a, D-163; T-058a, D-426): studs/s; accel/decel/turnDecel in studs/s per second;
 	-- turn rates in degrees/s; stamina per second. Targets: research/notes/R-029-movement.md.
-	-- `accel` is still the sprint ramp used by SprintClient until T-058b wires `Shared.Movement`.
 	Movement = {
 		walk = 16,
 		jog = 18,
@@ -129,6 +128,8 @@ local Config = {
 		regenDelay = 0.8,
 		exhaustedResume = 30,
 	},
+	-- Sprint FOV (T-058b, D-429): tweened on sprint start/stop only.
+	MovementCamera = { fovBase = 70, fovSprint = 78, fovTween = 0.25 },
 	-- Sprint speed guard (T-026b3b, D-166): server planar speed check; slack in studs per 0.25 s sample.
 	-- Remote rate limits per client→server event (F-02, D-171): tokens per second + burst.
 	-- T-043c0b3a: replay policy prepared for b3b, not yet connected to live remotes.
