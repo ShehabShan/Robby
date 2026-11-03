@@ -1,5 +1,9 @@
 # STATE
 
+## Now — after S147 (2026-11-03)
+- Rell Seas slide (2:03.45) + jump-up (2:04.95) checked (D-442): clean look = thin flickering white+black wind streaks, no smoke. New **T-058l** (no owner gate). No code change.
+- **NEXT:** T-058l wind lines; owner looks at T-058i VFX in Studio; owner to confirm T-058h, T-058j, T-058k, T-058d3. Last check: CHECK: PASS.
+
 ## Now — after S146 (2026-11-03)
 - Video 2:01–2:06 checked (D-441): it is **Rell Seas itself**. Far high calm exploration camera, stairs at full speed, compass + thin HP/stamina HUD. Logged; T-058k widened. No code change.
 - **NEXT:** owner looks at T-058i VFX in Studio; owner to confirm T-058h, T-058j, T-058k, T-058d3. Else T-058c animations. Last check: CHECK: PASS.
