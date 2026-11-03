@@ -1,3 +1,9 @@
+## S132 — 2026-11-03 — T-057a done + T-057c2 Guard ring wiring (bot c375ef08)
+- T-057a done (D-414): Twin blades use their own art (blue / gold / third2); third2 + ring2 processed, uploaded, in AssetIds.
+- T-057c2 done (D-415): new delivery kind `Guard`; Full Moon Ring = ring of crescents that follows the caster 3 s, shatters on first enemy touch (Cut dmg, tiny stun, beast knockback). Client FX orbits + spinning ring2 decal.
+- D-416: caster speed boost on shatter (SpeedGuard.boost window + SprintClient attribute). CHECK PASS.
+- NEXT: T-057c3 owner playtest + player knockback/interrupt. ~33 OLU
+
 ## S131 — 2026-11-03 — T-057a owner art pick (bot 43b400b6)
 - Owner picked cand4 (Cut + Twin blue) and cand3 (Twin gold) (D-412, inbox 2026-11-03-crescent-art-pick.md); processed as `vfx-crescent-blue/gold`.
 - `gemini_image.sh` now takes reference images (REFS). Made 3rd-blade A/B (cand3 left + cand4 right) and Full Moon Ring A/B in research/notes/T-057a/.
