@@ -39,6 +39,11 @@ function SpeedGuardService.burst(player: Player)
 end
 
 -- Call after the server itself moves a character (teleport); respawns reset automatically.
+-- Call when a Full Moon Ring shatter grants `player` a speed boost (T-057c2, D-416).
+function SpeedGuardService.boost(player: Player, mult: number, seconds: number)
+	SpeedGuard.boost(stateFor(player), mult, seconds, os.clock())
+end
+
 function SpeedGuardService.reset(player: Player)
 	SpeedGuard.reset(stateFor(player))
 end

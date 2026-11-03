@@ -634,7 +634,7 @@ end
 -- `duration`; the first enemy (player or beast) inside radius + touchRadius shatters it once (pure `GuardRing.touch`):
 -- onHit effects (Dmg = 1 Cut hit, Stagger = tiny stun that also interrupts beast/boss attacks) and a small
 -- knockback away from the caster. Knockback moves server-owned roots (beasts); a player's own client owns their root.
--- Caster speed boost (`speedMult`) is T-057c3.
+-- The caster gets a short speed boost: server guard window + `SpeedBoost*` attributes SprintClient reads (D-416).
 local function guardCast(player: Player, character: Model, move: any, dir: Vector3, lifetime: CastLifetime.Handle)
 	local p = move.delivery.params
 	local root = aliveRoot(character)
@@ -718,6 +718,11 @@ local function guardCast(player: Player, character: Model, move: any, dir: Vecto
 		local hitDir = if away.Magnitude > 1e-6 then away.Unit else dir
 		confirmedContact(lifetime, 1, 1, model, pos, hitDir, amount)
 		hitFx(move, player, pos, hitDir, model, amount)
+		if shatter.speedMult > 1 and shatter.speedSeconds > 0 then
+			SpeedGuardService.boost(player, shatter.speedMult, shatter.speedSeconds)
+			character:SetAttribute("SpeedBoostMult", shatter.speedMult)
+			character:SetAttribute("SpeedBoostEnd", workspace:GetServerTimeNow() + shatter.speedSeconds)
+		end
 		stop(nil)
 	end)
 end

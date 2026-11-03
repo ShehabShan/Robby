@@ -10,6 +10,16 @@ end
 local C = { sprint = 24, burstSpeed = 60, burstSeconds = 0.5, tolerance = 1.25, slack = 2, strikes = 3 }
 
 return {
+	["guard ring boost widens the limit only inside its window"] = function()
+		local s = SpeedGuard.new()
+		SpeedGuard.check(C, s, 0, 0, 0)
+		SpeedGuard.boost(s, 1.3, 1, 0)
+		eq(SpeedGuard.check(C, s, 7.8, 0, 0.25), "ok", "1.3x sprint during boost")
+		eq(SpeedGuard.allowed(C, s, 0.25, 0.5), 6 * 1.3 * 1.25 + 2, "boosted limit")
+		eq(SpeedGuard.allowed(C, s, 2, 2.25), 9.5, "back to sprint after")
+		SpeedGuard.boost(s, 0.5, 1, 3)
+		eq(SpeedGuard.allowed(C, s, 3, 3.25), 9.5, "mult below 1 ignored")
+	end,
 	["first sample and zero dt are ok"] = function()
 		local s = SpeedGuard.new()
 		eq(SpeedGuard.check(C, s, 5, 5, 1), "ok", "first")

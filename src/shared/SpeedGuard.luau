@@ -21,6 +21,8 @@ export type State = {
 	goodX: number?,
 	goodZ: number?,
 	burstUntil: number,
+	boostUntil: number?, -- Full Moon Ring shatter speed boost window (T-057c2, D-416)
+	boostMult: number?,
 	strikes: number,
 }
 
@@ -40,11 +42,24 @@ function SpeedGuard.burst(cfg: Cfg, state: State, now: number)
 	state.burstUntil = math.max(state.burstUntil, now + cfg.burstSeconds)
 end
 
+-- Guard ring shatter at `now`: allow sprint × `mult` (>= 1) for `seconds`.
+function SpeedGuard.boost(state: State, mult: number, seconds: number, now: number)
+	if mult ~= mult or mult < 1 or seconds ~= seconds or seconds <= 0 then
+		return
+	end
+	state.boostMult = math.max(state.boostMult or 1, mult)
+	state.boostUntil = math.max(state.boostUntil or -math.huge, now + seconds)
+end
+
 -- Max planar distance (studs) allowed between a sample at `from` and one at `now`.
 function SpeedGuard.allowed(cfg: Cfg, state: State, from: number, now: number): number
 	local dt = math.max(now - from, 0)
 	local burstTime = math.clamp(state.burstUntil - from, 0, dt)
-	local dist = burstTime * math.max(cfg.burstSpeed, cfg.sprint) + (dt - burstTime) * cfg.sprint
+	local boostTime = math.clamp((state.boostUntil or -math.huge) - from, 0, dt - burstTime)
+	local boosted = cfg.sprint * (state.boostMult or 1)
+	local dist = burstTime * math.max(cfg.burstSpeed, boosted)
+		+ boostTime * boosted
+		+ (dt - burstTime - boostTime) * cfg.sprint
 	return dist * cfg.tolerance + cfg.slack
 end
 

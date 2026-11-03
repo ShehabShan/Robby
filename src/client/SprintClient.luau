@@ -29,6 +29,11 @@ function SprintClient.start()
 		local moving = hum.MoveDirection.Magnitude > 0.1
 		local grounded = hum.FloorMaterial ~= Enum.Material.Air
 		local target = Sprint.target(tune, held, moving, grounded)
+		local boostEnd = character:GetAttribute("SpeedBoostEnd")
+		local boostMult = character:GetAttribute("SpeedBoostMult")
+		if type(boostEnd) == "number" and type(boostMult) == "number" and workspace:GetServerTimeNow() < boostEnd then
+			target *= math.clamp(boostMult, 1, 2) -- Full Moon Ring shatter boost (T-057c2, D-416)
+		end
 		hum.WalkSpeed = Sprint.step(hum.WalkSpeed, target, tune.accel, dt)
 	end)
 end
