@@ -1,3 +1,8 @@
+## S140 — 2026-11-03 — R-029 + new movement system T-058a/b/e/f/g (bot 32c2f9b5)
+- R-029 done (D-426): research note research/notes/R-029-movement.md; T-058 split a–g (D-427).
+- T-058a/b/g/e/f (D-428–D-432): R15 kit removed; pure `Shared.Movement` (jog 18, Shift sprint 24→27, stamina, turn brake, landing recovery, Q slide + slide-jump); `Shared.Vault` (Space vault / ledge climb); sprint FOV; guard on sprintMax.
+- T-058d dodge held for owner (D-433 vs D-189). T-058c (own anims/footsteps) next. CHECK PASS. ~25 OLU.
+
 ## S139 — 2026-11-03 — movement tasks added (bot 15cd70f4)
 - Owner: added R-029 (movement research) + T-058 (new movement system, remove R15 kit) as NEXT (D-425). No code change.
 
