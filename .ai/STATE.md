@@ -1,7 +1,7 @@
 # STATE
 
 ## Now — after S127 (2026-11-03, bot 4c2cc191)
-- **T-055 fixed on main (D-403): no more "C0 read only" spam from MoveFeelClient (lean disables itself if blocked). Not in a Saved version yet. NEXT: owner re-runs Studio to confirm, then T-054d admin panel playtest (see S126 below), then T-053c.**
+- **T-055 fixed on main (D-403): no more "C0 read only" spam from MoveFeelClient (lean disables itself if blocked). Not in a Saved version yet. NEXT: owner re-runs Studio to confirm, then T-054d admin panel playtest (see S126 below), then **T-056 Twin Crescent 3rd blade (owner spec in TASKS)**, then T-053c.**
 
 ## Now — after S126 (2026-11-03, bot 4c2cc191)
 - **T-054 owner-only admin panel built (D-398–D-402), merged to main (46bdd8a); cloud test CLOUD ALL: PASS on **Saved version 35**, not published. NEXT: owner playtest (T-054d)** in Studio or Saved v35: press F2 (only allowlisted `Config.Admin.userIds`, owner 7738981129), give Twin Crescent, test Scissor + the T-053a7 aim retest, refill/cooldowns, shards/food, spawn Mistfang at a distance, hitbox draw, then "Clean up test grants". Then T-053c.
