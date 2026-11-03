@@ -169,6 +169,9 @@ local function harness(step, protocol)
 			clear = function()
 				h.cleared = true
 			end,
+			has = function()
+				return false -- no stagger in the dispatch harness (T-057c3 cast refusal)
+			end,
 		},
 		statuses = {},
 		built = built,

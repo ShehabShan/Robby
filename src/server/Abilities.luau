@@ -31,6 +31,7 @@ local Volley = require(ReplicatedStorage.Shared.Deliveries.Volley)
 local Scissor = require(ReplicatedStorage.Shared.Deliveries.Scissor)
 local Ring = require(ReplicatedStorage.Shared.Deliveries.Ring)
 local GuardRing = require(ReplicatedStorage.Shared.Deliveries.GuardRing)
+local PlayerHitReact = require(ReplicatedStorage.Shared.PlayerHitReact)
 local Zone = require(ReplicatedStorage.Shared.Deliveries.Zone)
 local Burst = require(ReplicatedStorage.Shared.Deliveries.Burst)
 local Frost = require(ReplicatedStorage.Shared.Frost)
@@ -630,6 +631,31 @@ local function burstCast(player: Player, character: Model, move: any, dir: Vecto
 	end)
 end
 
+-- Player victim of a shatter (T-057c3, D-419): their client owns the root, so publish a knock on the
+-- character (KnockbackClient applies it once), and interrupt their casts still in wind-up when staggered.
+local function reactPlayerHit(victim: Player, model: Model, pushX: number, pushZ: number)
+	local serverNow = workspace:GetServerTimeNow()
+	local k = PlayerHitReact.knock(pushX, pushZ, serverNow)
+	if k then
+		model:SetAttribute("KnockX", k.x)
+		model:SetAttribute("KnockZ", k.z)
+		model:SetAttribute("KnockAt", k.at)
+	end
+	if not Status.has(statuses, model, STAGGER_TAG, os.clock()) then
+		return
+	end
+	local casts: { PlayerHitReact.Windup } = {}
+	local byId: { [string]: CastLifetime.Handle } = {}
+	for id, h in lifetimes.active do
+		local a = h.acceptance
+		table.insert(casts, { castId = id, casterUserId = a.casterUserId, releaseAt = a.releaseAt })
+		byId[id] = h
+	end
+	for _, id in PlayerHitReact.windups(casts, victim.UserId, serverNow) do
+		CastLifetime.terminate(lifetimes, byId[id], "interrupted", os.clock())
+	end
+end
+
 -- Guard delivery (T-057c2, D-415): Full Moon Ring. The ring follows the caster's CURRENT root each Heartbeat for
 -- `duration`; the first enemy (player or beast) inside radius + touchRadius shatters it once (pure `GuardRing.touch`):
 -- onHit effects (Dmg = 1 Cut hit, Stagger = tiny stun that also interrupts beast/boss attacks) and a small
@@ -709,7 +735,10 @@ local function guardCast(player: Player, character: Model, move: any, dir: Vecto
 		local humanoid = model:FindFirstChildOfClass("Humanoid") :: Humanoid
 		local mroot = model:FindFirstChild("HumanoidRootPart") :: BasePart
 		local amount = applyOnHit(player, move, humanoid)
-		if not Players:GetPlayerFromCharacter(model) and not mroot.Anchored then
+		local victimPlayer = Players:GetPlayerFromCharacter(model)
+		if victimPlayer then
+			reactPlayerHit(victimPlayer, model, shatter.pushX, shatter.pushZ)
+		elseif not mroot.Anchored then
 			local v = mroot.AssemblyLinearVelocity
 			mroot.AssemblyLinearVelocity = Vector3.new(shatter.pushX, v.Y, shatter.pushZ)
 		end
@@ -820,6 +849,9 @@ local function authorizeCast(player: Player, value: any): (AcceptedCast?, string
 	end
 	if not root or not character then
 		return nil, "character"
+	end
+	if Status.has(statuses, character, STAGGER_TAG, os.clock()) then
+		return nil, "staggered" -- a staggered player cannot start a cast (T-057c3, D-419)
 	end
 	local point: Vector3? = nil
 	if move.delivery.kind == "Zone" then
