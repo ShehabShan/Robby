@@ -25,6 +25,11 @@ export type Tuning = {
 	landRecoverPerSpeed: number,
 	landRecoverMax: number,
 	landSpeedMult: number,
+	slideMinSpeed: number,
+	slideStartSpeed: number,
+	slideSeconds: number,
+	slideCooldown: number,
+	slideCost: number,
 }
 
 export type State = {
@@ -34,6 +39,10 @@ export type State = {
 	regenWait: number,
 	exhausted: boolean,
 	recover: number?, -- seconds of landing recovery left (T-058g)
+	slide: number?, -- seconds of slide left (T-058e)
+	slideFrom: number?, -- speed the slide started at
+	slideCd: number?, -- slide cooldown left
+	carry: number?, -- speed kept through a slide-jump until touchdown
 }
 
 export type Input = {
@@ -43,6 +52,7 @@ export type Input = {
 	grounded: boolean,
 	turnAngle: number, -- degrees between wanted direction and current velocity (0..180)
 	landedFall: number?, -- downward speed (studs/s) at touchdown this frame (T-058g)
+	slide: boolean?, -- slide key pressed this frame (T-058e)
 }
 
 function Movement.new(t: Tuning): State
@@ -103,6 +113,23 @@ function Movement.landRecovery(t: Tuning, fallSpeed: number): number
 	return math.min((fallSpeed - t.landMinFall) * t.landRecoverPerSpeed + 0.1, t.landRecoverMax)
 end
 
+-- Slide (T-058e, D-431): from a run on the ground with stamina, off cooldown, not recovering.
+function Movement.canSlide(t: Tuning, s: State, i: Input): boolean
+	return i.grounded
+		and i.moving
+		and s.speed >= t.slideMinSpeed
+		and s.stamina >= t.slideCost
+		and (s.slide or 0) <= 0
+		and (s.slideCd or 0) <= 0
+		and (s.recover or 0) <= 0
+end
+
+-- Slide speed `elapsed` seconds in: holds most of the burst early, then drops to jog (quadratic ease-in).
+function Movement.slideSpeed(t: Tuning, from: number, elapsed: number): number
+	local k = if t.slideSeconds > 0 then math.clamp(elapsed / t.slideSeconds, 0, 1) else 1
+	return from + (t.jog - from) * k * k
+end
+
 -- Distance (studs) to stop from `speed` with brake `decel`.
 function Movement.stopDistance(speed: number, decel: number): number
 	if decel <= 0 then
@@ -111,9 +138,59 @@ function Movement.stopDistance(speed: number, decel: number): number
 	return speed * speed / (2 * decel)
 end
 
+local function slideStep(t: Tuning, s: State, i: Input, dt: number): State
+	local slide, slideCd, carry = s.slide or 0, math.max((s.slideCd or 0) - dt, 0), s.carry
+	local stamina = s.stamina
+	local from = s.slideFrom or 0
+	if i.slide and Movement.canSlide(t, s, i) then
+		slide, from, slideCd = t.slideSeconds, math.max(s.speed, t.slideStartSpeed), t.slideCooldown
+		stamina -= t.slideCost
+	end
+	if slide > 0 then
+		if not i.grounded then
+			carry = Movement.slideSpeed(t, from, t.slideSeconds - slide) -- slide-jump keeps momentum
+			slide = 0
+		else
+			slide = math.max(slide - dt, 0)
+			return {
+				speed = Movement.slideSpeed(t, from, t.slideSeconds - slide),
+				sprintTime = 0,
+				stamina = stamina,
+				regenWait = t.regenDelay,
+				exhausted = s.exhausted,
+				recover = 0,
+				slide = slide,
+				slideFrom = from,
+				slideCd = slideCd,
+				carry = nil,
+			}
+		end
+	end
+	if carry and i.grounded then
+		carry = nil
+	end
+	return {
+		speed = if carry then carry else s.speed,
+		sprintTime = s.sprintTime,
+		stamina = stamina,
+		regenWait = s.regenWait,
+		exhausted = s.exhausted,
+		recover = s.recover,
+		slide = 0,
+		slideFrom = from,
+		slideCd = slideCd,
+		carry = carry,
+	}
+end
+
 -- One frame. Returns a new State; never mutates `s`.
-function Movement.step(t: Tuning, s: State, i: Input, dt: number): State
+function Movement.step(t: Tuning, s0: State, i: Input, dt: number): State
 	dt = math.max(dt, 0)
+	local sl = slideStep(t, s0, i, dt)
+	if (sl.slide or 0) > 0 then
+		return sl
+	end
+	local s = sl
 	local recover = math.max((s.recover or 0) - dt, 0)
 	local landing = if i.landedFall then Movement.landRecovery(t, i.landedFall) else 0
 	recover = math.max(recover, landing)
@@ -128,6 +205,9 @@ function Movement.step(t: Tuning, s: State, i: Input, dt: number): State
 		target = 0
 	end
 	local speed = approach(s.speed, target, Movement.rate(t, s.speed, target, i), dt)
+	if s.carry and not i.grounded then
+		speed = s.carry -- slide-jump: keep the slide's speed until touchdown
+	end
 	-- A sharp reversal drops the ramp (momentum is lost); otherwise it builds while sprinting.
 	local sprintTime = if sprinting and i.turnAngle < t.turnDecelAngle then s.sprintTime + dt else 0
 	if landing > 0 then
@@ -157,6 +237,10 @@ function Movement.step(t: Tuning, s: State, i: Input, dt: number): State
 		regenWait = regenWait,
 		exhausted = exhausted,
 		recover = recover,
+		slide = 0,
+		slideFrom = s.slideFrom,
+		slideCd = s.slideCd,
+		carry = if i.grounded then nil else s.carry,
 	}
 end
 

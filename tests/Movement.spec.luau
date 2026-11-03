@@ -98,6 +98,35 @@ return {
 		s = run(s, input({ sprint = true }), T.landRecoverMax + 0.5)
 		eq(s.speed >= T.sprint, true, "sprinting again")
 	end,
+	["slide: needs a run, costs stamina, eases to jog, then cooldown"] = function()
+		local s = run(Movement.new(T), input(), 0.5)
+		eq(Movement.canSlide(T, s, input({ slide = true })), false, "jog too slow")
+		s = run(s, input({ sprint = true }), 0.5)
+		local st = s.stamina
+		s = Movement.step(T, s, input({ sprint = true, slide = true }), 1 / 60)
+		eq((s.slide or 0) > 0, true, "sliding")
+		eq(s.speed >= T.slideStartSpeed - 1, true, "burst")
+		eq(s.stamina < st - T.slideCost + 1, true, "cost")
+		s = run(s, input({ sprint = true }), T.slideSeconds)
+		eq((s.slide or 0), 0, "ended")
+		eq(Movement.canSlide(T, s, input({ slide = true })), false, "cooldown")
+	end,
+	["slide: speed curve starts high and ends at jog"] = function()
+		near(Movement.slideSpeed(T, 30, 0), 30, "start")
+		near(Movement.slideSpeed(T, 30, T.slideSeconds), T.jog, "end")
+		eq(Movement.slideSpeed(T, 30, T.slideSeconds / 2) > (30 + T.jog) / 2 - 3, true, "ease")
+	end,
+	["slide-jump: keeps slide speed in the air, drops on touchdown"] = function()
+		local s = run(Movement.new(T), input({ sprint = true }), 0.5)
+		s = Movement.step(T, s, input({ sprint = true, slide = true }), 1 / 60)
+		s = run(s, input({ sprint = true }), 0.1)
+		local v = s.speed
+		s = run(s, input({ sprint = true, grounded = false }), 0.4)
+		near(s.speed, v, "carried")
+		s = run(s, input({ sprint = true }), 1)
+		eq(s.carry, nil, "cleared")
+		eq(s.speed <= T.sprintMax, true, "back to run")
+	end,
 	["step: does not mutate state and ignores negative dt"] = function()
 		local s = Movement.new(T)
 		local n = Movement.step(T, s, input(), -1)

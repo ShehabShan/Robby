@@ -132,6 +132,12 @@ local Config = {
 		landRecoverPerSpeed = 0.006,
 		landRecoverMax = 0.45,
 		landSpeedMult = 0.5,
+		-- Slide (T-058e, D-431): Q / gamepad B while running ≥ slideMinSpeed.
+		slideMinSpeed = 22,
+		slideStartSpeed = 30,
+		slideSeconds = 0.6,
+		slideCooldown = 1,
+		slideCost = 15,
 	},
 	-- Sprint FOV (T-058b, D-429): tweened on sprint start/stop only.
 	MovementCamera = { fovBase = 70, fovSprint = 78, fovTween = 0.25 },

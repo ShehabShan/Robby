@@ -1,6 +1,6 @@
 --!strict
 -- Client movement (T-058b, D-429; was T-026b3a sprint): hold LeftShift / gamepad L3 to sprint (D-164).
--- LeftControl is shift lock, B is Crucible. Each frame runs the pure `Shared.Movement` step (momentum,
+-- Q / gamepad B slides while running (T-058e). LeftControl is shift lock, B (keyboard) is Crucible. Each frame runs the pure `Shared.Movement` step (momentum,
 -- jog → sprint ramp, stamina, sharp-reversal brake) and writes the result to the local Humanoid.WalkSpeed.
 -- Stamina is mirrored to the character attribute `Stamina` (0..staminaMax) for a later HUD bar.
 -- Sprint FOV: tweens the camera FOV on sprint start/stop only, so CrescentFx FOV kicks still work.
@@ -18,6 +18,7 @@ local tune: Movement.Tuning = Config.Movement
 local cam = Config.MovementCamera
 local SprintClient = {}
 local held = false
+local slidePressed = false -- Q / gamepad B (T-058e, D-431)
 local state: Movement.State = Movement.new(tune)
 local sprintingFov = false
 local lastCharacter: Model? = nil
@@ -50,6 +51,12 @@ function SprintClient.start()
 		held = inputState == Enum.UserInputState.Begin
 		return Enum.ContextActionResult.Pass
 	end, true, Enum.KeyCode.LeftShift, Enum.KeyCode.ButtonL3)
+	ContextActionService:BindAction("Slide", function(_, inputState: Enum.UserInputState, _)
+		if inputState == Enum.UserInputState.Begin then
+			slidePressed = true
+		end
+		return Enum.ContextActionResult.Pass
+	end, true, Enum.KeyCode.Q, Enum.KeyCode.ButtonB)
 
 	RunService.Heartbeat:Connect(function(dt: number)
 		local character = Players.LocalPlayer.Character
@@ -81,9 +88,12 @@ function SprintClient.start()
 			grounded = grounded,
 			turnAngle = turnAngle(move, root.AssemblyLinearVelocity),
 			landedFall = landedFall,
+			slide = slidePressed,
 		}
 		local sprinting = Movement.canSprint(tune, state, input)
 		state = Movement.step(tune, state, input, dt)
+		slidePressed = false
+		character:SetAttribute("Sliding", (state.slide or 0) > 0 or nil) -- for T-058c slide animation
 		local speed = state.speed
 		local boostEnd = character:GetAttribute("SpeedBoostEnd")
 		local boostMult = character:GetAttribute("SpeedBoostMult")
