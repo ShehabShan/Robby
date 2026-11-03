@@ -1,5 +1,9 @@
 # STATE
 
+## Now — after S133 (2026-11-03, bot c375ef08)
+- **T-057d fixed (D-417), merged to main:** crescent textures failed in Studio because AssetIds held Decal ids; now the Image ids. Full Moon Ring = one full spinning ring2 circle. Not in a Saved version yet. **NEXT: T-057c3 owner retests in Studio** (pull main / rebuild), then player knockback/interrupt.
+- Blockers: none. Last check: CHECK: PASS.
+
 ## Now — after S132 (2026-11-03, bot c375ef08)
 - **T-057a done (D-414) + T-057c2 Full Moon Ring guard ring wired (D-415, D-416), merged to main; cloud test CLOUD ALL: PASS 691/691 on **Saved version 41**, not published. NEXT: T-057c3 owner playtest** in Studio or Saved v41: Twin Crescent blade art (blue/gold/3rd) and Full Moon Ring (X): ring follows you 3 s, shatters on first enemy touch, you get a short speed boost. Then player-side knockback/interrupt (T-057c3).
 - Blockers: none. Last check: CHECK: PASS.
