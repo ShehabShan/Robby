@@ -23,6 +23,19 @@ local built = Registry.build(All.content(Config))
 
 local AdminService = {}
 
+-- Owned Kith for the admin panel's remove list ("uid|speciesId,..."), admins only.
+local function publishKith(player: Player, data: any)
+	if not AdminRules.isAdmin(Config, player.UserId) or type(data.kith) ~= "table" then
+		return
+	end
+	local parts = {}
+	for uid, k in data.kith do
+		table.insert(parts, `{uid}|{if type(k) == "table" then k.speciesId else "?"}`)
+	end
+	table.sort(parts)
+	player:SetAttribute("AdminKith", table.concat(parts, ","))
+end
+
 local function report(player: Player, data: any, req: any, ok: boolean, detail: string)
 	if data then
 		AdminRules.log(Config, data, player.UserId, req, ok, detail, os.time())
@@ -60,6 +73,7 @@ function AdminService.start()
 	for _, player in Players:GetPlayers() do
 		player:SetAttribute("IsAdmin", AdminRules.isAdmin(Config, player.UserId))
 	end
+	DataService.onLoaded(publishKith)
 	Net.AdminRequest.On(function(player: Player, value)
 		if not RemoteGuard.allow(player, "AdminRequest") then
 			return
@@ -85,6 +99,7 @@ function AdminService.start()
 			ok, detail = AdminRules.apply(data, req)
 			if ok then
 				LoadoutService.publish(player, data)
+				publishKith(player, data)
 				DataService.saveNow(player)
 			end
 		end

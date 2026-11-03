@@ -137,6 +137,7 @@ BindingHud.start(built, Net) -- Binding tug-of-war UI (T-017c, D-072)
 ShellHud.start(Net) -- Core Shell + Refine (T-018d, D-076)
 CrucibleHud.start(Net) -- Crucible confirm / focus / result (T-019e, D-085)
 LoomHud.start(Net) -- Weave Loom panel (T-020e, D-111)
+require(script.AdminPanel).start(built, Net) -- owner-only F2 admin panel (T-054c, D-401)
 
 require(script.BeastHud).start(fx) -- beast labels + telegraph "!" and ground warning (T-022c)
 require(script.BossHud).start() -- boss HP bar + phase cue (T-023c)
