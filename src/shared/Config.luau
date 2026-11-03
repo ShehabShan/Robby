@@ -139,6 +139,18 @@ local Config = {
 		slideCooldown = 1,
 		slideCost = 15,
 	},
+	-- Vault / ledge climb (T-058f, D-432): studs, studs/s; Space near a low wall vaults, a taller ledge climbs.
+	Vault = {
+		reach = 3,
+		vaultMin = 1.8,
+		vaultMax = 4.5,
+		climbMax = 7,
+		clearance = 1.2,
+		vaultForward = 18,
+		climbForward = 8,
+		gravity = 196.2,
+		cooldown = 0.5,
+	},
 	-- Sprint FOV (T-058b, D-429): tweened on sprint start/stop only.
 	MovementCamera = { fovBase = 70, fovSprint = 78, fovTween = 0.25 },
 	-- Sprint speed guard (T-026b3b, D-166): server planar speed check; slack in studs per 0.25 s sample.
