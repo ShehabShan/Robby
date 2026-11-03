@@ -1,7 +1,7 @@
 # /// script
 # dependencies = ["httpx"]
 # ///
-"""T-053a2: upload PNGs as Image (Decal) assets under the owner (Open Cloud Assets API, same flow as upload_anims.py).
+"""T-053a2: upload PNGs as Image (Decal) assets under the owner (Open Cloud Assets API).
 Usage: uv run scripts/upload_images.py [--dry-run] assets/processed/<name>.png [...]
 Prints NAME=assetId lines (or NAME=PENDING when moderation is not finished). Needs `roblox-open-cloud`."""
 import json, os, sys, time, pathlib, httpx

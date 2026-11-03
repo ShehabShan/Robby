@@ -108,8 +108,27 @@ local Config = {
 			},
 		},
 	},
-	-- Movement (T-026b3a, D-163): studs/s; accel in studs/s per second.
-	Movement = { walk = 16, sprint = 24, accel = 40 },
+	-- Movement (T-026b3a, D-163; T-058a, D-426): studs/s; accel/decel/turnDecel in studs/s per second;
+	-- turn rates in degrees/s; stamina per second. Targets: research/notes/R-029-movement.md.
+	-- `accel` is still the sprint ramp used by SprintClient until T-058b wires `Shared.Movement`.
+	Movement = {
+		walk = 16,
+		jog = 18,
+		sprint = 24,
+		sprintMax = 27,
+		sprintRampSeconds = 3,
+		accel = 120,
+		decel = 160,
+		turnDecel = 240,
+		turnDecelAngle = 120,
+		turnRateJog = 720,
+		turnRateSprint = 420,
+		staminaMax = 100,
+		sprintDrain = 12,
+		staminaRegen = 20,
+		regenDelay = 0.8,
+		exhaustedResume = 30,
+	},
 	-- Sprint speed guard (T-026b3b, D-166): server planar speed check; slack in studs per 0.25 s sample.
 	-- Remote rate limits per client→server event (F-02, D-171): tokens per second + burst.
 	-- T-043c0b3a: replay policy prepared for b3b, not yet connected to live remotes.

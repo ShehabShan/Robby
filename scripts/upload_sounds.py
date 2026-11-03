@@ -1,7 +1,7 @@
 # /// script
 # dependencies = ["httpx"]
 # ///
-"""T-053a4b: upload OGG sounds as Audio assets under the owner (Open Cloud Assets API, same flow as upload_anims.py).
+"""T-053a4b: upload OGG sounds as Audio assets under the owner (Open Cloud Assets API).
 Usage: uv run scripts/upload_sounds.py [--dry-run] assets/sfx/<name>.ogg [...]
 Prints NAME=assetId lines (or NAME=PENDING when moderation is not finished). Needs `roblox-open-cloud`."""
 import json, os, sys, time, pathlib, httpx
