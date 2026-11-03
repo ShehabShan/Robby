@@ -1,3 +1,7 @@
+## S135 — 2026-11-03 — R-010 owner inbox backfill (bot 15cd70f4, same run as S134)
+- D-421: VISION.md Owner ideas now lists all 47 inbox files (46 backfilled with each file's opening lines). CHECK PASS.
+- NEXT: unchanged — owner 2-player playtest T-057c3 on Saved v47. ~27 OLU total (S134+S135)
+
 ## S134 — 2026-11-03 — T-057e textures, T-057c3 player ring effects, F-04 part (bot 15cd70f4)
 - T-057e done (D-418): all 13 crescent image ids Approved/Active; real-engine preload Success (`scripts/texture_probe.py`) → S133 blanks were Roblox still processing. Ids unchanged.
 - T-057c3 code (D-419): ring shatter on a player → knock attrs + `KnockbackClient`; stagger interrupts their wind-up casts and refuses new casts.

@@ -13,7 +13,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
 
 - **R-001 [done] Dev best practice** (still valid).
 - **R-002 [done] Platform scan:** discovery signals, monetisation rules. Obby parts archived.
-- **R-010 [todo] [S] Process owner inbox** (repeat whenever there are new files):
+- **R-010 [todo] [S] Process owner inbox** (repeat whenever there are new files; S135: all 47 files through 2026-11-03 listed, D-421):
   - For each file in `research/inbox/` not yet listed in VISION.md "Owner ideas", add an entry with the date, file name and the owner's key points in their own words.
   - Flag conflicts with D-014 (IP) or Roblox policy to the owner. Don't silently drop anything.
   - AC: every inbox file is listed in VISION.md.
