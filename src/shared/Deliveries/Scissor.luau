@@ -66,4 +66,51 @@ function Scissor.point(
 	return ox + ax * d + rx * l, oz + az * d + rz * l
 end
 
+-- 3rd blade (T-056, owner 2026-11-03, D-404): only if BOTH blades reach the cross (`crossAt`) still alive, one bigger
+-- blade spawns at the cross and flies straight along the aim. A blade that ends earlier (enemy hit or wall) cancels it.
+-- The server sweeps each blade up to `crossAt` first, then reports `reachCross` (alive) or `bladeEnded` (done before).
+export type Cross = { reached: { [number]: boolean }, blocked: boolean, spawned: boolean }
+
+function Scissor.newCross(): Cross
+	return { reached = {}, blocked = false, spawned = false }
+end
+
+-- Blade `index` passed the cross alive.
+function Scissor.reachCross(c: Cross, index: number)
+	if not c.blocked then
+		c.reached[index] = true
+	end
+end
+
+-- Blade `index` ended (hit, wall or lifetime) before reaching the cross: no 3rd blade for this cast.
+function Scissor.bladeEnded(c: Cross, index: number)
+	if not c.reached[index] then
+		c.blocked = true
+	end
+end
+
+-- True exactly once, when both blades have reached the cross and none was blocked.
+function Scissor.takeThird(c: Cross): boolean
+	if c.spawned or c.blocked or not (c.reached[1] and c.reached[2]) then
+		return false
+	end
+	c.spawned = true
+	return true
+end
+
+export type ThirdTuning = { sizeMult: number, rangeMult: number, damageMult: number }
+
+-- 3rd blade Projectile params from one Scissor blade's: hit box × sizeMult, travel (from the cross) = range ×
+-- rangeMult, no pierce (maxHits 1), stops on walls. Damage is the content effect (baseDamage × damageMult).
+function Scissor.thirdParams(p: any, t: ThirdTuning): any
+	local hb = p.hitbox or { x = 1, y = 1, z = 1 }
+	return {
+		speed = p.speed,
+		range = p.range * t.rangeMult,
+		maxHits = 1,
+		stopOnWorld = true,
+		hitbox = { x = hb.x * t.sizeMult, y = hb.y * t.sizeMult, z = hb.z * t.sizeMult },
+	}
+end
+
 return Scissor

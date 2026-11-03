@@ -26,8 +26,9 @@ local Config = {
 			baseDamage = 18, -- per blade; a target at the cross takes both (36)
 			speed = 95,
 			range = 65,
-			maxHits = 3, -- per blade
+			maxHits = 1, -- no pierce: each blade ends on its first enemy hit (owner T-056, D-404)
 			perTargetCap = 2, -- both blades may hit the same target once each
+			third = { sizeMult = 2, rangeMult = 2, damageMult = 2 }, -- 3rd blade if both reach the cross (T-056, D-404)
 			width = 4.5, -- studs each blade launches to its side of the aim line
 			crossAt = 22, -- studs ahead where the blades cross (the X)
 			hitboxSize = { x = 5, y = 2.5, z = 2 },

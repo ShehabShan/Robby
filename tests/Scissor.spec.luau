@@ -64,4 +64,43 @@ return {
 		eq(k.moves[1], "move.crescent_cut", "keeps Crescent Cut first (left click)")
 		eq(k.moves[2], "move.twin_crescent", "Scissor second (Z)")
 	end,
+	["scissor 3rd blade: both blades reach the cross -> exactly one 3rd blade"] = function()
+		local c = Scissor.newCross()
+		eq(Scissor.takeThird(c), false, "not before the cross")
+		Scissor.reachCross(c, 1)
+		eq(Scissor.takeThird(c), false, "one blade is not enough")
+		Scissor.reachCross(c, 2)
+		eq(Scissor.takeThird(c), true, "both reached")
+		eq(Scissor.takeThird(c), false, "only once")
+		Scissor.bladeEnded(c, 1) -- ending after the cross changes nothing
+		eq(c.blocked, false, "late end does not block")
+	end,
+	["scissor 3rd blade: one blade blocked -> no 3rd blade"] = function()
+		local c = Scissor.newCross()
+		Scissor.bladeEnded(c, 2) -- gold blade hit an enemy / wall before the cross
+		Scissor.reachCross(c, 1)
+		Scissor.reachCross(c, 2)
+		eq(Scissor.takeThird(c), false, "blocked blade cancels the 3rd")
+		local c2 = Scissor.newCross()
+		Scissor.reachCross(c2, 1)
+		Scissor.bladeEnded(c2, 2)
+		eq(Scissor.takeThird(c2), false, "blocked after the other reached")
+	end,
+	["scissor 3rd blade: 2x size, 2x travel, 2x damage, no pierce"] = function()
+		local built = Registry.build(All.content(Config))
+		local m = built.moves["move.twin_crescent"]
+		local p = m.delivery.params
+		eq(p.maxHits, 1, "scissor blades do not pierce")
+		eq(p.stopOnWorld, true, "scissor blades stop on walls")
+		local t = Scissor.thirdParams(p, p.third)
+		near(t.hitbox.x, p.hitbox.x * 2, "2x hit box x")
+		near(t.hitbox.y, p.hitbox.y * 2, "2x hit box y")
+		near(t.hitbox.z, p.hitbox.z * 2, "2x hit box z")
+		near(t.range, p.range * 2, "2x travel from the cross")
+		eq(t.maxHits, 1, "3rd blade does not pierce")
+		eq(t.stopOnWorld, true, "3rd blade stops on walls")
+		local one = built.effects["effect.twin_crescent.hit"].ops[1].params.base
+		local third = built.effects[p.thirdEffect].ops[1].params.base
+		near(third, one * 2, "2x damage")
+	end,
 }

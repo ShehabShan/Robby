@@ -22,6 +22,12 @@ function Crescent.content(cfg: any): any
 				ops = { { kind = "Dmg", params = { base = t.baseDamage } } },
 				fx = "fx.twin.hit",
 			},
+			{
+				id = "effect.twin_crescent.third", -- 3rd blade, 2× one blade's damage (T-056, D-404)
+				duration = "Inst",
+				ops = { { kind = "Dmg", params = { base = t.baseDamage * t.third.damageMult } } },
+				fx = "fx.twin.hit",
+			},
 		},
 		moves = {
 			{
@@ -67,6 +73,9 @@ function Crescent.content(cfg: any): any
 						maxHits = t.maxHits,
 						hitbox = t.hitboxSize,
 						spawnOffset = t.spawnOffset,
+						stopOnWorld = true, -- blades end on walls / solid parts (T-056, D-404)
+						third = t.third, -- 3rd blade tuning; Scissor.thirdParams builds its params (T-056)
+						thirdEffect = "effect.twin_crescent.third",
 					},
 				} :: any, -- Volley params differ from Crescent Cut's Projectile ones (sibling literal type)
 				costs = { qi = t.cost },
