@@ -9,8 +9,9 @@ local BLOCKING = { "State.Iframes" }
 
 local Status = {}
 
+-- Weak keys (F-04, D-420): grants keyed by a character or beast model (Stagger) drop once the model is gone.
 function Status.new(): Statuses
-	return {}
+	return setmetatable({}, { __mode = "k" }) :: any
 end
 
 -- Grants `tag` to `who` until `untilTime`; a longer existing grant is kept.

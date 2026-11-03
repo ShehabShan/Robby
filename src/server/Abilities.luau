@@ -1127,6 +1127,7 @@ function Abilities.start()
 					return
 				end
 				character:SetAttribute(CastCharacterIdentity.attribute, nil)
+				Status.clear(statuses, character) -- Stagger keyed by the old model (F-04, D-420)
 				session.character = nil
 				rotateCast(session)
 				stances[player] = Stance.new()
