@@ -13,6 +13,11 @@ AssetIds.images = {
 	crescentHitAdd = 128970868556906,
 	crescentHitAlpha = 135269368271025,
 	iconCrescentCut = 92123394268450,
+	-- Gemini crescent art, owner pick (T-057a, D-412): blue = Cut + Twin blue blade, gold = Twin gold blade.
+	crescentBlueAdd = 94571439842906,
+	crescentBlueAlpha = 91368494264023,
+	crescentGoldAdd = 94658976800732,
+	crescentGoldAlpha = 92988498925568,
 } :: { [string]: number }
 
 -- Crescent Cut sounds (T-053a4b, D-389): made by `uv run scripts/make_sfx.py` (Lyria tone +

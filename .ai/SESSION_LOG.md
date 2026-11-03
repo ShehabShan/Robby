@@ -1,7 +1,7 @@
 ## S131 — 2026-11-03 — T-057a owner art pick (bot 43b400b6)
 - Owner picked cand4 (Cut + Twin blue) and cand3 (Twin gold) (D-412, inbox 2026-11-03-crescent-art-pick.md); processed as `vfx-crescent-blue/gold`.
 - `gemini_image.sh` now takes reference images (REFS). Made 3rd-blade A/B (cand3 left + cand4 right) and Full Moon Ring A/B in research/notes/T-057a/.
-- Roblox upload timed out twice (Open Cloud, no reply in 150 s) → not in game yet. CHECK PASS. NEXT: retry upload, owner picks 3rd blade + ring A/B. ~37 OLU
+- Upload retry worked (4 s): blue/gold in AssetIds; Crescent Cut uses blue. Owner picked 3rd blade B, Ring B + spin for 3 s (D-413). CHECK PASS. NEXT: Twin textures, upload third2/ring2, T-057c2. ~41 OLU
 
 ## S130 — 2026-11-03 — T-057 crescent art + 3rd blade fix + guard ring rule (bot 43b400b6)
 - T-057a: `scripts/gemini_image.sh` (gemini-3-pro-image); 4 crescent slash candidates in `research/notes/T-057a/` (D-409). Waiting owner pick 1–4 (rec 4).

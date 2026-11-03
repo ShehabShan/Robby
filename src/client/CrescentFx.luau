@@ -391,7 +391,7 @@ end
 
 -- Flies a crescent from origin along dir to the ability's range (or a wall in Art look), then fades it.
 function CrescentFx.crescent(origin: Vector3, dir: Vector3, character: Model?)
-	local texture = AssetIds.image("crescentSlashAdd")
+	local texture = (AssetIds.image("crescentBlueAdd") or AssetIds.image("crescentSlashAdd"))
 	if CrescentLook.choose(look, texture) == "Art" then
 		artCrescent(texture :: string, origin, dir, character)
 		return
