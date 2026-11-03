@@ -24,8 +24,8 @@ local function rgb(c: { number }): Color3
 	return Color3.fromRGB(c[1], c[2], c[3])
 end
 
-local COLORS = { [-1] = rgb(look.blue), [1] = rgb(look.gold) }
-local CORES = { [-1] = rgb(look.blueCore), [1] = rgb(look.goldCore) }
+local COLORS = { [-1] = rgb(look.blue), [0] = rgb(look.third.color), [1] = rgb(look.gold) } -- 0 = 3rd blade (T-056c)
+local CORES = { [-1] = rgb(look.blueCore), [0] = rgb(look.third.core), [1] = rgb(look.goldCore) }
 
 local TwinCrescentFx = {}
 
@@ -73,7 +73,7 @@ type Blade = { model: Model, beams: { Beam }, cores: { BasePart }, light: PointL
 local function buildBlade(side: number): Blade
 	local color, core = COLORS[side], CORES[side]
 	local model = Instance.new("Model")
-	model.Name = if side < 0 then "TwinCrescentBlue" else "TwinCrescentGold"
+	model.Name = if side < 0 then "TwinCrescentBlue" elseif side == 0 then "TwinCrescentThird" else "TwinCrescentGold"
 	local pivot = fxPart(Vector3.new(0.2, 0.2, 0.2), color)
 	pivot.Transparency = 1
 	pivot.Parent = model
@@ -289,6 +289,67 @@ function TwinCrescentFx.scissor(origin: Vector3, dir: Vector3, _character: Model
 	end)
 end
 
+-- 3rd blade (T-056c, D-406): the server sends `fx.twin.third` only when both blades reached the cross. A silver-white
+-- blade, `third.sizeMult` × one blade's size, flies straight from the cross along the aim for range × rangeMult and
+-- dissolves early on walls / solid parts (enemy hits end it on the server; the hit FX shows there).
+function TwinCrescentFx.third(origin: Vector3, dir: Vector3, character: Model?)
+	local flat = Vector3.new(dir.X, 0, dir.Z)
+	if flat.Magnitude < 1e-3 or live >= look.maxLive then
+		return
+	end
+	flat = flat.Unit
+	live += 1
+	local t = (cfg :: any).third
+	local scale = t.sizeMult
+	local range = cfg.range * t.rangeMult
+	local b = buildBlade(0)
+	b.model:ScaleTo(scale)
+	setBlade(b, look.growFrom * scale, 1)
+	b.model:PivotTo(CFrame.lookAt(origin, origin + flat))
+	b.model.Parent = workspace
+	local ray = RaycastParams.new()
+	ray.FilterType = Enum.RaycastFilterType.Exclude
+	ray.FilterDescendantsInstances = if character then { character, b.model } else { b.model }
+	local traveled, age = 0, 0
+	local dissolving: number? = nil
+	local conn: RBXScriptConnection? = nil
+	conn = RunService.RenderStepped:Connect(function(dt: number)
+		age += dt
+		if dissolving == nil then
+			local step = math.min(range - traveled, cfg.speed * dt)
+			local from = origin + flat * traveled
+			local hit = workspace:Raycast(from, flat * step, ray)
+			local wall = hit
+				and (
+					hit.Instance:IsA("Terrain")
+					or (hit.Instance:IsA("BasePart") and hit.Instance.Anchored and hit.Instance.CanCollide)
+				)
+			traveled += step
+			local grow = math.min(1, look.growFrom + (1 - look.growFrom) * age / look.growTime)
+			local pos = if wall and hit then hit.Position else origin + flat * traveled
+			b.model:PivotTo(CFrame.lookAt(pos, pos + flat))
+			setBlade(b, grow * scale, 1)
+			if wall or traveled >= range then
+				dissolving = 0
+				if b.sparks then
+					b.sparks.Enabled = false
+				end
+			end
+		else
+			dissolving += dt
+			local k = math.clamp(1 - (dissolving :: number) / look.dissolveTime, 0, 1)
+			setBlade(b, (1 + (1 - k) * 0.5) * scale, k)
+			if k <= 0 then
+				if conn then
+					conn:Disconnect()
+				end
+				b.model:Destroy()
+				live -= 1
+			end
+		end
+	end)
+end
+
 function TwinCrescentFx.register(reg: FxRegistry.Registry)
 	FxRegistry.register(reg, "fx.twin.cast", function(ctx: any)
 		if ctx.character then
@@ -298,6 +359,10 @@ function TwinCrescentFx.register(reg: FxRegistry.Registry)
 	FxRegistry.register(reg, "fx.twin.travel", function(ctx: any)
 		local character = ctx.character or (if ctx.caster then ctx.caster.Character else nil)
 		TwinCrescentFx.scissor(ctx.pos, ctx.dir, character)
+	end)
+	FxRegistry.register(reg, "fx.twin.third", function(ctx: any)
+		local character = ctx.character or (if ctx.caster then ctx.caster.Character else nil)
+		TwinCrescentFx.third(ctx.pos, ctx.dir, character)
 	end)
 	FxRegistry.register(reg, "fx.twin.hit", function(ctx: any)
 		CrescentFx.hit(ctx.caster, ctx.target, ctx.amount or 0, ctx.pos)

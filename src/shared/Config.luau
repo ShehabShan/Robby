@@ -187,6 +187,7 @@ local Config = {
 			maxLive = 6,
 			flash = { size = 7, time = 0.22, light = 6, sparks = 24 }, -- the white X at the cross
 			sound = { cross = 0.55, crossPitch = 1.25 },
+			third = { color = { 235, 240, 255 }, core = { 255, 255, 255 } }, -- 3rd blade, silver-white (T-056c, D-406)
 		},
 	},
 	HitFeel = {
