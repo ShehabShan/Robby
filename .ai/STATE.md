@@ -1,8 +1,8 @@
 # STATE
 
-## Now — after S143 (2026-11-03)
-- **R-031a done (D-438), merged to main:** movement video 0:00–0:30 logged in `research/video/movement/log.md` (run with footstep dust; combat clip: Q dash, C slide, Shift = walk, lock-on default; dodges ~0.25–0.35 s, ~10 studs, chain into M1; wind-arc / dust-ring / smoke VFX). No code change.
-- **NEXT: R-031b** chunk 0:30–1:00 (owner uploads movement.mp4 with the starter prompt). T-058d3 still waits for owner Yes. Blockers: none. Last check: CHECK: PASS.
+## Now — after S144 (2026-11-03)
+- **R-031 done (D-439), merged to main:** whole movement video logged (`research/video/movement/log.md`), summary `research/notes/R-031-movement-video.md`. Reference = RELL Games combat clip + 2 other games. Dodges ~0.3 s, 6–12 studs, dodge→M1; sprint feel = footstep dust + wind lines. No code change.
+- **NEXT:** T-058i dash/sprint VFX (no owner gate). Owner to confirm: T-058h dash tune (~0.28 s, 8-stud back-step), T-058j lock-on camera, T-058d3 Wind Step rework. Last check: CHECK: PASS.
 
 ## Now — after S142 (2026-11-03, bot ee08ce6b)
 - **T-058d1/d2 done (D-435–D-437), merged to main; cloud test CLOUD ALL: PASS 712/712 on version 49; **PUBLISHED live as game v0.0.22 (place v49) on owner request, 2026-11-03.** Everyone now has a Q dash: Q + WASD (no direction = back-step); side dash dodges (short i-frames, cd 1.5 s), forward/back = repositioning (cd 3 s); 15 stamina; Q while sprinting forward still slides. Tune in `Config.Dash`.
