@@ -1,3 +1,6 @@
+## S147 (2026-11-03) — Rell Seas slide + jump-up detail (owner ask)
+- Slide 2:03.45 (~0.25 s) and jump-up 2:04.95 (~0.4 s, ~5–6 studs): effect = thin flickering white+black streaks around the body, no smoke. Logged; new task T-058l (D-442). No code change.
+
 ## S146 (2026-11-03) — video 2:01–2:06 detail (owner ask)
 - Clip is **Rell Seas itself** (YouTube 'RELL Seas The Movie'). Far high calm camera, stairs at full speed, beam blocks camera ~0.3 s. HUD: compass strip, hotbar 1–5, thin HP/stamina bar.
 - log.md extra section; T-058k widened (exploration camera, occlusion pop-in, stairs). D-441. No code change.

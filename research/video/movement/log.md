@@ -135,3 +135,9 @@ Sheets 6 fps (2:00.8–2:06.2) + 20 fps crop (2:03.4–2:04.9) + full frame 2:01
 - **Run:** steady jog, slight forward lean, arms low; no footstep dust or speed lines (calm exploration). Turns are tight around the mast block (2:02.4–2:02.9), no slide.
 - **Stairs:** 2:03.4–2:03.65 down a ~8-step ship stair in ~0.25 s with no slow-down or hop. Speed on stairs = flat speed (matches chunk d).
 - → Robby: exploration needs a calm far camera (bigger distance than combat); stairs at full speed; camera should not let walls block the view for long (pop-in on occlusion). Fits T-058j (camera) / T-058k.
+
+## R-031 extra — Rell Seas slide + jump-up detail (S147, owner ask: "clean, with a little wind")
+Sheets 60 fps crop (2:03.38–2:03.68) + 20 fps crop (2:04.5–2:06.0).
+- **Slide down the stairs (2:03.45–2:03.68, ~0.25 s):** body drops low and leans back; no dust, no smoke. Effect = **thin vertical speed lines around the body**: 2–4 white + 2–3 black streaks, ~1.5–2 studs tall, very thin, alternating colours, each lasts 2–4 frames (~0.05 s) and new ones keep appearing while the slide lasts. Clean because there is no particle cloud, just line flicker.
+- **Jump up to the higher deck (2:04.95–2:05.35, ~0.4 s):** quick crouch (~1 frame) then a fast vertical launch ~5–6 studs onto the upper deck over the rail, near-straight up then forward; same white + black thin streaks while rising (2:05.0–2:05.2), plus a tiny white puff at the take-off spot. Lands cleanly with no landing dust; keeps jogging at once (no landing stop).
+- → Robby: add a **"wind lines" effect = thin white/black flickering streaks around the body** for slide and for a high jump / vault-up (T-058f vault/climb), not smoke. Keep dash smoke for dashes only. Landing from this jump: no slow-down.
