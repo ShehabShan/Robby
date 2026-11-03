@@ -1,5 +1,8 @@
 # STATE
 
+## Now — after S131 (2026-11-03, bot 43b400b6)
+- **NEXT: T-057a finish** — retry Roblox upload of `assets/processed/vfx-crescent-{blue,gold}-{add,alpha}.png` (timed out S131), add AssetIds, swap Crescent FX textures (blue = Cut + Twin blue, gold = Twin gold). Owner to pick 3rd blade A/B and ring A/B (sheet `t057-third-ring-candidates` in bot 43b400b6). Then T-057c2. Resume note in TASKS.
+
 ## Now — after S130 (2026-11-03, bot 43b400b6)
 - **NEXT: owner picks crescent art 1–4** (sheet in bot 43b400b6, files `research/notes/T-057a/cand1-4.jpg`; T-057a doing, Resume note in TASKS) → process/upload → use for all Crescent blades (3rd blade bigger). **Then T-057c2** (wire defensive ring; rule `Shared.Deliveries.GuardRing` done). T-057b 3rd-blade visibility fixed on main (D-410), not in a Saved version yet. CHECK PASS 690.
 
