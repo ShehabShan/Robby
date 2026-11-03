@@ -1,7 +1,7 @@
 # STATE
 
 ## Now — after S133 (2026-11-03, bot c375ef08)
-- **T-057d fixed (D-417), merged to main:** crescent textures failed in Studio because AssetIds held Decal ids; now the Image ids. Full Moon Ring = one full spinning ring2 circle. Not in a Saved version yet. **NEXT: T-057c3 owner retests in Studio** (pull main / rebuild), then player knockback/interrupt.
+- **T-057d fixed (D-417), merged to main:** crescent textures failed in Studio because AssetIds held Decal ids; now the Image ids. Full Moon Ring = one full spinning ring2 circle. Cloud test CLOUD ALL: PASS 691/691 on **Saved version 44** (not published). **NEXT: T-057c3 owner retests Saved v44** (close Studio play first: a playing session makes uploads fail 409 "Server is busy"), then player knockback/interrupt.
 - Blockers: none. Last check: CHECK: PASS.
 
 ## Now — after S132 (2026-11-03, bot c375ef08)
