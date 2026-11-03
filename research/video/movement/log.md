@@ -40,3 +40,32 @@ are **estimates from the image (unverified)**: no in-game ruler, and the camera 
 
 ### Unknowns
 - Exact studs and i-frames (no hit tests visible in this chunk). Which game it is (HUD looks like a battlegrounds/samurai game).
+
+## R-031b — 0:30–1:00 (S144)
+Same combat clip (HUD keybinds as chunk a). Second ability set appears from ~0:39 (bottom-right: "Giant Swing" style + "Mirage Strike"; names = reference game, not for Robby).
+
+| Time | Move | Timing (est.) | Distance / direction (est.) | VFX / camera |
+|---|---|---|---|---|
+| 0:30.0–0:30.5 | dash out of smoke | ~0.3 s | ~8 studs back/side | grey smoke cloud at start, yellow sparks |
+| 0:31–0:32.5 | run toward camera / sun | — | normal run | lens flare shot |
+| 0:33.0 | dash forward (blur) | ~0.2 s | ~10 studs forward | motion blur + white streak |
+| 0:33.67 → 0:34.67 | hit enemy (red flash) → **side dodge** → black/red hit burst | dodge ~0.3 s; then attack in ~0.2 s | ~6–8 studs sideways, ends next to the enemy | white circular wind arcs around body (0:34.17–0:34.33), black ink burst + red on hit |
+| 0:34.83–0:35.83 | backward dodge / reposition | ~0.4 s with grey smoke | ~6 studs back | ground smoke ring, arcs stay ~0.5 s |
+| 0:36.0–0:36.5 | power-up / counter | burst 2–3 frames, glow ~0.5 s | in place | huge gold flash, gold ground ring, light rays |
+| 0:37.0–0:38.3 | run + turn | — | — | blue-white spiral by enemy |
+| 0:38.3–0:38.5 | slide-dodge low | ~0.3 s | ~8 studs | low pose, white streak |
+| 0:39.0–0:40.5 | lightning dash-strike | ~0.5 s | ~10–15 studs, passes through/along enemy | blue lightning trail on the ground, enemy red flash |
+| 0:41.0 | purple strike | 1–2 frames | — | purple ground glow + purple slash |
+| 0:41.17–0:42.0 | dash away (back-step) | ~0.4 s | ~10 studs, camera stays locked on target | grey smoke trail |
+| 0:42.5–0:43.5 | side dash past a pillar | ~0.35 s | ~10–12 studs | green/grey smoke |
+| 0:43.5–0:44.5 | wide sword swings while circling | — | — | white sword arcs |
+| 0:45.0–0:48.0 | strafe circle around target with purple orb buff | — | slow sideways walk (Shift?), always facing target | purple orb on chest; small dust puffs |
+| 0:49.0 | jump-slash | ~0.3 s air | ~5 studs up | streak |
+| 0:50–0:53 | sprint/run, camera swings around | — | ~20+ studs/s | — |
+| 0:53.5–0:59.5 | run toward sun (lighting shot) | — | — | flare; 0:59.5 HUD bar flashes orange (status) |
+
+### → Implications (chunk b)
+- Confirms chunk a: dodges ~0.3–0.4 s, 6–12 studs; **back-step is shorter (~6 studs) than side dash**; every dodge leaves a smoke puff at the start.
+- **Dodge → attack instantly** is the core loop: dodge to the side of the attacker and hit them (0:34). Supports keeping dash recovery short (0.15 s) and allowing M1 during dash recovery.
+- Lock-on camera keeps the target centred while dashing away; strafing circles look smooth because the body faces the target.
+- Gold "counter" flash at 0:36 = a parry/counter reward. Robby has F = Parry: borrow a big gold flash + ground ring for a perfect parry.
