@@ -84,6 +84,30 @@ function AimDir.free(camera: Camera, character: Model, origin: Vector3, flat: Ve
 	rp.RespectCanCollide = true -- FX parts are non-collidable
 	local hit = workspace:Raycast(ray.Origin, ray.Direction.Unit * AIM_MAX, rp)
 	local p = if hit then hit.Position else ray.Origin + ray.Direction.Unit * AIM_MAX
+	-- Beasts and players have non-collidable parts, so the world ray passes through them and aims at the
+	-- ground behind (T-053a7, D-393). A second ray that sees every part snaps the aim to a living target's
+	-- root when one is under the cursor in front of the world hit, so low (Mistfang) and airborne targets are hit.
+	local tp = RaycastParams.new()
+	tp.FilterType = Enum.RaycastFilterType.Exclude
+	tp.FilterDescendantsInstances = { character }
+	tp.RespectCanCollide = false
+	local reach = if hit then hit.Distance + 0.5 else AIM_MAX
+	for _ = 1, 6 do
+		local th = workspace:Raycast(ray.Origin, ray.Direction.Unit * reach, tp)
+		if not th then
+			break
+		end
+		local model = th.Instance:FindFirstAncestorOfClass("Model")
+		local hum = if model then model:FindFirstChildOfClass("Humanoid") else nil
+		local troot = if model then model:FindFirstChild("HumanoidRootPart") else nil
+		if hum and hum.Health > 0 and troot and troot:IsA("BasePart") then
+			p = troot.Position
+			break
+		end
+		local ex = tp.FilterDescendantsInstances
+		table.insert(ex, th.Instance)
+		tp.FilterDescendantsInstances = ex
+	end
 	local dx, dy, dz, ok = Aim.toPoint(origin.X, origin.Y, origin.Z, p.X, p.Y, p.Z, flat.X, flat.Z, MIN_AIM_DIST)
 	if not ok then
 		return flat
