@@ -80,7 +80,9 @@ type Shot = {
 	state: Projectile.State,
 	register: (targetId: string) -> boolean, -- Projectile or Volley hit rules (per-target cap), T-027d2
 	path: ((d: number) -> Vector3)?, -- curved blade (Scissor, T-053b, D-395); nil = straight along dir
+	cross: ScissorCross?, -- Twin Crescent 3rd-blade tracking (T-056b, D-405)
 }
+type ScissorCross = { state: Scissor.Cross, index: number, at: number, closed: { value: boolean }, spawn: () -> () }
 type ZoneCast = {
 	caster: Player,
 	character: Model,
@@ -363,6 +365,22 @@ local function sweep(shot: Shot, from: number, to: number)
 	end
 end
 
+-- Twin Crescent cross bookkeeping after a blade's step (T-056b, D-405); the heartbeat marks reachCross after sweeping
+-- up to the cross. A blade ending before the cross blocks the
+-- 3rd blade; the 3rd blade's lifetime resource is then finished at once so the cast still completes.
+local function crossStep(c: ScissorCross, shot: Shot, now: number)
+	if shot.state.done and not c.state.reached[c.index] then
+		Scissor.bladeEnded(c.state, c.index)
+	end
+	if Scissor.takeThird(c.state) then
+		c.closed.value = true
+		c.spawn()
+	elseif c.state.blocked and not c.closed.value then
+		c.closed.value = true
+		CastLifetime.finish(lifetimes, shot.lifetime, shot.move.delivery.params.count + 1, now)
+	end
+end
+
 local function fireCast(move: any, player: Player, pos: Vector3, dir: Vector3)
 	for _, slot in { "cast", "travel" } do
 		local fxId = move.fx[slot]
@@ -414,9 +432,44 @@ local function volleyCast(
 	local vstate = Volley.new(p)
 	local scissor = Scissor.isScissor(p)
 	local right = Vector3.new(-dir.Z, 0, dir.X)
+	-- 3rd blade (T-056b, D-405): spawned once at the cross if both blades reach it alive; resource count + 1.
+	local crossState = if scissor and p.third then Scissor.newCross() else nil
+	local closed = { value = false }
+	local function spawnThird()
+		local tp = Scissor.thirdParams(p, p.third)
+		local third = {
+			id = move.id,
+			kith = move.kith,
+			tags = move.tags,
+			delivery = { kind = "Projectile", params = tp },
+			effects = { onHit = { p.thirdEffect } },
+			fx = { hit = move.fx.hit },
+		}
+		local at = origin + dir * p.crossAt
+		local state = Projectile.new()
+		table.insert(shots, {
+			lifetime = lifetime,
+			resource = p.count + 1,
+			caster = player,
+			character = character,
+			origin = at,
+			dir = dir,
+			move = third,
+			state = state,
+			register = function(key: string): boolean
+				return Projectile.registerHit(state, key, tp)
+			end,
+		})
+		if p.thirdFx then
+			Net.CastFx.FireAll({ fxId = p.thirdFx, caster = player, pos = at, dir = dir })
+		end
+	end
 	for i, d in Volley.directions(dir.X, dir.Z, p) do
 		local side = Scissor.side(i)
 		table.insert(shots, {
+			cross = if crossState
+				then { state = crossState, index = i, at = p.crossAt, closed = closed, spawn = spawnThird }
+				else nil,
 			path = if scissor
 				then function(dist: number): Vector3
 					return origin + dir * dist + right * Scissor.lateral(side, dist, p)
@@ -1024,7 +1077,7 @@ function Abilities.start()
 						lifetimes,
 						receipt,
 						a.monotonicAt,
-						if a.move.delivery.kind == "Volley" then a.move.delivery.params.count else 1,
+						CastSchedule.resources(a.move),
 						Config.CastLifetime.graceSeconds
 					)
 					lifetime = handle
@@ -1105,9 +1158,22 @@ function Abilities.start()
 			local shot = shots[i]
 			if CastLifetime.isActive(lifetimes, shot.lifetime) then
 				local from, to = Projectile.step(shot.state, dt, shot.move.delivery.params)
-				sweep(shot, from, to)
+				local c = shot.cross
+				if c and from < c.at and to >= c.at then
+					sweep(shot, from, c.at) -- split at the cross so an early hit/wall blocks the 3rd blade
+					if not shot.state.done then
+						Scissor.reachCross(c.state, c.index)
+						sweep(shot, c.at, to)
+					end
+				else
+					sweep(shot, from, to)
+				end
 			else
 				shot.state.done = true
+			end
+			local c = shot.cross
+			if c then
+				crossStep(c, shot, now)
 			end
 			if shot.state.done then
 				CastLifetime.finish(lifetimes, shot.lifetime, shot.resource, now)

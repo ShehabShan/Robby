@@ -76,6 +76,7 @@ function Crescent.content(cfg: any): any
 						stopOnWorld = true, -- blades end on walls / solid parts (T-056, D-404)
 						third = t.third, -- 3rd blade tuning; Scissor.thirdParams builds its params (T-056)
 						thirdEffect = "effect.twin_crescent.third",
+						thirdFx = "fx.twin.third", -- client draws the 3rd blade (T-056c)
 					},
 				} :: any, -- Volley params differ from Crescent Cut's Projectile ones (sibling literal type)
 				costs = { qi = t.cost },

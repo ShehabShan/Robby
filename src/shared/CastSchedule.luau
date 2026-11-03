@@ -14,6 +14,11 @@ function CastSchedule.offsets(move: any, effects: any, maxLifetime: number): Off
 			return nil
 		end
 		finish = p.range / p.speed -- Volley currently releases immediately, including Z.
+		local third = p.third
+		if kind == "Volley" and type(third) == "table" and finite(p.crossAt) and finite(third.rangeMult) then
+			-- Twin Crescent 3rd blade (T-056b, D-405): starts at the cross, flies range × rangeMult
+			finish = math.max(finish, (p.crossAt + p.range * third.rangeMult) / p.speed)
+		end
 	elseif kind == "Zone" then
 		if not Zone.validParams(p) then
 			return nil
@@ -38,5 +43,13 @@ function CastSchedule.offsets(move: any, effects: any, maxLifetime: number): Off
 		return nil
 	end
 	return { release = release, finish = finish }
+end
+-- Lifetime resources of a cast: one per projectile; a Scissor volley with a 3rd blade owns one more (T-056b).
+function CastSchedule.resources(move: any): number
+	local d = move.delivery
+	if d.kind ~= "Volley" then
+		return 1
+	end
+	return d.params.count + (if type(d.params.third) == "table" then 1 else 0)
 end
 return CastSchedule

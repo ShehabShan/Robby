@@ -3,6 +3,7 @@ local Scissor = require("../src/shared/Deliveries/Scissor")
 local Volley = require("../src/shared/Deliveries/Volley")
 local All = require("../src/shared/Content/All")
 local Registry = require("../src/shared/Registry")
+local CastSchedule = require("../src/shared/CastSchedule")
 
 local P = { curve = "Scissor", width = 4, crossAt = 20, range = 60, count = 2 }
 
@@ -102,5 +103,15 @@ return {
 		local one = built.effects["effect.twin_crescent.hit"].ops[1].params.base
 		local third = built.effects[p.thirdEffect].ops[1].params.base
 		near(third, one * 2, "2x damage")
+	end,
+	["scissor 3rd blade: cast owns 3 lifetime resources and lives until the 3rd blade lands"] = function()
+		local built = Registry.build(All.content(Config))
+		local m = built.moves["move.twin_crescent"]
+		eq(CastSchedule.resources(m), 3, "2 blades + 3rd")
+		eq(CastSchedule.resources(built.moves["move.crescent_cut"]), 1, "single blade")
+		local o = CastSchedule.offsets(m, built.effects, 10)
+		eq(o ~= nil, true, "schedule fits the lifetime cap")
+		local p = m.delivery.params
+		near((o :: any).finish, (p.crossAt + p.range * 2) / p.speed, "finish covers the 3rd blade")
 	end,
 }
