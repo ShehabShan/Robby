@@ -1,5 +1,9 @@
 # STATE
 
+## Now — after S126 (2026-11-03, bot 4c2cc191)
+- **T-054 owner-only admin panel built (D-398–D-402), merged to main (46bdd8a); cloud test CLOUD ALL: PASS on **Saved version 35**, not published. NEXT: owner playtest (T-054d)** in Studio or Saved v35: press F2 (only allowlisted `Config.Admin.userIds`, owner 7738981129), give Twin Crescent, test Scissor + the T-053a7 aim retest, refill/cooldowns, shards/food, spawn Mistfang at a distance, hitbox draw, then "Clean up test grants". Then T-053c.
+- Notes: admin grants are test-only (`data.adminGrants`, `testOnly` Kith); add tester IDs in `Config.Admin.userIds`.
+
 ## Now — after S125 (2026-11-03, bot e900b82c)
 - **T-053b Twin Crescent "Scissor" built (D-394–D-397), merged to main (9386da7); cloud test CLOUD ALL: PASS 672/672 on **Saved version 34** (includes T-053a7 aim fix), not published. NEXT: owner playtest** of Twin Crescent (Rank 2 Kith: Crescent Cut on left click, Scissor on Z; get one via Crucible `recipe.twin_crescent` or a test grant) together with the T-053a7 aim retest. Check: both blades curve in and cross in a white X; tune `Config.Fx.TwinCrescent` / `Abilities.TwinCrescent` (width, crossAt). Published live 2026-11-03 as v0.0.22 (place version 34). Owner has no Twin Crescent (only via Crucible) → **next build task T-054 Admin panel (owner order, before T-053c)**, then T-053c Full Moon Ring (X).
 - Notes: Crescent Cut cast from a Twin Crescent Kith gets no Kith strain (KithCare.casterOf matches move.kith = kith.crescent); client Scissor FX does not stop on walls (server blades pass scenery too).
