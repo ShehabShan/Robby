@@ -641,3 +641,4 @@ T-046a delivers existing S105 phase-observation repair as an independently pinne
 - **D-422 (S136, F-01):** Attribute contract scan: no broken pairs. Server-only attributes (BossKind, RankTestPassed, TrialResult, Stance) stay as server state/debug; `FovKick` is an opt-out read with nil = on. No code change.
 - **D-423 (S137, F-10):** Content check clean for IP (D-014/D-023) and rating in src; palette check deferred because no palette is defined. No code change.
 - **D-424 (S138, F-04):** Tagged NPC models (Beast, Boss, WildKith) are destroyed after death, which clears their CollectionService tags and instance connections; no extra cleanup needed. F-04 closed.
+- **D-425 (S139, owner 2026-11-03):** Movement is rebuilt as Robby's own system (T-058) after research R-029 (Rell Seas, Project Slayers 2, Deepwoken). The R15 kit and its derived pieces are removed. Other open tasks are owner-playtest-blocked or the long T-043 chain, so R-029 then T-058 are NEXT.

@@ -1,3 +1,6 @@
+## S139 — 2026-11-03 — movement tasks added (bot 15cd70f4)
+- Owner: added R-029 (movement research) + T-058 (new movement system, remove R15 kit) as NEXT (D-425). No code change.
+
 ## S138 — 2026-11-03 — F-04 closed (bot 15cd70f4, same run)
 - D-424: NPC models destroyed after death; buffers pruned; weak tables → no leak. No code change. CHECK PASS.
 - NEXT: unchanged — owner 2-player playtest T-057c3 on Saved v47. ~32 OLU total (S134–S138)
