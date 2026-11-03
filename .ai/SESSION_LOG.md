@@ -1,3 +1,8 @@
+## S148 (2026-11-03) — R-031e movement mechanics from public sources
+- R-031e+ split into R-031e/f/g/h. movement.mp4 not available (artifact on bot ee08ce6b returns 404), so did the no-video part.
+- Rell Seas: slide C, double jump, Geppo 3 air jumps (camera-directed), dash in air, wall run A/D; Deepwoken air dash + fall cancel + slide loop. Note `research/notes/R-031e-movement-mechanics.md` (D-443, D-444). No code change.
+- Owner: re-upload movement.mp4 for R-031f–h. OLU ~8.6.
+
 ## S147 (2026-11-03) — Rell Seas slide + jump-up detail (owner ask)
 - Slide 2:03.45 (~0.25 s) and jump-up 2:04.95 (~0.4 s, ~5–6 studs): effect = thin flickering white+black streaks around the body, no smoke. Logged; new task T-058l (D-442). No code change.
 

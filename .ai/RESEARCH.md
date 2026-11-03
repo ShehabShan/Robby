@@ -431,5 +431,20 @@ Draft model, curve table and 10 sources: `research/notes/R-022-stat-damage-math.
 **Unknowns** — Rell Seas/PS2 exact speeds; Deepwoken stamina costs; jog/run animation assets.
 **Sources** — in the note.
 
+### R-031e Movement mechanics, public sources (done 2026-11-03)
+**Findings**
+- Rell Seas: LShift toggles run; hold C while running = slide, Space in slide = slide jump; Space twice = double jump (rellseaswiki.com/controls, /fighting-styles/parkour).
+- Rell Seas Geppo: up to 3 air jumps (5 with Geppo Master), each goes where the camera points (rellseaswiki.com/fighting-styles/geppo-master).
+- Rell Seas dash (X) works on ground and in air; only side dashes give i-frames (rellseaswiki.com/fighting-styles/combat-mechanics). No published air-dash limit (weak: rellseasgame.wiki).
+- Rell Seas wall run: jump at a wall while running, A/D to run along it (rellseaswiki.com/fighting-styles/parkour). Slide/wall/stamina numbers are not published (same).
+- Deepwoken: air dash = Q in air, a dodge; timed at touchdown it cancels fall damage; slide→jump→air dash down ~37°→roll keeps speed (deepwoken.fandom.com/wiki/Movement).
+- Battlegrounds games: forward dash ~25 studs, short side/back steps, landing roll keeps momentum (jujutsu-shenanigans.fandom.com/wiki/Game_Controls).
+- Smooth feel = custom accel/decel + LinearVelocity, lerped shift-lock, UseStrafingAnimation (devforum.roblox.com/t/3188756).
+**→ Implications for Robby**
+- Robby already has custom accel/decel, slide, slide-jump, vault and ground dash. Missing vs benchmark: air jumps, air dash, slam-down, wall run, landing roll.
+- Owner's "1–2 air dashes" fits a count that refreshes on landing (Deepwoken style), safer than Rell's open-ended air dash. Decide in P-031.
+**Unknowns** — all timings/distances (video R-031f–h): jump height/apex, air-dash hang, slam speed, chain speed carry.
+**Sources** — note `research/notes/R-031e-movement-mechanics.md`.
+
 ### R-030 Dash vs Wind Step (done 2026-11-03)
 Wind Step is a 14-stud, 0.25 s velocity dash (not a teleport), Kith-only. Reference games give everyone a short 4-way dash (side = i-frames, fwd/back = positioning, cd + stamina). → T-058d basic dash; Wind Step becomes the long, stun-breaking special. See [research/notes/R-030-dash.md](../research/notes/R-030-dash.md), D-434.
