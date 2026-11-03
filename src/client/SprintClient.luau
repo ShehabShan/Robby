@@ -13,8 +13,12 @@ local TweenService = game:GetService("TweenService")
 
 local Config = require(ReplicatedStorage.Shared.Config)
 local Movement = require(ReplicatedStorage.Shared.Movement)
+local Dash = require(ReplicatedStorage.Shared.Dash)
 
 local tune: Movement.Tuning = Config.Movement
+local dashTune: Dash.Tuning = Config.Dash
+local dashState = Dash.new()
+local dashDir = Vector3.zero
 local cam = Config.MovementCamera
 local SprintClient = {}
 local held = false
@@ -46,7 +50,8 @@ local function turnAngle(move: Vector3, vel: Vector3): number
 	return math.deg(math.acos(d))
 end
 
-function SprintClient.start()
+-- `onDash(dir)` tells the server about an accepted basic dash (T-058d2, D-437).
+function SprintClient.start(onDash: ((dir: Vector3) -> ())?)
 	ContextActionService:BindAction("Sprint", function(_, inputState: Enum.UserInputState, _)
 		held = inputState == Enum.UserInputState.Begin
 		return Enum.ContextActionResult.Pass
@@ -70,6 +75,7 @@ function SprintClient.start()
 			lastCharacter = character
 			state = Movement.new(tune) -- respawn: full stamina, standing start
 			wasAir, fallSpeed = false, 0
+			dashState = Dash.new()
 		end
 		local move = hum.MoveDirection
 		local grounded = hum.FloorMaterial ~= Enum.Material.Air
@@ -81,6 +87,27 @@ function SprintClient.start()
 			fallSpeed = 0
 		end
 		wasAir = not grounded
+		-- Q: slide when sprinting forward fast, otherwise a directional dash (T-058d2, D-437).
+		local stunned = character:GetAttribute("Staggered") == true
+		if slidePressed then
+			local look = root.CFrame.LookVector
+			local kind: Dash.Kind = Dash.classify(dashTune, look.X, look.Z, move.X, move.Z)
+			if Dash.qAction(dashTune, held, state.speed, kind) == "dash" then
+				slidePressed = false
+				local started, cost =
+					Dash.start(dashTune, dashState, kind, { stamina = state.stamina, stunned = stunned })
+				if cost > 0 then
+					dashState = started
+					state.stamina -= cost
+					state.regenWait = tune.regenDelay
+					local flatLook = Vector3.new(look.X, 0, look.Z)
+					dashDir = if move.Magnitude > 0.1 then Vector3.new(move.X, 0, move.Z).Unit else -flatLook.Unit
+					if onDash then
+						onDash(dashDir)
+					end
+				end
+			end
+		end
 		local input: Movement.Input = {
 			sprint = held,
 			walk = false,
@@ -93,6 +120,12 @@ function SprintClient.start()
 		local sprinting = Movement.canSprint(tune, state, input)
 		state = Movement.step(tune, state, input, dt)
 		slidePressed = false
+		dashState = Dash.step(dashTune, dashState, dt, stunned)
+		if dashState.kind then
+			local v = Dash.speedAt(dashTune, dashState.kind, dashState.elapsed)
+			root.AssemblyLinearVelocity = dashDir * v + Vector3.new(0, root.AssemblyLinearVelocity.Y, 0)
+		end
+		character:SetAttribute("Dashing", dashState.kind) -- for T-058c dash animations
 		character:SetAttribute("Sliding", (state.slide or 0) > 0 or nil) -- for T-058c slide animation
 		local speed = state.speed
 		local boostEnd = character:GetAttribute("SpeedBoostEnd")

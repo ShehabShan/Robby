@@ -20,6 +20,8 @@ local statuses = require(script.Parent.StatusStore)
 local Net = require(script.Parent.Net) -- Blink-generated (net/remotes.blink)
 local RemoteGuard = require(script.Parent.RemoteGuard)
 local Abilities = require(script.Parent.Abilities)
+local SpeedGuardService = require(script.Parent.SpeedGuardService)
+local Dash = require(ReplicatedStorage.Shared.Dash)
 
 local C = Config.Combat
 local RECORD_DT = 1 / 20
@@ -35,6 +37,7 @@ type State = {
 	tokens: number,
 	tokenAt: number,
 	staggerUntil: number,
+	dashAt: { [string]: number }, -- last accepted dash per cooldown group (T-058d2)
 }
 
 local states: { [Player]: State } = {}
@@ -52,6 +55,7 @@ local function stateFor(player: Player): State
 			tokens = C.rate.burst,
 			tokenAt = os.clock(),
 			staggerUntil = -math.huge,
+			dashAt = {},
 		}
 		states[player] = s
 	end
@@ -210,6 +214,37 @@ function CombatService.incoming(victim: Player, amount: number, now: number): st
 	return "hit"
 end
 
+-- Basic dash (T-058d2, D-437): the client moves itself (like sprint); the server checks stun and the
+-- per-group cooldown with `Shared.Dash`, grants side-dash i-frames and opens the speed guard burst window.
+-- Stamina is client-owned (client attributes do not replicate), so the server checks cooldown + stun only.
+local DC: Dash.Tuning = Config.Dash
+local IFRAME_TAG = "State.Iframes"
+local DASH_STAGGER_TAG = "State.Staggered"
+
+local function dash(player: Player, s: State, rawDir: any, now: number)
+	local character = player.Character
+	local root = aliveRoot(character)
+	if not root or not character or typeof(rawDir) ~= "Vector3" then
+		return
+	end
+	local look = root.CFrame.LookVector
+	local kind: Dash.Kind = Dash.classify(DC, look.X, look.Z, rawDir.X, rawDir.Z)
+	local ctx: Dash.Context = {
+		stamina = DC.cost,
+		stunned = now < s.staggerUntil or Status.has(statuses, character, DASH_STAGGER_TAG, now),
+	}
+	local group = if kind == "side" then "side" else "linear"
+	local last = s.dashAt[group]
+	if not Dash.serverAllows(DC, kind, if last then now - last else nil, ctx) then
+		return
+	end
+	s.dashAt[group] = now
+	if kind == "side" then
+		Status.grant(statuses, player, IFRAME_TAG, now + DC.side.iframeTo)
+	end
+	SpeedGuardService.burst(player)
+end
+
 function CombatService.start()
 	Net.Action.On(function(player: Player, value)
 		if not RemoteGuard.allow(player, "Action") then
@@ -228,6 +263,8 @@ function CombatService.start()
 			Combat.setGuard(s.guard, true)
 		elseif kind == "Guard" then
 			Combat.setGuard(s.guard, false)
+		elseif kind == "Dash" then
+			dash(player, s, value.dir, now)
 		elseif kind == "Stance" then
 			Abilities.toggleStance(player) -- Kith stance swap (T-027d2, D-186)
 		end

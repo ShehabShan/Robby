@@ -132,7 +132,11 @@ Hud.start(
 LoadoutUi.start(built, Net) -- equip/unequip screen (T-016d, D-069)
 MoveFeelClient.start() -- body lean, camera bob, landing dip (T-026b1, D-161)
 FootstepClient.start() -- surface footsteps (T-026b2, D-162)
-SprintClient.start() -- hold LeftShift / L3 to run (T-026b3a, D-164)
+local dashSeq = 0
+SprintClient.start(function(dir: Vector3)
+	dashSeq = (dashSeq + 1) % 65536
+	action("Dash", dir, dashSeq) -- basic dash (T-058d2)
+end) -- hold LeftShift / L3 to run (T-026b3a, D-164)
 VaultClient.start() -- Space near a low wall vaults / ledge climbs (T-058f, D-432)
 KnockbackClient.start() -- server knocks on the local character (T-057c3, D-419)
 ShiftLockClient.start() -- LeftControl toggles shift lock (T-026e, D-164)

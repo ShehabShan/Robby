@@ -176,7 +176,7 @@ Queue.Reliable[17] = table.create(256)
 Queue.Reliable[18] = table.create(256)
 Queue.Reliable[19] = table.create(256)
 Queue.Reliable[20] = table.create(256)
-export type ActionKind = ("Attack" | "Parry" | "Guard" | "Stance")
+export type ActionKind = ("Attack" | "Parry" | "Guard" | "Stance" | "Dash")
 function SerdesFunctions.ReadEVENT_CastRequest(): ({ moveId: string, generation: string, aim: Vector3, point: Vector3?, seq: number })
 	-- Read BLOCK: 17 bytes
 	local BLOCK_START = Read(17)
@@ -355,7 +355,7 @@ function SerdesFunctions.WriteEVENT_CastDisposition(Value: { generation: string,
 	buffer.writestring(SendBuffer, SendOffset, Value.reason, Length)
 end
 
-function SerdesFunctions.ReadEVENT_Action(): ({ kind: ("Attack" | "Parry" | "Guard" | "Stance"), dir: Vector3?, seq: number })
+function SerdesFunctions.ReadEVENT_Action(): ({ kind: ("Attack" | "Parry" | "Guard" | "Stance" | "Dash"), dir: Vector3?, seq: number })
 	-- Read BLOCK: 4 bytes
 	local BLOCK_START = Read(4)
 	local Value = {} :: any
@@ -369,6 +369,8 @@ function SerdesFunctions.ReadEVENT_Action(): ({ kind: ("Attack" | "Parry" | "Gua
 		Value.kind = "Guard"
 	elseif Index == 3 then
 		Value.kind = "Stance"
+	elseif Index == 4 then
+		Value.kind = "Dash"
 	else
 		error(`Unexpected enum: {Index}`)
 	end
@@ -833,7 +835,7 @@ Reliable.OnServerEvent:Connect(function(Player: Player, Buffer: buffer, Instance
 				table.insert(Queue.Reliable[1], {Player, Value} :: {any})
 			end
 		elseif Index == 7 then
-			local Value: { kind: ("Attack" | "Parry" | "Guard" | "Stance"), dir: Vector3?, seq: number } = SerdesFunctions.ReadEVENT_Action()
+			local Value: { kind: ("Attack" | "Parry" | "Guard" | "Stance" | "Dash"), dir: Vector3?, seq: number } = SerdesFunctions.ReadEVENT_Action()
 			if Events.Reliable[7] ~= nil then
 				SerdesEvent = "Action"
 				Events.Reliable[7](Player, Value)
@@ -1255,7 +1257,7 @@ local Returns = table.freeze({
 		end,
 	},
 	Action = {
-		On = function(Listener: (Player: Player, Value: { kind: ("Attack" | "Parry" | "Guard" | "Stance"), dir: Vector3?, seq: number }) -> ()): () -> ()
+		On = function(Listener: (Player: Player, Value: { kind: ("Attack" | "Parry" | "Guard" | "Stance" | "Dash"), dir: Vector3?, seq: number }) -> ()): () -> ()
 			Events.Reliable[7] = Listener
 			for Index, Arguments in Queue.Reliable[7] do
 				Listener(table.unpack(Arguments))
