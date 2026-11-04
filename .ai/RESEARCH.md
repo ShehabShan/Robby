@@ -431,20 +431,20 @@ Draft model, curve table and 10 sources: `research/notes/R-022-stat-damage-math.
 **Unknowns** — Rell Seas/PS2 exact speeds; Deepwoken stamina costs; jog/run animation assets.
 **Sources** — in the note.
 
-### R-031e Movement mechanics, public sources (done 2026-11-03)
+### R-031e Movement mechanics, video-backed redo (done 2026-11-04, S150)
 **Findings**
-- Rell Seas: LShift toggles run; hold C while running = slide, Space in slide = slide jump; Space twice = double jump (rellseaswiki.com/controls, /fighting-styles/parkour).
-- Rell Seas Geppo: up to 3 air jumps (5 with Geppo Master), each goes where the camera points (rellseaswiki.com/fighting-styles/geppo-master).
-- Rell Seas dash (X) works on ground and in air; only side dashes give i-frames (rellseaswiki.com/fighting-styles/combat-mechanics). No published air-dash limit (weak: rellseasgame.wiki).
-- Rell Seas wall run: jump at a wall while running, A/D to run along it (rellseaswiki.com/fighting-styles/parkour). Slide/wall/stamina numbers are not published (same).
-- Deepwoken: air dash = Q in air, a dodge; timed at touchdown it cancels fall damage; slide→jump→air dash down ~37°→roll keeps speed (deepwoken.fandom.com/wiki/Movement).
-- Battlegrounds games: forward dash ~25 studs, short side/back steps, landing roll keeps momentum (jujutsu-shenanigans.fandom.com/wiki/Game_Controls).
-- Smooth feel = custom accel/decel + LinearVelocity, lerped shift-lock, UseStrafingAnimation (devforum.roblox.com/t/3188756).
+- Owner re-upload verified by SHA256; timestamped proof sheets committed. [Audit + provenance](../research/notes/R-031e-movement-mechanics.md).
+- At 0:20 the video HUD says **Q Dash / LSHIFT Walk / C Slide**, conflicting with S148's X-dash/Shift-run secondary-source scheme. These are visible labels, not recorded inputs. [Identity proof](../research/video/movement/R-031e/identity-proof.jpg).
+- Ship segment title reads **RELL Seas The Movie 3** at 2:01.5; a RELL Games overlay alone does not identify all other clips/builds. [Identity proof](../research/video/movement/R-031e/identity-proof.jpg).
+- rellseaswiki.com calls itself fan-made/not affiliated. Its 3/5 Geppo jumps, side i-frames and backward-attack slam are secondary claims, not verified owner-video mechanics. Air jumps are not air-dash charges. [Source audit](../research/notes/R-031e-movement-mechanics.md).
+- Airborne sequences include another character and attack effects: not an isolated traversal test. A blue burst at 1:23.667 does not prove ground contact or a free movement slam. [Air sheet](../research/video/movement/R-031e/air-end.jpg).
+- Low stair transition and upward deck traversal are visible; precise inputs/physics remain open. [Ship sheet](../research/video/movement/R-031e/ship.jpg).
+- Official API is **Players.UseStrafingAnimations** (plural), not writable through developer-facing Luau. [Roblox source](https://raw.githubusercontent.com/Roblox/creator-docs/main/content/en-us/reference/engine/classes/Players.yaml).
 **→ Implications for Robby**
-- Robby already has custom accel/decel, slide, slide-jump, vault and ground dash. Missing vs benchmark: air jumps, air dash, slam-down, wall run, landing roll.
-- Owner's "1–2 air dashes" fits a count that refreshes on landing (Deepwoken style), safer than Rell's open-ended air dash. Decide in P-031.
-**Unknowns** — all timings/distances (video R-031f–h): jump height/apex, air-dash hang, slam speed, chain speed carry.
-**Sources** — note `research/notes/R-031e-movement-mechanics.md`.
+- D-444 landing-refresh/1–2-dash model is a proposal, not an established reference rule; no implementation or tune approved. No claim that all “missing” website mechanics are required.
+- Keep movement-only research R-031f–h, then P-031. Treat old log studs/physics/ground-slam labels as estimates or hypotheses, not measured facts.
+**Unknowns** — input, dash limit/refresh, i-frames, world speed/height, target-free slam, cancel/momentum rules. See per-claim disposition in audit; no game code changed.
+**Sources** — [full audit](../research/notes/R-031e-movement-mechanics.md), [evidence manifest](../research/video/movement/R-031e/README.md). S148 original retained in git `2d85a5c`.
 
 ### R-030 Dash vs Wind Step (done 2026-11-03)
 Wind Step is a 14-stud, 0.25 s velocity dash (not a teleport), Kith-only. Reference games give everyone a short 4-way dash (side = i-frames, fwd/back = positioning, cd + stamina). → T-058d basic dash; Wind Step becomes the long, stun-breaking special. See [research/notes/R-030-dash.md](../research/notes/R-030-dash.md), D-434.

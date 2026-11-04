@@ -1,0 +1,62 @@
+{
+  "checked_utc_date": "2026-11-04",
+  "checks": [
+    {
+      "source": "controls",
+      "url": "https://rellseaswiki.com/controls/",
+      "http": 200,
+      "excerpts": [
+        "etails Basic combat and movement controls cover attack, block, parry, dash, run, slide, wall run and hotbar skills. \u203a Slide and slide jump Left and right wall run Deploying the glider Execute Takedown Attack, hold block to defend, parry with F, dash with X and strong attack with ",
+        "c combat and movement controls cover attack, block, parry, dash, run, slide, wall run and hotbar skills. \u203a Slide and slide jump Left and right wall run Deploying the glider Execute Takedown Attack, hold block to defend, parry with F, dash with X and strong attack with E. Run with",
+        "defend, parry with F, dash with X and strong attack with E. Run with LSHIFT without holding it. While running, hold C to slide, then press Space for a slide jump. Attacking builds your parry bar. When it is full, press F in the middle of a combo for a Max Parry. Double jump with "
+      ]
+    },
+    {
+      "source": "mechanics",
+      "url": "https://rellseaswiki.com/fighting-styles/combat-mechanics/",
+      "http": 200,
+      "excerpts": [
+        "ness is rewarded. The tutorial teaches attack, hold block, parry (F), dash (X), Strong (E), clash, evade and posture break (V). Boss fights add on-screen dodge prompts, and developers said bosses are movement-based, so you cannot stand still and spam parry. Classification Combat ",
+        "to other nearby players, chaining damage. A block breaker on landing. Geppo (Sky Walk) Allows the player to jump in the air up to a maximum of 3 times. RELL Seas is not a jump-based game - Geppo jumps are intentionally limited to keep combat grounded. Geppo is camera-based: you c",
+        "king moves, including: the final M1 of a combo, Strong (Q Spec), Down Slam, and Grab Throw. Strong (Q Spec / Heavy) The player dashes forward and strikes. Strong is a block breaker - it will break a blocking opponent&#x27;s guard. However, Strong slows down significantly as you a"
+      ]
+    },
+    {
+      "source": "geppo",
+      "url": "https://rellseaswiki.com/fighting-styles/geppo-master/",
+      "http": 200,
+      "excerpts": [
+        " Geppo Master - Fighting Style Guide - RELL Seas Wiki RELL Seas Wiki RELL SEAS WIKI 335 pages Codes Crews Combat Bosses God Fruits Weapons Haki Fighting Styles Combat Potentials World Progression Activities Ship"
+      ]
+    },
+    {
+      "source": "parkour",
+      "url": "https://rellseaswiki.com/fighting-styles/parkour/",
+      "http": 200,
+      "excerpts": [
+        " crosses gaps between floating islands. It works alongside tools like Geppo to make island routes more active. Classification Movement style Movement features 7 documented RELLvex wallrunning See movement features Movement features 7 FAQ Movement features 7 Wall-to-wall jumping W",
+        "2026 Parkour is a movement system in RELL Seas that lets players run, slide, wall run, double jump and glide. Press LSHIFT once to run, then hold C to slide and press Space to slide jump. While running, use the jump button to start parkour, and A and D wall run on the left and ri",
+        "that lets players run, slide, wall run, double jump and glide. Press LSHIFT once to run, then hold C to slide and press Space to slide jump. While running, use the jump button to start parkour, and A and D wall run on the left and right walls. A dark glider with red trim crosses "
+      ]
+    },
+    {
+      "source": "deepwoken",
+      "url": "https://deepwoken.fandom.com/wiki/Movement",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "source": "players-api",
+      "url": "https://raw.githubusercontent.com/Roblox/creator-docs/main/content/en-us/reference/engine/classes/Players.yaml",
+      "http": 200,
+      "excerpts": [
+        "Data serialization: can_load: true can_save: true capabilities: - Players - name: Players.UseStrafingAnimations summary: | Determines whether R15 character models play directional strafing and backpedaling animations instead of always turning to face their direction of movement. description: | When enabled, R15 character `Class.Humanoid|Humanoids` play directional locomotion animations, "
+      ]
+    },
+    {
+      "source": "player-api",
+      "url": "https://raw.githubusercontent.com/Roblox/creator-docs/main/content/en-us/reference/engine/classes/Player.yaml",
+      "http": 200,
+      "excerpts": []
+    }
+  ]
+}
