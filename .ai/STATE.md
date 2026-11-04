@@ -5,6 +5,12 @@
 - Study how Rell Seas movement works: smooth sideways movement/strafing, the upward jump, **1–2 air dashes**, the **forceful slam down to the ground**, the slide, and how moves chain together. Owner: Rell Seas took pro devs months; we have a stronger model, so spending many sessions is fine.
 - Order: (1) more R-031 video research sessions (new sub-tasks R-031e+), (2) one **planning session** using all the research, (3) then build/integration. T-058l (wind lines) is approved but the owner will start it; research comes first.
 
+## Now — after S154 P-031 (2026-11-04)
+- **Phase: movement planning done → building. P-031 done/merged (D-459–D-464):** plan in `.ai/MOVEMENT_PLAN.md` (evidence vs owner intent vs unknowns, transitions/buffer/coyote/carry, air dash, slam, camera/VFX, numeric test criteria). No code changes.
+- **Owner question:** OK with **2 air-dash charges** (refresh on landing) and **V = slam** (C is a kit special)? Default if owner just says go: as planned.
+- **NEXT unclaimed: T-059a** (pure `Shared.MoveRules` + specs), in its own session, then T-059b–g in order (TASKS.md). T-058l stays owner-started. Parallel lanes: T-059a and T-059b are independent; T-059c+ need T-059a.
+- **Checks: CHECK: PASS.** Claims released; no session branches. ~8 OLU. No Roblox publication.
+
 ## Now — after S153 final recovery (2026-11-04)
 - **Phase: movement research complete → P-031 planning → building. R-031h done/merged (D-458):** recovered stopped S153 study and nine proof sheets; independently re-viewed/hash-checked them, corrected residual streak interpretation, added receipt verifier + three rejected corrupt-copy tests. No game changes.
 - **NEXT unclaimed: P-031**, in a **separate planning session**, consolidating R-031e/f/g/h before any movement implementation. Explicit AC now in TASKS.md. Parallel movement lanes: none before planning; do not start T-058l early.
