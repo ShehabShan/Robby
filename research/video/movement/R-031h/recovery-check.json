@@ -1,0 +1,39 @@
+{
+  "result": "PASS",
+  "jpeg_hashes": 9,
+  "timestamp_rows": 77,
+  "event_brackets": 7,
+  "interval_calculations": 4,
+  "difference_rows": 78,
+  "scope": "Committed receipt consistency only; no raw decode, input or physics validation",
+  "date": "2026-11-04",
+  "review_bot": "8a135aeb-b8c5-4d27-9203-89aaa618cd7c",
+  "source_evidence_bot": "e8a8acc8-77f2-40c7-8956-1080ffd63248",
+  "reviewed_sheets": [
+    "ship-context",
+    "slide-coarse",
+    "approach-pose",
+    "stair-transition",
+    "streak-exit",
+    "occlusion-context",
+    "low-pose-onset",
+    "low-pose-exit",
+    "second-low-to-rise"
+  ],
+  "raw_video_redownload": "NOT AVAILABLE: source GET returned404; authorized artifact listings for four documented source bots were empty. Does not establish deletion.",
+  "fresh_raw_reproduction": false,
+  "negative_tests_rejected": [
+    "appended JPEG byte",
+    "raw PTS +0.033334s",
+    "interval lower bound +0.1s"
+  ],
+  "code_baseline_files_unchanged": true,
+  "receipt_sha256": {
+    "manifest.json": "7be3c4ecce76dec9a79dc05bbc43adeb396f4512658a93eb440a12d21ef12194",
+    "event-intervals.json": "31d6c677220c9a5ac843d8a78a35ea469543c554824aea3dfb6c963c929b25a7",
+    "frame-times.csv": "29da94b8a9a17e47b3365621391f0e586d489326a5b9408973abfcc8e746c20c",
+    "adjacent-difference.csv": "b04bea90a1857adbd876cf28462042e7899b64a7e6df952780d932191643f692",
+    "verify.py": "8e0007c27b5602ee87630eebda7e8783242e7d8e2d92827382539cf5ee1ac83f",
+    "reproduce.py": "7370dfbde4b7bcd56c168d502a744e114e0ad93f7b0744273607f3d59871048d"
+  }
+}

@@ -21,3 +21,10 @@ Rebuild without modifying originals:
 uv run research/video/movement/R-031h/reproduce.py /path/to/movement.mp4 /tmp/r031h-rebuilt
 ```
 Pinned OpenCV/Pillow versions are embedded. Rebuild verified byte-identical for all nine originals in S153 recovery; other decoder/encoder/platform versions may differ. `adjacent-difference.csv` is reproduced with the sheets: mean absolute per-channel pixel difference in a fixed character/environment crop, not tracked velocity. Paired frames recur, so a 60 fps container does not give 60 independent observations per second or prove simulation FPS. `event-intervals.json` stores reviewed cue brackets and interval arithmetic. One-frame event brackets describe the encoded images only, not 16.7 ms input precision.
+
+## Final recovery audit (2026-11-04, bot 8a135aeb)
+The stopped bot's three saved research commits were adopted and merged before this audit. All nine committed sheets were independently re-viewed and their JPEG hashes matched; `python3 research/video/movement/R-031h/verify.py` checks 77 timestamp rows, seven cue brackets, four interval calculations and 78 difference rows. Three temporary damaged copies (JPEG, PTS, interval) were rejected; originals stayed intact. [Machine-readable receipt](recovery-check.json).
+
+Visual correction: n7423–7424 still contain faint residual white line(s). The 0.250–0.284 s value now means **prominent multi-streak-cluster envelope**, not disappearance of every streak/particle. Frame numbers and arithmetic are unchanged; `streak_cluster_end` names the corrected cue.
+
+The raw source GET returned404 here and authorized listings for four documented source bots were empty. This does not prove deletion. Original source fingerprint/decoder reproduction above belong to the stopped bot's record; this audit verifies committed evidence and receipt consistency, **not a fresh raw-video decode**. The JPEGs remain usable without that upload; a new decode requires the same-SHA source again. No new input/physics/cancel-window claims result.

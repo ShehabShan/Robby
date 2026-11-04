@@ -487,4 +487,4 @@ Wind Step is a 14-stud, 0.25 s velocity dash (not a teleport), Kith-only. Refere
 **Unknowns**
 - Actual input/slide state, cancel windows, buffer length, momentum ratio, calibrated speed/distance, terrain/contact, costs/cooldowns and landing recovery.
 **Sources**
-- [Current owner video, nine fingerprinted proof sheets and reproducer](../research/video/movement/R-031h/README.md); [full study](../research/notes/R-031h-slide-chaining.md), linked Config/Movement/SprintClient source.
+- [Owner-video provenance, nine fingerprinted proof sheets, reproducer and final audit limits](../research/video/movement/R-031h/README.md); [full study](../research/notes/R-031h-slide-chaining.md), linked Config/Movement/SprintClient source.

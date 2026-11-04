@@ -1,7 +1,7 @@
 # R-031h — Slide and move-chaining evidence (S153 recovery, 2026-11-04)
 
 ## Scope and evidence
-Owner-requested recovery of the stopped R-031h session; movement only, no fighting design or game changes. The stopped branch contained a resume note, not a completed study. The current owner upload was downloaded and independently fingerprinted; [source and nine reviewed proof sheets](../video/movement/R-031h/README.md), [manifest](../video/movement/R-031h/manifest.json), [cue brackets](../video/movement/R-031h/event-intervals.json).
+Owner-requested recovery of the stopped R-031h session; movement only, no fighting design or game changes. The initial S153 recovery began from a resume note and downloaded/fingerprinted its owner upload; it then stopped after saving the study and proof commits. Final recovery on bot8a135aeb adopted those commits, re-reviewed all nine sheets and verified the committed receipts (raw video unavailable here). Original source record: [source and nine reviewed proof sheets](../video/movement/R-031h/README.md), [manifest](../video/movement/R-031h/manifest.json), [cue brackets](../video/movement/R-031h/event-intervals.json).
 
 The clean ship scene is the main slide/chaining evidence. Full-frame context and enlarged original-pixel crops are both retained. Labels are **first-decoded-frame-relative time n/60**, not raw container PTS: ffprobe reports first-frame PTS **0.033333 s**, so add that offset to locate a label on the raw PTS timeline. All 77 selected frame timestamps were checked after subtracting this offset; interval differences are unaffected. Adjacent-frame differences and visual review show repeated pairs: the 60 fps container is not proof of 60 independent images/s, simulation rate or 16.7 ms input precision.
 
@@ -47,3 +47,6 @@ Source snapshot: the game code inherited on `d06e743` (no code altered in this s
 
 ## Unknowns and sources
 Primary evidence: owner re-upload plus the committed proof/PTS/difference receipts above. Existing code is the source only for Robby's baseline; [R-031f](R-031f-strafe-jump.md) and [R-031g](R-031g-air-dash-slam.md) delimit adjacent studies. A general input-buffering web search was exploratory only and is not used to assert any Rell Seas mechanic. Exact inputs, cancel/buffer windows, physical momentum, trajectory/contact, speed, duration of the second low state, costs/cooldowns and landing recovery remain unknown. No model-memory facts fill these gaps.
+
+## Final recovery verification
+See [audit receipt and limitations](../video/movement/R-031h/README.md#final-recovery-audit-2026-11-04-bot-8a135aeb). Independent review corrected dense streak breakup vs total disappearance; no calibrated control/physics values were added. Config/Movement/SprintClient are unchanged from the study baseline. The separate P-031 session can use this recovered evidence without treating inaccessible raw footage as newly decoded.
