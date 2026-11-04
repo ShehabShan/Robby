@@ -15,3 +15,5 @@
 - S151 re-upload independently verified on bot `1c9edfbe-1d31-4e33-83c5-57f798c06e22`, artifact `movement.mp4`, same SHA/size. [R-031f evidence](R-031f/README.md) and [study](../../notes/R-031f-strafe-jump.md) supersede historical strafe/jump estimates.
 
 - S152 recovery re-upload verified on bot `f63c1a76-299c-4e79-b6ae-48346c7257be`, artifact `movement.mp4`, same SHA/size. This upload (not another bot's video) is the R-031g source. Local working copy `/workspace/robby-media/movement.mp4`.
+
+- S153 recovery re-upload verified on bot `e8a8acc8-77f2-40c7-8956-1080ffd63248`, artifact `movement.mp4`, same SHA/size. [R-031h slide/chaining study](../../notes/R-031h-slide-chaining.md), [nine proof sheets](R-031h/README.md). Timestamp clarification: n/60 labels are first-frame-relative; raw video PTS starts at0.033333 s (durations unchanged).
