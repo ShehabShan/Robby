@@ -126,4 +126,8 @@ return {
 		eq(cx, 0, "direction kept")
 		eq(cz, -T.carryCap, "capped")
 	end,
+
+	["jump config (T-059c)"] = function()
+		eq(Config.Jump.height, 7.2, "explicit Roblox-default height")
+	end,
 }

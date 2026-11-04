@@ -684,3 +684,5 @@ T-046a delivers existing S105 phase-observation repair as an independently pinne
 ## S156 (2026-11-04) — T-059b MoveTrace + test course
 - D-466: MoveTrace = pure ring-buffer recorder (13 CSV columns), client F8 toggle, Studio-only by default; reads attributes `MoveMode`, `MoveConsumed`, `AirDashCharges`, `Stamina` that later T-059 wiring sets. Config key names are strings so Config stays Lune-loadable.
 - D-467: Test course = pure `Shared.TestCourse` boxes (floor, 10-stud marks, walls 4/6/8, 8×1-stud stairs, 12-stud ledge) built by `TestCourseBuilder` at x=260 (outside hub radius 160), Studio only.
+## S157 (2026-11-04) — T-059c jump wiring
+- D-468: New `MoveClient` owns the jump via MoveRules: grounded Ground jumps stay the engine's (same frame); coyote, buffered, slide- and dash-jumps are executed by MoveClient with v_up = sqrt(2·g·Jump.height) and capped horizontal carry. Humanoid Jumping state is disabled while MoveRules refuses a jump. SprintClient stays the owner of speed/slide/ground dash; MoveClient reads its attributes.

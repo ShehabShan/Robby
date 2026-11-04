@@ -167,6 +167,10 @@ local Config = {
 		dashJumpFraction = 0.6,
 		carryCap = 30,
 	},
+	-- Jump ownership (T-059c, D-468): Humanoid.UseJumpPower=false with this explicit height (studs).
+	Jump = {
+		height = 7.2,
+	},
 	-- Movement test course + MoveTrace debug recorder (T-059b, D-466/D-467). Studio only unless `always`.
 	TestCourse = {
 		always = false,

@@ -1,3 +1,6 @@
+## S157 (2026-11-04) — T-059c done
+- Added MoveClient (jump ownership, coyote, buffer, slide/dash-jump carry) + Config.Jump, D-468. CHECK: PASS. No Studio/cloud run yet: live feel/trace check is T-059g. ~26 OLU total bot.
+
 ## S156 (2026-11-04) — T-059b done
 - Added MoveTrace recorder (pure + F8 client) and movement test course (pure layout + Studio-only builder), D-466/D-467; 2 specs. CHECK: PASS (721 tests). Not live-tested yet (T-059g). ~21 OLU total bot.
 
