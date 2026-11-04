@@ -1,3 +1,9 @@
+## S153 (2026-11-04) — R-031h stopped-session recovery completed
+- Released/adopted stopped S153 commits; re-claimed R-031h on bot8a135aeb; no open PRs. D-458 records evidence limits.
+- Nine proof sheets re-viewed/hash-checked; corrected residual streaks; added reproducible receipt verifier (77 timestamps,7 cues,4 intervals,78 differences) and three rejected corrupt-copy probes.
+- CHECK: PASS;10 local study/evidence links PASS; Config/Movement/SprintClient unchanged. Raw source unavailable here: no fresh decoding/reproduction claimed; original proof record retained.
+- Close-out began29.6 OLU; measured save/merge totals in STATE. Next P-031 in a separate planning session; no owner action, gameplay changes or publication.
+
 ## S152 (2026-11-04) — recovered R-031g
 - Adopted stopped S152 resume note; used current owner re-upload (same SHA), not another bot's video; no open PRs.
 - D-457:12 reviewed/reproduced sheets + cue intervals; air-dash limits/refresh and traversal-slam physics remain unknown. No gameplay changes/publication.
