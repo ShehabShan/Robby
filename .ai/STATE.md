@@ -5,6 +5,12 @@
 - Study how Rell Seas movement works: smooth sideways movement/strafing, the upward jump, **1–2 air dashes**, the **forceful slam down to the ground**, the slide, and how moves chain together. Owner: Rell Seas took pro devs months; we have a stronger model, so spending many sessions is fine.
 - Order: (1) more R-031 video research sessions (new sub-tasks R-031e+), (2) one **planning session** using all the research, (3) then build/integration. T-058l (wind lines) is approved but the owner will start it; research comes first.
 
+## Now — after S151 (2026-11-04)
+- **Phase: movement research, then P-031 planning, then building. R-031f done and merged (D-456):** recovered stopped S149, measured strafe/upward-traversal footage and compared Config/source. Launch-to-edge0.433–0.550 s recording time; height in studs uncalibrated, touchdown unproven. No code/tuning changes.
+- **Evidence:** `research/notes/R-031f-strafe-jump.md`, log.md R-031f section, eleven proof sheets + manifest/reproducer (~3.9 MB) under `research/video/movement/R-031f/`. Source upload on bot `1c9edfbe-1d31-4e33-83c5-57f798c06e22`, artifact `movement.mp4`, same verified SHA as S150. Source provenance in video README.
+- **NEXT unclaimed: R-031g** (air-dash/slam evidence), then R-031h (slide/chaining), then P-031. R-031f claim released; re-check CLAIMS before starting. Selected ship frames repeat in pairs: do not claim16.7 ms precision or infer input/refresh/ground contact from effects.
+- **Checks: CHECK: PASS** + eleven reviewed/reproduced JPEG hashes, timestamps and local links PASS. S151 OLU30.9 measured before final main handoff save. No owner action required; no Roblox publication.
+
 ## Now — after S150 (2026-11-04)
 - **Phase: movement research (R-031e–h), then P-031 planning, then building. R-031e redo done and merged (D-455):** owner video audited against S148 claims. HUD shows Q Dash/LSHIFT Walk; fan-wiki air jumps are not dash charges; landing refresh/target-free slam remain unknown, not proven reference rules. Corrected Roblox strafing API. No game code/tuning changed.
 - **Video blocker resolved:** movement.mp4 re-upload verified; artifact on bot `9bbad4f4-2f3e-474d-99d7-ab94c51acd94`, identifier `movement.mp4`. SHA/provenance in `research/video/movement/README.md`; six small proof sheets committed in `research/video/movement/R-031e/`. Audit: `research/notes/R-031e-movement-mechanics.md`.
