@@ -209,4 +209,34 @@ function MoveRules.carry(t: Tuning, vx: number, vz: number): (number, number)
 	return vx * k, vz * k
 end
 
+-- Server air-dash ledger (T-059d1, D-472): the server counts accepted air dashes since the last grounded sample.
+-- Stamina is client-owned (D-437), so the server checks charges, clearance, stun and a min gap only.
+export type AirLedger = { used: number, lastAt: number }
+export type AirContext = { grounded: boolean, clearance: number, stunned: boolean, now: number, slack: number }
+
+function MoveRules.newAirLedger(): AirLedger
+	return { used = 0, lastAt = -math.huge }
+end
+
+-- A grounded sample refreshes the charges.
+function MoveRules.serverLand(l: AirLedger)
+	l.used = 0
+end
+
+-- Accepts (and records) an air dash, or refuses it: grounded, stunned, out of charges, too low, or too soon.
+function MoveRules.serverAirDash(t: Tuning, l: AirLedger, c: AirContext): boolean
+	if c.grounded or c.stunned or l.used >= t.airDashCharges then
+		return false
+	end
+	if c.clearance < t.airDashMinClearance - c.slack then
+		return false
+	end
+	if c.now - l.lastAt < t.airDashSeconds - c.slack then
+		return false
+	end
+	l.used += 1
+	l.lastAt = c.now
+	return true
+end
+
 return MoveRules

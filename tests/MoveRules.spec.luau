@@ -30,6 +30,36 @@ local function jumped(): MoveRules.State
 end
 
 return {
+	["serverAirDash: 2 charges, 3rd refused until landing (T-059d1)"] = function()
+		local l = MoveRules.newAirLedger()
+		local c = { grounded = false, clearance = 5, stunned = false, now = 1, slack = 0.05 }
+		eq(MoveRules.serverAirDash(T, l, c), true, "1st")
+		c.now = 1.3
+		eq(MoveRules.serverAirDash(T, l, c), true, "2nd")
+		c.now = 1.6
+		eq(MoveRules.serverAirDash(T, l, c), false, "3rd refused")
+		MoveRules.serverLand(l)
+		c.now = 2
+		eq(MoveRules.serverAirDash(T, l, c), true, "after landing")
+	end,
+	["serverAirDash: refuses grounded, stunned, low, too soon"] = function()
+		local l = MoveRules.newAirLedger()
+		local base = { grounded = false, clearance = 5, stunned = false, now = 1, slack = 0.05 }
+		eq(MoveRules.serverAirDash(T, l, table.clone(base)), true)
+		local soon = table.clone(base)
+		soon.now = 1.05
+		eq(MoveRules.serverAirDash(T, l, soon), false, "too soon")
+		local g = table.clone(base)
+		g.now, g.grounded = 3, true
+		eq(MoveRules.serverAirDash(T, l, g), false, "grounded")
+		local low = table.clone(base)
+		low.now, low.clearance = 3, 2
+		eq(MoveRules.serverAirDash(T, l, low), false, "low")
+		local st = table.clone(base)
+		st.now, st.stunned = 3, true
+		eq(MoveRules.serverAirDash(T, l, st), false, "stunned")
+		eq(l.used, 1, "refusals do not spend charges")
+	end,
 	["air dash charges and refresh (T-059a, plan §6.1)"] = function()
 		local s, r = jumped(), nil
 		s, r = MoveRules.press(T, s, "q", AIR)

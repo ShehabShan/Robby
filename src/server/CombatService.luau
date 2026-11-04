@@ -22,6 +22,7 @@ local RemoteGuard = require(script.Parent.RemoteGuard)
 local Abilities = require(script.Parent.Abilities)
 local SpeedGuardService = require(script.Parent.SpeedGuardService)
 local Dash = require(ReplicatedStorage.Shared.Dash)
+local MoveRules = require(ReplicatedStorage.Shared.MoveRules)
 
 local C = Config.Combat
 local RECORD_DT = 1 / 20
@@ -38,6 +39,7 @@ type State = {
 	tokenAt: number,
 	staggerUntil: number,
 	dashAt: { [string]: number }, -- last accepted dash per cooldown group (T-058d2)
+	air: MoveRules.AirLedger, -- accepted air dashes since last grounded sample (T-059d1)
 }
 
 local states: { [Player]: State } = {}
@@ -56,6 +58,7 @@ local function stateFor(player: Player): State
 			tokenAt = os.clock(),
 			staggerUntil = -math.huge,
 			dashAt = {},
+			air = MoveRules.newAirLedger(),
 		}
 		states[player] = s
 	end
@@ -245,7 +248,53 @@ local function dash(player: Player, s: State, rawDir: any, now: number)
 	SpeedGuardService.burst(player)
 end
 
+-- Air dash (T-059d1, D-472): server counts charges (refresh on a grounded sample), checks clearance by raycast
+-- (with slack), stun and min gap via `MoveRules.serverAirDash`, then opens the speed guard burst window.
+local MR: MoveRules.Tuning = Config.MoveRules
+local AIR_SLACK = 0.3 -- studs / seconds of latency forgiveness on clearance and gap
+
+local function grounded(character: Model): boolean
+	local humanoid = character:FindFirstChildOfClass("Humanoid")
+	return humanoid ~= nil and humanoid.FloorMaterial ~= Enum.Material.Air
+end
+
+local function clearance(character: Model, root: BasePart): number
+	local params = RaycastParams.new()
+	params.FilterType = Enum.RaycastFilterType.Exclude
+	params.FilterDescendantsInstances = { character }
+	local hit = workspace:Raycast(root.Position, Vector3.new(0, -50, 0), params)
+	if not hit then
+		return math.huge
+	end
+	return root.Position.Y - hit.Position.Y - 3 -- 3 = hip + half root height (R15 default)
+end
+
+local function airDash(player: Player, s: State, now: number)
+	local character = player.Character
+	local root = aliveRoot(character)
+	if not root or not character then
+		return
+	end
+	local ok = MoveRules.serverAirDash(MR, s.air, {
+		grounded = grounded(character),
+		clearance = clearance(character, root),
+		stunned = now < s.staggerUntil or Status.has(statuses, character, DASH_STAGGER_TAG, now),
+		now = now,
+		slack = AIR_SLACK,
+	})
+	if ok then
+		SpeedGuardService.burst(player)
+	end
+end
+
 function CombatService.start()
+	RunService.Heartbeat:Connect(function()
+		for player, s in states do
+			if s.air.used > 0 and player.Character and grounded(player.Character) then
+				MoveRules.serverLand(s.air)
+			end
+		end
+	end)
 	Net.Action.On(function(player: Player, value)
 		if not RemoteGuard.allow(player, "Action") then
 			return
@@ -265,6 +314,8 @@ function CombatService.start()
 			Combat.setGuard(s.guard, false)
 		elseif kind == "Dash" then
 			dash(player, s, value.dir, now)
+		elseif kind == "AirDash" then
+			airDash(player, s, now)
 		elseif kind == "Stance" then
 			Abilities.toggleStance(player) -- Kith stance swap (T-027d2, D-186)
 		end
