@@ -7,3 +7,7 @@
 - Owner: do NOT use the Gemini cut list / edit plan; the owner's edit replaces it.
 - [S150 R-031e audit](../../notes/R-031e-movement-mechanics.md) corrects the public-source pass and qualifies earlier log assertions; [committed evidence](R-031e/README.md) survives independently of the upload.
 - Detailed R-031f–h research continues in its own lanes. `log.md` contains historical estimates, not calibrated world-space measurements or input telemetry.
+
+## Restored source (S149, 2026-11-04 UTC)
+- Owner re-upload: artifact `movement.mp4` on bot `4be70279-d4e5-4e48-a3e9-c0cdb3bedd10`. Original bot reference above was not accessible in S148 (404 does not prove deletion).
+- SHA-256: `d71c24b6dab93c7ed138a8b44e355c7e8228f77438fd001350bb83af5d4cd541`; 79,162,802 bytes, 7,561 frames, 60 fps, 126.016667 s. Downloaded successfully to gitignored `movement.mp4`.
