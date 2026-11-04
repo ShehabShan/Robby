@@ -5,6 +5,11 @@
 - Study how Rell Seas movement works: smooth sideways movement/strafing, the upward jump, **1–2 air dashes**, the **forceful slam down to the ground**, the slide, and how moves chain together. Owner: Rell Seas took pro devs months; we have a stronger model, so spending many sessions is fine.
 - Order: (1) more R-031 video research sessions (new sub-tasks R-031e+), (2) one **planning session** using all the research, (3) then build/integration. T-058l (wind lines) is approved but the owner will start it; research comes first.
 
+## Now — after S157 owner test (2026-11-04)
+- **Owner Studio-tested jumps on saved v51: "okay for now"** → T-059d1 is unblocked. Trace + notes: `research/inbox/2026-11-04-owner-jump-trace-v51.md`.
+- **NEXT unclaimed: T-059d1** (air dash server: new Blink `ActionKind` in `net/remotes.blink` + regen, CombatService validation like `dash()`, SpeedGuard burst). First fix: trace shows MoveMode never Dash/Slide/Land despite a Q dash (hspeed 52) — sync MoveClient mode from SprintClient attributes.
+- Saved v51 = main as of S157 (not published). Checks PASS. Claims released.
+
 ## Now — after S157 T-059c (2026-11-04)
 - **Phase: building movement v2 (T-059).** Done/merged: T-059a MoveRules, T-059b MoveTrace (F8) + Studio-only test course (x=260), T-059c MoveClient (own jump 7.2, coyote 0.10 s, 0.12 s buffer, slide/dash-jump carry ≤30). D-465–D-468. **Not live-tested yet** — a quick Studio feel check of normal/slide/edge jumps is worth doing before more wiring.
 - **Saved (unpublished) version 51 of main Robby uploaded 2026-11-04 for the owner's Studio test; cloud specs 722/722 PASS.**

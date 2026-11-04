@@ -1,3 +1,6 @@
+## S157b (2026-11-04) — owner jump test
+- Uploaded main as Saved v51 (cloud specs 722/722 PASS). Owner tested jumps in Studio: OK. Saved trace to research/inbox; found MoveMode not reflecting dash/slide. ~38 OLU total bot.
+
 ## S157 (2026-11-04) — T-059c done
 - Added MoveClient (jump ownership, coyote, buffer, slide/dash-jump carry) + Config.Jump, D-468. CHECK: PASS. No Studio/cloud run yet: live feel/trace check is T-059g. ~26 OLU total bot.
 
