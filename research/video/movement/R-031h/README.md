@@ -12,7 +12,7 @@ All nine JPEG sheets were visually reviewed. `manifest.json` records zero-based 
 | low-pose-onset.jpg | Broad upright-to-low transition bracket |
 | low-pose-exit.jpg | Last low posture and first raised body |
 | stair-transition.jpg | First black/white streaks, consecutive container frames |
-| streak-exit.jpg | Last streaks and upright continuation |
+| streak-exit.jpg | Dense streak-cluster breakup, residual lines and upright continuation |
 | occlusion-context.jpg | Wooden geometry hides avatar between sequences |
 | second-low-to-rise.jpg | Low posture then the upward traversal studied in R-031f |
 

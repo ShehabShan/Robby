@@ -10,7 +10,7 @@ The clean ship scene is the main slide/chaining evidence. Full-frame context and
 |---|---|---|
 | `approach-pose`, `low-pose-onset`: 122.0–123.1 s | Upright running gives way to a sustained low, leaned posture while deck scenery continues moving. Broad upright→clearly-low bracket n7376–7386 (122.933–123.100). | A **slide-like pose**, not a decoded slide button, grounded-state signal or established slide startup. Gradual transition makes onset ambiguous. |
 | `low-pose-exit`: n7400–7403 (123.333–123.383) | Low pose changes to raised/upright posture; body/shadow separation becomes conspicuous in the following frames. | Visual exit, not proof that a jump canceled a still-active slide. Natural ending, queued jump, ledge departure and other traversal logic cannot be distinguished. |
-| `stair-transition`, `streak-exit`: 123.450–123.717 | Upright/raised body moves across the staircase background with thin alternating dark/white vertical streaks and a brief stronger white accent. Streak first present n7407; last present n7422, absent n7423. | These are **post-low-pose traversal streaks**, not proof of a grounded slide down stairs. No exact collision path or world-space speed. |
+| `stair-transition`, `streak-exit`: 123.450–123.717 | Upright/raised body moves across the staircase background with thin alternating dark/white vertical streaks and a brief stronger white accent. Prominent streaks first present n7407; dense cluster through n7422, sparse residual line(s) at n7423–7424. Total last-particle disappearance is not established. | These are **post-low-pose traversal streaks**, not proof of a grounded slide down stairs. No exact collision path or world-space speed. |
 | `slide-coarse`, `occlusion-context`: 123.8–124.6 | Body continues through the deck scene, then near-camera wood/rail hides it; visible at124.25, hidden124.30–124.55 samples, visible again124.60. | The interruption is camera occlusion, not a demonstrated pause or move cancel. Cannot trace continuous body state through it. |
 | `second-low-to-rise`: 124.65–125.15 | A second sustained low pose is visible124.65–124.90, then raised body at124.95 and upward streaks. | Second low-pose start is not cleanly observable. Low→rise is compatible with chaining but supplies no accepted-input window. R-031f owns the later rise/edge measurement; touchdown stays unproven. |
 
@@ -23,7 +23,7 @@ Bounds combine the reviewed cue brackets; rounded outward to milliseconds. Frame
 |---|---|---|
 | Upright→low onset to low-pose exit | **0.233–0.450 s** | Broad visual low-pose envelope, not slide-state duration, minimum hold or animation clip length. |
 | Low-pose exit to first streak | **0.050–0.117 s** | Relative presentation timing; not input latency or a mandatory recovery delay. |
-| First streak to streak disappearance | **0.250–0.284 s** | Visible streak envelope, not per-particle lifetime. Reappearing lines are not necessarily the same emitter/particle. |
+| First streak to dense-cluster breakup | **0.250–0.284 s** | Prominent multi-streak envelope only; faint lines remain. Neither total effect duration nor per-particle lifetime. |
 | Camera hides avatar until visible again | **0.250–0.350 s** | Occlusion duration bracket, not gameplay freeze. |
 | Second low→raised transition | **124.900–124.950 s** | Event bracket, not a 50 ms cancel window; matches R-031f. |
 

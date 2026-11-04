@@ -479,7 +479,7 @@ Wind Step is a 14-stud, 0.25 s velocity dash (not a teleport), Kith-only. Refere
 ### R-031h Slide and move chaining (done 2026-11-04)
 **Findings**
 - Ship low-pose envelope0.233–0.450 s precedes the raised/streaked stair phase; old123.45–123.68 grounded-slide label is unsupported. [Reviewed proof and study](../research/notes/R-031h-slide-chaining.md).
-- Streak envelope0.250–0.284 s; camera occlusion0.250–0.350 s interrupts observation; second low→rise124.90–124.95. These are visual cues, not input windows. [Brackets](../research/video/movement/R-031h/event-intervals.json).
+- Prominent streak-cluster envelope0.250–0.284 s (faint residual lines remain); camera occlusion0.250–0.350 s interrupts observation; second low→rise124.90–124.95. These are visual cues, not input windows. [Brackets](../research/video/movement/R-031h/event-intervals.json).
 - 77 frame timestamps checked: n/60 is first-frame-relative, raw PTS adds0.033333 s; paired images recur. [Evidence receipts](../research/video/movement/R-031h/README.md).
 - Robby already carries slide scalar speed into air and assigns WalkSpeed, not a verified conserved velocity vector. [Code comparison](../research/notes/R-031h-slide-chaining.md#4-robby-baseline--code-comparison-not-reference-measurements).
 **→ Implications for Robby**

@@ -34,17 +34,6 @@
         123.45
       ]
     },
-    "streak_end": {
-      "frames": [
-        7422,
-        7423
-      ],
-      "meaning": "last streak to absent",
-      "first_frame_relative_seconds": [
-        123.7,
-        123.71666666666667
-      ]
-    },
     "occlusion_onset": {
       "frames": [
         7455,
@@ -77,6 +66,17 @@
         124.9,
         124.95
       ]
+    },
+    "streak_cluster_end": {
+      "frames": [
+        7422,
+        7423
+      ],
+      "meaning": "prominent multi-streak cluster to sparse residual line(s); NOT disappearance of all streaks",
+      "first_frame_relative_seconds": [
+        123.7,
+        123.71666666666667
+      ]
     }
   },
   "intervals": {
@@ -96,20 +96,20 @@
         0.11666666666666667
       ]
     },
-    "streak_envelope": {
-      "from": "streak_onset",
-      "to": "streak_end",
-      "seconds_bounds": [
-        0.25,
-        0.2833333333333333
-      ]
-    },
     "camera_occlusion": {
       "from": "occlusion_onset",
       "to": "occlusion_end",
       "seconds_bounds": [
         0.25,
         0.35
+      ]
+    },
+    "prominent_streak_cluster_envelope": {
+      "from": "streak_onset",
+      "to": "streak_cluster_end",
+      "seconds_bounds": [
+        0.25,
+        0.2833333333333333
       ]
     }
   }
