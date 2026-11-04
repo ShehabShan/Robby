@@ -100,7 +100,7 @@ function MoveRules.resolve(t: Tuning, s: State, action: Action, c: Context): Res
 	end
 end
 
-local function apply(t: Tuning, s: State, r: Result): State
+local function apply(_t: Tuning, s: State, r: Result): State
 	local n
 	if r == "jump" then
 		n = setMode(s, "Air")
@@ -122,7 +122,7 @@ end
 
 -- A player pressed `action`. Returns the new state and what happened (nil = buffered, latest press wins).
 function MoveRules.press(t: Tuning, s: State, action: Action, c: Context): (State, Result?)
-	local r = MoveRules.resolve(t, s, action, c)
+	local r: Result? = MoveRules.resolve(t, s, action, c)
 	if r then
 		return apply(t, s, r), r
 	end
@@ -182,7 +182,7 @@ function MoveRules.step(t: Tuning, s0: State, dt: number, c: Context): (State, R
 	end
 
 	if s.buffered then
-		local r = MoveRules.resolve(t, s, s.buffered :: Action, c)
+		local r: Result? = MoveRules.resolve(t, s, s.buffered :: Action, c)
 		if r then
 			return apply(t, s, r), r
 		end
