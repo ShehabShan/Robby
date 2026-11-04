@@ -27,6 +27,19 @@ local function near(actual: number, expected: number, msg: string)
 end
 
 return {
+	["ringHeight: sits above the highest ground under the ring, not inside a bump (T-060d)"] = function()
+		local fallback = 10 - 2.6
+		local y = GuardRing.ringHeight({ 7, 7, 8.2, 7.5 }, fallback, 0.15)
+		assert(math.abs(y - 8.35) < 1e-6, `above bump, got {y}`)
+		assert(GuardRing.ringHeight({}, fallback, 0.15) == fallback, "mid-air uses fallback")
+		assert(GuardRing.ringHeight({ 2 }, fallback, 0.15) == fallback, "pit under ring never drags it below fallback")
+	end,
+	["samplePoints: centre + n points on the circle"] = function()
+		local pts = GuardRing.samplePoints(1, 2, 5, 8)
+		assert(#pts == 9, "9 points")
+		assert(pts[1].x == 1 and pts[1].z == 2, "centre first")
+		assert(math.abs(pts[2].x - 6) < 1e-6 and math.abs(pts[2].z - 2) < 1e-6, "first on circle")
+	end,
 	["guard ring: valid params need radius > 3 studs and a speed boost >= 1"] = function()
 		eq(GuardRing.validParams(P), true, "spec params")
 		eq(GuardRing.validParams(table.clone(P) :: any), true, "clone")

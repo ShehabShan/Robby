@@ -392,6 +392,10 @@ function TwinCrescentFx.guard(character: Model?, dir: Vector3)
 	end
 	local dissolving: number? = nil
 	local conn: RBXScriptConnection? = nil
+	local groundRay = RaycastParams.new()
+	groundRay.FilterType = Enum.RaycastFilterType.Exclude
+	groundRay.FilterDescendantsInstances = { character }
+	groundRay.IgnoreWater = true
 	conn = RunService.RenderStepped:Connect(function(dt: number)
 		local now = os.clock()
 		local rp = if root.Parent then root.Position else nil
@@ -404,7 +408,17 @@ function TwinCrescentFx.guard(character: Model?, dir: Vector3)
 			end
 		end
 		if rp then
-			local y = rp.Y - 1
+			-- Ground-follow (T-060d, D-471): raycast under the ring so slopes/bumps never swallow it.
+			local hits: { number } = {}
+			for _, s in GuardRing.samplePoints(rp.X, rp.Z, p.radius, 8) do
+				local from = Vector3.new(s.x, rp.Y + 1, s.z)
+				local hit = workspace:Raycast(from, Vector3.new(0, -8, 0), groundRay)
+				if hit then
+					table.insert(hits, hit.Position.Y)
+				end
+			end
+			local discY = GuardRing.ringHeight(hits, rp.Y - 2.6, 0.15)
+			local y = math.max(rp.Y - 1, discY + 1.6)
 			local spots: { { x: number, z: number, angle: number } } = if #blades > 0
 				then GuardRing.blades(state, p, rp.X, rp.Z, aim, now)
 				else {}
@@ -415,7 +429,7 @@ function TwinCrescentFx.guard(character: Model?, dir: Vector3)
 			end
 			if disc then
 				local spin = p.spin * (now - state.startedAt)
-				disc.CFrame = CFrame.new(rp.X, rp.Y - 2.6, rp.Z) * CFrame.Angles(0, -spin, 0)
+				disc.CFrame = CFrame.new(rp.X, discY, rp.Z) * CFrame.Angles(0, -spin, 0)
 			end
 		end
 		if dissolving == nil then

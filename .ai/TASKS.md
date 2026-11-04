@@ -46,7 +46,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
     - **T-060a [done S158, D-469] [S]** Shift toggles walk/run (press once, no holding). Keep LShift=Walk HUD label correct; controller/touch equivalent toggles too. AC: spec on toggle state + Studio check.
     - **T-060b [done S158, D-470; Studio check pending] [S]** Rank 2 Twin Crescent must aim up and down like Crescent Cut (owner can't fire it upward). AC: same pitch range as Crescent Cut; spec + Studio check.
     - **T-060c [todo] [S]** Rank 1 Crescent Cut: better visual + rapid fire 5 shots with a small gap (shots don't overlap), then cooldown. Server-validated count/gap. AC: specs for 5-then-cooldown + owner visual OK.
-    - **T-060d [todo] [S]** Bug: Full Moon ring sinks/rotates into slightly raised ground (screenshots). Fix: place ring from ground raycast / keep above terrain under the player. AC: Studio check on a slope/bump.
+    - **T-060d [done S158, D-471; Studio check pending] [S]** Bug: Full Moon ring sinks/rotates into slightly raised ground (screenshots). Fix: place ring from ground raycast / keep above terrain under the player. AC: Studio check on a slope/bump.
     - **T-060e [todo] [S, plan first]** Rank 3 feels weak with only Full Moon: propose (no build) a stronger Rank 3 with an attack side, e.g. ring blades that fire outward on release. Owner picks before build.
     - **T-060f [todo] [S, research]** Run/jump polish vs owner video `run-and-jump.mov` (owner: ours is good, polish only). Study stills → small tuning list; fold into T-059g/after T-059.
   - **T-058j [todo, owner to confirm] [M]** Combat lock-on camera (LCtrl toggle, body faces target, strafe circles), per R-031. Split before work.

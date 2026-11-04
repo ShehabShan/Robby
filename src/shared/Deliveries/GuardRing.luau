@@ -58,6 +58,32 @@ function GuardRing.validParams(p: any): boolean
 		and p.speedMult >= 1
 end
 
+-- Ring height (T-060d, D-471): the ring art sits `lift` studs above the HIGHEST ground sampled under the ring (centre
+-- + points on its circle), so slopes and small bumps never swallow it. `fallback` (e.g. root.Y - 2.6) is used when no
+-- sample hit ground (mid-air); it is also a floor, so a deep pit under part of the ring never drags it down.
+function GuardRing.ringHeight(groundYs: { number }, fallback: number, lift: number): number
+	local top = -math.huge
+	for _, y in groundYs do
+		if y == y and y > top then
+			top = y
+		end
+	end
+	if top == -math.huge then
+		return fallback
+	end
+	return math.max(top + lift, fallback)
+end
+
+-- Sample points for `ringHeight`: the centre and `n` points evenly on the circle of `radius` round (cx, cz).
+function GuardRing.samplePoints(cx: number, cz: number, radius: number, n: number): { { x: number, z: number } }
+	local out = { { x = cx, z = cz } }
+	for i = 1, n do
+		local a = 2 * math.pi * (i - 1) / n
+		table.insert(out, { x = cx + radius * math.cos(a), z = cz + radius * math.sin(a) })
+	end
+	return out
+end
+
 function GuardRing.new(p: Params, now: number): State
 	return { startedAt = now, endsAt = now + p.duration, shattered = false, closed = false }
 end
