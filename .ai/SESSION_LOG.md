@@ -1,3 +1,9 @@
+## S151 (2026-11-04) — recovered R-031f
+- Released/adopted stopped S149, then claimed and completed strafe/upward-traversal research (D-456); owner upload checksum matches.
+- Eleven proof sheets + reproducible frame/hash manifest; jump-to-edge0.433–0.550 s, no calibrated studs/touchdown; corrected historical claims and compared Config/source.
+- CHECK: PASS; evidence/rebuilt hashes/frame timestamps/local links PASS. No gameplay changes or Roblox publication; no owner action needed.
+- OLU29.9 measured before close-out; next R-031g/h then P-031. Saving/merging below43/45 limits.
+
 ## S150 (2026-11-04) — R-031e redo with uploaded video
 - Audited prior mechanics claims; corrected HUD bindings/API error; marked air-dash limit/refresh and traversal slam unproven (D-455).
 - Saved fingerprint/provenance + six timestamped proof sheets (~2.5 MB); restored video pointer. No movement code/tuning or publication.
