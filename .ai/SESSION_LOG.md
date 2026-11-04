@@ -1,3 +1,6 @@
+## S159 (2026-11-04) — T-059d1 + T-059d2 done
+- T-059d1 server air dash (D-472): `MoveRules.serverAirDash` ledger (2 charges, clearance, gap, stun), Blink `AirDash` ActionKind, SpeedGuard burst; 2 specs. T-059d2 client (D-473): air Q → camera-relative 9 studs/0.18 s, vy 0, FOV kick, streak/burst FX. CHECK: PASS. Not Studio-tested (T-059g). ~31 OLU.
+
 ## S158 (2026-11-04) — owner feedback T-060a/b/d/e/f
 - T-060a run toggle (D-469), T-060b Twin Crescent up/down aim (D-470), T-060d Full Moon ring follows ground (D-471): specs added, CHECK: PASS. Studio check pending (owner).
 - T-060f run/jump notes from owner video (5 items for T-059g); T-060e Rank 3 plan A/B/C, waits for owner pick. T-060c not started. ~18 OLU.
