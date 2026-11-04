@@ -152,6 +152,21 @@ local Config = {
 		serverSlack = 0.15,
 		guardSlack = 1.25,
 	},
+	-- Movement state machine (T-059a, D-465; plan `.ai/MOVEMENT_PLAN.md`): seconds, studs, studs/s. Our tuning.
+	MoveRules = {
+		coyoteSeconds = 0.1,
+		bufferSeconds = 0.12,
+		airDashCharges = 2,
+		airDashSeconds = 0.18,
+		airDashCost = 10,
+		airDashMinClearance = 3,
+		airDashToSlam = 0.1,
+		slamMinClearance = 6,
+		slamHover = 0.08,
+		slamRecovery = 0.15,
+		dashJumpFraction = 0.6,
+		carryCap = 30,
+	},
 	-- Vault / ledge climb (T-058f, D-432): studs, studs/s; Space near a low wall vaults, a taller ledge climbs.
 	Vault = {
 		reach = 3,

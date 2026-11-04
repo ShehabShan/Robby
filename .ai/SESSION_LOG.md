@@ -1,3 +1,6 @@
+## S155 (2026-11-04) — T-059a done
+- Owner OK on P-031 (2 air dashes, V slam), D-465. Added pure `Shared.MoveRules` + 4 specs + `Config.MoveRules`; CHECK: PASS (719 tests). No wiring/publish. ~13 OLU total bot.
+
 ## S154 (2026-11-04) — P-031 movement plan done
 - Claimed P-031; no open PRs, no stale claims/branches. Read R-031e/f/g/h implications + code baseline only.
 - Wrote `.ai/MOVEMENT_PLAN.md` (D-459–D-464): evidence/intent/unknowns, transitions, buffer, coyote, carry, 2 air dashes, V slam, camera/VFX, numeric test criteria.

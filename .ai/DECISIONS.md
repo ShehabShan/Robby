@@ -679,3 +679,5 @@ T-046a delivers existing S105 phase-observation repair as an independently pinne
 - D-462: One-slot input buffer, latest press wins, 0.12 s.
 - D-463: Camera/VFX targets: sparse streaks, air-dash FOV kick +4, slam shake on contact only; wire unused Movement.turnRate.
 - D-464: MoveTrace recorder + test course; §6 numeric pass criteria; implementation split T-059a–g (owner OK first). All numbers are our tuning, not video measurements.
+## S155 (2026-11-04) — T-059a MoveRules
+- D-465: Owner approved the P-031 plan (2 air-dash charges refreshed on landing, V = slam). Pure `Shared.MoveRules` owns Air/AirDash/Slam/Land, charges, coyote and buffer; Movement/Dash keep ground speed, slide and ground dash, reported via `MoveRules.enter`. A buffered press is tried on its expiry tick before being dropped. Air jump without coyote is refused (no double jump planned).
