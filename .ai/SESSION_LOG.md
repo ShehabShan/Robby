@@ -1,3 +1,8 @@
+## S154 (2026-11-04) — P-031 movement plan done
+- Claimed P-031; no open PRs, no stale claims/branches. Read R-031e/f/g/h implications + code baseline only.
+- Wrote `.ai/MOVEMENT_PLAN.md` (D-459–D-464): evidence/intent/unknowns, transitions, buffer, coyote, carry, 2 air dashes, V slam, camera/VFX, numeric test criteria.
+- Split build into T-059a–g (S each). Owner OK asked on 2 charges + V = slam. No code changes; CHECK: PASS. ~9 OLU.
+
 ## S153 (2026-11-04) — R-031h stopped-session recovery completed
 - Released/adopted stopped S153 commits; re-claimed R-031h on bot8a135aeb; no open PRs. D-458 records evidence limits.
 - Nine proof sheets re-viewed/hash-checked; corrected residual streaks; added reproducible receipt verifier (77 timestamps,7 cues,4 intervals,78 differences) and three rejected corrupt-copy probes.
