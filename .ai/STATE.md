@@ -7,6 +7,7 @@
 
 ## Now — after S157 T-059c (2026-11-04)
 - **Phase: building movement v2 (T-059).** Done/merged: T-059a MoveRules, T-059b MoveTrace (F8) + Studio-only test course (x=260), T-059c MoveClient (own jump 7.2, coyote 0.10 s, 0.12 s buffer, slide/dash-jump carry ≤30). D-465–D-468. **Not live-tested yet** — a quick Studio feel check of normal/slide/edge jumps is worth doing before more wiring.
+- **Owner agreed (2026-11-04) to Studio-test jumps first; T-059d1 waits for that feedback (F8 trace paste or feel notes).**
 - **NEXT unclaimed: T-059d1** (air dash server: needs a new Blink `ActionKind` in `net/remotes.blink` + regen, CombatService validation like `dash()`, SpeedGuard burst). Parallel: T-059f (wire `Movement.turnRate`, keep shift lock) is independent.
 - **Checks: CHECK: PASS.** Claims released; no session branches. No Roblox publication.
 
