@@ -469,3 +469,6 @@
 - **Last cloud test:** Saved30 (2026-11-01,S89): spatial44/44 report rows twice,32 admission/refusal assertions; CLOUD ALL:PASS626/626 + packages/smoke. IsRunning=false/Players0, NOT motion/ownership/feel acceptance. Published remains27/game0.0.22.
 - **Last check.sh:** CHECK:PASS (2026-11-01,S104 merge, including S103 startup regressions): prior full suite including642pure/85specs plus22 permission/43 transaction/26 release-intake groups;7 restored faults and target-specific stage/reconstruction PASS. No gameplay changes or publication.
 - **Notes:** Remotes are Blink (`net/remotes.blink` → `src/*/Net.luau`). Crucible key: PC B (F is Parry); 1–7 = select slot (Q toggle removed, D-216), Shift = sprint, Ctrl = shift lock, no dash, gamepad D-pad Right.
+
+## Side lane: Qing Mao Mountain map research (2026-11-04)
+This lane runs in parallel to the movement lane. Bulk extraction of ch 1–201 is done, and the notes are in `research/inbox/qmm/`. Next: verify, then `INDEX.md` (with the 10 key chapters), then the planning session. See `research/inbox/qmm/README.md`.
