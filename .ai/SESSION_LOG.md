@@ -1,3 +1,7 @@
+## S158 (2026-11-04) — owner feedback T-060a/b/d/e/f
+- T-060a run toggle (D-469), T-060b Twin Crescent up/down aim (D-470), T-060d Full Moon ring follows ground (D-471): specs added, CHECK: PASS. Studio check pending (owner).
+- T-060f run/jump notes from owner video (5 items for T-059g); T-060e Rank 3 plan A/B/C, waits for owner pick. T-060c not started. ~18 OLU.
+
 ## S157b (2026-11-04) — owner jump test
 - Uploaded main as Saved v51 (cloud specs 722/722 PASS). Owner tested jumps in Studio: OK. Saved trace to research/inbox; found MoveMode not reflecting dash/slide. ~38 OLU total bot.
 

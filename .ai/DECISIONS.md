@@ -686,3 +686,7 @@ T-046a delivers existing S105 phase-observation repair as an independently pinne
 - D-467: Test course = pure `Shared.TestCourse` boxes (floor, 10-stud marks, walls 4/6/8, 8×1-stud stairs, 12-stud ledge) built by `TestCourseBuilder` at x=260 (outside hub radius 160), Studio only.
 ## S157 (2026-11-04) — T-059c jump wiring
 - D-468: New `MoveClient` owns the jump via MoveRules: grounded Ground jumps stay the engine's (same frame); coyote, buffered, slide- and dash-jumps are executed by MoveClient with v_up = sqrt(2·g·Jump.height) and capped horizontal carry. Humanoid Jumping state is disabled while MoveRules refuses a jump. SprintClient stays the owner of speed/slide/ground dash; MoveClient reads its attributes.
+## S158 (2026-11-04) — owner feedback T-060
+- D-469: Run is a toggle (Shift / L3 / touch "Run" button): press flips, release does nothing (`Movement.toggleRun`). Toggle stays on through exhaustion/stops; `canSprint` still gates sprinting on stamina + moving. Player attribute `RunToggled` mirrors it.
+- D-470: Twin Crescent uses free 3D aim like Crescent Cut (`aim = "Free"`, maxPitch 70). Server free-aim covers Volley kind; Scissor blades fly along the pitched aim, side offset stays horizontal. FX keep the pitch.
+- D-471: Full Moon ring art height = `GuardRing.ringHeight`: highest of 9 down-raycasts (centre + 8 on the circle) + 0.15 studs, never below root.Y − 2.6 (also the mid-air fallback). Client-only visual.
