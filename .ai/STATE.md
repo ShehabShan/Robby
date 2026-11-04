@@ -8,6 +8,7 @@
 ## Now — after S157 owner test (2026-11-04)
 - **Owner Studio-tested jumps on saved v51: "okay for now"** → T-059d1 is unblocked. Trace + notes: `research/inbox/2026-11-04-owner-jump-trace-v51.md`.
 - **NEXT unclaimed: T-059d1** (air dash server: new Blink `ActionKind` in `net/remotes.blink` + regen, CombatService validation like `dash()`, SpeedGuard burst). First fix: trace shows MoveMode never Dash/Slide/Land despite a Q dash (hspeed 52) — sync MoveClient mode from SprintClient attributes.
+- **Owner added T-060a–f (2026-11-04):** Shift toggle walk/run, Twin Crescent up/down aim, Crescent Cut visual + 5-shot burst, Full Moon ground bug, stronger Rank 3 (plan first), run/jump polish from owner video. See TASKS.md. Owner order not given; suggest T-060a/b/d first (small fixes), then T-059d1.
 - Saved v51 = main as of S157 (not published). Checks PASS. Claims released.
 
 ## Now — after S157 T-059c (2026-11-04)
