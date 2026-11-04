@@ -2,7 +2,7 @@
 - Audited prior mechanics claims; corrected HUD bindings/API error; marked air-dash limit/refresh and traversal slam unproven (D-455).
 - Saved fingerprint/provenance + six timestamped proof sheets (~2.5 MB); restored video pointer. No movement code/tuning or publication.
 - CHECK: PASS; proof hashes/timestamps/local links PASS. Next: R-031f (S149), g/h, then P-031. No owner action required for this audit.
-- OLU 30.4 measured before close-out; final reading recorded in STATE after merge.
+- OLU 32.2 measured before final state save; merged to main; CHECK: PASS.
 
 ## S148 (2026-11-03) — R-031e movement mechanics from public sources
 - R-031e+ split into R-031e/f/g/h. movement.mp4 not available (artifact on bot ee08ce6b returns 404), so did the no-video part.

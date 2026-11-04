@@ -5,10 +5,11 @@
 - Study how Rell Seas movement works: smooth sideways movement/strafing, the upward jump, **1–2 air dashes**, the **forceful slam down to the ground**, the slide, and how moves chain together. Owner: Rell Seas took pro devs months; we have a stronger model, so spending many sessions is fine.
 - Order: (1) more R-031 video research sessions (new sub-tasks R-031e+), (2) one **planning session** using all the research, (3) then build/integration. T-058l (wind lines) is approved but the owner will start it; research comes first.
 
-## Now — after S148 (2026-11-03)
-- R-031e+ split into R-031e/f/g/h (D-443). **R-031e done:** public-source movement mechanics (Rell Seas Geppo 3 air jumps, air dash, wall run, slide; Deepwoken air dash + fall cancel). Note `research/notes/R-031e-movement-mechanics.md`. No code change.
-- **Blocker:** movement.mp4 is gone (artifact on bot ee08ce6b 404). **Owner: re-upload movement.mp4** with the start message.
-- **NEXT:** R-031f (strafe + jump, video), then R-031g, R-031h, then P-031 planning. Last check: CHECK: PASS.
+## Now — after S150 (2026-11-04)
+- **Phase: movement research (R-031e–h), then P-031 planning, then building. R-031e redo done and merged (D-455):** owner video audited against S148 claims. HUD shows Q Dash/LSHIFT Walk; fan-wiki air jumps are not dash charges; landing refresh/target-free slam remain unknown, not proven reference rules. Corrected Roblox strafing API. No game code/tuning changed.
+- **Video blocker resolved:** movement.mp4 re-upload verified; artifact on bot `9bbad4f4-2f3e-474d-99d7-ab94c51acd94`, identifier `movement.mp4`. SHA/provenance in `research/video/movement/README.md`; six small proof sheets committed in `research/video/movement/R-031e/`. Audit: `research/notes/R-031e-movement-mechanics.md`.
+- **NEXT unclaimed: R-031g** (air dash/slam evidence; use restored video, do not infer input/refresh from visuals), then R-031h. **Parallel lane R-031f is claimed by S149** (strafe/jump); do not duplicate it. P-031 follows all research. Older TASKS re-upload labels are superseded by the restored source pointer above.
+- **Checks: CHECK: PASS** + proof hashes/frame timestamps/local links PASS. No new owner action for this audit; no Roblox publication. S150 OLU 32.2 measured before final state save, safely below 43/45 thresholds.
 
 ## Now — after S147 (2026-11-03)
 - Rell Seas slide (2:03.45) + jump-up (2:04.95) checked (D-442): clean look = thin flickering white+black wind streaks, no smoke. New **T-058l** (no owner gate). No code change.
