@@ -68,7 +68,16 @@ local function approach(current: number, target: number, rate: number, dt: numbe
 end
 Movement.approach = approach
 
--- True while the player is allowed to sprint (holding, moving, grounded, stamina left, not exhausted).
+-- Run toggle (T-060a, D-469): one press of Shift / L3 / the touch button flips run on or off; release does nothing.
+-- The toggle survives exhaustion and stops: `canSprint` still gates actual sprinting on stamina and movement.
+function Movement.toggleRun(on: boolean, pressed: boolean): boolean
+	if pressed then
+		return not on
+	end
+	return on
+end
+
+-- True while the player is allowed to sprint (run toggled on, moving, grounded, stamina left, not exhausted).
 function Movement.canSprint(_t: Tuning, s: State, i: Input): boolean
 	return i.sprint and i.moving and i.grounded and not s.exhausted and s.stamina > 0
 end

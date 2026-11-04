@@ -1,7 +1,7 @@
 --!strict
 -- Combat input (T-013b, GDD §5 controls): light chain (LMB / RT), parry+guard (F / LB: press parries and
 -- raises the guard, release lowers it). Sends intent only; the server decides.
--- No dash (T-028, D-189): Shift sprints, Wind Step is the dodge; Q is reserved for the Kith stance (T-027d3).
+-- No dash (T-028, D-189): Shift toggles run (T-060a), Wind Step is the dodge; Q is reserved for the Kith stance (T-027d3).
 
 local ContextActionService = game:GetService("ContextActionService")
 local AimDir = require(script.Parent.AimDir)

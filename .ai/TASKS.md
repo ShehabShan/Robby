@@ -43,7 +43,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
     - **T-059f [todo] [S]** Wire unused `Movement.turnRate` for free-turn locomotion; shift lock unchanged. AC: §6 item 6.
     - **T-059g [todo] [S]** Cloud test all of T-059 at 30/60 fps (§6 item 7) + owner feel test in Studio/Saved. No publish unless owner asks.
   - **T-060 [todo] Owner minor changes after v51 playtest (2026-11-04).** Evidence: `research/inbox/2026-11-04-owner-feedback/`. Can run alongside T-059; each its own session.
-    - **T-060a [todo] [S]** Shift toggles walk/run (press once, no holding). Keep LShift=Walk HUD label correct; controller/touch equivalent toggles too. AC: spec on toggle state + Studio check.
+    - **T-060a [done S158, D-469] [S]** Shift toggles walk/run (press once, no holding). Keep LShift=Walk HUD label correct; controller/touch equivalent toggles too. AC: spec on toggle state + Studio check.
     - **T-060b [todo] [S]** Rank 2 Twin Crescent must aim up and down like Crescent Cut (owner can't fire it upward). AC: same pitch range as Crescent Cut; spec + Studio check.
     - **T-060c [todo] [S]** Rank 1 Crescent Cut: better visual + rapid fire 5 shots with a small gap (shots don't overlap), then cooldown. Server-validated count/gap. AC: specs for 5-then-cooldown + owner visual OK.
     - **T-060d [todo] [S]** Bug: Full Moon ring sinks/rotates into slightly raised ground (screenshots). Fix: place ring from ground raycast / keep above terrain under the player. AC: Studio check on a slope/bump.

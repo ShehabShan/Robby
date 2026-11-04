@@ -138,7 +138,7 @@ local dashSeq = 0
 SprintClient.start(function(dir: Vector3)
 	dashSeq = (dashSeq + 1) % 65536
 	action("Dash", dir, dashSeq) -- basic dash (T-058d2)
-end) -- hold LeftShift / L3 to run (T-026b3a, D-164)
+end) -- press LeftShift / L3 to toggle run (T-060a, D-469)
 VaultClient.start() -- Space near a low wall vaults / ledge climbs (T-058f, D-432)
 require(script.MoveClient).start() -- jump, coyote, input buffer, slide-jump carry (T-059c, D-468)
 KnockbackClient.start() -- server knocks on the local character (T-057c3, D-419)

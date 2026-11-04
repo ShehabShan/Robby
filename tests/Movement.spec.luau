@@ -127,6 +127,23 @@ return {
 		eq(s.carry, nil, "cleared")
 		eq(s.speed <= T.sprintMax, true, "back to run")
 	end,
+	["toggleRun: a press flips run, release/no press keeps it (T-060a)"] = function()
+		local on = Movement.toggleRun(false, true)
+		eq(on, true, "first press turns run on")
+		eq(Movement.toggleRun(on, false), true, "release keeps run on")
+		on = Movement.toggleRun(on, true)
+		eq(on, false, "second press turns run off")
+		eq(Movement.toggleRun(on, false), false, "release keeps run off")
+	end,
+	["toggleRun: toggle stays on through exhaustion, canSprint gates it"] = function()
+		local s = Movement.new(T)
+		s.exhausted = true
+		local i = input({ sprint = Movement.toggleRun(false, true) })
+		eq(i.sprint, true, "still toggled")
+		eq(Movement.canSprint(T, s, i), false, "exhausted cannot sprint")
+		s.exhausted = false
+		eq(Movement.canSprint(T, s, i), true, "resumes when stamina is back")
+	end,
 	["step: does not mutate state and ignores negative dt"] = function()
 		local s = Movement.new(T)
 		local n = Movement.step(T, s, input(), -1)

@@ -1,5 +1,5 @@
 --!strict
--- Client movement (T-058b, D-429; was T-026b3a sprint): hold LeftShift / gamepad L3 to sprint (D-164).
+-- Client movement (T-058b, D-429; was T-026b3a sprint): press LeftShift / gamepad L3 / touch button once to toggle run (T-060a, D-469).
 -- Q / gamepad B slides while running (T-058e). LeftControl is shift lock, B (keyboard) is Crucible. Each frame runs the pure `Shared.Movement` step (momentum,
 -- jog → sprint ramp, stamina, sharp-reversal brake) and writes the result to the local Humanoid.WalkSpeed.
 -- Stamina is mirrored to the character attribute `Stamina` (0..staminaMax) for a later HUD bar.
@@ -53,9 +53,12 @@ end
 -- `onDash(dir)` tells the server about an accepted basic dash (T-058d2, D-437).
 function SprintClient.start(onDash: ((dir: Vector3) -> ())?)
 	ContextActionService:BindAction("Sprint", function(_, inputState: Enum.UserInputState, _)
-		held = inputState == Enum.UserInputState.Begin
+		held = Movement.toggleRun(held, inputState == Enum.UserInputState.Begin) -- toggle, not hold (T-060a, D-469)
+		local player = Players.LocalPlayer
+		player:SetAttribute("RunToggled", held)
 		return Enum.ContextActionResult.Pass
 	end, true, Enum.KeyCode.LeftShift, Enum.KeyCode.ButtonL3)
+	ContextActionService:SetTitle("Sprint", "Run") -- touch toggle button label (T-060a)
 	ContextActionService:BindAction("Slide", function(_, inputState: Enum.UserInputState, _)
 		if inputState == Enum.UserInputState.Begin then
 			slidePressed = true
