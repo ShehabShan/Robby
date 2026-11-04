@@ -33,6 +33,15 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
     - **R-031g [done S152 recovery, 2026-11-04, D-457] [S]** Air-dash/slam frame study: log.md section + measured cue intervals; twelve reviewed proof sheets/manifest/reproducer and `research/notes/R-031g-air-dash-slam.md`. Streak→white0.183–0.300 s; arc→blue0.366–0.400 s. Charge limit/refresh, studs/fall speed, voluntary slam/contact/recovery remain unknown; no game changes. R-031h then P-031.
     - **R-031h [done S153 recovery, 2026-11-04, D-458] [S]** Slide/chaining study recovered and finished: log.md + `research/notes/R-031h-slide-chaining.md`, nine fingerprinted/re-viewed proof sheets, reproducible timestamps, receipt verifier + negative tests. Low-pose envelope0.233–0.450 s; prominent streak-cluster0.250–0.284 s excludes residual lines. Cancel windows/vector momentum remain unknown. Raw source unavailable to final bot: original reproduction inherited, no fresh decode claimed. No gameplay changes; P-031 next in a separate session.
   - **T-058l [todo] [S]** Rell Seas slide/jump-up wind lines (R-031 S147): thin flickering white+black streaks around the body (2–4 at a time, ~0.05 s each) during slide and vault/climb/high jump; tiny white take-off puff; no landing stop. Client-only in MoveFxClient. AC: check PASS, owner looks in Studio.
+  - **T-059 [todo, after P-031 owner OK] Movement v2 from `.ai/MOVEMENT_PLAN.md` (D-459–D-464).** All S, in order; each AC: check PASS + listed plan §6 criteria.
+    - **T-059a [todo] [S]** Pure `Shared.MoveRules`: states, legal transitions (plan §2), one-slot 0.12 s buffer, 0.10 s coyote, air-dash charges/refresh. AC: specs for §6 items 1, 3, 4 (rule level).
+    - **T-059b [todo] [S]** `MoveTrace` debug recorder (per-tick input/state/grounded/clearance/velocity/stamina/charges/FOV) + test course (flat, stairs, ledge, 4/6/8-stud walls). AC: trace dump readable in cloud test.
+    - **T-059c [todo] [S]** Own the jump (`Config.Jump`, UseJumpPower=false, JumpHeight7.2), coyote + buffer wiring, slide-jump/edge vector carry ≤30. AC: §6 items 3–5 via trace.
+    - **T-059d1 [todo] [S]** Air dash pure rule + server remote validation (charges, stamina10, ≥3 studs clearance) + SpeedGuard window. AC: specs + server refuses 3rd dash.
+    - **T-059d2 [todo] [S]** Air dash client (air Q, camera-relative, 9 studs/0.18 s, vy=0 start) + streak/burst VFX + FOV kick. AC: §6 item 1 via trace.
+    - **T-059e [todo] [S]** Slam (V, ≥6 studs, hover0.08 s, 90 studs/s down, contact-only ring/dust/shake, 0.15 s recovery, gamepad key). AC: §6 item 2.
+    - **T-059f [todo] [S]** Wire unused `Movement.turnRate` for free-turn locomotion; shift lock unchanged. AC: §6 item 6.
+    - **T-059g [todo] [S]** Cloud test all of T-059 at 30/60 fps (§6 item 7) + owner feel test in Studio/Saved. No publish unless owner asks.
   - **T-058j [todo, owner to confirm] [M]** Combat lock-on camera (LCtrl toggle, body faces target, strafe circles), per R-031. Split before work.
   - **T-058e [done S140, D-431; slide anim in T-058c; owner feel test open] [S]** Slide from sprint + slide-jump. **T-058f [done S140, D-432; vault anim in T-058c; owner feel test open] [S]** Vault/ledge (double ray). **T-058g [done S140, D-430; owner feel test open] [S]** Jump/land recovery. Each: spec + check PASS.
 - **R-010 [todo] [S] Process owner inbox** (repeat whenever there are new files; S135: all 47 files through 2026-11-03 listed, D-421):
@@ -94,7 +103,7 @@ Every task follows AGENTS.md §4.2: findings with sources, → implications, unk
 
 ## Phase 2 — Planning (ends with owner approval)
 
-- **P-031 [todo, separate session after R-031e/f/g/h] [S]** Owner-requested movement-only synthesis/planning before further movement builds. AC: one linked plan consolidating e/f/g/h with visible evidence vs owner intent vs unknowns separated; explicit proposed transition/cancel/buffer/carry rules, movement/camera/VFX targets and instrumented test criteria; split implementation into S-sized tasks. No fighting design and no implementation in the planning session. Start from the four research notes; do not copy visual-pose intervals into physics tuning.
+- **P-031 [done S154, 2026-11-04, D-459–D-464] [S]** Movement-only plan: `.ai/MOVEMENT_PLAN.md` (evidence vs intent vs unknowns, transitions/buffer/coyote/carry, air dash 2 charges, V slam, camera/VFX targets, §6 test criteria). Implementation split into T-059a–g. **Owner OK needed** on 2 air-dash charges and V = slam before T-059.
 - **P-007 [done] [S] Spike plan** (S5): `.ai/SPIKE.md`. Owner OK on the publish route is asked at T-006.
 - **P-001 [done] [S] Concept pick:** owner chose A, structured like RI (D-025).
   - Present the R-018 options to the owner in plain language, with a recommendation. Then end the session and wait.

@@ -672,3 +672,10 @@ T-046a delivers existing S105 phase-observation repair as an independently pinne
 - Correct total-streak disappearance to prominent-cluster breakup: faint residual lines remain n7423–7424. Keep the numeric0.250–0.284 s cluster envelope, not a total effect/particle lifetime. Slide-like posture does not reveal cancel inputs or conserved vector momentum.
 - Source GET404/empty authorized lists prevent fresh decoding in bot8a135aeb; preserve the original bot source/reproduction record without relabeling it new verification. Committed JPEG evidence is retained; no re-upload is needed just to plan from it.
 - R-031h is complete; separate owner-requested P-031 planning follows e/f/g/h before implementation. No game code, tuning, assets, cloud writes or publication changed.
+## S154 (2026-11-04) — P-031 movement plan (`.ai/MOVEMENT_PLAN.md`)
+- D-459: Movement state machine + legal transitions (plan §2); slide-jump/edge carry keeps the horizontal velocity vector, capped 30; coyote 0.10 s.
+- D-460: Air dash = air Q, 2 charges (owner range 1–2), refresh only on grounded tick or vault/climb, 9 studs/0.18 s, 10 stamina, ≥3 studs clearance, server-validated.
+- D-461: Slam = V while airborne ≥6 studs, hover 0.08 s, 90 studs/s down, committed, contact-only VFX/shake, 0.15 s recovery. C stays a kit special key.
+- D-462: One-slot input buffer, latest press wins, 0.12 s.
+- D-463: Camera/VFX targets: sparse streaks, air-dash FOV kick +4, slam shake on contact only; wire unused Movement.turnRate.
+- D-464: MoveTrace recorder + test course; §6 numeric pass criteria; implementation split T-059a–g (owner OK first). All numbers are our tuning, not video measurements.
