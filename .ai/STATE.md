@@ -5,6 +5,11 @@
 - Study how Rell Seas movement works: smooth sideways movement/strafing, the upward jump, **1–2 air dashes**, the **forceful slam down to the ground**, the slide, and how moves chain together. Owner: Rell Seas took pro devs months; we have a stronger model, so spending many sessions is fine.
 - Order: (1) more R-031 video research sessions (new sub-tasks R-031e+), (2) one **planning session** using all the research, (3) then build/integration. T-058l (wind lines) is approved but the owner will start it; research comes first.
 
+## Now — after S159 (2026-11-04)
+- **Done/merged:** T-059d1 server air dash (D-472) + T-059d2 client air dash (D-473): Q in air, 2 charges, refresh on landing. CHECK: PASS. **Not Studio-tested** — feel/trace check in T-059g.
+- **NEXT unclaimed: T-059e** (slam on V). Also open: T-060c (Crescent Cut 5-shot burst). Owner still owes: Studio check of T-060a/b/d + air dash; pick A/B/C for T-060e.
+- Claims released; no session branches. No Roblox publication.
+
 ## Now — after S158 (2026-11-04)
 - **Done/merged (D-469–D-471):** T-060a run toggle (Shift/L3/touch), T-060b Twin Crescent up/down aim (pitch 70), T-060d Full Moon ring follows raised ground. Specs PASS; **owner Studio check pending** for all three (not uploaded as a saved version).
 - T-060f notes: `research/notes/T-060f-run-jump-polish.md` (5 polish items → fold into T-059g). T-060e plan: `research/notes/T-060e-rank3-proposal.md` — **waits for owner pick A/B/C** (default A).
