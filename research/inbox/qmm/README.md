@@ -21,6 +21,14 @@ Source EPUB and the original artifacts are in PromptQL bot "map": https://prompt
 - The wrappers and chatter in 02–06 were stripped automatically, so a stray line may remain.
 - `qmm-batch-01` (the original failed run, 606 chars) was replaced by 01a and 01b.
 
+## Quest source ("build a quest from QMM")
+These batch notes are also the **source material for quests**. When the owner asks to "build a quest", "make a quest from QMM" or "make a quest from the qmm-batch notes", this is what they mean:
+- Start from section **5 (events / quest hooks)** of each batch. Use sections 1–4 and 6–9 for places, factions, people, Gu, creatures and mood.
+- Each quest gets a goal, a location, steps, a reward and fail states, plus the **source chapters** (for example `ch 151–158`).
+- The quest is our own adaptation, written in our own words. **Never paste novel text** (see R-012).
+- Check it against the map plan and keep/cut table if they exist, so the quest only uses places and systems we're keeping.
+- This is a reference note, **not a task**. Build quests only when the owner asks.
+
 ## Next steps (pick up here)
 1. **Research B (verify):** spot-check the key claims against the fan wiki and `research/notes/R-011-reverend-insanity.md`, and check IP limits in R-012.
 2. **Build `INDEX.md`:** a merged timeline, places and layout, factions, a Gu list, plus the **10 key chapters** for the user to upload for a close read (village layout, the Bai conflict, the wolf tide, and so on).
