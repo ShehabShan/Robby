@@ -5,6 +5,12 @@
 - Study how Rell Seas movement works: smooth sideways movement/strafing, the upward jump, **1–2 air dashes**, the **forceful slam down to the ground**, the slide, and how moves chain together. Owner: Rell Seas took pro devs months; we have a stronger model, so spending many sessions is fine.
 - Order: (1) more R-031 video research sessions (new sub-tasks R-031e+), (2) one **planning session** using all the research, (3) then build/integration. T-058l (wind lines) is approved but the owner will start it; research comes first.
 
+## Now — after S152 recovery (2026-11-04)
+- **Phase: movement research → P-031 planning → building. R-031g done and merged (D-457):** recovered stopped S152, analyzed the current owner re-upload (same SHA), saved12 reviewed proof sheets/manifest/reproducer + quantitative cue study. No game code/tuning changes.
+- **Evidence:** `research/notes/R-031g-air-dash-slam.md`, log.md correction, `research/video/movement/R-031g/`. Source artifact `movement.mp4` on bot `f63c1a76-299c-4e79-b6ae-48346c7257be`; video README has provenance. Streak→white burst0.183–0.300 s; arc→blue0.366–0.400 s are recording cue timings, NOT startup/physics.
+- **NEXT unclaimed: R-031h** (slide/chaining), then **P-031** synthesis/planning; re-check CLAIMS. Air-dash maximum/refresh/range, voluntary target-free slam, fall speed/contact/recovery remain unknown. Blue burst83.6 s is not proven touchdown; do not invent mechanics from effects.
+- **Checks: CHECK: PASS** +12 original/rebuilt JPEG pairs, timestamps, interval calculations, CSV and study links PASS. Claim released. OLU34.0 measured after merge, before final main handoff save; within43/45 limits. No owner action required; no Roblox publication.
+
 ## Now — after S151 (2026-11-04)
 - **Phase: movement research, then P-031 planning, then building. R-031f done and merged (D-456):** recovered stopped S149, measured strafe/upward-traversal footage and compared Config/source. Launch-to-edge0.433–0.550 s recording time; height in studs uncalibrated, touchdown unproven. No code/tuning changes.
 - **Evidence:** `research/notes/R-031f-strafe-jump.md`, log.md R-031f section, eleven proof sheets + manifest/reproducer (~3.9 MB) under `research/video/movement/R-031f/`. Source upload on bot `1c9edfbe-1d31-4e33-83c5-57f798c06e22`, artifact `movement.mp4`, same verified SHA as S150. Source provenance in video README.
