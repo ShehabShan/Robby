@@ -12,6 +12,7 @@ import numpy as np
 from PIL import Image, ImageDraw
 
 source, out = Path(sys.argv[1]), Path(sys.argv[2])
+assert out.resolve() != Path(__file__).resolve().parent, 'Do not overwrite reviewed evidence'
 manifest = json.loads(Path(__file__).with_name('manifest.json').read_text())
 assert source.stat().st_size == manifest['source_bytes']
 assert hashlib.sha256(source.read_bytes()).hexdigest() == manifest['source_sha256']

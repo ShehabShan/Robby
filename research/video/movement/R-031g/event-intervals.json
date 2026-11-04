@@ -1,0 +1,69 @@
+{
+  "time_basis": "recording frames at60fps; event brackets are visually annotated, not simulation/input telemetry",
+  "events": [
+    {
+      "id": "white-streak-to-flash",
+      "start_bracket_frames": [
+        4080,
+        4086
+      ],
+      "end_bracket_frames": [
+        4097,
+        4098
+      ],
+      "meaning": "Long vertical streak onset to white flash onset; visual lead only, NOT input startup or free-fall time",
+      "interval_seconds": [
+        0.183333,
+        0.3
+      ]
+    },
+    {
+      "id": "ring-to-blue",
+      "start_bracket_frames": [
+        4993,
+        4994
+      ],
+      "end_bracket_frames": [
+        5016,
+        5017
+      ],
+      "meaning": "First curved body arc to blue flash onset; NOT air-dash duration or touchdown",
+      "interval_seconds": [
+        0.366667,
+        0.4
+      ]
+    },
+    {
+      "id": "blue-visible",
+      "start_bracket_frames": [
+        5016,
+        5017
+      ],
+      "end_bracket_frames": [
+        5025,
+        5028
+      ],
+      "meaning": "Blue burst/pillars visible envelope; last-present/first-absent samples",
+      "interval_seconds": [
+        0.133333,
+        0.2
+      ]
+    },
+    {
+      "id": "blue-to-late-ring-end",
+      "start_bracket_frames": [
+        5016,
+        5017
+      ],
+      "end_bracket_frames": [
+        5082,
+        5088
+      ],
+      "meaning": "Blue onset to disappearance of large trailing rings; not recovery or one verified emitter lifetime",
+      "interval_seconds": [
+        1.083333,
+        1.2
+      ]
+    }
+  ]
+}

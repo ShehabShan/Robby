@@ -1,3 +1,12 @@
+## R-031g correction — S152 recovery, 2026-11-04
+Historical rows below are not calibrated measurements. [Detailed study](../../notes/R-031g-air-dash-slam.md) and [12 reviewed proof sheets](R-031g/README.md) qualify the old air/slam claims.
+- 64–66.5 s afterimages include a second character/PARRY; not a count of ordinary free-air dashes.
+- 72–79.5 s airborne interactions contain target/effects and an overlay; neither gravity-off nor 1–2 dash limit/landing refresh is demonstrated.
+- Ground-near candidate A: vertical streak onset68.000–68.100 s → white flash68.283–68.300 s, cue lead0.183–0.300 s. Blur/effects hide exact contact; voluntary traversal trigger unknown.
+- Candidate B: first body arc83.216–83.234 s → blue onset83.600–83.617 s, cue lead0.366–0.400 s. Blue envelope0.133–0.200 s; late rings disappear84.700–84.800 s (1.083–1.200 s after blue onset). These are recording cue intervals, NOT startup, dash duration or recovery.
+- Withdraw confirmed “ground slam at1:23.67”, pillars definitely from ground, “1–2 frames” full blue effect and fixed0.8 s recovery. Body/ground separation persists after the burst. No calibrated dash range/fall speed or isolated shake amplitude measured.
+- Movement-only implications and test gaps go to P-031 after R-031h; no game changes. Frame brackets/calculation: `R-031g/event-intervals.json`.
+
 # R-031 movement video log (owner's `movement.mp4`, 2:06, 1080p60)
 
 > Historical estimates below are superseded where corrected by [S150 audit](../../notes/R-031e-movement-mechanics.md) and [S151 strafe/jump study](../../notes/R-031f-strafe-jump.md). Do not use uncalibrated studs, one-frame timing or assumed touchdown as tuning evidence.

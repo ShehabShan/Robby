@@ -1,3 +1,9 @@
+## S152 (2026-11-04) — recovered R-031g
+- Adopted stopped S152 resume note; used current owner re-upload (same SHA), not another bot's video; no open PRs.
+- D-457:12 reviewed/reproduced sheets + cue intervals; air-dash limits/refresh and traversal-slam physics remain unknown. No gameplay changes/publication.
+- CHECK: PASS;24 original/rebuilt JPEG hashes, timestamps, interval arithmetic, CSV and local study links PASS.
+- OLU33.0 measured at close-out before save/merge; next R-031h then P-031; no owner action needed. Final main handoff records final meter.
+
 ## S151 (2026-11-04) — recovered R-031f
 - Released/adopted stopped S149, then claimed and completed strafe/upward-traversal research (D-456); owner upload checksum matches.
 - Eleven proof sheets + reproducible frame/hash manifest; jump-to-edge0.433–0.550 s, no calibrated studs/touchdown; corrected historical claims and compared Config/source.

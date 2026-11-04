@@ -461,3 +461,17 @@ Wind Step is a 14-stud, 0.25 s velocity dash (not a teleport), Kith-only. Refere
 - Height/speed in studs, held inputs, jump type/count, apex/touchdown, landing recovery, exact camera model; reference video alone cannot resolve these.
 **Sources**
 - Owner recording with fingerprint + [Config/source comparison and official API links](../research/notes/R-031f-strafe-jump.md). Search-generated fan summaries not used as mechanics verification.
+
+
+### R-031g Air-dash and slam-down evidence (done 2026-11-04)
+**Findings**
+- Current owner upload verified; twelve reviewed frame sheets and reproducible hashes preserved. [Evidence](../research/video/movement/R-031g/README.md)
+- Afterimage counts/air interactions do not establish free-air dash count, distance or refresh; second character/effects and overlay confound inference. [Study](../research/notes/R-031g-air-dash-slam.md)
+- Ground-near68 s candidate: vertical streak→white flash0.183–0.300 s;83 s candidate: body arc→blue flash0.366–0.400 s. Recording visual cues, NOT input startup or physics. [Frame brackets](../research/video/movement/R-031g/event-intervals.json)
+- Blue envelope0.133–0.200 s; blue onset→late-ring disappearance1.083–1.200 s. Blue burst is not proven touchdown; effects are not recovery gates. [Study/sheets](../research/notes/R-031g-air-dash-slam.md)
+**→ Implications for Robby**
+- Keep owner1–2 air dashes as planning intent, not a reference maximum. Separate directional streak, brief burst and ring tail; no combat rules or tuning adopted. R-031h then P-031.
+**Unknowns**
+- Charge maximum/refresh, input/startup, world-space distance/fall speed, target-free slam, exact contact/recovery and isolated shake. Video does not contain the telemetry needed to resolve them.
+**Sources**
+- Owner recording reuploaded on bot f63c1a76-299c-4e79-b6ae-48346c7257be; source hash, frame indices and reviewed JPEG hashes in evidence manifest. [Prior source audit](../research/notes/R-031e-movement-mechanics.md).
