@@ -5,6 +5,11 @@
 - Study how Rell Seas movement works: smooth sideways movement/strafing, the upward jump, **1–2 air dashes**, the **forceful slam down to the ground**, the slide, and how moves chain together. Owner: Rell Seas took pro devs months; we have a stronger model, so spending many sessions is fine.
 - Order: (1) more R-031 video research sessions (new sub-tasks R-031e+), (2) one **planning session** using all the research, (3) then build/integration. T-058l (wind lines) is approved but the owner will start it; research comes first.
 
+## Now — after S156 T-059b (2026-11-04)
+- **Phase: building movement v2 (T-059).** T-059a (MoveRules) + T-059b (MoveTrace F8 recorder + Studio-only test course at x=260) done/merged, D-465–D-467. Nothing wired into gameplay yet; not live-tested.
+- **NEXT unclaimed: T-059c** (own jump, coyote + buffer wiring via `Shared.MoveRules`, slide-jump vector carry; set `MoveMode`/`MoveConsumed`/`AirDashCharges` attributes for MoveTrace). Then T-059d1–g in order. Parallel: T-059f (turnRate) is independent of c.
+- **Checks: CHECK: PASS** (721 tests). No Roblox publication.
+
 ## Now — after S155 T-059a (2026-11-04)
 - **Phase: building movement v2 (T-059, owner OK: 2 air dashes, V = slam, D-465).** T-059a done/merged: pure `Shared.MoveRules` + specs + `Config.MoveRules`; not wired into the game yet.
 - **NEXT unclaimed: T-059b** (MoveTrace + test course), then T-059c–g in order (TASKS.md). Parallel lanes: T-059b and T-059c independent; T-059d1+ after T-059c.
