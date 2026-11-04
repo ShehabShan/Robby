@@ -33,6 +33,7 @@ local Config = {
 			crossAt = 22, -- studs ahead where the blades cross (the X)
 			hitboxSize = { x = 5, y = 2.5, z = 2 },
 			spawnOffset = 3,
+			maxPitchDeg = 70, -- free 3D aim like Crescent Cut (owner T-060b, D-470)
 		},
 		FullMoonRing = { -- rank 3 "Full Moon Ring" on X (T-053c, D-407): 4 blades round the caster burst outward
 			cost = 22,

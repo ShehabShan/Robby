@@ -434,7 +434,8 @@ local function volleyCast(
 	local p = move.delivery.params
 	local vstate = Volley.new(p)
 	local scissor = Scissor.isScissor(p)
-	local right = Vector3.new(-dir.Z, 0, dir.X)
+	local right = Vector3.new(-dir.Z, 0, dir.X) -- horizontal side; dir may be pitched (T-060b, D-470)
+	right = if right.Magnitude > 1e-4 then right.Unit else Vector3.new(1, 0, 0)
 	-- 3rd blade (T-056b, D-405): spawned once at the cross if both blades reach it alive; resource count + 1.
 	local crossState = if scissor and p.third then Scissor.newCross() else nil
 	local closed = { value = false }
@@ -492,7 +493,7 @@ local function volleyCast(
 			caster = player,
 			character = character,
 			origin = origin,
-			dir = out,
+			dir = if scissor then dir else out, -- Scissor blades fly along the (pitched) aim
 			move = move,
 			state = vstate.shards[i],
 			register = function(key: string): boolean
@@ -886,7 +887,8 @@ local function authorizeCast(player: Player, value: any): (AcceptedCast?, string
 	-- attribute publication or remote sends occur inside authorization.
 	local flatDir = Vector3.new(x, 0, z)
 	local dir = flatDir
-	local freeAim = move.delivery.kind == "Projectile" and Aim.isFree(move.delivery.params)
+	local freeAim = (move.delivery.kind == "Projectile" or move.delivery.kind == "Volley")
+		and Aim.isFree(move.delivery.params) -- Volley: Twin Crescent (T-060b)
 	if freeAim then
 		-- Free 3D aim (T-053a1, D-383): keep the client's pitch, clamped server-side.
 		local ax, ay, az, okAim = Aim.clampPitch(v.X, v.Y, v.Z, move.delivery.params.maxPitch or 70)

@@ -35,6 +35,16 @@ return {
 		local ok = Moves.pay(caster, move, 0.1)
 		eq(ok, false, "cooldown")
 	end,
+	["content: Twin Crescent aims up/down with Crescent Cut's pitch range (T-060b)"] = function()
+		local Aim = require("../src/shared/Aim")
+		local built = Registry.build(Crescent.content(Config))
+		local cut = built.moves["move.crescent_cut"].delivery.params
+		local twin = built.moves["move.twin_crescent"].delivery.params
+		eq(Aim.isFree(twin), true, "twin free aim")
+		eq(twin.maxPitch, cut.maxPitch, "same pitch clamp")
+		local _, y, _, ok = Aim.clampPitch(1, 1, 0, twin.maxPitch)
+		eq(ok and y > 0.5, true, "upward aim kept")
+	end,
 	["content: every Crucible recipe outputs a known higher-rank Kith (T-019d)"] = function()
 		local All = require("../src/shared/Content/All")
 		local built, errors = Registry.build(All.content(Config))

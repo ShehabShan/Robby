@@ -231,11 +231,12 @@ function TwinCrescentFx.scissor(origin: Vector3, dir: Vector3, _character: Model
 	if flat.Magnitude < 1e-3 or live >= look.maxLive then
 		return
 	end
-	flat = flat.Unit
+	local side0 = Vector3.new(-flat.Z, 0, flat.X).Unit -- horizontal side before pitch (T-060b)
+	flat = dir.Unit -- keeps the server-clamped pitch so blades fly up/down (T-060b, D-470)
 	live += 1
 	local p = cfg :: any
 	local params = { curve = "Scissor", width = p.width, crossAt = p.crossAt, range = p.range }
-	local right = Vector3.new(-flat.Z, 0, flat.X)
+	local right = side0
 	local blades: { [number]: Blade } = {}
 	for _, side in { -1, 1 } do
 		local b = buildBlade(side)
@@ -300,7 +301,7 @@ function TwinCrescentFx.third(origin: Vector3, dir: Vector3, character: Model?)
 	if flat.Magnitude < 1e-3 or live >= look.maxLive then
 		return
 	end
-	flat = flat.Unit
+	flat = dir.Unit -- keeps the server-clamped pitch so blades fly up/down (T-060b, D-470)
 	live += 1
 	local t = (cfg :: any).third
 	local scale = t.sizeMult

@@ -84,6 +84,8 @@ function Crescent.content(cfg: any): any
 						maxHits = t.maxHits,
 						hitbox = t.hitboxSize,
 						spawnOffset = t.spawnOffset,
+						aim = "Free", -- aims up/down like Crescent Cut (T-060b, D-470)
+						maxPitch = t.maxPitchDeg,
 						stopOnWorld = true, -- blades end on walls / solid parts (T-056, D-404)
 						third = t.third, -- 3rd blade tuning; Scissor.thirdParams builds its params (T-056)
 						thirdEffect = "effect.twin_crescent.third",
