@@ -5,6 +5,11 @@
 - Study how Rell Seas movement works: smooth sideways movement/strafing, the upward jump, **1–2 air dashes**, the **forceful slam down to the ground**, the slide, and how moves chain together. Owner: Rell Seas took pro devs months; we have a stronger model, so spending many sessions is fine.
 - Order: (1) more R-031 video research sessions (new sub-tasks R-031e+), (2) one **planning session** using all the research, (3) then build/integration. T-058l (wind lines) is approved but the owner will start it; research comes first.
 
+## Now — after S157 T-059c (2026-11-04)
+- **Phase: building movement v2 (T-059).** Done/merged: T-059a MoveRules, T-059b MoveTrace (F8) + Studio-only test course (x=260), T-059c MoveClient (own jump 7.2, coyote 0.10 s, 0.12 s buffer, slide/dash-jump carry ≤30). D-465–D-468. **Not live-tested yet** — a quick Studio feel check of normal/slide/edge jumps is worth doing before more wiring.
+- **NEXT unclaimed: T-059d1** (air dash server: needs a new Blink `ActionKind` in `net/remotes.blink` + regen, CombatService validation like `dash()`, SpeedGuard burst). Parallel: T-059f (wire `Movement.turnRate`, keep shift lock) is independent.
+- **Checks: CHECK: PASS.** Claims released; no session branches. No Roblox publication.
+
 ## Now — after S156 T-059b (2026-11-04)
 - **Phase: building movement v2 (T-059).** T-059a (MoveRules) + T-059b (MoveTrace F8 recorder + Studio-only test course at x=260) done/merged, D-465–D-467. Nothing wired into gameplay yet; not live-tested.
 - **NEXT unclaimed: T-059c** (own jump, coyote + buffer wiring via `Shared.MoveRules`, slide-jump vector carry; set `MoveMode`/`MoveConsumed`/`AirDashCharges` attributes for MoveTrace). Then T-059d1–g in order. Parallel: T-059f (turnRate) is independent of c.
