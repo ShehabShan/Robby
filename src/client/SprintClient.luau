@@ -50,6 +50,15 @@ local function turnAngle(move: Vector3, vel: Vector3): number
 	return math.deg(math.acos(d))
 end
 
+-- Air Q hook (T-059d2): MoveClient sets this; gets current stamina.
+SprintClient.airQ = nil :: ((stamina: number) -> ())?
+
+-- Spend stamina for a move another client module executed (air dash, T-059d2).
+function SprintClient.spend(cost: number)
+	state.stamina = math.max(0, state.stamina - cost)
+	state.regenWait = tune.regenDelay
+end
+
 -- `onDash(dir)` tells the server about an accepted basic dash (T-058d2, D-437).
 function SprintClient.start(onDash: ((dir: Vector3) -> ())?)
 	ContextActionService:BindAction("Sprint", function(_, inputState: Enum.UserInputState, _)
@@ -92,6 +101,13 @@ function SprintClient.start(onDash: ((dir: Vector3) -> ())?)
 		wasAir = not grounded
 		-- Q: slide when sprinting forward fast, otherwise a directional dash (T-058d2, D-437).
 		local stunned = character:GetAttribute("Staggered") == true
+		-- Q in the air is an air dash (T-059d2, D-473): handed to MoveClient, never a ground dash.
+		if slidePressed and not grounded then
+			slidePressed = false
+			if SprintClient.airQ then
+				SprintClient.airQ(state.stamina)
+			end
+		end
 		if slidePressed then
 			local look = root.CFrame.LookVector
 			local kind: Dash.Kind = Dash.classify(dashTune, look.X, look.Z, move.X, move.Z)

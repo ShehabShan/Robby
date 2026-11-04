@@ -132,6 +132,7 @@ local function feet(root: BasePart, hum: Humanoid): Vector3
 	return root.Position - Vector3.new(0, root.Size.Y / 2 + hum.HipHeight - 0.2, 0)
 end
 
+local lastAir = false
 local function attach(character: Model)
 	local humanoid = character:WaitForChild("Humanoid", 10) :: Humanoid?
 	local root = character:WaitForChild("HumanoidRootPart", 10) :: BasePart?
@@ -194,6 +195,14 @@ local function attach(character: Model)
 			end
 		end
 		lastDash = now
+		-- Air dash (T-059d2): streak pair + small burst at the start.
+		local airDashing = character:GetAttribute("AirDashing") == true
+		if airDashing and not lastAir then
+			streak(rootPart)
+			streak(rootPart)
+			puff(rootPart.Position, 8, 0.9, 6, 0.3)
+		end
+		lastAir = airDashing
 	end)
 end
 

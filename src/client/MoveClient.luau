@@ -3,7 +3,7 @@
 -- (`Config.Jump`: UseJumpPower=false, explicit JumpHeight), coyote time, the one-slot input buffer and
 -- slide-jump / edge vector carry. Ground speed, slide and ground dash stay in SprintClient; their modes are
 -- read from its attributes (`Sliding`, `Dashing`, `Vaulting`). Publishes `MoveMode`, `MoveConsumed`,
--- `AirDashCharges` for MoveTraceClient. Air dash (Q in air) and slam (V) are wired in T-059d/e.
+-- `AirDashCharges` for MoveTraceClient. Air dash (Q in air) since T-059d2 (D-473); slam (V) is T-059e.
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
@@ -22,6 +22,29 @@ local state: MoveRules.State = MoveRules.new(T)
 local lastCharacter: Model? = nil
 local jumpEnabled: boolean? = nil
 local wantJump = false
+local wantQ: number? = nil -- stamina at the air Q press (T-059d2)
+local airDir = Vector3.zero
+local AIR_SPEED = 9 / 0.18 -- plan: 9 studs in airDashSeconds (D-473)
+local onAirDash: ((dir: Vector3) -> ())? = nil
+
+-- SprintClient hands air Q presses here (T-059d2, D-473).
+function MoveClient.pressQ(stamina: number)
+	wantQ = stamina
+end
+
+local function fovKick()
+	local camera = workspace.CurrentCamera
+	if not camera then
+		return
+	end
+	local base = camera.FieldOfView
+	local TweenService = game:GetService("TweenService")
+	local up = TweenService:Create(camera, TweenInfo.new(0.08), { FieldOfView = base + 6 })
+	up.Completed:Connect(function()
+		TweenService:Create(camera, TweenInfo.new(0.2), { FieldOfView = base }):Play()
+	end)
+	up:Play()
+end
 local rayParams = RaycastParams.new()
 rayParams.FilterType = Enum.RaycastFilterType.Exclude
 
@@ -74,7 +97,8 @@ local function syncModes(character: Model, grounded: boolean)
 	end
 end
 
-function MoveClient.start()
+function MoveClient.start(airDashed: ((dir: Vector3) -> ())?)
+	onAirDash = airDashed
 	UserInputService.JumpRequest:Connect(function()
 		wantJump = true
 	end)
@@ -116,6 +140,31 @@ function MoveClient.start()
 					doJump(root, hum, true)
 				end
 			end
+		end
+		if wantQ then
+			ctx.stamina = wantQ
+			wantQ = nil
+			local r: MoveRules.Result?
+			state, r = MoveRules.press(T, state, "q", ctx)
+			if r == "airDash" then
+				consumed = r
+				-- camera-relative: move input if any, else where the camera looks (flat); vy = 0 start
+				local move = hum.MoveDirection
+				local camera = workspace.CurrentCamera
+				local look = if camera then camera.CFrame.LookVector else root.CFrame.LookVector
+				local flat = if move.Magnitude > 0.1 then move else Vector3.new(look.X, 0, look.Z)
+				airDir = if flat.Magnitude > 1e-3 then flat.Unit else root.CFrame.LookVector
+				character:SetAttribute("AirDashing", true)
+				fovKick()
+				if onAirDash then
+					onAirDash(airDir)
+				end
+			end
+		end
+		if state.mode == "AirDash" then
+			root.AssemblyLinearVelocity = airDir * AIR_SPEED -- flat, vy held at 0 for airDashSeconds
+		elseif character:GetAttribute("AirDashing") then
+			character:SetAttribute("AirDashing", nil)
 		end
 		local fired: MoveRules.Result?
 		local pre = state.mode
