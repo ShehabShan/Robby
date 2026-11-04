@@ -211,5 +211,7 @@
       "sha256": "49c0db670c578060781b66e18e31c9902c04df65ca61a4aa49b87d9cb3c7312f"
     }
   },
-  "reviewed": "All nine sheets visually reviewed in bot e8a8acc8-77f2-40c7-8956-1080ffd63248"
+  "reviewed": "All nine sheets visually reviewed in bot e8a8acc8-77f2-40c7-8956-1080ffd63248",
+  "time_basis": "zero-based decoded frame index / 60; first-frame-relative. Raw PTS adds 0.033333 s.",
+  "raw_pts_first_frame_seconds": 0.033333
 }

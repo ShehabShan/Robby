@@ -33,7 +33,7 @@ for name, spec in manifest['sheets'].items():
         if crop: im = im.crop(crop)
         x, y = (i%3)*w, (i//3)*(h+28)
         canvas.paste(im.resize((w,h)), (x,y+28))
-        draw.text((x+8,y+7), f'n={n}   t={n/60:.4f}s', fill='white')
+        draw.text((x+8,y+7), f'n={n} t={n/60:.4f}s', fill='white')
     canvas.save(out/(name+'.jpg'), quality=90)
 with (out/'adjacent-difference.csv').open('w') as f:
     writer = csv.writer(f)

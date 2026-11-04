@@ -1,0 +1,116 @@
+{
+  "basis": "first-frame-relative n/60; raw video PTS = n/60 + 0.033333 s",
+  "events": {
+    "low_pose_onset": {
+      "frames": [
+        7376,
+        7386
+      ],
+      "meaning": "upright to clearly low; gradual pose, broad bracket",
+      "first_frame_relative_seconds": [
+        122.93333333333334,
+        123.1
+      ]
+    },
+    "low_pose_exit": {
+      "frames": [
+        7400,
+        7403
+      ],
+      "meaning": "last low to upright/raised transition",
+      "first_frame_relative_seconds": [
+        123.33333333333333,
+        123.38333333333334
+      ]
+    },
+    "streak_onset": {
+      "frames": [
+        7406,
+        7407
+      ],
+      "meaning": "absent to present black/white streak",
+      "first_frame_relative_seconds": [
+        123.43333333333334,
+        123.45
+      ]
+    },
+    "streak_end": {
+      "frames": [
+        7422,
+        7423
+      ],
+      "meaning": "last streak to absent",
+      "first_frame_relative_seconds": [
+        123.7,
+        123.71666666666667
+      ]
+    },
+    "occlusion_onset": {
+      "frames": [
+        7455,
+        7458
+      ],
+      "meaning": "avatar visible to hidden",
+      "first_frame_relative_seconds": [
+        124.25,
+        124.3
+      ]
+    },
+    "occlusion_end": {
+      "frames": [
+        7473,
+        7476
+      ],
+      "meaning": "hidden to avatar visible",
+      "first_frame_relative_seconds": [
+        124.55,
+        124.6
+      ]
+    },
+    "second_rise": {
+      "frames": [
+        7494,
+        7497
+      ],
+      "meaning": "low body to visibly raised body",
+      "first_frame_relative_seconds": [
+        124.9,
+        124.95
+      ]
+    }
+  },
+  "intervals": {
+    "low_pose_envelope": {
+      "from": "low_pose_onset",
+      "to": "low_pose_exit",
+      "seconds_bounds": [
+        0.23333333333333334,
+        0.45
+      ]
+    },
+    "low_exit_to_streak": {
+      "from": "low_pose_exit",
+      "to": "streak_onset",
+      "seconds_bounds": [
+        0.05,
+        0.11666666666666667
+      ]
+    },
+    "streak_envelope": {
+      "from": "streak_onset",
+      "to": "streak_end",
+      "seconds_bounds": [
+        0.25,
+        0.2833333333333333
+      ]
+    },
+    "camera_occlusion": {
+      "from": "occlusion_onset",
+      "to": "occlusion_end",
+      "seconds_bounds": [
+        0.25,
+        0.35
+      ]
+    }
+  }
+}
