@@ -5,6 +5,13 @@
 - Study how Rell Seas movement works: smooth sideways movement/strafing, the upward jump, **1–2 air dashes**, the **forceful slam down to the ground**, the slide, and how moves chain together. Owner: Rell Seas took pro devs months; we have a stronger model, so spending many sessions is fine.
 - Order: (1) more R-031 video research sessions (new sub-tasks R-031e+), (2) one **planning session** using all the research, (3) then build/integration. T-058l (wind lines) is approved but the owner will start it; research comes first.
 
+## Now — after S153 final recovery (2026-11-04)
+- **Phase: movement research complete → P-031 planning → building. R-031h done/merged (D-458):** recovered stopped S153 study and nine proof sheets; independently re-viewed/hash-checked them, corrected residual streak interpretation, added receipt verifier + three rejected corrupt-copy tests. No game changes.
+- **NEXT unclaimed: P-031**, in a **separate planning session**, consolidating R-031e/f/g/h before any movement implementation. Explicit AC now in TASKS.md. Parallel movement lanes: none before planning; do not start T-058l early.
+- **Evidence:** `research/notes/R-031h-slide-chaining.md`, log.md correction, `research/video/movement/R-031h/` (nine JPEGs, manifest/reproducer, verifier, recovery-check.json). Low-pose0.233–0.450 s and prominent streak-cluster0.250–0.284 s are recording cue intervals; faint residual lines persist. Cancel/buffer windows and physical momentum remain unknown.
+- **Source limitation:** final recovery bot8a135aeb cannot access the raw video (GET404, empty authorized lists); original bot e8a8acc8 source fingerprint/reproduction is retained, not freshly verified. Committed proofs/receipts remain available; no owner action needed to plan from them. Re-decoding would require the same-SHA source.
+- **Checks: CHECK: PASS** +9 remote-main JPEG hashes,77 timestamps,7 cue brackets,4 interval calculations,78 difference rows,10 local links,3 negative tests PASS. Claims released; no session branches. Close-out29.6 / merged30.7 OLU; final save below45. No Roblox publication.
+
 ## Now — after S152 recovery (2026-11-04)
 - **Phase: movement research → P-031 planning → building. R-031g done and merged (D-457):** recovered stopped S152, analyzed the current owner re-upload (same SHA), saved12 reviewed proof sheets/manifest/reproducer + quantitative cue study. No game code/tuning changes.
 - **Evidence:** `research/notes/R-031g-air-dash-slam.md`, log.md correction, `research/video/movement/R-031g/`. Source artifact `movement.mp4` on bot `f63c1a76-299c-4e79-b6ae-48346c7257be`; video README has provenance. Streak→white burst0.183–0.300 s; arc→blue0.366–0.400 s are recording cue timings, NOT startup/physics.
