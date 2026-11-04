@@ -1,3 +1,6 @@
+## S156 (2026-11-04) — T-059b done
+- Added MoveTrace recorder (pure + F8 client) and movement test course (pure layout + Studio-only builder), D-466/D-467; 2 specs. CHECK: PASS (721 tests). Not live-tested yet (T-059g). ~21 OLU total bot.
+
 ## S155 (2026-11-04) — T-059a done
 - Owner OK on P-031 (2 air dashes, V slam), D-465. Added pure `Shared.MoveRules` + 4 specs + `Config.MoveRules`; CHECK: PASS (719 tests). No wiring/publish. ~13 OLU total bot.
 

@@ -681,3 +681,6 @@ T-046a delivers existing S105 phase-observation repair as an independently pinne
 - D-464: MoveTrace recorder + test course; §6 numeric pass criteria; implementation split T-059a–g (owner OK first). All numbers are our tuning, not video measurements.
 ## S155 (2026-11-04) — T-059a MoveRules
 - D-465: Owner approved the P-031 plan (2 air-dash charges refreshed on landing, V = slam). Pure `Shared.MoveRules` owns Air/AirDash/Slam/Land, charges, coyote and buffer; Movement/Dash keep ground speed, slide and ground dash, reported via `MoveRules.enter`. A buffered press is tried on its expiry tick before being dropped. Air jump without coyote is refused (no double jump planned).
+## S156 (2026-11-04) — T-059b MoveTrace + test course
+- D-466: MoveTrace = pure ring-buffer recorder (13 CSV columns), client F8 toggle, Studio-only by default; reads attributes `MoveMode`, `MoveConsumed`, `AirDashCharges`, `Stamina` that later T-059 wiring sets. Config key names are strings so Config stays Lune-loadable.
+- D-467: Test course = pure `Shared.TestCourse` boxes (floor, 10-stud marks, walls 4/6/8, 8×1-stud stairs, 12-stud ledge) built by `TestCourseBuilder` at x=260 (outside hub radius 160), Studio only.

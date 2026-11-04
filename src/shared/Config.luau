@@ -167,6 +167,13 @@ local Config = {
 		dashJumpFraction = 0.6,
 		carryCap = 30,
 	},
+	-- Movement test course + MoveTrace debug recorder (T-059b, D-466/D-467). Studio only unless `always`.
+	TestCourse = {
+		always = false,
+		origin = { 260, 0, 0 }, -- studs; east of the hub (radius 160)
+		traceKey = "F8", -- Enum.KeyCode name (Config stays Lune-loadable)
+		traceRows = 3600, -- ~60 s at 60 Hz
+	},
 	-- Vault / ledge climb (T-058f, D-432): studs, studs/s; Space near a low wall vaults, a taller ledge climbs.
 	Vault = {
 		reach = 3,
