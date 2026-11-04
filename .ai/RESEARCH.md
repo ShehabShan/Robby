@@ -448,3 +448,16 @@ Draft model, curve table and 10 sources: `research/notes/R-022-stat-damage-math.
 
 ### R-030 Dash vs Wind Step (done 2026-11-03)
 Wind Step is a 14-stud, 0.25 s velocity dash (not a teleport), Kith-only. Reference games give everyone a short 4-way dash (side = i-frames, fwd/back = positioning, cd + stamina). → T-058d basic dash; Wind Step becomes the long, stun-breaking special. See [research/notes/R-030-dash.md](../research/notes/R-030-dash.md), D-434.
+
+### R-031f Sideways movement and upward traversal (done 2026-11-04)
+**Findings**
+- Recovered S149, verified owner source and saved eleven proof sheets with frame/crop/hash manifest and reproduction. [Evidence](../research/video/movement/R-031f/README.md)
+- Lateral steps with generally subject-facing torso are visible44.90–48.20 s; camera contributes. Old22 s clean-strafe label is not supported. [Study](../research/notes/R-031f-strafe-jump.md)
+- Ship launch124.900–124.950 to edge passage125.383–125.450 gives0.433–0.550 s recording-time interval; neither apex nor touchdown. Selected ship frames repeat in pairs; no16.7 ms precision claim. [Sheets/CSV](../research/video/movement/R-031f/README.md)
+- Height in studs cannot be calibrated; withdraw5–6 studs and confirmed landing/no-slowdown. Robby Config comparison separates source numbers from measured reference values. [Study](../research/notes/R-031f-strafe-jump.md)
+**→ Implications for Robby**
+- Preserve readable lateral-facing steps and restrained upward streaks as visual targets; choose/test our own rules in P-031 after g/h, not by copying guessed physics. No code/tuning changes.
+**Unknowns**
+- Height/speed in studs, held inputs, jump type/count, apex/touchdown, landing recovery, exact camera model; reference video alone cannot resolve these.
+**Sources**
+- Owner recording with fingerprint + [Config/source comparison and official API links](../research/notes/R-031f-strafe-jump.md). Search-generated fan summaries not used as mechanics verification.

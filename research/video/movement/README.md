@@ -11,3 +11,5 @@
 ## Restored source (S149, 2026-11-04 UTC)
 - Owner re-upload: artifact `movement.mp4` on bot `4be70279-d4e5-4e48-a3e9-c0cdb3bedd10`. Original bot reference above was not accessible in S148 (404 does not prove deletion).
 - SHA-256: `d71c24b6dab93c7ed138a8b44e355c7e8228f77438fd001350bb83af5d4cd541`; 79,162,802 bytes, 7,561 frames, 60 fps, 126.016667 s. Downloaded successfully to gitignored `movement.mp4`.
+
+- S151 re-upload independently verified on bot `1c9edfbe-1d31-4e33-83c5-57f798c06e22`, artifact `movement.mp4`, same SHA/size. [R-031f evidence](R-031f/README.md) and [study](../../notes/R-031f-strafe-jump.md) supersede historical strafe/jump estimates.

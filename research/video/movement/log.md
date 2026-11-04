@@ -1,5 +1,7 @@
 # R-031 movement video log (owner's `movement.mp4`, 2:06, 1080p60)
 
+> Historical estimates below are superseded where corrected by [S150 audit](../../notes/R-031e-movement-mechanics.md) and [S151 strafe/jump study](../../notes/R-031f-strafe-jump.md). Do not use uncalibrated studs, one-frame timing or assumed touchdown as tuning evidence.
+
 Method (D-438): ffmpeg contact sheets with drawn timestamps: 2 fps overview, 6 fps on action, 30 fps on fast moves.
 Frames live in `research/video/movement/<chunk>/` (gitignored). All times = video time. Studs, frames and i-frames
 are **estimates from the image (unverified)**: no in-game ruler, and the camera moves. Character ≈ 5 studs tall is the scale.
@@ -141,3 +143,14 @@ Sheets 60 fps crop (2:03.38–2:03.68) + 20 fps crop (2:04.5–2:06.0).
 - **Slide down the stairs (2:03.45–2:03.68, ~0.25 s):** body drops low and leans back; no dust, no smoke. Effect = **thin vertical speed lines around the body**: 2–4 white + 2–3 black streaks, ~1.5–2 studs tall, very thin, alternating colours, each lasts 2–4 frames (~0.05 s) and new ones keep appearing while the slide lasts. Clean because there is no particle cloud, just line flicker.
 - **Jump up to the higher deck (2:04.95–2:05.35, ~0.4 s):** quick crouch (~1 frame) then a fast vertical launch ~5–6 studs onto the upper deck over the rail, near-straight up then forward; same white + black thin streaks while rising (2:05.0–2:05.2), plus a tiny white puff at the take-off spot. Lands cleanly with no landing dust; keeps jogging at once (no landing stop).
 - → Robby: add a **"wind lines" effect = thin white/black flickering streaks around the body** for slide and for a high jump / vault-up (T-058f vault/climb), not smoke. Keep dash smoke for dashes only. Landing from this jump: no slow-down.
+
+## R-031f — recovered strafe/upward-traversal study (S151, 2026-11-04)
+- Primary source re-upload/hash verified; [11 proof sheets + manifest + reproduction](R-031f/README.md); [measurements and Config comparison](../../notes/R-031f-strafe-jump.md).
+- **Correction to older sections:** 22.0–22.8 s contains airborne/tumbling effects, not a clean slow strafe. 24 s starts within an airborne interaction, not an isolated normal jump. Use 44.90–48.20 s for lateral locomotion appearance instead.
+- 45.80–48.00 s: continuous stepping with generally subject-facing torso and lateral scenery/camera movement. Pose transition visible46.20–46.40 s; 0.20 s is an observation window, not input response or calibrated acceleration.
+- Ship launch bracket n7494–7497 (124.900–124.950); edge-height/passage n7523–7527 (125.383–125.450): **0.433–0.550 s recording time**. Narrow black/white streaks during rise. Camera pitches/orbits with it.
+- Upper-deck travel continues125.450–126.000, but feet/shadow still look airborne in detail. **Touchdown, apex and landing recovery not established**; withdraw prior confirmed125.35 landing/no-slowdown and one-frame crouch claims.
+- Selected ship frames repeat in adjacent pairs; 60 fps container is not60 independent images/s. Use at least~33 ms visual granularity plus event ambiguity; proof/CSV committed.
+- **Jump height in studs = unknown**, not the old5–6 estimate: no world ruler, known avatar dimensions or camera calibration. No reference acceleration/FOV/camera distance derived from pixels.
+- Robby baseline: jog18, sprint24→27, accel120/decel160/turn-brake240; ideal0→18 scalar ramp0.150 s. No basic jump setting in Config.Movement; inspect actual runtime mode later. Camera-facing shift lock exists; turnRate helper is not wired. Full comparison/limits in note.
+- Next: R-031g/h, then P-031 planning. Movement-only evidence; no combat design, code/tuning changes or publication.
