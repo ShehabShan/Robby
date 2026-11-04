@@ -5,6 +5,12 @@
 - Study how Rell Seas movement works: smooth sideways movement/strafing, the upward jump, **1–2 air dashes**, the **forceful slam down to the ground**, the slide, and how moves chain together. Owner: Rell Seas took pro devs months; we have a stronger model, so spending many sessions is fine.
 - Order: (1) more R-031 video research sessions (new sub-tasks R-031e+), (2) one **planning session** using all the research, (3) then build/integration. T-058l (wind lines) is approved but the owner will start it; research comes first.
 
+## Now — after S158 (2026-11-04)
+- **Done/merged (D-469–D-471):** T-060a run toggle (Shift/L3/touch), T-060b Twin Crescent up/down aim (pitch 70), T-060d Full Moon ring follows raised ground. Specs PASS; **owner Studio check pending** for all three (not uploaded as a saved version).
+- T-060f notes: `research/notes/T-060f-run-jump-polish.md` (5 polish items → fold into T-059g). T-060e plan: `research/notes/T-060e-rank3-proposal.md` — **waits for owner pick A/B/C** (default A).
+- **NEXT unclaimed: T-059d1** (see below). Also open: T-060c (Crescent Cut 5-shot burst + visual).
+- Checks: CHECK: PASS. Claims released; no session branches. No Roblox publication.
+
 ## Now — after S157 owner test (2026-11-04)
 - **Owner Studio-tested jumps on saved v51: "okay for now"** → T-059d1 is unblocked. Trace + notes: `research/inbox/2026-11-04-owner-jump-trace-v51.md`.
 - **NEXT unclaimed: T-059d1** (air dash server: new Blink `ActionKind` in `net/remotes.blink` + regen, CombatService validation like `dash()`, SpeedGuard burst). First fix: trace shows MoveMode never Dash/Slide/Land despite a Q dash (hspeed 52) — sync MoveClient mode from SprintClient attributes.
