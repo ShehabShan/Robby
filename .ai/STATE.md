@@ -7,8 +7,9 @@
 
 ## Now — after S160 (2026-11-08)
 - **Done/merged:** T-059e slam (D-474: V / ButtonX / touch button, ≥6 studs clearance, 0.08 s hover, 90 studs/s down, horizontal speed ≤30%, downward streaks while falling, contact-only ring/dust/0.2 s camera shake, fixed 0.15 s Land recovery) + local CLI setup (D-475: Rokit installed, non-interactive `bootstrap.sh`, direct GitHub fallback in `tools_fallback.sh`, `.env` `ROBLOX_OPEN_CLOUD_KEY` support in `cloud_test.py`/`publish.py`, `AGENTS.md`). CHECK: PASS (730 tests).
-- **NEXT unclaimed: T-059f** (wire `Movement.turnRate` for free-turn locomotion; shift lock unchanged). Also open: T-060c (Crescent Cut 5-shot burst). Owner still owes: Studio check of T-060a/b/d + air dash + slam; pick A/B/C for T-060e.
-- Claims released; no session branches. No Roblox publication.
+- **Published live (owner asked):** game **v0.0.23** (Roblox place version **54**) via local `.env` Open Cloud key (`publish.py`).
+- **NEXT unclaimed: T-059f** (wire `Movement.turnRate` for free-turn locomotion; shift lock unchanged). Also open: T-060c (Crescent Cut 5-shot burst). Owner can now test T-060a/b/d + air dash + slam directly on the live Roblox server (v54); pick A/B/C for T-060e.
+- Claims released; no session branches.
 
 ## Now — after S159 (2026-11-04)
 - **Done/merged:** T-059d1 server air dash (D-472) + T-059d2 client air dash (D-473): Q in air, 2 charges, refresh on landing. CHECK: PASS. **Not Studio-tested** — feel/trace check in T-059g.
