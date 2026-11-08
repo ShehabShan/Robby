@@ -7,8 +7,13 @@ Prints NAME=assetId lines (or NAME=PENDING when moderation is not finished). Nee
 import json, os, sys, time, pathlib, httpx
 
 OWNER = "7738981129"  # universe 10773761715 owner (users/7738981129)
-B = os.environ["PROMPTQL_PLATFORM_API_URL"] + "/v1/integration/roblox-open-cloud/apis.roblox.com"
-H = {"Authorization": "Bearer " + os.environ["PROMPTQL_USER_JWT"]}
+if "PROMPTQL_PLATFORM_API_URL" in os.environ:
+    B = os.environ["PROMPTQL_PLATFORM_API_URL"] + "/v1/integration/roblox-open-cloud/apis.roblox.com"
+    H = {"Authorization": "Bearer " + os.environ["PROMPTQL_USER_JWT"]}
+else:
+    from cloud_test import _load_env_key
+    B = "https://apis.roblox.com"
+    H = {"x-api-key": _load_env_key() or ""}
 
 
 def upload(path: pathlib.Path, c: httpx.Client) -> str:

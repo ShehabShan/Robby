@@ -1,8 +1,7 @@
 # OPEN_CLOUD.md — testing on the real Roblox servers
 
-The owner connected a PromptQL **custom integration** named `roblox-open-cloud` that holds a Roblox Open Cloud API key
-for the Robby experience. Any session may use it to test on Roblox (confirmed again by S43, D-191). The key never
-enters the VM or the repo: PromptQL injects it when a request goes through the integration proxy.
+- **Local CLI (owner's Ubuntu machine, D-475):** `ROBLOX_OPEN_CLOUD_KEY` is already saved permanently in `.env` (git-ignored, `chmod 600`). All Open Cloud scripts (`scripts/cloud_test.py`, `scripts/publish.py`, `scripts/texture_probe.py`, `scripts/upload_images.py`, `scripts/upload_sounds.py`, `scripts/resolve_image_ids.py`) load `.env` automatically and call `https://apis.roblox.com` with `x-api-key`. **Do not ask the owner for the key — it is already configured in `.env`.**
+- **PromptQL VM:** The owner connected a PromptQL **custom integration** named `roblox-open-cloud` that holds a Roblox Open Cloud API key for the Robby experience. Any session may use it to test on Roblox (confirmed again by S43, D-191). The key never enters the VM or the repo: PromptQL injects it when a request goes through the integration proxy.
 
 ## IDs — main and separate test experiences
 | Destination | Universe ID | Start Place ID (root place) |
