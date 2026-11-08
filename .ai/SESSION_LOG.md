@@ -1,3 +1,7 @@
+## S160 (2026-11-08) — T-059e done + local CLI setup
+- T-059e slam (D-474): V / gamepad ButtonX / touch button, ≥6 studs clearance, 0.08 s hover, 90 studs/s straight-down fall with horizontal speed kept at 30%, downward streaks while falling, contact-only ring/dust/0.2 s camera shake, fixed 0.15 s Land recovery (replaces fall-speed recovery for slams, buffers Jump/Q). Spec for §6 item 2 PASS.
+- Local CLI setup (D-475): bootstrapped Rokit toolchain on local machine, updated `bootstrap.sh`, `tools_fallback.sh`, `cloud_test.py`, `publish.py` (`.env` `ROBLOX_OPEN_CLOUD_KEY` fallback) and `AGENTS.md`. CHECK: PASS (730 tests). OLU: n/a (local CLI).
+
 ## S159 (2026-11-04) — T-059d1 + T-059d2 done
 - T-059d1 server air dash (D-472): `MoveRules.serverAirDash` ledger (2 charges, clearance, gap, stun), Blink `AirDash` ActionKind, SpeedGuard burst; 2 specs. T-059d2 client (D-473): air Q → camera-relative 9 studs/0.18 s, vy 0, FOV kick, streak/burst FX. CHECK: PASS. Not Studio-tested (T-059g). ~31 OLU.
 
