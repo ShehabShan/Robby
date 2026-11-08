@@ -17,6 +17,7 @@ local NAMES: { [Enum.KeyCode]: string } = {
 	[Enum.KeyCode.Q] = "q",
 	[Enum.KeyCode.ButtonB] = "q",
 	[Enum.KeyCode.V] = "slam",
+	[Enum.KeyCode.ButtonX] = "slam",
 }
 
 local MoveTraceClient = {}

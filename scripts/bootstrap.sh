@@ -4,7 +4,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 if ! command -v rokit >/dev/null 2>&1 && [ ! -x "$HOME/.rokit/bin/rokit" ]; then
-	curl -sSf https://raw.githubusercontent.com/rojo-rbx/rokit/main/scripts/install.sh | bash >/dev/null 2>&1
+	curl -sSf https://raw.githubusercontent.com/rojo-rbx/rokit/main/scripts/install.sh | bash -s -- --no-trust-check >/dev/null 2>&1 </dev/null || true
 fi
 export PATH="$HOME/.rokit/bin:$PATH"
 rokit install --no-trust-check >/dev/null 2>&1 || bash scripts/tools_fallback.sh >/dev/null 2>&1 # 403 on VM: D-390

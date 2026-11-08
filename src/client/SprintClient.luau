@@ -26,7 +26,7 @@ local slidePressed = false -- Q / gamepad B (T-058e, D-431)
 local state: Movement.State = Movement.new(tune)
 local sprintingFov = false
 local lastCharacter: Model? = nil
-local wasAir, fallSpeed = false, 0
+local wasAir, wasSlam, fallSpeed = false, false, 0
 
 local function setFov(sprinting: boolean)
 	if sprinting == sprintingFov then
@@ -52,6 +52,11 @@ end
 
 -- Air Q hook (T-059d2): MoveClient sets this; gets current stamina.
 SprintClient.airQ = nil :: ((stamina: number) -> ())?
+
+-- Replays a ground Q buffered during slam Land recovery (T-059e).
+function SprintClient.pressGroundQ()
+	slidePressed = true
+end
 
 -- Spend stamina for a move another client module executed (air dash, T-059d2).
 function SprintClient.spend(cost: number)
@@ -86,23 +91,29 @@ function SprintClient.start(onDash: ((dir: Vector3) -> ())?)
 		if character ~= lastCharacter then
 			lastCharacter = character
 			state = Movement.new(tune) -- respawn: full stamina, standing start
-			wasAir, fallSpeed = false, 0
+			wasAir, wasSlam, fallSpeed = false, false, 0
 			dashState = Dash.new()
 		end
 		local move = hum.MoveDirection
 		local grounded = hum.FloorMaterial ~= Enum.Material.Air
-		local landedFall: number? = nil -- landing recovery (T-058g, D-430)
+		local moveMode = character:GetAttribute("MoveMode")
+		local slamming = character:GetAttribute("Slamming") == true or moveMode == "Slam"
+		local landedFall: number? = nil -- landing recovery (T-058g, D-430); replaced by 0.15 s Land for slams (T-059e)
 		if not grounded then
+			wasSlam = wasSlam or slamming
 			fallSpeed = math.max(fallSpeed, -root.AssemblyLinearVelocity.Y)
 		elseif wasAir then
-			landedFall = fallSpeed
+			if not wasSlam and moveMode ~= "Land" then
+				landedFall = fallSpeed
+			end
+			wasSlam = false
 			fallSpeed = 0
 		end
 		wasAir = not grounded
 		-- Q: slide when sprinting forward fast, otherwise a directional dash (T-058d2, D-437).
 		local stunned = character:GetAttribute("Staggered") == true
-		-- Q in the air is an air dash (T-059d2, D-473): handed to MoveClient, never a ground dash.
-		if slidePressed and not grounded then
+		-- Q in the air (or during slam Land recovery) is handed to MoveClient (T-059d2, T-059e).
+		if slidePressed and (not grounded or moveMode == "Land") then
 			slidePressed = false
 			if SprintClient.airQ then
 				SprintClient.airQ(state.stamina)
@@ -148,6 +159,9 @@ function SprintClient.start(onDash: ((dir: Vector3) -> ())?)
 		character:SetAttribute("Sprinting", sprinting or nil) -- for MoveFxClient speed streaks (T-058i)
 		character:SetAttribute("Sliding", (state.slide or 0) > 0 or nil) -- for T-058c slide animation
 		local speed = state.speed
+		if moveMode == "Land" then
+			speed = math.min(speed, tune.walk * tune.landSpeedMult) -- fixed 0.15 s slam recovery (T-059e)
+		end
 		local boostEnd = character:GetAttribute("SpeedBoostEnd")
 		local boostMult = character:GetAttribute("SpeedBoostMult")
 		if type(boostEnd) == "number" and type(boostMult) == "number" and workspace:GetServerTimeNow() < boostEnd then

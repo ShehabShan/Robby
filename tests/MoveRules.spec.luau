@@ -113,6 +113,40 @@ return {
 		eq(late, "slam", "slam after air dash")
 	end,
 
+	["slam kinematics from 12 studs, horizontal cap and shake (T-059e, plan §6.2)"] = function()
+		-- Start slam at 12 studs clearance with 20 studs/s forward speed
+		local s, r = MoveRules.press(T, jumped(), "slam", { grounded = false, clearance = 12, stamina = 100 })
+		eq(r, "slam", "slam starts >= 6 studs")
+		local hvx, hvy, hvz = MoveRules.slamVelocity(T, s, 20, 0)
+		eq(hvx, 6, "horizontal speed kept at 30 %")
+		eq(hvy, 0, "hover vy = 0")
+		eq(hvz, 0, "hover vz = 0")
+		-- Hover lasts 0.08 s
+		s = run(s, T.slamHover, { grounded = false, clearance = 12, stamina = 100 })
+		local fvx, fvy, _ = MoveRules.slamVelocity(T, s, 20, 0)
+		eq(fvx, 6, "horizontal speed still 30 % while falling")
+		eq(fvy, -90, "straight-down 90 studs/s after hover")
+		-- Simulate drop from 12 studs at 90 studs/s: contact in <= 0.25 s after hover
+		local clearance = 12
+		local postHover = 0
+		while clearance > 0 do
+			local _, vy, _ = MoveRules.slamVelocity(T, s, 20, 0)
+			clearance = math.max(0, clearance + vy * DT)
+			postHover += DT
+			s = MoveRules.step(T, s, DT, { grounded = clearance <= 0, clearance = clearance, stamina = 100 })
+		end
+		eq(postHover <= 0.25, true, "12-stud drop contacts in <= 0.25 s after hover")
+		eq(s.mode, "Land", "contact transitions to Land")
+		-- Fixed 0.15 s recovery
+		s = run(s, T.slamRecovery - DT, GROUND)
+		eq(s.mode, "Land", "still recovering before 0.15 s")
+		s = run(s, 2 * DT, GROUND)
+		eq(s.mode, "Ground", "recovered after 0.15 s")
+		-- Contact shake decays cleanly to 0 at 0.20 s
+		eq(MoveRules.slamShakeAmplitude(T, 0) > 0, true, "shake starts > 0")
+		eq(MoveRules.slamShakeAmplitude(T, 0.2), 0, "shake ends at 0.2 s")
+	end,
+
 	["buffer and coyote (plan §6.3, §6.4)"] = function()
 		-- jump pressed shortly before slam recovery ends fires on the first legal tick
 		local land = run(MoveRules.press(T, jumped(), "slam", AIR), DT, GROUND)

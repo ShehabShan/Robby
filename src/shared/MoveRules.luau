@@ -21,7 +21,11 @@ export type Tuning = {
 	airDashToSlam: number,
 	slamMinClearance: number,
 	slamHover: number,
+	slamDownSpeed: number?,
+	slamHorizontalScale: number?,
 	slamRecovery: number,
+	slamShakeSeconds: number?,
+	slamShakeAmplitude: number?,
 	dashJumpFraction: number,
 	carryCap: number,
 }
@@ -197,6 +201,25 @@ end
 -- Slam motion phase: hovering (true) for `slamHover` seconds, then falling.
 function MoveRules.slamHovering(t: Tuning, s: State): boolean
 	return s.mode == "Slam" and s.modeTime < t.slamHover
+end
+
+-- Slam velocity vector (T-059e, D-474): horizontal speed scaled to <= `slamHorizontalScale` (30%) of entry
+-- horizontal velocity; vertical velocity 0 during `slamHover` (0.08 s), then `-slamDownSpeed` (90 studs/s).
+function MoveRules.slamVelocity(t: Tuning, s: State, entryVx: number, entryVz: number): (number, number, number)
+	local scale = t.slamHorizontalScale or 0.3
+	local down = t.slamDownSpeed or 90
+	local vy = if MoveRules.slamHovering(t, s) then 0 else -down
+	return entryVx * scale, vy, entryVz * scale
+end
+
+-- Slam contact camera shake amplitude (T-059e, D-474): linear decay to zero over `slamShakeSeconds` (0.2 s).
+function MoveRules.slamShakeAmplitude(t: Tuning, elapsed: number): number
+	local dur = t.slamShakeSeconds or 0.2
+	local amp = t.slamShakeAmplitude or 0.35
+	if elapsed < 0 or elapsed >= dur or dur <= 0 then
+		return 0
+	end
+	return amp * (1 - elapsed / dur)
 end
 
 -- Slide-jump / edge carry: keep the horizontal velocity vector (speed and direction), capped.

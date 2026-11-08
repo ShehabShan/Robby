@@ -147,7 +147,7 @@ MoveClient.start(function(dir: Vector3)
 	SprintClient.spend(Config.MoveRules.airDashCost)
 	airSeq = (airSeq + 1) % 65536
 	action("AirDash", dir, airSeq) -- server checks charges/clearance (T-059d1)
-end) -- jump, coyote, input buffer, slide-jump carry (T-059c, D-468)
+end, SprintClient.pressGroundQ) -- jump, coyote, input buffer, slide-jump carry, air dash, slam (T-059c–e)
 KnockbackClient.start() -- server knocks on the local character (T-057c3, D-419)
 ShiftLockClient.start() -- LeftControl toggles shift lock (T-026e, D-164)
 require(script.MoveTraceClient).start() -- F8 movement trace, Studio only (T-059b, D-466)

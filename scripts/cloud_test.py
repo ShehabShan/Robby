@@ -5,12 +5,30 @@ sys.path.insert(0, os.path.dirname(__file__))
 import cloud_runner
 
 U, P = "10773761715", "95587500384127"
-BASE = os.environ["PROMPTQL_PLATFORM_API_URL"] + "/v1/integration/roblox-open-cloud/apis.roblox.com"
-JWT = os.environ["PROMPTQL_USER_JWT"]
+
+
+def _load_env_key():
+    key = os.environ.get("ROBLOX_OPEN_CLOUD_KEY")
+    if not key and os.path.exists(".env"):
+        for line in open(".env"):
+            line = line.strip()
+            if line.startswith("ROBLOX_OPEN_CLOUD_KEY="):
+                key = line.split("=", 1)[1].strip().strip("\"'")
+    return key
+
 
 def call(method, path, body=None, ctype="application/json", desc="Robby cloud test (T-005b)", timeout=120):
-    req = urllib.request.Request(BASE + path, data=body, method=method, headers={
-        "Authorization": f"Bearer {JWT}", "Content-Type": ctype, "X-PromptQL-Description": desc})
+    if "PROMPTQL_PLATFORM_API_URL" in os.environ:
+        base = os.environ["PROMPTQL_PLATFORM_API_URL"] + "/v1/integration/roblox-open-cloud/apis.roblox.com"
+        headers = {"Authorization": f"Bearer {os.environ['PROMPTQL_USER_JWT']}",
+                   "Content-Type": ctype, "X-PromptQL-Description": desc}
+    else:
+        key = _load_env_key()
+        if not key:
+            raise RuntimeError("Set ROBLOX_OPEN_CLOUD_KEY in .env (or run in a PromptQL VM with roblox-open-cloud)")
+        base = "https://apis.roblox.com"
+        headers = {"x-api-key": key, "Content-Type": ctype}
+    req = urllib.request.Request(base + path, data=body, method=method, headers=headers)
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
             return r.status, json.loads(r.read() or b"{}")

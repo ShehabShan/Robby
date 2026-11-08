@@ -13,8 +13,10 @@ local Workspace = game:GetService("Workspace")
 local Config = require(ReplicatedStorage.Shared.Config)
 local Footsteps = require(ReplicatedStorage.Shared.Footsteps)
 local MoveFxPlan = require(ReplicatedStorage.Shared.MoveFxPlan)
+local MoveRules = require(ReplicatedStorage.Shared.MoveRules)
 
 local T: MoveFxPlan.Tuning = Config.MoveFx
+local MR: MoveRules.Tuning = Config.MoveRules
 local SMOKE = "rbxasset://textures/particles/smoke_main.dds"
 local DUST = Color3.fromRGB(205, 198, 186)
 local WHITE = Color3.fromRGB(255, 255, 255)
@@ -132,6 +134,43 @@ local function feet(root: BasePart, hum: Humanoid): Vector3
 	return root.Position - Vector3.new(0, root.Size.Y / 2 + hum.HipHeight - 0.2, 0)
 end
 
+-- Vertical streak around the body while falling in a slam (T-059e, plan §5).
+local function slamStreak(root: BasePart)
+	local angle = math.random() * math.pi * 2
+	local r = 1.6 + math.random() * 1.4
+	local origin = root.Position + Vector3.new(math.cos(angle) * r, -1, math.sin(angle) * r)
+	local p = Instance.new("Part")
+	p.Anchored, p.CanCollide, p.CanQuery, p.CanTouch, p.CastShadow = true, false, false, false, false
+	p.Material = Enum.Material.Neon
+	p.Color = if math.random() < 0.7 then WHITE else Color3.fromRGB(28, 28, 32)
+	p.Transparency = 0.35
+	p.Size = Vector3.new(0.06, 4.5, 0.06)
+	p.CFrame = CFrame.new(origin)
+	p.Parent = Workspace
+	TweenService:Create(p, TweenInfo.new(0.14, Enum.EasingStyle.Linear), {
+		CFrame = p.CFrame * CFrame.new(0, 5, 0),
+		Transparency = 1,
+	}):Play()
+	Debris:AddItem(p, 0.2)
+end
+
+-- Short, low-amplitude camera shake on slam ground contact only (T-059e, plan §3/§5).
+local function slamShake(humanoid: Humanoid)
+	local start = os.clock()
+	local conn: RBXScriptConnection? = nil
+	conn = RunService.RenderStepped:Connect(function()
+		local k = MoveRules.slamShakeAmplitude(MR, os.clock() - start)
+		if k <= 0 then
+			humanoid.CameraOffset = Vector3.zero
+			if conn then
+				conn:Disconnect()
+			end
+			return
+		end
+		humanoid.CameraOffset = Vector3.new((math.random() - 0.5) * k, (math.random() - 0.5) * k, 0)
+	end)
+end
+
 local lastAir = false
 local function attach(character: Model)
 	local humanoid = character:WaitForChild("Humanoid", 10) :: Humanoid?
@@ -141,9 +180,10 @@ local function attach(character: Model)
 	end
 	local hum: Humanoid = humanoid
 	local rootPart: BasePart = root
-	local stepAcc, streakAcc = 0, 0
+	local stepAcc, streakAcc, slamAcc = 0, 0, 0
 	local nextStreak = MoveFxPlan.streakDelay(T, math.random())
 	local lastDash: string? = nil
+	local lastSlamContact = (character:GetAttribute("SlamContact") :: number?) or 0
 
 	local conn: RBXScriptConnection? = nil
 	conn = RunService.Heartbeat:Connect(function(dt: number)
@@ -203,6 +243,24 @@ local function attach(character: Model)
 			puff(rootPart.Position, 8, 0.9, 6, 0.3)
 		end
 		lastAir = airDashing
+		-- Slam (T-059e): downward streaks while falling; ring + dust + camera shake on ground contact only.
+		if character:GetAttribute("SlamFalling") == true then
+			slamAcc += dt
+			if slamAcc >= 0.04 then
+				slamAcc = 0
+				slamStreak(rootPart)
+			end
+		else
+			slamAcc = 0
+		end
+		local slamContact = (character:GetAttribute("SlamContact") :: number?) or 0
+		if slamContact ~= lastSlamContact then
+			lastSlamContact = slamContact
+			local at = feet(rootPart, hum)
+			ring(at, 6, 0.32)
+			puff(at, 12, 1.1, 6, 0.45)
+			slamShake(hum)
+		end
 	end)
 end
 

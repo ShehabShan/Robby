@@ -9,5 +9,6 @@ roblox.yml
 *.rbxlx.lock
 __pycache__/
 *.py[cod]
+.env
 research/video/**/*.mp4
 research/video/**/*.jpg

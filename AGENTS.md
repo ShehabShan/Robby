@@ -62,6 +62,7 @@ cd /workspace && git clone -q https://github.com/ShehabShan/Robby.git && cd Robb
 If git gets 401 from the proxy (D-027), prefix git/save commands with
 `export GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=http.extraHeader GIT_CONFIG_VALUE_0="Authorization: Bearer $PROMPTQL_USER_JWT"`.
 Reused bot: `cd /workspace/Robby && git pull -q --rebase && bash scripts/olu.sh start`.
+Local CLI (outside PromptQL, D-475): run in the local repo checkout with `export PATH="$HOME/.rokit/bin:$PATH"`; `olu.sh` is a no-op (`OLU: n/a`), use the CLI's built-in web search when `PROMPTQL_PLATFORM_API_URL` is unset, and optionally set `ROBLOX_OPEN_CLOUD_KEY` in `.env` (gitignored) for `cloud_test.py` / `publish.py`.
 
 Then read **`.ai/STATE.md` only**. If the owner's message contains ideas or material, save it **verbatim** to
 `research/inbox/YYYY-MM-DD-<topic>.md` and run `save.sh` before anything else.

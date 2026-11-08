@@ -3,7 +3,8 @@
 -- (`Config.Jump`: UseJumpPower=false, explicit JumpHeight), coyote time, the one-slot input buffer and
 -- slide-jump / edge vector carry. Ground speed, slide and ground dash stay in SprintClient; their modes are
 -- read from its attributes (`Sliding`, `Dashing`, `Vaulting`). Publishes `MoveMode`, `MoveConsumed`,
--- `AirDashCharges` for MoveTraceClient. Air dash (Q in air) since T-059d2 (D-473); slam (V) is T-059e.
+-- `AirDashCharges` for MoveTraceClient. Air dash (Q in air) since T-059d2 (D-473); slam (V / ButtonX in air) since T-059e (D-474).
+local ContextActionService = game:GetService("ContextActionService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
@@ -23,11 +24,14 @@ local lastCharacter: Model? = nil
 local jumpEnabled: boolean? = nil
 local wantJump = false
 local wantQ: number? = nil -- stamina at the air Q press (T-059d2)
+local wantSlam = false -- V / ButtonX press (T-059e)
 local airDir = Vector3.zero
 local AIR_SPEED = 9 / 0.18 -- plan: 9 studs in airDashSeconds (D-473)
+local slamEntryVx, slamEntryVz = 0, 0
 local onAirDash: ((dir: Vector3) -> ())? = nil
+local onGroundQ: (() -> ())? = nil
 
--- SprintClient hands air Q presses here (T-059d2, D-473).
+-- SprintClient hands air Q (or Land recovery Q) presses here (T-059d2, T-059e).
 function MoveClient.pressQ(stamina: number)
 	wantQ = stamina
 end
@@ -97,11 +101,39 @@ local function syncModes(character: Model, grounded: boolean)
 	end
 end
 
-function MoveClient.start(airDashed: ((dir: Vector3) -> ())?)
+local function startAirDash(root: BasePart, hum: Humanoid, character: Model)
+	-- camera-relative: move input if any, else where the camera looks (flat); vy = 0 start
+	local move = hum.MoveDirection
+	local camera = workspace.CurrentCamera
+	local look = if camera then camera.CFrame.LookVector else root.CFrame.LookVector
+	local flat = if move.Magnitude > 0.1 then move else Vector3.new(look.X, 0, look.Z)
+	airDir = if flat.Magnitude > 1e-3 then flat.Unit else root.CFrame.LookVector
+	character:SetAttribute("AirDashing", true)
+	fovKick()
+	if onAirDash then
+		onAirDash(airDir)
+	end
+end
+
+local function startSlam(root: BasePart, character: Model)
+	local v = root.AssemblyLinearVelocity
+	slamEntryVx, slamEntryVz = v.X, v.Z
+	character:SetAttribute("Slamming", true)
+end
+
+function MoveClient.start(airDashed: ((dir: Vector3) -> ())?, groundQ: (() -> ())?)
 	onAirDash = airDashed
+	onGroundQ = groundQ
 	UserInputService.JumpRequest:Connect(function()
 		wantJump = true
 	end)
+	ContextActionService:BindAction("Slam", function(_, inputState: Enum.UserInputState, _)
+		if inputState == Enum.UserInputState.Begin then
+			wantSlam = true
+		end
+		return Enum.ContextActionResult.Pass
+	end, true, Enum.KeyCode.V, Enum.KeyCode.ButtonX)
+	ContextActionService:SetTitle("Slam", "Slam")
 
 	RunService.Heartbeat:Connect(function(dt: number)
 		local character = Players.LocalPlayer.Character
@@ -114,6 +146,7 @@ function MoveClient.start(airDashed: ((dir: Vector3) -> ())?)
 			lastCharacter = character
 			state = MoveRules.new(T)
 			jumpEnabled = nil
+			slamEntryVx, slamEntryVz = 0, 0
 			hum.UseJumpPower = false
 			hum.JumpHeight = Config.Jump.height
 		end
@@ -148,17 +181,16 @@ function MoveClient.start(airDashed: ((dir: Vector3) -> ())?)
 			state, r = MoveRules.press(T, state, "q", ctx)
 			if r == "airDash" then
 				consumed = r
-				-- camera-relative: move input if any, else where the camera looks (flat); vy = 0 start
-				local move = hum.MoveDirection
-				local camera = workspace.CurrentCamera
-				local look = if camera then camera.CFrame.LookVector else root.CFrame.LookVector
-				local flat = if move.Magnitude > 0.1 then move else Vector3.new(look.X, 0, look.Z)
-				airDir = if flat.Magnitude > 1e-3 then flat.Unit else root.CFrame.LookVector
-				character:SetAttribute("AirDashing", true)
-				fovKick()
-				if onAirDash then
-					onAirDash(airDir)
-				end
+				startAirDash(root, hum, character)
+			end
+		end
+		if wantSlam then
+			wantSlam = false
+			local r: MoveRules.Result?
+			state, r = MoveRules.press(T, state, "slam", ctx)
+			if r == "slam" then
+				consumed = r
+				startSlam(root, character)
 			end
 		end
 		if state.mode == "AirDash" then
@@ -166,12 +198,42 @@ function MoveClient.start(airDashed: ((dir: Vector3) -> ())?)
 		elseif character:GetAttribute("AirDashing") then
 			character:SetAttribute("AirDashing", nil)
 		end
+		if state.mode == "Slam" then
+			local vx, vy, vz = MoveRules.slamVelocity(T, state, slamEntryVx, slamEntryVz)
+			root.AssemblyLinearVelocity = Vector3.new(vx, vy, vz)
+			character:SetAttribute("SlamFalling", vy < 0 or nil)
+		end
 		local fired: MoveRules.Result?
 		local pre = state.mode
 		state, fired = MoveRules.step(T, state, dt, ctx)
 		if fired == "jump" then
 			consumed = fired
 			doJump(root, hum, pre == "Slide" or pre == "Dash")
+		elseif fired == "airDash" then
+			consumed = fired
+			startAirDash(root, hum, character)
+		elseif fired == "slam" then
+			consumed = fired
+			startSlam(root, character)
+		elseif fired == "groundQ" then
+			consumed = fired
+			if onGroundQ then
+				onGroundQ()
+			end
+		end
+		if pre == "Slam" and state.mode == "Land" then
+			-- Contact-only ring/dust/shake + fixed 0.15 s recovery (T-059e, plan §2–3).
+			character:SetAttribute("Slamming", nil)
+			character:SetAttribute("SlamFalling", nil)
+			character:SetAttribute("SlamContact", ((character:GetAttribute("SlamContact") :: number?) or 0) + 1)
+			root.AssemblyLinearVelocity = Vector3.new(0, math.min(0, root.AssemblyLinearVelocity.Y), 0)
+		elseif state.mode ~= "Slam" then
+			if character:GetAttribute("Slamming") then
+				character:SetAttribute("Slamming", nil)
+			end
+			if character:GetAttribute("SlamFalling") then
+				character:SetAttribute("SlamFalling", nil)
+			end
 		end
 
 		-- block the engine's jump whenever MoveRules would refuse it (early dash, slam recovery)

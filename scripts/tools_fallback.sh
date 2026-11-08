@@ -9,11 +9,15 @@ grep -E '^[A-Za-z-]+ *= *"' rokit.toml | while IFS= read -r line; do
 	name=$(echo "$line" | cut -d= -f1 | tr -d ' ' | tr 'A-Z' 'a-z')
 	spec=$(echo "$line" | cut -d'"' -f2); repo=${spec%@*}; ver=${spec#*@}
 	[ -x "$bin/$name" ] && { echo "have $name"; continue; }
-	rel=$(curl -sS -H "Authorization: Bearer $PROMPTQL_USER_JWT" \
-		"$PROMPTQL_PLATFORM_API_URL/v1/integration/__github/api.github.com/repos/$repo/releases/tags/v$ver" ||
-		true)
-	echo "$rel" | grep -q browser_download_url || rel=$(curl -sS -H "Authorization: Bearer $PROMPTQL_USER_JWT" \
-		"$PROMPTQL_PLATFORM_API_URL/v1/integration/__github/api.github.com/repos/$repo/releases/tags/$ver")
+	if [ -n "${PROMPTQL_PLATFORM_API_URL:-}" ]; then
+		api="$PROMPTQL_PLATFORM_API_URL/v1/integration/__github/api.github.com"
+		auth=(-H "Authorization: Bearer ${PROMPTQL_USER_JWT:-}")
+	else
+		api="https://api.github.com"
+		auth=()
+	fi
+	rel=$(curl -sS "${auth[@]}" "$api/repos/$repo/releases/tags/v$ver" || true)
+	echo "$rel" | grep -q browser_download_url || rel=$(curl -sS "${auth[@]}" "$api/repos/$repo/releases/tags/$ver")
 	url=$(echo "$rel" | python3 -c 'import json,sys
 a=[x["browser_download_url"] for x in json.load(sys.stdin).get("assets",[])]
 ok=lambda u:u.endswith((".zip",".tar.xz",".tar.gz"))
